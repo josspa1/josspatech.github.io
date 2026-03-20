@@ -1,0 +1,30 @@
+<svg viewBox="0 0 520 160" xmlns="http://www.w3.org/2000/svg" width="520" height="160">
+  <rect width="520" height="160" fill="#0C3358" rx="8"/>
+  <defs>
+    <linearGradient id="spadeGradDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3A7AB8"/>
+      <stop offset="100%" style="stop-color:#1A4F7A"/>
+    </linearGradient>
+    <linearGradient id="goldGradDark" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0C040"/>
+      <stop offset="100%" style="stop-color:#E8A820"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 8)">
+    <path d="M70,8 C70,8 20,45 20,80 C20,102 38,112 55,108 C48,120 42,130 30,136 L110,136 C98,130 92,120 85,108 C102,112 120,102 120,80 C120,45 70,8 70,8 Z" fill="url(#spadeGradDark)"/>
+    <path d="M70,18 C70,18 30,52 30,82 C30,96 40,104 52,104" fill="none" stroke="#5A9AC8" stroke-width="1.5" stroke-opacity="0.4"/>
+    <circle cx="22" cy="82" r="5" fill="url(#goldGradDark)"/>
+    <circle cx="118" cy="82" r="5" fill="url(#goldGradDark)"/>
+    <circle cx="70" cy="10" r="4" fill="url(#goldGradDark)"/>
+    <text x="70" y="86" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#F0C040" text-anchor="middle" letter-spacing="-1">JT</text>
+  </g>
+  <line x1="158" y1="22" x2="158" y2="138" stroke="#5A7A9A" stroke-width="1.5" stroke-opacity="0.5"/>
+  <g transform="translate(174, 0)">
+    <text x="0" y="88" font-family="Georgia, 'Times New Roman', serif" font-size="56" font-weight="700" letter-spacing="-1">
+      <tspan fill="#FFFFFF">Josspa</tspan><tspan fill="#F0C040">Tech</tspan>
+    </text>
+    <text x="342" y="50" font-family="Georgia, serif" font-size="16" fill="#8AAABB">™</text>
+    <text x="2" y="114" font-family="'Trebuchet MS', Arial, sans-serif" font-size="12" fill="#8AAABB" letter-spacing="3.5">MOBILE  •  DIGITAL  •  INNOVATION</text>
+    <line x1="0" y1="125" x2="340" y2="125" stroke="#E8A820" stroke-width="1.5"/>
+  </g>
+</svg>
