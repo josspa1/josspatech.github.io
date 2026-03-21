@@ -616,33 +616,4 @@ Text: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, re
 
 </div>
 
-
-<script>
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('page-' + id).classList.add('active');
-  window.scrollTo(0, 0);
-  var back = document.getElementById('navBack');
-  if (id === 'company') {
-    back.classList.remove('show');
-  } else {
-    back.classList.add('show');
-  }
-}
-
-// Make cards work on mobile touch
-document.addEventListener('DOMContentLoaded', function() {
-  var pbj = document.querySelector('.product-card:not(.future)');
-  if (pbj) {
-    pbj.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      showPage('pbj');
-    });
-    pbj.addEventListener('click', function() {
-      showPage('pbj');
-    });
-  }
-});
-</script>
-</body>
-</html>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.m
