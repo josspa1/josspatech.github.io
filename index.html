@@ -3,14 +3,9 @@
      Update ONLY here when prices change. Also update:
        - app/src/constants/index.ts  (PRICING object)
        - PocketBudJet_TermsOfService.html  (Section 7)
-     Last updated: v12 (2026-03-24)
-     Plans:
-       Free Basic  | $0 forever | core features, up to 3 sources
-       Free Trial  | $0/30 days | full premium, downgrades after
-       Monthly     | $5.99/mo   | full premium, cancel anytime
-       Annual      | $39.99/yr  | under $3.34/mo, saves 44%
-       One-Time    | $119.99    | pay once, own forever
-     Trial days: 30   Free source limit: 3   Annual savings: 44%   Annual/mo: $3.34
+     Last updated: v11 (2026-03-23)
+     Plans: Free Basic | $5.99/mo | $39.99/yr | $119.99 one-time
+     Free source limit: 3   Annual savings: 44%   Annual/mo: $3.34
 ============================================================ -->
 <!DOCTYPE html>
 <html lang="en">
@@ -404,7 +399,7 @@ footer p { font-size: 12px; color: var(--slate); }
       <p style="font-size:14px;color:rgba(255,255,255,0.78);margin-top:10px;margin-bottom:4px;">Privacy-first personal finance. Your data stays on your device — always. We build tools that respect you, your data, and your decisions.</p>
       <div class="pbj-badges">
         <span class="badge badge-dev">In Development</span>
-        <span class="badge badge-free">30-day free trial · Free basic forever · $5.99/mo · $39.99/yr · $119.99 one-time</span>
+        <span class="badge badge-free">Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time</span>
         <span class="badge badge-ios">iOS &amp; Android</span>
       </div>
     </div>
@@ -420,50 +415,32 @@ footer p { font-size: 12px; color: var(--slate); }
   <!-- ── PRICING SECTION ── -->
   <div id="pricing" style="background:#ffffff; border-bottom:1px solid rgba(26,79,122,0.12); padding:56px 48px 60px;">
     <p style="font-size:11px;letter-spacing:4.5px;text-transform:uppercase;color:#2E6FA3;text-align:center;margin-bottom:10px;font-weight:700;">Pricing</p>
-    <h2 style="font-family:'Playfair Display',serif;font-size:30px;color:#0C3358;text-align:center;margin-bottom:6px;">Start free. Upgrade when you're ready.</h2>
-    <p style="text-align:center;color:#5A7A9A;font-size:14px;margin-bottom:16px;">Try every premium feature free for 30 days — no credit card required. Keep the free tier forever, or upgrade anytime.</p>
-
-    <!-- Trial hero -->
-    <div style="max-width:640px;margin:0 auto 40px;background:linear-gradient(135deg,#0C3358 0%,#1A4F7A 100%);border-radius:14px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border:2px solid #E8A820;">
-      <div>
-        <div style="display:inline-block;background:#E8A820;color:#0C3358;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:20px;margin-bottom:12px;">Most popular — recommended</div>
-        <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:#fff;margin-bottom:6px;">Free 30-day trial</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,0.75);line-height:1.6;max-width:340px;">Every premium feature unlocked immediately. No credit card. After 30 days, keep the free tier or upgrade — your data stays either way.</p>
-        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap;">
-          <span style="font-size:12px;color:#9FE1CB;">✓ All premium features</span>
-          <span style="font-size:12px;color:#9FE1CB;">✓ No credit card ever</span>
-          <span style="font-size:12px;color:#9FE1CB;">✓ Keep free tier after</span>
-        </div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:42px;font-weight:700;color:#E8A820;line-height:1;">Free</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-top:2px;">for 30 days</div>
-      </div>
-    </div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:30px;color:#0C3358;text-align:center;margin-bottom:6px;">Pick the plan that fits.</h2>
+    <p style="text-align:center;color:#5A7A9A;font-size:14px;margin-bottom:40px;">All paid plans include every Premium feature. Start with a 30-day free trial — no credit card required.</p>
 
     <!-- Plan cards -->
     <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:960px;margin:0 auto 44px;">
 
       <!-- Free -->
       <div style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.25);border-radius:10px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Free Basic</p>
+        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Free</p>
         <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$0</p>
-        <p style="font-size:12px;color:#8AAABB;margin-bottom:20px;">No credit card · no time limit · always yours</p>
+        <p style="font-size:12px;color:#8AAABB;margin-bottom:20px;">No credit card · no expiration · no subscription required</p>
         <p style="font-size:12px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Includes:</p>
         <ul style="list-style:none;padding:0;font-size:12px;color:#5A7A9A;line-height:2;">
-          <li>✓ Unlimited transaction entry</li>
+          <li>✓ Unlimited manual entry</li>
           <li>✓ Budget categories &amp; limits</li>
-          <li>✓ Dashboard &amp; health score</li>
-          <li>✓ Up to 3 financial sources</li>
-          <li>✓ Bill calendar</li>
-          <li>✓ Recurring transactions</li>
-          <li>✓ Projected balance (30 days)</li>
-          <li>✓ Debt strategy (basic view)</li>
-          <li>✓ Goals &amp; budget alerts</li>
-          <li>✓ Split bill</li>
+          <li>✓ Dashboard overview</li>
+          <li>✓ Spending pace indicator</li>
+          <li>✓ Available to spend</li>
+          <li>✓ Budget templates</li>
           <li>✓ Photo &amp; note attachments</li>
           <li>✓ Face ID / PIN lock</li>
-          <li>✓ Dark mode &amp; widgets</li>
+          <li>✓ Dark mode</li>
+          <li>✓ Home screen widgets</li>
+          <li>✓ Recurring transactions</li>
+          <li>✓ Budget limit alerts</li>
+          <li>✓ Split bill</li>
         </ul>
       </div>
 
@@ -534,103 +511,50 @@ footer p { font-size: 12px; color: var(--slate); }
           </tr>
         </thead>
         <tbody>
+          <!-- Free features -->
+          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Core &amp; Free Features</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Unlimited manual transaction entry</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget categories with spending limits</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dashboard overview</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Spending pace indicator (on track this month?)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Available to spend number</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budgeting framework templates (50/30/20, Zero-Based…)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Photo &amp; note attachments on transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">App lock: Face ID, Touch ID, fingerprint, or PIN</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dark mode</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Home screen widgets</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Copy previous month's budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Split bill (record your share only)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">1 financial source (e.g. "My Checking")</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          
 
-          <!-- Transactions -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Transactions</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Unlimited manual transaction entry</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Split bill (record your share only)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Photo &amp; note attachments</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Multi-category tagging with split amounts</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Easy category correction (tap or drag)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Bulk re-categorize (apply to all transactions from a merchant)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Receipt scanning (item-level, on-device OCR)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Natural language transaction search</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Import -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Import</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Import CSV, OFX, QFX, QIF, Excel files</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Auto-categorize all transactions on import</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Duplicate detection on import</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">PDF bank statement import (OCR)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Export & Reports -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Export &amp; Reports</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Export transactions (CSV, JSON)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Export reports (PDF, Word, Excel)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Accountant report (professional formatted document)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Tax deductible tagging (IRS categories)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Year-over-year spending comparison</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Print any report directly from app</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Budget -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Budget</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Budget categories &amp; spending limits</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget templates (50/30/20, zero-based&hellip;)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Copy previous month&rsquo;s budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Spending pace indicator per category</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget rollover (carry unused budget forward)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Accounts -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Accounts</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Financial sources <span style="font-size:11px;color:#E8A820;">(free: up to 3)</span></td><td style="text-align:center;color:#E8A820;font-weight:700;">3</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#8734;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Credit card intelligence (rewards, deferred interest)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Subscription tracker with price-change alerts</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Dashboard & Insights -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Dashboard &amp; Insights</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dashboard &mdash; income, spending, net, spent today</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Available to spend number</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Financial health score <span style="font-size:11px;color:#E8A820;">(free: basic &middot; premium: full breakdown)</span></td><td style="text-align:center;color:#E8A820;font-weight:700;">~</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Projected balance <span style="font-size:11px;color:#E8A820;">(free: 30 days &middot; premium: 30/60/90)</span></td><td style="text-align:center;color:#E8A820;font-weight:700;">~</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Spending forecast (projected month-end per category)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Anomaly detection (unusual spending alerts)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Merchant analysis (what you actually buy there)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Customizable dashboard layout</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Debt -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Debt</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Debt tracking <span style="font-size:11px;color:#E8A820;">(free: basic view &middot; premium: avalanche/snowball)</span></td><td style="text-align:center;color:#E8A820;font-weight:700;">~</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">What-if scenarios</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Bills -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Bills &amp; Recurring</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Bill calendar <span style="font-size:11px;color:#E8A820;">(free: view only &middot; premium: full)</span></td><td style="text-align:center;color:#E8A820;font-weight:700;">~</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Bill due notifications</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Documents & Tax -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Documents &amp; Tax</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Universal document scanning (W-2, pay stubs, bank statements&hellip;)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Tax return import &amp; comparison</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- AI Features -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">AI Features</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Auto-categorization (on-device, always on)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">AI Financial Coach (PBJ) &mdash; aggregated data only, opt-in</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Sharing -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Sharing</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">QR code household sharing (no internet needed)</td><td style="text-align:center;color:#AAAAAA;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-
-          <!-- Security & Privacy -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Security &amp; Privacy</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">AES-256 database encryption</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Face ID / Touch ID / PIN lock</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Data stays on your device &mdash; always</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">No ads. No data selling. Ever.</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dark mode &amp; home screen widgets</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Colorblind-accessible charts (patterns &amp; textures)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">&#10003;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">&#10003;</td></tr>
-          <tr><td style="padding:10px 16px;background:#fafcff;">Voice shortcuts (Siri / Google Assistant, opt-in)</td><td style="text-align:center;color:#AAAAAA;background:#fafcff;">&#8212;</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.06);">&#10003;</td></tr>
-
+          <!-- Premium features -->
+          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#1A4F7A;font-weight:700;">Premium Features</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Item-level receipt scanning (on-device OCR)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Unlimited financial sources</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Debt strategy engine (Avalanche vs Snowball)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Credit card intelligence (deferred interest, rewards check)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Subscription tracker with price-change alerts</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">What-if scenarios</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">AI Financial Coach (PBJ) — aggregated data only</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Bill due-date calendar view</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Budget rollover (carry unused budget forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Natural language transaction search</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Year-over-year spending comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Customizable dashboard layout</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">QR code household sharing (no internet needed)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Universal document scanning (W-2, bank statements, pay stubs…)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Tax return import &amp; comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Accountant report export (PDF, Word, Excel)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Projected balance view (30/60/90 days forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr><td style="padding:10px 16px;background:#fafcff;">On-device financial health score (0–100, no server)</td><td style="text-align:center;color:#AAAAAA;background:#fafcff;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.06);">✓</td></tr>
         </tbody>
       </table>
-      <div style="padding:10px 16px;background:#EDF2F7;font-size:11px;color:#5A7A9A;">
-        &#10003; = included &nbsp;|&nbsp; &#8212; = premium only &nbsp;|&nbsp; ~ = partial (free gets a useful subset, premium gets the full feature)
-      </div>
     </div>
 
-        <p style="text-align:center;font-size:11px;color:#8AAABB;margin-top:20px;">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
+    <p style="text-align:center;font-size:11px;color:#8AAABB;margin-top:20px;">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
   </div>
 
 
@@ -823,9 +747,9 @@ Covers: colorblind mode, high contrast, font sizing, VoiceOver/TalkBack support'
         <span class="link-arrow">→</span>
       </div>
       <div class="link-item" onclick="alert('PLACEHOLDER: Pricing page
-Plans: 30-day free trial · Free basic forever · $5.99/mo · $39.99/yr · $119.99 one-time
+Plans: Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time
 SKUs: com.josspatech.pocketbudjet.premium.monthly / .annual / .onetimepurchase')">
-        <div class="link-left"><span class="link-icon">💰</span><div><span class="link-title">Pricing &amp; Plans</span><span class="link-note">30-day free trial · Free basic forever · $5.99/mo · $39.99/yr · $119.99 one-time</span></div></div>
+        <div class="link-left"><span class="link-icon">💰</span><div><span class="link-title">Pricing &amp; Plans</span><span class="link-note">Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time</span></div></div>
         <span class="link-arrow">→</span>
       </div>
       <div class="link-item" onclick="alert('PLACEHOLDER: Subscription Terms
@@ -837,7 +761,7 @@ Text: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, re
 
     <!-- Privacy note -->
     <div class="privacy-note">
-      <p><strong>Your data never leaves your device.</strong> PocketBudJet stores all financial data locally using AES-256 encryption. JosspaTech has zero access to your transactions, balances, or any financial information. No bank login is required — manual entry and file import work great on their own. A future version will offer optional on-demand bank connectivity (fully opt-in, you control every sync) for users who want it.</p>
+      <p><strong>Your data never leaves your device.</strong> PocketBudJet stores all financial data locally using AES-256 encryption. JosspaTech has zero access to your transactions, balances, or any financial information. No bank login is ever required.</p>
     </div>
 
   </div>
