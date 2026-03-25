@@ -524,8 +524,8 @@ footer p { font-size: 13px; color: var(--slate); }
     <p>© 2026 JosspaTech. All Rights Reserved.</p>
     <div class="footer-links">
       <a onclick="window.location='PocketBudJet_PrivacyPolicy.html'">Privacy</a>
-      <a href="mailto:support@josspatech.com">Contact</a>
-      <a href="mailto:support@josspatech.com">support@josspatech.com</a>
+      <a href="/cdn-cgi/l/email-protection#f5868085859a8781b59f9a868685948190969ddb969a98">Contact</a>
+      <a href="/cdn-cgi/l/email-protection#80f3f5f0f0eff2f4c0eaeff3f3f0e1f4e5e3e8aee3efed"><span class="__cf_email__" data-cfemail="01727471716e7375416b6e72727160756462692f626e6c">[email&#160;protected]</span></a>
     </div>
   </footer>
 
@@ -581,7 +581,7 @@ footer p { font-size: 13px; color: var(--slate); }
           <li>✓ Photo &amp; note attachments</li>
           <li>✓ Face ID / PIN lock</li>
           <li>✓ Dark mode</li>
-          <li>✓ Home screen widgets</li>
+
           <li>✓ Recurring transactions</li>
           <li>✓ Budget limit alerts</li>
           <li>✓ Split bill</li>
@@ -670,7 +670,7 @@ footer p { font-size: 13px; color: var(--slate); }
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Photo &amp; note attachments on transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">App lock: Face ID, Touch ID, fingerprint, or PIN</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Dark mode</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Home screen widgets</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
           <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Copy previous month's budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
@@ -765,7 +765,7 @@ footer p { font-size: 13px; color: var(--slate); }
     <div class="link-group">
       <h3>Support</h3>
       <div class="link-item" onclick="window.location='mailto:support@josspatech.com'">
-        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note"><a href="mailto:support@josspatech.com">support@josspatech.com</a></span></div></div>
+        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note"><a href="/cdn-cgi/l/email-protection#d4a7a1a4a4bba6a094bebba7a7a4b5a0b1b7bcfab7bbb9"><span class="__cf_email__" data-cfemail="e695939696899492a68c89959596879283858ec885898b">[email&#160;protected]</span></a></span></div></div>
         <span class="link-arrow">→</span>
       </div>
       <div class="link-item placeholder">
@@ -932,7 +932,7 @@ Text: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, re
 </div>
 
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function showPage(id) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   document.getElementById('page-' + id).classList.add('active');
@@ -1005,20 +1005,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Re-init when page changes
   var origShowPage = window.showPage;
-  window.showPage = function(id) {
-    origShowPage(id);
-    setTimeout(initFadeIns, 50);
-  };
-
-  // ── COMPARISON TABLE HOVER ──
-  document.querySelectorAll('#featureChart tr').forEach(function(row) {
-    row.style.transition = 'background 0.15s';
-  });
-
-  // ── BADGE HIGHLIGHT on free plan ──
-  var freeBadge = document.querySelector('.badge-free');
-  if (freeBadge) freeBadge.classList.add('badge-highlight');
-});
-</script>
-</body>
-</html>
+  window.showPage = funct
