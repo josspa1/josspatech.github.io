@@ -8,27 +8,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
 :root{--navy:#1A4F7A;--navy-dark:#0C3358;--navy-mid:#2E6FA3;--gold:#E8A820;--slate:#5A7A9A;--light-slate:#8AAABB;--bg:#EDF2F7;--white:#FFFFFF;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:#222;line-height:1.75;}
+body{font-family:"Source Sans 3",sans-serif;background:var(--bg);color:#222;line-height:1.8;font-size:16px;}
 header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);}
 .hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.hdr-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:#fff;}
+.hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
 .hdr-name span{color:var(--gold);}
-.hdr-back{font-size:12px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
+.hdr-back{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
 .hdr-back:hover{color:var(--gold);}
 .doc-hero{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}
-.doc-type{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
-.doc-hero h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:#fff;margin-bottom:8px;}
-.doc-meta{font-size:13px;color:var(--light-slate);}
+.doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
+.doc-meta{font-size:15px;color:var(--light-slate);}
 .doc-meta span{margin-right:20px;}
 main{max-width:760px;margin:0 auto;padding:52px 24px 80px;}
-.summary-box{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:14px;line-height:1.65;border-left:3px solid var(--gold);}
+.summary-box{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--gold);}
 .summary-box strong{color:var(--gold);}
-h2{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}
-p{font-size:15px;margin-bottom:14px;}
+h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}
+p{font-size:17px;margin-bottom:14px;}
 ul{margin:6px 0 14px 22px;}
-li{font-size:15px;margin-bottom:6px;}
-.important{background:#FFF8E8;border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 4px 4px 0;margin:16px 0;font-size:14px;}
-.legal-caps{font-size:13px;line-height:1.7;color:#444;}
+li{font-size:17px;margin-bottom:6px;}
+};}
+.legal-caps{font-size:15px;line-height:1.75;color:#444;}
 footer{background:var(--navy-dark);border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 footer p{font-size:12px;color:var(--light-slate);}
 footer .fn{font-family:'Playfair Display',serif;font-size:15px;color:#fff;}
@@ -119,33 +119,37 @@ footer .fn span{color:var(--gold);}
   <h2>8. Analytics</h2>
   <p>The current version of PocketBudJet does not collect analytics, usage data, or crash reports. If this changes in a future version, this policy will be updated and users will be notified in advance.</p>
 
-  <h2>9. Children's Privacy</h2>
+  <h2>9. Anonymized Merchant Data</h2>
+  <p>To improve auto-categorization accuracy for all PocketBudJet users, the app may periodically send anonymized merchant-to-category mappings to JosspaTech. For example: "Target → Groceries" or "Shell → Transportation." This data is:</p>
+  <ul>
+    <li>Sent only over WiFi, in weekly batches</li>
+    <li>Completely anonymous — no user ID, device ID, IP address, or any identifier is included</li>
+    <li>Limited to merchant business names and their assigned category — never transaction amounts, dates, descriptions, or any financial data</li>
+    <li>Public business information, not personal data</li>
+  </ul>
+  <p>This feature is enabled by default. You can turn it off at any time in Settings → Data &amp; Privacy → "Help Improve Categorization." Turning it off immediately deletes any queued data that has not yet been sent. JosspaTech may use the aggregated merchant database for commercial purposes, including licensing to third parties.</p>
+
+  <h2>10. Children's Privacy</h2>
   <p>PocketBudJet is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided information through the app, please contact us at <a href="mailto:support@josspatech.com">support@josspatech.com</a>.</p>
 
-  <h2>10. Data Deletion</h2>
+  <h2>11. Data Deletion</h2>
   <p>Because all data is stored exclusively on your device, you can delete all data at any time by uninstalling the app. JosspaTech does not retain any copy of your data and has nothing to delete on our end.</p>
 
-  <h2>11. Changes to This Policy</h2>
+  <h2>12. Changes to This Policy</h2>
   <p>We may update this Privacy Policy from time to time. We will update the effective date when we do. Continued use of the App after changes constitutes acceptance of the updated policy. For material changes we will provide in-app notification.</p>
 
-  <h2>12. Contact</h2>
+  <h2>13. Contact</h2>
   <p>Privacy questions or concerns: <strong><a href="mailto:support@josspatech.com">support@josspatech.com</a></strong></p>
   <!-- ── LEGAL DOCUMENT NAVIGATION BAR ── -->
   <div style="background:#EDF2F7;border-top:1px solid rgba(26,79,122,0.2);margin-top:48px;padding:28px 48px 24px;">
-    <p style="font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet™ — Legal Documents</p>
+    <p style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet™ — Legal Documents</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <a href="PocketBudJet_PrivacyPolicy.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:13px;font-weight:600;transition:border-color 0.2s;">🔒 Privacy Policy</a>
-      <a href="PocketBudJet_TermsOfService.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:13px;font-weight:600;transition:border-color 0.2s;">📋 Terms of Service</a>
-      <a href="PocketBudJet_EULA.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:13px;font-weight:600;transition:border-color 0.2s;">📄 End User License Agreement</a>
-      <a href="index.html#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:13px;font-weight:600;">← Back to PocketBudJet</a>
+      <a href="PocketBudJet_PrivacyPolicy.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">🔒 Privacy Policy</a>
+      <a href="PocketBudJet_TermsOfService.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📋 Terms of Service</a>
+      <a href="PocketBudJet_EULA.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📄 End User License Agreement</a>
+      <a href="index.html#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">← Back to PocketBudJet</a>
     </div>
   </div>
 
 </main>
-<footer style="background:#0C3358;border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-  <span style="font-family:Playfair Display,serif;font-size:15px;color:#fff;">Josspa<span style="color:#F0C040;">Tech</span>™</span>
-  <p style="font-size:12px;color:#8AAABB;">© 2026 JosspaTech. All Rights Reserved.</p>
-  <a href="index.html#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
-</footer>
-</body>
-</html>
+<footer style="background:#0C3358;border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justif

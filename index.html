@@ -38,11 +38,11 @@
   --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* Typography rhythm baseline: 4px grid */
-  --text-hero:    clamp(40px, 5vw, 64px);
-  --text-title:   clamp(24px, 3vw, 36px);
-  --text-body:    16px;
-  --text-small:   13px;
-  --text-micro:   11px;
+  --text-hero:    clamp(44px, 5.5vw, 72px);
+  --text-title:   clamp(28px, 3.5vw, 42px);
+  --text-body:    17px;
+  --text-small:   15px;
+  --text-micro:   13px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -70,11 +70,11 @@ header {
 .logo-words .name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1; display: block; }
 .logo-words .name .w { color: #fff; }
 .logo-words .name .t { color: var(--gold); }
-.logo-words .sub { font-size: 9px; letter-spacing: 3.5px; color: var(--light-slate); text-transform: uppercase; margin-top: 3px; display: block; }
+.logo-words .sub { font-size: 10px; letter-spacing: 3.5px; color: var(--light-slate); text-transform: uppercase; margin-top: 3px; display: block; }
 .nav-right { display: flex; align-items: center; gap: 28px; }
-.nav-link { color: var(--light-slate); font-size: 13px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
+.nav-link { color: var(--light-slate); font-size: 15px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
 .nav-link:hover { color: var(--gold); }
-.nav-back { display: none; align-items: center; gap: 7px; color: var(--light-slate); font-size: 13px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
+.nav-back { display: none; align-items: center; gap: 7px; color: var(--light-slate); font-size: 15px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
 .nav-back:hover { color: var(--gold); }
 .nav-back.show { display: flex; }
 
@@ -91,7 +91,7 @@ header {
     radial-gradient(ellipse 30% 40% at 80% 100%, rgba(240,192,64,0.06) 0%, transparent 60%);
   pointer-events: none;
 }
-.co-hero-eyebrow { font-size: 11px; letter-spacing: 5px; text-transform: uppercase; color: var(--navy-mid); margin-bottom: 20px; position: relative; z-index: 1; display: block; }
+.co-hero-eyebrow { font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: var(--navy-mid); margin-bottom: 20px; position: relative; z-index: 1; display: block; }
 .co-hero h1 {
   font-family: 'Playfair Display', serif;
   font-size: var(--text-hero);
@@ -104,9 +104,9 @@ header {
 }
 .co-hero h1 em { color: var(--gold); font-style: normal; }
 .co-hero .sub {
-  font-size: 19px;
+  font-size: 21px;
   color: var(--slate);
-  max-width: 520px;
+  max-width: 580px;
   margin: 0 auto;
   line-height: 1.7;
   font-weight: 300;
@@ -116,8 +116,8 @@ header {
 
 /* ── PRODUCTS HEADING ── */
 .products-label { text-align: center; padding: 56px 0 8px; }
-.products-label .eyebrow { font-size: 11px; letter-spacing: 4.5px; text-transform: uppercase; color: var(--navy-mid); display: block; margin-bottom: 10px; }
-.products-label h2 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--navy-dark); }
+.products-label .eyebrow { font-size: 12px; letter-spacing: 4.5px; text-transform: uppercase; color: var(--navy-mid); display: block; margin-bottom: 10px; }
+.products-label h2 { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--navy-dark); }
 
 /* ── CARD TABLE ── */
 .card-table {
@@ -169,10 +169,10 @@ header {
   align-items: center; justify-content: center;
   gap: 10px; position: relative; z-index: 2;
 }
-.card-app-name { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; text-align: center; line-height: 1.25; }
-.card-tagline { font-size: 9px; color: var(--light-slate); text-align: center; letter-spacing: 0.2px; line-height: 1.5; padding: 0 10px; font-style: italic; font-family: 'Playfair Display', serif; }
+.card-app-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; text-align: center; line-height: 1.25; }
+.card-tagline { font-size: 10px; color: var(--light-slate); text-align: center; letter-spacing: 0.2px; line-height: 1.5; padding: 0 10px; font-style: italic; font-family: 'Playfair Display', serif; }
 .card-cta {
-  margin-top: 6px; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+  margin-top: 6px; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
   color: var(--gold-dark); border: 1px solid rgba(232,168,32,0.45);
   padding: 5px 14px; border-radius: 2px; font-weight: 600; font-family: 'Source Sans 3', sans-serif;
   transition: background 0.2s, color 0.2s;
@@ -194,8 +194,8 @@ header {
 }
 .card-back-spade { opacity: 0.15; position: relative; z-index: 1; }
 .card-future-label { position: relative; z-index: 1; text-align: center; }
-.card-future-label .coming { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 5px; }
-.card-future-label .future-name { font-family: 'Playfair Display', serif; font-size: 14px; color: #2E6FA3; }
+.card-future-label .coming { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 5px; }
+.card-future-label .future-name { font-family: 'Playfair Display', serif; font-size: 15px; color: #2E6FA3; }
 
 /* ── FOOTER ── */
 footer {
@@ -205,11 +205,11 @@ footer {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 12px;
 }
-.footer-co { font-family: 'Playfair Display', serif; font-size: 16px; }
+.footer-co { font-family: 'Playfair Display', serif; font-size: 17px; }
 .footer-co .t { color: var(--gold); }
-footer p { font-size: 12px; color: var(--slate); }
+footer p { font-size: 13px; color: var(--slate); }
 .footer-links { display: flex; gap: 20px; }
-.footer-links a { font-size: 12px; color: var(--slate); text-decoration: none; cursor: pointer; transition: color 0.2s; }
+.footer-links a { font-size: 13px; color: var(--slate); text-decoration: none; cursor: pointer; transition: color 0.2s; }
 .footer-links a:hover { color: var(--gold); }
 
 /* ══════════════════════════════
@@ -251,9 +251,9 @@ footer p { font-size: 12px; color: var(--slate); }
   position: relative; z-index: 1;
 }
 .pbj-hero-text h1 em { color: var(--gold); font-style: normal; }
-.pbj-tagline { font-size: 14px; color: var(--light-slate); font-style: italic; margin-bottom: 14px; font-family: 'Playfair Display', serif; }
+.pbj-tagline { font-size: 16px; color: var(--light-slate); font-style: italic; margin-bottom: 14px; font-family: 'Playfair Display', serif; }
 .pbj-badges { display: flex; gap: 10px; flex-wrap: wrap; }
-.badge { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; padding: 5px 12px; border-radius: 3px; }
+.badge { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; padding: 5px 12px; border-radius: 3px; }
 .badge-dev  { background: rgba(232,168,32,0.12); color: var(--gold-dark); border: 1px solid rgba(232,168,32,0.3); }
 .badge-free { background: rgba(26,79,122,0.4); color: var(--light-slate); border: 1px solid rgba(26,79,122,0.7); }
 .badge-ios  { background: rgba(255,255,255,0.05); color: var(--light-slate); border: 1px solid rgba(255,255,255,0.1); }
@@ -336,14 +336,14 @@ footer p { font-size: 12px; color: var(--slate); }
 }
 
 .link-group h3 {
-  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
   color: var(--navy-dark); font-weight: 700; margin-bottom: 16px;
   padding-bottom: 10px; border-bottom: 2px solid;
   border-image: linear-gradient(90deg, var(--gold) 0%, var(--navy-mid) 100%) 1;
 }
 .link-item {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 13px 16px; border-radius: 10px; margin-bottom: 8px;
+  padding: 15px 18px; border-radius: 10px; margin-bottom: 8px;
   background: rgba(255,255,255,0.9); border: 1px solid rgba(26,79,122,0.18);
   cursor: pointer;
   transition: background 0.2s var(--ease-out-quint),
@@ -361,12 +361,12 @@ footer p { font-size: 12px; color: var(--slate); }
 }
 .link-item.placeholder { opacity: 0.6; cursor: default; }
 .link-item.placeholder:hover { background: rgba(26,79,122,0.1); border-color: rgba(26,79,122,0.22); }
-.link-left { display: flex; align-items: center; gap: 11px; }
-.link-icon { font-size: 17px; width: 22px; text-align: center; }
-.link-title { font-size: 13px; font-weight: 600; color: var(--navy-dark); display: block; }
-.link-note  { font-size: 10px; color: var(--navy-mid); margin-top: 1px; display: block; }
-.link-arrow { color: var(--gold-dark); font-size: 15px; }
-.ptag { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(90,122,154,0.2); color: var(--slate); padding: 3px 8px; border-radius: 2px; }
+.link-left { display: flex; align-items: center; gap: 12px; }
+.link-icon { font-size: 19px; width: 24px; text-align: center; }
+.link-title { font-size: 15px; font-weight: 600; color: var(--navy-dark); display: block; }
+.link-note  { font-size: 13px; color: var(--navy-mid); margin-top: 2px; display: block; }
+.link-arrow { color: var(--gold-dark); font-size: 16px; }
+.ptag { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(90,122,154,0.2); color: var(--slate); padding: 4px 10px; border-radius: 3px; }
 
 .privacy-note {
   grid-column: 1 / -1;
@@ -374,7 +374,7 @@ footer p { font-size: 12px; color: var(--slate); }
   border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 18px 22px;
   box-shadow: var(--shadow-card);
 }
-.privacy-note p { font-size: 13px; color: var(--navy-dark); line-height: 1.65; }
+.privacy-note p { font-size: 16px; color: var(--navy-dark); line-height: 1.65; }
 .privacy-note strong { color: var(--gold); }
 </style>
 </head>
@@ -406,8 +406,8 @@ footer p { font-size: 12px; color: var(--slate); }
   <div class="nav-right">
     <button class="nav-back" id="navBack" onclick="showPage('company')">← All Products</button>
     <button class="nav-link" onclick="showPage('company')">Products</button>
-    <button class="nav-link">About</button>
-    <button class="nav-link">Contact</button>
+    <button class="nav-link" onclick="showAbout()">About</button>
+    <button class="nav-link" onclick="window.location='mailto:support@josspatech.com'">Contact</button>
   </div>
 </header>
 
@@ -523,9 +523,9 @@ footer p { font-size: 12px; color: var(--slate); }
     <span class="footer-co">Josspa<span class="t">Tech</span>™</span>
     <p>© 2026 JosspaTech. All Rights Reserved.</p>
     <div class="footer-links">
-      <a>Privacy</a>
-      <a>Contact</a>
-      <a><span class="__cf_email__" data-cfemail="3744424747584543775d58444447564352545f1954585a">[email&#160;protected]</span></a>
+      <a onclick="window.location='PocketBudJet_PrivacyPolicy.html'">Privacy</a>
+      <a href="mailto:support@josspatech.com">Contact</a>
+      <a href="mailto:support@josspatech.com">support@josspatech.com</a>
     </div>
   </footer>
 
@@ -539,7 +539,7 @@ footer p { font-size: 12px; color: var(--slate); }
     <div class="pbj-hero-text">
       <h1>Pocket<em>Bud</em>Jet™</h1>
       <p class="pbj-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p style="font-size:14px;color:rgba(255,255,255,0.78);margin-top:10px;margin-bottom:4px;">Privacy-first personal finance. Your data stays on your device — always. We build tools that respect you, your data, and your decisions.</p>
+      <p style="font-size:16px;color:rgba(255,255,255,0.78);margin-top:10px;margin-bottom:4px;">Privacy-first personal finance. Your data stays on your device — always. We build tools that respect you, your data, and your decisions.</p>
       <div class="pbj-badges">
         <span class="badge badge-dev">In Development</span>
         <span class="badge badge-free">Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time</span>
@@ -549,28 +549,28 @@ footer p { font-size: 12px; color: var(--slate); }
   </div>
 
   <!-- Breadcrumb -->
-  <div style="background:#EDF2F7; border-bottom:1px solid rgba(26,79,122,0.15); padding:10px 48px; display:flex; align-items:center; gap:8px; font-size:12px; color:#5A7A9A;">
-    <button onclick="showPage('company')" style="background:none;border:none;color:#2E6FA3;font-size:12px;cursor:pointer;font-family:inherit;padding:0;font-weight:600;">← JosspaTech</button>
+  <div style="background:#EDF2F7; border-bottom:1px solid rgba(26,79,122,0.15); padding:10px 48px; display:flex; align-items:center; gap:8px; font-size:13px; color:#5A7A9A;">
+    <button onclick="showPage('company')" style="background:none;border:none;color:#2E6FA3;font-size:13px;cursor:pointer;font-family:inherit;padding:0;font-weight:600;">← JosspaTech</button>
     <span style="color:#8AAABB;">/</span>
     <span style="color:#0C3358; font-weight:600;">PocketBudJet™</span>
   </div>
 
   <!-- ── PRICING SECTION ── -->
   <div id="pricing" style="background:#ffffff; border-bottom:1px solid rgba(26,79,122,0.12); padding:56px 48px 60px;">
-    <p class="fade-in" style="font-size:11px;letter-spacing:4.5px;text-transform:uppercase;color:#2E6FA3;text-align:center;margin-bottom:10px;font-weight:700;">Pricing</p>
-    <h2 style="font-family:'Playfair Display',serif;font-size:30px;color:#0C3358;text-align:center;margin-bottom:6px;">Pick the plan that fits.</h2>
-    <p style="text-align:center;color:#5A7A9A;font-size:14px;margin-bottom:40px;">All paid plans include every Premium feature. Start with a 30-day free trial — no credit card required.</p>
+    <p class="fade-in" style="font-size:12px;letter-spacing:4.5px;text-transform:uppercase;color:#2E6FA3;text-align:center;margin-bottom:10px;font-weight:700;">Pricing</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:34px;color:#0C3358;text-align:center;margin-bottom:8px;">Pick the plan that fits.</h2>
+    <p style="text-align:center;color:#5A7A9A;font-size:16px;margin-bottom:40px;">All paid plans include every Premium feature. Start with a 30-day free trial — no credit card required.</p>
 
     <!-- Plan cards -->
     <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:960px;margin:0 auto 44px;">
 
       <!-- Free -->
       <div class="plan-card fade-in fade-in-delay-1" style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.25);border-radius:12px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Free</p>
+        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Free</p>
         <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$0</p>
-        <p style="font-size:12px;color:#8AAABB;margin-bottom:20px;">No credit card · no expiration · no subscription required</p>
-        <p style="font-size:12px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Includes:</p>
-        <ul style="list-style:none;padding:0;font-size:12px;color:#5A7A9A;line-height:2;">
+        <p style="font-size:13px;color:#8AAABB;margin-bottom:20px;">No credit card · no expiration · no subscription required</p>
+        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Includes:</p>
+        <ul style="list-style:none;padding:0;font-size:13px;color:#5A7A9A;line-height:2;">
           <li>✓ Unlimited manual entry</li>
           <li>✓ Bank file import (CSV · OFX · QFX · XLSX)</li>
           <li>✓ Budget categories &amp; limits</li>
@@ -592,13 +592,14 @@ footer p { font-size: 12px; color: var(--slate); }
 
       <!-- Monthly -->
       <div class="plan-card fade-in fade-in-delay-2" style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.35);border-radius:12px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Monthly</p>
+        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Monthly</p>
         <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$5.99</p>
-        <p style="font-size:12px;color:#8AAABB;margin-bottom:20px;">per month · cancel anytime</p>
-        <p style="font-size:12px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <ul style="list-style:none;padding:0;font-size:12px;color:#5A7A9A;line-height:2;">
+        <p style="font-size:13px;color:#8AAABB;margin-bottom:20px;">per month · cancel anytime</p>
+        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
+        <ul style="list-style:none;padding:0;font-size:13px;color:#5A7A9A;line-height:2;">
           <li>✓ Receipt scanning (on-device OCR)</li>
           <li>✓ Bill &amp; pay stub scanning</li>
+          <li>✓ Network scanner &amp; flatbed support</li>
           <li>✓ Unlimited financial sources</li>
           <li>✓ Debt strategy engine</li>
           <li>✓ Credit card intelligence</li>
@@ -618,23 +619,23 @@ footer p { font-size: 12px; color: var(--slate); }
 
       <!-- Annual — highlighted -->
       <div style="flex:1;min-width:200px;max-width:220px;border:2px solid #E8A820;border-radius:10px;padding:24px 20px;background:#FFFDF0;position:relative;">
-        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#E8A820;color:#0C3358;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;">Best Value</div>
-        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Annual</p>
+        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#E8A820;color:#0C3358;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;">Best Value</div>
+        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Annual</p>
         <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$39.99</p>
-        <p style="font-size:12px;color:#8AAABB;margin-bottom:4px;">per year · save 44% vs monthly</p>
-        <p style="font-size:11px;color:#E8A820;font-weight:600;margin-bottom:16px;">That's under $3.34/month</p>
-        <p style="font-size:12px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <p style="font-size:12px;color:#5A7A9A;line-height:1.8;">All Premium features — same as Monthly, billed once per year.</p>
+        <p style="font-size:16px;color:#8AAABB;margin-bottom:4px;">per year · save 44% vs monthly</p>
+        <p style="font-size:16px;color:#E8A820;font-weight:600;margin-bottom:16px;">That's under $3.34/month</p>
+        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
+        <p style="font-size:13px;color:#5A7A9A;line-height:1.8;">All Premium features — same as Monthly, billed once per year.</p>
       </div>
 
       <!-- One-Time Purchase -->
       <div style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.35);border-radius:10px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">One-Time Purchase</p>
+        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">One-Time Purchase</p>
         <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$119.99</p>
-        <p style="font-size:12px;color:#8AAABB;margin-bottom:4px;">one-time · no subscription</p>
-        <p style="font-size:11px;color:#2E6FA3;font-weight:600;margin-bottom:16px;">No other major budgeting app offers this.</p>
-        <p style="font-size:12px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <p style="font-size:12px;color:#5A7A9A;line-height:1.8;">All current and future Premium features — no subscription.</p>
+        <p style="font-size:16px;color:#8AAABB;margin-bottom:4px;">one-time · no subscription</p>
+        <p style="font-size:14px;color:#2E6FA3;font-weight:600;margin-bottom:16px;">No other major budgeting app offers this.</p>
+        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
+        <p style="font-size:13px;color:#5A7A9A;line-height:1.8;">All current and future Premium features — no subscription.</p>
       </div>
 
     </div>
@@ -642,14 +643,14 @@ footer p { font-size: 12px; color: var(--slate); }
     <!-- Feature comparison toggle -->
     <div style="text-align:center;margin-bottom:24px;">
       <button onclick="toggleFeatureChart()" id="featureToggleBtn"
-        style="background:none;border:1px solid rgba(26,79,122,0.35);color:#1A4F7A;font-size:13px;font-weight:600;padding:10px 28px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.2s;">
+        style="background:none;border:1px solid rgba(26,79,122,0.35);color:#1A4F7A;font-size:15px;font-weight:600;padding:10px 28px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.2s;">
         ▼ &nbsp;Compare Free vs Premium features
       </button>
     </div>
 
     <!-- Feature comparison table (hidden by default) -->
     <div id="featureChart" style="display:none;max-width:760px;margin:0 auto;border:1px solid rgba(26,79,122,0.2);border-radius:8px;overflow:hidden;">
-      <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <table style="width:100%;border-collapse:collapse;font-size:15px;">
         <thead>
           <tr style="background:#0C3358;color:#fff;">
             <th style="padding:12px 16px;text-align:left;font-weight:600;">Feature</th>
@@ -659,53 +660,54 @@ footer p { font-size: 12px; color: var(--slate); }
         </thead>
         <tbody>
           <!-- Free features -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Core &amp; Free Features</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Unlimited manual transaction entry</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget categories with spending limits</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dashboard overview</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Spending pace indicator (on track this month?)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Available to spend number</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budgeting framework templates (50/30/20, Zero-Based…)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Photo &amp; note attachments on transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">App lock: Face ID, Touch ID, fingerprint, or PIN</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Dark mode</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Home screen widgets</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Copy previous month's budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Split bill (record your share only)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Up to 3 financial sources (e.g. Checking, Savings, Cash)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Bank file import (CSV · OFX · QFX · QIF · XLSX)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Core &amp; Free Features</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Unlimited manual transaction entry</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget categories with spending limits</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Dashboard overview</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Spending pace indicator (on track this month?)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Available to spend number</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budgeting framework templates (50/30/20, Zero-Based…)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Photo &amp; note attachments on transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">App lock: Face ID, Touch ID, fingerprint, or PIN</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Dark mode</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Home screen widgets</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Copy previous month's budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Split bill (record your share only)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Up to 3 financial sources (e.g. Checking, Savings, Cash)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Bank file import (CSV · OFX · QFX · QIF · XLSX)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
 
 
           <!-- Premium features -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#1A4F7A;font-weight:700;">Premium Features</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Receipt scanning — on-device OCR, never uploaded</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Bill &amp; pay stub scanning (on-device OCR)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Unlimited financial sources</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Debt strategy engine (Avalanche vs Snowball)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Credit card intelligence (deferred interest, rewards check)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Subscription tracker with price-change alerts</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">What-if scenarios</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">AI Financial Coach (PBJ) — aggregated data only</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Bill due-date calendar view</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Budget rollover (carry unused budget forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Natural language transaction search</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Year-over-year spending comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Customizable dashboard layout</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">QR code household sharing (no internet needed)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Universal document scanning (W-2, bank statements, pay stubs…)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Tax return import &amp; comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Accountant report export (PDF, Word, Excel)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Projected balance view (30/60/90 days forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:10px 16px;">Spending anomaly alerts (unusual charges flagged instantly)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:10px 16px;">Anomaly history &amp; full analysis dashboard</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-                    <tr><td style="padding:10px 16px;background:#fafcff;">On-device financial health score (0–100, no server)</td><td style="text-align:center;color:#AAAAAA;background:#fafcff;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.06);">✓</td></tr>
+          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#1A4F7A;font-weight:700;">Premium Features</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Receipt scanning — on-device OCR, never uploaded</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Bill &amp; pay stub scanning (on-device OCR)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Network scanner &amp; flatbed support (WiFi eSCL/AirScan)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Unlimited financial sources</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Debt strategy engine (Avalanche vs Snowball)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Credit card intelligence (deferred interest, rewards check)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Subscription tracker with price-change alerts</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">What-if scenarios</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">AI Financial Coach (PBJ) — aggregated data only</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Bill due-date calendar view</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget rollover (carry unused budget forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Natural language transaction search</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Year-over-year spending comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Customizable dashboard layout</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">QR code household sharing (no internet needed)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Universal document scanning (W-2, bank statements, pay stubs…)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Tax return import &amp; comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Accountant report export (PDF, Word, Excel)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Projected balance view (30/60/90 days forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Spending anomaly alerts (unusual charges flagged instantly)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Anomaly history &amp; full analysis dashboard</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
+                    <tr><td style="padding:12px 16px;background:#fafcff;">On-device financial health score (0–100, no server)</td><td style="text-align:center;color:#AAAAAA;background:#fafcff;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.06);">✓</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p style="text-align:center;font-size:11px;color:#8AAABB;margin-top:20px;">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
+    <p style="text-align:center;font-size:13px;color:#8AAABB;margin-top:20px;">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
   </div>
 
 
@@ -763,7 +765,7 @@ footer p { font-size: 12px; color: var(--slate); }
     <div class="link-group">
       <h3>Support</h3>
       <div class="link-item" onclick="window.location='mailto:support@josspatech.com'">
-        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="85f6f0f5f5eaf7f1c5efeaf6f6f5e4f1e0e6edabe6eae8">[email&#160;protected]</a></span></div></div>
+        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note"><a href="mailto:support@josspatech.com">support@josspatech.com</a></span></div></div>
         <span class="link-arrow">→</span>
       </div>
       <div class="link-item placeholder">
@@ -955,6 +957,14 @@ function toggleFeatureChart() {
     chart.style.display = 'none';
     btn.innerHTML = '▼ &nbsp;Compare Free vs Premium features';
   }
+}
+
+function showAbout() {
+  showPage('company');
+  setTimeout(function() {
+    var hero = document.querySelector('.co-hero');
+    if (hero) hero.scrollIntoView({ behavior: 'smooth' });
+  }, 50);
 }
 
 // Handle incoming hash so legal doc back-links land on the right page
