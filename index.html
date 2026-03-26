@@ -354,6 +354,15 @@ footer p { font-size: 13px; color: var(--slate); }
 .badge-dev  { background: rgba(232,168,32,0.12); color: var(--gold-dark); border: 1px solid rgba(232,168,32,0.3); }
 .badge-free { background: rgba(26,79,122,0.4); color: var(--light-slate); border: 1px solid rgba(26,79,122,0.7); }
 .badge-ios  { background: rgba(255,255,255,0.05); color: var(--light-slate); border: 1px solid rgba(255,255,255,0.1); }
+/* Feature roadmap labels (inline in comparison table) */
+.feat-label {
+  display: inline-block; margin-left: 8px; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px;
+  border-radius: 3px; vertical-align: middle; white-space: nowrap;
+}
+.feat-label-dev    { background: rgba(232,168,32,0.13); color: #b8880a; border: 1px solid rgba(232,168,32,0.35); }
+.feat-label-v11    { background: rgba(39,174,96,0.10);  color: #1e8449;  border: 1px solid rgba(39,174,96,0.30); }
+.feat-label-v2     { background: rgba(142,68,173,0.10); color: #7d3c98;  border: 1px solid rgba(142,68,173,0.30); }
 
 /* Breadcrumb */
 .pbj-breadcrumb {
@@ -939,9 +948,11 @@ footer p { font-size: 13px; color: var(--slate); }
           <tr><td>Year-over-year spending comparison</td><td class="dash">—</td><td class="check">✓</td></tr>
           <tr><td>Customizable dashboard layout</td><td class="dash">—</td><td class="check">✓</td></tr>
           <tr><td>QR code household sharing (no internet needed)</td><td class="dash">—</td><td class="check">✓</td></tr>
-          <tr><td>Universal document scanning (W-2, bank statements, pay stubs…)</td><td class="dash">—</td><td class="check">✓</td></tr>
-          <tr><td>Tax return import &amp; comparison</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Universal document scanning (W-2, bank statements, pay stubs…)<span class="feat-label feat-label-v11">Coming in v1.1</span></td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Tax return import &amp; comparison<span class="feat-label feat-label-v2">Coming in v2</span></td><td class="dash">—</td><td class="dash">—</td></tr>
           <tr><td>Accountant report export (PDF, Word, Excel)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Voice shortcuts (Siri / Google Assistant)<span class="feat-label feat-label-dev">Under development</span></td><td class="dash">—</td><td class="dash">—</td></tr>
+          <tr><td>Enhanced PDF import (bank statements, CC PDFs)<span class="feat-label feat-label-v11">v1.1 enhancement</span></td><td class="dash">—</td><td class="dash">—</td></tr>
           <tr><td>Projected balance view (30/60/90 days forward)</td><td class="dash">—</td><td class="check">✓</td></tr>
           <tr><td>Spending anomaly alerts (unusual charges flagged instantly)</td><td class="check">✓</td><td class="check">✓</td></tr>
           <tr><td>Anomaly history &amp; full analysis dashboard</td><td class="dash">—</td><td class="check">✓</td></tr>
