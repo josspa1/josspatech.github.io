@@ -12,6 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PocketBudJet — privacy-first budgeting app by JosspaTech. Your data stays on your device. Free forever with optional premium.">
 <title>PocketBudJet — Free Budget App, No Expiry | JosspaTech</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap');
@@ -45,12 +46,37 @@
   --text-micro:   13px;
 }
 
+/* ── RESET & BASE ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'Source Sans 3', sans-serif; background: #D8E8F4; color: var(--navy-dark); min-height: 100vh; }
+body {
+  font-family: 'Source Sans 3', sans-serif;
+  background: #D8E8F4;
+  color: var(--navy-dark);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-.page { display: none; }
-.page.active { display: block; }
+/* ── FOCUS STYLES (accessibility) ── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) { outline: none; }
+
+/* ── PAGE TRANSITIONS ── */
+.page { display: none; opacity: 0; }
+.page.active {
+  display: block;
+  animation: pageEnter 0.4s var(--ease-out-quint) forwards;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 /* ── HEADER ── */
 header {
@@ -66,23 +92,48 @@ header {
 .logo-btn {
   display: flex; align-items: center; gap: 12px;
   cursor: pointer; background: none; border: none; padding: 0;
+  text-decoration: none;
 }
-.logo-words .name { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; line-height: 1; display: block; }
+.logo-words .name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-weight: 700; line-height: 1; display: block;
+}
 .logo-words .name .w { color: #fff; }
 .logo-words .name .t { color: var(--gold); }
-.logo-words .sub { font-size: 10px; letter-spacing: 3.5px; color: var(--light-slate); text-transform: uppercase; margin-top: 3px; display: block; }
+.logo-words .sub {
+  font-size: 10px; letter-spacing: 3.5px; color: var(--light-slate);
+  text-transform: uppercase; margin-top: 3px; display: block;
+}
 .nav-right { display: flex; align-items: center; gap: 28px; }
-.nav-link { color: var(--light-slate); font-size: 15px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
-.nav-link:hover { color: var(--gold); }
-.nav-back { display: none; align-items: center; gap: 7px; color: var(--light-slate); font-size: 15px; cursor: pointer; background: none; border: none; font-family: inherit; transition: color 0.2s; padding: 0; }
-.nav-back:hover { color: var(--gold); }
+.nav-link {
+  color: var(--light-slate); font-size: 15px; cursor: pointer;
+  background: none; border: none; font-family: inherit;
+  transition: color 0.2s; padding: 0; position: relative;
+}
+.nav-link:hover, .nav-link:focus-visible { color: var(--gold); }
+.nav-link::after {
+  content: '';
+  position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.25s var(--ease-out-quint);
+}
+.nav-link:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.nav-back {
+  display: none; align-items: center; gap: 7px;
+  color: var(--light-slate); font-size: 15px; cursor: pointer;
+  background: none; border: none; font-family: inherit;
+  transition: color 0.2s; padding: 0;
+}
+.nav-back:hover, .nav-back:focus-visible { color: var(--gold); }
 .nav-back.show { display: flex; }
 
 /* ── COMPANY HERO ── */
-.co-hero { background: var(--white);
+.co-hero {
+  background: var(--white);
   text-align: center; padding: 88px 48px 64px;
   position: relative; overflow: hidden;
-  background: var(--white);
 }
 .co-hero::before {
   content: ''; position: absolute; inset: 0;
@@ -91,33 +142,40 @@ header {
     radial-gradient(ellipse 30% 40% at 80% 100%, rgba(240,192,64,0.06) 0%, transparent 60%);
   pointer-events: none;
 }
-.co-hero-eyebrow { font-size: 12px; letter-spacing: 5px; text-transform: uppercase; color: var(--navy-mid); margin-bottom: 20px; position: relative; z-index: 1; display: block; }
+.co-hero-eyebrow {
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--navy-mid); margin-bottom: 20px;
+  position: relative; z-index: 1; display: block;
+}
 .co-hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: var(--text-hero);
-  font-weight: 900;
-  color: var(--navy-dark);
-  line-height: 1.05;
+  font-size: var(--text-hero); font-weight: 900;
+  color: var(--navy-dark); line-height: 1.05;
   margin-bottom: 20px;
-  position: relative; z-index: 1;
-  letter-spacing: -1px;
+  position: relative; z-index: 1; letter-spacing: -1px;
 }
 .co-hero h1 em { color: var(--gold); font-style: normal; }
 .co-hero .sub {
-  font-size: 21px;
-  color: var(--slate);
-  max-width: 580px;
-  margin: 0 auto;
-  line-height: 1.7;
-  font-weight: 300;
+  font-size: 21px; color: var(--slate);
+  max-width: 580px; margin: 0 auto;
+  line-height: 1.7; font-weight: 300;
   position: relative; z-index: 1;
 }
-.co-rule { width: 48px; height: 2px; background: var(--gold-dark); margin: 36px auto 0; position: relative; z-index: 1; }
+.co-rule {
+  width: 48px; height: 2px; background: var(--gold-dark);
+  margin: 36px auto 0; position: relative; z-index: 1;
+}
 
 /* ── PRODUCTS HEADING ── */
 .products-label { text-align: center; padding: 56px 0 8px; }
-.products-label .eyebrow { font-size: 12px; letter-spacing: 4.5px; text-transform: uppercase; color: var(--navy-mid); display: block; margin-bottom: 10px; }
-.products-label h2 { font-family: 'Playfair Display', serif; font-size: 36px; color: var(--navy-dark); }
+.products-label .eyebrow {
+  font-size: 12px; letter-spacing: 4.5px; text-transform: uppercase;
+  color: var(--navy-mid); display: block; margin-bottom: 10px;
+}
+.products-label h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; color: var(--navy-dark);
+}
 
 /* ── CARD TABLE ── */
 .card-table {
@@ -140,6 +198,11 @@ header {
   transform: translateY(-12px) rotate(0.4deg) scale(1.01);
   box-shadow: 0 8px 16px rgba(0,0,0,0.3), 0 28px 56px rgba(0,0,0,0.45), 0 0 0 1px rgba(240,192,64,0.25), var(--shadow-gold);
 }
+.product-card:focus-visible {
+  transform: translateY(-12px) rotate(0.4deg) scale(1.01);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3), 0 28px 56px rgba(0,0,0,0.45), 0 0 0 3px var(--gold);
+  outline: none;
+}
 .product-card.future { cursor: default; opacity: 0.65; }
 .product-card.future:hover { transform: translateY(-4px) rotate(-0.4deg); box-shadow: 0 10px 28px rgba(0,0,0,0.45); }
 
@@ -158,8 +221,14 @@ header {
 }
 
 /* Corners */
-.card-corner { display: flex; flex-direction: column; align-items: center; line-height: 1; position: relative; z-index: 2; }
-.card-corner .rank { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--gold); line-height: 1; }
+.card-corner {
+  display: flex; flex-direction: column; align-items: center;
+  line-height: 1; position: relative; z-index: 2;
+}
+.card-corner .rank {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px; font-weight: 700; color: var(--gold); line-height: 1;
+}
 .card-corner .suit { font-size: 13px; color: var(--gold); margin-top: 1px; }
 .card-corner-br { position: absolute; bottom: 13px; right: 13px; transform: rotate(180deg); }
 
@@ -169,15 +238,25 @@ header {
   align-items: center; justify-content: center;
   gap: 10px; position: relative; z-index: 2;
 }
-.card-app-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; text-align: center; line-height: 1.25; }
-.card-tagline { font-size: 10px; color: var(--light-slate); text-align: center; letter-spacing: 0.2px; line-height: 1.5; padding: 0 10px; font-style: italic; font-family: 'Playfair Display', serif; }
+.card-app-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; font-weight: 700; color: var(--gold);
+  letter-spacing: 0.5px; text-align: center; line-height: 1.25;
+}
+.card-tagline {
+  font-size: 10px; color: var(--light-slate); text-align: center;
+  letter-spacing: 0.2px; line-height: 1.5; padding: 0 10px;
+  font-style: italic; font-family: 'Playfair Display', serif;
+}
 .card-cta {
   margin-top: 6px; font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
   color: var(--gold-dark); border: 1px solid rgba(232,168,32,0.45);
-  padding: 5px 14px; border-radius: 2px; font-weight: 600; font-family: 'Source Sans 3', sans-serif;
+  padding: 5px 14px; border-radius: 2px; font-weight: 600;
+  font-family: 'Source Sans 3', sans-serif;
   transition: background 0.2s, color 0.2s;
 }
-.product-card:hover .card-cta { background: rgba(232,168,32,0.12); }
+.product-card:hover .card-cta,
+.product-card:focus-visible .card-cta { background: rgba(232,168,32,0.12); }
 
 /* Face-down card */
 .card-back {
@@ -194,8 +273,13 @@ header {
 }
 .card-back-spade { opacity: 0.15; position: relative; z-index: 1; }
 .card-future-label { position: relative; z-index: 1; text-align: center; }
-.card-future-label .coming { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--slate); display: block; margin-bottom: 5px; }
-.card-future-label .future-name { font-family: 'Playfair Display', serif; font-size: 15px; color: #2E6FA3; }
+.card-future-label .coming {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--slate); display: block; margin-bottom: 5px;
+}
+.card-future-label .future-name {
+  font-family: 'Playfair Display', serif; font-size: 15px; color: #2E6FA3;
+}
 
 /* ── FOOTER ── */
 footer {
@@ -205,12 +289,19 @@ footer {
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 12px;
 }
-.footer-co { font-family: 'Playfair Display', serif; font-size: 17px; }
+.footer-co {
+  font-family: 'Playfair Display', serif; font-size: 17px; color: var(--white);
+}
 .footer-co .t { color: var(--gold); }
 footer p { font-size: 13px; color: var(--slate); }
 .footer-links { display: flex; gap: 20px; }
-.footer-links a { font-size: 13px; color: var(--slate); text-decoration: none; cursor: pointer; transition: color 0.2s; }
-.footer-links a:hover { color: var(--gold); }
+.footer-links button {
+  font-size: 13px; color: var(--slate); text-decoration: none;
+  cursor: pointer; transition: color 0.2s;
+  background: none; border: none; font-family: inherit; padding: 0;
+}
+.footer-links button:hover,
+.footer-links button:focus-visible { color: var(--gold); }
 
 /* ══════════════════════════════
    POCKETBUDJET PRODUCT PAGE
@@ -240,50 +331,73 @@ footer p { font-size: 13px; color: var(--slate); }
   box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(240,192,64,0.15), var(--shadow-gold);
   position: relative; z-index: 1;
 }
-.pbj-icon span { font-family: 'Playfair Display', serif; font-size: 21px; font-weight: 700; color: var(--gold); letter-spacing: -0.5px; }
+.pbj-icon span {
+  font-family: 'Playfair Display', serif;
+  font-size: 21px; font-weight: 700; color: var(--gold); letter-spacing: -0.5px;
+}
+.pbj-hero-text { position: relative; z-index: 1; }
 .pbj-hero-text h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 900;
-  color: white;
-  margin-bottom: 6px;
-  letter-spacing: -0.5px;
-  position: relative; z-index: 1;
+  font-size: clamp(32px, 4vw, 48px); font-weight: 900;
+  color: white; margin-bottom: 6px; letter-spacing: -0.5px;
 }
 .pbj-hero-text h1 em { color: var(--gold); font-style: normal; }
-.pbj-tagline { font-size: 16px; color: var(--light-slate); font-style: italic; margin-bottom: 14px; font-family: 'Playfair Display', serif; }
+.pbj-tagline {
+  font-size: 16px; color: var(--light-slate); font-style: italic;
+  margin-bottom: 14px; font-family: 'Playfair Display', serif;
+}
 .pbj-badges { display: flex; gap: 10px; flex-wrap: wrap; }
-.badge { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600; padding: 5px 12px; border-radius: 3px; }
+.badge {
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  font-weight: 600; padding: 5px 12px; border-radius: 3px;
+}
 .badge-dev  { background: rgba(232,168,32,0.12); color: var(--gold-dark); border: 1px solid rgba(232,168,32,0.3); }
 .badge-free { background: rgba(26,79,122,0.4); color: var(--light-slate); border: 1px solid rgba(26,79,122,0.7); }
 .badge-ios  { background: rgba(255,255,255,0.05); color: var(--light-slate); border: 1px solid rgba(255,255,255,0.1); }
 
-/* Content grid */
-.pbj-content { max-width: 1100px; margin: 0 auto; padding: 52px 48px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
-@media (max-width: 660px) {
-  .pbj-content { grid-template-columns: 1fr; padding: 36px 24px 60px; }
-  .co-hero h1 { font-size: 34px; }
-  header { padding: 0 20px; }
-  .card-table { padding: 28px 20px 72px; }
-  .pbj-hero { padding: 40px 24px; }
+/* Breadcrumb */
+.pbj-breadcrumb {
+  background: var(--bg); border-bottom: 1px solid rgba(26,79,122,0.15);
+  padding: 10px 48px; display: flex; align-items: center;
+  gap: 8px; font-size: 13px; color: var(--slate);
+}
+.pbj-breadcrumb button {
+  background: none; border: none; color: var(--navy-mid);
+  font-size: 13px; cursor: pointer; font-family: inherit;
+  padding: 0; font-weight: 600; transition: color 0.2s;
+}
+.pbj-breadcrumb button:hover,
+.pbj-breadcrumb button:focus-visible { color: var(--gold-dark); }
+.pbj-breadcrumb .sep { color: var(--light-slate); }
+.pbj-breadcrumb .current { color: var(--navy-dark); font-weight: 600; }
+
+/* Pricing section */
+.pricing-section {
+  background: var(--white);
+  border-bottom: 1px solid rgba(26,79,122,0.12);
+  padding: 56px 48px 60px;
+}
+.pricing-eyebrow {
+  font-size: 12px; letter-spacing: 4.5px; text-transform: uppercase;
+  color: var(--navy-mid); text-align: center; margin-bottom: 10px; font-weight: 700;
+}
+.pricing-title {
+  font-family: 'Playfair Display', serif; font-size: 34px;
+  color: var(--navy-dark); text-align: center; margin-bottom: 8px;
+}
+.pricing-subtitle {
+  text-align: center; color: var(--slate); font-size: 16px; margin-bottom: 40px;
+}
+.plan-grid {
+  display: flex; gap: 20px; justify-content: center;
+  flex-wrap: wrap; max-width: 960px; margin: 0 auto 44px;
 }
 
-/* ── SCROLL FADE-IN ── */
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s var(--ease-out-quint), transform 0.6s var(--ease-out-quint);
-}
-.fade-in.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-in-delay-1 { transition-delay: 0.1s; }
-.fade-in-delay-2 { transition-delay: 0.2s; }
-.fade-in-delay-3 { transition-delay: 0.3s; }
-
-/* ── PRICING CARD HOVER ── */
+/* ── PLAN CARDS ── */
 .plan-card {
+  flex: 1; min-width: 200px; max-width: 220px;
+  border: 1px solid rgba(26,79,122,0.25); border-radius: 12px;
+  padding: 24px 20px; background: #F7FAFD;
   transition: transform 0.25s var(--ease-spring),
               box-shadow 0.25s var(--ease-out-quint),
               border-color 0.2s;
@@ -291,50 +405,115 @@ footer p { font-size: 13px; color: var(--slate); }
 .plan-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-raised);
-  border-color: rgba(240,192,64,0.5) !important;
+  border-color: rgba(240,192,64,0.5);
 }
 .plan-card-featured {
+  border: 2px solid var(--gold-dark);
+  background: #FFFDF0; position: relative;
   transform: scale(1.03);
-  box-shadow: var(--shadow-float), var(--shadow-gold) !important;
-  border-color: rgba(240,192,64,0.6) !important;
+  box-shadow: var(--shadow-float), var(--shadow-gold);
 }
 .plan-card-featured:hover {
   transform: scale(1.03) translateY(-4px);
+  border-color: var(--gold);
+}
+.plan-label {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--slate); margin-bottom: 8px;
+}
+.plan-price {
+  font-size: 34px; font-weight: 700; color: var(--navy-dark);
+  line-height: 1; margin-bottom: 4px;
+}
+.plan-note { font-size: 13px; color: var(--light-slate); margin-bottom: 20px; }
+.plan-note-lg { font-size: 16px; color: var(--light-slate); margin-bottom: 4px; }
+.plan-highlight { font-size: 16px; color: var(--gold-dark); font-weight: 600; margin-bottom: 16px; }
+.plan-includes {
+  font-size: 13px; color: var(--navy); font-weight: 600; margin-bottom: 10px;
+}
+.plan-features {
+  list-style: none; padding: 0; font-size: 13px;
+  color: var(--slate); line-height: 2;
+}
+.plan-desc { font-size: 13px; color: var(--slate); line-height: 1.8; }
+.plan-badge-best {
+  position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+  background: var(--gold-dark); color: var(--navy-dark);
+  font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  padding: 3px 12px; border-radius: 20px; white-space: nowrap;
+}
+.plan-unique {
+  font-size: 14px; color: var(--navy-mid); font-weight: 600; margin-bottom: 16px;
 }
 
-/* ── COMPARISON TABLE ZEBRA ── */
-.comp-table tr:hover td {
-  background: rgba(26,79,122,0.04) !important;
+/* ── FEATURE COMPARISON TOGGLE ── */
+.feature-toggle-btn {
+  background: none; border: 1px solid rgba(26,79,122,0.35);
+  color: var(--navy); font-size: 15px; font-weight: 600;
+  padding: 10px 28px; border-radius: 6px; cursor: pointer;
+  font-family: inherit; transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.feature-toggle-btn:hover {
+  background: rgba(26,79,122,0.06);
+  border-color: var(--navy-mid);
+}
+.feature-toggle-btn .chevron {
+  display: inline-block; transition: transform 0.3s var(--ease-out-quint);
+}
+.feature-toggle-btn[aria-expanded="true"] .chevron { transform: rotate(180deg); }
+
+/* Feature chart collapse animation */
+.feature-chart-wrapper {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s var(--ease-out-quint), opacity 0.3s;
+  opacity: 0;
+}
+.feature-chart-wrapper.open {
+  max-height: 3000px; opacity: 1;
+}
+
+/* ── COMPARISON TABLE ── */
+.comp-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.comp-table thead tr { background: var(--navy-dark); color: #fff; }
+.comp-table th {
+  padding: 12px 16px; text-align: left; font-weight: 600;
+}
+.comp-table th:nth-child(2) { text-align: center; width: 80px; }
+.comp-table th:nth-child(3) { text-align: center; width: 100px; background: var(--navy); }
+.comp-table .section-row td {
+  padding: 8px 16px; font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--slate); font-weight: 700;
+  background: var(--bg);
+}
+.comp-table .section-row.premium td {
+  font-size: 15px; color: var(--navy);
+}
+.comp-table td { padding: 12px 16px; border-bottom: 1px solid rgba(26,79,122,0.08); }
+.comp-table td:nth-child(2) { text-align: center; }
+.comp-table td:nth-child(3) { text-align: center; background: rgba(26,79,122,0.04); }
+.comp-table tbody tr:nth-child(even):not(.section-row) td:first-child { background: #fafcff; }
+.comp-table tbody tr:nth-child(even):not(.section-row) td:nth-child(2) { background: #fafcff; }
+.comp-table tbody tr:nth-child(even):not(.section-row) td:nth-child(3) { background: rgba(26,79,122,0.06); }
+.comp-table tbody tr:hover td {
+  background: rgba(26,79,122,0.04);
   transition: background 0.15s;
 }
+.comp-table .check { color: #2E7D32; font-weight: 700; }
+.comp-table .dash  { color: #AAAAAA; }
 
-/* ── NAV LINK UNDERLINE ANIMATION ── */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute; bottom: -2px; left: 0; right: 0;
-  height: 1px;
-  background: var(--gold);
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.25s var(--ease-out-quint);
-}
-.nav-link:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+.pricing-footer {
+  text-align: center; font-size: 13px; color: var(--light-slate); margin-top: 20px;
 }
 
-/* ── BADGE PULSE (free tier) ── */
-@keyframes subtle-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(240,192,64,0); }
-  50%       { box-shadow: 0 0 0 4px rgba(240,192,64,0.15); }
-}
-.badge-highlight {
-  animation: subtle-glow 3s ease-in-out infinite;
+/* ── CONTENT GRID ── */
+.pbj-content {
+  max-width: 1100px; margin: 0 auto;
+  padding: 52px 48px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 36px;
 }
 
+/* ── LINK GROUPS ── */
 .link-group h3 {
   font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
   color: var(--navy-dark); font-weight: 700; margin-bottom: 16px;
@@ -353,37 +532,105 @@ footer p { font-size: 13px; color: var(--slate); }
   text-decoration: none;
   box-shadow: var(--shadow-card);
 }
-.link-item:hover {
+.link-item:hover,
+.link-item:focus-visible {
   background: #ffffff;
   border-color: rgba(232,168,32,0.5);
   box-shadow: var(--shadow-raised);
   transform: translateY(-1px);
 }
 .link-item.placeholder { opacity: 0.6; cursor: default; }
-.link-item.placeholder:hover { background: rgba(26,79,122,0.1); border-color: rgba(26,79,122,0.22); }
+.link-item.placeholder:hover {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(26,79,122,0.22);
+  box-shadow: var(--shadow-card);
+  transform: none;
+}
 .link-left { display: flex; align-items: center; gap: 12px; }
-.link-icon { font-size: 19px; width: 24px; text-align: center; }
+.link-icon { font-size: 19px; width: 24px; text-align: center; flex-shrink: 0; }
 .link-title { font-size: 15px; font-weight: 600; color: var(--navy-dark); display: block; }
 .link-note  { font-size: 13px; color: var(--navy-mid); margin-top: 2px; display: block; }
-.link-arrow { color: var(--gold-dark); font-size: 16px; }
-.ptag { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(90,122,154,0.2); color: var(--slate); padding: 4px 10px; border-radius: 3px; }
+.link-arrow { color: var(--gold-dark); font-size: 16px; flex-shrink: 0; transition: transform 0.2s; }
+.link-item:hover .link-arrow { transform: translateX(3px); }
+.ptag {
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  background: rgba(90,122,154,0.2); color: var(--slate);
+  padding: 4px 10px; border-radius: 3px; flex-shrink: 0;
+}
 
 .privacy-note {
   grid-column: 1 / -1;
   background: rgba(255,255,255,0.9); border: 1px solid rgba(26,79,122,0.18);
-  border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0; padding: 18px 22px;
+  border-left: 4px solid var(--gold); border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
   box-shadow: var(--shadow-card);
 }
 .privacy-note p { font-size: 16px; color: var(--navy-dark); line-height: 1.65; }
-.privacy-note strong { color: var(--gold); }
+.privacy-note strong { color: var(--gold-dark); }
+
+/* ── SCROLL FADE-IN ── */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s var(--ease-out-quint), transform 0.6s var(--ease-out-quint);
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+.fade-in-delay-1 { transition-delay: 0.1s; }
+.fade-in-delay-2 { transition-delay: 0.2s; }
+.fade-in-delay-3 { transition-delay: 0.3s; }
+
+/* ── BADGE PULSE (free tier) ── */
+@keyframes subtle-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(240,192,64,0); }
+  50%       { box-shadow: 0 0 0 4px rgba(240,192,64,0.15); }
+}
+.badge-highlight { animation: subtle-glow 3s ease-in-out infinite; }
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .page.active { animation: none; opacity: 1; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .pbj-content { grid-template-columns: 1fr; padding: 36px 24px 60px; }
+}
+@media (max-width: 660px) {
+  header { padding: 0 20px; }
+  .nav-right { gap: 16px; }
+  .co-hero { padding: 56px 24px 48px; }
+  .co-hero h1 { font-size: 34px; }
+  .card-table { padding: 28px 20px 72px; gap: 20px; }
+  .product-card { width: 190px; height: 290px; }
+  .pbj-hero { padding: 40px 24px; }
+  .pbj-breadcrumb { padding: 10px 24px; }
+  .pricing-section { padding: 40px 24px 48px; }
+  .pbj-content { padding: 28px 20px 60px; }
+  footer { padding: 24px 20px; }
+  .plan-grid { gap: 16px; }
+  .plan-card { min-width: 170px; }
+  .comp-table { font-size: 13px; }
+  .comp-table td, .comp-table th { padding: 10px 12px; }
+}
+@media (max-width: 480px) {
+  .nav-link:not(.nav-back) { font-size: 13px; }
+  .nav-right { gap: 12px; }
+  .card-table { flex-direction: column; align-items: center; }
+  .product-card.future { margin-top: 0 !important; }
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ═══════════ HEADER ═══════════ -->
 <header>
-  <button class="logo-btn" onclick="showPage('company')">
-    <svg width="36" height="36" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg">
+  <button class="logo-btn" onclick="showPage('company')" aria-label="JosspaTech home">
+    <svg width="36" height="36" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <linearGradient id="hsg" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#2E6FA3"/><stop offset="100%" stop-color="#0C3358"/>
@@ -403,19 +650,19 @@ footer p { font-size: 13px; color: var(--slate); }
       <span class="sub">Mobile · Digital · Innovation</span>
     </div>
   </button>
-  <div class="nav-right">
-    <button class="nav-back" id="navBack" onclick="showPage('company')">← All Products</button>
+  <nav class="nav-right" aria-label="Main navigation">
+    <button class="nav-back" id="navBack" onclick="showPage('company')" aria-label="Back to all products">← All Products</button>
     <button class="nav-link" onclick="showPage('company')">Products</button>
     <button class="nav-link" onclick="showAbout()">About</button>
-    <button class="nav-link" onclick="window.location='mailto:support@josspatech.com'">Contact</button>
-  </div>
+    <button class="nav-link" onclick="window.location.href='mailto:support@josspatech.com'">Contact</button>
+  </nav>
 </header>
 
 <!-- ══════════ COMPANY PAGE ══════════ -->
 <div class="page active" id="page-company">
 
   <section class="co-hero">
-    <svg width="68" height="68" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 26px;display:block;position:relative;z-index:1">
+    <svg width="68" height="68" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" style="margin:0 auto 26px;display:block;position:relative;z-index:1" aria-hidden="true">
       <defs>
         <linearGradient id="hsg2" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stop-color="#2E6FA3"/><stop offset="100%" stop-color="#0C3358"/>
@@ -444,14 +691,14 @@ footer p { font-size: 13px; color: var(--slate); }
   <div class="card-table">
 
     <!-- PocketBudJet — live card -->
-    <div class="product-card" onclick="showPage('pbj')">
+    <div class="product-card" tabindex="0" role="button" aria-label="View PocketBudJet product page" onclick="showPage('pbj')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj')}">
       <div class="card-face">
         <div class="card-corner">
           <span class="rank">A</span>
           <span class="suit">♠</span>
         </div>
         <div class="card-center">
-          <svg width="72" height="72" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg">
+          <svg width="72" height="72" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <defs>
               <linearGradient id="csg" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#3A7AB8"/><stop offset="100%" stop-color="#1A4F7A"/>
@@ -478,10 +725,10 @@ footer p { font-size: 13px; color: var(--slate); }
     </div>
 
     <!-- Future cards -->
-    <div class="product-card future" style="margin-top:32px">
+    <div class="product-card future" style="margin-top:32px" aria-label="Future product, coming soon">
       <div class="card-back">
         <div class="card-back-pattern"></div>
-        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg">
+        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M40,3 C40,3 5,30 5,56 C5,71 17,79 30,75 C24,83 19,90 8,94 L72,94 C61,90 56,83 50,75 C63,79 75,71 75,56 C75,30 40,3 40,3 Z" fill="#1A4F7A"/>
         </svg>
         <div class="card-future-label">
@@ -491,10 +738,10 @@ footer p { font-size: 13px; color: var(--slate); }
       </div>
     </div>
 
-    <div class="product-card future" style="margin-top:16px">
+    <div class="product-card future" style="margin-top:16px" aria-label="Future product, coming soon">
       <div class="card-back">
         <div class="card-back-pattern"></div>
-        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg">
+        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M40,3 C40,3 5,30 5,56 C5,71 17,79 30,75 C24,83 19,90 8,94 L72,94 C61,90 56,83 50,75 C63,79 75,71 75,56 C75,30 40,3 40,3 Z" fill="#1A4F7A"/>
         </svg>
         <div class="card-future-label">
@@ -504,10 +751,10 @@ footer p { font-size: 13px; color: var(--slate); }
       </div>
     </div>
 
-    <div class="product-card future">
+    <div class="product-card future" aria-label="Future product, coming soon">
       <div class="card-back">
         <div class="card-back-pattern"></div>
-        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg">
+        <svg class="card-back-spade" width="52" height="52" viewBox="0 0 80 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M40,3 C40,3 5,30 5,56 C5,71 17,79 30,75 C24,83 19,90 8,94 L72,94 C61,90 56,83 50,75 C63,79 75,71 75,56 C75,30 40,3 40,3 Z" fill="#1A4F7A"/>
         </svg>
         <div class="card-future-label">
@@ -523,9 +770,8 @@ footer p { font-size: 13px; color: var(--slate); }
     <span class="footer-co">Josspa<span class="t">Tech</span>™</span>
     <p>© 2026 JosspaTech. All Rights Reserved.</p>
     <div class="footer-links">
-      <a onclick="window.location='PocketBudJet_PrivacyPolicy.html'">Privacy</a>
-      <a href="/cdn-cgi/l/email-protection#f5868085859a8781b59f9a868685948190969ddb969a98">Contact</a>
-      <a href="/cdn-cgi/l/email-protection#80f3f5f0f0eff2f4c0eaeff3f3f0e1f4e5e3e8aee3efed"><span class="__cf_email__" data-cfemail="01727471716e7375416b6e72727160756462692f626e6c">[email&#160;protected]</span></a>
+      <button onclick="window.location.href='PocketBudJet_PrivacyPolicy.html'">Privacy</button>
+      <button onclick="window.location.href='mailto:support@josspatech.com'">Contact</button>
     </div>
   </footer>
 
@@ -539,7 +785,7 @@ footer p { font-size: 13px; color: var(--slate); }
     <div class="pbj-hero-text">
       <h1>Pocket<em>Bud</em>Jet™</h1>
       <p class="pbj-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p style="font-size:16px;color:rgba(255,255,255,0.78);margin-top:10px;margin-bottom:4px;">Privacy-first personal finance. Your data stays on your device — always. We build tools that respect you, your data, and your decisions.</p>
+      <p style="font-size:16px;color:rgba(255,255,255,0.78);margin-top:10px;margin-bottom:4px;position:relative;z-index:1;">Privacy-first personal finance. Your data stays on your device — always. We build tools that respect you, your data, and your decisions.</p>
       <div class="pbj-badges">
         <span class="badge badge-dev">In Development</span>
         <span class="badge badge-free">Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time</span>
@@ -549,28 +795,28 @@ footer p { font-size: 13px; color: var(--slate); }
   </div>
 
   <!-- Breadcrumb -->
-  <div style="background:#EDF2F7; border-bottom:1px solid rgba(26,79,122,0.15); padding:10px 48px; display:flex; align-items:center; gap:8px; font-size:13px; color:#5A7A9A;">
-    <button onclick="showPage('company')" style="background:none;border:none;color:#2E6FA3;font-size:13px;cursor:pointer;font-family:inherit;padding:0;font-weight:600;">← JosspaTech</button>
-    <span style="color:#8AAABB;">/</span>
-    <span style="color:#0C3358; font-weight:600;">PocketBudJet™</span>
+  <div class="pbj-breadcrumb">
+    <button onclick="showPage('company')">← JosspaTech</button>
+    <span class="sep">/</span>
+    <span class="current">PocketBudJet™</span>
   </div>
 
   <!-- ── PRICING SECTION ── -->
-  <div id="pricing" style="background:#ffffff; border-bottom:1px solid rgba(26,79,122,0.12); padding:56px 48px 60px;">
-    <p class="fade-in" style="font-size:12px;letter-spacing:4.5px;text-transform:uppercase;color:#2E6FA3;text-align:center;margin-bottom:10px;font-weight:700;">Pricing</p>
-    <h2 style="font-family:'Playfair Display',serif;font-size:34px;color:#0C3358;text-align:center;margin-bottom:8px;">Pick the plan that fits.</h2>
-    <p style="text-align:center;color:#5A7A9A;font-size:16px;margin-bottom:40px;">All paid plans include every Premium feature. Start with a 30-day free trial — no credit card required.</p>
+  <div id="pricing" class="pricing-section">
+    <p class="pricing-eyebrow fade-in">Pricing</p>
+    <h2 class="pricing-title">Pick the plan that fits.</h2>
+    <p class="pricing-subtitle">All paid plans include every Premium feature. Start with a 30-day free trial — no credit card required.</p>
 
     <!-- Plan cards -->
-    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;max-width:960px;margin:0 auto 44px;">
+    <div class="plan-grid">
 
       <!-- Free -->
-      <div class="plan-card fade-in fade-in-delay-1" style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.25);border-radius:12px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Free</p>
-        <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$0</p>
-        <p style="font-size:13px;color:#8AAABB;margin-bottom:20px;">No credit card · no expiration · no subscription required</p>
-        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Includes:</p>
-        <ul style="list-style:none;padding:0;font-size:13px;color:#5A7A9A;line-height:2;">
+      <div class="plan-card fade-in fade-in-delay-1">
+        <p class="plan-label">Free</p>
+        <p class="plan-price">$0</p>
+        <p class="plan-note">No credit card · no expiration · no subscription required</p>
+        <p class="plan-includes">Includes:</p>
+        <ul class="plan-features">
           <li>✓ Unlimited manual entry</li>
           <li>✓ Bank file import (CSV · OFX · QFX · XLSX)</li>
           <li>✓ Budget categories &amp; limits</li>
@@ -581,7 +827,6 @@ footer p { font-size: 13px; color: var(--slate); }
           <li>✓ Photo &amp; note attachments</li>
           <li>✓ Face ID / PIN lock</li>
           <li>✓ Dark mode</li>
-
           <li>✓ Recurring transactions</li>
           <li>✓ Budget limit alerts</li>
           <li>✓ Split bill</li>
@@ -591,12 +836,12 @@ footer p { font-size: 13px; color: var(--slate); }
       </div>
 
       <!-- Monthly -->
-      <div class="plan-card fade-in fade-in-delay-2" style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.35);border-radius:12px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Monthly</p>
-        <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$5.99</p>
-        <p style="font-size:13px;color:#8AAABB;margin-bottom:20px;">per month · cancel anytime</p>
-        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <ul style="list-style:none;padding:0;font-size:13px;color:#5A7A9A;line-height:2;">
+      <div class="plan-card fade-in fade-in-delay-2" style="border-color:rgba(26,79,122,0.35);">
+        <p class="plan-label">Premium Monthly</p>
+        <p class="plan-price">$5.99</p>
+        <p class="plan-note">per month · cancel anytime</p>
+        <p class="plan-includes">Everything in Free, plus:</p>
+        <ul class="plan-features">
           <li>✓ Receipt scanning (on-device OCR)</li>
           <li>✓ Bill &amp; pay stub scanning</li>
           <li>✓ Network scanner &amp; flatbed support</li>
@@ -618,102 +863,101 @@ footer p { font-size: 13px; color: var(--slate); }
       </div>
 
       <!-- Annual — highlighted -->
-      <div style="flex:1;min-width:200px;max-width:220px;border:2px solid #E8A820;border-radius:10px;padding:24px 20px;background:#FFFDF0;position:relative;">
-        <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#E8A820;color:#0C3358;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;">Best Value</div>
-        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">Premium Annual</p>
-        <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$39.99</p>
-        <p style="font-size:16px;color:#8AAABB;margin-bottom:4px;">per year · save 44% vs monthly</p>
-        <p style="font-size:16px;color:#E8A820;font-weight:600;margin-bottom:16px;">That's under $3.34/month</p>
-        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <p style="font-size:13px;color:#5A7A9A;line-height:1.8;">All Premium features — same as Monthly, billed once per year.</p>
+      <div class="plan-card plan-card-featured fade-in fade-in-delay-2">
+        <div class="plan-badge-best">Best Value</div>
+        <p class="plan-label">Premium Annual</p>
+        <p class="plan-price">$39.99</p>
+        <p class="plan-note-lg">per year · save 44% vs monthly</p>
+        <p class="plan-highlight">That's under $3.34/month</p>
+        <p class="plan-includes">Everything in Free, plus:</p>
+        <p class="plan-desc">All Premium features — same as Monthly, billed once per year.</p>
       </div>
 
       <!-- One-Time Purchase -->
-      <div style="flex:1;min-width:200px;max-width:220px;border:1px solid rgba(26,79,122,0.35);border-radius:10px;padding:24px 20px;background:#F7FAFD;">
-        <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;margin-bottom:8px;">One-Time Purchase</p>
-        <p style="font-size:34px;font-weight:700;color:#0C3358;line-height:1;margin-bottom:4px;">$119.99</p>
-        <p style="font-size:16px;color:#8AAABB;margin-bottom:4px;">one-time · no subscription</p>
-        <p style="font-size:14px;color:#2E6FA3;font-weight:600;margin-bottom:16px;">No other major budgeting app offers this.</p>
-        <p style="font-size:13px;color:#1A4F7A;font-weight:600;margin-bottom:10px;">Everything in Free, plus:</p>
-        <p style="font-size:13px;color:#5A7A9A;line-height:1.8;">All current and future Premium features — no subscription.</p>
+      <div class="plan-card fade-in fade-in-delay-3" style="border-color:rgba(26,79,122,0.35);">
+        <p class="plan-label">One-Time Purchase</p>
+        <p class="plan-price">$119.99</p>
+        <p class="plan-note-lg">one-time · no subscription</p>
+        <p class="plan-unique">No other major budgeting app offers this.</p>
+        <p class="plan-includes">Everything in Free, plus:</p>
+        <p class="plan-desc">All current and future Premium features — no subscription.</p>
       </div>
 
     </div>
 
     <!-- Feature comparison toggle -->
     <div style="text-align:center;margin-bottom:24px;">
-      <button onclick="toggleFeatureChart()" id="featureToggleBtn"
-        style="background:none;border:1px solid rgba(26,79,122,0.35);color:#1A4F7A;font-size:15px;font-weight:600;padding:10px 28px;border-radius:6px;cursor:pointer;font-family:inherit;transition:all 0.2s;">
-        ▼ &nbsp;Compare Free vs Premium features
+      <button onclick="toggleFeatureChart()" id="featureToggleBtn" class="feature-toggle-btn" aria-expanded="false" aria-controls="featureChart">
+        <span class="chevron">▼</span>
+        <span id="featureToggleText">Compare Free vs Premium features</span>
       </button>
     </div>
 
     <!-- Feature comparison table (hidden by default) -->
-    <div id="featureChart" style="display:none;max-width:760px;margin:0 auto;border:1px solid rgba(26,79,122,0.2);border-radius:8px;overflow:hidden;">
-      <table style="width:100%;border-collapse:collapse;font-size:15px;">
+    <div id="featureChart" class="feature-chart-wrapper" style="max-width:760px;margin:0 auto;border:1px solid rgba(26,79,122,0.2);border-radius:8px;overflow:hidden;">
+      <table class="comp-table">
         <thead>
-          <tr style="background:#0C3358;color:#fff;">
-            <th style="padding:12px 16px;text-align:left;font-weight:600;">Feature</th>
-            <th style="padding:12px 16px;text-align:center;width:80px;">Free</th>
-            <th style="padding:12px 16px;text-align:center;width:100px;background:#1A4F7A;">Premium</th>
+          <tr>
+            <th>Feature</th>
+            <th>Free</th>
+            <th>Premium</th>
           </tr>
         </thead>
         <tbody>
           <!-- Free features -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#5A7A9A;font-weight:700;">Core &amp; Free Features</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Unlimited manual transaction entry</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget categories with spending limits</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Dashboard overview</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Spending pace indicator (on track this month?)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Available to spend number</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budgeting framework templates (50/30/20, Zero-Based…)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Photo &amp; note attachments on transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">App lock: Face ID, Touch ID, fingerprint, or PIN</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Dark mode</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Recurring transactions</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget limit alerts (80% / 100% / over)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Copy previous month's budget</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Split bill (record your share only)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Up to 3 financial sources (e.g. Checking, Savings, Cash)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Bank file import (CSV · OFX · QFX · QIF · XLSX)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-
+          <tr class="section-row"><td colspan="3">Core &amp; Free Features</td></tr>
+          <tr><td>Unlimited manual transaction entry</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Budget categories with spending limits</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Dashboard overview</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Spending pace indicator (on track this month?)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Available to spend number</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Budgeting framework templates (50/30/20, Zero-Based…)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Photo &amp; note attachments on transactions</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>App lock: Face ID, Touch ID, fingerprint, or PIN</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Dark mode</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Recurring transactions</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Budget limit alerts (80% / 100% / over)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Copy previous month's budget</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Split bill (record your share only)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Up to 3 financial sources (e.g. Checking, Savings, Cash)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Bank file import (CSV · OFX · QFX · QIF · XLSX)</td><td class="check">✓</td><td class="check">✓</td></tr>
 
           <!-- Premium features -->
-          <tr style="background:#EDF2F7;"><td colspan="3" style="padding:8px 16px;font-size:15px;letter-spacing:3px;text-transform:uppercase;color:#1A4F7A;font-weight:700;">Premium Features</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Receipt scanning — on-device OCR, never uploaded</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Bill &amp; pay stub scanning (on-device OCR)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Network scanner &amp; flatbed support (WiFi eSCL/AirScan)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Unlimited financial sources</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Debt strategy engine (Avalanche vs Snowball)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Credit card intelligence (deferred interest, rewards check)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Subscription tracker with price-change alerts</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">What-if scenarios</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">AI Financial Coach (PBJ) — aggregated data only</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Bill due-date calendar view</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Budget rollover (carry unused budget forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Natural language transaction search</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Year-over-year spending comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Customizable dashboard layout</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">QR code household sharing (no internet needed)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Universal document scanning (W-2, bank statements, pay stubs…)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Tax return import &amp; comparison</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Accountant report export (PDF, Word, Excel)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Projected balance view (30/60/90 days forward)</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);"><td style="padding:12px 16px;">Spending anomaly alerts (unusual charges flagged instantly)</td><td style="text-align:center;color:#2E7D32;font-weight:700;">✓</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-          <tr style="border-bottom:1px solid rgba(26,79,122,0.08);background:#fafcff;"><td style="padding:12px 16px;">Anomaly history &amp; full analysis dashboard</td><td style="text-align:center;color:#AAAAAA;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.04);">✓</td></tr>
-                    <tr><td style="padding:12px 16px;background:#fafcff;">On-device financial health score (0–100, no server)</td><td style="text-align:center;color:#AAAAAA;background:#fafcff;">—</td><td style="text-align:center;color:#2E7D32;font-weight:700;background:rgba(26,79,122,0.06);">✓</td></tr>
+          <tr class="section-row premium"><td colspan="3">Premium Features</td></tr>
+          <tr><td>Receipt scanning — on-device OCR, never uploaded</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Bill &amp; pay stub scanning (on-device OCR)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Network scanner &amp; flatbed support (WiFi eSCL/AirScan)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Unlimited financial sources</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Debt strategy engine (Avalanche vs Snowball)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Credit card intelligence (deferred interest, rewards check)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Subscription tracker with price-change alerts</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>What-if scenarios</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>AI Financial Coach (PBJ) — aggregated data only</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Bill due-date calendar view</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Budget rollover (carry unused budget forward)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Natural language transaction search</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Year-over-year spending comparison</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Customizable dashboard layout</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>QR code household sharing (no internet needed)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Universal document scanning (W-2, bank statements, pay stubs…)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Tax return import &amp; comparison</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Accountant report export (PDF, Word, Excel)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Projected balance view (30/60/90 days forward)</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>Spending anomaly alerts (unusual charges flagged instantly)</td><td class="check">✓</td><td class="check">✓</td></tr>
+          <tr><td>Anomaly history &amp; full analysis dashboard</td><td class="dash">—</td><td class="check">✓</td></tr>
+          <tr><td>On-device financial health score (0–100, no server)</td><td class="dash">—</td><td class="check">✓</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p style="text-align:center;font-size:13px;color:#8AAABB;margin-top:20px;">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
+    <p class="pricing-footer">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment card information.</p>
   </div>
 
-
+  <!-- ── CONTENT GRID (link groups) ── -->
+  <div class="pbj-content">
 
     <!-- DOWNLOAD -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Download</h3>
       <div class="link-item placeholder">
         <div class="link-left"><span class="link-icon">🍎</span><div><span class="link-title">App Store — iOS</span><span class="link-note">iPhone &amp; iPad · iOS 16+</span></div></div>
@@ -734,45 +978,42 @@ footer p { font-size: 13px; color: var(--slate); }
     </div>
 
     <!-- LEGAL -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Legal &amp; Policies</h3>
-      <div class="link-item" onclick="window.location='PocketBudJet_PrivacyPolicy.html'">
+      <div class="link-item" onclick="window.location.href='PocketBudJet_PrivacyPolicy.html'" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.location.href='PocketBudJet_PrivacyPolicy.html'}">
         <div class="link-left"><span class="link-icon">🔒</span><div><span class="link-title">Privacy Policy</span><span class="link-note">Required by both stores · Effective Mar 20, 2026</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="window.location='PocketBudJet_TermsOfService.html'">
+      <div class="link-item" onclick="window.location.href='PocketBudJet_TermsOfService.html'" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.location.href='PocketBudJet_TermsOfService.html'}">
         <div class="link-left"><span class="link-icon">📋</span><div><span class="link-title">Terms of Service</span><span class="link-note">Effective Mar 20, 2026</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="window.location='PocketBudJet_EULA.html'">
+      <div class="link-item" onclick="window.location.href='PocketBudJet_EULA.html'" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.location.href='PocketBudJet_EULA.html'}">
         <div class="link-left"><span class="link-icon">📄</span><div><span class="link-title">End User License Agreement</span><span class="link-note">Required by Apple App Store</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Data Safety Disclosure\nRequired by Google Play Console — complete in the console directly.')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Data Safety Disclosure\nRequired by Google Play Console — complete in the console directly.')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🛡️</span><div><span class="link-title">Data Safety Disclosure</span><span class="link-note">Required by Google Play Console</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Financial Disclaimer\nMust appear in-app near each relevant feature — text is in Master Doc Section 11.')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Financial Disclaimer\nMust appear in-app near each relevant feature — text is in Master Doc Section 11.')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">⚠️</span><div><span class="link-title">Financial Disclaimer</span><span class="link-note">Not financial advice — required in-app</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-
     </div>
 
-
-
     <!-- SUPPORT -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Support</h3>
-      <div class="link-item" onclick="window.location='mailto:support@josspatech.com'">
-        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note"><a href="/cdn-cgi/l/email-protection#d4a7a1a4a4bba6a094bebba7a7a4b5a0b1b7bcfab7bbb9"><span class="__cf_email__" data-cfemail="e695939696899492a68c89959596879283858ec885898b">[email&#160;protected]</span></a></span></div></div>
+      <div class="link-item" onclick="window.location.href='mailto:support@josspatech.com'" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.location.href='mailto:support@josspatech.com'}">
+        <div class="link-left"><span class="link-icon">✉️</span><div><span class="link-title">Email Support</span><span class="link-note">support@josspatech.com</span></div></div>
         <span class="link-arrow">→</span>
       </div>
       <div class="link-item placeholder">
         <div class="link-left"><span class="link-icon">❓</span><div><span class="link-title">FAQ</span><span class="link-note">Common questions answered</span></div></div>
         <span class="ptag">Coming Soon</span>
       </div>
-      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6', '_blank')">
+      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')}">
         <div class="link-left"><span class="link-icon">🐛</span><div><span class="link-title">Report a Bug</span><span class="link-note">Submits directly to our feedback log</span></div></div>
         <span class="link-arrow">→</span>
       </div>
@@ -786,15 +1027,14 @@ footer p { font-size: 13px; color: var(--slate); }
       </div>
     </div>
 
-
     <!-- BETA RESOURCES -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Beta Testing</h3>
-      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6', '_blank')">
+      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')}">
         <div class="link-left"><span class="link-icon">📝</span><div><span class="link-title">Beta Feedback Form</span><span class="link-note">Report bugs, crashes, or suggestions — goes directly to the dev team</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6', '_blank')">
+      <div class="link-item" onclick="window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.open('https://forms.gle/CuKnR7dTicZxHmLJ6','_blank')}">
         <div class="link-left"><span class="link-icon">🐛</span><div><span class="link-title">Report a Bug</span><span class="link-note">Submits directly to our feedback log</span></div></div>
         <span class="link-arrow">→</span>
       </div>
@@ -809,7 +1049,7 @@ footer p { font-size: 13px; color: var(--slate); }
     </div>
 
     <!-- APP STORE & MARKETING -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>App Store &amp; Marketing</h3>
       <div class="link-item placeholder">
         <div class="link-left"><span class="link-icon">📸</span><div><span class="link-title">Screenshots &amp; Feature Tour</span><span class="link-note">Visual walkthrough of PocketBudJet</span></div></div>
@@ -823,90 +1063,70 @@ footer p { font-size: 13px; color: var(--slate); }
         <div class="link-left"><span class="link-icon">📣</span><div><span class="link-title">Press Kit &amp; Brand Assets</span><span class="link-note">Logos, colors, screenshots for press use</span></div></div>
         <span class="ptag">Coming Soon</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Why PocketBudJet page
-Content source: Addendum 2 Section 18 — Competitive Advantage Summary
-Highlights: privacy-first, no bank login, item-level receipt scanning, colorblind-accessible charts with toggle, debt strategy engine')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Why PocketBudJet page\nContent source: Addendum 2 Section 18 — Competitive Advantage Summary\nHighlights: privacy-first, no bank login, item-level receipt scanning, colorblind-accessible charts with toggle, debt strategy engine')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🏆</span><div><span class="link-title">Why PocketBudJet</span><span class="link-note">What makes it different from every other app</span></div></div>
         <span class="link-arrow">→</span>
       </div>
     </div>
 
     <!-- DOCUMENTATION -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Documentation</h3>
-      <div class="link-item" onclick="alert('PLACEHOLDER: User Guide — all 43 sections
-Source: PocketBudJet_User_Guide_v2.docx
-Covers: all features from setup through Sections 38-43')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: User Guide — all 43 sections\nSource: PocketBudJet_User_Guide_v2.docx\nCovers: all features from setup through Sections 38-43')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">📖</span><div><span class="link-title">User Guide</span><span class="link-note">All 43 sections — complete feature documentation</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Accountant Report guide
-Source: Addendum 6 Section 54 — Accountant Report Full Specification
-Describes the professional tax-ready export feature')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Accountant Report guide\nSource: Addendum 6 Section 54 — Accountant Report Full Specification\nDescribes the professional tax-ready export feature')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🧾</span><div><span class="link-title">Accountant Report</span><span class="link-note">Professional tax-ready export — what it includes</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Import guide
-Source: Master Doc Section 6 — Import Specifications
-Covers: CSV, OFX, QFX, QIF, XLSX formats and column mapping')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Import guide\nSource: Master Doc Section 6 — Import Specifications\nCovers: CSV, OFX, QFX, QIF, XLSX formats and column mapping')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">📥</span><div><span class="link-title">Import Guide</span><span class="link-note">CSV, OFX, QFX, QIF, XLSX — how to bring your data in</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Security &amp; encryption details
-Source: Addendum 3 — AES-256 encryption, SQLCipher, biometric lock
-Key message: all data encrypted on device, JosspaTech has zero access')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Security &amp; encryption details\nSource: Addendum 3 — AES-256 encryption, SQLCipher, biometric lock\nKey message: all data encrypted on device, JosspaTech has zero access')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🔐</span><div><span class="link-title">Security &amp; Encryption</span><span class="link-note">AES-256 · SQLCipher · Biometric lock · Zero server access</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: AI features guide
-Source: Addendum 5 — Two-tier AI architecture
-Key message: Tier 1 fully on-device, Tier 2 opt-in with aggregated numbers only — never your actual transaction data')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: AI features guide\nSource: Addendum 5 — Two-tier AI architecture\nKey message: Tier 1 fully on-device, Tier 2 opt-in with aggregated numbers only — never your actual transaction data')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🤖</span><div><span class="link-title">AI Features &amp; Privacy</span><span class="link-note">How the AI works — and what it never sees</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Changelog / version history
-Update this page each time a new version ships')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Changelog / version history\nUpdate this page each time a new version ships')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">📅</span><div><span class="link-title">Changelog</span><span class="link-note">Version history &amp; release notes</span></div></div>
         <span class="link-arrow">→</span>
       </div>
     </div>
 
     <!-- ACCESSIBILITY -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Accessibility</h3>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Accessibility statement
-Content source: Master Doc Section 3.12 — Colorblind Accessibility
-Key points: texture/pattern fills on all charts, no color-only encoding, direct labels, high contrast mode, pie/donut charts avoided
-This is a genuine differentiator — ~8% of men and 0.5% of women have color vision deficiency. No competitor has addressed this.')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Accessibility statement\nContent source: Master Doc Section 3.12 — Colorblind Accessibility\nKey points: texture/pattern fills on all charts, no color-only encoding, direct labels, high contrast mode, pie/donut charts avoided\nThis is a genuine differentiator — ~8% of men and 0.5% of women have color vision deficiency. No competitor has addressed this.')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">👁️</span><div><span class="link-title">Colorblind Accessibility</span><span class="link-note">Full-color charts by default — one tap switches to patterns &amp; textures</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Full accessibility statement
-Covers: colorblind mode, high contrast, font sizing, VoiceOver/TalkBack support')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Full accessibility statement\nCovers: colorblind mode, high contrast, font sizing, VoiceOver/TalkBack support')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">♿</span><div><span class="link-title">Accessibility Statement</span><span class="link-note">Full accessibility features &amp; commitments</span></div></div>
         <span class="link-arrow">→</span>
       </div>
     </div>
 
     <!-- REFUNDS & BILLING -->
-    <div class="link-group">
+    <div class="link-group fade-in">
       <h3>Billing &amp; Refunds</h3>
-      <div class="link-item" onclick="window.open('https://reportaproblem.apple.com', '_blank')">
+      <div class="link-item" onclick="window.open('https://reportaproblem.apple.com','_blank')" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.open('https://reportaproblem.apple.com','_blank')}">
         <div class="link-left"><span class="link-icon">🍎</span><div><span class="link-title">Apple App Store Refund</span><span class="link-note">reportaproblem.apple.com</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="window.open('https://play.google.com/store/account/subscriptions', '_blank')">
+      <div class="link-item" onclick="window.open('https://play.google.com/store/account/subscriptions','_blank')" tabindex="0" role="link" onkeydown="if(event.key==='Enter'){window.open('https://play.google.com/store/account/subscriptions','_blank')}">
         <div class="link-left"><span class="link-icon">🤖</span><div><span class="link-title">Google Play Refund</span><span class="link-note">play.google.com/store/account/subscriptions</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Pricing page
-Plans: Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time
-SKUs: com.josspatech.pocketbudjet.premium.monthly / .annual / .onetimepurchase')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Pricing page\nPlans: Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time\nSKUs: com.josspatech.pocketbudjet.premium.monthly / .annual / .onetimepurchase')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">💰</span><div><span class="link-title">Pricing &amp; Plans</span><span class="link-note">Free Basic · $5.99/mo · $39.99/yr · $119.99 one-time</span></div></div>
         <span class="link-arrow">→</span>
       </div>
-      <div class="link-item" onclick="alert('PLACEHOLDER: Subscription Terms
-Text: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, refund policy')">
+      <div class="link-item" onclick="alert('PLACEHOLDER: Subscription Terms\nText: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, refund policy')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'){this.click()}">
         <div class="link-left"><span class="link-icon">🔄</span><div><span class="link-title">Subscription Terms</span><span class="link-note">Auto-renewal · Cancellation · Refund policy</span></div></div>
         <span class="link-arrow">→</span>
       </div>
@@ -917,26 +1137,33 @@ Text: Master Doc Section 12 — auto-renewal disclosure, cancellation policy, re
       <p><strong>Your data never leaves your device.</strong> PocketBudJet stores all financial data locally using AES-256 encryption. JosspaTech has zero access to your transactions, balances, or any financial information. No bank login is ever required.</p>
     </div>
 
-  </div>
+  </div><!-- end .pbj-content -->
 
   <footer>
     <span class="footer-co">Josspa<span class="t">Tech</span>™</span>
     <p>© 2026 JosspaTech · PocketBudJet™</p>
     <div class="footer-links">
-      <a onclick="showPage('company')">← All Products</a>
-      <a onclick="window.location='mailto:support@josspatech.com'">Contact</a>
-      <a onclick="window.location='PocketBudJet_PrivacyPolicy.html'">Privacy</a>
+      <button onclick="showPage('company')">← All Products</button>
+      <button onclick="window.location.href='mailto:support@josspatech.com'">Contact</button>
+      <button onclick="window.location.href='PocketBudJet_PrivacyPolicy.html'">Privacy</button>
     </div>
   </footer>
 
-</div>
+</div><!-- end #page-pbj -->
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+/* ── PAGE NAVIGATION ── */
 function showPage(id) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  var target = document.getElementById('page-' + id);
+  if (target) {
+    target.classList.add('active');
+  }
   window.scrollTo(0, 0);
+
   var back = document.getElementById('navBack');
   if (id === 'company') {
     back.classList.remove('show');
@@ -945,64 +1172,75 @@ function showPage(id) {
     back.classList.add('show');
     history.replaceState(null, '', '#' + id);
   }
+
+  // Re-observe any fade-in elements on the new page
+  initFadeIns();
 }
 
+/* ── FEATURE CHART TOGGLE ── */
 function toggleFeatureChart() {
   var chart = document.getElementById('featureChart');
   var btn = document.getElementById('featureToggleBtn');
-  if (chart.style.display === 'none') {
-    chart.style.display = 'block';
-    btn.innerHTML = '▲ &nbsp;Hide feature comparison';
+  var text = document.getElementById('featureToggleText');
+  var isOpen = chart.classList.contains('open');
+
+  if (isOpen) {
+    chart.classList.remove('open');
+    btn.setAttribute('aria-expanded', 'false');
+    text.textContent = 'Compare Free vs Premium features';
   } else {
-    chart.style.display = 'none';
-    btn.innerHTML = '▼ &nbsp;Compare Free vs Premium features';
+    chart.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+    text.textContent = 'Hide feature comparison';
   }
 }
 
+/* ── ABOUT SCROLL ── */
 function showAbout() {
   showPage('company');
   setTimeout(function() {
     var hero = document.querySelector('.co-hero');
     if (hero) hero.scrollIntoView({ behavior: 'smooth' });
-  }, 50);
+  }, 80);
 }
 
-// Handle incoming hash so legal doc back-links land on the right page
+/* ── SCROLL FADE-IN OBSERVER ── */
+var fadeObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+function initFadeIns() {
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
+    fadeObserver.observe(el);
+  });
+}
+
+/* ── INIT ── */
 document.addEventListener('DOMContentLoaded', function() {
+  // Handle incoming hash so legal doc back-links land on the right page
   var hash = window.location.hash.replace('#', '');
   if (hash && document.getElementById('page-' + hash)) {
     showPage(hash);
   }
 
-  // Make cards work on mobile touch
-  var pbj = document.querySelector('.product-card:not(.future)');
-  if (pbj) {
-    pbj.addEventListener('touchend', function(e) {
-      e.preventDefault();
-      showPage('pbj');
-    });
-    pbj.addEventListener('click', function() {
-      showPage('pbj');
-    });
-  }
-
-  // ── SCROLL FADE-IN OBSERVER ──
-  var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  function initFadeIns() {
-    document.querySelectorAll('.fade-in').forEach(function(el) {
-      observer.observe(el);
-    });
-  }
+  // Init fade-in animations
   initFadeIns();
+});
 
-  // Re-init when page changes
-  var origShowPage = window.showPage;
-  window.showPage = funct
+/* ── HANDLE BROWSER BACK/FORWARD ── */
+window.addEventListener('popstate', function() {
+  var hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById('page-' + hash)) {
+    showPage(hash);
+  } else {
+    showPage('company');
+  }
+});
+</script>
+</body>
+</html>
