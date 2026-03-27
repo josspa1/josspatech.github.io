@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketBudJet — Feature Showcase (Recommended)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#1A4F7A; --navy-dk:#0C3358; --navy-md:#2E6FA3;
+  --gold:#F0C040; --gold-dk:#E8A820;
+  --slate:#5A7A9A; --slate-lt:#8AAABB;
+  --success:#27AE60; --warning:#E67E22; --error:#C0392B;
+  --bg:#EDF2F7; --surface:#fff;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);-webkit-font-smoothing:antialiased;color:var(--navy-dk);}
+
+/* ── PAGE SHELL ── */
+.page{max-width:1080px;margin:0 auto;padding:60px 36px 80px;}
+.page-label{text-align:center;margin-bottom:48px;}
+.page-kicker{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--navy-md);display:block;margin-bottom:8px;}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(28px,3.5vw,42px);font-weight:900;color:var(--navy-dk);letter-spacing:-0.8px;margin-bottom:8px;}
+.page-sub{font-size:15px;color:var(--slate);max-width:420px;margin:0 auto;}
+
+/* ── SHOWCASE WRAPPER ── */
+.showcase{
+  background:var(--surface);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(12,51,88,0.06),0 24px 64px rgba(12,51,88,0.11);
+  border:1px solid rgba(26,79,122,0.07);
+}
+
+/* ── LEFT COLUMN ── */
+.showcase-inner{display:grid;grid-template-columns:1fr 1fr;min-height:600px;}
+.sc-left{
+  padding:56px 52px;
+  display:flex;flex-direction:column;
+  border-right:1px solid rgba(26,79,122,0.06);
+  position:relative;overflow:hidden;
+}
+/* subtle dot grid */
+.sc-left::before{
+  content:'';position:absolute;inset:0;
+  background-image:radial-gradient(circle,rgba(26,79,122,0.07) 1px,transparent 1px);
+  background-size:20px 20px;
+  pointer-events:none;
+}
+.sc-left-inner{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;}
+
+.sc-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(26,79,122,0.07);border-radius:20px;
+  padding:5px 14px;margin-bottom:24px;width:fit-content;
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--navy);
+}
+.sc-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;animation:badgepulse 2.2s ease-in-out infinite;}
+@keyframes badgepulse{0%,100%{box-shadow:0 0 0 0 rgba(240,192,64,0.5);}50%{box-shadow:0 0 0 5px rgba(240,192,64,0);}}
+
+.sc-headline{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(30px,3.2vw,44px);font-weight:900;
+  color:var(--navy-dk);line-height:1.08;letter-spacing:-1.2px;
+  margin-bottom:16px;
+}
+.sc-headline em{font-style:italic;color:var(--navy-md);}
+.sc-headline .gold-under{
+  position:relative;display:inline-block;
+}
+.sc-headline .gold-under::after{
+  content:'';position:absolute;bottom:1px;left:0;right:0;
+  height:3px;background:var(--gold);border-radius:2px;
+}
+
+/* Feature descriptor — updates with each tab */
+.sc-desc{
+  font-size:16px;font-weight:300;color:var(--slate);
+  line-height:1.8;margin-bottom:28px;flex:1;
+  min-height:80px;
+  transition:opacity 0.3s var(--ease);
+}
+.sc-desc.fading{opacity:0;}
+
+.sc-cta-row{display:flex;gap:11px;align-items:center;flex-wrap:wrap;margin-bottom:32px;}
+.sc-btn{
+  background:var(--navy-dk);color:#fff;font-size:13px;font-weight:700;
+  padding:12px 24px;border-radius:7px;text-decoration:none;
+  display:inline-flex;align-items:center;gap:7px;
+  transition:all .18s;
+}
+.sc-btn:hover{background:var(--navy);transform:translateY(-2px);}
+.sc-link{font-size:13px;font-weight:600;color:var(--slate);text-decoration:none;transition:color .18s;}
+.sc-link:hover{color:var(--navy);}
+
+/* Trust strip */
+.sc-trust{
+  padding-top:20px;border-top:1px solid rgba(26,79,122,0.07);
+  display:flex;flex-direction:column;gap:7px;
+}
+.sc-ti{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--slate);}
+.sc-tck{
+  width:17px;height:17px;border-radius:50%;flex-shrink:0;
+  background:rgba(26,79,122,0.09);
+  display:flex;align-items:center;justify-content:center;
+}
+.sc-tck::after{
+  content:'';width:5px;height:3.5px;
+  border-left:1.5px solid var(--navy);border-bottom:1.5px solid var(--navy);
+  transform:rotate(-45deg) translateY(-1px);display:block;
+}
+
+/* ── RIGHT COLUMN ── */
+.sc-right{
+  display:flex;flex-direction:column;
+  background:#f7f9fc;
+}
+
+/* Feature tabs */
+.sc-tabs{
+  display:flex;border-bottom:1px solid rgba(26,79,122,0.07);
+  overflow-x:auto;scrollbar-width:none;
+  background:#fff;
+  flex-shrink:0;
+}
+.sc-tabs::-webkit-scrollbar{display:none;}
+.sc-tab{
+  flex:1;min-width:80px;padding:14px 8px 12px;
+  text-align:center;cursor:pointer;
+  font-size:11px;font-weight:700;color:var(--slate-lt);
+  letter-spacing:0.3px;
+  border-bottom:2px solid transparent;
+  transition:all .2s;
+  position:relative;
+  white-space:nowrap;
+}
+.sc-tab:hover{color:var(--navy);background:rgba(26,79,122,0.02);}
+.sc-tab.active{color:var(--navy-dk);border-bottom-color:var(--gold);}
+
+/* progress bar under active tab */
+.tab-short{display:none;}
+@media(max-width:600px){.tab-full{display:none;}.tab-short{display:inline;}}
+.sc-tab-progress{
+  position:absolute;bottom:-2px;left:0;height:2px;
+  background:var(--gold);border-radius:1px;
+  width:0%;transition:width linear;
+}
+
+/* Dashboard area */
+.sc-dashboard{
+  flex:1;padding:24px;
+  position:relative;overflow:hidden;
+}
+.sc-screen{
+  display:none;
+  animation:screenIn 0.4s var(--ease) both;
+}
+.sc-screen.active{display:block;}
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ── SHARED DASHBOARD COMPONENTS ── */
+.dash-card{
+  background:#fff;border-radius:16px;
+  border:1px solid rgba(26,79,122,0.07);
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(12,51,88,0.05);
+}
+.dash-header{
+  background:var(--navy-dk);padding:20px 22px;
+}
+.dash-header-label{
+  font-size:10px;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,0.42);
+  margin-bottom:6px;
+}
+.dash-hero-num{
+  font-family:'Playfair Display',serif;
+  font-size:40px;font-weight:900;
+  line-height:1;letter-spacing:-1.5px;
+}
+.dash-hero-sub{font-size:12px;color:rgba(255,255,255,0.38);margin-top:3px;}
+.dash-body{padding:18px 20px;}
+.dash-section-label{
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--slate-lt);
+  margin-bottom:12px;
+}
+.dash-row{
+  display:flex;align-items:center;gap:9px;margin-bottom:9px;
+}
+.dash-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.dash-row-label{font-size:12px;color:var(--navy-dk);width:82px;flex-shrink:0;}
+.dash-bar-track{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.dash-bar-fill{height:5px;border-radius:3px;}
+.dash-row-val{font-size:12px;font-weight:700;color:var(--navy-dk);width:44px;text-align:right;flex-shrink:0;}
+.dash-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:20px;padding:3px 9px;
+  font-size:10px;font-weight:700;letter-spacing:0.3px;
+}
+.dash-stat-row{
+  display:flex;gap:0;border-top:1px solid rgba(26,79,122,0.07);
+}
+.dash-stat{
+  flex:1;padding:14px 16px;
+  border-right:1px solid rgba(26,79,122,0.07);
+}
+.dash-stat:last-child{border-right:none;}
+.dash-stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:18px;font-weight:900;color:var(--navy-dk);
+}
+.dash-stat-lbl{font-size:10px;color:var(--slate-lt);margin-top:2px;}
+
+/* Status pill */
+.status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  border-radius:20px;padding:4px 10px;
+  font-size:10px;font-weight:700;
+}
+.status-green{background:rgba(39,174,96,0.1);color:#1e6b3e;border:1px solid rgba(39,174,96,0.2);}
+.status-amber{background:rgba(230,126,34,0.1);color:#8a4a0a;border:1px solid rgba(230,126,34,0.2);}
+.status-blue{background:rgba(26,79,122,0.08);color:var(--navy);border:1px solid rgba(26,79,122,0.15);}
+
+/* ── SCREEN 1: DASHBOARD OVERVIEW ── */
+#screen-0 {}
+.s0-header-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px;}
+.s0-income-spent{display:flex;gap:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.08);margin-top:12px;}
+.s0-is-item{flex:1;}
+.s0-is-num{font-size:14px;font-weight:700;color:rgba(255,255,255,0.85);}
+.s0-is-lbl{font-size:10px;color:rgba(255,255,255,0.38);margin-top:1px;}
+
+/* ── SCREEN 2: GOALS ── */
+.goal-hero{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 20px;border-bottom:1px solid rgba(26,79,122,0.07);
+}
+.goal-ring{
+  width:56px;height:56px;flex-shrink:0;position:relative;
+}
+.goal-ring svg{position:absolute;inset:0;transform:rotate(-90deg);}
+.goal-ring-pct{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;color:var(--navy-dk);
+}
+.goal-name{font-size:15px;font-weight:700;color:var(--navy-dk);margin-bottom:4px;}
+.goal-progress-bar{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;margin-bottom:4px;}
+.goal-progress-fill{height:6px;border-radius:3px;background:var(--gold);}
+.goal-foot{display:flex;justify-content:space-between;}
+.goal-saved{font-size:12px;color:var(--navy);font-weight:600;}
+.goal-remain{font-size:12px;color:var(--slate-lt);}
+.goal-mini-row{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 20px;border-bottom:1px solid rgba(26,79,122,0.06);
+}
+.goal-mini-name{font-size:13px;font-weight:600;color:var(--navy-dk);flex:1;}
+.goal-mini-bar{width:80px;height:4px;background:var(--bg);border-radius:2px;overflow:hidden;}
+.goal-mini-fill{height:4px;background:var(--navy-md);border-radius:2px;}
+.goal-mini-pct{font-size:12px;font-weight:700;color:var(--navy-md);width:28px;text-align:right;}
+
+/* ── SCREEN 3: DEBT STRATEGY ── */
+.debt-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px 20px 12px;}
+.debt-strategy-card{
+  padding:14px;border-radius:10px;border:1px solid rgba(26,79,122,0.08);
+  cursor:pointer;transition:all .18s;
+}
+.debt-strategy-card.selected{
+  border-color:var(--gold);background:rgba(240,192,64,0.05);
+}
+.debt-strat-name{font-size:12px;font-weight:700;color:var(--navy-dk);margin-bottom:3px;}
+.debt-strat-desc{font-size:11px;color:var(--slate-lt);line-height:1.4;}
+.debt-payoff-date{
+  margin:0 20px 14px;
+  padding:12px 14px;background:rgba(39,174,96,0.07);
+  border:1px solid rgba(39,174,96,0.18);border-radius:10px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.debt-payoff-label{font-size:11px;color:var(--success);font-weight:600;}
+.debt-payoff-val{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:var(--success);}
+.debt-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 20px;border-top:1px solid rgba(26,79,122,0.06);
+}
+.debt-name{font-size:12px;font-weight:600;color:var(--navy-dk);flex:1;}
+.debt-bal{font-size:12px;font-weight:700;color:var(--navy-dk);}
+.debt-apr{font-size:10px;color:var(--error);font-weight:700;background:rgba(192,57,43,0.07);border-radius:4px;padding:1px 5px;}
+
+/* ── SCREEN 4: SPENDING FORECAST ── */
+.forecast-header{padding:18px 20px;border-bottom:1px solid rgba(26,79,122,0.06);}
+.forecast-tabs{display:flex;gap:6px;margin-bottom:16px;}
+.forecast-tab{
+  padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;
+  cursor:pointer;border:1px solid rgba(26,79,122,0.1);color:var(--slate);
+  transition:all .18s;
+}
+.forecast-tab.active{background:var(--navy-dk);color:#fff;border-color:var(--navy-dk);}
+.forecast-chart{padding:0 20px 16px;position:relative;height:120px;}
+.forecast-chart svg{width:100%;height:100%;}
+.forecast-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(26,79,122,0.06);}
+.forecast-stat{padding:14px 16px;border-right:1px solid rgba(26,79,122,0.06);}
+.forecast-stat:last-child{border-right:none;}
+.forecast-stat-num{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:var(--navy-dk);}
+.forecast-stat-lbl{font-size:10px;color:var(--slate-lt);margin-top:2px;}
+
+/* ── SCREEN 5: BUDGET HEALTH ── */
+.health-score-row{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;border-bottom:1px solid rgba(26,79,122,0.06);
+}
+.health-arc{position:relative;width:72px;height:40px;flex-shrink:0;}
+.health-arc svg{overflow:visible;}
+.health-score-num{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:900;color:var(--navy-dk);
+}
+.health-grade{
+  font-size:14px;font-weight:700;color:var(--success);
+  background:rgba(39,174,96,0.1);border-radius:5px;
+  padding:2px 8px;display:inline-block;margin-left:8px;
+}
+.health-desc{font-size:12px;color:var(--slate);line-height:1.5;margin-top:3px;}
+.health-breakdown{padding:14px 20px;}
+.health-item{
+  display:flex;align-items:center;gap:10px;margin-bottom:9px;
+}
+.health-item-name{font-size:12px;color:var(--navy-dk);flex:1;}
+.health-item-bar{width:100px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
+.health-item-fill{height:5px;border-radius:3px;}
+.health-item-score{font-size:12px;font-weight:700;color:var(--navy-dk);width:20px;text-align:right;}
+
+/* ── PRICING FOOTER ── */
+.sc-pricing{
+  border-top:1px solid rgba(26,79,122,0.07);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  background:#fafbfc;
+}
+.sc-price-cell{
+  padding:18px 20px;text-align:center;
+  border-right:1px solid rgba(26,79,122,0.07);
+  transition:background .18s;
+}
+.sc-price-cell:last-child{border-right:none;}
+.sc-price-cell:hover{background:#f0f4f8;}
+.sc-price-cell.featured{background:rgba(240,192,64,0.06);}
+.sc-price-amt{
+  font-family:'Playfair Display',serif;
+  font-size:20px;font-weight:900;color:var(--navy-dk);
+}
+.sc-price-per{font-size:11px;color:var(--slate-lt);}
+.sc-price-lbl{font-size:11px;font-weight:600;color:var(--slate);margin-top:4px;}
+.sc-price-tag{
+  display:inline-block;margin-top:5px;
+  font-size:9px;font-weight:700;
+  background:rgba(39,174,96,0.1);color:#1e6b3e;
+  border-radius:4px;padding:2px 7px;
+}
+.sc-price-tag.gold{background:rgba(240,192,64,0.15);color:#7a5800;}
+
+/* ── TABLET ── */
+@media(max-width:860px){
+  .showcase-inner{grid-template-columns:1fr !important;}
+  .sc-left{padding:44px 36px;}
+  .sc-right{border-top:1px solid rgba(26,79,122,0.07);}
+  .sc-dashboard{padding:20px;}
+  /* Ensure no overflow from dashboard cards */
+  .sc-dashboard{overflow-x:hidden;}
+}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .page{padding:40px 20px 60px;}
+  .page-title{font-size:26px;}
+
+  /* stat strip → 2x2 grid */
+  .stat-strip{grid-template-columns:1fr 1fr !important;}
+  .stat-strip-cell-3{border-right:none !important;}
+  .stat-strip-cell{padding:14px 16px !important;}
+  .stat-strip-num{font-size:20px !important;}
+
+  /* left column */
+  .sc-left{padding:32px 24px;}
+  .sc-headline{font-size:28px !important;letter-spacing:-0.8px !important;}
+  .sc-desc{font-size:14px;min-height:70px;}
+  .sc-trust{gap:6px;}
+  .sc-ti{font-size:11px;}
+
+  /* tabs → shorter labels, stays scrollable */
+  .sc-tabs{gap:0;}
+  .sc-tab{padding:12px 6px 10px;font-size:10px;min-width:64px;letter-spacing:0;}
+
+  /* dashboard cards */
+  .sc-dashboard{padding:16px;}
+  .dash-header{padding:16px 18px;}
+  .dash-hero-num{font-size:32px !important;}
+  .dash-body{padding:14px 16px;}
+  .dash-section-label{font-size:9px;}
+  .dash-row-label{width:68px;font-size:11px;}
+  .dash-row-val{font-size:11px;width:38px;}
+  .dash-stat-row{flex-wrap:wrap;}
+  .dash-stat{flex:0 0 33.33%;padding:11px 12px;}
+  .dash-stat-num{font-size:15px;}
+  .dash-stat-lbl{font-size:9px;}
+
+  /* goals screen */
+  .goal-hero{padding:14px 16px;gap:12px;}
+  .goal-name{font-size:14px;}
+  .goal-mini-row{padding:10px 16px;}
+  .goal-mini-name{font-size:12px;}
+
+  /* debt screen */
+  .debt-split{padding:12px 16px 10px;gap:8px;}
+  .debt-payoff-date{margin:0 16px 12px;}
+  .debt-row{padding:9px 16px;}
+  .debt-name{font-size:11px;}
+  .debt-bal{font-size:11px;}
+
+  /* forecast screen */
+  .forecast-header{padding:14px 16px;}
+  .forecast-stats{grid-template-columns:repeat(3,1fr);}
+  .forecast-stat{padding:11px 12px;}
+  .forecast-stat-num{font-size:14px;}
+
+  /* health screen */
+  .health-breakdown{padding:12px 16px;}
+  .health-item-name{font-size:11px;}
+  .health-score-num{font-size:22px !important;}
+
+  /* pricing footer */
+  .sc-pricing{grid-template-columns:1fr 1fr;}
+  .sc-price-cell:nth-child(2){border-right:none;}
+  .sc-price-cell:nth-child(3){border-top:1px solid rgba(26,79,122,0.07);grid-column:span 2;border-right:none;}
+  .sc-price-amt{font-size:17px;}
+  .sc-price-lbl{font-size:10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="page-label">
+    <span class="page-kicker">PocketBudJet™ — Feature Showcase · Recommended Build</span>
+    <div class="page-title">Everything your money needs.</div>
+    <p class="page-sub">This component drops into the PBJ product page and the JosspaTech homepage. Auto-rotates. Pauses on hover.</p>
+  </div>
+
+  <div class="stat-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:16px;background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(26,79,122,0.08);box-shadow:0 2px 8px rgba(12,51,88,0.05);">
+    <div class="stat-strip-cell" style="padding:18px 22px;border-right:1px solid rgba(26,79,122,0.07);text-align:center;">
+      <div class="stat-strip-num" style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--navy-dk);">$0</div>
+      <div style="font-size:11px;color:var(--slate-lt);margin-top:2px;">Free Basic — no expiration</div>
+    </div>
+    <div class="stat-strip-cell" style="padding:18px 22px;border-right:1px solid rgba(26,79,122,0.07);text-align:center;">
+      <div class="stat-strip-num" style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--navy-dk);">43</div>
+      <div style="font-size:11px;color:var(--slate-lt);margin-top:2px;">Currencies supported</div>
+    </div>
+    <div class="stat-strip-cell stat-strip-cell-3" style="padding:18px 22px;border-right:1px solid rgba(26,79,122,0.07);text-align:center;">
+      <div class="stat-strip-num" style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--navy-dk);">100%</div>
+      <div style="font-size:11px;color:var(--slate-lt);margin-top:2px;">Personal data on-device</div>
+    </div>
+    <div class="stat-strip-cell" style="padding:18px 22px;text-align:center;">
+      <div class="stat-strip-num" style="font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--navy-dk);">$5.99</div>
+      <div style="font-size:11px;color:var(--slate-lt);margin-top:2px;">Premium from / month</div>
+    </div>
+  </div>
+<div class="showcase">
+    <div class="showcase-inner">
+
+      <!-- LEFT: static proposition -->
+      <div class="sc-left">
+        <div class="sc-left-inner">
+          <div class="sc-badge">
+            <div class="sc-badge-dot"></div>
+            PocketBudJet™ · iOS &amp; Android
+          </div>
+
+          <h1 class="sc-headline">
+            Your finances,<br>
+            <em>organized.</em><br>
+            Your data, <span class="gold-under">private.</span>
+          </h1>
+
+          <!-- Updates per tab -->
+          <p class="sc-desc" id="sc-desc">
+            See your monthly net at a glance. Track income, spending, available budget, and net worth — all in one place, all on your device.
+          </p>
+
+          <div class="sc-cta-row">
+            <a href="#" class="sc-btn">Download Free →</a>
+            <a href="#" class="sc-link">See pricing</a>
+          </div>
+
+          <div class="sc-trust">
+            <div class="sc-ti"><div class="sc-tck"></div>Personal data stored on your device</div>
+            <div class="sc-ti"><div class="sc-tck"></div>Free Basic — no expiration date</div>
+            <div class="sc-ti"><div class="sc-tck"></div>No account required</div>
+            <div class="sc-ti"><div class="sc-tck"></div>43 currencies · iOS &amp; Android</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: rotating dashboard -->
+      <div class="sc-right">
+
+        <!-- Feature tabs -->
+        <div class="sc-tabs" id="sc-tabs">
+          <div class="sc-tab active" data-index="0">
+            <span class="tab-full">Dashboard</span><span class="tab-short">Home</span>
+            <div class="sc-tab-progress" id="prog-0"></div>
+          </div>
+          <div class="sc-tab" data-index="1">
+            <span class="tab-full">Goals</span><span class="tab-short">Goals</span>
+            <div class="sc-tab-progress" id="prog-1"></div>
+          </div>
+          <div class="sc-tab" data-index="2">
+            <span class="tab-full">Debt Strategy</span><span class="tab-short">Debt</span>
+            <div class="sc-tab-progress" id="prog-2"></div>
+          </div>
+          <div class="sc-tab" data-index="3">
+            <span class="tab-full">Forecast</span><span class="tab-short">Forecast</span>
+            <div class="sc-tab-progress" id="prog-3"></div>
+          </div>
+          <div class="sc-tab" data-index="4">
+            <span class="tab-full">Budget Health</span><span class="tab-short">Health</span>
+            <div class="sc-tab-progress" id="prog-4"></div>
+          </div>
+        </div>
+
+        <!-- Dashboard screens -->
+        <div class="sc-dashboard" id="sc-dashboard">
+
+          <!-- SCREEN 0: Dashboard Overview -->
+          <div class="sc-screen active dash-card" id="screen-0">
+            <div class="dash-header">
+              <div class="dash-header-label">This Month</div>
+              <div class="s0-header-row">
+                <div>
+                  <div class="dash-hero-num" style="color:#F0C040;">+$840</div>
+                  <div class="dash-hero-sub">saved so far</div>
+                </div>
+                <div class="status-pill status-green">On track ↑</div>
+              </div>
+              <div class="s0-income-spent">
+                <div class="s0-is-item">
+                  <div class="s0-is-num">$4,200</div>
+                  <div class="s0-is-lbl">Income</div>
+                </div>
+                <div class="s0-is-item">
+                  <div class="s0-is-num">$3,360</div>
+                  <div class="s0-is-lbl">Spent</div>
+                </div>
+                <div class="s0-is-item">
+                  <div class="s0-is-num" style="color:#F0C040;">$620</div>
+                  <div class="s0-is-lbl">Unassigned</div>
+                </div>
+              </div>
+            </div>
+            <div class="dash-body">
+              <div class="dash-section-label">Spending by Category</div>
+              <div class="dash-row">
+                <div class="dash-dot" style="background:#1A4F7A;"></div>
+                <div class="dash-row-label">Housing</div>
+                <div class="dash-bar-track"><div class="dash-bar-fill" style="width:78%;background:#1A4F7A;"></div></div>
+                <div class="dash-row-val">$1,650</div>
+              </div>
+              <div class="dash-row">
+                <div class="dash-dot" style="background:#27AE60;"></div>
+                <div class="dash-row-label">Groceries</div>
+                <div class="dash-bar-track"><div class="dash-bar-fill" style="width:40%;background:#27AE60;"></div></div>
+                <div class="dash-row-val">$380</div>
+              </div>
+              <div class="dash-row">
+                <div class="dash-dot" style="background:#E67E22;"></div>
+                <div class="dash-row-label">Dining</div>
+                <div class="dash-bar-track"><div class="dash-bar-fill" style="width:26%;background:#E67E22;"></div></div>
+                <div class="dash-row-val">$240</div>
+              </div>
+              <div class="dash-row">
+                <div class="dash-dot" style="background:#9B59B6;"></div>
+                <div class="dash-row-label">Transport</div>
+                <div class="dash-bar-track"><div class="dash-bar-fill" style="width:16%;background:#9B59B6;"></div></div>
+                <div class="dash-row-val">$155</div>
+              </div>
+              <div class="dash-row">
+                <div class="dash-dot" style="background:#2980B9;"></div>
+                <div class="dash-row-label">Utilities</div>
+                <div class="dash-bar-track"><div class="dash-bar-fill" style="width:12%;background:#2980B9;"></div></div>
+                <div class="dash-row-val">$112</div>
+              </div>
+            </div>
+            <div class="dash-stat-row">
+              <div class="dash-stat">
+                <div class="dash-stat-num" style="color:#1A4F7A;">$142K</div>
+                <div class="dash-stat-lbl">Net Worth</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num" style="color:#27AE60;">20%</div>
+                <div class="dash-stat-lbl">Savings Rate</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num">$620</div>
+                <div class="dash-stat-lbl">Left to Budget</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 1: Savings Goals -->
+          <div class="sc-screen dash-card" id="screen-1">
+            <div class="dash-header">
+              <div class="dash-header-label">Savings Goals</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                <div>
+                  <div class="dash-hero-num" style="color:#F0C040;">3 active</div>
+                  <div class="dash-hero-sub">$12,400 saved across all goals</div>
+                </div>
+                <div class="status-pill status-green">2 on pace</div>
+              </div>
+            </div>
+            <!-- Hero goal -->
+            <div class="goal-hero">
+              <div class="goal-ring">
+                <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="28" cy="28" r="23" stroke="#EDF2F7" stroke-width="5"/>
+                  <circle cx="28" cy="28" r="23" stroke="#F0C040" stroke-width="5"
+                    stroke-dasharray="144.5" stroke-dashoffset="36"
+                    stroke-linecap="round"/>
+                </svg>
+                <div class="goal-ring-pct">75%</div>
+              </div>
+              <div style="flex:1;">
+                <div class="goal-name">Emergency Fund</div>
+                <div class="goal-progress-bar"><div class="goal-progress-fill" style="width:75%;"></div></div>
+                <div class="goal-foot">
+                  <div class="goal-saved">$7,500 saved</div>
+                  <div class="goal-remain">$2,500 to go</div>
+                </div>
+              </div>
+              <div style="width:32px;height:32px;border-radius:50%;background:#F0C040;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#0C3358" stroke-width="2.2" stroke-linecap="round"/></svg>
+              </div>
+            </div>
+            <div class="goal-mini-row">
+              <div class="goal-mini-name">Vacation Fund</div>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:48%;"></div></div>
+              <div class="goal-mini-pct">48%</div>
+            </div>
+            <div class="goal-mini-row" style="border-bottom:none;">
+              <div class="goal-mini-name">New Laptop</div>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:22%;background:#9B59B6;"></div></div>
+              <div class="goal-mini-pct" style="color:#9B59B6;">22%</div>
+            </div>
+            <div class="dash-stat-row">
+              <div class="dash-stat">
+                <div class="dash-stat-num" style="color:#F0C040;">$12,400</div>
+                <div class="dash-stat-lbl">Total Saved</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num">$400</div>
+                <div class="dash-stat-lbl">Monthly Contrib.</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num" style="color:#27AE60;">Aug '25</div>
+                <div class="dash-stat-lbl">Next Target</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SCREEN 2: Debt Strategy -->
+          <div class="sc-screen dash-card" id="screen-2">
+            <div class="dash-header">
+              <div class="dash-header-label">Debt Strategy</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                <div>
+                  <div class="dash-hero-num" style="color:#FF8A80;">$18,340</div>
+                  <div class="dash-hero-sub">total balance · 3 accounts</div>
+                </div>
+                <div class="status-pill status-blue">Avalanche ✓</div>
+              </div>
+            </div>
+            <div class="debt-split">
+              <div class="debt-strategy-card selected">
+                <div class="debt-strat-name">Avalanche</div>
+                <div class="debt-strat-desc">Highest APR first. Saves the most interest.</div>
+              </div>
+              <div class="debt-strategy-card">
+                <div class="debt-strat-name">Snowball</div>
+                <div class="debt-strat-desc">Smallest balance first. Fastest wins.</div>
+              </div>
+            </div>
+            <div class="debt-payoff-date">
+              <div>
+                <div class="debt-payoff-label">Debt-free date</div>
+                <div style="font-size:11px;color:var(--success);opacity:0.7;">saving $2,840 in interest</div>
+              </div>
+              <div class="debt-payoff-val">Mar 2027</div>
+            </div>
+            <div class="debt-row">
+              <div class="debt-name">Chase Sapphire</div>
+              <div class="debt-bal">$6,200</div>
+              <div class="debt-apr">24.9%</div>
+            </div>
+            <div class="debt-row">
+              <div class="debt-name">Student Loan</div>
+              <div class="debt-bal">$9,140</div>
+              <div class="debt-apr">6.8%</div>
+            </div>
+            <div class="debt-row" style="border-bottom:none;">
+              <div class="debt-name">Auto Loan</div>
+              <div class="debt-bal">$3,000</div>
+              <div class="debt-apr">4.2%</div>
+            </div>
+          </div>
+
+          <!-- SCREEN 3: Spending Forecast -->
+          <div class="sc-screen dash-card" id="screen-3">
+            <div class="dash-header">
+              <div class="dash-header-label">Spending Forecast</div>
+              <div style="margin-top:4px;">
+                <div class="dash-hero-num" style="color:#F0C040;">$4,820</div>
+                <div class="dash-hero-sub">projected end-of-month balance</div>
+              </div>
+            </div>
+            <div class="forecast-header">
+              <div class="forecast-tabs">
+                <div class="forecast-tab active">30 days</div>
+                <div class="forecast-tab">60 days</div>
+                <div class="forecast-tab">90 days</div>
+              </div>
+              <!-- SVG line chart -->
+              <div style="position:relative;height:110px;padding-top:8px;">
+                <svg viewBox="0 0 340 90" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+                  <!-- grid lines -->
+                  <line x1="0" y1="20" x2="340" y2="20" stroke="#EDF2F7" stroke-width="1"/>
+                  <line x1="0" y1="50" x2="340" y2="50" stroke="#EDF2F7" stroke-width="1"/>
+                  <line x1="0" y1="80" x2="340" y2="80" stroke="#EDF2F7" stroke-width="1"/>
+                  <!-- today marker -->
+                  <line x1="130" y1="10" x2="130" y2="85" stroke="#EDF2F7" stroke-width="1.5" stroke-dasharray="4,3"/>
+                  <text x="133" y="16" font-size="9" fill="#8AAABB" font-family="Source Sans 3, sans-serif">Today</text>
+                  <!-- actual line (past) -->
+                  <polyline points="0,65 40,60 80,55 130,48" stroke="#1A4F7A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- forecast line (future, dashed) -->
+                  <polyline points="130,48 180,42 230,38 280,33 340,28" stroke="#F0C040" stroke-width="2" fill="none" stroke-dasharray="5,4" stroke-linecap="round" stroke-linejoin="round"/>
+                  <!-- area fill past -->
+                  <path d="M0,65 40,60 80,55 130,48 130,85 0,85 Z" fill="#1A4F7A" fill-opacity="0.06"/>
+                  <!-- area fill forecast -->
+                  <path d="M130,48 180,42 230,38 280,33 340,28 340,85 130,85 Z" fill="#F0C040" fill-opacity="0.06"/>
+                  <!-- current dot -->
+                  <circle cx="130" cy="48" r="4" fill="#1A4F7A"/>
+                  <circle cx="130" cy="48" r="7" fill="#1A4F7A" fill-opacity="0.15"/>
+                  <!-- end dot -->
+                  <circle cx="340" cy="28" r="4" fill="#F0C040"/>
+                </svg>
+              </div>
+            </div>
+            <div class="forecast-stats">
+              <div class="forecast-stat">
+                <div class="forecast-stat-num" style="color:#1A4F7A;">$3,360</div>
+                <div class="forecast-stat-lbl">Spent to date</div>
+              </div>
+              <div class="forecast-stat">
+                <div class="forecast-stat-num" style="color:#F0C040;">$4,820</div>
+                <div class="forecast-stat-lbl">Projected end</div>
+              </div>
+              <div class="forecast-stat">
+                <div class="forecast-stat-num" style="color:#27AE60;">↓12%</div>
+                <div class="forecast-stat-lbl">vs last month</div>
+              </div>
+            </div>
+            <div style="padding:12px 20px;background:rgba(39,174,96,0.06);border-top:1px solid rgba(26,79,122,0.06);display:flex;align-items:center;gap:8px;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#27AE60;flex-shrink:0;"></div>
+              <div style="font-size:12px;color:#1e6b3e;font-weight:500;">On track — projected to save $840 more than last month</div>
+            </div>
+          </div>
+
+          <!-- SCREEN 4: Budget Health -->
+          <div class="sc-screen dash-card" id="screen-4">
+            <div class="dash-header">
+              <div class="dash-header-label">Budget Health Score</div>
+              <div style="margin-top:4px;">
+                <div class="dash-hero-num" style="color:#F0C040;">82 <span style="font-size:18px;color:rgba(255,255,255,0.6);font-family:'Source Sans 3',sans-serif;font-weight:400;">/ 100</span></div>
+                <div class="dash-hero-sub">Grade: B+ &nbsp;·&nbsp; Better than last month ↑</div>
+              </div>
+            </div>
+            <div class="health-breakdown">
+              <div class="dash-section-label">Score Breakdown</div>
+              <div class="health-item">
+                <div class="health-item-name">Spending vs Budget</div>
+                <div class="health-item-bar"><div class="health-item-fill" style="width:90%;background:#27AE60;"></div></div>
+                <div class="health-item-score" style="color:#27AE60;">90</div>
+              </div>
+              <div class="health-item">
+                <div class="health-item-name">Savings Rate</div>
+                <div class="health-item-bar"><div class="health-item-fill" style="width:75%;background:#F0C040;"></div></div>
+                <div class="health-item-score" style="color:#E8A820;">75</div>
+              </div>
+              <div class="health-item">
+                <div class="health-item-name">Debt Load</div>
+                <div class="health-item-bar"><div class="health-item-fill" style="width:68%;background:#E67E22;"></div></div>
+                <div class="health-item-score" style="color:#E67E22;">68</div>
+              </div>
+              <div class="health-item">
+                <div class="health-item-name">Emergency Fund</div>
+                <div class="health-item-bar"><div class="health-item-fill" style="width:80%;background:#2980B9;"></div></div>
+                <div class="health-item-score" style="color:#2980B9;">80</div>
+              </div>
+              <div class="health-item" style="margin-bottom:0;">
+                <div class="health-item-name">Bill Consistency</div>
+                <div class="health-item-bar"><div class="health-item-fill" style="width:95%;background:#27AE60;"></div></div>
+                <div class="health-item-score" style="color:#27AE60;">95</div>
+              </div>
+            </div>
+            <div style="padding:12px 20px;border-top:1px solid rgba(26,79,122,0.06);display:flex;align-items:center;gap:8px;background:#fafbfc;">
+              <div style="width:7px;height:7px;border-radius:50%;background:#F0C040;flex-shrink:0;"></div>
+              <div style="font-size:12px;color:#5A7A9A;">Reduce debt load to reach 90+ &nbsp;·&nbsp; All calculations on-device</div>
+            </div>
+          </div>
+
+        </div><!-- end sc-dashboard -->
+
+        <!-- Pricing footer -->
+        <div class="sc-pricing">
+          <div class="sc-price-cell featured">
+            <div class="sc-price-amt">$0</div>
+            <div class="sc-price-per">no expiration</div>
+            <div class="sc-price-lbl">Free Basic</div>
+            <div class="sc-price-tag">Start here</div>
+          </div>
+          <div class="sc-price-cell">
+            <div class="sc-price-amt">$5.99</div>
+            <div class="sc-price-per">per month</div>
+            <div class="sc-price-lbl">Premium Monthly</div>
+          </div>
+          <div class="sc-price-cell">
+            <div class="sc-price-amt">$119.99</div>
+            <div class="sc-price-per">one-time</div>
+            <div class="sc-price-lbl">Buy Once</div>
+            <div class="sc-price-tag gold">save 44% vs annual</div>
+          </div>
+        </div>
+
+      </div><!-- end sc-right -->
+    </div><!-- end showcase-inner -->
+  </div><!-- end showcase -->
+</div><!-- end page -->
+
+<script>
+(function(){
+  var INTERVAL = 4800;
+  var tabs     = document.querySelectorAll('.sc-tab');
+  var screens  = document.querySelectorAll('.sc-screen');
+  var desc     = document.getElementById('sc-desc');
+  var showcase = document.querySelector('.showcase');
+  var current  = 0;
+  var timer    = null;
+  var progTimer = null;
+
+  var descriptions = [
+    "See your monthly net at a glance. Income, spending, net worth, available budget, and category breakdown — everything you need, the moment you open the app.",
+    "Set savings goals, track progress with visual rings, and contribute in one tap. See your target date and how much you've saved — right on the dashboard.",
+    "Choose Avalanche (highest APR first, saves the most interest) or Snowball (smallest balance first, fastest wins). See your exact debt-free date before you start.",
+    "On-device AI projects your end-of-month balance based on your spending patterns. 30, 60, or 90 days forward — so you can see what's coming before it arrives.",
+    "A 0–100 score built from five components: spending discipline, savings rate, debt load, emergency fund, and bill consistency. Calculated entirely on your device."
+  ];
+
+  function switchTo(index, userInitiated) {
+    if (index === current && !userInitiated) return;
+
+    // fade desc
+    desc.classList.add('fading');
+    setTimeout(function(){ 
+      desc.textContent = descriptions[index];
+      desc.classList.remove('fading');
+    }, 280);
+
+    // swap tabs
+    tabs[current].classList.remove('active');
+    var oldProg = document.getElementById('prog-' + current);
+    if (oldProg) { oldProg.style.transition = 'none'; oldProg.style.width = '0%'; }
+
+    tabs[index].classList.add('active');
+    screens[current].classList.remove('active');
+    screens[index].classList.add('active');
+    current = index;
+
+    // start progress bar
+    clearTimeout(progTimer);
+    var prog = document.getElementById('prog-' + index);
+    if (prog) {
+      prog.style.transition = 'none';
+      prog.style.width = '0%';
+      setTimeout(function(){
+        prog.style.transition = 'width ' + INTERVAL + 'ms linear';
+        prog.style.width = '100%';
+      }, 30);
+    }
+  }
+
+  function startRotation() {
+    clearInterval(timer);
+    timer = setInterval(function(){
+      var next = (current + 1) % tabs.length;
+      switchTo(next, false);
+    }, INTERVAL);
+  }
+
+  // Tab clicks
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var index = parseInt(tab.dataset.index);
+      switchTo(index, true);
+      startRotation(); // reset timer on click
+    });
+  });
+
+  // Pause on hover
+  showcase.addEventListener('mouseenter', function(){
+    clearInterval(timer);
+    var prog = document.getElementById('prog-' + current);
+    if (prog) {
+      var computed = window.getComputedStyle(prog).width;
+      var parentW = prog.parentElement.offsetWidth;
+      var pct = parentW > 0 ? (parseFloat(computed) / parentW * 100) : 0;
+      prog.style.transition = 'none';
+      prog.style.width = pct + '%';
+    }
+  });
+
+  showcase.addEventListener('mouseleave', function(){
+    var prog = document.getElementById('prog-' + current);
+    if (prog) {
+      var computed = window.getComputedStyle(prog).width;
+      var parentW = prog.parentElement.offsetWidth;
+      var pct = parentW > 0 ? (parseFloat(computed) / parentW * 100) : 0;
+      var remaining = (1 - pct/100) * INTERVAL;
+      prog.style.transition = 'width ' + remaining + 'ms linear';
+      prog.style.width = '100%';
+      clearInterval(timer);
+      timer = setTimeout(function(){
+        var next = (current + 1) % tabs.length;
+        switchTo(next, false);
+        startRotation();
+      }, remaining);
+    } else {
+      startRotation();
+    }
+  });
+
+  // Forecast tab clicks (inner tabs on screen 3)
+  document.querySelectorAll('.forecast-tab').forEach(function(ft){
+    ft.addEventListener('click', function(){
+      document.querySelectorAll('.forecast-tab').forEach(function(t){ t.classList.remove('active'); });
+      ft.classList.add('active');
+    });
+  });
+
+  // Start
+  switchTo(0, true);
+  startRotation();
+})();
+</script>
+</body>
+</html>
