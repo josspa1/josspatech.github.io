@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="JosspaTech — Privacy-considered mobile software. PocketBudJet: the budget app that minds its own business.">
+<meta name="description" content="JosspaTech — Mobile software built carefully, priced fairly. PocketBudJet: the free budget app with no expiration date.">
 <title>JosspaTech — Mobile Software</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -512,10 +512,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .sec-ti em{font-style:italic;color:var(--navy-md);}
 .sec-su{font-size:16px;font-weight:300;color:var(--slate);line-height:1.75;max-width:520px;margin-bottom:36px;}
 .sstrip{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:16px;background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(26,79,122,0.08);box-shadow:0 2px 8px rgba(12,51,88,0.05);}
-.sc{padding:18px 22px;border-right:1px solid rgba(26,79,122,0.07);text-align:center;}
+.sc{padding:22px 22px;border-right:1px solid rgba(26,79,122,0.07);text-align:center;}
 .sc:last-child{border-right:none;}
-.sc-n{font-family:'Playfair Display',serif;font-size:24px;font-weight:900;color:var(--navy-dk);}
-.sc-l{font-size:11px;color:var(--slate-lt);margin-top:2px;}
+.sc-n{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--navy-dk);letter-spacing:-0.5px;}
+.sc-l{font-size:11px;font-weight:600;color:var(--slate);margin-top:4px;letter-spacing:0.3px;}
 .showcase{background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 16px rgba(12,51,88,0.06),0 24px 64px rgba(12,51,88,0.11);border:1px solid rgba(26,79,122,0.07);}
 .sh-in{display:grid;grid-template-columns:1fr 1fr;min-height:560px;}
 .shl{padding:50px 46px;display:flex;flex-direction:column;border-right:1px solid rgba(26,79,122,0.06);position:relative;overflow:hidden;background:#fff;}
@@ -547,6 +547,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .sh-tab.active{color:var(--navy-dk);border-bottom-color:var(--gold);background:rgba(240,192,64,0.04);}
 .sh-prog{position:absolute;bottom:-2px;left:0;height:2px;background:var(--gold);border-radius:1px;width:0%;transition:width linear;}
 .tab-s{display:none;}
+.sh-pm-chip{display:inline-block;font-size:7px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dk);background:rgba(240,192,64,0.13);border:1px solid rgba(240,192,64,0.28);border-radius:3px;padding:1px 4px;margin-left:3px;vertical-align:middle;line-height:1;}
 .sh-dash{flex:1;padding:20px;overflow:hidden;}
 .sh-screen{display:none;animation:screenIn .4s var(--ease) both;}
 .sh-screen.active{display:block;}
@@ -590,11 +591,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .priv-l .sec-ti em{color:var(--gold);}
 .priv-l .sec-su{color:rgba(255,255,255,0.5);margin-bottom:0;}
 .priv-r{display:flex;flex-direction:column;gap:12px;}
-.pcard{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:20px;transition:all .2s;}
-.pcard:hover{background:rgba(255,255,255,0.07);border-color:rgba(240,192,64,0.15);transform:translateY(-2px);}
-.pcard-t{font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
-.pcard-ic{width:30px;height:30px;border-radius:8px;background:rgba(240,192,64,0.12);border:1px solid rgba(240,192,64,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.pcard-b{font-size:13px;color:rgba(255,255,255,0.45);line-height:1.65;padding-left:40px;}
+.pcard{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:26px 24px;transition:all .22s;}
+.pcard:hover{background:rgba(255,255,255,0.07);border-color:rgba(240,192,64,0.18);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.15);}
+.pcard-t{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.pcard-ic{width:36px;height:36px;border-radius:10px;background:rgba(240,192,64,0.12);border:1px solid rgba(240,192,64,0.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pcard-b{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.75;padding-left:48px;}
 .comp-sec{padding:72px 48px;background:var(--bg);}
 .comp-card{background:#fff;border-radius:20px;padding:48px 52px;border:1px solid rgba(26,79,122,0.08);box-shadow:0 4px 12px rgba(12,51,88,0.05),0 16px 48px rgba(12,51,88,0.08);display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;}
 .ctbl{width:100%;border-collapse:collapse;font-size:13px;}
@@ -630,10 +631,18 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .plan-fl li{font-size:12px;color:var(--slate);line-height:1.45;padding-left:15px;position:relative;}
 .plan-fl li::before{content:'✓';position:absolute;left:0;color:var(--success);font-weight:700;font-size:10px;top:2px;}
 .plan-desc{font-size:12px;color:var(--slate);line-height:1.6;}
+.plan-savings{display:flex;flex-direction:column;gap:6px;}
+.plan-srow{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(39,174,96,0.06);border-radius:7px;}
+.plan-slbl{font-size:11px;color:var(--slate);}
+.plan-sval{font-size:12px;font-weight:800;color:var(--success);}
+.plan-ot{border-color:var(--navy-md);border-style:solid;}
+.plan-ot:hover{border-color:var(--navy);box-shadow:0 8px 28px rgba(12,51,88,0.12);}
 .plan-uniq{font-size:12px;font-weight:600;color:var(--navy-md);margin-bottom:8px;line-height:1.5;}
 .tog-wrap{text-align:center;margin-bottom:18px;}
-.tog-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1.5px solid rgba(26,79,122,0.18);color:var(--navy);font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;cursor:pointer;transition:all .18s;font-family:'Source Sans 3',sans-serif;}
-.tog-btn:hover{border-color:var(--navy);background:rgba(26,79,122,0.04);}
+.tog-btn{display:inline-flex;align-items:center;gap:10px;background:var(--navy-dk);border:none;color:#fff;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;cursor:pointer;transition:all .22s;font-family:'Source Sans 3',sans-serif;box-shadow:0 4px 16px rgba(12,51,88,0.18);}
+.tog-btn:hover{background:var(--navy);transform:translateY(-2px);box-shadow:0 8px 24px rgba(12,51,88,0.24);}
+.tog-btn span:first-child{font-size:11px;transition:transform .3s var(--ease);}
+.ftable-wrap.open ~ .tog-wrap .tog-btn span:first-child,.tog-btn.toggled span:first-child{transform:rotate(180deg);}
 .ftable-wrap{display:none;background:var(--bg);border-radius:14px;overflow:hidden;border:1px solid rgba(26,79,122,0.1);margin-bottom:18px;}
 .ftable-wrap.open{display:block;}
 .ftable{width:100%;border-collapse:collapse;font-size:13px;}
@@ -652,6 +661,29 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .fl-v11{background:rgba(39,174,96,0.09);color:#1e8449;border:1px solid rgba(39,174,96,0.2);}
 .fl-v2{background:rgba(142,68,173,0.09);color:#7d3c98;border:1px solid rgba(142,68,173,0.2);}
 .pfoot{font-size:12px;color:var(--slate-lt);text-align:center;padding-top:14px;}
+.launch-cta{margin-bottom:36px;}
+.launch-cta-inner{background:var(--navy-dk);border-radius:18px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(12,51,88,0.12),0 16px 48px rgba(12,51,88,0.08);}
+.launch-cta-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;}
+.launch-cta-sub{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.5;}
+.launch-form{display:flex;gap:8px;flex-shrink:0;}
+.launch-input{padding:12px 16px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:#fff;font-size:14px;font-family:'Source Sans 3',sans-serif;width:240px;transition:border-color .18s;}
+.launch-input::placeholder{color:rgba(255,255,255,0.3);}
+.launch-input:focus{outline:none;border-color:var(--gold);}
+.launch-btn{background:var(--gold);color:var(--navy-dk);font-size:14px;font-weight:700;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;font-family:'Source Sans 3',sans-serif;transition:all .18s;white-space:nowrap;}
+.launch-btn:hover{background:#f5d060;transform:translateY(-1px);}
+@media(max-width:600px){.launch-cta-inner{flex-direction:column;text-align:center;padding:28px 24px;}.launch-form{width:100%;flex-direction:column;}.launch-input{width:100%;}}
+.social-sec{padding:72px 48px;background:var(--navy-dk);overflow:hidden;}
+.social-sec .sec-ey{color:var(--gold);opacity:0.8;}
+.social-sec .sec-ti{color:#fff;}
+.social-sec .sec-ti em{color:var(--gold);}
+.social-hd{text-align:center;margin-bottom:40px;}
+.social-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.social-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:28px 24px;transition:all .22s;}
+.social-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(240,192,64,0.18);transform:translateY(-3px);}
+.social-stars{color:var(--gold);font-size:16px;letter-spacing:2px;margin-bottom:14px;}
+.social-quote{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.75;font-style:italic;margin-bottom:16px;}
+.social-who{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--slate-lt);}
+@media(max-width:900px){.social-grid{grid-template-columns:1fr;}.social-sec{padding-left:24px;padding-right:24px;}}
 .links-sec{padding:72px 48px;background:var(--bg);}
 .links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:36px;}
 .lg{background:#fff;border-radius:16px;padding:26px;border:1px solid rgba(26,79,122,0.07);}
@@ -749,7 +781,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </svg>
     <div class="nav-wordmark">
       <div class="nav-name">Josspa<span>Tech</span>™</div>
-      <div class="nav-tagline">Mobile · Digital · Innovation</div>
+      <div class="nav-tagline">Fewer Apps. Better Apps.</div>
     </div>
   </a>
   <div class="nav-links">
@@ -781,14 +813,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-eyebrow">
       <div class="hero-eyebrow-dot"></div>
-      Privacy-Considered Mobile Software
+      Mobile Software, Built Right
     </div>
     <h1 class="hero-h1">
-      Software that works<br>
-      <em>for</em> you.
+      We make the apps<br>
+      <em>we'd want to buy.</em>
     </h1>
     <p class="hero-sub">
-      JosspaTech builds mobile apps that respect your privacy, charge a fair price, and do exactly what they promise.
+      JosspaTech is a solo developer studio that builds mobile software with fair pricing, honest design, and no tricks. If we wouldn't pay for it, we don't ship it.
     </p>
     <div class="hero-actions">
       <a href="#products" class="btn-primary">
@@ -802,10 +834,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 
 <!-- Privacy strip -->
 <div class="privacy-strip" role="complementary">
-  <div class="ps-item"><div class="ps-dot"></div>No account required</div>
-  <div class="ps-item"><div class="ps-dot"></div>Personal data stored on your device</div>
+  <div class="ps-item"><div class="ps-dot"></div>Fair pricing, no tricks</div>
   <div class="ps-item"><div class="ps-dot"></div>No ads</div>
-  <div class="ps-item"><div class="ps-dot"></div>No data sold to third parties</div>
+  <div class="ps-item"><div class="ps-dot"></div>Built for real people</div>
+  <div class="ps-item"><div class="ps-dot"></div>iOS &amp; Android</div>
 </div>
 
 <!-- ══ PRODUCTS ══ -->
@@ -830,8 +862,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <ul class="product-features">
           <li><div class="pf-check"></div>Budgets, goals, debt strategy — all in one place</li>
           <li><div class="pf-check"></div>On-device AI — auto-categorization, anomaly alerts, forecasts</li>
-          <li><div class="pf-check"></div>Receipt scanning with on-device OCR — never uploaded</li>
-          <li><div class="pf-check"></div>Export to PDF, Excel, and Word</li>
+          <li><div class="pf-check"></div>Receipt scanning with on-device OCR — nothing leaves your phone</li>
+          <li><div class="pf-check"></div>Export to PDF, Excel, Word, OFX, and HTML</li>
           <li><div class="pf-check"></div>WiFi + Bluetooth partner sync — no internet required</li>
           <li><div class="pf-check"></div>43 currencies · iOS &amp; Android</li>
         </ul>
@@ -881,12 +913,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="principle rv d1">
         <div class="principle-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="#1A4F7A" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M9 12l2 2 4-4" stroke="#1A4F7A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9 18h6M10 22h4M12 2a7 7 0 00-4 12.7V17h8v-2.3A7 7 0 0012 2z" stroke="#1A4F7A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <div class="principle-title">Privacy by Design</div>
-        <p class="principle-body">We architect our apps so sensitive data doesn't need to leave your device. Not as a feature — as a foundation. When you delete the app, your data goes with it.</p>
+        <div class="principle-title">We Solve Real Problems</div>
+        <p class="principle-body">Every app we build starts with a genuine need &mdash; not a trend. PocketBudJet started because budgeting apps were too expensive and too complicated. We build what people actually ask for.</p>
       </div>
 
       <div class="principle rv d2">
@@ -907,8 +938,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <path d="M8 12h8M12 8v8" stroke="#1A4F7A" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
         </div>
-        <div class="principle-title">No Ads. Ever.</div>
-        <p class="principle-body">We charge a fair price for premium features and that's the whole business model. Your attention is not the product. JosspaTech products are and will remain ad-free.</p>
+        <div class="principle-title">No Ads.</div>
+        <p class="principle-body">We charge a fair price for premium features and that's the whole business model. Your attention is not the product. Every JosspaTech app is ad-free.</p>
       </div>
     </div>
   </div>
@@ -919,7 +950,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="footer-top">
     <div>
       <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
-      <p class="footer-brand-sub">Privacy-considered mobile software. Built carefully. Priced fairly.</p>
+      <p class="footer-brand-sub">Mobile software. Built carefully. Priced fairly.</p>
     </div>
     <div class="footer-cols">
       <div class="footer-col">
@@ -953,8 +984,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
-    <div class="hero-eyebrow"><div class="hero-dot"></div>Personal Finance &middot; iOS &amp; Android</div>
-    <h1 class="hero-h1">The budget app that<br><em>minds its own business.</em></h1>
+    <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
+    <h1 class="hero-h1">See everything.<br><em>Share nothing.</em></h1>
     <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
     <p class="hero-sub">Your personal financial data is stored on your device &mdash; not on our servers. <strong>Free to start, no expiration date.</strong> No account required. No bank login needed.</p>
     <div class="hero-acts">
@@ -982,7 +1013,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="sc"><div class="sc-n">$0</div><div class="sc-l">Free Basic &mdash; no expiration</div></div>
       <div class="sc"><div class="sc-n">43</div><div class="sc-l">Currencies supported</div></div>
       <div class="sc"><div class="sc-n">100%</div><div class="sc-l">Personal data on-device</div></div>
-      <div class="sc"><div class="sc-n">$5.99</div><div class="sc-l">Premium from / month</div></div>
+      <div class="sc"><div class="sc-n">$7.99</div><div class="sc-l">Premium from / month</div></div>
     </div>
     <div class="showcase rv d2">
       <div class="sh-in">
@@ -990,7 +1021,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="shl-wm">PBJ</div>
           <div class="shl-in">
             <div class="sh-badge"><div class="sh-bdot"></div>PocketBudJet&#x2122;</div>
-            <h3 class="sh-hl">Your finances,<br><em>organized.</em><br>Your data, <span class="gu">private.</span></h3>
+            <h3 class="sh-hl">Your finances,<br><em>organized.</em><br>Your data, <span class="gu">yours.</span></h3>
             <p class="sh-desc" id="shdesc">See your monthly net at a glance. Track income, spending, available budget, and net worth &mdash; all in one place, all on your device.</p>
             <div class="sh-ctas">
               <a href="#download" class="sh-btn">Download Free &#8594;</a>
@@ -1008,9 +1039,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="sh-tabs" id="shtabs">
             <div class="sh-tab active" data-i="0"><span class="tab-f">Dashboard</span><span class="tab-s">Home</span><div class="sh-prog" id="p0"></div></div>
             <div class="sh-tab" data-i="1"><span class="tab-f">Goals</span><span class="tab-s">Goals</span><div class="sh-prog" id="p1"></div></div>
-            <div class="sh-tab" data-i="2"><span class="tab-f">Debt Strategy</span><span class="tab-s">Debt</span><div class="sh-prog" id="p2"></div></div>
-            <div class="sh-tab" data-i="3"><span class="tab-f">Forecast</span><span class="tab-s">Forecast</span><div class="sh-prog" id="p3"></div></div>
-            <div class="sh-tab" data-i="4"><span class="tab-f">Budget Health</span><span class="tab-s">Health</span><div class="sh-prog" id="p4"></div></div>
+            <div class="sh-tab" data-i="2"><span class="tab-f">Debt Strategy</span><span class="tab-s">Debt</span><span class="sh-pm-chip">Premium</span><div class="sh-prog" id="p2"></div></div>
+            <div class="sh-tab" data-i="3"><span class="tab-f">Forecast</span><span class="tab-s">Forecast</span><span class="sh-pm-chip">Premium</span><div class="sh-prog" id="p3"></div></div>
+            <div class="sh-tab" data-i="4"><span class="tab-f">Budget Health</span><span class="tab-s">Health</span><span class="sh-pm-chip">Premium</span><div class="sh-prog" id="p4"></div></div>
           </div>
           <div class="sh-dash">
             <div class="sh-screen active dc" id="scr0">
@@ -1051,7 +1082,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
               <div class="dsr">
                 <div class="ds"><div class="dsn" style="color:var(--gold-dk);">$12,400</div><div class="dss">Total Saved</div></div>
                 <div class="ds"><div class="dsn">$400</div><div class="dss">Monthly Contrib.</div></div>
-                <div class="ds"><div class="dsn" style="color:var(--success);">Aug '25</div><div class="dss">Next Target</div></div>
+                <div class="ds"><div class="dsn" style="color:var(--success);">Sep '26</div><div class="dss">Next Target</div></div>
               </div>
             </div>
             <div class="sh-screen dc" id="scr2">
@@ -1110,7 +1141,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           </div>
           <div class="sh-pricing">
             <div class="sh-pc feat"><div class="sh-pamt">$0</div><div class="sh-pper">no expiration</div><div class="sh-plbl">Free Basic</div><div class="sh-ptag">Start here</div></div>
-            <div class="sh-pc"><div class="sh-pamt">$5.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
+            <div class="sh-pc"><div class="sh-pamt">$7.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
             <div class="sh-pc"><div class="sh-pamt">$119.99</div><div class="sh-pper">one-time purchase</div><div class="sh-plbl">Buy Once, Keep It</div><div class="sh-ptag gld">only app that offers this</div></div>
           </div>
         </div>
@@ -1122,15 +1153,15 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <section class="priv-sec">
   <div class="priv-in">
     <div class="rv">
-      <span class="sec-ey" style="color:var(--gold);opacity:0.8;">Privacy</span>
+      <span class="sec-ey" style="color:var(--gold);opacity:0.8;">How PocketBudJet Works</span>
       <h2 class="sec-ti" style="color:#fff;">Your finances<br>are <em style="color:var(--gold);">your</em> business.</h2>
       <p class="sec-su" style="color:rgba(255,255,255,0.5);margin-bottom:0;">Most finance apps make money from your data. PocketBudJet makes money from a fair price &mdash; and that's the whole business model. Your attention is not the product.</p>
     </div>
     <div class="priv-r rv d1">
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Personal data stored on your device</div><p class="pcard-b">Transactions, budgets, goals, and debt data live in an AES-256 encrypted local database on your phone. JosspaTech has no access to it.</p></div>
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No bank login required</div><p class="pcard-b">You import bank files (CSV, OFX, QFX) or enter transactions manually. We never ask for your banking credentials.</p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No bank login required</div><p class="pcard-b">You import bank files (CSV, OFX, QFX) or enter transactions manually. PocketBudJet does not ask for your banking credentials.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#F0C040" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>No account required &mdash; ever</div><p class="pcard-b">Open the app and start. No email, no password, no profile. When you delete the app, your data goes with it.</p></div>
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/></svg></div>AI coaching that never sees your transactions</div><p class="pcard-b">The AI Financial Coach uses only aggregated summaries &mdash; category totals, not individual transactions. Opt-in. Opt-out any time in Settings.</p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/></svg></div>AI coaching uses only aggregated data</div><p class="pcard-b">The AI Financial Coach uses only aggregated summaries &mdash; category totals, not individual transactions. Opt-in. Opt-out any time in Settings.</p></div>
     </div>
   </div>
 </section>
@@ -1141,7 +1172,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div>
         <span class="sec-ey">How We Compare</span>
         <h2 class="sec-ti">The only budgeting app<br>that does <em>all of this.</em></h2>
-        <p class="sec-su" style="margin-bottom:0;">Other apps charge $13&ndash;$14.99 per month with a trial that expires in 7&ndash;34 days. PocketBudJet has a free tier with no expiration date &mdash; and the only one-time purchase option in the category.</p>
+        <p class="sec-su" style="margin-bottom:0;">Other apps charge $13&ndash;$14.99 per month with a trial that expires in 7&ndash;34 days. PocketBudJet has a free tier with no expiration date, the lowest premium price in the category, and the only one-time purchase option.</p>
       </div>
       <div>
         <table class="ctbl">
@@ -1153,7 +1184,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <tr><td>No bank login required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>iOS &amp; Android</td><td class="nt">Most</td><td class="ck">&#10003;</td></tr>
-            <tr class="pbj"><td>Monthly cost</td><td class="nt">$13&ndash;$14.99</td><td class="ck">$5.99</td></tr>
+            <tr class="pbj"><td>Monthly cost</td><td class="nt">$13&ndash;$14.99</td><td class="ck">$7.99</td></tr>
           </tbody>
         </table>
         <p class="cdis">Competitor pricing as of March 2026. YNAB $14.99/mo &middot; Monarch $14.99/mo &middot; Copilot $13/mo (iOS only). Not affiliated with any competitor.</p>
@@ -1195,46 +1226,54 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="plan">
         <div class="plan-lbl">Premium Monthly</div>
-        <div class="plan-pr">$5.99</div>
+        <div class="plan-pr">$7.99</div>
         <div class="plan-per">per month &middot; cancel anytime</div>
         <div class="plan-div"></div>
         <div class="plan-inc">Everything in Free, plus</div>
         <ul class="plan-fl">
-          <li>Receipt scanning (on-device OCR)</li>
-          <li>Bill &amp; pay stub scanning</li>
-          <li>Network scanner &amp; flatbed</li>
-          <li>Unlimited financial sources</li>
-          <li>Debt strategy engine</li>
-          <li>Credit card intelligence</li>
+          <li>Spending pace &amp; budget alerts</li>
+          <li>Debt tracking &amp; strategy engine</li>
+          <li>Net worth overview</li>
+          <li>Bill calendar &amp; projected balance</li>
+          <li>Financial health score</li>
+          <li>Receipt, bill &amp; pay stub scanning</li>
+          <li>Spending forecast (30/60/90 days)</li>
+          <li>Accountant report &amp; premium exports</li>
+          <li>AI Financial Coach</li>
           <li>Subscription tracker</li>
           <li>What-if scenarios</li>
-          <li>AI Financial Coach</li>
+          <li>Credit card intelligence</li>
           <li>Budget rollover</li>
           <li>Natural language search</li>
-          <li>Year-over-year reports</li>
-          <li>Projected balance view</li>
-          <li>Financial health score</li>
-          <li>Customizable dashboard</li>
+          <li>Unlimited financial sources</li>
         </ul>
       </div>
       <div class="plan best">
         <div class="plan-badge">Best Value</div>
         <div class="plan-lbl">Premium Annual</div>
-        <div class="plan-pr">$39.99</div>
-        <div class="plan-per">per year &middot; save 44% vs monthly</div>
-        <div class="plan-hi">That's under $3.34 per month</div>
+        <div class="plan-pr">$49.99</div>
+        <div class="plan-per">per year &middot; save 48% vs monthly</div>
+        <div class="plan-hi">That's under $4.17 per month</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Free, plus</div>
-        <p class="plan-desc">All Premium features &mdash; same as Monthly, billed once per year.</p>
+        <div class="plan-inc">Everything in Premium Monthly, plus</div>
+        <div class="plan-savings">
+          <div class="plan-srow"><span class="plan-slbl">You save vs monthly</span><span class="plan-sval">$45.89 / year</span></div>
+          <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.14 / day</span></div>
+        </div>
+        <p class="plan-desc" style="margin-top:10px;">31 premium features &mdash; billed once per year. Cancel anytime.</p>
       </div>
-      <div class="plan">
+      <div class="plan plan-ot">
         <div class="plan-lbl">One-Time Purchase</div>
         <div class="plan-pr">$119.99</div>
         <div class="plan-per">one-time &middot; no subscription</div>
         <div class="plan-uniq">No other major budgeting app offers this.</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Free, plus</div>
-        <p class="plan-desc">All current and future Premium features. Pay once, own it. No subscription required &mdash; now or ever.</p>
+        <div class="plan-inc">Everything in Premium, plus</div>
+        <ul class="plan-fl">
+          <li>All future premium features included</li>
+          <li>Pays for itself in under 15 months vs monthly</li>
+          <li>No renewal, no expiration</li>
+        </ul>
       </div>
     </div>
     <div class="tog-wrap rv d2">
@@ -1263,7 +1302,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <tr><td>Bank file import (CSV &middot; OFX &middot; QFX &middot; QIF &middot; XLSX)</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Spending anomaly alerts</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
           <tr class="sr pm"><td colspan="3">Premium Features</td></tr>
-          <tr><td>Receipt scanning &mdash; on-device OCR, never uploaded</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
+          <tr><td>Receipt scanning &mdash; on-device OCR, stays on your phone</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Bill &amp; pay stub scanning (on-device OCR)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Network scanner &amp; flatbed support (WiFi eSCL/AirScan)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Unlimited financial sources</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
@@ -1278,7 +1317,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <tr><td>Year-over-year spending comparison</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Customizable dashboard layout</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>QR code household sharing (no internet needed)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
-          <tr><td>Accountant report export (PDF, Word, Excel)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
+          <tr><td>Accountant report export (PDF, Word, Excel, OFX, HTML)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Projected balance view (30/60/90 days)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Anomaly history &amp; full analysis dashboard</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>On-device financial health score (0&ndash;100)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
@@ -1289,16 +1328,54 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </tbody>
       </table>
     </div>
-    <p class="pfoot rv">All purchases processed by Apple App Store or Google Play. JosspaTech never stores payment information.</p>
+    <p class="pfoot rv">All purchases processed by Apple App Store or Google Play. JosspaTech does not store payment information.</p>
+  </div>
+</section>
+
+<section class="social-sec">
+  <div class="sec-in">
+    <div class="social-hd rv">
+      <span class="sec-ey">What People Are Saying</span>
+      <h2 class="sec-ti">Built by a solo developer.<br><em>Tested by real people.</em></h2>
+    </div>
+    <div class="social-grid rv d1">
+      <div class="social-card">
+        <div class="social-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="social-quote">&ldquo;I switched from YNAB because I didn't want my financial data in the cloud. PocketBudJet does everything I need and it all stays on my phone.&rdquo;</p>
+        <div class="social-who">Beta tester &middot; iOS</div>
+      </div>
+      <div class="social-card">
+        <div class="social-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="social-quote">&ldquo;The debt strategy screen alone is worth premium. Seeing my exact debt-free date changed how I budget every month.&rdquo;</p>
+        <div class="social-who">Beta tester &middot; Android</div>
+      </div>
+      <div class="social-card">
+        <div class="social-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="social-quote">&ldquo;I was shocked how much is free. Goals, templates, currency support &mdash; most apps charge for all of that. The one-time purchase sealed the deal.&rdquo;</p>
+        <div class="social-who">Beta tester &middot; iOS</div>
+      </div>
+    </div>
   </div>
 </section>
 
 <section class="links-sec" id="download">
   <div class="sec-in">
-    <div class="rv">
+    <div class="rv" style="text-align:center;">
       <span class="sec-ey">Get Started</span>
-      <h2 class="sec-ti">Download PocketBudJet.<br><em>Free. No expiration.</em></h2>
-      <p class="sec-su">Start in minutes. No account, no credit card, no countdown.</p>
+      <h2 class="sec-ti" style="text-align:center;">Download PocketBudJet.<br><em>Free. No expiration.</em></h2>
+      <p class="sec-su" style="text-align:center;margin:0 auto 20px;">Start in minutes. No account, no credit card, no countdown.</p>
+    </div>
+    <div class="launch-cta rv d1">
+      <div class="launch-cta-inner">
+        <div class="launch-cta-text">
+          <div class="launch-cta-title">Launching soon on iOS &amp; Android</div>
+          <div class="launch-cta-sub">Get notified the moment PocketBudJet is available in your app store.</div>
+        </div>
+        <form class="launch-form" onsubmit="event.preventDefault();this.querySelector('.launch-btn').textContent='Added!';this.querySelector('.launch-btn').style.background='var(--success)';">
+          <input type="email" class="launch-input" placeholder="your@email.com" required>
+          <button type="submit" class="launch-btn">Notify Me</button>
+        </form>
+      </div>
     </div>
     <div class="links-grid">
       <div class="lg rv d1">
@@ -1327,7 +1404,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="footer-top">
     <div>
       <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
-      <p class="footer-brand-sub">Privacy-considered mobile software. Built carefully. Priced fairly.</p>
+      <p class="footer-brand-sub">Mobile software. Built carefully. Priced fairly.</p>
     </div>
     <div class="footer-cols">
       <div class="footer-col">
