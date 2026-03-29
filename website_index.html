@@ -494,9 +494,39 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .nav-mobile-link{font-size:16px;font-weight:600;color:rgba(255,255,255,0.7);text-decoration:none;padding:12px 4px;border-bottom:1px solid rgba(255,255,255,0.06);transition:color .15s;}
 .nav-mobile-link:hover{color:#fff;}
 .nav-mobile-cta{background:var(--gold);color:var(--navy-dk);font-size:15px;font-weight:700;text-decoration:none;padding:13px;border-radius:8px;text-align:center;margin-top:8px;}
-.hero{background:var(--navy-dk);padding:96px 48px 88px;text-align:center;position:relative;overflow:hidden;}
+.hero{background:var(--navy-dk);padding:110px 48px 100px;text-align:center;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 110%,rgba(46,111,163,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% -5%,rgba(240,192,64,0.06) 0%,transparent 55%);pointer-events:none;}
-.hero-inner{position:relative;z-index:1;max-width:820px;margin:0 auto;}
+.hero-inner{position:relative;z-index:1;max-width:960px;margin:0 auto;display:flex;align-items:center;gap:48px;}
+.hero-text{flex:1;text-align:center;}
+.hero-mascot{flex-shrink:0;animation:idle 2.5s ease-in-out infinite;}
+@keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media(max-width:768px){.hero-inner{flex-direction:column;}.hero-mascot{order:-1;}.hero-mascot svg{width:120px;height:165px;}.pro-guide{display:none !important;}}
+
+/* ══ THE PRO — SCROLL GUIDE ═════════════════════════════ */
+.pro-guide{
+  position:absolute;pointer-events:none;z-index:10;
+  opacity:0;transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+.pro-guide.from-left{left:-60px;transform:translateX(-30px);}
+.pro-guide.from-right{right:-60px;transform:translateX(30px);}
+.pro-guide.from-left.visible{opacity:1;transform:translateX(0);}
+.pro-guide.from-right.visible{opacity:1;transform:translateX(0);}
+.pro-guide svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12));}
+.pro-guide .pro-speech{
+  position:absolute;background:#fff;color:var(--navy-dk);
+  font-size:11px;font-weight:700;padding:6px 12px;border-radius:10px;
+  white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1);
+  line-height:1.3;
+}
+.pro-guide.from-left .pro-speech{left:65px;top:8px;}
+.pro-guide.from-right .pro-speech{right:65px;top:8px;}
+.pro-guide .pro-speech::after{
+  content:'';position:absolute;top:50%;width:0;height:0;
+  border:6px solid transparent;margin-top:-6px;
+}
+.pro-guide.from-left .pro-speech::after{left:-10px;border-right-color:#fff;}
+.pro-guide.from-right .pro-speech::after{right:-10px;border-left-color:#fff;}
+
 .hero-bc{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:28px;font-size:12px;color:rgba(255,255,255,0.3);}
 .hero-bc a{color:rgba(255,255,255,0.3);text-decoration:none;transition:color .15s;}
 .hero-bc a:hover{color:rgba(255,255,255,0.6);}
@@ -773,7 +803,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <body>
 
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
-  <a class="nav-logo" href="/" aria-label="JosspaTech home">
+  <a class="nav-logo" href="#" onclick="showPage('company');return false;" aria-label="JosspaTech home">
     <svg class="nav-spade" width="32" height="38" viewBox="0 0 140 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
         <linearGradient id="ng1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -797,8 +827,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </a>
   <div class="nav-links">
-    <a href="#products" class="nav-link">Products</a>
-    <a href="#principles" class="nav-link">Mission</a>
+    <a href="#products" onclick="navTo('products');return false;" class="nav-link">Products</a>
+    <a href="#principles" onclick="navTo('principles');return false;" class="nav-link">Mission</a>
     <a href="/cdn-cgi/l/email-protection#afdcdadfdfc0dddbefc5c0dcdcdfcedbcaccc781ccc0c2" class="nav-link">Contact</a>
     <a href="#pbj" onclick="showPage('pbj');return false;" class="nav-cta">Get PocketBudJet</a>
   </div>
@@ -810,8 +840,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 
 <!-- Mobile menu (shared) -->
 <div class="nav-mobile-menu" id="mobile-menu" role="navigation">
-  <a href="#products" class="nav-mobile-link" onclick="closeMenu()">Products</a>
-  <a href="#principles" class="nav-mobile-link" onclick="closeMenu()">Mission</a>
+  <a href="#products" class="nav-mobile-link" onclick="navTo('products');closeMenu();return false;">Products</a>
+  <a href="#principles" class="nav-mobile-link" onclick="navTo('principles');closeMenu();return false;">Mission</a>
   <a href="/cdn-cgi/l/email-protection#92e1e7e2e2fde0e6d2f8fde1e1e2f3e6f7f1fabcf1fdff" class="nav-mobile-link">Contact</a>
   <a href="#pbj" onclick="showPage('pbj');closeMenu();return false;" class="nav-mobile-cta">Get PocketBudJet →</a>
 </div>
@@ -981,7 +1011,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="#principles">Mission</a>
+        <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
         <a href="/cdn-cgi/l/email-protection#e1929491918e9395a18b8e9292918095848289cf828e8c">Contact</a>
       </div>
     </div>
@@ -999,14 +1029,73 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <div class="page" id="page-pbj">
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
-    <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
-    <h1 class="hero-h1">See everything.<br><em>Share nothing.</em></h1>
-    <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-    <p class="hero-sub">Your personal financial data is stored on your device &mdash; not on our servers. <strong>Free to start, no expiration date.</strong> No account required. No bank login needed.</p>
-    <div class="hero-acts">
-      <a href="#download" class="btn-primary">Download Free &#8594;</a>
-      <a href="#pricing" class="btn-ghost">See pricing</a>
+    <div class="hero-text">
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
+      <h1 class="hero-h1">See everything.<br><em>Share nothing.</em></h1>
+      <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
+      <p class="hero-sub">Your personal financial data is stored on your device &mdash; not on our servers. <strong>Free to start, no expiration date.</strong> No account required. No bank login needed.</p>
+      <div class="hero-acts">
+        <a href="#download" class="btn-primary">Download Free &#8594;</a>
+        <a href="#pricing" class="btn-ghost">See pricing</a>
+      </div>
+    </div>
+    <div class="hero-mascot" aria-hidden="true">
+      <svg width="160" height="220" viewBox="0 0 160 220">
+        <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(255,255,255,0.06)"/>
+        <!-- Legs -->
+        <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+        <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+        <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+        <ellipse cx="98" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+        <!-- Body — button-up shirt -->
+        <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- Shirt buttons -->
+        <circle cx="80" cy="120" r="2" fill="#1A4F7A"/>
+        <circle cx="80" cy="134" r="2" fill="#1A4F7A"/>
+        <circle cx="80" cy="148" r="2" fill="#1A4F7A"/>
+        <!-- Collar -->
+        <path d="M 64 102 L 74 115 L 80 108" fill="#fff" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <path d="M 96 102 L 86 115 L 80 108" fill="#fff" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+        <!-- Tie — PBJ gold -->
+        <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+        <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+        <!-- Left arm -->
+        <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+        <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
+        <!-- Right arm -->
+        <path d="M 110 115 Q 122 130 124 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+        <circle cx="124" cy="151" r="7" fill="#F5D0B0"/>
+        <!-- Head -->
+        <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+        <!-- Neat hair -->
+        <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+        <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+        <path d="M 62 24 Q 65 20 70 25" stroke="#2C3E50" stroke-width="2" fill="none"/>
+        <!-- Glasses -->
+        <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#F0C040" stroke-width="2"/>
+        <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#F0C040" stroke-width="2"/>
+        <line x1="76" y1="66" x2="84" y2="66" stroke="#F0C040" stroke-width="1.5"/>
+        <line x1="54" y1="64" x2="44" y2="62" stroke="#F0C040" stroke-width="1.5"/>
+        <line x1="106" y1="64" x2="116" y2="62" stroke="#F0C040" stroke-width="1.5"/>
+        <!-- Eyes -->
+        <circle cx="65" cy="67" r="5" fill="#fff"/>
+        <circle cx="67" cy="68" r="3.5" fill="#1A4F7A"/>
+        <circle cx="68.5" cy="66.5" r="1.5" fill="#fff"/>
+        <circle cx="95" cy="67" r="5" fill="#fff"/>
+        <circle cx="93" cy="68" r="3.5" fill="#1A4F7A"/>
+        <circle cx="91.5" cy="66.5" r="1.5" fill="#fff"/>
+        <!-- Eyebrows -->
+        <path d="M 55 54 Q 63 50 74 54" stroke="#2C3E50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M 86 54 Q 94 50 105 54" stroke="#2C3E50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <!-- Nose -->
+        <circle cx="80" cy="76" r="2" fill="#E8B890"/>
+        <!-- Smile -->
+        <path d="M 70 84 Q 80 90 90 84" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Cheeks -->
+        <ellipse cx="56" cy="80" rx="6" ry="4" fill="rgba(255,150,130,0.2)"/>
+        <ellipse cx="104" cy="80" rx="6" ry="4" fill="rgba(255,150,130,0.2)"/>
+      </svg>
     </div>
   </div>
 </section>
@@ -1018,7 +1107,34 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi"><div class="psd"></div>iOS &amp; Android</div>
 </div>
 
-<section class="sec" id="showcase" style="background:var(--bg);">
+<section class="sec" id="showcase" style="background:var(--bg);position:relative;overflow:hidden;">
+  <!-- The Pro — features guide -->
+  <div class="pro-guide from-left" data-pro="showcase">
+    <div class="pro-speech">Check these out!</div>
+    <svg width="60" height="82" viewBox="0 0 160 220">
+      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
+      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <!-- Right arm pointing right -->
+      <path d="M 110 115 Q 135 105 148 95" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="150" cy="93" r="7" fill="#F5D0B0"/>
+      <!-- Left arm relaxed -->
+      <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
+      <!-- Head -->
+      <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+      <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+      <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+      <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+      <circle cx="65" cy="67" r="5" fill="#fff"/><circle cx="67" cy="68" r="3.5" fill="#1A4F7A"/><circle cx="68.5" cy="66.5" r="1.5" fill="#fff"/>
+      <circle cx="95" cy="67" r="5" fill="#fff"/><circle cx="93" cy="68" r="3.5" fill="#1A4F7A"/><circle cx="91.5" cy="66.5" r="1.5" fill="#fff"/>
+      <path d="M 70 84 Q 80 90 90 84" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
   <div class="sec-in">
     <div class="rv">
       <span class="sec-ey">Features</span>
@@ -1209,7 +1325,39 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="pricing-sec" id="pricing">
+<section class="pricing-sec" id="pricing" style="position:relative;overflow:hidden;">
+  <!-- The Pro — pricing guide (thinking) -->
+  <div class="pro-guide from-right" data-pro="pricing">
+    <div class="pro-speech">Take your time!</div>
+    <svg width="60" height="82" viewBox="0 0 160 220">
+      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
+      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <!-- Left arm — hand on chin -->
+      <path d="M 50 115 Q 42 100 55 88" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="57" cy="85" r="7" fill="#F5D0B0"/>
+      <!-- Right arm — crossed -->
+      <path d="M 110 115 Q 115 130 100 138" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="97" cy="140" r="7" fill="#F5D0B0"/>
+      <!-- Head — slight tilt -->
+      <g transform="rotate(5, 80, 66)">
+        <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+        <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+        <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+        <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+        <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+        <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+        <circle cx="65" cy="67" r="5" fill="#fff"/><circle cx="65" cy="66" r="3.5" fill="#1A4F7A"/><circle cx="63" cy="64" r="1.5" fill="#fff"/>
+        <circle cx="95" cy="67" r="5" fill="#fff"/><circle cx="93" cy="66" r="3.5" fill="#1A4F7A"/><circle cx="91" cy="64" r="1.5" fill="#fff"/>
+        <path d="M 72 84 Q 80 87 88 84" stroke="#C4856A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Thought dots -->
+      <circle cx="130" cy="55" r="3" fill="#1A4F7A" opacity="0.2"/>
+      <circle cx="138" cy="43" r="4" fill="#1A4F7A" opacity="0.15"/>
+    </svg>
+  </div>
   <div class="sec-in">
     <div class="pricing-hd rv">
       <h2 class="pricing-h">Pick your plan.<br><em>Or don't.</em></h2>
@@ -1276,7 +1424,38 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="plan-srow"><span class="plan-slbl">You save vs monthly</span><span class="plan-sval">$45.89 / year</span></div>
           <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.14 / day</span></div>
         </div>
-        <p class="plan-desc" style="margin-top:10px;">31 premium features &mdash; billed once per year. Cancel anytime.</p>
+        <p class="plan-desc" style="margin-top:10px;">All 31 premium features. One price. One year. No surprises. Cancel anytime.</p>
+        <div style="text-align:center;margin-top:14px;opacity:0.85;" aria-hidden="true">
+          <svg width="48" height="66" viewBox="0 0 160 220">
+            <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.05)"/>
+            <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+            <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+            <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+            <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+            <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+            <!-- Left arm thumbs up -->
+            <path d="M 50 115 Q 35 105 30 85" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <circle cx="28" cy="80" r="8" fill="#F5D0B0"/>
+            <ellipse cx="28" cy="67" rx="4" ry="7" fill="#F5D0B0"/>
+            <path d="M 15 58 L 17 52 L 19 58 L 24 55 L 19 60 L 21 65 L 17 62 L 15 67 L 14 62 L 9 60 Z" fill="#F0C040" opacity="0.8"/>
+            <!-- Right arm relaxed -->
+            <path d="M 110 115 Q 125 130 128 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <circle cx="130" cy="151" r="8" fill="#F5D0B0"/>
+            <!-- Head -->
+            <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+            <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+            <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+            <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+            <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+            <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+            <!-- Happy squint eyes -->
+            <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M 65 83 Q 80 95 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+            <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+          </svg>
+        </div>
       </div>
       <div class="plan plan-ot">
         <div class="plan-lbl">One-Time Purchase</div>
@@ -1337,10 +1516,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <tr><td>Projected balance view (30/60/90 days)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Anomaly history &amp; full analysis dashboard</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
           <tr><td>On-device financial health score (0&ndash;100)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
-          <tr><td>Universal document scanning (W-2, pay stubs&hellip;)<span class="fl fl-v11">Coming v1.1</span></td><td class="dx">&mdash;</td><td class="dx">&mdash;</td></tr>
-          <tr><td>Enhanced PDF import (bank statements)<span class="fl fl-v11">v1.1</span></td><td class="dx">&mdash;</td><td class="dx">&mdash;</td></tr>
-          <tr><td>Tax return import &amp; comparison<span class="fl fl-v2">Coming v2</span></td><td class="dx">&mdash;</td><td class="dx">&mdash;</td></tr>
-          <tr><td>Voice shortcuts (Siri / Google Assistant)<span class="fl fl-dev">In development</span></td><td class="dx">&mdash;</td><td class="dx">&mdash;</td></tr>
+          <tr><td>Universal document scanning (W-2, pay stubs&hellip;)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
+          <tr><td>Enhanced PDF import (bank statements)<span class="fl fl-v11">Coming v1.1</span></td><td class="dx">&mdash;</td><td class="dx">&mdash;</td></tr>
+          <tr><td>Tax return import &amp; comparison</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
+          <tr><td>Voice shortcuts (Siri / Google Assistant)</td><td class="dx">&mdash;</td><td class="ck">&#10003;</td></tr>
         </tbody>
       </table>
     </div>
@@ -1352,7 +1531,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="sec-in">
     <div class="social-hd rv">
       <span class="sec-ey">What People Are Saying</span>
-      <h2 class="sec-ti">Built by a solo developer.<br><em>Tested by real people.</em></h2>
+      <h2 class="sec-ti">Built with care.<br><em>Tested by real people.</em></h2>
     </div>
     <div class="social-grid rv d1">
       <div class="social-card">
@@ -1374,7 +1553,38 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="links-sec" id="download">
+<section class="links-sec" id="download" style="position:relative;overflow:hidden;">
+  <!-- The Pro — download guide (waving) -->
+  <div class="pro-guide from-left" data-pro="download">
+    <div class="pro-speech">See you in the app!</div>
+    <svg width="60" height="82" viewBox="0 0 160 220">
+      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
+      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <!-- Left arm relaxed -->
+      <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
+      <!-- Right arm waving -->
+      <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <circle cx="132" cy="77" r="7" fill="#F5D0B0"/>
+      <path d="M 128 70 Q 132 66 136 70" stroke="#F5D0B0" stroke-width="3" fill="none"/>
+      <!-- Head -->
+      <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+      <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+      <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+      <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+      <!-- Happy squint eyes -->
+      <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M 65 83 Q 80 95 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+      <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+    </svg>
+  </div>
   <div class="sec-in">
     <div class="rv" style="text-align:center;">
       <span class="sec-ey">Get Started</span>
@@ -1435,7 +1645,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="footer-col">
         <h4>Company</h4>
-        <a href="#principles">Mission</a>
+        <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
         <a href="/cdn-cgi/l/email-protection#e1929491918e9395a18b8e9292918095848289cf828e8c">Contact</a>
       </div>
     </div>
@@ -1463,6 +1673,16 @@ function showPage(id) {
   }
   // re-run reveal observers on the new page
   document.querySelectorAll('.rv:not(.on)').forEach(function(el) { rvObs.observe(el); });
+  // re-observe The Pro mascot guides on page switch
+  document.querySelectorAll('.pro-guide:not(.visible)').forEach(function(el) { proObs.observe(el); });
+}
+
+function navTo(section) {
+  showPage('company');
+  setTimeout(function() {
+    var el = document.getElementById(section);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 50);
 }
 
 /* ── INIT ── */
@@ -1499,6 +1719,17 @@ var rvObs = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('on'); rvObs.unobserve(e.target); } });
 }, {threshold: 0.08});
 document.querySelectorAll('.rv').forEach(function(el) { rvObs.observe(el); });
+
+/* ── THE PRO: scroll-triggered guide ── */
+var proObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      proObs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.15});
+document.querySelectorAll('.pro-guide').forEach(function(el) { proObs.observe(el); });
 
 /* ── PBJ: Feature comparison toggle ── */
 function toggleFT(b) {
