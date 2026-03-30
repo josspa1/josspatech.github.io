@@ -756,9 +756,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 }
 
 /* ─── Josspa Mascot on Pricing ─── */
-.plan-grid-wrap{position:relative;padding-bottom:20px;}
+.plan-grid-wrap{position:relative;}
+.plan.best{position:relative;overflow:visible;}
 .josspa-float{
-  position:absolute;bottom:-130px;left:52%;margin-left:-40px;
+  position:absolute;bottom:14px;right:14px;
   z-index:12;pointer-events:none;
   animation:jBob 3s ease-in-out infinite;
   display:flex;flex-direction:column;align-items:center;
@@ -897,7 +898,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <span class="product-cta-arrow">→</span>
         </div>
         <div class="product-platforms">
-          <div class="platform-pill free">Free Basic — no expiration</div>
+          <div class="platform-pill free">35-day free trial</div>
           <div class="platform-pill">iOS</div>
           <div class="platform-pill">Android</div>
         </div>
@@ -953,7 +954,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           </svg>
         </div>
         <div class="principle-title">Honest Pricing</div>
-        <p class="principle-body">You see the price, you know what you get. No trials that quietly convert, no features pulled after 14 days, no bait-and-switch. If we offer a free tier, it stays free.</p>
+        <p class="principle-body">You see the price, you know what you get. No features pulled after 14 days, no bait-and-switch. A generous 35-day free trial lets you try everything before you decide, and the limited free tier keeps your data accessible after that.</p>
       </div>
 
       <div class="principle rv d3">
@@ -1012,16 +1013,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
     <h1 class="hero-h1">See everything.<br><em>Share nothing.</em></h1>
     <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-    <p class="hero-sub">Your personal financial data is stored on your device &mdash; not on our servers. <strong>Free to start, no expiration date.</strong> No account required. No bank login needed.</p>
+    <p class="hero-sub">Your personal financial data is stored on your device &mdash; not on our servers. <strong>35-day free trial &mdash; no credit card required.</strong> No account needed. No bank login needed.</p>
     <div class="hero-acts">
-      <a href="#download" class="btn-primary">Download Free &#8594;</a>
+      <a href="#download" class="btn-primary">Start Free Trial &#8594;</a>
       <a href="#pricing" class="btn-ghost">See pricing</a>
     </div>
   </div>
 </section>
 <div class="pstrip">
   <div class="psi"><div class="psd"></div>Personal data stored on your device</div>
-  <div class="psi"><div class="psd"></div>Free Basic &mdash; no expiration date</div>
+  <div class="psi"><div class="psd"></div>35-day free trial &mdash; no credit card needed</div>
   <div class="psi"><div class="psd"></div>No account required</div>
   <div class="psi"><div class="psd"></div>No ads &middot; No data sold</div>
   <div class="psi"><div class="psd"></div>iOS &amp; Android</div>
@@ -1035,7 +1036,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <p class="sec-su">Five of the features people use most &mdash; shown the way they actually look in the app.</p>
     </div>
     <div class="sstrip rv d1">
-      <div class="sc"><div class="sc-n">$0</div><div class="sc-l">Free Basic &mdash; no expiration</div></div>
+      <div class="sc"><div class="sc-n">$0</div><div class="sc-l">35-day free trial</div></div>
       <div class="sc"><div class="sc-n">43</div><div class="sc-l">Currencies supported</div></div>
       <div class="sc"><div class="sc-n">100%</div><div class="sc-l">Personal data on-device</div></div>
       <div class="sc"><div class="sc-n">$7.99</div><div class="sc-l">Premium from / month</div></div>
@@ -1049,12 +1050,12 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <h3 class="sh-hl">Your finances,<br><em>organized.</em><br>Your data, <span class="gu">yours.</span></h3>
             <p class="sh-desc" id="shdesc">See your monthly net at a glance. Track income, spending, available budget, and net worth &mdash; all in one place, all on your device.</p>
             <div class="sh-ctas">
-              <a href="#download" class="sh-btn">Download Free &#8594;</a>
+              <a href="#download" class="sh-btn">Start Free Trial &#8594;</a>
               <a href="#pricing" class="sh-lnk">See pricing</a>
             </div>
             <div class="sh-trust">
               <div class="sh-ti"><div class="sh-tck"></div>Personal data stored on your device</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Free Basic &mdash; no expiration date</div>
+              <div class="sh-ti"><div class="sh-tck"></div>35-day free trial &mdash; then limited free tier</div>
               <div class="sh-ti"><div class="sh-tck"></div>No account required</div>
               <div class="sh-ti"><div class="sh-tck"></div>43 currencies &middot; iOS &amp; Android</div>
             </div>
@@ -1165,9 +1166,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             </div>
           </div>
           <div class="sh-pricing">
-            <div class="sh-pc feat"><div class="sh-pamt">$0</div><div class="sh-pper">no expiration</div><div class="sh-plbl">Free Basic</div><div class="sh-ptag">Start here</div></div>
+            <div class="sh-pc feat"><div class="sh-pamt">$0</div><div class="sh-pper">for 35 days</div><div class="sh-plbl">Free Trial</div><div class="sh-ptag">Start here</div></div>
             <div class="sh-pc"><div class="sh-pamt">$7.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
-            <div class="sh-pc"><div class="sh-pamt">$119.99</div><div class="sh-pper">one-time purchase</div><div class="sh-plbl">Buy Once, Keep It</div><div class="sh-ptag gld">only app that offers this</div></div>
+            <div class="sh-pc"><div class="sh-pamt">$119.99</div><div class="sh-pper">for 3 years</div><div class="sh-plbl">3-Year Plan</div><div class="sh-ptag gld">just $3.33/month</div></div>
           </div>
         </div>
       </div>
@@ -1197,14 +1198,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div>
         <span class="sec-ey">How We Compare</span>
         <h2 class="sec-ti">The only budgeting app<br>that does <em>all of this.</em></h2>
-        <p class="sec-su" style="margin-bottom:0;">Other apps charge $13&ndash;$14.99 per month with a trial that expires in 7&ndash;34 days. PocketBudJet has a free tier with no expiration date, the lowest premium price in the category, and the only one-time purchase option.</p>
+        <p class="sec-su" style="margin-bottom:0;">Other apps charge $13&ndash;$14.99 per month with a trial that expires in 7&ndash;14 days. PocketBudJet offers a generous 35-day free trial, the lowest premium price in the category, and a 3-year plan that works out to just $3.33/month.</p>
       </div>
       <div>
         <table class="ctbl">
           <thead><tr><th>Feature</th><th>Others</th><th>PocketBudJet</th></tr></thead>
           <tbody>
-            <tr><td>Free tier with no expiration</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
-            <tr><td>One-time purchase option</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>35-day free trial (no credit card)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>3-year plan option ($3.33/mo)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>Data stays on your device</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No bank login required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
@@ -1224,32 +1225,25 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="sec-in">
     <div class="pricing-hd rv">
       <h2 class="pricing-h">Pick your plan.<br><em>Or don't.</em></h2>
-      <p class="pricing-su">The Free Basic tier has no expiration date. Upgrade if and when the premium features earn it. One-time purchase available &mdash; no other major budgeting app offers this.</p>
+      <p class="pricing-su">Start with a 35-day free trial &mdash; no credit card required. Then choose the plan that fits. The 3-year plan works out to just $3.33/month.</p>
     </div>
     <div class="plan-grid-wrap">
     <div class="plan-grid rv d1">
       <div class="plan">
-        <div class="plan-lbl">Free Basic</div>
+        <div class="plan-lbl">35-Day Free Trial</div>
         <div class="plan-pr">$0</div>
-        <div class="plan-per">&nbsp;</div>
-        <div class="plan-tag">No expiration date</div>
-        <div class="plan-note">No credit card. No account. No countdown.</div>
+        <div class="plan-per">for 35 days</div>
+        <div class="plan-tag">Full premium access</div>
+        <div class="plan-note">No credit card. No account. Try everything free.</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Includes</div>
+        <div class="plan-inc">35 days of everything, then limited free tier:</div>
         <ul class="plan-fl">
-          <li>Unlimited manual transactions</li>
-          <li>Bank file import (CSV &middot; OFX &middot; QFX &middot; XLSX)</li>
-          <li>Budget categories &amp; limits</li>
-          <li>Dashboard overview</li>
-          <li>Spending pace indicator</li>
-          <li>Savings goals</li>
-          <li>Recurring transactions</li>
-          <li>Budget limit alerts</li>
-          <li>Split bill</li>
-          <li>Up to 3 financial sources</li>
-          <li>Spending anomaly alerts</li>
-          <li>Photo &amp; note attachments</li>
-          <li>Face ID / PIN lock &middot; Dark mode</li>
+          <li>All premium features for 35 days</li>
+          <li>After trial: view transactions &amp; dashboard</li>
+          <li>After trial: up to 3 financial sources</li>
+          <li>After trial: manual entry &amp; basic budgets</li>
+          <li>Your data is always yours, always on-device</li>
+          <li>Upgrade anytime to unlock full premium</li>
         </ul>
       </div>
       <div class="plan">
@@ -1257,7 +1251,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="plan-pr">$7.99</div>
         <div class="plan-per">per month &middot; cancel anytime</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Free, plus</div>
+        <div class="plan-inc">Full premium access includes</div>
         <ul class="plan-fl">
           <li>Spending pace &amp; budget alerts</li>
           <li>Debt tracking &amp; strategy engine</li>
@@ -1279,32 +1273,17 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="plan best">
         <div class="plan-badge">Best Value</div>
         <div class="plan-lbl">Premium Annual</div>
-        <div class="plan-pr">$49.99</div>
-        <div class="plan-per">per year &middot; save 48% vs monthly</div>
-        <div class="plan-hi">That's under $4.17 per month</div>
+        <div class="plan-pr">$69.99</div>
+        <div class="plan-per">per year &middot; save 27% vs monthly</div>
+        <div class="plan-hi">That's under $5.83 per month</div>
         <div class="plan-div"></div>
         <div class="plan-inc">Everything in Premium Monthly, plus</div>
         <div class="plan-savings">
-          <div class="plan-srow"><span class="plan-slbl">You save vs monthly</span><span class="plan-sval">$45.89 / year</span></div>
-          <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.14 / day</span></div>
+          <div class="plan-srow"><span class="plan-slbl">You save vs monthly</span><span class="plan-sval">$25.89 / year</span></div>
+          <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.19 / day</span></div>
         </div>
         <p class="plan-desc" style="margin-top:10px;">33 premium features &mdash; billed once per year. Cancel anytime.</p>
-      </div>
-      <div class="plan plan-ot">
-        <div class="plan-lbl">One-Time Purchase</div>
-        <div class="plan-pr">$119.99</div>
-        <div class="plan-per">one-time &middot; no subscription</div>
-        <div class="plan-uniq">No other major budgeting app offers this.</div>
-        <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Premium, plus</div>
-        <ul class="plan-fl">
-          <li>All future premium features included</li>
-          <li>Pays for itself in under 15 months vs monthly</li>
-          <li>No renewal, no expiration</li>
-        </ul>
-      </div>
-    </div>
-    <!-- Josspa Mascot — below cards, pointing up at Best Value -->
+    <!-- Josspa Mascot — inside Best Value card empty space, offset right -->
     <div class="josspa-float" aria-hidden="true">
       <div class="josspa-speech">This one's the sweet spot!</div>
       <svg class="josspa-svg" width="80" height="128" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
@@ -1373,6 +1352,24 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <path d="M72 98Q80 105 82 118Q83 124 78 125L75 118Q74 108 70 100Z" fill="url(#jShirtGrad)"/>
             <ellipse cx="79" cy="124" rx="5" ry="4" fill="#F4C898"/>
             <ellipse cx="82.5" cy="121.5" rx="2.2" ry="1.8" fill="#F4C898" transform="rotate(20 82.5 121.5)"/>
+            <!-- PB&J sandwich in right hand -->
+            <g transform="translate(76,110) rotate(-15)">
+              <!-- Bottom bread slice -->
+              <path d="M-7 4L0-6L7 4Z" fill="#D4A04A" stroke="#B8862D" stroke-width=".6"/>
+              <!-- Peanut butter layer -->
+              <path d="M-5.5 2.5L0-4L5.5 2.5Z" fill="#C88B30"/>
+              <!-- Jelly layer (grape purple) -->
+              <path d="M-4 1L0-3.5L4 1Z" fill="#7B2D8E" opacity=".8"/>
+              <!-- Top bread slice -->
+              <path d="M-6 1.5L0-5.5L6 1.5Z" fill="#E2B55A" stroke="#C89A3D" stroke-width=".6"/>
+              <!-- Bread texture dots -->
+              <circle cx="-2" cy="-1" r=".4" fill="#C89A3D" opacity=".5"/>
+              <circle cx="2" cy="0" r=".4" fill="#C89A3D" opacity=".5"/>
+              <circle cx="0" cy="-3" r=".3" fill="#C89A3D" opacity=".5"/>
+              <!-- Jelly oozing out the side -->
+              <path d="M-5 2Q-6 3-5 3.5Q-4.5 4-4 3" fill="#7B2D8E" opacity=".7"/>
+              <path d="M4 1.5Q5 2.5 4.5 3Q4 3.5 3.5 2.5" fill="#7B2D8E" opacity=".6"/>
+            </g>
           </g>
           <path d="M60 101L63 101L62 96Z" fill="#F0C040" opacity=".7"/>
           <path d="M60 101L63 101" stroke="#E0DDD5" stroke-width=".5"/>
@@ -1432,15 +1429,30 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </g>
       </svg>
     </div>
+      </div>
+      <div class="plan plan-ot">
+        <div class="plan-lbl">3-Year Plan</div>
+        <div class="plan-pr">$119.99</div>
+        <div class="plan-per">3 years &middot; just $3.33/month</div>
+        <div class="plan-uniq">Save 58% vs monthly &mdash; save $89.98 vs 3 years of annual.</div>
+        <div class="plan-div"></div>
+        <div class="plan-inc">Everything in Premium, plus</div>
+        <ul class="plan-fl">
+          <li>One payment, 3 full years of premium</li>
+          <li>All premium features included for the full term</li>
+          <li>No auto-renewal &mdash; renew on your terms</li>
+        </ul>
+      </div>
+    </div>
     </div><!-- /plan-grid-wrap -->
     <div class="tog-wrap rv d2">
-      <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9660;</span><span id="fttext">Compare Free vs Premium features</span></button>
+      <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9660;</span><span id="fttext">Compare Trial vs Premium features</span></button>
     </div>
     <div class="ftable-wrap rv d3" id="ftable">
       <table class="ftable">
-        <thead><tr><th>Feature</th><th>Free</th><th>Premium</th></tr></thead>
+        <thead><tr><th>Feature</th><th>Limited Free</th><th>Premium</th></tr></thead>
         <tbody>
-          <tr class="sr"><td colspan="3">Core &amp; Free Features</td></tr>
+          <tr class="sr"><td colspan="3">Core Features (available after trial)</td></tr>
           <tr><td>Unlimited manual transaction entry</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Budget categories with spending limits</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
           <tr><td>Dashboard overview</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
@@ -1516,7 +1528,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="social-card">
         <div class="social-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="social-quote">&ldquo;I was shocked how much is free. Goals, templates, currency support &mdash; most apps charge for all of that. The one-time purchase sealed the deal.&rdquo;</p>
+        <p class="social-quote">&ldquo;I was shocked how much the trial gives you. Goals, templates, currency support &mdash; most apps charge for all of that. The 3-year plan sealed the deal.&rdquo;</p>
         <div class="social-who">Beta tester &middot; iOS</div>
       </div>
     </div>
@@ -1527,7 +1539,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="sec-in">
     <div class="rv" style="text-align:center;">
       <span class="sec-ey">Get Started</span>
-      <h2 class="sec-ti" style="text-align:center;">Download PocketBudJet.<br><em>Free. No expiration.</em></h2>
+      <h2 class="sec-ti" style="text-align:center;">Download PocketBudJet.<br><em>35 days free. No credit card.</em></h2>
       <p class="sec-su" style="text-align:center;margin:0 auto 20px;">Start in minutes. No account, no credit card, no countdown.</p>
     </div>
     <div class="launch-cta rv d1">
@@ -1657,7 +1669,7 @@ function toggleFT(b) {
   var chev = document.getElementById('ftchev');
   var txt  = document.getElementById('fttext');
   if (chev) chev.textContent = o ? '▲' : '▼';
-  if (txt)  txt.textContent  = o ? 'Hide feature comparison' : 'Compare Free vs Premium features';
+  if (txt)  txt.textContent  = o ? 'Hide feature comparison' : 'Compare Trial vs Premium features';
 }
 
 /* ── PBJ: Feature showcase rotation ── */
