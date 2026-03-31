@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PocketBudJet — Mascot Concepts</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F5F7FA; color: #1A1A2E; }
+  .header { background: #1A4F7A; color: #fff; padding: 24px 20px; text-align: center; }
+  .header h1 { font-size: 22px; font-weight: 800; }
+  .header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .row { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; padding: 30px 20px; }
+  .card {
+    background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    padding: 24px; text-align: center; width: 260px;
+  }
+  .card h3 { font-size: 15px; font-weight: 700; color: #1A4F7A; margin-bottom: 4px; }
+  .card .sub { font-size: 11px; color: #888; margin-bottom: 14px; line-height: 1.5; }
+  .card svg { display: block; margin: 0 auto 10px; }
+  .section-label {
+    text-align: center; font-size: 14px; font-weight: 700; color: #1A4F7A;
+    padding: 20px 20px 0; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .size-row { display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; padding: 20px; }
+  .size-item { text-align: center; }
+  .size-item .label { font-size: 10px; color: #888; margin-top: 6px; }
+  @keyframes idle { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-3px)} }
+  .idle { animation: idle 2.5s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>PBJ Mascot Concepts</h1>
+  <p>Human-ish chibi character &bull; PBJ brand colors</p>
+</div>
+
+<div class="section-label">Option A — "Buddy"</div>
+<div class="row">
+  <div class="card">
+    <h3>The Budget Buddy</h3>
+    <div class="sub">Cheerful, round-headed little guy.<br>Hoodie in PBJ Navy, gold coin detail.<br>Big eyes, warm energy.</div>
+    <svg width="160" height="220" viewBox="0 0 160 220" class="idle">
+      <!-- Shadow -->
+      <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.08)"/>
+
+      <!-- LEFT LEG -->
+      <rect x="58" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <!-- Shoe -->
+      <ellipse cx="62" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 50 196 Q 55 192 65 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+
+      <!-- RIGHT LEG -->
+      <rect x="88" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="98" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 90 196 Q 95 192 105 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+
+      <!-- BODY / HOODIE -->
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <!-- Hoodie pocket -->
+      <rect x="60" y="145" width="40" height="18" rx="6" fill="#163F62" opacity="0.6"/>
+      <!-- Hoodie center line -->
+      <line x1="80" y1="105" x2="80" y2="178" stroke="#163F62" stroke-width="1" opacity="0.3"/>
+      <!-- Hoodie drawstrings -->
+      <line x1="74" y1="105" x2="72" y2="118" stroke="#ddd" stroke-width="1.2" stroke-linecap="round"/>
+      <line x1="86" y1="105" x2="88" y2="118" stroke="#ddd" stroke-width="1.2" stroke-linecap="round"/>
+      <!-- Gold coin on pocket -->
+      <circle cx="80" cy="154" r="6" fill="#F0C040" stroke="#D4A020" stroke-width="1"/>
+      <text x="80" y="157" text-anchor="middle" font-size="8" font-weight="800" fill="#1A4F7A">$</text>
+
+      <!-- LEFT ARM -->
+      <path d="M 50 115 Q 38 130 35 145" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <!-- Hand (skin) -->
+      <circle cx="35" cy="148" r="8" fill="#F5D0B0"/>
+
+      <!-- RIGHT ARM — slight wave -->
+      <path d="M 110 115 Q 125 125 130 110" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <!-- Hand -->
+      <circle cx="132" cy="107" r="8" fill="#F5D0B0"/>
+      <!-- Fingers suggesting a wave -->
+      <path d="M 128 100 Q 132 96 136 100" stroke="#F5D0B0" stroke-width="3" fill="none"/>
+
+      <!-- HEAD -->
+      <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+
+      <!-- HAIR — tousled, casual -->
+      <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+      <path d="M 45 58 Q 48 35 80 30 Q 112 35 115 58" fill="#344D64"/>
+      <!-- Tousled bits -->
+      <path d="M 55 30 Q 60 20 68 28" fill="#2C3E50"/>
+      <path d="M 85 25 Q 92 18 98 26" fill="#2C3E50"/>
+      <path d="M 105 32 Q 112 25 115 35" fill="#2C3E50"/>
+
+      <!-- EYES — big, friendly -->
+      <ellipse cx="67" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="69" cy="69" r="6" fill="#1A4F7A"/>
+      <circle cx="71" cy="67" r="2.5" fill="#fff"/>
+      <ellipse cx="95" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="93" cy="69" r="6" fill="#1A4F7A"/>
+      <circle cx="91" cy="67" r="2.5" fill="#fff"/>
+
+      <!-- Eyebrows -->
+      <path d="M 57 56 Q 65 52 76 56" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M 86 55 Q 94 51 104 55" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+      <!-- Nose — tiny dot -->
+      <circle cx="80" cy="76" r="2" fill="#E8B890"/>
+
+      <!-- Smile -->
+      <path d="M 68 83 Q 80 92 92 83" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+      <!-- Rosy cheeks -->
+      <ellipse cx="57" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.25)"/>
+      <ellipse cx="103" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.25)"/>
+    </svg>
+  </div>
+
+  <div class="card">
+    <h3>Thumbs Up Pose</h3>
+    <div class="sub">Milestone celebration.<br>"Nice work. Keep going."</div>
+    <svg width="160" height="220" viewBox="0 0 160 220">
+      <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.08)"/>
+      <!-- Legs -->
+      <rect x="58" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="62" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 50 196 Q 55 192 65 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+      <rect x="88" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="98" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 90 196 Q 95 192 105 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+      <!-- Body -->
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <rect x="60" y="145" width="40" height="18" rx="6" fill="#163F62" opacity="0.6"/>
+      <line x1="80" y1="105" x2="80" y2="178" stroke="#163F62" stroke-width="1" opacity="0.3"/>
+      <circle cx="80" cy="154" r="6" fill="#F0C040" stroke="#D4A020" stroke-width="1"/>
+      <text x="80" y="157" text-anchor="middle" font-size="8" font-weight="800" fill="#1A4F7A">$</text>
+      <!-- Left arm — thumbs up -->
+      <path d="M 50 115 Q 35 105 30 85" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="28" cy="80" r="8" fill="#F5D0B0"/>
+      <!-- Thumb -->
+      <ellipse cx="28" cy="67" rx="4" ry="7" fill="#F5D0B0"/>
+      <!-- Fist detail -->
+      <path d="M 22 78 Q 28 76 34 78" stroke="#E8B890" stroke-width="0.8" fill="none"/>
+      <!-- Sparkle -->
+      <path d="M 15 58 L 17 52 L 19 58 L 24 55 L 19 60 L 21 65 L 17 62 L 15 67 L 14 62 L 9 60 Z" fill="#F0C040" opacity="0.8"/>
+      <!-- Right arm relaxed -->
+      <path d="M 110 115 Q 125 130 128 148" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="130" cy="151" r="8" fill="#F5D0B0"/>
+      <!-- Head -->
+      <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+      <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+      <path d="M 45 58 Q 48 35 80 30 Q 112 35 115 58" fill="#344D64"/>
+      <path d="M 55 30 Q 60 20 68 28" fill="#2C3E50"/>
+      <path d="M 85 25 Q 92 18 98 26" fill="#2C3E50"/>
+      <path d="M 105 32 Q 112 25 115 35" fill="#2C3E50"/>
+      <!-- Happy squint eyes -->
+      <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <!-- Big smile -->
+      <path d="M 65 83 Q 80 95 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Bigger rosy cheeks -->
+      <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+      <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+    </svg>
+  </div>
+
+  <div class="card">
+    <h3>Thinking Pose</h3>
+    <div class="sub">Loading screen or "processing" state.<br>Hand on chin, contemplative.</div>
+    <svg width="160" height="220" viewBox="0 0 160 220">
+      <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.08)"/>
+      <!-- Legs -->
+      <rect x="58" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="62" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 50 196 Q 55 192 65 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+      <rect x="88" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="98" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 90 196 Q 95 192 105 194" stroke="#F0C040" stroke-width="1.5" fill="none"/>
+      <!-- Body -->
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <rect x="60" y="145" width="40" height="18" rx="6" fill="#163F62" opacity="0.6"/>
+      <line x1="80" y1="105" x2="80" y2="178" stroke="#163F62" stroke-width="1" opacity="0.3"/>
+      <circle cx="80" cy="154" r="6" fill="#F0C040" stroke="#D4A020" stroke-width="1"/>
+      <text x="80" y="157" text-anchor="middle" font-size="8" font-weight="800" fill="#1A4F7A">$</text>
+      <!-- Left arm — hand on chin -->
+      <path d="M 50 115 Q 42 100 55 88" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="57" cy="85" r="8" fill="#F5D0B0"/>
+      <!-- Right arm — crossed -->
+      <path d="M 110 115 Q 115 130 100 138" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="97" cy="140" r="8" fill="#F5D0B0"/>
+      <!-- Head — slight tilt -->
+      <g transform="rotate(5, 80, 68)">
+        <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+        <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+        <path d="M 45 58 Q 48 35 80 30 Q 112 35 115 58" fill="#344D64"/>
+        <path d="M 55 30 Q 60 20 68 28" fill="#2C3E50"/>
+        <path d="M 85 25 Q 92 18 98 26" fill="#2C3E50"/>
+        <path d="M 105 32 Q 112 25 115 35" fill="#2C3E50"/>
+        <!-- Eyes — looking up/to side (thinking) -->
+        <ellipse cx="67" cy="68" rx="9" ry="10" fill="#fff"/>
+        <circle cx="65" cy="66" r="6" fill="#1A4F7A"/>
+        <circle cx="63" cy="64" r="2.5" fill="#fff"/>
+        <ellipse cx="95" cy="68" rx="9" ry="10" fill="#fff"/>
+        <circle cx="93" cy="66" r="6" fill="#1A4F7A"/>
+        <circle cx="91" cy="64" r="2.5" fill="#fff"/>
+        <!-- One eyebrow raised -->
+        <path d="M 57 54 Q 65 50 76 55" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 86 52 Q 94 47 104 53" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Nose -->
+        <circle cx="80" cy="76" r="2" fill="#E8B890"/>
+        <!-- Small thoughtful mouth -->
+        <path d="M 72 84 Q 80 87 88 84" stroke="#C4856A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <!-- Cheeks -->
+        <ellipse cx="57" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.2)"/>
+        <ellipse cx="103" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.2)"/>
+      </g>
+      <!-- Thought dots -->
+      <circle cx="130" cy="60" r="3" fill="#1A4F7A" opacity="0.2"/>
+      <circle cx="138" cy="48" r="4" fill="#1A4F7A" opacity="0.15"/>
+      <circle cx="144" cy="34" r="5" fill="#1A4F7A" opacity="0.1"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── OPTION B — DIFFERENT STYLE ─── -->
+<div class="section-label">Option B — "The Pro"</div>
+<div class="row">
+  <div class="card">
+    <h3>Sharper / More Polished</h3>
+    <div class="sub">Same chibi proportions but<br>button-up shirt, glasses, tidier hair.<br>Smarter, more "financial advisor" energy.</div>
+    <svg width="160" height="220" viewBox="0 0 160 220" class="idle">
+      <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.08)"/>
+      <!-- Legs -->
+      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+      <ellipse cx="98" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+
+      <!-- BODY — button-up shirt -->
+      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+      <!-- Shirt buttons -->
+      <circle cx="80" cy="120" r="2" fill="#1A4F7A"/>
+      <circle cx="80" cy="134" r="2" fill="#1A4F7A"/>
+      <circle cx="80" cy="148" r="2" fill="#1A4F7A"/>
+      <!-- Collar -->
+      <path d="M 64 102 L 74 115 L 80 108" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+      <path d="M 96 102 L 86 115 L 80 108" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+      <!-- Tie — PBJ gold -->
+      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
+      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+
+      <!-- Left arm -->
+      <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <path d="M 50 115 Q 38 130 36 148" stroke="#E0E4EA" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
+      <!-- Right arm -->
+      <path d="M 110 115 Q 122 130 124 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+      <path d="M 110 115 Q 122 130 124 148" stroke="#E0E4EA" stroke-width="1" stroke-linecap="round" fill="none"/>
+      <circle cx="124" cy="151" r="7" fill="#F5D0B0"/>
+
+      <!-- HEAD -->
+      <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+      <!-- Neat hair -->
+      <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
+      <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
+      <!-- Side part -->
+      <path d="M 62 24 Q 65 20 70 25" stroke="#2C3E50" stroke-width="2" fill="none"/>
+
+      <!-- GLASSES -->
+      <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+      <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+      <!-- Temple arms -->
+      <line x1="54" y1="64" x2="44" y2="62" stroke="#1A4F7A" stroke-width="1.5"/>
+      <line x1="106" y1="64" x2="116" y2="62" stroke="#1A4F7A" stroke-width="1.5"/>
+
+      <!-- Eyes behind glasses -->
+      <circle cx="65" cy="67" r="5" fill="#fff"/>
+      <circle cx="67" cy="68" r="3.5" fill="#1A4F7A"/>
+      <circle cx="68.5" cy="66.5" r="1.5" fill="#fff"/>
+      <circle cx="95" cy="67" r="5" fill="#fff"/>
+      <circle cx="93" cy="68" r="3.5" fill="#1A4F7A"/>
+      <circle cx="91.5" cy="66.5" r="1.5" fill="#fff"/>
+
+      <!-- Eyebrows -->
+      <path d="M 55 54 Q 63 50 74 54" stroke="#2C3E50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M 86 54 Q 94 50 105 54" stroke="#2C3E50" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+
+      <!-- Nose -->
+      <circle cx="80" cy="76" r="2" fill="#E8B890"/>
+      <!-- Smile -->
+      <path d="M 70 84 Q 80 90 90 84" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Cheeks -->
+      <ellipse cx="56" cy="80" rx="6" ry="4" fill="rgba(255,150,130,0.2)"/>
+      <ellipse cx="104" cy="80" rx="6" ry="4" fill="rgba(255,150,130,0.2)"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ─── AT VARIOUS SIZES ─── -->
+<div class="section-label">Scale Check — Buddy at Various Sizes</div>
+<div class="size-row">
+  <div class="size-item">
+    <svg width="120" height="165" viewBox="0 0 160 220">
+      <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.08)"/>
+      <rect x="58" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="62" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <rect x="88" y="168" width="14" height="28" rx="7" fill="#1A4F7A"/>
+      <ellipse cx="98" cy="200" rx="15" ry="8" fill="#2C3E50"/>
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <rect x="60" y="145" width="40" height="18" rx="6" fill="#163F62" opacity="0.6"/>
+      <circle cx="80" cy="154" r="6" fill="#F0C040" stroke="#D4A020" stroke-width="1"/>
+      <text x="80" y="157" text-anchor="middle" font-size="8" font-weight="800" fill="#1A4F7A">$</text>
+      <path d="M 50 115 Q 38 130 35 145" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="35" cy="148" r="8" fill="#F5D0B0"/>
+      <path d="M 110 115 Q 125 125 130 110" stroke="#1A4F7A" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <circle cx="132" cy="107" r="8" fill="#F5D0B0"/>
+      <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+      <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+      <path d="M 45 58 Q 48 35 80 30 Q 112 35 115 58" fill="#344D64"/>
+      <path d="M 55 30 Q 60 20 68 28" fill="#2C3E50"/>
+      <path d="M 85 25 Q 92 18 98 26" fill="#2C3E50"/>
+      <ellipse cx="67" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="69" cy="69" r="6" fill="#1A4F7A"/>
+      <circle cx="71" cy="67" r="2.5" fill="#fff"/>
+      <ellipse cx="95" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="93" cy="69" r="6" fill="#1A4F7A"/>
+      <circle cx="91" cy="67" r="2.5" fill="#fff"/>
+      <path d="M 68 83 Q 80 92 92 83" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <ellipse cx="57" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.25)"/>
+      <ellipse cx="103" cy="80" rx="7" ry="4" fill="rgba(255,150,130,0.25)"/>
+    </svg>
+    <div class="label">120px — in-app</div>
+  </div>
+  <div class="size-item">
+    <svg width="60" height="82" viewBox="0 0 160 220">
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <circle cx="80" cy="154" r="6" fill="#F0C040"/>
+      <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+      <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+      <ellipse cx="67" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="69" cy="69" r="6" fill="#1A4F7A"/>
+      <ellipse cx="95" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="93" cy="69" r="6" fill="#1A4F7A"/>
+      <path d="M 68 83 Q 80 92 92 83" stroke="#C4856A" stroke-width="2.5" fill="none"/>
+    </svg>
+    <div class="label">60px — icon</div>
+  </div>
+  <div class="size-item">
+    <svg width="32" height="44" viewBox="0 0 160 220">
+      <path d="M 50 120 Q 50 100 80 98 Q 110 100 110 120 L 110 175 Q 110 180 105 180 L 55 180 Q 50 180 50 175 Z" fill="#1A4F7A"/>
+      <circle cx="80" cy="68" r="38" fill="#F5D0B0"/>
+      <path d="M 42 58 Q 42 28 80 22 Q 118 28 118 58" fill="#2C3E50"/>
+      <ellipse cx="67" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="69" cy="69" r="6" fill="#1A4F7A"/>
+      <ellipse cx="95" cy="68" rx="9" ry="10" fill="#fff"/>
+      <circle cx="93" cy="69" r="6" fill="#1A4F7A"/>
+      <path d="M 68 83 Q 80 92 92 83" stroke="#C4856A" stroke-width="3" fill="none"/>
+    </svg>
+    <div class="label">32px — badge</div>
+  </div>
+</div>
+
+<div style="text-align:center; padding: 20px; color: #888; font-size: 12px; max-width: 500px; margin: 0 auto; line-height: 1.6;">
+  Option A "Buddy" — casual hoodie, tousled hair, warm and approachable.<br>
+  Option B "The Pro" — glasses, button-up + gold tie, smarter energy.<br>
+  Both use PBJ Navy + Gold palette. Both scale down cleanly.
+</div>
+
+</body>
+</html>
