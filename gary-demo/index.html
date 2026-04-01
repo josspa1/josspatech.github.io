@@ -57,10 +57,12 @@
             gap: 8px;
             transition: color 0.3s ease;
         }
-
-        header a:hover {
-            color: var(--gold);
-        }
+        header a:hover { color: var(--gold); }
+        .breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;}
+        .breadcrumb a{color:var(--slate);text-decoration:none;transition:color .15s;font-weight:600;}
+        .breadcrumb a:hover{color:var(--navy);}
+        .breadcrumb .bc-sep{color:#b0c4d8;font-weight:400;}
+        .breadcrumb .bc-cur{color:var(--navy);}
 
         .demo-container {
             flex: 1;
@@ -742,7 +744,13 @@
 </head>
 <body>
     <header>
-        <a href="../index.html#pbj">← Back to PocketBudJet</a>
+        <nav class="breadcrumb" aria-label="breadcrumb">
+            <a href="../index.html">JosspaTech</a>
+            <span class="bc-sep">/</span>
+            <a href="../index.html#pbj">PocketBudJet</a>
+            <span class="bc-sep">/</span>
+            <span class="bc-cur">Gary Demo</span>
+        </nav>
     </header>
 
     <div class="demo-container">

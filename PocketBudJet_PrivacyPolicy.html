@@ -13,8 +13,11 @@ header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align
 .hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
 .hdr-name span{color:var(--gold);}
-.hdr-back{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
-.hdr-back:hover{color:var(--gold);}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;}
+.breadcrumb a{color:var(--light-slate);text-decoration:none;transition:color .15s;}
+.breadcrumb a:hover{color:var(--gold);}
+.breadcrumb .bc-sep{color:rgba(255,255,255,0.2);}
+.breadcrumb .bc-cur{color:rgba(255,255,255,0.7);font-weight:600;}
 .doc-hero{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}
 .doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
 .doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
@@ -47,7 +50,13 @@ footer .fn span{color:var(--gold);}
     </svg>
     <span class="hdr-name">Josspa<span>Tech</span>™</span>
   </a>
-  <a class="hdr-back" href="index.html#pbj">← PocketBudJet</a>
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="index.html">JosspaTech</a>
+    <span class="bc-sep">/</span>
+    <a href="index.html#pbj">PocketBudJet</a>
+    <span class="bc-sep">/</span>
+    <span class="bc-cur">Privacy Policy</span>
+  </nav>
 </header>
 
 <div class="doc-hero">
