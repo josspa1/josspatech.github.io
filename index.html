@@ -498,7 +498,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 110%,rgba(46,111,163,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% -5%,rgba(240,192,64,0.06) 0%,transparent 55%);pointer-events:none;}
 .hero-inner{position:relative;z-index:1;max-width:960px;margin:0 auto;display:flex;align-items:center;gap:48px;}
 .hero-text{flex:1;text-align:center;}
-.hero-mascot{flex-shrink:0;animation:idle 2.5s ease-in-out infinite;}
+.hero-mascot{flex-shrink:0;animation:idle 2.5s ease-in-out infinite;filter:drop-shadow(0 12px 28px rgba(12,51,88,0.28)) drop-shadow(0 4px 10px rgba(0,0,0,0.14));}
 @keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media(max-width:768px){.hero-inner{flex-direction:column;}.hero-mascot{order:-1;}.hero-mascot svg{width:120px;height:165px;}.pro-guide{display:none !important;}}
 
@@ -703,6 +703,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .fl-v11{background:rgba(39,174,96,0.09);color:#1e8449;border:1px solid rgba(39,174,96,0.2);}
 .fl-v2{background:rgba(142,68,173,0.09);color:#7d3c98;border:1px solid rgba(142,68,173,0.2);}
 .pfoot{font-size:12px;color:var(--slate-lt);text-align:center;padding-top:14px;}
+.plan-best-mascot{text-align:center;margin-top:16px;}
+.plan-best-mascot svg{animation:idle 2.5s ease-in-out infinite;filter:drop-shadow(0 10px 22px rgba(12,51,88,0.22)) drop-shadow(0 3px 8px rgba(0,0,0,0.13));overflow:visible;}
+.mascot-wave-arm{transform-origin:110px 115px;transform-box:fill-box;animation:waveArm 1.6s ease-in-out infinite;}
+@keyframes waveArm{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-32deg);}55%{transform:rotate(10deg);}78%{transform:rotate(-20deg);}}
 .launch-cta{margin-bottom:36px;}
 .launch-cta-inner{background:var(--navy-dk);border-radius:18px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(12,51,88,0.12),0 16px 48px rgba(12,51,88,0.08);}
 .launch-cta-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;}
@@ -1084,7 +1088,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
     </div>
     <div class="hero-mascot" aria-hidden="true">
-      <svg width="160" height="220" viewBox="0 0 160 220">
+      <svg width="160" height="220" viewBox="0 0 160 220" style="overflow:visible;">
         <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(255,255,255,0.06)"/>
         <!-- Legs -->
         <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
@@ -1103,9 +1107,17 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <!-- Tie — PBJ gold -->
         <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
         <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-        <!-- Left arm -->
-        <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-        <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
+        <!-- Left arm — presenting toward title at ~45° diagonal -->
+        <path d="M 50 115 Q 24 96 6 72" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+        <!-- Open palm -->
+        <circle cx="4" cy="69" r="9" fill="#F5D0B0"/>
+        <!-- Fingers spread open, pointing up-left -->
+        <path d="M -1 62 Q -3 52 -1 45" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <path d="M 6 59 Q 6 49 8 42" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <path d="M 13 62 Q 15 53 19 48" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <path d="M -7 66 Q -14 61 -16 55" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <!-- Thumb hint -->
+        <path d="M -4 73 Q -12 72 -14 68" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
         <!-- Right arm -->
         <path d="M 110 115 Q 122 130 124 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
         <circle cx="124" cy="151" r="7" fill="#F5D0B0"/>
@@ -1322,6 +1334,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
       </div>
     </div>
+    <div style="text-align:center;margin-top:24px;">
+      <a href="gary-demo/index.html" style="display:inline-flex;align-items:center;gap:8px;background:rgba(240,192,64,0.1);border:1.5px solid rgba(240,192,64,0.35);color:var(--navy-dk);font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;transition:all .18s;" onmouseover="this.style.background='rgba(240,192,64,0.18)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(240,192,64,0.1)';this.style.transform='none'">😎 See a real example — explore Gary's finances &rarr;</a>
+    </div>
   </div>
 </section>
 
@@ -1468,12 +1483,17 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.14 / day</span></div>
         </div>
         <p class="plan-desc" style="margin-top:10px;">All 31 premium features. One price. One year. No surprises. Cancel anytime.</p>
-        <div style="text-align:center;margin-top:14px;opacity:0.85;" aria-hidden="true">
-          <svg width="48" height="66" viewBox="0 0 160 220">
-            <ellipse cx="80" cy="212" rx="30" ry="5" fill="rgba(0,0,0,0.05)"/>
+        <div class="plan-best-mascot" aria-hidden="true">
+          <svg width="140" height="193" viewBox="0 0 160 220" style="overflow:visible;">
+            <ellipse cx="80" cy="212" rx="34" ry="6" fill="rgba(0,0,0,0.09)"/>
+            <!-- Legs -->
             <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
             <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+            <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+            <ellipse cx="94" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+            <!-- Body -->
             <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+            <!-- Tie -->
             <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
             <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
             <!-- Left arm thumbs up -->
@@ -1481,9 +1501,12 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <circle cx="28" cy="80" r="8" fill="#F5D0B0"/>
             <ellipse cx="28" cy="67" rx="4" ry="7" fill="#F5D0B0"/>
             <path d="M 15 58 L 17 52 L 19 58 L 24 55 L 19 60 L 21 65 L 17 62 L 15 67 L 14 62 L 9 60 Z" fill="#F0C040" opacity="0.8"/>
-            <!-- Right arm relaxed -->
-            <path d="M 110 115 Q 125 130 128 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-            <circle cx="130" cy="151" r="8" fill="#F5D0B0"/>
+            <!-- Right arm waving -->
+            <g class="mascot-wave-arm">
+              <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+              <circle cx="132" cy="77" r="8" fill="#F5D0B0"/>
+              <path d="M 128 70 Q 132 65 137 70" stroke="#F5D0B0" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>
             <!-- Head -->
             <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
             <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
