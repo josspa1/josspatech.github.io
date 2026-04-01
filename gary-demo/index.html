@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gary's Financial Journey - PocketBudJet Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1A4F7A;
+            --navy-dark: #0C3358;
+            --navy-mid: #2E6FA3;
+            --gold: #F0C040;
+            --gold-dark: #E8A820;
+            --slate: #5A7A9A;
+            --light-slate: #8AAABB;
+            --bg: #EDF2F7;
+            --white: #FFFFFF;
+            --error: #E74C3C;
+            --success: #27AE60;
+            --warning: #F39C12;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--navy);
+        }
+
+        header {
+            padding: 20px 30px;
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: var(--gold);
+        }
+
+        .demo-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            gap: 40px;
+        }
+
+        .phone-frame {
+            position: relative;
+            width: 360px;
+            height: 720px;
+            background: var(--navy-dark);
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 25px;
+            background: var(--navy-dark);
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: var(--bg);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .app-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .app-header {
+            background: var(--navy);
+            color: var(--white);
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 30px 30px 0 0;
+        }
+
+        .app-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .app-header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .dashboard-item {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid #E0E8F0;
+        }
+
+        .summary-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid #E0E8F0;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: var(--slate);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--navy);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .transaction-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F4F8;
+        }
+
+        .transaction-row:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-merchant {
+            font-size: 13px;
+            color: var(--navy);
+            font-weight: 600;
+        }
+
+        .transaction-amount {
+            font-size: 13px;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .category-bar {
+            margin-bottom: 15px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 12px;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .category-amount {
+            color: var(--slate);
+            font-weight: 500;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 20px;
+            background: #F0F4F8;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 10px;
+            transition: width 0.6s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 8px;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .bar-fill.warning {
+            background: var(--warning);
+        }
+
+        .bar-fill.error {
+            background: var(--error);
+        }
+
+        .subscription-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #F0F4F8;
+            font-size: 13px;
+        }
+
+        .subscription-item:last-child {
+            border-bottom: none;
+        }
+
+        .subscription-name {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .subscription-tag {
+            font-size: 11px;
+            color: var(--slate);
+        }
+
+        .subscription-cost {
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .goal-item {
+            margin-bottom: 15px;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .goal-title {
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .goal-progress {
+            color: var(--slate);
+        }
+
+        .goal-bar {
+            width: 100%;
+            height: 24px;
+            background: #F0F4F8;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .goal-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            transition: width 0.6s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .debt-card {
+            background: linear-gradient(135deg, var(--error), #C0392B);
+            color: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .debt-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .debt-balance {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 8px 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .debt-details {
+            font-size: 12px;
+            opacity: 0.85;
+            line-height: 1.4;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-svg {
+            width: 160px;
+            height: 160px;
+            transform: rotate(-90deg);
+        }
+
+        .input-field {
+            background: var(--white);
+            border: 1px solid #E0E8F0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--navy);
+            width: 100%;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .button {
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .button:hover {
+            background: var(--navy-mid);
+        }
+
+        .button.primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .button.primary:hover {
+            background: var(--gold-dark);
+        }
+
+        .info-panel {
+            position: absolute;
+            right: -380px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 340px;
+            background: var(--white);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            z-index: 50;
+            transition: right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-left: 4px solid var(--gold);
+        }
+
+        .info-panel.active {
+            right: 20px;
+        }
+
+        .info-panel h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: var(--navy);
+            margin-bottom: 12px;
+        }
+
+        .info-panel p {
+            font-size: 14px;
+            color: var(--slate);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .pointer {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--gold);
+            border-radius: 50%;
+            left: -16px;
+            top: 20px;
+            z-index: 60;
+        }
+
+        .pointer::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            left: 2px;
+            top: 2px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.4);
+                opacity: 0.5;
+            }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 16px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .control-button {
+            background: var(--navy);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .control-button:hover {
+            background: var(--navy-mid);
+            transform: translateY(-2px);
+        }
+
+        .control-button:disabled {
+            background: #D0D0D0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #D0D0D0;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: var(--gold);
+            box-shadow: 0 0 8px rgba(240, 192, 64, 0.6);
+        }
+
+        .pause-button {
+            background: transparent;
+            color: var(--navy);
+            border: 2px solid var(--navy);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .pause-button:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        .animated-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .animated-cursor.active {
+            display: block;
+        }
+
+        .cursor-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            top: 0;
+            left: 0;
+        }
+
+        .cursor-dot::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-dot::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: cursor-pulse 1.2s ease-in-out infinite;
+        }
+
+        @keyframes cursor-pulse {
+            0%, 100% {
+                width: 20px;
+                height: 20px;
+                opacity: 0.6;
+            }
+            50% {
+                width: 30px;
+                height: 30px;
+                opacity: 0;
+            }
+        }
+
+        .cursor-dot.clicking {
+            animation: cursor-click 0.4s ease-out;
+        }
+
+        @keyframes cursor-click {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.7);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        footer {
+            padding: 30px;
+            background: var(--white);
+            text-align: center;
+            border-top: 1px solid #E0E8F0;
+        }
+
+        footer a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--navy);
+            margin-bottom: 15px;
+        }
+
+        .cta-section p {
+            color: var(--slate);
+            margin-bottom: 25px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons a {
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+
+        .cta-buttons a.primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+
+        .cta-buttons a.primary:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+        }
+
+        .cta-buttons a.secondary {
+            background: var(--navy);
+            color: white;
+        }
+
+        .cta-buttons a.secondary:hover {
+            background: var(--navy-mid);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1200px) {
+            .demo-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .info-panel.active {
+                position: static;
+                transform: none;
+                right: auto;
+                margin-top: 20px;
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .phone-frame {
+                width: 100%;
+                max-width: 360px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-buttons a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .number-counter {
+            display: inline-block;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="../index.html#pbj">← Back to PocketBudJet</a>
+    </header>
+
+    <div class="demo-container">
+        <div class="phone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+                <div class="app-content" id="appContent">
+                </div>
+            </div>
+        </div>
+
+        <div class="info-panel" id="infoPanel">
+            <div class="pointer"></div>
+            <h3 id="tipTitle">Welcome to Gary's World</h3>
+            <p id="tipText">Loading...</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-button" id="prevBtn" onclick="previousStep()">← Previous</button>
+        <div class="progress-dots" id="progressDots"></div>
+        <button class="pause-button" id="pauseBtn" onclick="togglePause()">⏸ Pause</button>
+        <button class="control-button" id="nextBtn" onclick="nextStep()">Next →</button>
+    </div>
+
+    <footer>
+        <a href="#" onclick="currentStep = -1; nextStep(); return false;">Start Over</a>
+        <a href="../index.html#pbj">View Pricing Plans</a>
+        <a href="../index.html">Back to PocketBudJet</a>
+    </footer>
+
+    <div class="animated-cursor" id="cursor">
+        <div class="cursor-dot"></div>
+    </div>
+
+    <script>
+        const tourSteps = [
+            {
+                title: "Welcome to Gary's Financial World",
+                tip: "Gary earns $4,800/month from Initech Solutions Inc. Let's see where it goes...",
+                duration: 6,
+                render: renderDashboard,
+                cursor: null
+            },
+            {
+                title: "Adding Income",
+                tip: "Add your income sources — salary, side gigs, whatever keeps the lights on.",
+                duration: 7,
+                render: renderAddIncome,
+                cursor: { x: 0.5, y: 0.4, target: 'income-select' }
+            },
+            {
+                title: "Expense Tracking",
+                tip: "Track every purchase. Gary's 'Sous Vide Machine for cooking at home more' was $299.99. Gary has not cooked at home.",
+                duration: 8,
+                render: renderTransactions,
+                cursor: { x: 0.5, y: 0.45, target: 'sous-vide' }
+            },
+            {
+                title: "Budget Analysis",
+                tip: "Set budgets per category. Gary set Dining at $200/month. Gary spent $1,242. Gary 'disagrees' with math.",
+                duration: 7,
+                render: renderBudgetAnalysis,
+                cursor: { x: 0.5, y: 0.35, target: 'dining-budget' }
+            },
+            {
+                title: "Spending Overview",
+                tip: "Visualize where your money goes. For Gary, the answer is 'restaurants.'",
+                duration: 6,
+                render: renderSpendingChart,
+                cursor: null
+            },
+            {
+                title: "Subscriptions & Bills",
+                tip: "Track subscriptions. Gary pays for 5 streaming services and 2 gyms. He's been to the gym once. In January.",
+                duration: 8,
+                render: renderSubscriptions,
+                cursor: { x: 0.5, y: 0.55, target: 'gym-item' }
+            },
+            {
+                title: "Debt Tracker",
+                tip: "Track your debts and interest. Gary's Visa grows faster than his savings. The Avalanche vs Snowball strategy tool can help — just not Gary.",
+                duration: 7,
+                render: renderDebt,
+                cursor: { x: 0.5, y: 0.35, target: 'debt-card' }
+            },
+            {
+                title: "Savings Goals",
+                tip: "Set savings goals. Gary's saving for an electric bike 'for the environment.' The environment is not the reason.",
+                duration: 7,
+                render: renderGoals,
+                cursor: { x: 0.5, y: 0.35, target: 'bike-goal' }
+            },
+            {
+                title: "Ready to Do Better Than Gary?",
+                tip: "Take control of your finances with PocketBudJet. Start your free trial today and make smarter money decisions.",
+                duration: 6,
+                render: renderCTA,
+                cursor: null
+            }
+        ];
+
+        let currentStep = 0;
+        let isPlaying = true;
+        let autoplayTimer = null;
+
+        function init() {
+            createProgressDots();
+            showStep(0);
+            startAutoplay();
+        }
+
+        function createProgressDots() {
+            const dotsContainer = document.getElementById('progressDots');
+            tourSteps.forEach((_, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (index === 0) dot.classList.add('active');
+                dot.onclick = () => {
+                    clearTimeout(autoplayTimer);
+                    currentStep = index;
+                    showStep(index);
+                    if (isPlaying) startAutoplay();
+                };
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        function showStep(stepIndex) {
+            currentStep = stepIndex;
+            const step = tourSteps[stepIndex];
+
+            document.getElementById('appContent').innerHTML = '';
+            step.render();
+
+            document.getElementById('tipTitle').textContent = step.title;
+            document.getElementById('tipText').textContent = step.tip;
+
+            const infoPanel = document.getElementById('infoPanel');
+            infoPanel.classList.add('active');
+
+            updateProgressDots();
+            updateControls();
+
+            if (step.cursor) {
+                setTimeout(() => animateCursor(step.cursor), 500);
+            }
+        }
+
+        function updateProgressDots() {
+            document.querySelectorAll('.dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentStep);
+            });
+        }
+
+        function updateControls() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep === tourSteps.length - 1;
+        }
+
+        function nextStep() {
+            if (currentStep < tourSteps.length - 1) {
+                clearTimeout(autoplayTimer);
+                showStep(currentStep + 1);
+                if (isPlaying) startAutoplay();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                clearTimeout(autoplayTimer);
+                showStep(currentStep - 1);
+                if (isPlaying) startAutoplay();
+            }
+        }
+
+        function togglePause() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('pauseBtn');
+            if (isPlaying) {
+                btn.textContent = '⏸ Pause';
+                startAutoplay();
+            } else {
+                btn.textContent = '▶ Play';
+                clearTimeout(autoplayTimer);
+            }
+        }
+
+        function startAutoplay() {
+            if (!isPlaying) return;
+            clearTimeout(autoplayTimer);
+            const duration = tourSteps[currentStep].duration * 1000;
+            autoplayTimer = setTimeout(() => {
+                if (currentStep < tourSteps.length - 1) {
+                    showStep(currentStep + 1);
+                    startAutoplay();
+                }
+            }, duration);
+        }
+
+        function animateCursor(cursorData) {
+            const cursor = document.getElementById('cursor');
+            const target = document.getElementById(cursorData.target);
+
+            if (!target) {
+                cursor.classList.remove('active');
+                return;
+            }
+
+            cursor.classList.add('active');
+            const rect = target.getBoundingClientRect();
+
+            const targetX = rect.left + rect.width / 2;
+            const targetY = rect.top + rect.height / 2;
+
+            cursor.style.transition = 'none';
+            cursor.style.left = '50%';
+            cursor.style.top = '50%';
+            cursor.style.transform = 'translate(-50%, -50%)';
+
+            setTimeout(() => {
+                cursor.style.transition = 'all 0.8s ease-out';
+                cursor.style.left = targetX + 'px';
+                cursor.style.top = targetY + 'px';
+                cursor.style.transform = 'translate(-50%, -50%)';
+
+                setTimeout(() => {
+                    cursor.querySelector('.cursor-dot').classList.add('clicking');
+                    setTimeout(() => {
+                        cursor.querySelector('.cursor-dot').classList.remove('clicking');
+                    }, 400);
+                }, 800);
+            }, 50);
+        }
+
+        // Render functions
+        function renderDashboard() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Dashboard</h1>
+                    <p>Your financial snapshot</p>
+                </div>
+                <div class="summary-card">
+                    <div>
+                        <div class="summary-label">Monthly Income</div>
+                        <div class="summary-amount" style="color: var(--success);">$<span class="number-counter" data-value="4800">0</span></div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div>
+                        <div class="summary-label">Spent This Month</div>
+                        <div class="summary-amount" style="color: var(--error);">$<span class="number-counter" data-value="3240">0</span></div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div>
+                        <div class="summary-label">Budget Alerts</div>
+                        <div class="summary-amount" style="color: var(--warning);">3</div>
+                    </div>
+                </div>
+                <div class="dashboard-item">
+                    <div class="summary-label" style="margin-bottom: 10px;">Recent Transactions</div>
+                    <div class="transaction-row">
+                        <div class="transaction-merchant">Someone Else's Kitchen</div>
+                        <div class="transaction-amount">-$88.20</div>
+                    </div>
+                    <div class="transaction-row">
+                        <div class="transaction-merchant">$7 Coffee Company</div>
+                        <div class="transaction-amount">-$7.50</div>
+                    </div>
+                </div>
+            `;
+            animateCounters();
+        }
+
+        function renderAddIncome() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Add Income</h1>
+                    <p>Track your earnings</p>
+                </div>
+                <div style="padding: 15px 0;">
+                    <label style="font-size: 12px; color: var(--slate); font-weight: 600; display: block; margin-bottom: 8px;">Description</label>
+                    <input class="input-field" type="text" value="Paycheck" />
+                </div>
+                <div style="padding: 15px 0;">
+                    <label style="font-size: 12px; color: var(--slate); font-weight: 600; display: block; margin-bottom: 8px;">Amount</label>
+                    <input class="input-field" type="text" value="$2,400" />
+                </div>
+                <div style="padding: 15px 0;">
+                    <label style="font-size: 12px; color: var(--slate); font-weight: 600; display: block; margin-bottom: 8px;">Source</label>
+                    <input class="input-field" type="text" value="Initech Solutions Inc." />
+                </div>
+                <div style="padding: 15px 0;">
+                    <label style="font-size: 12px; color: var(--slate); font-weight: 600; display: block; margin-bottom: 8px;">Category</label>
+                    <select class="input-field" id="income-select">
+                        <option>Salary</option>
+                        <option>Side Gig</option>
+                    </select>
+                </div>
+                <button class="button primary">Save Income</button>
+            `;
+        }
+
+        function renderTransactions() {
+            const content = document.getElementById('appContent');
+            const transactions = [
+                { merchant: 'Someone Else\'s Kitchen', amount: '$88.20' },
+                { merchant: '$7 Coffee Company', amount: '$7.50' },
+                { merchant: 'TapToEat', amount: '$54.30' },
+                { merchant: 'DinnerDrone', amount: '$38.90' },
+                { merchant: 'Organic Everything Emporium', amount: '$127.40' },
+                { merchant: 'Premium Lettuce Palace', amount: '$94.80' },
+                { merchant: 'The Fancy Food Place', amount: '$88.60' },
+                { merchant: 'TechGadget Emporium', amount: '$299.99', id: 'sous-vide', note: 'Sous Vide Machine' },
+                { merchant: 'Accessories Palace', amount: '$24.99' },
+                { merchant: 'PowerPlay Station Store', amount: '$69.99' },
+                { merchant: 'Artisanal Caffeine Depot', amount: '$8.25', note: 'Oat milk surcharge' },
+                { merchant: 'FuelMart', amount: '$54.20', note: 'Gas — drives 8 min to work' },
+                { merchant: 'Clipz & Snipz', amount: '$32.00', note: 'Haircut' },
+                { merchant: 'Sunnybrook Apartments', amount: '$1,500.00', note: 'Rent — his one financial win' },
+                { merchant: 'Downtown Parking Lot', amount: '$18.50', note: 'Paid $18 to park while thinking about buying a bike' }
+            ];
+
+            let html = `
+                <div class="app-header">
+                    <h1>Transactions</h1>
+                    <p>This month</p>
+                </div>
+                <div class="dashboard-item">
+            `;
+
+            transactions.forEach((t, i) => {
+                const id = t.id ? `id="${t.id}"` : '';
+                const note = t.note ? `<div style="font-size: 11px; color: var(--slate); margin-top: 4px;">${t.note}</div>` : '';
+                html += `
+                    <div class="transaction-row" ${id} style="animation: slideIn 0.5s ease-out ${i * 0.1}s backwards;">
+                        <div>
+                            <div class="transaction-merchant">${t.merchant}</div>
+                            ${note}
+                        </div>
+                        <div class="transaction-amount">-${t.amount}</div>
+                    </div>
+                `;
+            });
+
+            html += `
+                </div>
+                <style>
+                    @keyframes slideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                </style>
+            `;
+
+            content.innerHTML = html;
+        }
+
+        function renderBudgetAnalysis() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Budget Analysis</h1>
+                    <p>vs. actual spending</p>
+                </div>
+                <div class="dashboard-item">
+                    <div class="category-bar">
+                        <div class="category-header">
+                            <div class="category-name">Dining</div>
+                            <div class="category-amount">$200 budget</div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill error" id="dining-budget" style="width: 0%;" data-target="100">100%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--error); margin-top: 6px; font-weight: 600;">Actual: $1,242 - $1,042 over</div>
+                    </div>
+
+                    <div class="category-bar">
+                        <div class="category-header">
+                            <div class="category-name">Housing</div>
+                            <div class="category-amount">$1,500 budget</div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: 0%;" data-target="100">100%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--success); margin-top: 6px; font-weight: 600;">Actual: $1,500 - on budget</div>
+                    </div>
+
+                    <div class="category-bar">
+                        <div class="category-header">
+                            <div class="category-name">Groceries</div>
+                            <div class="category-amount">$400 budget</div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill warning" style="width: 0%;" data-target="60.75">61%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--warning); margin-top: 6px; font-weight: 600;">Actual: $643 - $243 over</div>
+                    </div>
+
+                    <div class="category-bar">
+                        <div class="category-header">
+                            <div class="category-name">Entertainment</div>
+                            <div class="category-amount">$60 budget</div>
+                        </div>
+                        <div class="bar-container">
+                            <div class="bar-fill error" style="width: 0%;" data-target="100">100%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--error); margin-top: 6px; font-weight: 600;">Actual: $205 - $145 over</div>
+                    </div>
+                </div>
+            `;
+            animateBars();
+        }
+
+        function renderSpendingChart() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Spending Breakdown</h1>
+                    <p>Where the money goes</p>
+                </div>
+                <div class="chart-container">
+                    <svg class="donut-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#F0F4F8" stroke-width="8"></circle>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#E8A820" stroke-width="8"
+                                stroke-dasharray="41.1 294.2" stroke-dashoffset="0"
+                                style="animation: dashOffset 0.8s ease-out forwards;"></circle>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#1A4F7A" stroke-width="8"
+                                stroke-dasharray="41.1 294.2" stroke-dashoffset="-41.1"
+                                style="animation: dashOffset 0.8s ease-out 0.2s forwards;"></circle>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#8AAABB" stroke-width="8"
+                                stroke-dasharray="27.4 294.2" stroke-dashoffset="-82.2"
+                                style="animation: dashOffset 0.8s ease-out 0.4s forwards;"></circle>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#E74C3C" stroke-width="8"
+                                stroke-dasharray="20.5 294.2" stroke-dashoffset="-109.6"
+                                style="animation: dashOffset 0.8s ease-out 0.6s forwards;"></circle>
+                        <circle cx="50" cy="50" r="35" fill="none" stroke="#F39C12" stroke-width="8"
+                                stroke-dasharray="20.5 294.2" stroke-dashoffset="-130.1"
+                                style="animation: dashOffset 0.8s ease-out 0.8s forwards;"></circle>
+                    </svg>
+                </div>
+                <style>
+                    @keyframes dashOffset {
+                        from {
+                            opacity: 0;
+                        }
+                        to {
+                            opacity: 1;
+                        }
+                    }
+                </style>
+                <div class="dashboard-item" style="font-size: 13px;">
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <span style="width: 12px; height: 12px; background: #E8A820; border-radius: 2px;"></span>
+                        <span><strong>Dining:</strong> 41% ($1,242)</span>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <span style="width: 12px; height: 12px; background: #1A4F7A; border-radius: 2px;"></span>
+                        <span><strong>Housing:</strong> 41% ($1,500)</span>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <span style="width: 12px; height: 12px; background: #8AAABB; border-radius: 2px;"></span>
+                        <span><strong>Groceries:</strong> 26% ($643)</span>
+                    </div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <span style="width: 12px; height: 12px; background: #E74C3C; border-radius: 2px;"></span>
+                        <span><strong>Entertainment:</strong> 20% ($205)</span>
+                    </div>
+                    <div style="display: flex; gap: 8px;">
+                        <span style="width: 12px; height: 12px; background: #F39C12; border-radius: 2px;"></span>
+                        <span><strong>Other:</strong> 20% ($155)</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSubscriptions() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Subscriptions</h1>
+                    <p>Monthly recurring</p>
+                </div>
+                <div class="dashboard-item">
+                    <div class="summary-label" style="margin-bottom: 15px;">Streaming (5 services)</div>
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>StreamFlix</span>
+                            <span class="subscription-tag">Entertainment</span>
+                        </div>
+                        <div class="subscription-cost">$14.99</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>ComedyStream Plus</span>
+                            <span class="subscription-tag">Entertainment</span>
+                        </div>
+                        <div class="subscription-cost">$8.99</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>DocuWatch Premium</span>
+                            <span class="subscription-tag">Entertainment</span>
+                        </div>
+                        <div class="subscription-cost">$6.99</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>ActionFlix Ultra</span>
+                            <span class="subscription-tag">Entertainment</span>
+                        </div>
+                        <div class="subscription-cost">$13.99</div>
+                    </div>
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>BudgetStream (ad-supported)</span>
+                            <span class="subscription-tag">Entertainment</span>
+                        </div>
+                        <div class="subscription-cost">$4.99</div>
+                    </div>
+
+                    <div class="summary-label" style="margin: 20px 0 15px 0;">Fitness (2 gyms)</div>
+                    <div class="subscription-item" id="gym-item">
+                        <div class="subscription-name">
+                            <span>Iron Cult Fitness</span>
+                            <span class="subscription-tag">Wellness</span>
+                        </div>
+                        <div class="subscription-cost">$49.99</div>
+                    </div>
+                    <div style="font-size: 11px; color: var(--error); margin-left: 0; margin-bottom: 15px; font-weight: 600;">Visits this month: 0</div>
+
+                    <div class="subscription-item">
+                        <div class="subscription-name">
+                            <span>Definitely Worth It Gym</span>
+                            <span class="subscription-tag">Wellness</span>
+                        </div>
+                        <div class="subscription-cost">$39.99</div>
+                    </div>
+                    <div style="font-size: 11px; color: var(--error); margin-left: 0; margin-bottom: 15px; font-weight: 600;">Visits this month: 0</div>
+
+                    <div style="background: #FFF3CD; border-radius: 8px; padding: 12px; margin-top: 15px; font-size: 12px; color: #856404;">
+                        <strong>Total Monthly:</strong> $139.93
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderDebt() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Debt Tracker</h1>
+                    <p>Manage your debts</p>
+                </div>
+                <div class="debt-card" id="debt-card">
+                    <div class="debt-label">Credit Card</div>
+                    <div class="debt-balance">$4,840</div>
+                    <div class="debt-details">
+                        <strong>Gary's Visa</strong><br>
+                        APR: 22.9% | Min Payment: $96
+                    </div>
+                </div>
+                <div class="dashboard-item">
+                    <div class="summary-label" style="margin-bottom: 15px;">Interest Analysis</div>
+                    <div style="font-size: 13px; color: var(--navy); line-height: 1.8;">
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0F4F8;">
+                            <span>Monthly Interest:</span>
+                            <span style="font-weight: 700; color: var(--error);">$<span class="number-counter" data-value="93">0</span></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #F0F4F8;">
+                            <span>Annual Interest:</span>
+                            <span style="font-weight: 700; color: var(--error);">$<span class="number-counter" data-value="1107">0</span></span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                            <span>Payoff in 120 months:</span>
+                            <span style="font-weight: 700; color: var(--error);">$<span class="number-counter" data-value="11520">0</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-item" style="background: #E8F4F8; border: 1px solid var(--navy-mid);">
+                    <div class="summary-label" style="color: var(--navy-mid); margin-bottom: 8px;">Tip</div>
+                    <div style="font-size: 12px; color: var(--navy); line-height: 1.5;">
+                        Use the Avalanche or Snowball method to pay off debt faster. Increase payments when possible.
+                    </div>
+                </div>
+            `;
+            animateCounters();
+        }
+
+        function renderGoals() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Savings Goals</h1>
+                    <p>Track your progress</p>
+                </div>
+                <div class="dashboard-item">
+                    <div class="goal-item" id="bike-goal">
+                        <div class="goal-header">
+                            <div class="goal-title">Electric Bike Fund</div>
+                            <div class="goal-progress">$408 / $1,200</div>
+                        </div>
+                        <div class="goal-bar">
+                            <div class="goal-fill" style="width: 0%;" data-target="34">34%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate); margin-top: 8px;">Contributing $80/month</div>
+                    </div>
+
+                    <div class="goal-item" style="margin-top: 20px;">
+                        <div class="goal-header">
+                            <div class="goal-title">Mancave Upgrade</div>
+                            <div class="goal-progress">$240 / $2,000</div>
+                        </div>
+                        <div class="goal-bar">
+                            <div class="goal-fill" style="width: 0%;" data-target="12">12%</div>
+                        </div>
+                        <div style="font-size: 11px; color: var(--slate); margin-top: 8px;">Contributing $30/month (spending $85/mo on DLC)</div>
+                    </div>
+                </div>
+                <div class="dashboard-item" style="background: #E8F4F8; border: 1px solid var(--navy-mid); margin-top: 20px;">
+                    <div class="summary-label" style="color: var(--navy-mid); margin-bottom: 8px;">Insight</div>
+                    <div style="font-size: 12px; color: var(--navy); line-height: 1.5;">
+                        Gary's mancave is growing 2.5x slower than his DLC spending. Try redirecting discretionary spending.
+                    </div>
+                </div>
+            `;
+            animateGoalBars();
+        }
+
+        function renderCTA() {
+            const content = document.getElementById('appContent');
+            content.innerHTML = `
+                <div class="app-header">
+                    <h1>Financial Health</h1>
+                    <p>Your summary</p>
+                </div>
+                <div class="dashboard-item">
+                    <div style="text-align: center; padding: 20px 0;">
+                        <div style="font-size: 48px; font-weight: 700; color: var(--error); margin-bottom: 10px; font-family: 'Playfair Display', serif;">38/100</div>
+                        <div style="font-size: 14px; color: var(--slate); font-weight: 600;">Financial Health Score</div>
+                        <div style="font-size: 12px; color: var(--slate); margin-top: 10px; line-height: 1.6;">
+                            High debt, over budget, and limited savings. But with PocketBudJet, you can turn this around.
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-item">
+                    <div style="font-size: 13px; color: var(--navy);">
+                        <div style="padding: 10px 0; border-bottom: 1px solid #F0F4F8;">
+                            <span style="color: var(--error); margin-right: 8px;">x</span>Over budget in 3 categories
+                        </div>
+                        <div style="padding: 10px 0; border-bottom: 1px solid #F0F4F8;">
+                            <span style="color: var(--error); margin-right: 8px;">x</span>$4,840 credit card debt
+                        </div>
+                        <div style="padding: 10px 0; border-bottom: 1px solid #F0F4F8;">
+                            <span style="color: var(--error); margin-right: 8px;">x</span>Paying $1,107/year in interest
+                        </div>
+                        <div style="padding: 10px 0;">
+                            <span style="color: var(--success); margin-right: 8px;">+</span>$650 saved toward goals
+                        </div>
+                    </div>
+                </div>
+                <button class="button primary" style="margin-top: 20px; font-weight: 700;">Start Your Free Trial</button>
+            `;
+        }
+
+        function animateCounters() {
+            document.querySelectorAll('.number-counter').forEach(el => {
+                const target = parseInt(el.getAttribute('data-value')) || 0;
+                let current = 0;
+                const increment = Math.ceil(target / 40);
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    el.textContent = current.toLocaleString();
+                }, 30);
+            });
+        }
+
+        function animateBars() {
+            setTimeout(() => {
+                document.querySelectorAll('.bar-fill').forEach(bar => {
+                    const target = parseFloat(bar.getAttribute('data-target')) || 0;
+                    bar.style.width = target + '%';
+                });
+            }, 300);
+        }
+
+        function animateGoalBars() {
+            setTimeout(() => {
+                document.querySelectorAll('.goal-fill').forEach(bar => {
+                    const target = parseFloat(bar.getAttribute('data-target')) || 0;
+                    bar.style.width = target + '%';
+                });
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
