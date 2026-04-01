@@ -705,8 +705,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .pfoot{font-size:12px;color:var(--slate-lt);text-align:center;padding-top:14px;}
 .plan-best-mascot{text-align:center;margin-top:16px;}
 .plan-best-mascot svg{animation:idle 2.5s ease-in-out infinite;filter:drop-shadow(0 10px 22px rgba(12,51,88,0.22)) drop-shadow(0 3px 8px rgba(0,0,0,0.13));overflow:visible;}
-.mascot-wave-arm{transform-origin:110px 115px;transform-box:fill-box;animation:waveArm 1.6s ease-in-out infinite;}
-@keyframes waveArm{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-32deg);}55%{transform:rotate(10deg);}78%{transform:rotate(-20deg);}}
+.mascot-wave-hand{transform-box:fill-box;transform-origin:50% 100%;animation:waveArm 1.4s ease-in-out infinite;}
+@keyframes waveArm{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-18deg);}55%{transform:rotate(12deg);}78%{transform:rotate(-10deg);}}
 .launch-cta{margin-bottom:36px;}
 .launch-cta-inner{background:var(--navy-dk);border-radius:18px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(12,51,88,0.12),0 16px 48px rgba(12,51,88,0.08);}
 .launch-cta-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;}
@@ -1107,17 +1107,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <!-- Tie — PBJ gold -->
         <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
         <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-        <!-- Left arm — presenting toward title at ~45° diagonal -->
-        <path d="M 50 115 Q 24 96 6 72" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-        <!-- Open palm -->
-        <circle cx="4" cy="69" r="9" fill="#F5D0B0"/>
-        <!-- Fingers spread open, pointing up-left -->
-        <path d="M -1 62 Q -3 52 -1 45" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <path d="M 6 59 Q 6 49 8 42" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <path d="M 13 62 Q 15 53 19 48" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <path d="M -7 66 Q -14 61 -16 55" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <!-- Thumb hint -->
-        <path d="M -4 73 Q -12 72 -14 68" stroke="#F5D0B0" stroke-width="5" stroke-linecap="round" fill="none"/>
+        <!-- Left arm — presenting toward title, ~40° diagonal -->
+        <path d="M 50 115 Q 28 104 12 88" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+        <!-- Open hand: palm base + four fingers together + thumb -->
+        <circle cx="12" cy="88" r="10" fill="#F5D0B0"/>
+        <g transform="translate(12, 88) rotate(-52)">
+          <!-- Four fingers together as one clean rounded block -->
+          <rect x="-8" y="-22" width="16" height="22" rx="8" fill="#F5D0B0"/>
+          <!-- Thumb on outer/upper edge (matches reference: thumb at top of raised hand) -->
+          <ellipse cx="13" cy="-4" rx="9" ry="6" fill="#F5D0B0"/>
+        </g>
         <!-- Right arm -->
         <path d="M 110 115 Q 122 130 124 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
         <circle cx="124" cy="151" r="7" fill="#F5D0B0"/>
@@ -1501,9 +1500,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <circle cx="28" cy="80" r="8" fill="#F5D0B0"/>
             <ellipse cx="28" cy="67" rx="4" ry="7" fill="#F5D0B0"/>
             <path d="M 15 58 L 17 52 L 19 58 L 24 55 L 19 60 L 21 65 L 17 62 L 15 67 L 14 62 L 9 60 Z" fill="#F0C040" opacity="0.8"/>
-            <!-- Right arm waving -->
-            <g class="mascot-wave-arm">
-              <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <!-- Right arm — arm is static, only hand waves -->
+            <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <g class="mascot-wave-hand">
               <circle cx="132" cy="77" r="8" fill="#F5D0B0"/>
               <path d="M 128 70 Q 132 65 137 70" stroke="#F5D0B0" stroke-width="3" fill="none" stroke-linecap="round"/>
             </g>
