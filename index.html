@@ -1775,4 +1775,35 @@ function toggleFT(b) {
 
   var descs = [
     "See your monthly net at a glance. Income, spending, available budget, and net worth — all in one place, all on your device.",
-    "Set savings goals, track progress with visual 
+    "Set savings goals, track progress with visual rings, and contribute in one tap. See your target date and how much you've saved.",
+    "Choose Avalanche (highest APR first, saves the most interest) or Snowball (smallest balance first, fastest wins). See your exact debt-free date before you start.",
+    "On-device AI projects your end-of-month balance based on your actual spending patterns. 30, 60, or 90 days forward.",
+    "A 0–100 health score built from five components: spending discipline, savings rate, debt load, emergency fund, and bill consistency. Calculated entirely on your device."
+  ];
+
+  function sw(idx, ui) {
+    if (idx === cur && !ui) return;
+    if (desc) { desc.classList.add('fading'); setTimeout(function(){ desc.textContent = descs[idx]; desc.classList.remove('fading'); }, 280); }
+    tabs[cur].classList.remove('active');
+    var op = document.getElementById('p' + cur);
+    if (op) { op.style.transition = 'none'; op.style.width = '0%'; }
+    tabs[idx].classList.add('active');
+    scrs[cur].classList.remove('active');
+    scrs[idx].classList.add('active');
+    cur = idx;
+    var prog = document.getElementById('p' + idx);
+    if (prog) { prog.style.transition = 'none'; prog.style.width = '0%'; setTimeout(function(){ prog.style.transition = 'width ' + INTV + 'ms linear'; prog.style.width = '100%'; }, 30); }
+  }
+  function startR() { clearInterval(timer); timer = setInterval(function(){ sw((cur+1) % tabs.length, false); }, INTV); }
+  tabs.forEach(function(t) { t.addEventListener('click', function(){ sw(parseInt(t.dataset.i), true); startR(); }); });
+  if (showcase) {
+    showcase.addEventListener('mouseenter', function(){ clearInterval(timer); });
+    showcase.addEventListener('mouseleave', function(){ startR(); });
+  }
+  sw(0, true);
+  startR();
+})();
+
+</script>
+</body>
+</html>

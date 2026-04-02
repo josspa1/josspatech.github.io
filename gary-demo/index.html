@@ -1653,4 +1653,47 @@
                 </div>
                 <div class="dashboard-item" style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);color:#fff;text-align:center;padding:20px;">
                     <div style="font-size:18px;font-weight:700;margin-bottom:8px;">Try Free for 35 Days</div>
-                    <div style="font-size:12px;opacity:0.8;line-height:1.6;">All 47 fea
+                    <div style="font-size:12px;opacity:0.8;line-height:1.6;">All 47 features. No credit card.<br>No bank login. No data leaves your phone.</div>
+                    <div style="margin-top:14px;font-size:13px;opacity:0.6;">$12.99/mo &middot; $99.99/yr &middot; $199.99 for 3 years</div>
+                </div>
+            `;
+        }
+
+        function animateCounters() {
+            document.querySelectorAll('.number-counter').forEach(el => {
+                const target = parseInt(el.getAttribute('data-value')) || 0;
+                let current = 0;
+                const increment = Math.ceil(target / 40);
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    el.textContent = current.toLocaleString();
+                }, 30);
+            });
+        }
+
+        function animateBars() {
+            setTimeout(() => {
+                document.querySelectorAll('.bar-fill').forEach(bar => {
+                    const target = parseFloat(bar.getAttribute('data-target')) || 0;
+                    bar.style.width = target + '%';
+                });
+            }, 300);
+        }
+
+        function animateGoalBars() {
+            setTimeout(() => {
+                document.querySelectorAll('.goal-fill').forEach(bar => {
+                    const target = parseFloat(bar.getAttribute('data-target')) || 0;
+                    bar.style.width = target + '%';
+                });
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
