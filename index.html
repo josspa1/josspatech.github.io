@@ -302,49 +302,91 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(240,192,64,0.8);
 }
 
-/* Coming soon card */
-.coming-card{
-  background:#fff;border-radius:20px;
+/* HHH card — In Development */
+.hhh-card{
+  background:linear-gradient(145deg,#1a2a3a 0%,#0f1f2f 100%);border-radius:20px;
   padding:48px 44px;
-  display:flex;flex-direction:column;align-items:flex-start;
-  border:1.5px dashed rgba(26,79,122,0.15);
+  display:flex;flex-direction:column;
   position:relative;overflow:hidden;
+  box-shadow:0 8px 24px rgba(10,30,50,0.22),0 32px 64px rgba(10,30,50,0.16);
+  text-decoration:none;
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease);
 }
-.coming-card::before{
-  content:'';position:absolute;inset:0;
-  background-image:radial-gradient(circle,rgba(26,79,122,0.05) 1px,transparent 1px);
-  background-size:20px 20px;
+.hhh-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(10,30,50,0.26),0 40px 80px rgba(10,30,50,0.20);}
+.hhh-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,170,110,0.12) 0%,transparent 65%);
   pointer-events:none;
 }
-.coming-inner{position:relative;z-index:1;width:100%;flex:1;display:flex;flex-direction:column;}
-.coming-badge{
+.hhh-badge{
   display:inline-flex;align-items:center;gap:7px;
-  background:rgba(26,79,122,0.06);
-  border:1px solid rgba(26,79,122,0.12);
+  background:rgba(200,170,110,0.10);
+  border:1px solid rgba(200,170,110,0.22);
   border-radius:16px;padding:4px 12px;
   font-size:10px;font-weight:700;letter-spacing:2px;
-  text-transform:uppercase;color:var(--slate);
+  text-transform:uppercase;color:#c8aa6e;
   width:fit-content;margin-bottom:20px;
 }
-.coming-title{
+.hhh-badge-dot{width:5px;height:5px;border-radius:50%;background:#c8aa6e;animation:hhh-pulse 2s ease-in-out infinite;}
+@keyframes hhh-pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+.hhh-name{
   font-family:'Playfair Display',serif;
-  font-size:28px;font-weight:900;
-  color:var(--navy-dk);letter-spacing:-0.5px;
-  line-height:1.1;margin-bottom:12px;
+  font-size:32px;font-weight:900;color:#fff;
+  letter-spacing:-0.6px;line-height:1.1;
+  margin-bottom:6px;
 }
-.coming-sub{
-  font-size:15px;font-weight:300;color:var(--slate);
-  line-height:1.75;margin-bottom:28px;flex:1;
+.hhh-name span{color:#c8aa6e;}
+.hhh-tagline{
+  font-size:14px;color:rgba(255,255,255,0.40);
+  font-style:italic;margin-bottom:24px;line-height:1.5;
 }
-.coming-link{
-  display:inline-flex;align-items:center;gap:7px;
-  font-size:13px;font-weight:600;color:var(--navy);
-  text-decoration:none;
-  border-bottom:1.5px solid rgba(26,79,122,0.2);
-  padding-bottom:2px;
+.hhh-features{
+  list-style:none;display:flex;flex-direction:column;
+  gap:9px;margin-bottom:32px;flex:1;
+}
+.hhh-features li{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;
+}
+.hf-icon{
+  width:17px;height:17px;border-radius:50%;flex-shrink:0;
+  background:rgba(200,170,110,0.12);
+  border:1px solid rgba(200,170,110,0.22);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.hf-icon::after{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:#c8aa6e;display:block;
+}
+.hhh-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(200,170,110,0.12);color:#c8aa6e;
+  font-size:14px;font-weight:700;
+  padding:13px 24px;border-radius:8px;
+  width:fit-content;text-decoration:none;
+  border:1px solid rgba(200,170,110,0.22);
   transition:all .18s;
 }
-.coming-link:hover{color:var(--navy-md);border-color:var(--navy-md);}
+.hhh-cta:hover{background:rgba(200,170,110,0.18);transform:translateY(-1px);}
+.hhh-cta-arrow{transition:transform .18s;}
+.hhh-card:hover .hhh-cta-arrow{transform:translateX(3px);}
+.hhh-platforms{
+  display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;
+}
+.hhh-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;
+  border:1px solid rgba(255,255,255,0.10);
+  color:rgba(255,255,255,0.40);
+}
+.hhh-pill.dev{
+  background:rgba(200,170,110,0.08);
+  border-color:rgba(200,170,110,0.18);
+  color:rgba(200,170,110,0.7);
+}
 
 /* ══ QUOTE BAR ═══════════════════════════════════════════ */
 .quote-bar{
@@ -969,23 +1011,30 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
       </a>
 
-      <!-- Coming soon card -->
-      <div class="coming-card rv d2">
-        <div class="coming-inner">
-          <div class="coming-badge">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" aria-hidden="true"><circle cx="4" cy="4" r="3" stroke="#5A7A9A" stroke-width="1.5"/></svg>
-            Coming Soon
-          </div>
-          <div class="coming-title">More from<br>JosspaTech.</div>
-          <p class="coming-sub">
-            Every app we make starts with a problem we had ourselves. PocketBudJet is the first. More on the way.
-          </p>
-          <a href="/cdn-cgi/l/email-protection#ed9e989d9d829f99ad87829e9e9d8c99888e85c38e8280" class="coming-link">
-            Get notified when we launch
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+      <!-- Handy Horology Helper card -->
+      <a href="#hhh" onclick="showPage('hhh');return false;" class="hhh-card rv d2">
+        <div class="hhh-badge">
+          <div class="hhh-badge-dot"></div>
+          In Development
         </div>
-      </div>
+        <div class="hhh-name">Handy Horology<br><span>Helper</span>™</div>
+        <div class="hhh-tagline">your AI-powered watch identification &amp; collection companion</div>
+        <ul class="hhh-features">
+          <li><div class="hf-icon"></div>Snap a photo — AI identifies the brand, model, year &amp; value</li>
+          <li><div class="hf-icon"></div>Search by serial number, case back markings, or plain English</li>
+          <li><div class="hf-icon"></div>Track your collection with condition grades &amp; market pricing</li>
+          <li><div class="hf-icon"></div>Stolen watch registry check &amp; counterfeit detection</li>
+          <li><div class="hf-icon"></div>Pocket watches, wristwatches &amp; vintage — all covered</li>
+        </ul>
+        <div class="hhh-cta">
+          Learn More
+          <span class="hhh-cta-arrow">→</span>
+        </div>
+        <div class="hhh-platforms">
+          <div class="hhh-pill dev">In Development</div>
+          <div class="hhh-pill">Android</div>
+        </div>
+      </a>
 
     </div>
   </div>
@@ -1052,6 +1101,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
+        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -1067,7 +1117,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™ and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
   </div>
 </footer>
@@ -1658,6 +1708,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
+        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -1673,7 +1724,110 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™ and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
+  </div>
+</footer>
+</div>
+
+<!-- ══════════════════════════
+     PAGE: HANDY HOROLOGY HELPER
+══════════════════════════ -->
+<div class="page" id="page-hhh">
+<section class="hero" style="background:linear-gradient(145deg,#1a2a3a 0%,#0f1f2f 100%);">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#c8aa6e;">JosspaTech</a><span style="color:rgba(200,170,110,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Handy Horology Helper</span></div>
+      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>In Development &middot; Android</div>
+      <h1 class="hero-h1" style="color:#fff;">Know your watch.<br><em style="color:#c8aa6e;">Know its worth.</em></h1>
+      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your AI-powered watch identification &amp; collection companion</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch &mdash; wristwatch or pocket watch &mdash; and get an instant AI-powered identification with brand, model, era, and estimated market value. Build your collection, track condition, and verify authenticity.</p>
+      <div class="hero-acts">
+        <span class="btn-primary" style="background:rgba(200,170,110,0.15);color:#c8aa6e;border:1px solid rgba(200,170,110,0.25);box-shadow:none;cursor:default;">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="pstrip" style="background:rgba(200,170,110,0.06);border-color:rgba(200,170,110,0.12);">
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>AI Visual Identification</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Collection Management</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Market Pricing</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Stolen Watch Registry</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Android</div>
+</div>
+
+<section class="sec" style="background:#0d1a28;padding:80px 24px;">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;">
+    <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Planned Features</span>
+    <h2 class="section-title rv" style="color:#fff;">What we're<br><em style="color:#c8aa6e;">building.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Visual Identification</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any watch. Our AI analyzes the dial, case, hands, and movement to identify the brand, model, and approximate year of manufacture.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128269;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Search by serial number, case back markings, or just describe what you see in plain English. We route your query to the best data source automatically.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Pricing</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Cross-validated pricing from multiple sources with condition-based adjustments. Know what your watch is worth before buying, selling, or insuring.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128190;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Tracker</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Catalog your watches with photos, condition grades, provenance notes, and purchase history. Generate collection reports for insurance or estate planning.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Authenticity Check</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Cross-reference against the stolen watch registry and use AI-powered counterfeit detection to verify authenticity before you buy.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9201;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">All Watch Types</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Modern luxury, vintage wristwatches, antique pocket watches — our database and AI cover them all, with specialized sources for each category.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0a1520;padding:60px 24px;text-align:center;">
+  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
+    <span class="section-eyebrow" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Stay Updated</span>
+    <h2 class="section-title" style="color:#fff;font-size:28px;">Want to know when<br><em style="color:#c8aa6e;">we launch?</em></h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Handy Horology Helper is currently in active development. Drop us an email and we'll let you know when the beta is ready.</p>
+    <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.12);color:#c8aa6e;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.22);transition:all .18s;">
+      Get Notified
+      <span>→</span>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
+      <p class="footer-brand-sub">Fewer apps. Better apps.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
+        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
+        <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
   </div>
 </footer>
