@@ -388,6 +388,92 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(200,170,110,0.7);
 }
 
+/* CVC card — Curator's Vault */
+.cvc-card{
+  background:var(--navy-dk);border-radius:20px;
+  padding:48px 44px;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 24px rgba(12,51,88,0.18),0 32px 64px rgba(12,51,88,0.14);
+  text-decoration:none;
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease);
+}
+.cvc-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(12,51,88,0.22),0 40px 80px rgba(12,51,88,0.18);}
+.cvc-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,58,75,0.18) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cvc-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(212,168,83,0.10);
+  border:1px solid rgba(212,168,83,0.22);
+  border-radius:16px;padding:4px 12px;
+  font-size:10px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:#D4A853;
+  width:fit-content;margin-bottom:20px;
+}
+.cvc-badge-dot{width:5px;height:5px;border-radius:50%;background:#D4A853;animation:cvc-pulse 2s ease-in-out infinite;}
+@keyframes cvc-pulse{0%,100%{opacity:.6;}50%{opacity:1;}}
+.cvc-name{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:900;color:#fff;
+  letter-spacing:-0.6px;line-height:1.1;
+  margin-bottom:6px;
+}
+.cvc-name span{color:#D4A853;}
+.cvc-tagline{
+  font-size:14px;color:rgba(255,255,255,0.40);
+  font-style:italic;margin-bottom:24px;line-height:1.5;
+}
+.cvc-features{
+  list-style:none;display:flex;flex-direction:column;
+  gap:9px;margin-bottom:32px;flex:1;
+}
+.cvc-features li{
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:13px;color:rgba(255,255,255,0.65);line-height:1.5;
+}
+.cf-icon{
+  width:17px;height:17px;border-radius:50%;flex-shrink:0;
+  background:rgba(212,168,83,0.12);
+  border:1px solid rgba(212,168,83,0.22);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:1px;
+}
+.cf-icon::after{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:#D4A853;display:block;
+}
+.cvc-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,168,83,0.12);color:#D4A853;
+  font-size:14px;font-weight:700;
+  padding:13px 24px;border-radius:8px;
+  width:fit-content;text-decoration:none;
+  border:1px solid rgba(212,168,83,0.22);
+  transition:all .18s;
+}
+.cvc-cta:hover{background:rgba(212,168,83,0.18);transform:translateY(-1px);}
+.cvc-cta-arrow{transition:transform .18s;}
+.cvc-card:hover .cvc-cta-arrow{transform:translateX(3px);}
+.cvc-platforms{
+  display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;
+}
+.cvc-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;
+  border:1px solid rgba(255,255,255,0.10);
+  color:rgba(255,255,255,0.40);
+}
+.cvc-pill.dev{
+  background:rgba(212,168,83,0.08);
+  border-color:rgba(212,168,83,0.18);
+  color:rgba(212,168,83,0.7);
+}
+
 /* ══ QUOTE BAR ═══════════════════════════════════════════ */
 .quote-bar{
   background:var(--navy-dk);padding:64px 48px;text-align:center;
@@ -922,6 +1008,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="nav-links">
     <a href="#products" onclick="navTo('products');return false;" class="nav-link">Products</a>
     <a href="#principles" onclick="navTo('principles');return false;" class="nav-link">Mission</a>
+    <a href="#cvc" onclick="showPage('cvc');return false;" class="nav-link">Curator's Vault</a>
     <a href="/cdn-cgi/l/email-protection#afdcdadfdfc0dddbefc5c0dcdcdfcedbcaccc781ccc0c2" class="nav-link">Contact</a>
     <a href="#pbj" onclick="showPage('pbj');return false;" class="nav-cta">Get PocketBudJet</a>
   </div>
@@ -935,6 +1022,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <div class="nav-mobile-menu" id="mobile-menu" role="navigation">
   <a href="#products" class="nav-mobile-link" onclick="navTo('products');closeMenu();return false;">Products</a>
   <a href="#principles" class="nav-mobile-link" onclick="navTo('principles');closeMenu();return false;">Mission</a>
+  <a href="#cvc" class="nav-mobile-link" onclick="showPage('cvc');closeMenu();return false;">Curator's Vault</a>
   <a href="/cdn-cgi/l/email-protection#92e1e7e2e2fde0e6d2f8fde1e1e2f3e6f7f1fabcf1fdff" class="nav-mobile-link">Contact</a>
   <a href="#pbj" onclick="showPage('pbj');closeMenu();return false;" class="nav-mobile-cta">Get PocketBudJet →</a>
 </div>
@@ -1058,7 +1146,37 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
         <div class="hhh-platforms">
           <div class="hhh-pill dev">In Development</div>
+          <div class="hhh-pill">iOS</div>
           <div class="hhh-pill">Android</div>
+        </div>
+      </a>
+
+      <!-- Curator's Vault card -->
+      <a href="#cvc" onclick="showPage('cvc');return false;" class="cvc-card rv d3">
+        <div class="cvc-badge">
+          <div class="cvc-badge-dot"></div>
+          Coming Soon
+        </div>
+        <div class="cvc-name">Curator's<br><span>Vault</span>™</div>
+        <div class="cvc-tagline">your AI-powered collecting companion for coins, cards, stamps, lighters, pens &amp; knives</div>
+        <ul class="cvc-features">
+          <li><div class="cvf-icon"></div>Snap a photo &mdash; identify coins, cards, stamps, lighters, pens &amp; knives instantly</li>
+          <li><div class="cvf-icon"></div>Official grading &mdash; Sheldon scale, PSA, BGS, Zippo date codes &amp; tang stamps built in</li>
+          <li><div class="cvf-icon"></div>Track your collection, wish list, budget &amp; profit in one place</li>
+          <li><div class="cvf-icon"></div>Six collectible categories &mdash; choose any combination at setup</li>
+          <li><div class="cvf-icon"></div>Find shows, expos &amp; fairs near you for all your collecting interests</li>
+          <li><div class="cvf-icon"></div>Share with nearby collectors at shows &mdash; no internet needed</li>
+          <li><div class="cvf-icon"></div>Reference databases &mdash; PCGS, NGC, PSA, Scott catalog &amp; more</li>
+          <li><div class="cvf-icon"></div>Works with PocketBudJet &amp; Handy Horology Helper</li>
+        </ul>
+        <div class="cvc-cta">
+          Learn More
+          <span class="cvc-cta-arrow">→</span>
+        </div>
+        <div class="cvc-platforms">
+          <div class="cvc-pill dev">Coming Soon</div>
+          <div class="cvc-pill">iOS</div>
+          <div class="cvc-pill">Android</div>
         </div>
       </a>
 
@@ -1128,6 +1246,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
         <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -1143,7 +1262,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
   </div>
 </footer>
@@ -1736,6 +1855,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
         <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -1751,7 +1871,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
   </div>
 </footer>
@@ -1765,7 +1885,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#c8aa6e;">JosspaTech</a><span style="color:rgba(200,170,110,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Handy Horology Helper</span></div>
-      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>In Development &middot; Android</div>
+      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>In Development &middot; iOS &amp; Android</div>
       <h1 class="hero-h1" style="color:#fff;">Know your timepiece.<br><em style="color:#c8aa6e;">Know its worth.</em></h1>
       <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your AI-powered horology identification, collection &amp; financial companion</p>
       <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with full profit/loss tracking, smart budgeting, dealer CRM, data-driven insights, an in-app coach that grows with you, and a guided experience built for collectors of every level.</p>
@@ -1781,7 +1901,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Profit &amp; Loss Tracking</div>
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Smart Budgeting</div>
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Data-Driven Insights</div>
-  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Android</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>iOS &amp; Android</div>
 </div>
 
 <section class="sec" style="background:#0d1a28;padding:80px 24px;">
@@ -2100,6 +2220,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
         <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -2109,7 +2230,146 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
+  </div>
+</footer>
+</div>
+
+<!-- ══════════════════════════
+     PAGE: CURATOR'S VAULT
+══════════════════════════ -->
+<div class="page" id="page-cvc">
+<section class="hero" style="background:linear-gradient(145deg,#0d2a38 0%,#081f2c 100%);">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#D4A853;">JosspaTech</a><span style="color:rgba(212,168,83,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Curator's Vault</span></div>
+      <div class="hero-eyebrow" style="background:rgba(212,168,83,0.08);border-color:rgba(212,168,83,0.18);color:#D4A853;"><div class="hero-dot" style="background:#D4A853;"></div>In Development &middot; iOS &amp; Android</div>
+      <h1 class="hero-h1" style="color:#fff;">Catalog your collections.<br><em style="color:#D4A853;">Track their value.</em></h1>
+      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your comprehensive cataloging companion for coins, trading cards, stamps, lighters, pens, and knives</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Photograph, organize, and value your prized collections across six categories with AI-powered identification. Track condition, provenance, and market values &mdash; from coins and cards to lighters, pens, and knives. Curator's Vault helps you understand what you own, how much it's worth, and how your collection is growing.</p>
+      <div class="hero-acts">
+        <span class="btn-primary" style="background:rgba(212,168,83,0.15);color:#D4A853;border:1px solid rgba(212,168,83,0.25);box-shadow:none;cursor:default;">Coming Soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="pstrip" style="background:rgba(212,168,83,0.06);border-color:rgba(212,168,83,0.12);">
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>AI Visual Identification</div>
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>6 Collectible Categories</div>
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Real-Time Valuation</div>
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Collection Analytics</div>
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Data-Driven Insights</div>
+  <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>iOS &amp; Android</div>
+</div>
+
+<section class="sec" style="background:#0d1a28;padding:80px 24px;">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;">
+    <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Core Features</span>
+    <h2 class="section-title rv" style="color:#fff;">Identify. Organize.<br><em style="color:#D4A853;">Invest.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📸</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Visual Identification</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any coin, card, stamp, lighter, pen, or knife and get instant AI identification with series, era, rarity, and grading guidance. Verified against authoritative reference databases.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🔍</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Type what you know — year, mintmark, denomination, or design elements — and find the exact item in seconds. Powerful filters for type, condition, and rarity.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💰</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Real-Time Valuation</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know what each item is worth before you buy, sell, or insure. Pricing adjusted for condition and market trends so you always negotiate from a position of strength.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📋</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Manager</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every item you own, in one place — photos, condition notes, provenance, purchase history, and current value. Generate insurance-ready catalogs instantly.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🏆</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Grading &amp; Condition</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Understand grading standards across all six categories &mdash; Sheldon scale, PSA/BGS, Scott numbers, Zippo date codes, nib grades, and tang stamps. Confidently describe items for sale or insurance.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🌍</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Multi-Collection Support</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Coins, trading cards, stamps, lighters, pens, knives, or a mix of everything &mdash; pick any combination of six categories at setup. Each with its own grading, metadata, and reference data.</p>
+      </div>
+    </div>
+
+    <!-- Investment Tools -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Investment Tools</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📊</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Portfolio Dashboard</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See your total collection value at a glance. Track growth over time, identify your most valuable items, and analyze performance across different categories.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(255,152,0,0.06);border:1px solid rgba(255,152,0,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💵</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cost Basis Tracking</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Track every purchase with cost, date, and seller. Know exactly what you paid and how much profit you've made on each item when it's time to sell.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(0,137,123,0.06);border:1px solid rgba(0,137,123,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📈</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Trends</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See which items are gaining or losing value in real time. Understand market demand, rarity premiums, and seasonal trends to make smarter buying and selling decisions.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🎯</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List &amp; Targets</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build your want list with target prices. Get price drop alerts when items you're hunting reach your price target.</p>
+      </div>
+    </div>
+
+    <!-- Collection Intelligence -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collection Intelligence</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(126,87,194,0.06);border:1px solid rgba(126,87,194,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💡</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Insights</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Discover patterns you'd never spot on your own — gaps in your collection, overweight categories, and which items deserve more attention or selling.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📱</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Offline Access</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Your collection data is stored on your device, not in the cloud. Full access even when you're offline — at a show, at home, or anywhere you collect.</p>
+      </div>
+    </div>
+
+    <!-- Curator's Vault Badge -->
+    <div class="rv" style="text-align:center;margin-top:64px;">
+      <div style="font-size:14px;color:rgba(255,255,255,0.45);font-style:italic;">Coming to iOS &amp; Android</div>
+      <div style="font-size:28px;margin-top:16px;color:#D4A853;">★ ★ ★</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
+      <p class="footer-brand-sub">Fewer apps. Better apps.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
+        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
+        <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="/cdn-cgi/l/email-protection#cfbcbabfbfa0bdbb8fa5a0bcbcbfaebbaaaca7e1aca0a2" class="footer-contact"><span class="__cf_email__" data-cfemail="5f2c2a2f2f302d2b1f35302c2c2f3e2b3a3c37713c3032">[email&#160;protected]</span></a>
   </div>
 </footer>
