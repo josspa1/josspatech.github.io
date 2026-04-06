@@ -991,7 +991,7 @@
             // CHAPTER 4: IMPORTING DATA (Steps 9-12)
             { title: "Import Center", tip: "Don't type every transaction — import them! CSV, OFX, PDF statements, screenshots, email receipts, notification capture. All processed on your device.", duration: 8, render: renderImportCenter, cursor: null, chapter: "Importing Data" },
             { title: "Smart CSV Mapper", tip: "Upload a CSV and PBJ auto-detects columns. Map Date, Description, Amount once — it remembers for next time. Handles weird bank formats.", duration: 7, render: renderSmartCSV, cursor: { x: 0.5, y: 0.5, target: 'csv-mapping' }, chapter: "Importing Data" },
-            { title: "PDF Statement Import", tip: "Upload a bank statement PDF and PBJ extracts transactions automatically. Supports Chase, BofA, Wells Fargo, Citi, and 11 more. Premium feature, zero cloud processing.", duration: 7, render: renderPDFImport, cursor: { x: 0.5, y: 0.45, target: 'pdf-bank-select' }, chapter: "Importing Data" },
+            { title: "PDF Statement Import", tip: "Upload a bank statement PDF and PBJ extracts transactions automatically. Supports all major banks. Premium feature, zero cloud processing.", duration: 7, render: renderPDFImport, cursor: { x: 0.5, y: 0.45, target: 'pdf-bank-select' }, chapter: "Importing Data" },
             { title: "Screenshot Import", tip: "Snap a screenshot of a transaction from your banking app. PBJ reads it with OCR. Gary screenshotted his gym charge to 'dispute' it. PBJ just imported it.", duration: 7, render: renderScreenshotImport, cursor: null, chapter: "Importing Data" },
 
             // CHAPTER 5: BUDGET MASTERY (Steps 13-16)
@@ -1002,8 +1002,8 @@
 
             // CHAPTER 6: INTELLIGENCE & INSIGHTS (Steps 17-20)
             { title: "Bill Calendar View", tip: "See every upcoming bill on a calendar. Gary has $892 due in 7 days and $214 in checking. The projected balance shows exactly when he'll run short.", duration: 7, render: renderCalendarView, cursor: null, chapter: "Intelligence" },
-            { title: "Email Receipt Import", tip: "Connect Gmail or Outlook and PBJ scans for receipts from 50+ retailers. Amazon, Target, Uber, DoorDash — auto-categorized and imported.", duration: 7, render: renderEmailReceipts, cursor: null, chapter: "Intelligence" },
-            { title: "Notification Capture", tip: "Enable notification listening and PBJ auto-captures transactions from your banking apps. Chase, BofA, Wells Fargo and 12 more. Set auto-confirm thresholds.", duration: 7, render: renderNotificationCapture, cursor: null, chapter: "Intelligence" },
+            { title: "Email Receipt Import", tip: "Connect Gmail or Outlook and PBJ scans for receipts from 50+ retailers. auto-categorized and imported from 50+ retailers.", duration: 7, render: renderEmailReceipts, cursor: null, chapter: "Intelligence" },
+            { title: "Notification Capture", tip: "Enable notification listening and PBJ auto-captures transactions from your banking apps. 15+ banks supported. Set auto-confirm thresholds.", duration: 7, render: renderNotificationCapture, cursor: null, chapter: "Intelligence" },
             { title: "AI Financial Coach", tip: "PBJ analyzes your patterns and gives personalized tips. Gary's top recommendation: 'Stop eating out.' He marked it as 'not helpful.'", duration: 7, render: renderAICoach, cursor: null, chapter: "Intelligence" },
 
             // CHAPTER 7: WEEKLY RECAP & ANOMALIES (Steps 21-23)
@@ -1038,7 +1038,7 @@
 
             // CHAPTER 13: FINANCIAL HEALTH (Steps 39-40)
             { title: "Financial Health Score", tip: "A 0-to-100 score: spending discipline, debt ratio, savings rate, bill consistency. Gary scores 38. The breakdown shows exactly what to fix first.", duration: 8, render: renderHealthScore, cursor: null, chapter: "Financial Health" },
-            { title: "Ready to Do Better Than Gary?", tip: "35-day free trial. All premium features unlocked. No credit card required. No bank login needed. No data leaves your phone. Take control — or at least do better than Gary.", duration: 8, render: renderCTA, cursor: null, chapter: "Financial Health" }
+            { title: "Ready to Do Better Than Gary?", tip: "Every feature you just saw. No bank login needed. No data leaves your phone. Take control — or at least do better than Gary.", duration: 8, render: renderCTA, cursor: null, chapter: "Financial Health" }
         ];
 
         let currentStep = 0;
@@ -1970,7 +1970,7 @@
             <div class="dashboard-item" style="border: 2px dashed #ccc; background: #f0f0f0; padding: 15px; border-radius: 8px; text-align: center;">
               <div style="font-size: 14px; color: var(--slate); margin-bottom: 20px;">Banking app notification (mock)</div>
               <div style="background: white; border: 1px solid #ccc; padding: 15px; border-radius: 8px; text-align: left; font-size: 13px;">
-                <div style="font-weight: bold; color: var(--navy); margin-bottom: 8px;">Chase</div>
+                <div style="font-weight: bold; color: var(--navy); margin-bottom: 8px;">FastFin Credit Union</div>
                 <div style="color: #333; line-height: 1.6;">
                   💳 Purchase of $54.30 at TapToEat on 4/3/2026 at 6:45 PM
                 </div>
@@ -2048,7 +2048,7 @@
                   <tbody>
                     <tr style="border-bottom: 1px solid #eee;">
                       <td style="padding: 8px;">03/31/2026</td>
-                      <td style="padding: 8px;">DoorDash DELIVERY</td>
+                      <td style="padding: 8px;">TapToEat DELIVERY</td>
                       <td style="padding: 8px; text-align: right;">-$54.30</td>
                       <td style="padding: 8px; text-align: right;">$4,127.65</td>
                     </tr>
@@ -2111,20 +2111,20 @@
               <h3 style="margin: 0 0 12px 0; color: var(--navy); font-size: 14px;">Select Your Bank</h3>
               <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;">
                 <div style="border: 2px solid var(--navy); background: #E8F0F7; padding: 12px; border-radius: 6px; text-align: center; cursor: pointer;">
-                  <div style="font-weight: 600; color: var(--navy); font-size: 12px;">🏦 Chase</div>
+                  <div style="font-weight: 600; color: var(--navy); font-size: 12px;">🏦 FastFin</div>
                 </div>
                 <div style="border: 1px solid #ccc; padding: 12px; border-radius: 6px; text-align: center; cursor: pointer; opacity: 0.6;">
-                  <div style="font-weight: 600; color: var(--slate); font-size: 12px;">Bank of America</div>
+                  <div style="font-weight: 600; color: var(--slate); font-size: 12px;">Greenleaf Bank</div>
                 </div>
                 <div style="border: 1px solid #ccc; padding: 12px; border-radius: 6px; text-align: center; cursor: pointer; opacity: 0.6;">
-                  <div style="font-weight: 600; color: var(--slate); font-size: 12px;">Citi</div>
+                  <div style="font-weight: 600; color: var(--slate); font-size: 12px;">Horizon Bank</div>
                 </div>
               </div>
 
               <h3 style="margin: 0 0 12px 0; color: var(--navy); font-size: 14px;">Upload Statement</h3>
               <div style="border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 6px; background: #f9f9f9; cursor: pointer;">
                 <div style="font-size: 32px; margin-bottom: 10px;">📄</div>
-                <div style="font-weight: 500; color: #333; margin-bottom: 4px;">Chase_Statement_March_2026.pdf</div>
+                <div style="font-weight: 500; color: #333; margin-bottom: 4px;">FastFin_Statement_March_2026.pdf</div>
                 <div style="font-size: 12px; color: var(--slate);">2.4 MB</div>
               </div>
             </div>
@@ -2193,7 +2193,7 @@
               <div style="display: flex; align-items: center; margin-bottom: 10px;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
                 <div style="flex: 1;">
-                  <div style="font-weight: 500; color: #333;">Amazon</div>
+                  <div style="font-weight: 500; color: #333;">BuyItAll</div>
                   <div style="font-size: 12px; color: var(--slate);">Apr 2, 2026</div>
                 </div>
                 <div style="font-weight: 500; color: var(--error);">-$127.40</div>
@@ -2202,7 +2202,7 @@
               <div style="display: flex; align-items: center; margin-bottom: 10px;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
                 <div style="flex: 1;">
-                  <div style="font-weight: 500; color: #333;">Uber</div>
+                  <div style="font-weight: 500; color: #333;">ZoomRide</div>
                   <div style="font-size: 12px; color: var(--slate);">Mar 30, 2026</div>
                 </div>
                 <div style="font-weight: 500; color: var(--error);">-$24.50</div>
@@ -2229,7 +2229,7 @@
               <div style="display: flex; align-items: center;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
                 <div style="flex: 1;">
-                  <div style="font-weight: 500; color: #333;">Apple (In-app: PS6 Game DLC)</div>
+                  <div style="font-weight: 500; color: #333;">PowerPlay Store (PS6 Game DLC)</div>
                   <div style="font-size: 12px; color: var(--slate);">Feb 28, 2026</div>
                 </div>
                 <div style="font-weight: 500; color: var(--error);">-$2.99</div>
@@ -2244,7 +2244,7 @@
 
             <div class="dashboard-item" style="background: #FFF8E1; border-left: 4px solid var(--warning);">
               <p style="margin: 0; font-size: 13px; color: #333;">
-                <strong>Tip:</strong> We scan for receipts from 50+ retailers (Amazon, Uber, DoorDash, etc.). Your emails are processed on-device — we never store message content.
+                <strong>Tip:</strong> We scan for receipts from 50+ retailers — delivery, rideshare, shopping, subscriptions, and more. Your emails are processed on-device — we never store message content.
               </p>
             </div>
           `;
@@ -2269,15 +2269,15 @@
               <h3 style="margin: 0 0 12px 0; color: var(--navy); font-size: 14px;">Monitored Apps</h3>
               <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
-                <span style="color: #333;">Chase Banking App</span>
+                <span style="color: #333;">FastFin Banking App</span>
               </div>
               <div style="display: flex; align-items: center; margin-bottom: 8px;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
-                <span style="color: #333;">Venmo</span>
+                <span style="color: #333;">SplitCash</span>
               </div>
               <div style="display: flex; align-items: center; margin-bottom: 20px;">
                 <input type="checkbox" checked style="width: 18px; height: 18px; margin-right: 10px;" />
-                <span style="color: #333;">PayPal</span>
+                <span style="color: #333;">QuickPay</span>
               </div>
 
               <h3 style="margin: 0 0 12px 0; color: var(--navy); font-size: 14px;">Pending Transactions</h3>
@@ -2286,7 +2286,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                   <div>
                     <div style="font-weight: 500; color: #333;">Purchase at MegaMart</div>
-                    <div style="font-size: 12px; color: var(--slate);">via Chase • $42.50</div>
+                    <div style="font-size: 12px; color: var(--slate);">via FastFin • $42.50</div>
                   </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
@@ -2299,7 +2299,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                   <div>
                     <div style="font-weight: 500; color: #333;">Money Received from Dave</div>
-                    <div style="font-size: 12px; color: var(--slate);">Venmo • $15.00 • "Gary owes me for lunch"</div>
+                    <div style="font-size: 12px; color: var(--slate);">SplitCash • $15.00 • "Gary owes me for lunch"</div>
                   </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
@@ -2854,7 +2854,7 @@ function renderWeeklyRecap() {
 
       <div style="background: var(--navy-dark); color: var(--white); padding: 12px; border-radius: 8px; margin: 16px 0;">
         <div style="font-weight: 600; margin-bottom: 8px;">💡 Coach Tip</div>
-        <p style="margin: 0; font-size: 13px;">Your Wednesday spending is 3x higher than other days. That's when DoorDash gets you. Try meal-prepping Tuesdays.</p>
+        <p style="margin: 0; font-size: 13px;">Your Wednesday spending is 3x higher than other days. That's when TapToEat gets you. Try meal-prepping Tuesdays.</p>
       </div>
 
       <div style="background: var(--gold); color: var(--navy); padding: 12px; border-radius: 8px; margin: 16px 0; text-align: center;">
@@ -3684,7 +3684,7 @@ function renderPCDashboard() {
           <div style="background: var(--navy-dark); color: var(--white); padding: 8px; border-radius: 4px; font-size: 11px;">
             <div style="margin-bottom: 4px;"><strong>Recent:</strong> Someone Else's Kitchen $24.56</div>
             <div style="margin-bottom: 4px;">Premium Lettuce Palace $127.43</div>
-            <div>DoorDash $18.92</div>
+            <div>TapToEat $18.92</div>
           </div>
         </div>
 
@@ -3996,7 +3996,7 @@ function renderMerchantAnalysis() {
 
         <div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--slate);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <div style="font-weight: 500;">DoorDash / TapToEat</div>
+            <div style="font-weight: 500;">TapToEat</div>
             <div style="text-align: right;">
               <div style="font-weight: 600; font-size: 13px;">$287/mo</div>
               <div style="font-size: 11px; color: var(--slate);">18 orders</div>
@@ -4053,7 +4053,7 @@ function renderMerchantAnalysis() {
 
       <div class="dashboard-item" style="border-left: 4px solid var(--warning); padding: 12px; margin-bottom: 16px;">
         <div style="font-weight: 600; color: var(--warning); margin-bottom: 4px;">⚠️ Concentration Risk</div>
-        <p style="margin: 0; font-size: 13px;">72% of dining spend goes to 2 merchants (Someone Else's Kitchen + DoorDash/TapToEat). You're heavily dependent on convenience.</p>
+        <p style="margin: 0; font-size: 13px;">72% of dining spend goes to 2 merchants (Someone Else's Kitchen + TapToEat). You're heavily dependent on convenience.</p>
       </div>
 
       <div class="dashboard-item" style="padding: 12px;">
@@ -4375,7 +4375,7 @@ function renderCTA() {
           <div>✓ Advanced Features</div>
           <div>✓ Sharing & Privacy</div>
           <div>✓ Financial Health</div>
-          <div>✓ Free Trial</div>
+          <div>✓ Privacy First</div>
         </div>
       </div>
 
@@ -4392,28 +4392,13 @@ function renderCTA() {
       </div>
 
       <div class="dashboard-item" style="margin-bottom: 16px; padding: 20px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); text-align: center; border-radius: 12px;">
-        <div style="font-weight: 600; color: var(--navy); margin-bottom: 12px; font-size: 16px;">Try Free for 35 Days</div>
+        <div style="font-weight: 600; color: var(--navy); margin-bottom: 12px; font-size: 16px;">Take Control of Your Money</div>
         <div style="color: var(--navy); font-size: 13px; line-height: 1.6; margin-bottom: 16px;">
-          <strong>All features. No credit card. No bank login.</strong><br>
+          <strong>Every feature you just saw. No bank login needed.</strong><br>
           <span style="font-size: 12px;">Your data never leaves your phone.</span>
         </div>
-        <button class="button" style="width: 100%; padding: 14px; background: var(--navy); color: var(--white); border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; margin-bottom: 12px;">Start Free Trial</button>
-        <div style="font-size: 12px; color: var(--navy); margin-bottom: 12px;">After 35 days, choose a plan:</div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px;">
-        <div class="dashboard-item" style="padding: 12px; text-align: center;">
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">$9.99</div>
-          <div style="font-size: 11px; color: var(--slate);">/month<br>$119.88/yr</div>
-        </div>
-        <div class="dashboard-item" style="padding: 12px; text-align: center; background: var(--gold); color: var(--navy);">
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">$74.99</div>
-          <div style="font-size: 11px;">per year<br><strong>Save 38%</strong></div>
-        </div>
-        <div class="dashboard-item" style="padding: 12px; text-align: center;">
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">$149.99</div>
-          <div style="font-size: 11px; color: var(--slate);">3 years<br>Save 58%</div>
-        </div>
+        <button class="button" style="width: 100%; padding: 14px; background: var(--navy); color: var(--white); border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; margin-bottom: 12px;">Get PocketBudJet</button>
+        <div style="font-size: 12px; color: var(--navy); margin-bottom: 12px;">See current plans at josspatech.com</div>
       </div>
 
       <div class="dashboard-item" style="margin-bottom: 16px; padding: 12px; background: var(--navy-dark); color: var(--white);">
@@ -4424,8 +4409,8 @@ function renderCTA() {
 
       <div class="dashboard-item" style="padding: 12px; text-align: center; background: var(--navy-dark); color: var(--white);">
         <div style="font-size: 24px; margin-bottom: 8px;">🎯</div>
-        <div style="font-weight: 600; margin-bottom: 4px; font-size: 13px;">Start Your 35-Day Free Trial</div>
-        <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8);">Every feature, no restrictions. Cancel anytime. Do better than Gary.</p>
+        <div style="font-weight: 600; margin-bottom: 4px; font-size: 13px;">Do Better Than Gary</div>
+        <p style="margin: 0; font-size: 11px; color: rgba(255,255,255,0.8);">Every feature. 100% private. Your phone, your data, your budget.</p>
       </div>
     </div>
   `;
