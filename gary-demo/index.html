@@ -1743,63 +1743,99 @@
             typeNextChar();
         }
 
+        // Split long text into sentence chunks to avoid Chrome's ~15s TTS kill bug
+        function splitIntoChunks(text) {
+            // Split on sentence endings (. ! ?) followed by a space
+            const sentences = text.match(/[^.!?]+[.!?]+(\s|$)/g) || [text];
+            const chunks = [];
+            let current = '';
+
+            for (const sentence of sentences) {
+                // Keep chunks under ~120 chars to stay well within Chrome's comfort zone
+                if ((current + sentence).length > 120 && current.length > 0) {
+                    chunks.push(current.trim());
+                    current = sentence;
+                } else {
+                    current += sentence;
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+            return chunks;
+        }
+
         function speakText(text) {
             if (!('speechSynthesis' in window)) return;
 
             // Cancel any existing speech
             window.speechSynthesis.cancel();
 
-            currentUtterance = new SpeechSynthesisUtterance(text);
-
-            // Voice selection
-            if (preferredVoice) {
-                currentUtterance.voice = preferredVoice;
-            }
-
-            // Authoritative but conversational — slightly slower, deeper
-            // Mobile Chrome often defaults to higher-pitched voices, so go lower
             const isMobileDevice = /Android|iPhone|iPad/i.test(navigator.userAgent);
-            currentUtterance.rate = isMobileDevice ? 0.88 : 0.92;
-            currentUtterance.pitch = isMobileDevice ? 0.75 : 0.88;
-            currentUtterance.volume = 1.0;
-
-            // Chrome bug workaround: long utterances get cut off
-            // Restart synth periodically to keep it alive
-            let keepAlive = setInterval(() => {
-                if (window.speechSynthesis.speaking) {
-                    window.speechSynthesis.pause();
-                    window.speechSynthesis.resume();
-                }
-            }, 10000);
-
+            const rate = isMobileDevice ? 0.88 : 0.92;
+            const pitch = isMobileDevice ? 0.75 : 0.88;
             const ttsStartTime = Date.now();
-            const wordCount = text.split(/\s+/).length;
+            const totalWordCount = text.split(/\s+/).length;
 
-            currentUtterance.onend = () => {
-                clearInterval(keepAlive);
-                const elapsed = Date.now() - ttsStartTime;
-                // If TTS "ended" in under 2s for 10+ words, it was auto-blocked (common on mobile)
-                if (elapsed < 2000 && wordCount > 10) {
-                    pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
-                } else {
-                    pendingAdvanceDelay = 500;
+            // Split into sentence-sized chunks to prevent Chrome from killing long utterances
+            const chunks = splitIntoChunks(text);
+            let chunkIndex = 0;
+
+            function speakNextChunk() {
+                if (chunkIndex >= chunks.length) {
+                    // All chunks spoken — done
+                    stopMouthCycle();
+                    josspa.classList.remove("talking");
+                    const elapsed = Date.now() - ttsStartTime;
+                    if (elapsed < 2000 && totalWordCount > 10) {
+                        pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
+                    } else {
+                        pendingAdvanceDelay = 500;
+                    }
+                    ttsDone = true;
+                    tryAdvance();
+                    return;
                 }
-                ttsDone = true;
-                tryAdvance();
-            };
 
-            currentUtterance.onerror = (e) => {
-                clearInterval(keepAlive);
-                console.warn("TTS error:", e.error);
-                // TTS failed — give time to read the text
-                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
-                ttsDone = true;
-                tryAdvance();
-            };
+                const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+                currentUtterance = utterance;
+
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+                utterance.rate = rate;
+                utterance.pitch = pitch;
+                utterance.volume = 1.0;
+
+                // Chrome keepAlive — pause/resume to prevent silent death
+                let keepAlive = setInterval(() => {
+                    if (window.speechSynthesis.speaking) {
+                        window.speechSynthesis.pause();
+                        window.speechSynthesis.resume();
+                    }
+                }, 5000);
+
+                utterance.onend = () => {
+                    clearInterval(keepAlive);
+                    chunkIndex++;
+                    speakNextChunk();
+                };
+
+                utterance.onerror = (e) => {
+                    clearInterval(keepAlive);
+                    console.warn("TTS chunk error:", e.error, "chunk:", chunkIndex);
+                    // TTS failed — give time to read
+                    stopMouthCycle();
+                    josspa.classList.remove("talking");
+                    pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
+                    ttsDone = true;
+                    tryAdvance();
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
 
             josspa.classList.add("talking");
             startMouthCycle();
-            window.speechSynthesis.speak(currentUtterance);
+            speakNextChunk();
         }
 
         let advanceTimer = null;
