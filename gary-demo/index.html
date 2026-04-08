@@ -1069,22 +1069,32 @@
                     <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
                     <ellipse cx="94" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
 
-                    <!-- Body — smooth curved path, not a rect -->
-                    <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+                    <!-- Body — company polo shirt -->
+                    <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#1A4F7A" stroke="#0C3358" stroke-width="1"/>
 
-                    <!-- Tie — tapered, stylish -->
-                    <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
-                    <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
+                    <!-- Polo collar -->
+                    <path d="M 62 100 Q 68 95 74 100 L 80 108 L 86 100 Q 92 95 98 100 Q 93 107 80 110 Q 67 107 62 100 Z" fill="#1F5A8A" stroke="#0C3358" stroke-width="0.8"/>
+                    <!-- Collar fold lines -->
+                    <path d="M 69 98 L 77 106" stroke="#0C3358" stroke-width="0.5" opacity="0.4"/>
+                    <path d="M 91 98 L 83 106" stroke="#0C3358" stroke-width="0.5" opacity="0.4"/>
+                    <!-- Polo buttons -->
+                    <circle cx="80" cy="114" r="1.5" fill="#0C3358" opacity="0.5"/>
+                    <circle cx="80" cy="120" r="1.5" fill="#0C3358" opacity="0.5"/>
+
+                    <!-- Shirt pocket outline -->
+                    <rect x="86" y="124" width="18" height="14" rx="1.5" fill="none" stroke="#0C3358" stroke-width="0.7" opacity="0.5"/>
+                    <!-- Name embroidered on pocket in gold -->
+                    <text x="87.5" y="133" font-family="'Source Sans 3', sans-serif" font-size="6" font-weight="600" font-style="italic" fill="#F0C040" letter-spacing="0.3">Josspa</text>
 
                     <!-- Left arm group (for gestures) -->
                     <g class="left-arm-group">
-                        <path d="M 50 115 Q 38 130 32 155" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <path d="M 50 115 Q 38 130 32 155" stroke="#1A4F7A" stroke-width="11" stroke-linecap="round" fill="none"/>
                         <circle cx="30" cy="158" r="8" fill="#F5D0B0"/>
                     </g>
 
                     <!-- Right arm group (for gestures) -->
                     <g class="right-arm-group">
-                        <path d="M 110 115 Q 122 130 128 155" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <path d="M 110 115 Q 122 130 128 155" stroke="#1A4F7A" stroke-width="11" stroke-linecap="round" fill="none"/>
                         <g class="wave-hand">
                             <circle cx="130" cy="158" r="8" fill="#F5D0B0"/>
                             <!-- Fingers visible on wave -->
@@ -1189,8 +1199,8 @@
         const steps = [
             {
                 title: "Meet Gary",
-                narration: "Hey — I'm Josspa. Welcome to PocketBudJet. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
-                ttsText:   "Hey — I'm Joss-pa. Welcome to Pocket Budget. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
+                narration: "Hey — welcome to PocketBudJet. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
+                ttsText:   "Hey — welcome to Pocket Budget. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
                 pose: "wave",
                 eyes: "default",
                 screen: "dashboard1"
