@@ -807,6 +807,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .plan-sval{font-size:12px;font-weight:800;color:var(--success);}
 .plan-ot{border-color:var(--navy-md);border-style:solid;}
 .plan-ot:hover{border-color:var(--navy);box-shadow:0 8px 28px rgba(12,51,88,0.12);}
+.plan-future{background:linear-gradient(145deg,#f8f9fb 0%,#eef1f6 100%);border:1.5px dashed rgba(26,79,122,0.18);opacity:0.85;}
+.plan-future:hover{opacity:1;transform:translateY(-4px);box-shadow:0 8px 28px rgba(12,51,88,0.08);}
+.plan-future-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;background:rgba(26,79,122,0.08);color:var(--navy-md);padding:4px 12px;border-radius:20px;margin-bottom:14px;}
+.plan-future-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--navy-dk);line-height:1.2;margin-bottom:8px;}
+.plan-future-desc{font-size:13px;color:var(--slate);line-height:1.65;margin-bottom:16px;}
+.plan-future-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.plan-future-list li{font-size:12px;color:var(--slate-lt);line-height:1.45;padding-left:15px;position:relative;}
+.plan-future-list li::before{content:'◇';position:absolute;left:0;color:var(--gold);font-size:10px;top:1px;}
 .plan-uniq{font-size:12px;font-weight:600;color:var(--navy-md);margin-bottom:8px;line-height:1.5;}
 .tog-wrap{text-align:center;margin-bottom:18px;}
 .tog-btn{display:inline-flex;align-items:center;gap:10px;background:var(--navy-dk);border:none;color:#fff;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;cursor:pointer;transition:all .22s;font-family:'Source Sans 3',sans-serif;box-shadow:0 4px 16px rgba(12,51,88,0.18);}
@@ -1653,6 +1661,19 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li>Buy 2 years, get the 3rd year free</li>
           <li>Save $74.98 vs annual over 3 years</li>
         </ul>
+      </div>
+      <div class="plan plan-future">
+        <div class="plan-future-badge">Coming Soon</div>
+        <div class="plan-future-title">More apps.<br>One subscription.</div>
+        <div class="plan-future-desc">Your PocketBudJet subscription will unlock premium features across every JosspaTech app &mdash; all under one price.</div>
+        <div class="plan-div"></div>
+        <ul class="plan-future-list">
+          <li>Handy Horology Helper &mdash; watch collection manager</li>
+          <li>Curator's Vault &mdash; collectibles tracker</li>
+          <li>Cross-app data insights</li>
+          <li>One subscription, every app</li>
+        </ul>
+        <p style="font-size:11px;color:var(--slate-lt);margin-top:18px;line-height:1.5;">Premium members get first access as each app launches.</p>
       </div>
     </div>
     <div class="tog-wrap rv d2">
