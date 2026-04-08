@@ -1743,23 +1743,24 @@
             typeNextChar();
         }
 
-        // Split long text into sentence chunks to avoid Chrome's ~15s TTS kill bug
+        // Split long text into short sentence chunks to avoid Chrome/Android TTS kill bug
         function splitIntoChunks(text) {
-            // Split on sentence endings (. ! ?) followed by a space
-            const sentences = text.match(/[^.!?]+[.!?]+(\s|$)/g) || [text];
+            // Split on sentence endings (. ! ?) or em dashes (—) followed by space
+            const parts = text.split(/(?<=[.!?])\s+|(?<=—)\s*/);
             const chunks = [];
             let current = '';
 
-            for (const sentence of sentences) {
-                // Keep chunks under ~120 chars to stay well within Chrome's comfort zone
-                if ((current + sentence).length > 120 && current.length > 0) {
+            for (const part of parts) {
+                // Keep chunks very short — under 80 chars for mobile Chrome safety
+                if ((current + ' ' + part).length > 80 && current.length > 0) {
                     chunks.push(current.trim());
-                    current = sentence;
+                    current = part;
                 } else {
-                    current += sentence;
+                    current = current ? current + ' ' + part : part;
                 }
             }
             if (current.trim()) chunks.push(current.trim());
+            console.log("TTS chunks:", chunks.length, chunks);
             return chunks;
         }
 
@@ -1805,23 +1806,14 @@
                 utterance.pitch = pitch;
                 utterance.volume = 1.0;
 
-                // Chrome keepAlive — pause/resume to prevent silent death
-                let keepAlive = setInterval(() => {
-                    if (window.speechSynthesis.speaking) {
-                        window.speechSynthesis.pause();
-                        window.speechSynthesis.resume();
-                    }
-                }, 5000);
-
                 utterance.onend = () => {
-                    clearInterval(keepAlive);
                     chunkIndex++;
-                    speakNextChunk();
+                    // Small delay between chunks — Android Chrome needs breathing room
+                    setTimeout(speakNextChunk, 80);
                 };
 
                 utterance.onerror = (e) => {
-                    clearInterval(keepAlive);
-                    console.warn("TTS chunk error:", e.error, "chunk:", chunkIndex);
+                    console.warn("TTS chunk error:", e.error, "chunk:", chunkIndex, "text:", chunks[chunkIndex]);
                     // TTS failed — give time to read
                     stopMouthCycle();
                     josspa.classList.remove("talking");
