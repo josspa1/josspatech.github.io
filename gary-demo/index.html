@@ -1533,24 +1533,24 @@
             // Priority list: natural-sounding male voices that sound authoritative
             // Each entry: [name fragment, lang fragment] — first match wins
             const preferred = [
-                // Premium neural/natural voices (Chrome, Edge)
-                ["Google UK English Male", "en"],
-                ["Microsoft Ryan", "en"],        // Edge neural — warm, authoritative
-                ["Microsoft Guy", "en"],          // Edge neural
-                ["Microsoft Mark", "en"],         // Edge
-                ["Daniel", "en-GB"],              // macOS/iOS — British, confident
-                ["James", "en"],                  // macOS
-                ["Aaron", "en"],                  // macOS
-                // Android Samsung / Google TTS male voices
+                // American male voices first — consistent across devices
+                ["Microsoft Guy", "en"],          // Edge neural — American male
+                ["Microsoft Ryan", "en"],         // Edge neural — American male
+                ["Microsoft Mark", "en"],         // Edge — American male
+                ["Google US English", "en"],      // Chrome desktop — American
+                // Android Samsung / Google TTS American male voices
                 ["en-us-x-tpd", "en"],           // Google TTS deep male (Android)
                 ["en-us-x-sfg", "en"],           // Google TTS male variant (Android)
-                ["en-gb-x-rjs", "en"],           // Google TTS British male (Android)
                 ["English United States", "en"],  // Samsung TTS
-                ["Google US English", "en"],      // Chrome default
-                ["Alex", "en"],                   // macOS male
-                // Generic fallbacks — prefer male, then any English
+                // macOS American male voices
+                ["Alex", "en"],                   // macOS — American male
+                ["Fred", "en"],                   // macOS — American male
+                ["Tom", "en"],                    // macOS — American male
+                ["Aaron", "en"],                  // macOS — American male
+                // Generic fallbacks — prefer male, then any US English
+                ["Male", "en-US"],
                 ["Male", "en"],
-                ["English", "en"],
+                ["English", "en-US"],
             ];
 
             for (const [nameFrag, langFrag] of preferred) {
@@ -1566,7 +1566,16 @@
             // Log all available voices for debugging
             console.log("Available TTS voices:", voices.map(v => `${v.name} (${v.lang})`).join(", "));
 
-            // Prefer any English voice with "male" in the name (case-insensitive)
+            // Prefer American male voice
+            const maleUS = voices.find(v =>
+                v.lang.startsWith("en-US") && /male/i.test(v.name) && !/female/i.test(v.name)
+            );
+            if (maleUS) {
+                console.log(`TTS voice (US male fallback): ${maleUS.name} (${maleUS.lang})`);
+                return maleUS;
+            }
+
+            // Any male English voice
             const maleEnglish = voices.find(v =>
                 v.lang.startsWith("en") && /male/i.test(v.name) && !/female/i.test(v.name)
             );
@@ -1575,7 +1584,12 @@
                 return maleEnglish;
             }
 
-            // Last resort: any English voice
+            // Last resort: any US English, then any English
+            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
+            if (anyUS) {
+                console.log(`TTS voice (US fallback): ${anyUS.name} (${anyUS.lang})`);
+                return anyUS;
+            }
             const anyEnglish = voices.find(v => v.lang.startsWith("en"));
             if (anyEnglish) {
                 console.log(`TTS voice fallback: ${anyEnglish.name} (${anyEnglish.lang})`);
