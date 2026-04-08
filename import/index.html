@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Import - PocketBudJet | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1A4F7A;
+            --navy-dark: #0C3358;
+            --navy-medium: #2E6FA3;
+            --gold: #F0C040;
+            --gold-dark: #E8A820;
+            --slate: #5A7A9A;
+            --slate-light: #8AAABB;
+            --background: #EDF2F7;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--navy);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        nav .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        nav .cta-button {
+            background-color: var(--gold);
+            color: var(--navy);
+            padding: 0.6rem 1.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        nav .cta-button:hover {
+            background-color: var(--gold-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subheader {
+            font-size: 1.25rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Video Section */
+        .video-section {
+            background-color: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .video-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-frame {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto;
+            aspect-ratio: 9 / 16;
+            background: linear-gradient(135deg, var(--white) 0%, #f5f8fc 100%);
+            border: 12px solid var(--navy);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(12, 51, 88, 0.15);
+        }
+
+        .video-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background-color: var(--navy);
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: var(--slate);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
+        }
+
+        .play-button:hover {
+            background-color: var(--gold-dark);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 25px solid var(--navy);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-placeholder p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        /* Steps Section */
+        .steps-section {
+            background-color: var(--white);
+            padding: 4rem 2rem;
+        }
+
+        .steps-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--navy);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            background-color: var(--background);
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--gold);
+        }
+
+        .step:hover {
+            box-shadow: 0 8px 20px rgba(12, 51, 88, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--gold);
+            color: var(--navy);
+            border-radius: 50%;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .step h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .step p {
+            color: var(--slate);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Formats Section */
+        .formats-section {
+            background-color: var(--background);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .formats-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .formats-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--slate);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .formats-list {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-weight: 600;
+            color: var(--navy);
+            font-size: 1.1rem;
+        }
+
+        .format-badge {
+            padding: 0.8rem 1.6rem;
+            background-color: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        /* CTA Button Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+
+        .download-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--navy);
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
+        }
+
+        .download-button:hover {
+            background-color: var(--gold-dark);
+            border-color: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheader {
+                font-size: 1rem;
+            }
+
+            .steps-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .formats-list {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .format-badge {
+                padding: 0.6rem 1.2rem;
+            }
+
+            .video-frame {
+                max-width: 320px;
+            }
+
+            .download-button {
+                padding: 0.85rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .nav-links {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            nav .logo {
+                font-size: 1rem;
+            }
+
+            nav .cta-button {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 2.5rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero .subheader {
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+
+            .video-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .video-frame {
+                max-width: 280px;
+            }
+
+            .steps-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .steps-section h2 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .step {
+                padding: 2rem 1.5rem;
+            }
+
+            .step h3 {
+                font-size: 1.1rem;
+            }
+
+            .step p {
+                font-size: 0.9rem;
+            }
+
+            .formats-section {
+                padding: 2rem 1rem;
+            }
+
+            .formats-list {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .cta-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .download-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-icon {
+                border-left: 18px solid var(--navy);
+                border-top: 11px solid transparent;
+                border-bottom: 11px solid transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/gary-demo/">Gary Demo</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>See Your Full Financial Picture</h1>
+            <p class="subheader">Import months of transactions from your bank and instantly compare your spending month to month.</p>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-frame">
+                <div class="video-placeholder">
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                    <p>Video coming soon</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="steps-section">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Download from your bank</h3>
+                    <p>Log into your bank website, find Download/Export, select CSV format, save the file</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Import into PocketBudJet</h3>
+                    <p>Open PBJ → tap Import → select your file → watch transactions fill in</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>See the magic</h3>
+                    <p>Dashboard lights up, spending categories populated, trends visible, health score calculated</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Formats -->
+    <section class="formats-section">
+        <div class="container">
+            <p class="formats-label">Supported Formats</p>
+            <div class="formats-list">
+                <div class="format-badge">CSV</div>
+                <div class="format-badge">OFX</div>
+                <div class="format-badge">QFX</div>
+                <div class="format-badge">QIF</div>
+                <div class="format-badge">XLSX</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to take control of your finances?</h2>
+            <a href="#" class="download-button">Download PocketBudJet</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+    </footer>
+</body>
+</html>

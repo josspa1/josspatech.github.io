@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - PocketBudJet | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1A4F7A;
+            --navy-dark: #0C3358;
+            --navy-medium: #2E6FA3;
+            --gold: #F0C040;
+            --gold-dark: #E8A820;
+            --slate: #5A7A9A;
+            --slate-light: #8AAABB;
+            --background: #EDF2F7;
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--navy);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        nav .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        nav .cta-button {
+            background-color: var(--gold);
+            color: var(--navy);
+            padding: 0.6rem 1.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        nav .cta-button:hover {
+            background-color: var(--gold-dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero .subheader {
+            font-size: 1.25rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Video Section */
+        .video-section {
+            background-color: var(--background);
+            padding: 4rem 2rem;
+        }
+
+        .video-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-frame {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto;
+            aspect-ratio: 9 / 16;
+            background: linear-gradient(135deg, var(--white) 0%, #f5f8fc 100%);
+            border: 12px solid var(--navy);
+            border-radius: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(12, 51, 88, 0.15);
+        }
+
+        .video-frame::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background-color: var(--navy);
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            color: var(--slate);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background-color: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
+        }
+
+        .play-button:hover {
+            background-color: var(--gold-dark);
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 25px solid var(--navy);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            margin-left: 5px;
+        }
+
+        .video-placeholder p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        /* Timeline Steps Section */
+        .steps-section {
+            background-color: var(--white);
+            padding: 4rem 2rem;
+        }
+
+        .steps-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--navy);
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background-color: var(--gold);
+            z-index: 0;
+        }
+
+        .timeline-step {
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-step:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 40px);
+        }
+
+        .timeline-step:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 40px);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+            width: 50px;
+            height: 50px;
+            background-color: var(--gold);
+            border: 4px solid var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            box-shadow: 0 4px 12px rgba(240, 192, 64, 0.3);
+        }
+
+        .timeline-content {
+            background-color: var(--background);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--gold);
+        }
+
+        .timeline-step:nth-child(even) .timeline-content {
+            border-left: 5px solid var(--gold);
+        }
+
+        .timeline-step:nth-child(odd) .timeline-content {
+            border-right: 5px solid var(--gold);
+            border-left: none;
+        }
+
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-content p {
+            color: var(--slate);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Tips Callout Section */
+        .tips-section {
+            background-color: var(--background);
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+        }
+
+        .tips-section .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .tips-callout {
+            background-color: var(--white);
+            border-left: 6px solid var(--gold);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .tips-callout h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 1rem;
+        }
+
+        .tips-callout p {
+            color: var(--slate);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .tips-callout a {
+            color: var(--navy);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 2px solid var(--gold);
+            transition: color 0.3s ease;
+        }
+
+        .tips-callout a:hover {
+            color: var(--navy-medium);
+            border-bottom-color: var(--gold-dark);
+        }
+
+        /* CTA Button Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+
+        .download-button {
+            display: inline-block;
+            background-color: var(--gold);
+            color: var(--navy);
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid var(--gold);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
+        }
+
+        .download-button:hover {
+            background-color: var(--gold-dark);
+            border-color: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--gold-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            nav .logo {
+                font-size: 1.2rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subheader {
+                font-size: 1rem;
+            }
+
+            .steps-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .video-frame {
+                max-width: 320px;
+            }
+
+            .download-button {
+                padding: 0.85rem 2rem;
+                font-size: 1rem;
+            }
+
+            /* Timeline for tablet */
+            .timeline::before {
+                left: 25px;
+            }
+
+            .timeline-step {
+                margin-bottom: 2.5rem;
+            }
+
+            .timeline-step:nth-child(odd),
+            .timeline-step:nth-child(even) {
+                text-align: left;
+                padding-right: 0;
+                padding-left: 90px;
+            }
+
+            .timeline-marker {
+                left: 0;
+                transform: translateX(0);
+                top: 0;
+            }
+
+            .timeline-content {
+                border-left: 5px solid var(--gold);
+                border-right: none;
+            }
+
+            .timeline-step:nth-child(odd) .timeline-content {
+                border-left: 5px solid var(--gold);
+                border-right: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 0.8rem 1rem;
+            }
+
+            nav .nav-links {
+                gap: 0.5rem;
+                font-size: 0.75rem;
+            }
+
+            nav .logo {
+                font-size: 1rem;
+            }
+
+            nav .cta-button {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 2.5rem 1rem;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .hero .subheader {
+                font-size: 0.9rem;
+                margin-bottom: 2rem;
+            }
+
+            .video-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .video-frame {
+                max-width: 280px;
+            }
+
+            .steps-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .steps-section h2 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-step {
+                margin-bottom: 2rem;
+                padding-left: 70px !important;
+            }
+
+            .timeline-marker {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .timeline-content {
+                padding: 1.5rem;
+            }
+
+            .timeline-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .timeline-content p {
+                font-size: 0.9rem;
+            }
+
+            .tips-section {
+                padding: 2rem 1rem;
+            }
+
+            .tips-callout {
+                padding: 1.5rem;
+            }
+
+            .tips-callout h3 {
+                font-size: 1.1rem;
+            }
+
+            .tips-callout p {
+                font-size: 0.9rem;
+            }
+
+            .cta-section {
+                padding: 2.5rem 1rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.3rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .download-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+            }
+
+            .play-icon {
+                border-left: 18px solid var(--navy);
+                border-top: 11px solid transparent;
+                border-bottom: 11px solid transparent;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/gary-demo/">Gary Demo</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Set Up in Under 3 Minutes</h1>
+            <p class="subheader">A quick walkthrough of everything you need to start budgeting — accounts, transactions, and your first budget.</p>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-frame">
+                <div class="video-placeholder">
+                    <div class="play-button">
+                        <div class="play-icon"></div>
+                    </div>
+                    <p>Video coming soon</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Steps Section -->
+    <section class="steps-section">
+        <div class="container">
+            <h2>Your First Steps</h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Add your first account</h3>
+                        <p>Tap +, name it "Checking", enter your balance</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Add a second account</h3>
+                        <p>Savings, credit card, or cash — whatever you use most</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Enter your first transaction</h3>
+                        <p>Amount, category, merchant — that's it</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Set a simple budget</h3>
+                        <p>Pick the 50/30/20 template or customize your own limits</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Explore the app</h3>
+                        <p>Dashboard shows your overview, Transactions lists everything, Budget tracks limits, Reports reveals patterns</p>
+                    </div>
+                </div>
+
+                <div class="timeline-step">
+                    <div class="timeline-marker">6</div>
+                    <div class="timeline-content">
+                        <h3>You're budgeting!</h3>
+                        <p>Try importing a bank statement to see your full history</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Callout -->
+            <div class="tips-section">
+                <div class="container">
+                    <div class="tips-callout">
+                        <h3>Pro Tip</h3>
+                        <p>PocketBudJet works best when you import a few months of bank history. Head to the <a href="/import/">Import Center</a> to see how.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to take control of your finances?</h2>
+            <a href="#" class="download-button">Download PocketBudJet</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+    </footer>
+</body>
+</html>
