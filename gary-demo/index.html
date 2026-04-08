@@ -1504,6 +1504,9 @@
         let isMuted = false;
         let currentUtterance = null;
         let typewriterTimeout = null;
+        let typewriterDone = false;
+        let ttsDone = false;
+        let pendingAdvanceDelay = 0;
         let preferredVoice = null;
         let voicesLoaded = false;
 
@@ -1691,13 +1694,32 @@
         function startNarration(text) {
             const step = steps[currentStepIndex];
             const voiceText = step.ttsText || text;
+            // Reset coordination flags
+            typewriterDone = false;
+            ttsDone = false;
+            pendingAdvanceDelay = 0;
             // Always start mouth + talking class
             josspa.classList.add("talking");
             startMouthCycle();
             if (!isMuted && 'speechSynthesis' in window) {
                 speakText(voiceText);
+            } else {
+                // No TTS — mark TTS as "done" immediately so advance waits only on typewriter
+                ttsDone = true;
+                // Calculate read delay for muted mode
+                const wordCount = text.split(/\s+/).length;
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
             }
             typewrite(text);
+        }
+
+        // Only advance when BOTH typewriter and TTS are finished
+        function tryAdvance() {
+            if (!typewriterDone || !ttsDone) return;
+            if (!isPlaying) return;
+            stopMouthCycle();
+            josspa.classList.remove("talking");
+            scheduleAdvance(pendingAdvanceDelay || 500);
         }
 
         function typewrite(text) {
@@ -1712,18 +1734,9 @@
                     index++;
                     typewriterTimeout = setTimeout(typeNextChar, typeSpeed);
                 } else {
-                    // Text done — if muted, stop mouth and schedule auto-advance
-                    if (isMuted) {
-                        stopMouthCycle();
-                        josspa.classList.remove("talking");
-                        if (isPlaying) {
-                            // Give readers time proportional to text length
-                            // ~50ms per word + 1.5s base pause
-                            const wordCount = text.split(/\s+/).length;
-                            const readDelay = Math.max(2000, wordCount * 50 + 1500);
-                            scheduleAdvance(readDelay);
-                        }
-                    }
+                    // Typewriter finished — signal and try to advance
+                    typewriterDone = true;
+                    tryAdvance();
                 }
             }
 
@@ -1764,30 +1777,24 @@
 
             currentUtterance.onend = () => {
                 clearInterval(keepAlive);
-                stopMouthCycle();
-                josspa.classList.remove("talking");
-                if (isPlaying) {
-                    const elapsed = Date.now() - ttsStartTime;
-                    // If TTS "ended" in under 2s for 10+ words, it was auto-blocked (common on mobile)
-                    if (elapsed < 2000 && wordCount > 10) {
-                        const readDelay = Math.max(2000, wordCount * 50 + 1500);
-                        scheduleAdvance(readDelay);
-                    } else {
-                        scheduleAdvance(500);
-                    }
+                const elapsed = Date.now() - ttsStartTime;
+                // If TTS "ended" in under 2s for 10+ words, it was auto-blocked (common on mobile)
+                if (elapsed < 2000 && wordCount > 10) {
+                    pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                } else {
+                    pendingAdvanceDelay = 500;
                 }
+                ttsDone = true;
+                tryAdvance();
             };
 
             currentUtterance.onerror = (e) => {
                 clearInterval(keepAlive);
-                stopMouthCycle();
-                josspa.classList.remove("talking");
                 console.warn("TTS error:", e.error);
-                if (isPlaying) {
-                    // TTS failed (common on mobile) — give time to read
-                    const readDelay = Math.max(2000, wordCount * 50 + 1500);
-                    scheduleAdvance(readDelay);
-                }
+                // TTS failed — give time to read the text
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                ttsDone = true;
+                tryAdvance();
             };
 
             josspa.classList.add("talking");
