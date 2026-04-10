@@ -262,6 +262,19 @@
             padding: 2rem; text-align: center; font-size: 0.9rem;
         }
         footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: #8AAABB; }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
 
         @media (max-width: 768px) {
             nav .nav-links { gap: 1rem; font-size: 0.85rem; }
@@ -287,12 +300,19 @@
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
                 <li><a href="/#products">Products</a></li>
-                <li><a href="/gary-demo/">Gary Demo</a></li>
-                <li><a href="/getting-started/">Getting Started</a></li>
+                <li><a href="/how-to/">How To</a></li>
+                <li><a href="/gary-demo/">Demo</a></li>
                 <li><a href="#" class="cta-button">Get the App</a></li>
             </ul>
         </div>
     </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <a href="/how-to/">How To</a><span class="sep">/</span>
+        <span class="current">Import Bank Data</span>
+    </div>
 
     <section class="hero">
         <div class="container">

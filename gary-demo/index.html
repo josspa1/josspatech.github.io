@@ -855,6 +855,18 @@
             }
         }
 
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 0.8rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate, #5A7A9A);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium, #2E6FA3); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark, #E8A820); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: #8AAABB; }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
         /* Large phone / small tablet — still side-by-side, scaled down */
         @media (max-width: 768px) {
             .nav-bar {
@@ -1045,11 +1057,16 @@
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/#products">Products</a></li>
-            <li><a href="/getting-started/">Getting Started</a></li>
-            <li><a href="/import/">Import Guide</a></li>
+            <li><a href="/how-to/">How To</a></li>
             <li><a href="#" class="cta-button">Get the App</a></li>
         </ul>
     </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <span class="current">Gary Demo</span>
+    </div>
 
     <!-- DEMO MAIN -->
     <div class="demo-container">

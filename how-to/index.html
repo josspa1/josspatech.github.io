@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How To - PocketBudJet | JosspaTech</title>
+    <meta name="description" content="PocketBudJet help center. Quick start guide, video walkthroughs, import help, and the complete user guide — find exactly what you need.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+            --success: #27AE60; --info: #3498DB;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
+        }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button {
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white); padding: 3.5rem 2rem 3rem; text-align: center;
+        }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: 2.8rem;
+            font-weight: 900; margin-bottom: 0.75rem; line-height: 1.2;
+        }
+        .hero .subheader {
+            font-size: 1.15rem; font-weight: 300; max-width: 650px;
+            margin: 0 auto; color: rgba(255,255,255,0.9);
+        }
+
+        /* Section layout */
+        .section {
+            padding: 3.5rem 2rem;
+        }
+        .section:nth-child(even) { background: var(--background); }
+        .section .container { max-width: 1200px; margin: 0 auto; }
+        .section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            margin-bottom: 0.4rem; color: var(--navy);
+        }
+        .section .section-sub {
+            color: var(--slate); font-size: 1.05rem; margin-bottom: 2rem; max-width: 700px;
+        }
+
+        /* Featured card (Quick Start) */
+        .featured-card {
+            background: var(--white); border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: flex;
+            align-items: stretch; gap: 0; max-width: 900px; margin: 0 auto;
+            border: 2px solid var(--gold);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none; color: inherit; cursor: pointer;
+        }
+        .featured-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(240,192,64,0.25);
+        }
+        .featured-icon {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: flex; align-items: center; justify-content: center;
+            padding: 2rem 2.5rem; font-size: 3.5rem; flex-shrink: 0;
+        }
+        .featured-body { padding: 1.8rem 2rem; flex: 1; }
+        .featured-body .badge {
+            display: inline-block; background: var(--gold); color: var(--navy);
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.08em; padding: 0.25rem 0.7rem; border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        .featured-body h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem;
+            font-weight: 700; margin-bottom: 0.4rem;
+        }
+        .featured-body p { color: var(--slate); font-size: 1rem; line-height: 1.5; }
+        .featured-body .time-badge {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            margin-top: 0.6rem; font-size: 0.85rem; color: var(--navy-medium);
+            font-weight: 600;
+        }
+
+        /* Card grid */
+        .card-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            background: var(--white); border-radius: 14px; overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none; color: inherit; display: flex; flex-direction: column;
+            border: 1px solid rgba(26,79,122,0.08);
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            padding: 1.8rem 1.5rem 0.8rem; font-size: 2.5rem; text-align: center;
+        }
+        .card-body { padding: 0 1.5rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+        .card-body h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+            font-weight: 700; margin-bottom: 0.3rem;
+        }
+        .card-body p { color: var(--slate); font-size: 0.95rem; flex: 1; }
+        .card-body .card-meta {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid #eee;
+            font-size: 0.82rem;
+        }
+        .card-body .card-type {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            color: var(--navy-medium); font-weight: 600;
+        }
+        .card-body .card-time { color: var(--slate-light); }
+
+        /* Full guide section */
+        .guide-card {
+            background: var(--white); border-radius: 16px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+            padding: 2rem 2.5rem; max-width: 900px; margin: 0 auto;
+            display: flex; align-items: center; gap: 2rem;
+            border: 1px solid rgba(26,79,122,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none; color: inherit;
+        }
+        .guide-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+        }
+        .guide-card-icon { font-size: 3.5rem; flex-shrink: 0; }
+        .guide-card-body { flex: 1; }
+        .guide-card-body h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.4rem;
+            font-weight: 700; margin-bottom: 0.3rem;
+        }
+        .guide-card-body p { color: var(--slate); font-size: 1rem; }
+        .guide-card .arrow {
+            font-size: 1.5rem; color: var(--navy-medium); flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+        .guide-card:hover .arrow { transform: translateX(4px); }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero .subheader { font-size: 1rem; }
+            .featured-card { flex-direction: column; }
+            .featured-icon { padding: 1.5rem; font-size: 2.5rem; }
+            .guide-card { flex-direction: column; text-align: center; gap: 1rem; }
+            .guide-card .arrow { display: none; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.6rem; }
+            .section { padding: 2.5rem 1rem; }
+            .breadcrumbs { padding: 0.8rem 1rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/gary-demo/">Demo</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <span class="current">How To</span>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>PocketBudJet Help Center</h1>
+            <p class="subheader">Quick start guides, step-by-step walkthroughs, and the full user manual. Pick exactly what you need.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 1: Quick Start -->
+    <section class="section">
+        <div class="container">
+            <h2>New to PocketBudJet?</h2>
+            <p class="section-sub">Start here. This walkthrough gets you up and running in under 2 minutes.</p>
+
+            <a href="/getting-started/" class="featured-card">
+                <div class="featured-icon">&#127937;</div>
+                <div class="featured-body">
+                    <span class="badge">Recommended First</span>
+                    <h3>Quick Start Guide</h3>
+                    <p>A 7-step visual walkthrough: open the app, log a transaction, set a budget, track bills, crush debt, and meet your AI coach. Everything you need to jump right in.</p>
+                    <span class="time-badge">&#9201; About 2 minutes</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 2: How-To Videos -->
+    <section class="section">
+        <div class="container">
+            <h2>How-To Walkthroughs</h2>
+            <p class="section-sub">Short, focused guides on specific features. Watch only the ones you need.</p>
+
+            <div class="card-grid">
+                <a href="/import/" class="card">
+                    <div class="card-icon">&#128229;</div>
+                    <div class="card-body">
+                        <h3>Import Bank Data</h3>
+                        <p>Download a CSV from your bank and import it into PocketBudJet. Three steps, under a minute, all your transactions appear.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/gary-demo/" class="card">
+                    <div class="card-icon">&#127916;</div>
+                    <div class="card-body">
+                        <h3>Full App Demo</h3>
+                        <p>Follow Gary as he sets up his budget, tracks spending, and gets his finances under control. An interactive story showing every major feature.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Interactive Demo</span>
+                            <span class="card-time">~5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#budgets" class="card" style="opacity: 0.55; pointer-events: none;">
+                    <div class="card-icon">&#128202;</div>
+                    <div class="card-body">
+                        <h3>Setting Up Budgets</h3>
+                        <p>Choose a template or build your own. Set category limits, track progress, and get warnings before you overspend.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#128340; Coming Soon</span>
+                            <span class="card-time"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#debt" class="card" style="opacity: 0.55; pointer-events: none;">
+                    <div class="card-icon">&#128176;</div>
+                    <div class="card-body">
+                        <h3>Debt Freedom Planner</h3>
+                        <p>Avalanche or snowball — pick your strategy. See your debt-free date and how much interest you'll save.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#128340; Coming Soon</span>
+                            <span class="card-time"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#receipts" class="card" style="opacity: 0.55; pointer-events: none;">
+                    <div class="card-icon">&#128248;</div>
+                    <div class="card-body">
+                        <h3>Receipt Scanning</h3>
+                        <p>Snap a photo or use the WiFi ADF scanner. PocketBudJet reads the total, date, and merchant automatically.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#128340; Coming Soon</span>
+                            <span class="card-time"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#coach" class="card" style="opacity: 0.55; pointer-events: none;">
+                    <div class="card-icon">&#129302;</div>
+                    <div class="card-body">
+                        <h3>AI Financial Coach</h3>
+                        <p>Ask questions about your spending, get personalized advice, and spot patterns you'd never notice on your own.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#128340; Coming Soon</span>
+                            <span class="card-time"></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Complete Guide -->
+    <section class="section">
+        <div class="container">
+            <h2>The Full Manual</h2>
+            <p class="section-sub">Everything in one place. Covers every feature, every screen, every option.</p>
+
+            <a href="/docs/pocketbudjet/PocketBudJet_UserGuide.pdf" target="_blank" rel="noopener" class="guide-card">
+                <span class="guide-card-icon">&#128214;</span>
+                <div class="guide-card-body">
+                    <h3>PocketBudJet User Guide</h3>
+                    <p>The complete reference manual (PDF). Every feature explained with screenshots and step-by-step instructions. Open it when you need the details.</p>
+                </div>
+                <span class="arrow">&#8594;</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Still stuck? -->
+    <section class="section">
+        <div class="container">
+            <h2>Still Need Help?</h2>
+            <p class="section-sub">We're here for you.</p>
+
+            <div class="card-grid" style="max-width: 650px; margin: 0 auto;">
+                <a href="mailto:support@josspatech.com" class="card">
+                    <div class="card-icon">&#9993;</div>
+                    <div class="card-body">
+                        <h3>Contact Support</h3>
+                        <p>Email us at support@josspatech.com. We typically respond within 24 hours.</p>
+                    </div>
+                </a>
+
+                <a href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener" class="card">
+                    <div class="card-icon">&#128172;</div>
+                    <div class="card-body">
+                        <h3>Beta Feedback</h3>
+                        <p>Found a bug or have a feature request? Let us know through our feedback form.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+    </footer>
+</body>
+</html>
