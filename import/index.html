@@ -6,525 +6,281 @@
     <title>Bank Import - PocketBudJet | JosspaTech</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --navy: #1A4F7A;
-            --navy-dark: #0C3358;
-            --navy-medium: #2E6FA3;
-            --gold: #F0C040;
-            --gold-dark: #E8A820;
-            --slate: #5A7A9A;
-            --slate-light: #8AAABB;
-            --background: #EDF2F7;
-            --white: #FFFFFF;
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --background: #EDF2F7; --white: #FFFFFF;
+            --success: #27AE60;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Source Sans 3', sans-serif;
-            color: var(--navy);
-            background-color: var(--white);
-            line-height: 1.6;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
         }
 
-        /* Navigation Bar */
+        /* Navigation */
         nav {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: var(--navy);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-
         nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         nav .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--white);
-            text-decoration: none;
-            letter-spacing: 0.5px;
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
         }
-
-        nav .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            list-style: none;
-        }
-
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
         nav .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s;
         }
-
-        nav .nav-links a:hover {
-            color: var(--gold);
-        }
-
+        nav .nav-links a:hover { color: var(--gold); }
         nav .cta-button {
-            background-color: var(--gold);
-            color: var(--navy);
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-            border: none;
-            cursor: pointer;
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s;
         }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
 
-        nav .cta-button:hover {
-            background-color: var(--gold-dark);
-        }
-
-        /* Hero Section */
+        /* Hero */
         .hero {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
-            color: var(--white);
-            padding: 4rem 2rem;
-            text-align: center;
+            color: var(--white); padding: 4rem 2rem; text-align: center;
         }
-
-        .hero .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        .hero .container { max-width: 1200px; margin: 0 auto; }
         .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            line-height: 1.2;
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
         }
-
         .hero .subheader {
-            font-size: 1.25rem;
-            font-weight: 300;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.25rem; font-weight: 300; max-width: 700px;
+            margin: 0 auto; color: rgba(255,255,255,0.95);
         }
 
-        /* Video Section */
-        .video-section {
-            background-color: var(--background);
-            padding: 4rem 2rem;
+        /* Before/After Section */
+        .before-after {
+            background: var(--background); padding: 4rem 2rem;
+        }
+        .before-after .container { max-width: 1200px; margin: 0 auto; }
+        .before-after h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem;
+        }
+        .before-after .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .ba-wrapper {
+            display: flex; gap: 2rem; justify-content: center; align-items: stretch; flex-wrap: wrap;
+        }
+        .ba-card {
+            flex: 1; min-width: 300px; max-width: 480px; background: var(--white);
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+        .ba-header {
+            padding: 1.2rem 1.5rem; font-weight: 700; font-size: 1rem;
+            letter-spacing: 1px; text-transform: uppercase; text-align: center;
+        }
+        .ba-card.before .ba-header { background: #e2e8f0; color: var(--slate); }
+        .ba-card.after .ba-header { background: var(--success); color: white; }
+        .ba-body { padding: 1.5rem; }
+        .ba-empty {
+            text-align: center; color: var(--slate); padding: 3rem 1rem;
+        }
+        .ba-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+        .ba-empty p { font-size: 0.95rem; }
+        .ba-stat-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.8rem 0; border-bottom: 1px solid #edf2f7;
+        }
+        .ba-stat-row:last-child { border-bottom: none; }
+        .ba-stat-label { font-weight: 600; color: var(--slate); font-size: 0.9rem; }
+        .ba-stat-val { font-weight: 800; font-size: 1.1rem; }
+        .ba-stat-val.green { color: var(--success); }
+        .ba-stat-val.gold { color: var(--gold-dark); }
+        .ba-arrow {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; color: var(--gold); font-weight: 900; padding: 0 0.5rem;
+            align-self: center;
         }
 
-        .video-section .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        /* Animated walkthrough */
+        .walkthrough { background: var(--white); padding: 4rem 2rem; }
+        .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+        .walkthrough h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem;
+        }
+        .walkthrough .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .wt-wrapper {
+            display: flex; gap: 3rem; align-items: center; justify-content: center; flex-wrap: wrap;
         }
 
-        .video-frame {
-            max-width: 400px;
-            width: 100%;
-            margin: 0 auto;
-            aspect-ratio: 9 / 16;
-            background: linear-gradient(135deg, var(--white) 0%, #f5f8fc 100%);
-            border: 12px solid var(--navy);
-            border-radius: 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(12, 51, 88, 0.15);
+        /* Phone frame */
+        .phone-frame {
+            width: 300px; flex-shrink: 0; position: relative;
+            border: 10px solid var(--navy-dark); border-radius: 40px;
+            overflow: hidden; background: #000;
+            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+            aspect-ratio: 9 / 19.5;
         }
-
-        .video-frame::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 28px;
-            background-color: var(--navy);
-            border-radius: 0 0 20px 20px;
-            z-index: 10;
+        .phone-frame::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+            z-index: 20;
         }
-
-        .video-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1.5rem;
-            color: var(--slate);
-            padding: 2rem;
-            text-align: center;
+        .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
         }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .slide-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 3rem 1.2rem 1.5rem; color: white;
+        }
+        .slide-step {
+            display: inline-block; background: var(--gold); color: var(--navy-dark);
+            font-weight: 800; font-size: 0.7rem; padding: 3px 10px; border-radius: 12px;
+            margin-bottom: 6px;
+        }
+        .slide-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
 
-        .play-button {
-            width: 80px;
-            height: 80px;
-            background-color: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(26,79,122,0.2); transition: all 0.3s; cursor: pointer;
+        }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+        .playback-controls {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center;
+        }
+        .play-pause-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 40px; height: 40px; cursor: pointer; font-size: 1rem;
+            display: flex; align-items: center; justify-content: center; transition: background 0.3s;
+        }
+        .play-pause-btn:hover { background: var(--navy-medium); }
+        .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+
+        /* Steps panel */
+        .steps-panel { max-width: 420px; flex: 1; min-width: 280px; }
+        .step-card {
+            background: var(--background); border-radius: 16px; padding: 1.5rem 1.8rem;
+            margin-bottom: 0.8rem; border-left: 5px solid transparent;
+            opacity: 0.4; transform: scale(0.97); transition: all 0.4s ease;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
         }
-
-        .play-button:hover {
-            background-color: var(--gold-dark);
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+        .step-card.active {
+            opacity: 1; transform: scale(1); background: var(--white);
+            border-left-color: var(--gold);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
         }
-
-        .play-icon {
-            width: 0;
-            height: 0;
-            border-left: 25px solid var(--navy);
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
-            margin-left: 5px;
+        .step-card-num {
+            display: inline-block; background: var(--navy); color: white;
+            font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px;
+            margin-bottom: 0.4rem;
         }
-
-        .video-placeholder p {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--navy);
+        .step-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 0.3rem;
         }
-
-        /* Steps Section */
-        .steps-section {
-            background-color: var(--white);
-            padding: 4rem 2rem;
+        .step-card p { color: var(--slate); font-size: 0.9rem; line-height: 1.5; }
+        .step-timer {
+            height: 3px; background: var(--gold); border-radius: 2px;
+            margin-top: 0.6rem; width: 0%; transition: width linear;
         }
+        .step-card.active .step-timer { width: 100%; }
 
-        .steps-section .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .steps-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--navy);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .step {
-            background-color: var(--background);
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            border-left: 5px solid var(--gold);
-        }
-
-        .step:hover {
-            box-shadow: 0 8px 20px rgba(12, 51, 88, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background-color: var(--gold);
-            color: var(--navy);
-            border-radius: 50%;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .step h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--navy);
-            margin-bottom: 1rem;
-        }
-
-        .step p {
-            color: var(--slate);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* Formats Section */
-        .formats-section {
-            background-color: var(--background);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .formats-section .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        /* Formats */
+        .formats-section { background: var(--background); padding: 3rem 2rem; text-align: center; }
+        .formats-section .container { max-width: 1200px; margin: 0 auto; }
         .formats-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--slate);
+            font-size: 0.9rem; font-weight: 600; color: var(--slate);
+            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .formats-list {
+            display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+            font-weight: 600; color: var(--navy); font-size: 1rem;
+        }
+        .format-badge {
+            padding: 0.7rem 1.4rem; background: var(--white); border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .format-badge.highlight {
+            background: var(--gold); color: var(--navy-dark); font-weight: 700;
+            box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+        }
+
+        /* WiFi scanner callout */
+        .wifi-callout {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 3rem 2rem; text-align: center; color: white;
+        }
+        .wifi-callout .container { max-width: 800px; margin: 0 auto; }
+        .wifi-callout h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700;
             margin-bottom: 1rem;
-            text-transform: uppercase;
+        }
+        .wifi-callout p { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; line-height: 1.7; }
+        .wifi-badge {
+            display: inline-block; background: var(--gold); color: var(--navy-dark);
+            padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 800; font-size: 0.9rem;
             letter-spacing: 1px;
         }
 
-        .formats-list {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            font-weight: 600;
-            color: var(--navy);
-            font-size: 1.1rem;
-        }
-
-        .format-badge {
-            padding: 0.8rem 1.6rem;
-            background-color: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        /* CTA Button Section */
+        /* CTA */
         .cta-section {
             background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
-            padding: 4rem 2rem;
-            text-align: center;
+            padding: 4rem 2rem; text-align: center;
         }
-
-        .cta-section .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        .cta-section .container { max-width: 1200px; margin: 0 auto; }
         .cta-section h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 2rem;
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            color: var(--white); margin-bottom: 2rem;
         }
-
         .download-button {
-            display: inline-block;
-            background-color: var(--gold);
-            color: var(--navy);
-            padding: 1rem 2.5rem;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 2px solid var(--gold);
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(240, 192, 64, 0.3);
+            display: inline-block; background: var(--gold); color: var(--navy);
+            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
         }
-
         .download-button:hover {
-            background-color: var(--gold-dark);
-            border-color: var(--gold-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(240, 192, 64, 0.4);
+            background: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
         }
 
-        /* Footer */
         footer {
-            background-color: var(--navy-dark);
-            color: var(--white);
-            padding: 2rem;
-            text-align: center;
-            font-size: 0.9rem;
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
         }
+        footer a { color: var(--gold); text-decoration: none; }
 
-        footer a {
-            color: var(--gold);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: var(--gold-dark);
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            nav .nav-links {
-                gap: 1rem;
-                font-size: 0.85rem;
-            }
-
-            nav .logo {
-                font-size: 1.2rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero .subheader {
-                font-size: 1rem;
-            }
-
-            .steps-section h2 {
-                font-size: 1.8rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.5rem;
-            }
-
-            .formats-list {
-                gap: 1rem;
-                font-size: 0.9rem;
-            }
-
-            .format-badge {
-                padding: 0.6rem 1.2rem;
-            }
-
-            .video-frame {
-                max-width: 320px;
-            }
-
-            .download-button {
-                padding: 0.85rem 2rem;
-                font-size: 1rem;
-            }
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .ba-wrapper { flex-direction: column; align-items: center; }
+            .ba-arrow { transform: rotate(90deg); }
+            .wt-wrapper { flex-direction: column; }
+            .phone-frame { width: 260px; }
         }
-
         @media (max-width: 480px) {
-            nav {
-                padding: 0.8rem 1rem;
-            }
-
-            nav .nav-links {
-                gap: 0.5rem;
-                font-size: 0.75rem;
-            }
-
-            nav .logo {
-                font-size: 1rem;
-            }
-
-            nav .cta-button {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
-            }
-
-            .hero {
-                padding: 2.5rem 1rem;
-            }
-
-            .hero h1 {
-                font-size: 1.5rem;
-                margin-bottom: 0.8rem;
-            }
-
-            .hero .subheader {
-                font-size: 0.9rem;
-                margin-bottom: 2rem;
-            }
-
-            .video-section {
-                padding: 2.5rem 1rem;
-            }
-
-            .video-frame {
-                max-width: 280px;
-            }
-
-            .steps-section {
-                padding: 2.5rem 1rem;
-            }
-
-            .steps-section h2 {
-                font-size: 1.5rem;
-                margin-bottom: 2rem;
-            }
-
-            .step {
-                padding: 2rem 1.5rem;
-            }
-
-            .step h3 {
-                font-size: 1.1rem;
-            }
-
-            .step p {
-                font-size: 0.9rem;
-            }
-
-            .formats-section {
-                padding: 2rem 1rem;
-            }
-
-            .formats-list {
-                flex-direction: column;
-                gap: 0.8rem;
-            }
-
-            .cta-section {
-                padding: 2.5rem 1rem;
-            }
-
-            .cta-section h2 {
-                font-size: 1.3rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .download-button {
-                padding: 0.75rem 1.5rem;
-                font-size: 0.9rem;
-            }
-
-            .play-button {
-                width: 60px;
-                height: 60px;
-            }
-
-            .play-icon {
-                border-left: 18px solid var(--navy);
-                border-top: 11px solid transparent;
-                border-bottom: 11px solid transparent;
-            }
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .phone-frame { width: 230px; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav>
         <div class="container">
             <a href="/" class="logo">JosspaTech</a>
@@ -532,12 +288,12 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/#products">Products</a></li>
                 <li><a href="/gary-demo/">Gary Demo</a></li>
+                <li><a href="/getting-started/">Getting Started</a></li>
                 <li><a href="#" class="cta-button">Get the App</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <h1>See Your Full Financial Picture</h1>
@@ -545,39 +301,121 @@
         </div>
     </section>
 
-    <!-- Video Section -->
-    <section class="video-section">
+    <!-- Before / After -->
+    <section class="before-after">
         <div class="container">
-            <div class="video-frame">
-                <div class="video-placeholder">
-                    <div class="play-button">
-                        <div class="play-icon"></div>
+            <h2>One Import Changes Everything</h2>
+            <p class="section-sub">Go from an empty app to a fully loaded dashboard in under 60 seconds.</p>
+            <div class="ba-wrapper">
+                <div class="ba-card before">
+                    <div class="ba-header">Before Import</div>
+                    <div class="ba-body">
+                        <div class="ba-empty">
+                            <div class="ba-empty-icon">📭</div>
+                            <p>No transactions yet.<br>Dashboard is blank. Budget bars empty.</p>
+                        </div>
                     </div>
-                    <p>Video coming soon</p>
+                </div>
+                <div class="ba-arrow">&#10132;</div>
+                <div class="ba-card after">
+                    <div class="ba-header">After Import</div>
+                    <div class="ba-body">
+                        <div class="ba-stat-row">
+                            <span class="ba-stat-label">Transactions</span>
+                            <span class="ba-stat-val green">247 loaded</span>
+                        </div>
+                        <div class="ba-stat-row">
+                            <span class="ba-stat-label">Categories</span>
+                            <span class="ba-stat-val gold">Auto-sorted</span>
+                        </div>
+                        <div class="ba-stat-row">
+                            <span class="ba-stat-label">Budget bars</span>
+                            <span class="ba-stat-val green">Live tracking</span>
+                        </div>
+                        <div class="ba-stat-row">
+                            <span class="ba-stat-label">Spending trends</span>
+                            <span class="ba-stat-val green">3 months visible</span>
+                        </div>
+                        <div class="ba-stat-row">
+                            <span class="ba-stat-label">Health score</span>
+                            <span class="ba-stat-val gold">Calculated</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Steps Section -->
-    <section class="steps-section">
+    <!-- Animated Walkthrough -->
+    <section class="walkthrough">
         <div class="container">
             <h2>How It Works</h2>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Download from your bank</h3>
-                    <p>Log into your bank website, find Download/Export, select CSV format, save the file</p>
+            <p class="section-sub">Three steps. Under a minute. Your whole financial history, inside PocketBudJet.</p>
+            <div class="wt-wrapper">
+                <div>
+                    <div class="phone-frame">
+                        <div class="slideshow" id="slideshow">
+                            <div class="slide active" data-index="0">
+                                <img src="/assets/screenshots/scanner.png" alt="Import methods" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 1</span>
+                                    <div class="slide-title">Choose your import method</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="1">
+                                <img src="/assets/screenshots/transactions.png" alt="Transactions loaded" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 2</span>
+                                    <div class="slide-title">Smart Mapper sorts your transactions</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="2">
+                                <img src="/assets/screenshots/budget.png" alt="Budget populated" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 3</span>
+                                    <div class="slide-title">Budget and charts light up instantly</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="3">
+                                <img src="/assets/screenshots/dashboard.png" alt="Dashboard complete" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">DONE</span>
+                                    <div class="slide-title">Dashboard shows your complete picture</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-dots" id="dots"></div>
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause">&#10074;&#10074;</button>
+                        <span class="speed-label" id="speedLabel">Auto-playing</span>
+                    </div>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Import into PocketBudJet</h3>
-                    <p>Open PBJ → tap Import → select your file → watch transactions fill in</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>See the magic</h3>
-                    <p>Dashboard lights up, spending categories populated, trends visible, health score calculated</p>
+                <div class="steps-panel" id="stepsPanel">
+                    <div class="step-card active" data-index="0" onclick="goTo(0)">
+                        <span class="step-card-num">Step 1</span>
+                        <h3>Download from your bank</h3>
+                        <p>Log into your bank's website, find the download or export option, and save a CSV file. Most banks have this under "Statements" or "Activity."</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <div class="step-card" data-index="1" onclick="goTo(1)">
+                        <span class="step-card-num">Step 2</span>
+                        <h3>Import into PocketBudJet</h3>
+                        <p>Tap Import, pick your file. The Smart CSV Mapper auto-detects columns &mdash; date, amount, description. Works with any bank format.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <div class="step-card" data-index="2" onclick="goTo(2)">
+                        <span class="step-card-num">Step 3</span>
+                        <h3>Watch it come alive</h3>
+                        <p>Transactions fill in, categories auto-sort, budget bars populate, and your spending trends become visible for the first time.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <div class="step-card" data-index="3" onclick="goTo(3)">
+                        <span class="step-card-num">Done</span>
+                        <h3>Your complete dashboard</h3>
+                        <p>Financial health score calculated, month-over-month comparisons ready, insights generated. All from one CSV file.</p>
+                        <div class="step-timer"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -588,16 +426,25 @@
         <div class="container">
             <p class="formats-label">Supported Formats</p>
             <div class="formats-list">
-                <div class="format-badge">CSV</div>
+                <div class="format-badge highlight">CSV</div>
                 <div class="format-badge">OFX</div>
                 <div class="format-badge">QFX</div>
                 <div class="format-badge">QIF</div>
                 <div class="format-badge">XLSX</div>
+                <div class="format-badge">PDF</div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- WiFi Scanner Callout -->
+    <section class="wifi-callout">
+        <div class="container">
+            <h3>Got a WiFi Scanner at Home?</h3>
+            <p>PocketBudJet is the only budgeting app that connects to your home ADF scanner over WiFi. Feed a stack of receipts, walk away, and come back to every transaction logged and categorized.</p>
+            <span class="wifi-badge">ONLY IN POCKETBUDJET</span>
+        </div>
+    </section>
+
     <section class="cta-section">
         <div class="container">
             <h2>Ready to take control of your finances?</h2>
@@ -605,9 +452,75 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
     </footer>
+
+    <script>
+    var goTo; // expose globally for onclick handlers
+    (function() {
+        const SLIDE_DURATION = 5500;
+        const slides = document.querySelectorAll('.slide');
+        const cards = document.querySelectorAll('.step-card');
+        const dotsContainer = document.getElementById('dots');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const speedLabel = document.getElementById('speedLabel');
+        let current = 0, playing = true, timer = null;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        goTo = function(index) {
+            slides[current].classList.remove('active');
+            cards[current].classList.remove('active');
+            dotsContainer.children[current].classList.remove('active');
+            cards[current].querySelector('.step-timer').style.transition = 'none';
+            cards[current].querySelector('.step-timer').style.width = '0%';
+
+            current = index;
+            slides[current].classList.add('active');
+            cards[current].classList.add('active');
+            dotsContainer.children[current].classList.add('active');
+
+            const timerBar = cards[current].querySelector('.step-timer');
+            requestAnimationFrame(() => {
+                timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                timerBar.style.width = '100%';
+            });
+            if (playing) resetTimer();
+        };
+
+        function next() { goTo((current + 1) % slides.length); }
+        function resetTimer() { clearInterval(timer); timer = setInterval(next, SLIDE_DURATION); }
+
+        playPauseBtn.addEventListener('click', () => {
+            playing = !playing;
+            if (playing) {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';
+                speedLabel.textContent = 'Auto-playing';
+                resetTimer();
+                const tb = cards[current].querySelector('.step-timer');
+                tb.style.transition = 'none'; tb.style.width = '0%';
+                requestAnimationFrame(() => {
+                    tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                    tb.style.width = '100%';
+                });
+            } else {
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Paused';
+                clearInterval(timer);
+                const tb = cards[current].querySelector('.step-timer');
+                const w = getComputedStyle(tb).width;
+                tb.style.transition = 'none'; tb.style.width = w;
+            }
+        });
+
+        goTo(0);
+    })();
+    </script>
 </body>
 </html>
