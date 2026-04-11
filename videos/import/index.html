@@ -168,7 +168,29 @@
             display: flex; align-items: center; justify-content: center; transition: background 0.3s;
         }
         .play-pause-btn:hover { background: var(--navy-medium); }
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
         .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+
+        /* Chapter navigation */
+        .chapter-nav {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+            margin-top: 1.5rem; padding: 0 1rem;
+        }
+        .chapter-btn {
+            background: var(--navy); color: white; border: 2px solid var(--navy);
+            padding: 0.55rem 1.2rem; border-radius: 20px; cursor: pointer;
+            font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
+        .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
 
         /* Steps panel */
         .steps-panel { max-width: 420px; flex: 1; min-width: 280px; }
@@ -283,6 +305,8 @@
             .ba-arrow { transform: rotate(90deg); }
             .wt-wrapper { flex-direction: column; }
             .phone-frame { width: 260px; }
+            .chapter-nav { gap: 0.5rem; }
+            .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
         }
         @media (max-width: 480px) {
             nav { padding: 0.8rem 1rem; }
@@ -290,6 +314,8 @@
             .hero { padding: 2.5rem 1rem; }
             .hero h1 { font-size: 1.5rem; }
             .phone-frame { width: 230px; }
+            .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
+            .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -370,37 +396,89 @@
     <section class="walkthrough">
         <div class="container">
             <h2>How It Works</h2>
-            <p class="section-sub">Three steps. Under a minute. Your whole financial history, inside PocketBudJet.</p>
+            <p class="section-sub">Complete import and export workflow, step by step. From your bank to your dashboard.</p>
             <div class="wt-wrapper">
                 <div>
                     <div class="phone-frame">
                         <div class="slideshow" id="slideshow">
+                            <!-- Slide 0: Download from Bank -->
                             <div class="slide active" data-index="0">
-                                <img src="/assets/screenshots/scanner.png" alt="Import methods" loading="lazy">
+                                <img src="/assets/screenshots/scanner.png" alt="Bank download" loading="lazy">
                                 <div class="slide-overlay">
-                                    <span class="slide-step">STEP 1</span>
-                                    <div class="slide-title">Choose your import method</div>
+                                    <span class="slide-step">SLIDE 1</span>
+                                    <div class="slide-title">Download from Your Bank</div>
                                 </div>
                             </div>
+                            <!-- Slide 1: File Format -->
                             <div class="slide" data-index="1">
-                                <img src="/assets/screenshots/transactions.png" alt="Transactions loaded" loading="lazy">
+                                <img src="/assets/screenshots/scanner.png" alt="File format selection" loading="lazy">
                                 <div class="slide-overlay">
-                                    <span class="slide-step">STEP 2</span>
-                                    <div class="slide-title">Smart Mapper sorts your transactions</div>
+                                    <span class="slide-step">SLIDE 2</span>
+                                    <div class="slide-title">CSV is Best, But You Have Options</div>
                                 </div>
                             </div>
+                            <!-- Slide 2: Import History -->
                             <div class="slide" data-index="2">
-                                <img src="/assets/screenshots/budget.png" alt="Budget populated" loading="lazy">
+                                <img src="/assets/screenshots/transactions.png" alt="History selection" loading="lazy">
                                 <div class="slide-overlay">
-                                    <span class="slide-step">STEP 3</span>
-                                    <div class="slide-title">Budget and charts light up instantly</div>
+                                    <span class="slide-step">SLIDE 3</span>
+                                    <div class="slide-title">Grab at Least 3 Months</div>
                                 </div>
                             </div>
+                            <!-- Slide 3: Phone Import -->
                             <div class="slide" data-index="3">
-                                <img src="/assets/screenshots/dashboard.png" alt="Dashboard complete" loading="lazy">
+                                <img src="/assets/screenshots/scanner.png" alt="Phone import" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 4</span>
+                                    <div class="slide-title">Tap Import, Pick Your File</div>
+                                </div>
+                            </div>
+                            <!-- Slide 4: Smart Mapping -->
+                            <div class="slide" data-index="4">
+                                <img src="/assets/screenshots/transactions.png" alt="Smart mapping" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 5</span>
+                                    <div class="slide-title">Automatic Column Detection</div>
+                                </div>
+                            </div>
+                            <!-- Slide 5: Camera & Scanner -->
+                            <div class="slide" data-index="5">
+                                <img src="/assets/screenshots/scanner.png" alt="Receipt scanning" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 6</span>
+                                    <div class="slide-title">Snap Receipts With Your Camera</div>
+                                </div>
+                            </div>
+                            <!-- Slide 6: WiFi Scanner -->
+                            <div class="slide" data-index="6">
+                                <img src="/assets/screenshots/scanner.png" alt="WiFi scanner" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 7</span>
+                                    <div class="slide-title">Feed a Stack, Walk Away</div>
+                                </div>
+                            </div>
+                            <!-- Slide 7: PC Dashboard -->
+                            <div class="slide" data-index="7">
+                                <img src="/assets/screenshots/dashboard.png" alt="PC dashboard" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 8</span>
+                                    <div class="slide-title">Drag and Drop from Your Desktop</div>
+                                </div>
+                            </div>
+                            <!-- Slide 8: Export & Backup -->
+                            <div class="slide" data-index="8">
+                                <img src="/assets/screenshots/budget.png" alt="Export options" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">SLIDE 9</span>
+                                    <div class="slide-title">Your Data, Your Way — 6 Formats</div>
+                                </div>
+                            </div>
+                            <!-- Slide 9: Summary -->
+                            <div class="slide" data-index="9">
+                                <img src="/assets/screenshots/dashboard.png" alt="Complete dashboard" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">DONE</span>
-                                    <div class="slide-title">Dashboard shows your complete picture</div>
+                                    <div class="slide-title">Import Early, Import Often</div>
                                 </div>
                             </div>
                         </div>
@@ -410,30 +488,79 @@
                         <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause">&#10074;&#10074;</button>
                         <span class="speed-label" id="speedLabel">Auto-playing</span>
                     </div>
+                    <div class="chapter-nav" id="chapterNav">
+                        <!-- Chapter buttons will be inserted here by JavaScript -->
+                    </div>
                 </div>
                 <div class="steps-panel" id="stepsPanel">
+                    <!-- Slide 0: Download from Bank -->
                     <div class="step-card active" data-index="0" onclick="goTo(0)">
-                        <span class="step-card-num">Step 1</span>
-                        <h3>Download from your bank</h3>
-                        <p>Log into your bank's website, find the download or export option, and save a CSV file. Most banks have this under "Statements" or "Activity."</p>
+                        <span class="step-card-num">Slide 1</span>
+                        <h3>Finding the Download Option</h3>
+                        <p>Log into your bank's website. Look for "Download Transactions," "Export Activity," or "Transaction History." Every bank is a little different, but they all have this somewhere—usually under Statements or Activity.</p>
                         <div class="step-timer"></div>
                     </div>
+                    <!-- Slide 1: File Format -->
                     <div class="step-card" data-index="1" onclick="goTo(1)">
-                        <span class="step-card-num">Step 2</span>
-                        <h3>Import into PocketBudJet</h3>
-                        <p>Tap Import, pick your file. The Smart CSV Mapper auto-detects columns &mdash; date, amount, description. Works with any bank format.</p>
+                        <span class="step-card-num">Slide 2</span>
+                        <h3>CSV is Best, But You Have Options</h3>
+                        <p>We recommend CSV—it's the most universal format and PocketBudJet's Smart Mapper handles it beautifully. If CSV isn't available, look for OFX or QFX formats. All work perfectly.</p>
                         <div class="step-timer"></div>
                     </div>
+                    <!-- Slide 2: Import History -->
                     <div class="step-card" data-index="2" onclick="goTo(2)">
-                        <span class="step-card-num">Step 3</span>
-                        <h3>Watch it come alive</h3>
-                        <p>Transactions fill in, categories auto-sort, budget bars populate, and your spending trends become visible for the first time.</p>
+                        <span class="step-card-num">Slide 3</span>
+                        <h3>More Data = Better AI</h3>
+                        <p>Download as much history as your bank allows. Three months is the minimum—but six months or a year is even better. More data means smarter AI, better reports, and more useful trend analysis.</p>
                         <div class="step-timer"></div>
                     </div>
+                    <!-- Slide 3: Phone Import -->
                     <div class="step-card" data-index="3" onclick="goTo(3)">
+                        <span class="step-card-num">Slide 4</span>
+                        <h3>Tap Import, Pick Your File</h3>
+                        <p>Open PocketBudJet, tap the Import button. Browse to your Downloads folder and pick the file. Our Smart CSV Mapper automatically detects the key columns—date, amount, description. Preview before import.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 4: Smart Mapping -->
+                    <div class="step-card" data-index="4" onclick="goTo(4)">
+                        <span class="step-card-num">Slide 5</span>
+                        <h3>Automatic Column Detection & Deduplication</h3>
+                        <p>The Smart Mapper is trained on dozens of real bank formats. It also detects overlapping date ranges and skips duplicates automatically. Nine times out of ten, no manual adjustment needed.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 5: Camera & Scanner -->
+                    <div class="step-card" data-index="5" onclick="goTo(5)">
+                        <span class="step-card-num">Slide 6</span>
+                        <h3>Snap Receipts With Your Camera</h3>
+                        <p>Don't have a bank file? No problem. Point your camera at any receipt and PocketBudJet's OCR reads the merchant, amount, date, and line items. Works with printed receipts and handwritten notes.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 6: WiFi Scanner -->
+                    <div class="step-card" data-index="6" onclick="goTo(6)">
+                        <span class="step-card-num">Slide 7</span>
+                        <h3>Feed a Stack, Walk Away</h3>
+                        <p>This is a PocketBudJet exclusive. If you have a WiFi scanner at home with an automatic document feeder, connect directly. Feed receipts into the tray and walk away. Every receipt gets read and categorized.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 7: PC Dashboard -->
+                    <div class="step-card" data-index="7" onclick="goTo(7)">
+                        <span class="step-card-num">Slide 8</span>
+                        <h3>Drag and Drop from Your Desktop</h3>
+                        <p>Do your banking on a computer? Open PocketBudJet's PC Web Dashboard by scanning a QR code. Download your bank file and drag it right into the import area. Syncs over local WiFi instantly.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 8: Export & Backup -->
+                    <div class="step-card" data-index="8" onclick="goTo(8)">
+                        <span class="step-card-num">Slide 9</span>
+                        <h3>Your Data, Your Way — 6 Formats</h3>
+                        <p>Export as CSV, XLSX, OFX, PDF, JSON, or encrypted backup. Share with your accountant, back up securely, or run a LAN server. You control your data completely.</p>
+                        <div class="step-timer"></div>
+                    </div>
+                    <!-- Slide 9: Summary -->
+                    <div class="step-card" data-index="9" onclick="goTo(9)">
                         <span class="step-card-num">Done</span>
-                        <h3>Your complete dashboard</h3>
-                        <p>Financial health score calculated, month-over-month comparisons ready, insights generated. All from one CSV file.</p>
+                        <h3>Import Early, Import Often</h3>
+                        <p>The more data you give PocketBudJet, the smarter it gets. No bank login credentials ever touch our app. You download and import yourself. That's privacy by design.</p>
                         <div class="step-timer"></div>
                     </div>
                 </div>
@@ -485,8 +612,103 @@
         const dotsContainer = document.getElementById('dots');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const speedLabel = document.getElementById('speedLabel');
+        const chapterNav = document.getElementById('chapterNav');
         let current = 0, playing = true, timer = null;
 
+        // Chapter definitions: [name, slideIndex]
+        const chapters = [
+            ['Download from Bank', 0],
+            ['File Types', 1],
+            ['Import History', 2],
+            ['Phone Import', 3],
+            ['Smart Mapping', 4],
+            ['Camera & Scanner', 5],
+            ['WiFi Scanner', 6],
+            ['PC Dashboard', 7],
+            ['Export & Backup', 8],
+            ['Summary', 9]
+        ];
+
+        // Voiceover scripts
+        const voiceoverScripts = [
+            // Slide 0: Download from Bank
+            "Log into your bank's website. Look for download transactions, export activity, or transaction history. Every bank is a little different, but they all have this somewhere—usually under statements or activity.",
+            // Slide 1: File Format
+            "We recommend CSV. It's the most universal format and PocketBudJet's Smart Mapper handles it beautifully. If CSV isn't available, look for OFX or QFX formats. All work perfectly.",
+            // Slide 2: Import History
+            "Download as much history as your bank allows. Three months is the minimum—but six months or a year is even better. More data means smarter AI, better reports, and more useful trend analysis.",
+            // Slide 3: Phone Import
+            "Open PocketBudJet, tap the Import button. Browse to your downloads folder and pick the file. Our Smart CSV Mapper automatically detects the key columns—date, amount, description. Preview before import.",
+            // Slide 4: Smart Mapping
+            "The Smart Mapper is trained on dozens of real bank formats. It also detects overlapping date ranges and skips duplicates automatically. Nine times out of ten, no manual adjustment needed.",
+            // Slide 5: Camera & Scanner
+            "Don't have a bank file? No problem. Point your camera at any receipt and PocketBudJet's OCR reads the merchant, amount, date, and line items. Works with printed receipts and handwritten notes.",
+            // Slide 6: WiFi Scanner
+            "If you have a WiFi scanner at home with an automatic document feeder, connect directly. Feed receipts into the tray and walk away. Every receipt gets read and categorized.",
+            // Slide 7: PC Dashboard
+            "Do your banking on a computer? Open PocketBudJet's PC Web Dashboard by scanning a QR code. Download your bank file and drag it right into the import area. Syncs over local WiFi instantly.",
+            // Slide 8: Export & Backup
+            "Export as CSV, XLSX, OFX, PDF, JSON, or encrypted backup. Share with your accountant, back up securely, or run a LAN server. You control your data completely.",
+            // Slide 9: Summary
+            "The more data you give PocketBudJet, the smarter it gets. No bank login credentials ever touch our app. You download and import yourself. That's privacy by design."
+        ];
+
+        // Voice synthesis setup
+        const synth = window.speechSynthesis;
+        let voiceEnabled = true;
+        let currentUtterance = null;
+        let speechTimeout = null;
+
+        // Voice toggle button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn';
+        voiceBtn.innerHTML = '&#128264;';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                synth.cancel();
+                clearTimeout(speechTimeout);
+                if (playing) resetTimer();
+            } else {
+                speakSlide(current);
+            }
+        });
+
+        function speakSlide(index) {
+            if (!voiceEnabled || !synth) return;
+            synth.cancel();
+            clearTimeout(speechTimeout);
+            const text = voiceoverScripts[index];
+            if (!text) return;
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 0.92;
+            currentUtterance.pitch = 1.0;
+            const voices = synth.getVoices();
+            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
+                || voices.find(v => v.lang === 'en-US' && !v.localService)
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+            if (pick) currentUtterance.voice = pick;
+            currentUtterance.onend = () => {
+                if (playing && voiceEnabled) {
+                    speechTimeout = setTimeout(next, 1200);
+                }
+            };
+            clearInterval(timer);
+            synth.speak(currentUtterance);
+        }
+
+        if (synth && synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = () => {};
+        }
+
+        // Create progress dots
         slides.forEach((_, i) => {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -494,10 +716,20 @@
             dotsContainer.appendChild(dot);
         });
 
+        // Create chapter buttons
+        chapters.forEach(([name, idx]) => {
+            const btn = document.createElement('button');
+            btn.className = 'chapter-btn' + (idx === 0 ? ' active' : '');
+            btn.textContent = name;
+            btn.addEventListener('click', () => goTo(idx));
+            chapterNav.appendChild(btn);
+        });
+
         goTo = function(index) {
             slides[current].classList.remove('active');
             cards[current].classList.remove('active');
             dotsContainer.children[current].classList.remove('active');
+            chapterNav.children[current].classList.remove('active');
             cards[current].querySelector('.step-timer').style.transition = 'none';
             cards[current].querySelector('.step-timer').style.width = '0%';
 
@@ -505,13 +737,18 @@
             slides[current].classList.add('active');
             cards[current].classList.add('active');
             dotsContainer.children[current].classList.add('active');
+            chapterNav.children[current].classList.add('active');
 
             const timerBar = cards[current].querySelector('.step-timer');
             requestAnimationFrame(() => {
                 timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
                 timerBar.style.width = '100%';
             });
-            if (playing) resetTimer();
+            if (voiceEnabled) {
+                speakSlide(current);
+            } else if (playing) {
+                resetTimer();
+            }
         };
 
         function next() { goTo((current + 1) % slides.length); }
@@ -522,7 +759,11 @@
             if (playing) {
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
-                resetTimer();
+                if (voiceEnabled) {
+                    speakSlide(current);
+                } else {
+                    resetTimer();
+                }
                 const tb = cards[current].querySelector('.step-timer');
                 tb.style.transition = 'none'; tb.style.width = '0%';
                 requestAnimationFrame(() => {
@@ -532,7 +773,9 @@
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
+                synth.cancel();
                 clearInterval(timer);
+                clearTimeout(speechTimeout);
                 const tb = cards[current].querySelector('.step-timer');
                 const w = getComputedStyle(tb).width;
                 tb.style.transition = 'none'; tb.style.width = w;

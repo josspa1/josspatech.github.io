@@ -265,6 +265,14 @@
             .timeline-step { padding-left: 70px !important; }
             .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
         }
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -449,6 +457,20 @@
         let playing = true;
         let timer = null;
 
+        // Web Speech API Setup
+        const synth = window.speechSynthesis;
+        let voiceEnabled = true;
+        let currentUtterance = null;
+        let speechTimeout = null;
+
+        const voiceoverScripts = [
+            "YNAB, Monarch, Copilot, Goodbudget, EveryDollar — the Big 5. Let's see how PocketBudJet compares on price, privacy, and features.",
+            "At $9.99/month, PocketBudJet is the most affordable. And we're the only one that never asks for your bank login.",
+            "WiFi document scanner, household sync at no extra cost, fully offline — features no competitor matches.",
+            "YNAB costs $99/year. Monarch costs $140. PocketBudJet is $74.99 — with more features and better privacy.",
+            "That's the bottom line. More features, lower price, and your data never leaves your device. That's PocketBudJet."
+        ];
+
         // Build dots
         slides.forEach((_, i) => {
             const dot = document.createElement('div');
@@ -456,6 +478,54 @@
             dot.addEventListener('click', () => goTo(i));
             dotsContainer.appendChild(dot);
         });
+
+        // Create and add voice button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn';
+        voiceBtn.innerHTML = '&#128264;';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                synth.cancel();
+                clearTimeout(speechTimeout);
+                if (playing) resetTimer();
+            } else {
+                speakSlide(current);
+            }
+        });
+
+        function speakSlide(index) {
+            if (!voiceEnabled || !synth) return;
+            synth.cancel();
+            clearTimeout(speechTimeout);
+            const text = voiceoverScripts[index];
+            if (!text) return;
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 0.92;
+            currentUtterance.pitch = 1.0;
+            const voices = synth.getVoices();
+            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
+                || voices.find(v => v.lang === 'en-US' && !v.localService)
+                || voices.find(v => v.lang.startsWith('en')) || null;
+            if (pick) currentUtterance.voice = pick;
+            currentUtterance.onend = () => {
+                if (playing && voiceEnabled) {
+                    speechTimeout = setTimeout(next, 1200);
+                }
+            };
+            clearInterval(timer);
+            synth.speak(currentUtterance);
+        }
+
+        if (synth && synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = () => {};
+        }
 
         function goTo(index) {
             slides[current].classList.remove('active');
@@ -477,7 +547,8 @@
                 timerBar.style.width = '100%';
             });
 
-            if (playing) resetTimer();
+            if (playing && !voiceEnabled) resetTimer();
+            if (voiceEnabled) speakSlide(current);
         }
 
         function next() {
@@ -495,18 +566,24 @@
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
                 resetTimer();
-                // Restart current timer animation
-                const timerBar = cards[current].querySelector('.narration-timer');
-                timerBar.style.transition = 'none';
-                timerBar.style.width = '0%';
-                requestAnimationFrame(() => {
-                    timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
-                    timerBar.style.width = '100%';
-                });
+                if (voiceEnabled) {
+                    speakSlide(current);
+                } else {
+                    // Restart current timer animation
+                    const timerBar = cards[current].querySelector('.narration-timer');
+                    timerBar.style.transition = 'none';
+                    timerBar.style.width = '0%';
+                    requestAnimationFrame(() => {
+                        timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                        timerBar.style.width = '100%';
+                    });
+                }
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
                 clearInterval(timer);
+                synth.cancel();
+                clearTimeout(speechTimeout);
                 // Pause timer bar
                 const timerBar = cards[current].querySelector('.narration-timer');
                 const computed = getComputedStyle(timerBar).width;

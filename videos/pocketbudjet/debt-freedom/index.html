@@ -265,6 +265,16 @@
             .timeline-step { padding-left: 70px !important; }
             .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
         }
+
+        /* Voice narration button */
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -461,6 +471,32 @@
         const playPauseBtn = document.getElementById('playPauseBtn');
         const speedLabel = document.getElementById('speedLabel');
         const slideshow = document.getElementById('slideshow');
+        const playbackControls = document.querySelector('.playback-controls');
+        const synth = window.speechSynthesis;
+        let voiceEnabled = false;
+        let currentUtterance = null;
+        let speechTimeout = null;
+
+        // Voiceover scripts - teaching and elaborating
+        const voiceoverScripts = [
+            // Slide 0: The Problem
+            "You know the number. But do you know when you'll be free? PocketBudJet shows you the answer.",
+
+            // Slide 1: All Debts in One Place
+            "Credit cards, student loans, car payments — all tracked. Enter your balances, interest rates, and minimum payments.",
+
+            // Slide 2: Pick Your Strategy
+            "Snowball: knock out small debts first for quick wins. Avalanche: crush high interest first to save the most money. See your timeline unfold.",
+
+            // Slide 3: Freedom Date Calculated
+            "There it is. Your freedom date. Not a guess. Not a hope. A real plan based on your actual numbers.",
+
+            // Slide 4: Run What-If Scenarios
+            "Slide the extra payment amount and watch your freedom date move forward. One extra hundred dollars a month could save you years.",
+
+            // Slide 5: Take Action
+            "Your AI Coach tracks your debt progress, celebrates milestones, and keeps you on track. Download PocketBudJet and see your path to freedom."
+        ];
 
         // Create progress dots
         slides.forEach((_, index) => {
@@ -470,6 +506,56 @@
             dot.addEventListener('click', () => goToSlide(index));
             dotContainer.appendChild(dot);
         });
+
+        // Create voice toggle button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn muted';
+        voiceBtn.innerHTML = '🔇';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        playbackControls.appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '🔊' : '🔇';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                synth.cancel();
+                clearTimeout(speechTimeout);
+            } else {
+                speakSlide(currentSlide);
+            }
+        });
+
+        function speakSlide(index) {
+            if (!voiceEnabled || !synth) return;
+            synth.cancel();
+            clearTimeout(speechTimeout);
+            const text = voiceoverScripts[index];
+            if (!text) return;
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 0.92;
+            currentUtterance.pitch = 1.0;
+
+            // Pick a good voice
+            const voices = synth.getVoices();
+            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
+                || voices.find(v => v.lang === 'en-US' && !v.localService)
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+            if (pick) currentUtterance.voice = pick;
+
+            currentUtterance.onend = () => {
+                if (isPlaying && voiceEnabled) {
+                    speechTimeout = setTimeout(nextSlide, 1200);
+                }
+            };
+
+            // Clear fixed timer - speech drives advancement
+            clearTimeout(autoPlayTimeout);
+            synth.speak(currentUtterance);
+        }
 
         function updateSlide(index) {
             slides.forEach((slide, i) => {
@@ -482,7 +568,14 @@
                 dot.classList.toggle('active', i === index);
             });
             currentSlide = index;
-            resetAutoPlay();
+
+            if (isPlaying) {
+                if (voiceEnabled) {
+                    speakSlide(index);
+                } else {
+                    resetAutoPlay();
+                }
+            }
         }
 
         function nextSlide() {
@@ -510,8 +603,14 @@
             isPlaying = !isPlaying;
             playPauseBtn.textContent = isPlaying ? '⏸⏸' : '▶';
             speedLabel.textContent = isPlaying ? 'Auto-playing' : 'Paused';
+            synth.cancel();
+            clearTimeout(speechTimeout);
             if (isPlaying) {
-                resetAutoPlay();
+                if (voiceEnabled) {
+                    speakSlide(currentSlide);
+                } else {
+                    resetAutoPlay();
+                }
             } else {
                 clearTimeout(autoPlayTimeout);
             }

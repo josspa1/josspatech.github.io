@@ -283,6 +283,16 @@
             .timeline-step { padding-left: 70px !important; }
             .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
         }
+
+        /* Voice narration button */
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
     </style>
 </head>
 <body>
@@ -504,9 +514,38 @@
         const dotsContainer = document.getElementById('dots');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const speedLabel = document.getElementById('speedLabel');
+        const playbackControls = document.querySelector('.playback-controls');
+        const synth = window.speechSynthesis;
         let current = 0;
         let playing = true;
         let timer = null;
+        let voiceEnabled = false;
+        let currentUtterance = null;
+        let speechTimeout = null;
+
+        // Voiceover scripts - teaching, not just reading
+        const voiceoverScripts = [
+            // Slide 0: Let's set up your first budget
+            "Setting up a budget takes just two minutes. By the time you're done, you'll have a complete budget that actually works.",
+
+            // Slide 1: Tell us your monthly income
+            "Enter your monthly income. If you're unsure, just estimate — you can always change it later.",
+
+            // Slide 2: Choose your budget template
+            "Pick your budget template. Zero-Based means every single dollar gets a job. There's also Percentage-based, the 50-30-20 method, Envelope, and Flexible. Most people starting out love Zero-Based because it forces accountability.",
+
+            // Slide 3: Categories auto-generate from your template
+            "The app auto-generates categories like Housing, Groceries, Utilities, Dining, Transportation, Savings, and Entertainment—each with a suggested amount based on your income. Tap any category to adjust the amount or add custom categories.",
+
+            // Slide 4: Add your accounts
+            "Add your accounts: checking, savings, credit card, even cash. Each gets a name and a starting balance. Accuracy matters here because PocketBudJet uses real numbers to generate reports that actually mean something.",
+
+            // Slide 5: Capture your first transaction
+            "Snap a photo of any receipt with your camera. The app automatically extracts the amount and merchant, and suggests the category. One tap and it's saved.",
+
+            // Slide 6: Your budget dashboard is ready
+            "Your dashboard is live. Green means you're under budget. Red means pull back. Your AI Coach is already analyzing your spending patterns, getting smarter as you log more transactions."
+        ];
 
         // Build dots
         slides.forEach((_, i) => {
@@ -515,6 +554,56 @@
             dot.addEventListener('click', () => goTo(i));
             dotsContainer.appendChild(dot);
         });
+
+        // Create voice toggle button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn muted';
+        voiceBtn.innerHTML = '🔇';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        playbackControls.appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '🔊' : '🔇';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                synth.cancel();
+                clearTimeout(speechTimeout);
+            } else {
+                speakSlide(current);
+            }
+        });
+
+        function speakSlide(index) {
+            if (!voiceEnabled || !synth) return;
+            synth.cancel();
+            clearTimeout(speechTimeout);
+            const text = voiceoverScripts[index];
+            if (!text) return;
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 0.92;
+            currentUtterance.pitch = 1.0;
+
+            // Pick a good voice
+            const voices = synth.getVoices();
+            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
+                || voices.find(v => v.lang === 'en-US' && !v.localService)
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+            if (pick) currentUtterance.voice = pick;
+
+            currentUtterance.onend = () => {
+                if (playing && voiceEnabled) {
+                    speechTimeout = setTimeout(next, 1200);
+                }
+            };
+
+            // Clear fixed timer - speech drives advancement
+            clearInterval(timer);
+            synth.speak(currentUtterance);
+        }
 
         function goTo(index) {
             slides[current].classList.remove('active');
@@ -536,7 +625,13 @@
                 timerBar.style.width = '100%';
             });
 
-            if (playing) resetTimer();
+            if (playing) {
+                if (voiceEnabled) {
+                    speakSlide(current);
+                } else {
+                    resetTimer();
+                }
+            }
         }
 
         function next() {
@@ -553,19 +648,25 @@
             if (playing) {
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
-                resetTimer();
-                // Restart current timer animation
-                const timerBar = cards[current].querySelector('.narration-timer');
-                timerBar.style.transition = 'none';
-                timerBar.style.width = '0%';
-                requestAnimationFrame(() => {
-                    timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
-                    timerBar.style.width = '100%';
-                });
+                if (voiceEnabled) {
+                    speakSlide(current);
+                } else {
+                    resetTimer();
+                    // Restart current timer animation
+                    const timerBar = cards[current].querySelector('.narration-timer');
+                    timerBar.style.transition = 'none';
+                    timerBar.style.width = '0%';
+                    requestAnimationFrame(() => {
+                        timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                        timerBar.style.width = '100%';
+                    });
+                }
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
                 clearInterval(timer);
+                synth.cancel();
+                clearTimeout(speechTimeout);
                 // Pause timer bar
                 const timerBar = cards[current].querySelector('.narration-timer');
                 const computed = getComputedStyle(timerBar).width;

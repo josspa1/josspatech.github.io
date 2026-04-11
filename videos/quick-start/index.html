@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Getting Started - PocketBudJet | JosspaTech</title>
+    <title>Quick Start Guide - PocketBudJet | JosspaTech</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -161,6 +161,14 @@
             transition: background 0.3s;
         }
         .play-pause-btn:hover { background: var(--navy-medium); }
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
         .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
 
         /* Timeline Steps */
@@ -308,15 +316,15 @@
 
     <section class="hero">
         <div class="container">
-            <h1>Set Up in Under 3 Minutes</h1>
-            <p class="subheader">A quick walkthrough of everything you need to start budgeting &mdash; accounts, transactions, and your first budget.</p>
+            <h1>Your First 5 Minutes With PBJ</h1>
+            <p class="subheader">Everything new users need to know &mdash; what you'll see first, what it all means, and why it's worth the setup.</p>
         </div>
     </section>
 
     <section class="video-section">
         <div class="container">
-            <h2>Watch It in Action</h2>
-            <p class="section-sub">See each step of the setup, right inside the app.</p>
+            <h2>Your First Look</h2>
+            <p class="section-sub">What you'll see when you open the app — and what to do first.</p>
             <div class="video-wrapper">
                 <div>
                     <div class="phone-frame">
@@ -325,49 +333,56 @@
                                 <img src="/assets/screenshots/dashboard.png" alt="PocketBudJet Dashboard" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 1</span>
-                                    <div class="slide-title">Your Dashboard &mdash; everything at a glance</div>
+                                    <div class="slide-title">You just opened PBJ &mdash; here's what you'll see</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="1">
-                                <img src="/assets/screenshots/transactions.png" alt="Add Transactions" loading="lazy">
+                                <img src="/assets/screenshots/transactions.png" alt="Setup Wizard" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
-                                    <div class="slide-title">Add your first transaction in seconds</div>
+                                    <div class="slide-title">The setup wizard walks you through everything</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="2">
-                                <img src="/assets/screenshots/scanner.png" alt="Receipt Scanner" loading="lazy">
+                                <img src="/assets/screenshots/transactions.png" alt="First Transaction" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
-                                    <div class="slide-title">Scan a receipt &mdash; or import a whole statement</div>
+                                    <div class="slide-title">Enter your first transaction &mdash; and name it right</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3">
-                                <img src="/assets/screenshots/budget.png" alt="Budget Setup" loading="lazy">
+                                <img src="/assets/screenshots/scanner.png" alt="Import Bank Data" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
-                                    <div class="slide-title">Set your budget and watch it track for you</div>
+                                    <div class="slide-title">Import bank history &mdash; don't start from scratch</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="4">
-                                <img src="/assets/screenshots/bills.png" alt="Bills Calendar" loading="lazy">
+                                <img src="/assets/screenshots/dashboard.png" alt="Dashboard Explained" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
-                                    <div class="slide-title">Bills calendar keeps you ahead of due dates</div>
+                                    <div class="slide-title">The dashboard decoded &mdash; what every number means</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="5">
-                                <img src="/assets/screenshots/debt.png" alt="Debt Payoff" loading="lazy">
+                                <img src="/assets/screenshots/budget.png" alt="Colors and Indicators" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
-                                    <div class="slide-title">Set a debt payoff goal and save thousands</div>
+                                    <div class="slide-title">What the colors mean &mdash; green, yellow, red</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="6">
-                                <img src="/assets/screenshots/ai-coach.png" alt="AI Coach Insights" loading="lazy">
+                                <img src="/assets/screenshots/budget.png" alt="Budget Setup" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
-                                    <div class="slide-title">Your AI coach finds patterns you'd miss</div>
+                                    <div class="slide-title">Set a budget and let PBJ track it for you</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="7">
+                                <img src="/assets/screenshots/ai-coach.png" alt="The Payoff" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 8</span>
+                                    <div class="slide-title">Stick with it &mdash; here's the payoff</div>
                                 </div>
                             </div>
                         </div>
@@ -381,46 +396,56 @@
 
                 <div class="narration-panel" id="narrationPanel">
                     <div class="narration-card" data-index="0">
-                        <span class="narration-step-badge">Step 1 of 7</span>
-                        <h3>Open your Dashboard</h3>
-                        <p>The moment you launch PocketBudJet, your dashboard shows balances, recent spending, and your financial health score. Everything updates in real time as you add data.</p>
+                        <span class="narration-step-badge">Step 1 of 8</span>
+                        <h3>You Just Opened PBJ</h3>
+                        <p>When you first launch PocketBudJet, the dashboard will look mostly empty. That's completely normal &mdash; it fills in as you add your financial data. In a few minutes, this will be your financial command center.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="1">
-                        <span class="narration-step-badge">Step 2 of 7</span>
-                        <h3>Log a Transaction</h3>
-                        <p>Tap the + button, type an amount, pick a category, done. Transactions flow into your budget and charts automatically. Filter by date, type, or merchant.</p>
+                        <span class="narration-step-badge">Step 2 of 8</span>
+                        <h3>The Setup Wizard</h3>
+                        <p>The first time you open the app, a setup wizard walks you through creating your first account &mdash; checking, savings, credit card, whatever you use most. Follow it all the way through. It only takes a minute and it sets up the foundation everything else depends on.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="2">
-                        <span class="narration-step-badge">Step 3 of 7</span>
-                        <h3>Scan or Import</h3>
-                        <p>Snap a receipt, use the WiFi ADF scanner (only in PBJ!), or import a bank CSV. Six formats supported &mdash; your bank almost certainly works.</p>
+                        <span class="narration-step-badge">Step 3 of 8</span>
+                        <h3>Your First Transaction</h3>
+                        <p>Tap +, enter an amount, pick a category, and name the merchant. One habit that matters early: always spell merchant names the same way. "Starbucks" one time and "STARBUCKS" another creates two separate entries in your reports. Use the auto-suggestions the app offers.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="3">
-                        <span class="narration-step-badge">Step 4 of 7</span>
-                        <h3>Set Your Budget</h3>
-                        <p>Pick a template or build your own. Category limits with progress bars turn red when you're close. PocketBudJet warns you before you overspend, not after.</p>
+                        <span class="narration-step-badge">Step 4 of 8</span>
+                        <h3>Import &mdash; Don't Start From Scratch</h3>
+                        <p>Instead of entering months of old transactions by hand, import them from your bank. Download a CSV or OFX file from your bank's website and import it into PBJ. The more history you give it, the smarter your budgets, reports, and AI coaching become. For the full walkthrough, see our <a href="/videos/import/" style="color: var(--navy); font-weight: 600; border-bottom: 2px solid var(--gold); text-decoration: none;">Import Bank Data video</a>.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="4">
-                        <span class="narration-step-badge">Step 5 of 7</span>
-                        <h3>Track Bills &amp; Paydays</h3>
-                        <p>See every upcoming bill on a visual calendar with green payday dots. Know exactly when money comes in and when it goes out &mdash; no surprises.</p>
+                        <span class="narration-step-badge">Step 5 of 8</span>
+                        <h3>The Dashboard Decoded</h3>
+                        <p>Once you have data flowing in, the dashboard comes alive. The top cards show your income, total spent, and what's left. Below that, you'll see your budget progress, upcoming bills, and spending trends. Each widget updates in real time as transactions are added.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="5">
-                        <span class="narration-step-badge">Step 6 of 7</span>
-                        <h3>Crush Your Debt</h3>
-                        <p>Avalanche or snowball &mdash; pick your strategy. PocketBudJet calculates your debt-free date and shows exactly how much interest you'll save.</p>
+                        <span class="narration-step-badge">Step 6 of 8</span>
+                        <h3>What the Colors Mean</h3>
+                        <p>PBJ uses color everywhere to give you instant status. Green means on track. Yellow means you're getting close to a limit. Red means you've gone over. The spending pace indicator compares where you are in the month to where your spending is &mdash; if you've used 80% of your budget but you're only 50% through the month, it warns you.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="6">
-                        <span class="narration-step-badge">Step 7 of 7</span>
-                        <h3>Get AI Coaching</h3>
-                        <p>Your personal finance coach spots trends, warns about overspending, and answers questions about your money. It's like having an advisor in your pocket.</p>
+                        <span class="narration-step-badge">Step 7 of 8</span>
+                        <h3>Set a Budget</h3>
+                        <p>Pick a template like 50/30/20 or build your own from scratch. Once it's set, PBJ tracks your spending against it automatically &mdash; progress bars update after every transaction. For a full walkthrough of budget setup, see our <a href="/videos/pocketbudjet/budget-setup/" style="color: var(--navy); font-weight: 600; border-bottom: 2px solid var(--gold); text-decoration: none;">Budget Setup video</a>.</p>
                         <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="7">
+                        <span class="narration-step-badge">Step 8 of 8</span>
+                        <h3>Stick With It &mdash; The Payoff</h3>
+                        <p>After about a week of use, PBJ starts doing things you can't do yourself. The AI coach spots spending patterns and warns you before you overspend. Reports show real trends across months. Debt projections calculate your payoff date. The app gets meaningfully smarter the longer you use it &mdash; that's the whole point of the setup you just did.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="tips-callout" style="margin-top: 2rem; background-color: var(--background); border-left: 6px solid var(--gold); padding: 1.5rem; border-radius: 8px;">
+                        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;">Ready to explore everything?</h3>
+                        <p style="color: var(--slate); font-size: 0.9rem; line-height: 1.6; margin: 0;">Watch the <a href="/videos/user-guide/" style="color: var(--navy); font-weight: 600; border-bottom: 2px solid var(--gold); text-decoration: none;">Complete User Guide</a> for a detailed tour of all 26 features, or visit our <a href="/how-to/" style="color: var(--navy); font-weight: 600; border-bottom: 2px solid var(--gold); text-decoration: none;">How-To page</a> for videos, documents, and support.</p>
                     </div>
                 </div>
             </div>
@@ -429,56 +454,42 @@
 
     <section class="steps-section">
         <div class="container">
-            <h2>Your First Steps</h2>
+            <h2>What to Expect in Your First Week</h2>
             <div class="timeline">
                 <div class="timeline-step">
                     <div class="timeline-marker">1</div>
                     <div class="timeline-content">
-                        <h3>Add your first account</h3>
-                        <p>Tap +, name it "Checking", enter your balance</p>
+                        <h3>Day 1 &mdash; Your foundation is set</h3>
+                        <p>Run through the setup wizard, add your accounts, and import a bank file. In under 5 minutes your dashboard is populated and your budget is tracking.</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">2</div>
                     <div class="timeline-content">
-                        <h3>Add a second account</h3>
-                        <p>Savings, credit card, or cash &mdash; whatever you use most</p>
+                        <h3>Day 3 &mdash; The dashboard starts making sense</h3>
+                        <p>Income vs. spending, budget health bars, spending pace &mdash; the colors and numbers click. Green means on track, yellow means heads up, red means time to adjust.</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">3</div>
                     <div class="timeline-content">
-                        <h3>Enter your first transaction</h3>
-                        <p>Amount, category, merchant &mdash; that's it</p>
+                        <h3>Week 1 &mdash; The AI coach kicks in</h3>
+                        <p>With a week of data, PBJ starts spotting patterns you wouldn't catch yourself. Spending alerts, category trends, and your first personalized insights appear.</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">4</div>
                     <div class="timeline-content">
-                        <h3>Set a simple budget</h3>
-                        <p>Pick the 50/30/20 template or customize your own limits</p>
-                    </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-marker">5</div>
-                    <div class="timeline-content">
-                        <h3>Explore the app</h3>
-                        <p>Dashboard shows your overview, Transactions lists everything, Budget tracks limits, Insights reveals patterns</p>
-                    </div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-marker">6</div>
-                    <div class="timeline-content">
-                        <h3>You're budgeting!</h3>
-                        <p>Try importing a bank statement to see your full history</p>
+                        <h3>Month 1 &mdash; You'll wonder how you lived without it</h3>
+                        <p>Reports show real trends. Debt projections calculate your payoff date. Budget forecasts predict whether you'll finish the month on target. PBJ knows your habits and helps you improve them.</p>
                     </div>
                 </div>
             </div>
             <div class="tips-section">
                 <div class="container">
                     <div class="tips-callout">
-                        <h3>Pro Tip</h3>
-                        <p>PocketBudJet works best when you import a few months of bank history. Head to the <a href="/import/">Import Center</a> to see how.</p>
+                        <h3>The One Habit That Matters Most</h3>
+                        <p>Name your merchants consistently. "Starbucks" every time &mdash; not "STARBUCKS" one day and "Starbucks Coffee" the next. PBJ auto-suggests previous names to help. Consistent naming makes your budgets, reports, and AI insights dramatically better.</p>
                     </div>
                 </div>
             </div>
@@ -487,7 +498,7 @@
 
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to take control of your finances?</h2>
+            <h2>You've got this. Your finances are about to make a lot more sense.</h2>
             <a href="#" class="download-button">Download PocketBudJet</a>
         </div>
     </section>
@@ -507,6 +518,73 @@
         let current = 0;
         let playing = true;
         let timer = null;
+
+        // Voiceover scripts
+        const voiceoverScripts = [
+            "When you first launch PocketBudJet, the dashboard will look mostly empty. That's completely normal — it fills in as you add your financial data. In a few minutes, this will be your financial command center.",
+            "The first time you open the app, a setup wizard walks you through creating your first account — checking, savings, credit card, whatever you use most. Follow it all the way through. It only takes a minute and sets up the foundation everything else depends on.",
+            "Tap plus, enter an amount, pick a category, and name the merchant. One habit that matters early: always spell merchant names the same way. Starbucks one time and STARBUCKS another creates two separate entries in your reports. Use the auto-suggestions the app offers.",
+            "Instead of entering months of old transactions by hand, import them from your bank. Download a CSV or OFX file from your bank's website and import it into PBJ. The more history you give it, the smarter your budgets, reports, and AI coaching become. See our Import Bank Data video for the full walkthrough.",
+            "Once you have data flowing in, the dashboard comes alive. The top cards show your income, total spent, and what's left. Below that, you'll see your budget progress, upcoming bills, and spending trends. Each widget updates in real time as transactions are added.",
+            "PBJ uses color everywhere to give you instant status. Green means on track. Yellow means you're getting close to a limit. Red means you've gone over. The spending pace indicator compares where you are in the month to where your spending is — if you've used 80 percent of your budget but you're only halfway through the month, it warns you.",
+            "Pick a template like 50/30/20 or build your own from scratch. Once it's set, PBJ tracks your spending against it automatically — progress bars update after every transaction. See our Budget Setup video for a detailed walkthrough.",
+            "After about a week of use, PBJ starts doing things you can't do yourself. The AI coach spots spending patterns and warns you before you overspend. Reports show real trends across months. Debt projections calculate your payoff date. The app gets meaningfully smarter the longer you use it — that's the whole point of the setup you just did."
+        ];
+
+        // Voice synthesis setup
+        const synth = window.speechSynthesis;
+        let voiceEnabled = true;
+        let currentUtterance = null;
+        let speechTimeout = null;
+
+        // Voice toggle button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn';
+        voiceBtn.innerHTML = '&#128264;';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                synth.cancel();
+                clearTimeout(speechTimeout);
+                if (playing) resetTimer();
+            } else {
+                speakSlide(current);
+            }
+        });
+
+        function speakSlide(index) {
+            if (!voiceEnabled || !synth) return;
+            synth.cancel();
+            clearTimeout(speechTimeout);
+            const text = voiceoverScripts[index];
+            if (!text) return;
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = 0.92;
+            currentUtterance.pitch = 1.0;
+            const voices = synth.getVoices();
+            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
+                || voices.find(v => v.lang === 'en-US' && !v.localService)
+                || voices.find(v => v.lang.startsWith('en'))
+                || null;
+            if (pick) currentUtterance.voice = pick;
+            currentUtterance.onend = () => {
+                if (playing && voiceEnabled) {
+                    speechTimeout = setTimeout(next, 1200);
+                }
+            };
+            clearInterval(timer);
+            synth.speak(currentUtterance);
+        }
+
+        if (synth && synth.onvoiceschanged !== undefined) {
+            synth.onvoiceschanged = () => {};
+        }
 
         // Build dots
         slides.forEach((_, i) => {
@@ -536,7 +614,11 @@
                 timerBar.style.width = '100%';
             });
 
-            if (playing) resetTimer();
+            if (voiceEnabled) {
+                speakSlide(current);
+            } else if (playing) {
+                resetTimer();
+            }
         }
 
         function next() {
@@ -553,7 +635,11 @@
             if (playing) {
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
-                resetTimer();
+                if (voiceEnabled) {
+                    speakSlide(current);
+                } else {
+                    resetTimer();
+                }
                 // Restart current timer animation
                 const timerBar = cards[current].querySelector('.narration-timer');
                 timerBar.style.transition = 'none';
@@ -565,7 +651,9 @@
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
+                synth.cancel();
                 clearInterval(timer);
+                clearTimeout(speechTimeout);
                 // Pause timer bar
                 const timerBar = cards[current].querySelector('.narration-timer');
                 const computed = getComputedStyle(timerBar).width;

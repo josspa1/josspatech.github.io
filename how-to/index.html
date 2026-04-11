@@ -196,6 +196,18 @@
         footer a { color: var(--gold); text-decoration: none; }
         footer a:hover { color: var(--gold-dark); }
 
+        /* Embedded guide frame */
+        .guide-embed-frame {
+            width: 100%; max-width: 1000px; margin: 0 auto;
+            border-radius: 14px; overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+            border: 2px solid var(--gold);
+            background: var(--white);
+        }
+        .guide-embed-frame iframe {
+            width: 100%; height: 700px; border: none; display: block;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav .nav-links { gap: 1rem; font-size: 0.85rem; }
@@ -206,6 +218,7 @@
             .guide-card { flex-direction: column; text-align: center; gap: 1rem; }
             .guide-card .arrow { display: none; }
             .card-grid { grid-template-columns: 1fr; }
+            .guide-embed-frame iframe { height: 500px; }
         }
         @media (max-width: 480px) {
             nav { padding: 0.8rem 1rem; }
@@ -247,17 +260,18 @@
     <section class="section">
         <div class="container">
             <h2>New to PocketBudJet?</h2>
-            <p class="section-sub">Start here. This walkthrough gets you up and running in under 2 minutes.</p>
+            <p class="section-sub">Your first 5 minutes matter most. This guide walks you through what you'll see first, what it all means, and why it's worth the setup.</p>
 
-            <a href="/videos/quick-start/" class="featured-card">
-                <div class="featured-icon">&#127937;</div>
-                <div class="featured-body">
-                    <span class="badge">Recommended First</span>
-                    <h3>Quick Start Guide</h3>
-                    <p>A 7-step visual walkthrough: open the app, log a transaction, set a budget, track bills, crush debt, and meet your AI coach. Everything you need to jump right in.</p>
-                    <span class="time-badge">&#9201; About 2 minutes</span>
-                </div>
-            </a>
+            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <a href="/videos/quick-start/" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--navy); padding: 0.7rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: background 0.3s;">
+                    &#9654; Watch the Quick Start Video
+                </a>
+                <span style="color: var(--slate); font-size: 0.9rem;">~4 minutes</span>
+            </div>
+
+            <div class="guide-embed-frame">
+                <iframe src="/videos/quick-start/" title="Quick Start Guide" loading="lazy"></iframe>
+            </div>
         </div>
     </section>
 
@@ -284,10 +298,10 @@
                     <div class="card-icon">&#127916;</div>
                     <div class="card-body">
                         <h3>Complete User Guide</h3>
-                        <p>A full video walkthrough of every screen and feature in PocketBudJet. Setup, transactions, budgets, debt tracking, reports, and settings — all covered.</p>
+                        <p>A full video walkthrough of every screen and feature in PocketBudJet — 27 chapters covering setup, transactions, budgets, debt tracking, reports, AI tools, and every setting.</p>
                         <div class="card-meta">
                             <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~5 min</span>
+                            <span class="card-time">~18 min</span>
                         </div>
                     </div>
                 </a>
@@ -367,7 +381,32 @@
         </div>
     </section>
 
-    <!-- SECTION 3: Documents -->
+    <!-- SECTION 3: Complete User Guide -->
+    <section class="section">
+        <div class="container">
+            <h2>Complete User Guide</h2>
+            <p class="section-sub">Every screen, every feature, every setting — scroll through the full guide below, or watch the video version.</p>
+
+            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                <a href="/videos/user-guide/" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--navy); padding: 0.7rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: background 0.3s;">
+                    &#9654; Watch the Full User Guide Video
+                </a>
+                <span style="color: var(--slate); font-size: 0.9rem;">~18 min · 27 chapters</span>
+            </div>
+
+            <div class="guide-embed-frame">
+                <iframe src="/videos/user-guide/" title="Complete User Guide" loading="lazy"></iframe>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <p style="color: var(--slate); font-size: 0.95rem;">
+                    Prefer to read? <a href="/docs/pocketbudjet/PocketBudJet_UserGuide.pdf" style="color: var(--navy-medium); font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--gold);">Download the User Guide PDF</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Documents -->
     <section class="section">
         <div class="container">
             <h2>Documents</h2>
