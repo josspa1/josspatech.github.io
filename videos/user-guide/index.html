@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete User Guide - PocketBudJet | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
+        }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button {
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white); padding: 4rem 2rem; text-align: center;
+        }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .hero .subheader {
+            font-size: 1.25rem; font-weight: 300; max-width: 700px;
+            margin: 0 auto; color: rgba(255,255,255,0.95);
+        }
+
+        /* Video Section */
+        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section .container { max-width: 1200px; margin: 0 auto; }
+        .video-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem; color: var(--navy);
+        }
+        .video-section .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .video-wrapper {
+            display: flex; gap: 3rem; align-items: flex-start;
+            justify-content: center; flex-wrap: wrap;
+        }
+
+        /* Phone frame */
+        .phone-frame {
+            width: 320px; flex-shrink: 0; position: relative;
+            border: 10px solid var(--navy-dark); border-radius: 40px;
+            overflow: hidden; background: #000;
+            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+            aspect-ratio: 9 / 19.5;
+        }
+        .phone-frame::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+            z-index: 20;
+        }
+        .slideshow {
+            width: 100%; height: 100%; position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+        .slide img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+        }
+
+        /* Progress dots */
+        .progress-dots {
+            display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem;
+        }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
+        }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+
+        /* Narration panel */
+        .narration-panel {
+            max-width: 450px; flex: 1; min-width: 300px;
+        }
+        .narration-card {
+            background: var(--white); border-radius: 16px; padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
+            margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .narration-card.active { opacity: 1; transform: translateY(0); }
+        .narration-step-badge {
+            display: inline-block; background: var(--navy); color: white;
+            font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 0.6rem;
+        }
+        .narration-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem;
+            font-weight: 700; color: var(--navy); margin-bottom: 0.8rem;
+        }
+        .narration-card p { color: var(--slate); font-size: 1rem; line-height: 1.7; }
+        .narration-timer {
+            height: 3px; background: var(--gold); border-radius: 2px;
+            margin-top: 1rem; width: 0%; transition: width linear;
+        }
+        .narration-card.active .narration-timer { width: 100%; }
+
+        /* Playback controls */
+        .playback-controls {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+            align-items: center;
+        }
+        .play-pause-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .play-pause-btn:hover { background: var(--navy-medium); }
+
+        /* Timeline Steps */
+        .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+        .steps-section .container { max-width: 1200px; margin: 0 auto; }
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
+            text-align: center; margin-bottom: 3rem; color: var(--navy);
+        }
+        .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background-color: var(--gold);
+        }
+        .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
+        .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
+        .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
+        .timeline-marker {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            width: 50px; height: 50px; background-color: var(--gold);
+            border: 4px solid var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+        }
+        .timeline-content {
+            background-color: var(--background); padding: 2rem; border-radius: 12px;
+            border-left: 5px solid var(--gold);
+        }
+        .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 0.75rem;
+        }
+        .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem; text-align: center;
+        }
+        .cta-section .container { max-width: 1200px; margin: 0 auto; }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            color: var(--white); margin-bottom: 1rem;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.95); font-size: 1.05rem; max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .download-button {
+            display: inline-block; background-color: var(--gold); color: var(--navy);
+            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
+        }
+        .download-button:hover {
+            background-color: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero .subheader { font-size: 1rem; }
+            .video-wrapper { flex-direction: column; gap: 2rem; }
+            .phone-frame { width: 280px; }
+            .narration-panel { max-width: 100%; }
+            .timeline::before { left: 25px; }
+            .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
+                text-align: left; padding-right: 0; padding-left: 90px;
+            }
+            .timeline-marker { left: 0; transform: translateX(0); }
+            .timeline-content, .timeline-step:nth-child(odd) .timeline-content {
+                border-left: 5px solid var(--gold); border-right: none;
+            }
+            .steps-section h2 { font-size: 1.8rem; }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
+            .phone-frame { width: 240px; }
+            .video-section { padding: 2.5rem 1rem; }
+            .steps-section { padding: 2.5rem 1rem; }
+            .steps-section h2 { font-size: 1.5rem; }
+            .timeline-step { padding-left: 70px !important; margin-bottom: 2rem; }
+            .timeline-marker { width: 40px; height: 40px; font-size: 1.1rem; }
+            .narration-card { padding: 1.5rem; }
+            .narration-card h3 { font-size: 1.1rem; }
+            .narration-card p { font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/how-to/">How To</a></li>
+                <li><a href="/videos/gary-demo/">Demo</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a>
+        <span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a>
+        <span class="sep">/</span>
+        <a href="/how-to/">How To</a>
+        <span class="sep">/</span>
+        <span class="current">User Guide</span>
+    </div>
+
+    <div class="hero">
+        <div class="container">
+            <h1>The Complete PocketBudJet Guide</h1>
+            <p class="subheader">Every screen. Every feature. Every setting. A visual walkthrough of everything PocketBudJet can do for your finances.</p>
+        </div>
+    </div>
+
+    <div class="video-section">
+        <div class="container">
+            <h2>Watch the Full Walkthrough</h2>
+            <p class="section-sub">Follow along as we tour every major app feature in just 8 slides</p>
+            <div class="video-wrapper">
+                <div class="phone-frame">
+                    <div class="slideshow">
+                        <div class="slide active">
+                            <img src="/assets/screenshots/dashboard.png" alt="Dashboard">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/transactions.png" alt="Transactions">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/scanner.png" alt="Scanner & Import">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/budget.png" alt="Budgets">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/bills.png" alt="Bills Calendar">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/debt.png" alt="Debt Payoff">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/ai-coach.png" alt="AI Coach">
+                        </div>
+                        <div class="slide">
+                            <img src="/assets/screenshots/privacy.png" alt="Privacy">
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-dots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                    <span class="dot" data-slide="2"></span>
+                    <span class="dot" data-slide="3"></span>
+                    <span class="dot" data-slide="4"></span>
+                    <span class="dot" data-slide="5"></span>
+                    <span class="dot" data-slide="6"></span>
+                    <span class="dot" data-slide="7"></span>
+                </div>
+
+                <div class="narration-panel">
+                    <div class="narration-card active">
+                        <span class="narration-step-badge">Slide 1 of 8</span>
+                        <h3>Your financial command center</h3>
+                        <p>The dashboard shows your net worth, recent transactions, budget progress, and upcoming bills — all on one screen. Everything updates in real time.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 2 of 8</span>
+                        <h3>Every dollar, tracked and categorized</h3>
+                        <p>View, search, filter, and edit all your transactions. Auto-categorization learns your patterns. Split transactions across categories.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 3 of 8</span>
+                        <h3>Five ways to get data in</h3>
+                        <p>Snap receipts with your camera, use a WiFi document scanner, import CSV or PDF bank statements, or enter manually. No bank login ever required.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 4 of 8</span>
+                        <h3>Set limits. Track progress. Stay on target.</h3>
+                        <p>Choose a template or build your own. Category limits with color-coded progress bars warn you before you overspend, not after.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 5 of 8</span>
+                        <h3>Never miss a due date</h3>
+                        <p>See every upcoming bill on a visual calendar with green payday dots. Know exactly when money comes in and when it goes out.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 6 of 8</span>
+                        <h3>See your debt-free date</h3>
+                        <p>Snowball or avalanche — pick your strategy. PocketBudJet calculates your freedom date and shows how much interest you'll save.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 7 of 8</span>
+                        <h3>Your personal financial advisor</h3>
+                        <p>Your AI coach spots trends, warns about overspending, celebrates wins, and answers questions about your money. Like having an advisor in your pocket.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card">
+                        <span class="narration-step-badge">Slide 8 of 8</span>
+                        <h3>Your data stays on your device</h3>
+                        <p>All data encrypted on your phone. Optional WiFi household sync. No cloud, no data selling, no bank credentials. Export in six formats anytime.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" title="Play/Pause">▶</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="steps-section">
+        <div class="container">
+            <h2>8 Features in One Guided Tour</h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Dashboard</h3>
+                        <p>Your financial overview at a glance</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Transactions</h3>
+                        <p>Track, search, and categorize every dollar</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Import</h3>
+                        <p>Camera, WiFi scanner, CSV, PDF, or manual entry</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Budgets</h3>
+                        <p>Templates, custom limits, and progress tracking</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Bills Calendar</h3>
+                        <p>Visual timeline of bills and paydays</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">6</div>
+                    <div class="timeline-content">
+                        <h3>Debt Payoff</h3>
+                        <p>Snowball or avalanche with a freedom date</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">7</div>
+                    <div class="timeline-content">
+                        <h3>AI Coach</h3>
+                        <p>Personalized insights and spending advice</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">8</div>
+                    <div class="timeline-content">
+                        <h3>Privacy & Export</h3>
+                        <p>On-device encryption, six export formats</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <div class="container">
+            <h2>Ready to Take Control of Your Finances?</h2>
+            <p>Download PocketBudJet today and start with the complete user guide walkthrough built right into the app.</p>
+            <a href="#" class="download-button">Get the App</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 JosspaTech. All rights reserved. | <a href="/">Home</a> | <a href="/#products">Products</a></p>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const narrationCards = document.querySelectorAll('.narration-card');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+
+        let currentSlide = 0;
+        let isPlaying = true;
+        let slideTimer = null;
+        const slideDuration = 6000; // 6 seconds per slide
+
+        function showSlide(index) {
+            // Remove active class from all slides, dots, and narration cards
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            narrationCards.forEach(card => card.classList.remove('active'));
+
+            // Add active class to current slide, dot, and narration card
+            if (slides[index]) {
+                slides[index].classList.add('active');
+            }
+            if (dots[index]) {
+                dots[index].classList.add('active');
+            }
+            if (narrationCards[index]) {
+                narrationCards[index].classList.add('active');
+            }
+
+            currentSlide = index;
+
+            // Reset and restart timer animation
+            const activeTimer = narrationCards[index]?.querySelector('.narration-timer');
+            if (activeTimer) {
+                activeTimer.style.transition = 'none';
+                activeTimer.style.width = '0%';
+                setTimeout(() => {
+                    activeTimer.style.transition = `width ${slideDuration}ms linear`;
+                    activeTimer.style.width = '100%';
+                }, 10);
+            }
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function startAutoPlay() {
+            slideTimer = setInterval(() => {
+                nextSlide();
+            }, slideDuration);
+        }
+
+        function stopAutoPlay() {
+            if (slideTimer) {
+                clearInterval(slideTimer);
+                slideTimer = null;
+            }
+        }
+
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
+
+            if (isPlaying) {
+                startAutoPlay();
+            } else {
+                stopAutoPlay();
+            }
+        }
+
+        // Dot click handlers
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopAutoPlay();
+                showSlide(index);
+                if (isPlaying) {
+                    startAutoPlay();
+                }
+            });
+        });
+
+        // Play/Pause button
+        playPauseBtn.addEventListener('click', togglePlayPause);
+
+        // Initialize
+        showSlide(0);
+        startAutoPlay();
+    </script>
+</body>
+</html>

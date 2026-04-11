@@ -1,0 +1,2059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josspa Presents: PocketBudJet — The Gary Splurge Story</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #1A4F7A;
+            --navy-dark: #0C3358;
+            --gold: #F0C040;
+            --gold-dark: #D4A020;
+            --error: #C0392B;
+            --success: #27AE60;
+            --warning: #E67E22;
+            --bg: #EDF2F7;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --slate: #5A7A9A;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION BAR */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--navy);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--surface);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .cta-button {
+            background-color: var(--gold);
+            color: var(--navy-dark);
+            padding: 0.6rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: var(--gold-dark);
+        }
+
+        /* MAIN DEMO CONTAINER */
+        .demo-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--surface) 100%);
+            padding: 3rem 2rem;
+        }
+
+        .demo-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+        }
+
+        /* JOSSPA SVG AND ANIMATIONS */
+        .josspa-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            margin-right: -20px;
+            z-index: 5;
+            align-self: flex-end;
+            padding-bottom: 40px;
+        }
+
+        /* Base size — animation & filters are set below */
+
+        /* IDLE FLOAT — gentle breathing animation like pricing card */
+        @keyframes idle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* MOUTH LIP-SYNC — Hanna-Barbera style: swap between distinct mouth shapes.
+           Hide resting smile + static oval; JS cycles through shape variants. */
+        .josspa-svg.talking .mouth { display: none; }
+        .mouth-talk { display: none; }
+        .josspa-svg.talking .mouth-talk { display: inline; }
+
+        .josspa-svg {
+            animation: idle 2.5s ease-in-out infinite;
+            filter: drop-shadow(0 10px 22px rgba(12,51,88,0.22)) drop-shadow(0 3px 8px rgba(0,0,0,0.13));
+            overflow: visible;
+        }
+
+        /* WAVE HAND — smooth multi-keyframe like pricing card */
+        @keyframes waveHand {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-18deg); }
+            55% { transform: rotate(12deg); }
+            78% { transform: rotate(-10deg); }
+        }
+
+        .josspa-svg.wave .wave-hand {
+            transform-box: fill-box;
+            transform-origin: 50% 100%;
+            animation: waveHand 1.4s ease-in-out infinite;
+        }
+
+        /* POINT — right arm replaced by JS with horizontal pointing arm.
+           CSS just handles a subtle slide-in for polish. */
+        @keyframes pointSlideIn {
+            0% { opacity: 0; transform: translateX(-10px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .josspa-svg.point .right-arm-group {
+            animation: pointSlideIn 0.4s ease-out forwards;
+        }
+
+        /* THINK — chin rest with subtle head tilt */
+        @keyframes thinkArmUp {
+            0% { transform: rotate(0deg) translateY(0); }
+            100% { transform: rotate(30deg) translateY(-8px); }
+        }
+
+        @keyframes headTilt {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-5deg); }
+        }
+
+        .josspa-svg.think .left-arm-group {
+            transform-box: fill-box;
+            transform-origin: 100% 20%;
+            animation: thinkArmUp 0.5s ease-out forwards;
+        }
+
+        .josspa-svg.think .head-group {
+            transform-box: fill-box;
+            transform-origin: 50% 100%;
+            animation: headTilt 0.5s ease-out forwards;
+        }
+
+        /* CELEBRATE — both arms up with sparkle */
+        @keyframes celebrateRight {
+            0% { transform: rotate(0deg); }
+            60% { transform: rotate(-140deg); }
+            100% { transform: rotate(-125deg); }
+        }
+
+        @keyframes celebrateLeft {
+            0% { transform: rotate(0deg); }
+            60% { transform: rotate(140deg); }
+            100% { transform: rotate(125deg); }
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        .josspa-svg.celebrate .right-arm-group {
+            transform-box: fill-box;
+            transform-origin: 0% 20%;
+            animation: celebrateRight 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .josspa-svg.celebrate .left-arm-group {
+            transform-box: fill-box;
+            transform-origin: 100% 20%;
+            animation: celebrateLeft 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .josspa-svg.celebrate .sparkles {
+            animation: sparkle 1.2s ease-in-out infinite;
+        }
+
+        /* PRESENT — open arms, welcoming gesture */
+        @keyframes presentRight {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-55deg); }
+        }
+
+        @keyframes presentLeft {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(55deg); }
+        }
+
+        .josspa-svg.present .right-arm-group {
+            transform-box: fill-box;
+            transform-origin: 0% 20%;
+            animation: presentRight 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .josspa-svg.present .left-arm-group {
+            transform-box: fill-box;
+            transform-origin: 100% 20%;
+            animation: presentLeft 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        /* SHRUG — palms up, shoulders raised */
+        @keyframes shrugRight {
+            0% { transform: rotate(0deg) translateY(0); }
+            100% { transform: rotate(-60deg) translateY(-5px); }
+        }
+
+        @keyframes shrugLeft {
+            0% { transform: rotate(0deg) translateY(0); }
+            100% { transform: rotate(60deg) translateY(-5px); }
+        }
+
+        @keyframes shrugHead {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .josspa-svg.shrug .right-arm-group {
+            transform-box: fill-box;
+            transform-origin: 0% 20%;
+            animation: shrugRight 0.5s ease-out forwards;
+        }
+
+        .josspa-svg.shrug .left-arm-group {
+            transform-box: fill-box;
+            transform-origin: 100% 20%;
+            animation: shrugLeft 0.5s ease-out forwards;
+        }
+
+        .josspa-svg.shrug .head-group {
+            transform-box: fill-box;
+            transform-origin: 50% 100%;
+            animation: shrugHead 0.8s ease-in-out 0.3s;
+        }
+
+        /* SPEECH BUBBLE */
+        .speech-bubble {
+            background-color: var(--surface);
+            border: 3px solid var(--navy);
+            border-radius: 16px;
+            padding: 1.2rem 1.4rem;
+            max-width: 420px;
+            min-width: 300px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            z-index: 100;
+            margin-bottom: 0.5rem;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 15px solid var(--navy);
+        }
+
+        .speech-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--text);
+            font-weight: 500;
+            word-break: break-word;
+        }
+
+        /* PHONE MOCKUP */
+        .phone-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 40px;
+        }
+
+        .phone-frame {
+            width: 320px;
+            height: 640px;
+            background-color: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 24px;
+            background-color: #000;
+            border-radius: 0 0 20px 20px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen-header {
+            background-color: var(--navy);
+            color: var(--surface);
+            padding: 2rem 1rem 1rem;
+            text-align: center;
+        }
+
+        .screen-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        /* SCREEN CONTENT STYLES */
+        .dashboard-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .balance-card {
+            background-color: var(--surface);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+        }
+
+        .balance-label {
+            font-size: 0.75rem;
+            color: var(--slate);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .balance-amount.negative {
+            color: var(--error);
+        }
+
+        .balance-amount.positive {
+            color: var(--success);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-box {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--slate);
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .alert-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .alert-item {
+            background-color: var(--surface);
+            border-left: 4px solid var(--warning);
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .income-entry-view,
+        .import-view,
+        .budget-view,
+        .chart-view,
+        .debt-view,
+        .coach-view,
+        .subscription-view,
+        .score-view {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .input-field {
+            background-color: var(--surface);
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .deduction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .import-option {
+            background-color: var(--surface);
+            border: 2px solid var(--navy);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--navy);
+        }
+
+        .budget-category {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .budget-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .budget-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .budget-fill {
+            height: 100%;
+            background-color: var(--success);
+        }
+
+        .budget-fill.warning {
+            background-color: var(--warning);
+        }
+
+        .budget-fill.error {
+            background-color: var(--error);
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+            margin: 1rem 0;
+        }
+
+        .donut-chart {
+            width: 120px;
+            height: 120px;
+        }
+
+        .chart-legend {
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        .debt-card {
+            background-color: var(--surface);
+            border-left: 4px solid var(--error);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .debt-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--error);
+            margin-bottom: 0.5rem;
+        }
+
+        .debt-detail {
+            font-size: 0.75rem;
+            color: var(--slate);
+            margin-bottom: 0.3rem;
+        }
+
+        .payoff-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        .payoff-method {
+            background-color: #f5f5f5;
+            padding: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .method-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .coach-tip {
+            background-color: var(--surface);
+            border-left: 4px solid var(--navy);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tip-label {
+            font-size: 0.7rem;
+            color: var(--slate);
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .tip-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .comparison-stat {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .subscription-item {
+            background-color: var(--surface);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+
+        .subscription-cost {
+            font-weight: 700;
+            color: var(--error);
+        }
+
+        .unused-badge {
+            background-color: var(--warning);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .score-display {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            background: conic-gradient(var(--success) 0deg 241.2deg, #e0e0e0 241.2deg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-improvement {
+            font-size: 0.85rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .score-categories {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .score-category {
+            background-color: var(--surface);
+            padding: 0.6rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--navy);
+        }
+
+        .category-name {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .category-score {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+
+        .cta-overlay {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+            color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .cta-overlay h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-overlay p {
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-overlay button {
+            background-color: var(--gold);
+            color: var(--navy-dark);
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-overlay button:hover {
+            background-color: var(--gold-dark);
+        }
+
+        /* CONTROLS BAR */
+        .controls-bar {
+            position: sticky;
+            bottom: 0;
+            z-index: 999;
+            background-color: var(--navy);
+            padding: 1rem 2rem;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .progress-section {
+            flex: 1;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .step-counter {
+            font-size: 0.85rem;
+            color: var(--surface);
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .control-button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--surface);
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-button:hover:not(:disabled) {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .control-button.active {
+            background-color: var(--gold);
+            color: var(--navy-dark);
+        }
+
+        /* RESPONSIVE */
+        /* Tablet — side-by-side but tighter */
+        @media (max-width: 1024px) {
+            .demo-content {
+                gap: 0.5rem;
+            }
+
+            .josspa-container {
+                margin-right: -10px;
+            }
+
+            .josspa-svg {
+                max-width: 170px;
+            }
+
+            .speech-bubble {
+                max-width: 320px;
+                min-width: 220px;
+                padding: 0.9rem 1rem;
+                min-height: 60px;
+            }
+
+            .speech-text {
+                font-size: 0.9rem;
+            }
+
+            .controls-content {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 0.8rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate, #5A7A9A);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium, #2E6FA3); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark, #E8A820); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: #8AAABB; }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        /* Large phone / small tablet — still side-by-side, scaled down */
+        @media (max-width: 768px) {
+            .nav-bar {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .nav-logo {
+                font-size: 1.2rem;
+            }
+
+            .demo-container {
+                padding: 1rem 0.5rem;
+            }
+
+            .demo-content {
+                flex-direction: row;
+                align-items: flex-end;
+                gap: 0;
+            }
+
+            .josspa-container {
+                margin-right: -10px;
+                padding-bottom: 20px;
+                flex-shrink: 1;
+                min-width: 0;
+            }
+
+            .josspa-svg {
+                max-width: 120px;
+            }
+
+            .speech-bubble {
+                max-width: 200px;
+                min-width: 150px;
+                padding: 0.6rem 0.7rem;
+                min-height: 50px;
+                border-width: 2px;
+                border-radius: 12px;
+            }
+
+            .speech-bubble::after {
+                border-left-width: 10px;
+                border-right-width: 10px;
+                border-top-width: 10px;
+                bottom: -10px;
+            }
+
+            .speech-text {
+                font-size: 0.75rem;
+                line-height: 1.35;
+            }
+
+            .phone-container {
+                padding-bottom: 20px;
+                flex-shrink: 0;
+            }
+
+            .phone-frame {
+                width: 200px;
+                height: 400px;
+                border-radius: 28px;
+                padding: 8px;
+            }
+
+            .phone-notch {
+                width: 100px;
+                height: 18px;
+            }
+
+            .phone-screen {
+                border-radius: 22px;
+            }
+
+            .screen-header {
+                padding: 1.2rem 0.6rem 0.6rem;
+            }
+
+            .screen-header h2 {
+                font-size: 0.75rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .screen-content {
+                padding: 0.5rem;
+            }
+
+            .balance-card {
+                padding: 0.5rem;
+                border-radius: 8px;
+            }
+
+            .balance-label {
+                font-size: 0.55rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .balance-amount {
+                font-size: 1.1rem;
+            }
+
+            .stat-box {
+                padding: 0.35rem;
+                border-radius: 6px;
+            }
+
+            .stat-label {
+                font-size: 0.5rem;
+            }
+
+            .stat-value {
+                font-size: 0.8rem;
+            }
+
+            .stats-grid {
+                gap: 0.4rem;
+            }
+
+            .alert-item {
+                padding: 0.4rem;
+                font-size: 0.7rem;
+            }
+
+            .controls-bar {
+                padding: 0.75rem 1rem;
+            }
+
+            .controls-content {
+                gap: 0.75rem;
+            }
+
+            .button-group {
+                gap: 0.5rem;
+            }
+
+            .control-button {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Very small phones — still side-by-side but max compact */
+        @media (max-width: 400px) {
+            .demo-container {
+                padding: 0.5rem 0.25rem;
+            }
+
+            .josspa-svg {
+                max-width: 90px;
+            }
+
+            .speech-bubble {
+                max-width: 160px;
+                min-width: 120px;
+                padding: 0.5rem;
+                min-height: 40px;
+            }
+
+            .speech-text {
+                font-size: 0.65rem;
+                line-height: 1.3;
+            }
+
+            .phone-frame {
+                width: 170px;
+                height: 340px;
+                border-radius: 24px;
+                padding: 6px;
+            }
+
+            .balance-amount {
+                font-size: 0.9rem;
+            }
+
+            .stat-value {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="nav-bar">
+        <a href="/" class="nav-logo">JosspaTech</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#products">Products</a></li>
+            <li><a href="/how-to/">How To</a></li>
+            <li><a href="#" class="cta-button">Get the App</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <span class="current">Gary Demo</span>
+    </div>
+
+    <!-- DEMO MAIN -->
+    <div class="demo-container">
+        <div class="demo-content">
+            <!-- JOSSPA SIDE -->
+            <div class="josspa-container">
+                <div class="speech-bubble">
+                    <div class="speech-text" id="speechText"></div>
+                </div>
+                <svg class="josspa-svg wave" id="josspa" width="200" height="280" viewBox="0 0 160 220" style="overflow:visible;" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Ground shadow -->
+                    <ellipse cx="80" cy="212" rx="34" ry="6" fill="rgba(0,0,0,0.09)"/>
+
+                    <!-- Legs — rounded, not blocky -->
+                    <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+                    <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
+                    <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+                    <ellipse cx="94" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
+
+                    <!-- Body — white dress shirt -->
+                    <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
+
+                    <!-- Collar -->
+                    <path d="M 62 100 Q 68 95 74 100 L 80 108 L 86 100 Q 92 95 98 100 Q 93 107 80 110 Q 67 107 62 100 Z" fill="#F5F5F5" stroke="#D0D4DA" stroke-width="0.8"/>
+                    <path d="M 69 98 L 77 106" stroke="#D0D4DA" stroke-width="0.5" opacity="0.4"/>
+                    <path d="M 91 98 L 83 106" stroke="#D0D4DA" stroke-width="0.5" opacity="0.4"/>
+                    <!-- Buttons -->
+                    <circle cx="80" cy="114" r="1.5" fill="#D0D4DA" opacity="0.5"/>
+                    <circle cx="80" cy="120" r="1.5" fill="#D0D4DA" opacity="0.5"/>
+
+                    <!-- JosspaTech universe logo on left chest -->
+                    <g transform="translate(57, 123) scale(0.18)">
+                        <line x1="40" y1="40" x2="58" y2="18" stroke="rgba(26,79,122,0.12)" stroke-width="1"/>
+                        <line x1="40" y1="40" x2="22" y2="58" stroke="rgba(26,79,122,0.12)" stroke-width="1"/>
+                        <line x1="40" y1="40" x2="60" y2="50" stroke="rgba(26,79,122,0.1)" stroke-width="0.8"/>
+                        <line x1="40" y1="40" x2="20" y2="24" stroke="rgba(26,79,122,0.1)" stroke-width="0.8"/>
+                        <polygon points="40,18 58,40 40,62 22,40" fill="rgba(93,173,226,0.08)" stroke="rgba(26,79,122,0.3)" stroke-width="1.2"/>
+                        <polygon points="40,25 51,40 40,55 29,40" fill="rgba(93,173,226,0.2)" stroke="#1A4F7A" stroke-width="0.8"/>
+                        <polygon points="40,31 46,40 40,49 34,40" fill="#1A4F7A" opacity="0.7"/>
+                        <circle cx="56" cy="20" r="3.5" fill="#F0C040"/>
+                        <circle cx="24" cy="58" r="2.5" fill="#5DADE2"/>
+                        <circle cx="58" cy="50" r="2" fill="rgba(93,173,226,0.5)"/>
+                    </g>
+
+                    <!-- Shirt pocket outline -->
+                    <rect x="86" y="124" width="18" height="14" rx="1.5" fill="none" stroke="#D0D4DA" stroke-width="0.7" opacity="0.5"/>
+                    <!-- Name embroidered on pocket in blue -->
+                    <text x="87.5" y="133" font-family="'Source Sans 3', sans-serif" font-size="6" font-weight="600" font-style="italic" fill="#1A4F7A" letter-spacing="0.3">Josspa</text>
+
+                    <!-- Left arm group (for gestures) -->
+                    <g class="left-arm-group">
+                        <path d="M 50 115 Q 38 130 32 155" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <circle cx="30" cy="158" r="8" fill="#F5D0B0"/>
+                    </g>
+
+                    <!-- Right arm group (for gestures) -->
+                    <g class="right-arm-group">
+                        <path d="M 110 115 Q 122 130 128 155" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+                        <g class="wave-hand">
+                            <circle cx="130" cy="158" r="8" fill="#F5D0B0"/>
+                            <!-- Fingers visible on wave -->
+                            <path d="M 126 151 Q 130 146 135 151" stroke="#F5D0B0" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </g>
+                    </g>
+
+                    <!-- Head group (for tilt gestures) -->
+                    <g class="head-group">
+                        <!-- Head — smooth circle -->
+                        <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
+
+                        <!-- Hair — Fred Jones style, black -->
+                        <!-- Main hair shape — same proportions as Fred -->
+                        <path d="M 44 58 Q 42 40 50 32 Q 60 24 80 22 Q 100 24 110 32 Q 118 40 116 58 Q 114 52 110 48 Q 104 44 96 46 Q 88 48 80 46 Q 72 48 64 46 Q 56 44 50 48 Q 46 52 44 58 Z" fill="#3B2314"/>
+                        <!-- Front swoop — flips up to the right -->
+                        <path d="M 60 46 Q 56 38 62 32 Q 70 26 82 28 Q 76 30 70 34 Q 64 38 62 46 Z" fill="#3B2314"/>
+                        <!-- Highlight for volume/shine -->
+                        <path d="M 56 36 Q 64 26 80 24 Q 96 26 106 34 Q 98 30 84 28 Q 70 28 60 32 Z" fill="#5A3A22" opacity="0.5"/>
+
+                        <!-- Glasses — rounded rects with bridge -->
+                        <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+                        <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
+                        <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
+
+                        <!-- Eyes — friendly arcs (default), will swap to dots/squints per pose -->
+                        <g class="eyes-default">
+                            <circle cx="65" cy="67" r="3" fill="#1A4F7A"/>
+                            <circle cx="95" cy="67" r="3" fill="#1A4F7A"/>
+                        </g>
+                        <g class="eyes-happy" style="display:none;">
+                            <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+                            <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- Mouth — warm smile (hidden when talking) -->
+                        <path class="mouth" d="M 65 83 Q 80 93 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                        <!-- Hanna-Barbera mouth shapes (A-F style, JS cycles through them) -->
+                        <g class="mouth-talk">
+                            <!-- A: Closed/rest — thin line (between words) -->
+                            <path class="mouth-shape mouth-A" d="M 70 85 Q 80 89 90 85" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <!-- B: Small open — slight oval (soft consonants: m, b, p) -->
+                            <ellipse class="mouth-shape mouth-B" cx="80" cy="86" rx="5" ry="2.5" fill="#2C3E50" style="display:none;"/>
+                            <!-- C: Medium open — wider oval (vowels: ah, eh) -->
+                            <ellipse class="mouth-shape mouth-C" cx="80" cy="87" rx="7" ry="4" fill="#2C3E50" style="display:none;"/>
+                            <!-- D: Wide open — big oval (loud vowels: aa, aw) -->
+                            <ellipse class="mouth-shape mouth-D" cx="80" cy="87" rx="8" ry="5.5" fill="#2C3E50" style="display:none;"/>
+                            <!-- E: Round O — circle (oo, w sounds) -->
+                            <ellipse class="mouth-shape mouth-E" cx="80" cy="87" rx="4" ry="4.5" fill="#2C3E50" style="display:none;"/>
+                            <!-- F: Wide smile — open grin (ee, i sounds) -->
+                            <path class="mouth-shape mouth-F" d="M 68 85 Q 80 93 92 85" stroke="#2C3E50" stroke-width="2" fill="#2C3E50" opacity="0.6" stroke-linecap="round" style="display:none;"/>
+                        </g>
+
+                        <!-- Blush — soft watercolor -->
+                        <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+                        <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
+                    </g>
+
+                    <!-- Sparkle stars (hidden by default, shown on celebrate) -->
+                    <g class="sparkles" style="opacity:0;">
+                        <path d="M 15 40 L 17 34 L 19 40 L 24 37 L 19 42 L 21 47 L 17 44 L 15 49 L 14 44 L 9 42 Z" fill="#F0C040" opacity="0.8"/>
+                        <path d="M 140 35 L 142 29 L 144 35 L 149 32 L 144 37 L 146 42 L 142 39 L 140 44 L 139 39 L 134 37 Z" fill="#F0C040" opacity="0.8"/>
+                        <path d="M 75 8 L 77 3 L 79 8 L 83 6 L 79 10 L 81 14 L 77 12 L 75 16 L 74 12 L 70 10 Z" fill="#F0C040" opacity="0.6"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- PHONE SIDE -->
+            <div class="phone-container">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <div class="phone-screen">
+                        <div class="screen-header">
+                            <h2 id="screenTitle">PocketBudJet</h2>
+                        </div>
+                        <div class="screen-content" id="screenContent">
+                            <!-- Content injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTROLS BAR -->
+    <div class="controls-bar">
+        <div class="controls-content">
+            <div class="progress-section">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="step-counter"><span id="currentStep">1</span> of <span id="totalSteps">10</span></div>
+            </div>
+            <div class="button-group">
+                <button class="control-button" id="backBtn" aria-label="Previous step">← Back</button>
+                <button class="control-button active" id="playBtn" aria-label="Play/Pause">▶ Play</button>
+                <button class="control-button" id="muteBtn" aria-label="Toggle audio">🔊 Sound</button>
+                <button class="control-button" id="forwardBtn" aria-label="Next step">Forward →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DEMO DATA — authoritative with dry humor
+        // TTS text uses "Pocket Budget" for natural pronunciation; display text keeps "PocketBudJet"
+        const steps = [
+            {
+                title: "Meet Gary",
+                narration: "Hey — welcome to PocketBudJet. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
+                ttsText:   "Hey — welcome to Pocket Budget. Rather than bore you with feature lists, let me introduce you to Gary Splurge. Gary makes forty-eight hundred a month. He also spends fifty-eight forty-seven. Yes, you did that math right.",
+                pose: "wave",
+                eyes: "default",
+                screen: "dashboard1"
+            },
+            {
+                title: "The Problem",
+                narration: "Take a look at Gary's dashboard. Negative two hundred forty-seven dollars. Four budget alerts. A savings rate of... negative two percent. Gary is not winning. But here's the thing — most people are Gary. They just don't have a dashboard honest enough to tell them.",
+                pose: "point",
+                eyes: "default",
+                screen: "dashboard2"
+            },
+            {
+                title: "Scan Anything",
+                narration: "Point your camera at a receipt, a bill, a pay stub — PocketBudJet reads it. Auto-detects the document type, pulls out the line items, and lets you review before it hits your budget. Gary scanned a stack of restaurant receipts and a medical bill in under a minute. Way faster than typing.",
+                ttsText: "Point your camera at a receipt, a bill, a pay stub — Pocket Budget reads it. Auto-detects the document type, pulls out the line items, and lets you review before it hits your budget. Gary scanned a stack of restaurant receipts and a medical bill in under a minute. Way faster than typing.",
+                pose: "point",
+                eyes: "default",
+                screen: "income"
+            },
+            {
+                title: "Skip the Typing",
+                narration: "Now, nobody wants to type in three months of coffee runs. So don't. Check this out — CSV, PDF statements, even receipt photos. Gary imported three months in about forty seconds. What he learned? Let's just say he had a complicated relationship with GrubRush — and Crusty's Deli was spreading his wallet thin.",
+                pose: "point",
+                eyes: "default",
+                screen: "import"
+            },
+            {
+                title: "Smart Budgets",
+                narration: "Set a budget by category and PocketBudJet tracks your pace in real time. See those bars? Red means trouble. Gary set three hundred dollars for dining. He blew past it... by day twelve. The app knew. Gary did not. Classic Gary.",
+                ttsText:   "Set a budget by category and Pocket Budget tracks your pace in real time. See those bars? Red means trouble. Gary set three hundred dollars for dining. He blew past it... by day twelve. The app knew. Gary did not. Classic Gary.",
+                pose: "point",
+                eyes: "default",
+                screen: "budget"
+            },
+            {
+                title: "Where'd It Go?",
+                narration: "Look at this spending chart. Merciless. Dining: twelve hundred. Shopping: eight hundred. Subscriptions: two sixty. That's twenty-two hundred dollars a month on wants. PocketBudJet doesn't judge — it just makes the pattern impossible to ignore. You're welcome Gary.",
+                ttsText:   "Look at this spending chart. Merciless. Dining: twelve hundred. Shopping: eight hundred. Subscriptions: two sixty. That's twenty-two hundred dollars a month on wants. Pocket Budget doesn't judge — it just makes the pattern impossible to ignore. You're welcome Gary.",
+                pose: "point",
+                eyes: "default",
+                screen: "chart"
+            },
+            {
+                title: "Crush Your Debt",
+                narration: "Now look here — Gary's Visa balance: four thousand eight hundred at twenty-two point nine percent. See those two payoff methods? Avalanche versus snowball. PocketBudJet shows exactly how much each one saves. Math doesn't care about your feelings.",
+                ttsText:   "Now look here — Gary's Visa balance: four thousand eight hundred at twenty-two point nine percent. See those two payoff methods? Avalanche versus snowball. Pocket Budget shows exactly how much each one saves. Math doesn't care about your feelings.",
+                pose: "point",
+                eyes: "default",
+                screen: "debt"
+            },
+            {
+                title: "Your AI Coach",
+                narration: "PocketBudJet analyzes your patterns and delivers real coaching. It told Gary: stop eating out. He marked it 'not helpful.' The app didn't take it personally — it just showed him the same number again the next week. Persistence wins.",
+                ttsText:   "Pocket Budget analyzes your patterns and delivers real coaching. It told Gary: stop eating out. He marked it 'not helpful.' The app didn't take it personally — it just showed him the same number again the next week. Persistence wins.",
+                pose: "think",
+                eyes: "default",
+                screen: "coach"
+            },
+            {
+                title: "Hidden Costs Found",
+                narration: "PocketBudJet found seven recurring charges across Gary's accounts. Sixty dollars a month — seven hundred twenty a year. Some he wanted, some he forgot about, some he didn't even recognize. The app puts them all in one place so nothing hides. Gary reviewed the list and cut four. You're welcome again Gary.",
+                pose: "point",
+                eyes: "happy",
+                screen: "subscriptions"
+            },
+            {
+                title: "Your Score",
+                narration: "Everything rolls up into your Financial Health Score. Look at that — Gary started at forty-two. Ouch. Three months later? Sixty-seven. Not because of magic — because he finally started paying attention. PocketBudJet doesn't just track money. It changes behavior. Download free. Twenty-one day trial. No credit card. No excuses.",
+                ttsText:   "Everything rolls up into your Financial Health Score. Look at that — Gary started at forty-two. Ouch. Three months later? Sixty-seven. Not because of magic — because he finally started paying attention. Pocket Budget doesn't just track money. It changes behavior. Download free. Twenty-one day trial. No credit card. No excuses.",
+                pose: "celebrate",
+                eyes: "happy",
+                screen: "score"
+            }
+        ];
+
+        // SCREEN CONTENT TEMPLATES
+        const screenTemplates = {
+            dashboard1: `
+                <div class="dashboard-view">
+                    <div class="balance-card">
+                        <div class="balance-label">Available</div>
+                        <div class="balance-amount negative">-$247</div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">Income</div>
+                            <div class="stat-value">$4,800</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Spent</div>
+                            <div class="stat-value">$5,847</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Savings</div>
+                            <div class="stat-value">-2%</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Alerts</div>
+                            <div class="stat-value">4</div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            dashboard2: `
+                <div class="dashboard-view">
+                    <div class="balance-card">
+                        <div class="balance-label">Available</div>
+                        <div class="balance-amount negative" style="font-size: 2.2rem;">-$247</div>
+                    </div>
+                    <div class="alert-list">
+                        <div class="alert-item">Dining Out over by $40</div>
+                        <div class="alert-item">Shopping over by $65</div>
+                        <div class="alert-item">Groceries: jam &amp; PB aisle again</div>
+                        <div class="alert-item">Entertainment limit reached</div>
+                    </div>
+                </div>
+            `,
+            income: `
+                <div class="income-entry-view">
+                    <div class="input-field">Gross: $4,800</div>
+                    <div style="font-size: 0.8rem; color: var(--slate); font-weight: 600; margin-top: 0.5rem;">Deductions:</div>
+                    <div class="deduction-item">
+                        <span>Federal Tax</span>
+                        <span>-$480</span>
+                    </div>
+                    <div class="deduction-item">
+                        <span>State Tax</span>
+                        <span>-$240</span>
+                    </div>
+                    <div class="deduction-item">
+                        <span>401(k)</span>
+                        <span>-$400</span>
+                    </div>
+                    <div class="deduction-item">
+                        <span>Health Insurance</span>
+                        <span>-$440</span>
+                    </div>
+                    <div class="deduction-item" style="border-bottom: 2px solid var(--navy); font-weight: 700; margin-top: 0.5rem;">
+                        <span>Net Pay</span>
+                        <span>$3,240</span>
+                    </div>
+                </div>
+            `,
+            import: `
+                <div class="import-view">
+                    <div class="import-option">📊 CSV Import</div>
+                    <div class="import-option">📄 PDF Statements</div>
+                    <div class="import-option">📸 Receipt Scan</div>
+                    <div class="import-option">🏦 Bank Link</div>
+                    <div style="margin-top: 0.75rem; font-size: 0.75rem; color: var(--slate);">Imported: 3 months of transactions</div>
+                </div>
+            `,
+            budget: `
+                <div class="budget-view">
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span>Dining Out</span>
+                            <span>$420 / $300</span>
+                        </div>
+                        <div class="budget-bar">
+                            <div class="budget-fill error" style="width: 140%;"></div>
+                        </div>
+                    </div>
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span>Groceries</span>
+                            <span>$216 / $300</span>
+                        </div>
+                        <div class="budget-bar">
+                            <div class="budget-fill warning" style="width: 72%;"></div>
+                        </div>
+                    </div>
+                    <div class="budget-category">
+                        <div class="budget-header">
+                            <span>Gas</span>
+                            <span>$140 / $200</span>
+                        </div>
+                        <div class="budget-bar">
+                            <div class="budget-fill" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            chart: `
+                <div class="chart-view">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <svg class="donut-chart" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="45" fill="none" stroke="#E74C3C" stroke-width="12" stroke-dasharray="106.8 339.3" transform="rotate(-90 60 60)"/>
+                            <circle cx="60" cy="60" r="45" fill="none" stroke="#3498DB" stroke-width="12" stroke-dasharray="75.6 339.3" stroke-dashoffset="-106.8" transform="rotate(-90 60 60)"/>
+                            <circle cx="60" cy="60" r="45" fill="none" stroke="#2ECC71" stroke-width="12" stroke-dasharray="58.5 339.3" stroke-dashoffset="-182.4" transform="rotate(-90 60 60)"/>
+                            <circle cx="60" cy="60" r="30" fill="var(--bg)"/>
+                        </svg>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #E74C3C;"></div>
+                                <span>Dining $1.2k</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #3498DB;"></div>
+                                <span>Shopping $800</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: #2ECC71;"></div>
+                                <span>Subs $260</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--slate); text-align: center;">Total "wants": $2,260/month</div>
+                </div>
+            `,
+            debt: `
+                <div class="debt-view">
+                    <div class="debt-card">
+                        <div style="font-size: 0.75rem; color: var(--slate); text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem;">Visa Card</div>
+                        <div class="debt-amount">$4,800</div>
+                        <div class="debt-detail">APR: 22.9%</div>
+                        <div class="debt-detail">Min Payment: $120</div>
+                        <div class="payoff-comparison">
+                            <div class="payoff-method">
+                                <div class="method-name">Avalanche</div>
+                                <div>48 months</div>
+                                <div>$2,050 interest</div>
+                            </div>
+                            <div class="payoff-method">
+                                <div class="method-name">Snowball</div>
+                                <div>50 months</div>
+                                <div>$2,340 interest</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            coach: `
+                <div class="coach-view">
+                    <div class="coach-tip">
+                        <div class="tip-label">This Week's Insight</div>
+                        <div class="tip-text">Stop eating out. Save $420/mo.</div>
+                    </div>
+                    <div class="comparison-stat">
+                        <span>Spending vs Last Week</span>
+                        <span style="color: var(--error); font-weight: 700;">+18%</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--slate); margin-top: 0.75rem; line-height: 1.4;">Your food spending is 2.8× the average user. A $12 lunch out could be a week of PB&amp;Js. Small changes = big savings.</div>
+                </div>
+            `,
+            subscriptions: `
+                <div class="subscription-view">
+                    <div class="subscription-item">
+                        <span>StreamFlix</span>
+                        <span class="subscription-cost">$16/mo</span>
+                    </div>
+                    <div class="subscription-item">
+                        <span>ComedyStream Plus</span>
+                        <span class="subscription-cost">$12/mo</span>
+                    </div>
+                    <div class="subscription-item">
+                        <span>Jelly Roll Fitness</span>
+                        <span class="subscription-cost">$15/mo</span>
+                        <span class="unused-badge">Review</span>
+                    </div>
+                    <div class="subscription-item">
+                        <span>The Spread Monthly</span>
+                        <span class="subscription-cost">$10/mo</span>
+                        <span class="unused-badge">Review</span>
+                    </div>
+                    <div class="subscription-item">
+                        <span>Cloud Storage Pro</span>
+                        <span class="subscription-cost">$5/mo</span>
+                        <span class="unused-badge">Review</span>
+                    </div>
+                    <div style="margin-top: 1rem; font-size: 0.8rem; color: var(--slate); padding: 0.75rem; background-color: var(--surface); border-radius: 6px; text-align: center;">
+                        7 subscriptions found · $60/mo total
+                    </div>
+                </div>
+            `,
+            score: `
+                <div class="score-view">
+                    <div class="score-display">
+                        <div class="score-circle">67</div>
+                        <div class="score-improvement">↑ +25 from 42</div>
+                    </div>
+                    <div class="score-categories">
+                        <div class="score-category">
+                            <div class="category-name">Income</div>
+                            <div class="category-score">85</div>
+                        </div>
+                        <div class="score-category">
+                            <div class="category-name">Spending</div>
+                            <div class="category-score">62</div>
+                        </div>
+                        <div class="score-category">
+                            <div class="category-name">Savings</div>
+                            <div class="category-score">58</div>
+                        </div>
+                        <div class="score-category">
+                            <div class="category-name">Debt</div>
+                            <div class="category-score">48</div>
+                        </div>
+                    </div>
+                    <div class="cta-overlay">
+                        <h3>Ready to Improve Your Score?</h3>
+                        <p>21-day free trial, no credit card required</p>
+                        <button onclick="window.location.href='#'">Download PocketBudJet</button>
+                    </div>
+                </div>
+            `
+        };
+
+        // STATE
+        let currentStepIndex = 0;
+        let isPlaying = false;
+        let isMuted = false;
+        let currentUtterance = null;
+        let typewriterTimeout = null;
+        let typewriterDone = false;
+        let ttsDone = false;
+        let pendingAdvanceDelay = 0;
+        let preferredVoice = null;
+        let voicesLoaded = false;
+
+        // DOM ELEMENTS
+        const josspa = document.getElementById("josspa");
+        const speechText = document.getElementById("speechText");
+        const screenTitle = document.getElementById("screenTitle");
+        const screenContent = document.getElementById("screenContent");
+        const playBtn = document.getElementById("playBtn");
+        const muteBtn = document.getElementById("muteBtn");
+        const backBtn = document.getElementById("backBtn");
+        const forwardBtn = document.getElementById("forwardBtn");
+        const progressFill = document.getElementById("progressFill");
+        const currentStepSpan = document.getElementById("currentStep");
+        const progressBar = document.getElementById("progressBar");
+
+        // ============================
+        // VOICE SELECTION — find the best natural-sounding voice
+        // ============================
+        function pickBestVoice() {
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices.length) return null;
+
+            // Priority list: natural-sounding male voices that sound authoritative
+            // Each entry: [name fragment, lang fragment] — first match wins
+            const preferred = [
+                // American male voices first — consistent across devices
+                ["Microsoft Guy", "en"],          // Edge neural — American male
+                ["Microsoft Ryan", "en"],         // Edge neural — American male
+                ["Microsoft Mark", "en"],         // Edge — American male
+                ["Google US English", "en"],      // Chrome desktop — American
+                // Android Samsung / Google TTS American male voices
+                ["en-us-x-tpd", "en"],           // Google TTS deep male (Android)
+                ["en-us-x-sfg", "en"],           // Google TTS male variant (Android)
+                ["English United States", "en"],  // Samsung TTS
+                // macOS American male voices
+                ["Alex", "en"],                   // macOS — American male
+                ["Fred", "en"],                   // macOS — American male
+                ["Tom", "en"],                    // macOS — American male
+                ["Aaron", "en"],                  // macOS — American male
+                // Generic fallbacks — prefer male, then any US English
+                ["Male", "en-US"],
+                ["Male", "en"],
+                ["English", "en-US"],
+            ];
+
+            for (const [nameFrag, langFrag] of preferred) {
+                const match = voices.find(v =>
+                    v.name.includes(nameFrag) && v.lang.startsWith(langFrag)
+                );
+                if (match) {
+                    console.log(`TTS voice selected: ${match.name} (${match.lang})`);
+                    return match;
+                }
+            }
+
+            // Log all available voices for debugging
+            console.log("Available TTS voices:", voices.map(v => `${v.name} (${v.lang})`).join(", "));
+
+            // Prefer American male voice
+            const maleUS = voices.find(v =>
+                v.lang.startsWith("en-US") && /male/i.test(v.name) && !/female/i.test(v.name)
+            );
+            if (maleUS) {
+                console.log(`TTS voice (US male fallback): ${maleUS.name} (${maleUS.lang})`);
+                return maleUS;
+            }
+
+            // Any male English voice
+            const maleEnglish = voices.find(v =>
+                v.lang.startsWith("en") && /male/i.test(v.name) && !/female/i.test(v.name)
+            );
+            if (maleEnglish) {
+                console.log(`TTS voice (male fallback): ${maleEnglish.name} (${maleEnglish.lang})`);
+                return maleEnglish;
+            }
+
+            // Last resort: any US English, then any English
+            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
+            if (anyUS) {
+                console.log(`TTS voice (US fallback): ${anyUS.name} (${anyUS.lang})`);
+                return anyUS;
+            }
+            const anyEnglish = voices.find(v => v.lang.startsWith("en"));
+            if (anyEnglish) {
+                console.log(`TTS voice fallback: ${anyEnglish.name} (${anyEnglish.lang})`);
+                return anyEnglish;
+            }
+
+            return voices[0];
+        }
+
+        // Load voices (async on some browsers)
+        function loadVoices() {
+            preferredVoice = pickBestVoice();
+            voicesLoaded = true;
+        }
+
+        if ('speechSynthesis' in window) {
+            // Chrome loads voices async
+            if (window.speechSynthesis.getVoices().length) {
+                loadVoices();
+            }
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
+
+        // ============================
+        // INITIALIZE
+        // ============================
+        function init() {
+            updateStep();
+            addEventListeners();
+        }
+
+        function addEventListeners() {
+            playBtn.addEventListener("click", togglePlay);
+            muteBtn.addEventListener("click", toggleMute);
+            backBtn.addEventListener("click", goBack);
+            forwardBtn.addEventListener("click", goForward);
+            progressBar.addEventListener("click", handleProgressClick);
+            document.addEventListener("keydown", handleKeyboard);
+        }
+
+        // ============================
+        // STEP RENDERING
+        // ============================
+        // Default (resting) right arm SVG — arm hangs down
+        const RIGHT_ARM_REST = `
+            <path d="M 110 115 Q 122 130 128 155" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <g class="wave-hand">
+                <circle cx="130" cy="158" r="8" fill="#F5D0B0"/>
+                <path d="M 126 151 Q 130 146 135 151" stroke="#F5D0B0" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </g>`;
+
+        // Pointing right arm SVG — arm extends toward phone, hand grips a presentation pointer
+        const RIGHT_ARM_POINT = `
+            <path d="M 110 118 Q 130 112 152 106" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
+            <circle cx="155" cy="105" r="7" fill="#F5D0B0"/>
+            <!-- Pointer stick — dark shaft with red laser tip -->
+            <line x1="159" y1="102" x2="190" y2="92" stroke="#2C3E50" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="192" cy="91" r="3.5" fill="#E74C3C"/>
+            <circle cx="192" cy="91" r="6" fill="#E74C3C" opacity="0.25"/>`;
+
+        function updateStep() {
+            const step = steps[currentStepIndex];
+
+            // Update Josspa pose (triggers CSS animations)
+            josspa.className = `josspa-svg ${step.pose}`;
+
+            // Swap right arm between pointing and resting
+            const rightArmGroup = josspa.querySelector(".right-arm-group");
+            if (rightArmGroup) {
+                if (step.pose === "point") {
+                    rightArmGroup.innerHTML = RIGHT_ARM_POINT;
+                } else {
+                    rightArmGroup.innerHTML = RIGHT_ARM_REST;
+                }
+            }
+
+            // Update eyes
+            updateEyes(step.eyes || "default");
+
+            // Update sparkles visibility
+            const sparkles = josspa.querySelector(".sparkles");
+            if (sparkles) {
+                sparkles.style.opacity = (step.pose === "celebrate") ? "1" : "0";
+            }
+
+            // Update screen
+            screenTitle.textContent = step.title;
+            screenContent.innerHTML = screenTemplates[step.screen];
+
+            // Reset speech
+            clearTypewriter();
+            speechText.textContent = "";
+
+            // Update UI
+            updateProgressBar();
+            updateButtons();
+
+            // Auto-start if playing
+            if (isPlaying) {
+                startNarration(step.narration);
+            }
+        }
+
+        function updateEyes(eyeType) {
+            const defaultEyes = josspa.querySelector(".eyes-default");
+            const happyEyes = josspa.querySelector(".eyes-happy");
+            if (defaultEyes && happyEyes) {
+                defaultEyes.style.display = eyeType === "happy" ? "none" : "inline";
+                happyEyes.style.display = eyeType === "happy" ? "inline" : "none";
+            }
+        }
+
+        // ============================
+        // NARRATION ENGINE — speech + typewriter sync
+        // ============================
+        function startNarration(text) {
+            const step = steps[currentStepIndex];
+            const voiceText = step.ttsText || text;
+            // Reset coordination flags
+            typewriterDone = false;
+            ttsDone = false;
+            pendingAdvanceDelay = 0;
+            // Always start mouth + talking class
+            josspa.classList.add("talking");
+            startMouthCycle();
+            if (!isMuted && 'speechSynthesis' in window) {
+                speakText(voiceText);
+            } else {
+                // No TTS — mark TTS as "done" immediately so advance waits only on typewriter
+                ttsDone = true;
+                // Calculate read delay for muted mode
+                const wordCount = text.split(/\s+/).length;
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+            }
+            typewrite(text);
+        }
+
+        // Only advance when BOTH typewriter and TTS are finished
+        function tryAdvance() {
+            if (!typewriterDone || !ttsDone) return;
+            if (!isPlaying) return;
+            stopMouthCycle();
+            josspa.classList.remove("talking");
+            scheduleAdvance(pendingAdvanceDelay || 500);
+        }
+
+        function typewrite(text) {
+            let index = 0;
+            // Slower typewriter on mobile for readability
+            const isMobile = window.innerWidth <= 768;
+            const typeSpeed = isMobile ? 28 : 35;
+
+            function typeNextChar() {
+                if (index < text.length) {
+                    speechText.textContent += text[index];
+                    index++;
+                    typewriterTimeout = setTimeout(typeNextChar, typeSpeed);
+                } else {
+                    // Typewriter finished — signal and try to advance
+                    typewriterDone = true;
+                    tryAdvance();
+                }
+            }
+
+            typeNextChar();
+        }
+
+        // Split long text into short sentence chunks to avoid Chrome/Android TTS kill bug
+        function splitIntoChunks(text) {
+            // Split on sentence endings (. ! ?) or em dashes (—) followed by space
+            const parts = text.split(/(?<=[.!?])\s+|(?<=—)\s*/);
+            const chunks = [];
+            let current = '';
+
+            for (const part of parts) {
+                // Keep chunks very short — under 80 chars for mobile Chrome safety
+                if ((current + ' ' + part).length > 80 && current.length > 0) {
+                    chunks.push(current.trim());
+                    current = part;
+                } else {
+                    current = current ? current + ' ' + part : part;
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+            console.log("TTS chunks:", chunks.length, chunks);
+            return chunks;
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+
+            // Cancel any existing speech
+            window.speechSynthesis.cancel();
+
+            const isMobileDevice = /Android|iPhone|iPad/i.test(navigator.userAgent);
+            const rate = isMobileDevice ? 0.88 : 0.92;
+            const pitch = isMobileDevice ? 0.75 : 0.88;
+            const ttsStartTime = Date.now();
+            const totalWordCount = text.split(/\s+/).length;
+
+            // Split into sentence-sized chunks to prevent Chrome from killing long utterances
+            const chunks = splitIntoChunks(text);
+            let chunkIndex = 0;
+
+            function speakNextChunk() {
+                if (chunkIndex >= chunks.length) {
+                    // All chunks spoken — done
+                    stopMouthCycle();
+                    josspa.classList.remove("talking");
+                    const elapsed = Date.now() - ttsStartTime;
+                    if (elapsed < 2000 && totalWordCount > 10) {
+                        pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
+                    } else {
+                        pendingAdvanceDelay = 500;
+                    }
+                    ttsDone = true;
+                    tryAdvance();
+                    return;
+                }
+
+                const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
+                currentUtterance = utterance;
+
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+                utterance.rate = rate;
+                utterance.pitch = pitch;
+                utterance.volume = 1.0;
+
+                utterance.onend = () => {
+                    chunkIndex++;
+                    // Small delay between chunks — Android Chrome needs breathing room
+                    setTimeout(speakNextChunk, 80);
+                };
+
+                utterance.onerror = (e) => {
+                    console.warn("TTS chunk error:", e.error, "chunk:", chunkIndex, "text:", chunks[chunkIndex]);
+                    // TTS failed — give time to read
+                    stopMouthCycle();
+                    josspa.classList.remove("talking");
+                    pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
+                    ttsDone = true;
+                    tryAdvance();
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            josspa.classList.add("talking");
+            startMouthCycle();
+            speakNextChunk();
+        }
+
+        let advanceTimer = null;
+
+        function scheduleAdvance(ms) {
+            clearAdvanceTimer();
+            advanceTimer = setTimeout(() => {
+                if (isPlaying && currentStepIndex < steps.length - 1) {
+                    goForward();
+                } else {
+                    isPlaying = false;
+                    updateButtons();
+                }
+            }, ms);
+        }
+
+        // ============================
+        // MOUTH SHAPE CYCLING — Hanna-Barbera / Jetsons style
+        // Cycles through 6 distinct mouth shapes while talking
+        // ============================
+        let mouthInterval = null;
+        const mouthSequence = ['C', 'B', 'D', 'A', 'E', 'C', 'F', 'B', 'D', 'C', 'A', 'E'];
+        let mouthIndex = 0;
+
+        function startMouthCycle() {
+            stopMouthCycle();
+            mouthIndex = 0;
+            showMouthShape('C'); // Start with medium open
+            // Cycle at ~150ms per shape — matches natural speech rhythm
+            mouthInterval = setInterval(() => {
+                mouthIndex = (mouthIndex + 1) % mouthSequence.length;
+                showMouthShape(mouthSequence[mouthIndex]);
+            }, 320);
+        }
+
+        function stopMouthCycle() {
+            if (mouthInterval) {
+                clearInterval(mouthInterval);
+                mouthInterval = null;
+            }
+            showMouthShape('A'); // Return to closed
+        }
+
+        function showMouthShape(letter) {
+            const shapes = josspa.querySelectorAll('.mouth-shape');
+            shapes.forEach(s => s.style.display = 'none');
+            const active = josspa.querySelector(`.mouth-${letter}`);
+            if (active) active.style.display = 'inline';
+        }
+
+        function clearAdvanceTimer() {
+            if (advanceTimer) {
+                clearTimeout(advanceTimer);
+                advanceTimer = null;
+            }
+        }
+
+        function clearTypewriter() {
+            if (typewriterTimeout) {
+                clearTimeout(typewriterTimeout);
+                typewriterTimeout = null;
+            }
+            clearAdvanceTimer();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            stopMouthCycle();
+            josspa.classList.remove("talking");
+            currentUtterance = null;
+        }
+
+        // ============================
+        // CONTROLS
+        // ============================
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            updateButtons();
+
+            if (isPlaying) {
+                const step = steps[currentStepIndex];
+                startNarration(step.narration);
+            } else {
+                clearTypewriter();
+            }
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            updateButtons();
+
+            if (isMuted && 'speechSynthesis' in window) {
+                // Muting — stop speech, let typewriter continue
+                window.speechSynthesis.cancel();
+            } else if (!isMuted && isPlaying) {
+                // Unmuting mid-play — speak current text if typewriter is done
+                const step = steps[currentStepIndex];
+                if (speechText.textContent === step.narration) {
+                    speakText(step.ttsText || step.narration);
+                }
+            }
+        }
+
+        function goBack() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                isPlaying = false;
+                updateStep();
+            }
+        }
+
+        function goForward() {
+            if (currentStepIndex < steps.length - 1) {
+                currentStepIndex++;
+                isPlaying = true;
+                updateStep();
+            }
+        }
+
+        function handleProgressClick(e) {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            const stepIndex = Math.floor(percent * steps.length);
+
+            currentStepIndex = Math.max(0, Math.min(stepIndex, steps.length - 1));
+            isPlaying = false;
+            updateStep();
+        }
+
+        function handleKeyboard(e) {
+            if (e.code === "Space") {
+                e.preventDefault();
+                togglePlay();
+            } else if (e.code === "ArrowLeft") {
+                goBack();
+            } else if (e.code === "ArrowRight") {
+                goForward();
+            } else if (e.code === "KeyM") {
+                toggleMute();
+            }
+        }
+
+        function updateProgressBar() {
+            const percent = ((currentStepIndex + 1) / steps.length) * 100;
+            progressFill.style.width = percent + "%";
+            currentStepSpan.textContent = currentStepIndex + 1;
+        }
+
+        function updateButtons() {
+            backBtn.disabled = currentStepIndex === 0;
+            forwardBtn.disabled = currentStepIndex === steps.length - 1;
+
+            playBtn.textContent = isPlaying ? "⏸ Pause" : "▶ Play";
+            playBtn.classList.toggle("active", isPlaying);
+
+            muteBtn.classList.toggle("active", !isMuted);
+            muteBtn.textContent = isMuted ? "🔇 Muted" : "🔊 Sound";
+        }
+
+        // START — auto-play on load for immediate engagement
+        init();
+
+        // Auto-play after a brief moment (lets the page render first)
+        setTimeout(() => {
+            isPlaying = true;
+            updateButtons();
+            startNarration(steps[0].narration);
+        }, 600);
+    </script>
+</body>
+</html>

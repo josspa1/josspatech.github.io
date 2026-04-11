@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debt Freedom Planner - PocketBudJet | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
+        }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button {
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white); padding: 4rem 2rem; text-align: center;
+        }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .hero .subheader {
+            font-size: 1.25rem; font-weight: 300; max-width: 700px;
+            margin: 0 auto; color: rgba(255,255,255,0.95);
+        }
+
+        /* Video Section */
+        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section .container { max-width: 1200px; margin: 0 auto; }
+        .video-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem; color: var(--navy);
+        }
+        .video-section .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .video-wrapper {
+            display: flex; gap: 3rem; align-items: center;
+            justify-content: center; flex-wrap: wrap;
+        }
+
+        /* Phone frame */
+        .phone-frame {
+            width: 320px; flex-shrink: 0; position: relative;
+            border: 10px solid var(--navy-dark); border-radius: 40px;
+            overflow: hidden; background: #000;
+            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+            aspect-ratio: 9 / 19.5;
+        }
+        .phone-frame::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+            z-index: 20;
+        }
+        .slideshow {
+            width: 100%; height: 100%; position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+        .slide img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+        }
+        .slide-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 3rem 1.2rem 1.5rem; color: white;
+        }
+        .slide-step {
+            display: inline-block; background: var(--gold); color: var(--navy-dark);
+            font-weight: 800; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px;
+            margin-bottom: 6px; letter-spacing: 0.5px;
+        }
+        .slide-title { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+
+        /* Progress dots */
+        .progress-dots {
+            display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem;
+        }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
+        }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+
+        /* Narration panel */
+        .narration-panel {
+            max-width: 400px; flex: 1; min-width: 280px;
+        }
+        .narration-card {
+            background: var(--white); border-radius: 16px; padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
+            margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .narration-card.active { opacity: 1; transform: translateY(0); }
+        .narration-step-badge {
+            display: inline-block; background: var(--navy); color: white;
+            font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 0.6rem;
+        }
+        .narration-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+            font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;
+        }
+        .narration-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+        .narration-timer {
+            height: 3px; background: var(--gold); border-radius: 2px;
+            margin-top: 0.8rem; width: 0%; transition: width linear;
+        }
+        .narration-card.active .narration-timer { width: 100%; }
+
+        /* Playback controls */
+        .playback-controls {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;
+            align-items: center;
+        }
+        .play-pause-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .play-pause-btn:hover { background: var(--navy-medium); }
+        .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+
+        /* Timeline Steps */
+        .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+        .steps-section .container { max-width: 1200px; margin: 0 auto; }
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
+            text-align: center; margin-bottom: 3rem; color: var(--navy);
+        }
+        .timeline { max-width: 800px; margin: 0 auto; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background-color: var(--gold);
+        }
+        .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
+        .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
+        .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
+        .timeline-marker {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            width: 50px; height: 50px; background-color: var(--gold);
+            border: 4px solid var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+        }
+        .timeline-content {
+            background-color: var(--background); padding: 2rem; border-radius: 12px;
+            border-left: 5px solid var(--gold);
+        }
+        .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 0.75rem;
+        }
+        .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem; text-align: center;
+        }
+        .cta-section .container { max-width: 1200px; margin: 0 auto; }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            color: var(--white); margin-bottom: 2rem;
+        }
+        .download-button {
+            display: inline-block; background-color: var(--gold); color: var(--navy);
+            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
+        }
+        .download-button:hover {
+            background-color: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+        }
+
+        footer {
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light, #8AAABB); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero .subheader { font-size: 1rem; }
+            .video-wrapper { flex-direction: column; }
+            .phone-frame { width: 280px; }
+            .narration-panel { max-width: 100%; }
+            .timeline::before { left: 25px; }
+            .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
+                text-align: left; padding-right: 0; padding-left: 90px;
+            }
+            .timeline-marker { left: 0; transform: translateX(0); }
+            .timeline-content, .timeline-step:nth-child(odd) .timeline-content {
+                border-left: 5px solid var(--gold); border-right: none;
+            }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .phone-frame { width: 240px; }
+            .video-section { padding: 2.5rem 1rem; }
+            .steps-section h2 { font-size: 1.5rem; }
+            .timeline-step { padding-left: 70px !important; }
+            .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/how-to/">How To</a></li>
+                <li><a href="/gary-demo/">Demo</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <a href="/how-to/">How To</a><span class="sep">/</span>
+        <span class="current">Debt Freedom</span>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>See Your Debt-Free Date</h1>
+            <p class="subheader">Avalanche or snowball — pick your strategy. See exactly when you'll be free and how much interest you'll save.</p>
+        </div>
+    </section>
+
+    <section class="video-section">
+        <div class="container">
+            <h2>Watch It in Action</h2>
+            <p class="section-sub">See how the Debt Freedom Planner shows you the path to financial freedom.</p>
+            <div class="video-wrapper">
+                <div>
+                    <div class="phone-frame">
+                        <div class="slideshow" id="slideshow">
+                            <div class="slide active" data-index="0">
+                                <img src="/assets/screenshots/debt.png" alt="The Problem: Debt is stressful" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 1</span>
+                                    <div class="slide-title">Debt is stressful — but do you know when you'll be free?</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="1">
+                                <img src="/assets/screenshots/debt.png" alt="See every debt in one place" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 2</span>
+                                    <div class="slide-title">See every debt in one place</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="2">
+                                <img src="/assets/screenshots/budget.png" alt="Snowball or Avalanche strategy" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 3</span>
+                                    <div class="slide-title">Snowball or Avalanche — pick your path</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="3">
+                                <img src="/assets/screenshots/dashboard.png" alt="Your debt-free date calculated" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 4</span>
+                                    <div class="slide-title">Your debt-free date, calculated</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="4">
+                                <img src="/assets/screenshots/ai-coach.png" alt="What-If scenarios" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 5</span>
+                                    <div class="slide-title">What if you paid more? See the impact instantly</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="5">
+                                <img src="/assets/screenshots/dashboard.png" alt="Take action with AI Coach" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 6</span>
+                                    <div class="slide-title">Stop wondering. Start knowing.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-dots" id="dots"></div>
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause slideshow">&#10074;&#10074;</button>
+                        <span class="speed-label" id="speedLabel">Auto-playing</span>
+                    </div>
+                </div>
+
+                <div class="narration-panel" id="narrationPanel">
+                    <div class="narration-card" data-index="0">
+                        <span class="narration-step-badge">Step 1 of 6</span>
+                        <h3>The Problem</h3>
+                        <p>You know the number. But do you know when you'll be free? PocketBudJet shows you the answer.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="1">
+                        <span class="narration-step-badge">Step 2 of 6</span>
+                        <h3>All Debts in One Place</h3>
+                        <p>Credit cards, student loans, car payments — all tracked. Enter your balances, interest rates, and minimum payments.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="2">
+                        <span class="narration-step-badge">Step 3 of 6</span>
+                        <h3>Pick Your Strategy</h3>
+                        <p>Snowball: knock out small debts first for quick wins. Avalanche: crush high interest first to save the most money. See your timeline unfold.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="3">
+                        <span class="narration-step-badge">Step 4 of 6</span>
+                        <h3>Freedom Date Calculated</h3>
+                        <p>There it is. Your freedom date. Not a guess. Not a hope. A real plan based on your actual numbers.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="4">
+                        <span class="narration-step-badge">Step 5 of 6</span>
+                        <h3>Run What-If Scenarios</h3>
+                        <p>Slide the extra payment amount and watch your freedom date move forward. One extra hundred dollars a month could save you years.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="5">
+                        <span class="narration-step-badge">Step 6 of 6</span>
+                        <h3>Take Action</h3>
+                        <p>Your AI Coach tracks your debt progress, celebrates milestones, and keeps you on track. Download PocketBudJet and see your path to freedom.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="container">
+            <h2>Five Steps to Freedom</h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Add Your Debts</h3>
+                        <p>Enter balances, interest rates, and minimum payments for every debt you have. PocketBudJet tracks it all in one place.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Pick a Strategy</h3>
+                        <p>Snowball for motivation (tackle small debts first) or Avalanche for math (crush high interest first). Both show your freedom date.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>See Your Freedom Date</h3>
+                        <p>A real date based on your actual numbers. Not a guess. Track how long until each debt vanishes and when you're completely free.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Run What-If Scenarios</h3>
+                        <p>Add extra payments and watch your freedom date move forward. See exactly how much faster you can become debt-free.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Track Your Progress</h3>
+                        <p>Watch debts disappear one by one. Your AI Coach celebrates milestones and keeps you motivated on the path to freedom.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>See Your Path to Freedom</h2>
+            <a href="#" class="download-button">Get PocketBudJet</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 JosspaTech. All rights reserved. | <a href="/">Home</a> | <a href="/#products">Products</a></p>
+    </footer>
+
+    <script>
+        const slideDuration = 5000; // milliseconds
+        let currentSlide = 0;
+        let isPlaying = true;
+        let autoPlayTimeout;
+        const slides = document.querySelectorAll('.slide');
+        const narrationCards = document.querySelectorAll('.narration-card');
+        const dotContainer = document.getElementById('dots');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const speedLabel = document.getElementById('speedLabel');
+        const slideshow = document.getElementById('slideshow');
+
+        // Create progress dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.setAttribute('data-index', index);
+            dot.addEventListener('click', () => goToSlide(index));
+            dotContainer.appendChild(dot);
+        });
+
+        function updateSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            narrationCards.forEach((card, i) => {
+                card.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+            resetAutoPlay();
+        }
+
+        function nextSlide() {
+            const nextIndex = (currentSlide + 1) % slides.length;
+            updateSlide(nextIndex);
+        }
+
+        function goToSlide(index) {
+            updateSlide(index);
+        }
+
+        function resetAutoPlay() {
+            clearTimeout(autoPlayTimeout);
+            if (isPlaying) {
+                // Set timer duration for the narration timer animation
+                const timerBars = document.querySelectorAll('.narration-timer');
+                timerBars.forEach(timer => {
+                    timer.style.transitionDuration = `${slideDuration}ms`;
+                });
+                autoPlayTimeout = setTimeout(nextSlide, slideDuration);
+            }
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playPauseBtn.textContent = isPlaying ? '⏸⏸' : '▶';
+            speedLabel.textContent = isPlaying ? 'Auto-playing' : 'Paused';
+            if (isPlaying) {
+                resetAutoPlay();
+            } else {
+                clearTimeout(autoPlayTimeout);
+            }
+        });
+
+        // Initialize timer bars with correct duration
+        const timerBars = document.querySelectorAll('.narration-timer');
+        timerBars.forEach(timer => {
+            timer.style.transitionDuration = `${slideDuration}ms`;
+        });
+
+        // Start the slideshow
+        resetAutoPlay();
+    </script>
+</body>
+</html>
