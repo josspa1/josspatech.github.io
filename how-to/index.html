@@ -89,40 +89,19 @@
             color: var(--slate); font-size: 1.05rem; margin-bottom: 2rem; max-width: 700px;
         }
 
-        /* Featured card (Quick Start) */
-        .featured-card {
-            background: var(--white); border-radius: 16px; overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08); display: flex;
-            align-items: stretch; gap: 0; max-width: 900px; margin: 0 auto;
+        /* Start-here card highlight */
+        .card.start-here {
             border: 2px solid var(--gold);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            text-decoration: none; color: inherit; cursor: pointer;
+            position: relative;
         }
-        .featured-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(240,192,64,0.25);
+        .card.start-here:hover {
+            box-shadow: 0 6px 24px rgba(240,192,64,0.25);
         }
-        .featured-icon {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            display: flex; align-items: center; justify-content: center;
-            padding: 2rem 2.5rem; font-size: 3.5rem; flex-shrink: 0;
-        }
-        .featured-body { padding: 1.8rem 2rem; flex: 1; }
-        .featured-body .badge {
-            display: inline-block; background: var(--gold); color: var(--navy);
+        .start-here-badge {
+            position: absolute; top: 12px; right: 12px;
+            background: var(--gold); color: var(--navy);
             font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.08em; padding: 0.25rem 0.7rem; border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-        .featured-body h3 {
-            font-family: 'Playfair Display', serif; font-size: 1.5rem;
-            font-weight: 700; margin-bottom: 0.4rem;
-        }
-        .featured-body p { color: var(--slate); font-size: 1rem; line-height: 1.5; }
-        .featured-body .time-badge {
-            display: inline-flex; align-items: center; gap: 0.3rem;
-            margin-top: 0.6rem; font-size: 0.85rem; color: var(--navy-medium);
-            font-weight: 600;
+            letter-spacing: 0.06em; padding: 0.2rem 0.6rem; border-radius: 4px;
         }
 
         /* Card grid */
@@ -256,32 +235,26 @@
         </div>
     </section>
 
-    <!-- SECTION 1: Quick Start -->
-    <section class="section">
-        <div class="container">
-            <h2>New to PocketBudJet?</h2>
-            <p class="section-sub">Your first 5 minutes matter most. This guide walks you through what you'll see first, what it all means, and why it's worth the setup.</p>
-
-            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                <a href="/videos/quick-start/" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--navy); padding: 0.7rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: background 0.3s;">
-                    &#9654; Watch the Quick Start Video
-                </a>
-                <span style="color: var(--slate); font-size: 0.9rem;">~4 minutes</span>
-            </div>
-
-            <div class="guide-embed-frame">
-                <iframe src="/videos/quick-start/" title="Quick Start Guide" loading="lazy"></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECTION 2: Videos -->
+    <!-- SECTION 1: Videos -->
     <section class="section">
         <div class="container">
             <h2>Videos</h2>
             <p class="section-sub">Short, focused video walkthroughs. Watch only the ones you need.</p>
 
             <div class="card-grid">
+                <a href="/videos/quick-start/" class="card start-here">
+                    <span class="start-here-badge">Start Here</span>
+                    <div class="card-icon">&#127937;</div>
+                    <div class="card-body">
+                        <h3>Quick Start Guide</h3>
+                        <p>Your first 5 minutes with PBJ — what you'll see, what it all means, and why it's worth the setup.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~4 min</span>
+                        </div>
+                    </div>
+                </a>
+
                 <a href="/videos/import/" class="card">
                     <div class="card-icon">&#128229;</div>
                     <div class="card-body">

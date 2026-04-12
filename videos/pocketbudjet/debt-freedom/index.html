@@ -476,6 +476,31 @@
         let voiceEnabled = false;
         let currentUtterance = null;
         let speechTimeout = null;
+        const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+
+        // Pick the most natural-sounding male voice available
+        function pickBestVoice(voices) {
+            if (!voices.length) return null;
+            const preferred = [
+                ["Microsoft Guy", "en"], ["Microsoft Ryan", "en"], ["Microsoft Mark", "en"],
+                ["Google US English", "en"], ["en-us-x-tpd", "en"], ["en-us-x-sfg", "en"],
+                ["English United States", "en"], ["Alex", "en"], ["Fred", "en"],
+                ["Tom", "en"], ["Aaron", "en"], ["Male", "en-US"], ["Male", "en"],
+            ];
+            for (const [nameFrag, langFrag] of preferred) {
+                const match = voices.find(v => v.name.includes(nameFrag) && v.lang.startsWith(langFrag));
+                if (match) return match;
+            }
+            const maleUS = voices.find(v => v.lang.startsWith("en-US") && /male/i.test(v.name) && !/female/i.test(v.name));
+            if (maleUS) return maleUS;
+            const maleEn = voices.find(v => v.lang.startsWith("en") && /male/i.test(v.name) && !/female/i.test(v.name));
+            if (maleEn) return maleEn;
+            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
+            if (anyUS) return anyUS;
+            const anyEn = voices.find(v => v.lang.startsWith("en"));
+            if (anyEn) return anyEn;
+            return voices[0];
+        }
 
         // Voiceover scripts - teaching and elaborating
         const voiceoverScripts = [
@@ -535,15 +560,10 @@
             if (!text) return;
 
             currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.rate = 0.92;
-            currentUtterance.pitch = 1.0;
-
-            // Pick a good voice
-            const voices = synth.getVoices();
-            const pick = voices.find(v => /Google US English|Samantha|Daniel/.test(v.name))
-                || voices.find(v => v.lang === 'en-US' && !v.localService)
-                || voices.find(v => v.lang.startsWith('en'))
-                || null;
+            currentUtterance.rate = isMobile ? 0.88 : 0.92;
+            currentUtterance.pitch = isMobile ? 0.75 : 0.88;
+            currentUtterance.volume = 1.0;
+            const pick = pickBestVoice(synth.getVoices());
             if (pick) currentUtterance.voice = pick;
 
             currentUtterance.onend = () => {
