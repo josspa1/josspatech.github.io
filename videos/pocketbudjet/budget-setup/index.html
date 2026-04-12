@@ -74,7 +74,6 @@
         .video-wrapper {
             display: flex; gap: 3rem; align-items: center;
             justify-content: center; flex-wrap: wrap;
-            
         }
 
         /* Phone viewport (outer focus element) */
@@ -88,9 +87,7 @@
             border: 10px solid var(--navy-dark); border-radius: 40px;
             overflow: hidden; background: #000;
             box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
-            aspect-ratio: 9 / 19.5;
-            flex-shrink: 0;
-        }
+            aspect-ratio: 9 / 19.5;        }
         .phone-frame::before {
             content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
             width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
@@ -341,7 +338,8 @@
             <p class="section-sub">See each step of budget setup, right inside the app.</p>
             <div class="video-wrapper">
                 <div>
-                    <div class="phone-frame">
+                    <div class="phone-viewport">
+                        <div class="phone-frame">
                         <div class="slideshow" id="slideshow">
                             <div class="slide active" data-index="0">
                                 <img src="/assets/screenshots/dashboard.png" alt="PocketBudJet Dashboard" loading="lazy">
@@ -393,6 +391,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                     <div class="progress-dots" id="dots"></div>
                     <div class="playback-controls">
@@ -538,8 +537,6 @@
             'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3', 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3'
         ];
 
-        // Zoom focus zones per slide
-
         // Voice toggle button
         const voiceBtn = document.createElement('button');
         voiceBtn.className = 'voice-btn';
@@ -608,10 +605,105 @@
             });
         }
 
-        // Zoom/Focus feature
-        // Zoom/Focus feature
+        // Build dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
 
-            setTimeout(() => {
-            }, zone.delay);
+        function goTo(index) {
+            slides[current].classList.remove('active');
+            cards[current].classList.remove('active');
+            dotsContainer.children[current].classList.remove('active');
+            cards[current].querySelector('.narration-timer').style.transition = 'none';
+            cards[current].querySelector('.narration-timer').style.width = '0%';
+
+            current = index;
+            slides[current].classList.add('active');
+            cards[current].classList.add('active');
+            dotsContainer.children[current].classList.add('active');
+
+            const timerBar = cards[current].querySelector('.narration-timer');
+            requestAnimationFrame(() => {
+                timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                timerBar.style.width = '100%';
+            });
+
+            if (playing && current === slides.length - 1) {
+                speedLabel.textContent = 'Last step';
+            } else if (playing) {
+                speedLabel.textContent = 'Auto-playing';
+            }
+
+            if (voiceEnabled) {
+                clearInterval(timer);
+                playSlideAudio(current);
+            } else if (playing) {
+                resetTimer();
+            }
         }
 
+        function next() {
+            if (current < slides.length - 1) {
+                goTo(current + 1);
+            } else {
+                playing = false;
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Finished';
+                stopAudio();
+                clearInterval(timer);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            clearTimeout(advanceTimeout);
+            timer = setInterval(() => {
+                if (current < slides.length - 1) {
+                    next();
+                } else {
+                    clearInterval(timer);
+                    playing = false;
+                    playPauseBtn.innerHTML = '&#9654;';
+                    speedLabel.textContent = 'Finished';
+                }
+            }, SLIDE_DURATION);
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            playing = !playing;
+            if (playing) {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';
+                speedLabel.textContent = 'Auto-playing';
+                if (voiceEnabled) {
+                    playSlideAudio(current);
+                } else {
+                    resetTimer();
+                }
+                const timerBar = cards[current].querySelector('.narration-timer');
+                timerBar.style.transition = 'none';
+                timerBar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                    timerBar.style.width = '100%';
+                });
+            } else {
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Paused';
+                stopAudio();
+                clearInterval(timer);
+                clearTimeout(advanceTimeout);
+                const timerBar = cards[current].querySelector('.narration-timer');
+                const computed = getComputedStyle(timerBar).width;
+                timerBar.style.transition = 'none';
+                timerBar.style.width = computed;
+            }
+        });
+
+        goTo(0);
+    })();
+    </script>
+</body>
+</html>

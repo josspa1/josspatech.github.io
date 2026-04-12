@@ -1,688 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bank Import - PocketBudJet | JosspaTech</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
-            --gold: #F0C040; --gold-dark: #E8A820;
-            --slate: #5A7A9A; --background: #EDF2F7; --white: #FFFFFF;
-            --success: #27AE60;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Source Sans 3', sans-serif;
-            color: var(--navy); background-color: var(--white); line-height: 1.6;
-        }
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Bank Import - PocketBudJet | JosspaTech</title>
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ :root {
+ --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+ --gold: #F0C040; --gold-dark: #E8A820;
+ --slate: #5A7A9A; --background: #EDF2F7; --white: #FFFFFF;
+ --success: #27AE60;
+ }
+ html { scroll-behavior: smooth; }
+ body {
+ font-family: 'Source Sans 3', sans-serif;
+ color: var(--navy); background-color: var(--white); line-height: 1.6;
+ }
 
-        /* Navigation */
-        nav {
-            position: sticky; top: 0; z-index: 1000;
-            background-color: var(--navy); padding: 1rem 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        nav .container {
-            max-width: 1200px; margin: 0 auto;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        nav .logo {
-            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
-            color: var(--white); text-decoration: none;
-        }
-        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
-        nav .nav-links a {
-            color: var(--white); text-decoration: none; font-size: 0.95rem;
-            font-weight: 500; transition: color 0.3s;
-        }
-        nav .nav-links a:hover { color: var(--gold); }
-        nav .cta-button {
-            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
-            border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s;
-        }
-        nav .cta-button:hover { background-color: var(--gold-dark); }
+ /* Navigation */
+ nav {
+ position: sticky; top: 0; z-index: 1000;
+ background-color: var(--navy); padding: 1rem 2rem;
+ box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+ }
+ nav .container {
+ max-width: 1200px; margin: 0 auto;
+ display: flex; justify-content: space-between; align-items: center;
+ }
+ nav .logo {
+ font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+ color: var(--white); text-decoration: none;
+ }
+ nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+ nav .nav-links a {
+ color: var(--white); text-decoration: none; font-size: 0.95rem;
+ font-weight: 500; transition: color 0.3s;
+ }
+ nav .nav-links a:hover { color: var(--gold); }
+ nav .cta-button {
+ background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+ border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s;
+ }
+ nav .cta-button:hover { background-color: var(--gold-dark); }
 
-        /* Hero */
-        .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
-            color: var(--white); padding: 4rem 2rem; text-align: center;
-        }
-        .hero .container { max-width: 1200px; margin: 0 auto; }
-        .hero h1 {
-            font-family: 'Playfair Display', serif; font-size: 3rem;
-            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
-        }
-        .hero .subheader {
-            font-size: 1.25rem; font-weight: 300; max-width: 700px;
-            margin: 0 auto; color: rgba(255,255,255,0.95);
-        }
+ /* Hero */
+ .hero {
+ background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+ color: var(--white); padding: 4rem 2rem; text-align: center;
+ }
+ .hero .container { max-width: 1200px; margin: 0 auto; }
+ .hero h1 {
+ font-family: 'Playfair Display', serif; font-size: 3rem;
+ font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
+ }
+ .hero .subheader {
+ font-size: 1.25rem; font-weight: 300; max-width: 700px;
+ margin: 0 auto; color: rgba(255,255,255,0.95);
+ }
 
-        /* Before/After Section */
-        .before-after {
-            background: var(--background); padding: 4rem 2rem;
-        }
-        .before-after .container { max-width: 1200px; margin: 0 auto; }
-        .before-after h2 {
-            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
-            text-align: center; margin-bottom: 0.5rem;
-        }
-        .before-after .section-sub {
-            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
-        }
-        .ba-wrapper {
-            display: flex; gap: 2rem; justify-content: center; align-items: stretch; flex-wrap: wrap;
-        }
-        .ba-card {
-            flex: 1; min-width: 300px; max-width: 480px; background: var(--white);
-            border-radius: 16px; overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-        }
-        .ba-header {
-            padding: 1.2rem 1.5rem; font-weight: 700; font-size: 1rem;
-            letter-spacing: 1px; text-transform: uppercase; text-align: center;
-        }
-        .ba-card.before .ba-header { background: #e2e8f0; color: var(--slate); }
-        .ba-card.after .ba-header { background: var(--success); color: white; }
-        .ba-body { padding: 1.5rem; }
-        .ba-empty {
-            text-align: center; color: var(--slate); padding: 3rem 1rem;
-        }
-        .ba-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
-        .ba-empty p { font-size: 0.95rem; }
-        .ba-stat-row {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0.8rem 0; border-bottom: 1px solid #edf2f7;
-        }
-        .ba-stat-row:last-child { border-bottom: none; }
-        .ba-stat-label { font-weight: 600; color: var(--slate); font-size: 0.9rem; }
-        .ba-stat-val { font-weight: 800; font-size: 1.1rem; }
-        .ba-stat-val.green { color: var(--success); }
-        .ba-stat-val.gold { color: var(--gold-dark); }
-        .ba-arrow {
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; color: var(--gold); font-weight: 900; padding: 0 0.5rem;
-            align-self: center;
-        }
+ /* Before/After Section */
+ .before-after {
+ background: var(--background); padding: 4rem 2rem;
+ }
+ .before-after .container { max-width: 1200px; margin: 0 auto; }
+ .before-after h2 {
+ font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+ text-align: center; margin-bottom: 0.5rem;
+ }
+ .before-after .section-sub {
+ text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+ }
+ .ba-wrapper {
+ display: flex; gap: 2rem; justify-content: center; align-items: stretch; flex-wrap: wrap;
+ }
+ .ba-card {
+ flex: 1; min-width: 300px; max-width: 480px; background: var(--white);
+ border-radius: 16px; overflow: hidden;
+ box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+ }
+ .ba-header {
+ padding: 1.2rem 1.5rem; font-weight: 700; font-size: 1rem;
+ letter-spacing: 1px; text-transform: uppercase; text-align: center;
+ }
+ .ba-card.before .ba-header { background: #e2e8f0; color: var(--slate); }
+ .ba-card.after .ba-header { background: var(--success); color: white; }
+ .ba-body { padding: 1.5rem; }
+ .ba-empty {
+ text-align: center; color: var(--slate); padding: 3rem 1rem;
+ }
+ .ba-empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+ .ba-empty p { font-size: 0.95rem; }
+ .ba-stat-row {
+ display: flex; justify-content: space-between; align-items: center;
+ padding: 0.8rem 0; border-bottom: 1px solid #edf2f7;
+ }
+ .ba-stat-row:last-child { border-bottom: none; }
+ .ba-stat-label { font-weight: 600; color: var(--slate); font-size: 0.9rem; }
+ .ba-stat-val { font-weight: 800; font-size: 1.1rem; }
+ .ba-stat-val.green { color: var(--success); }
+ .ba-stat-val.gold { color: var(--gold-dark); }
+ .ba-arrow {
+ display: flex; align-items: center; justify-content: center;
+ font-size: 2.5rem; color: var(--gold); font-weight: 900; padding: 0 0.5rem;
+ align-self: center;
+ }
 
-        /* Animated walkthrough */
-        .walkthrough { background: var(--white); padding: 4rem 2rem; overflow: hidden; }
-        .walkthrough .container { max-width: 1200px; margin: 0 auto; }
-        .walkthrough h2 {
-            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
-            text-align: center; margin-bottom: 0.5rem;
-        }
-        .walkthrough .section-sub {
-            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
-        }
-        .wt-wrapper {
-            display: flex; gap: 3rem; align-items: center; justify-content: center; flex-wrap: wrap;
-            
-        }
+ /* Animated walkthrough */
+ .walkthrough { background: var(--white); padding: 4rem 2rem; }
+ .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+ .walkthrough h2 {
+ font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+ text-align: center; margin-bottom: 0.5rem;
+ }
+ .walkthrough .section-sub {
+ text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+ }
+ .wt-wrapper {
+ display: flex; gap: 3rem; align-items: center; justify-content: center; flex-wrap: wrap;
+ }
 
-        /* Phone frame */
-        .phone-frame {
-            width: 300px; position: relative;
-            border: 10px solid var(--navy-dark); border-radius: 40px;
-            overflow: hidden; background: #000;
-            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
-            aspect-ratio: 9 / 19.5;
-            flex-shrink: 0;
-        }
-        .phone-frame::before {
-            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
-            z-index: 20;
-        }
-        .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
-        .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.8s ease-in-out;
-        }
-        .slide.active { opacity: 1; }
-        .slide img {
-            width: 100%; height: 100%; object-fit: cover; object-position: top;
-        }
-        .slide-overlay {
-            position: absolute; bottom: 0; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
-            padding: 3rem 1.2rem 1.5rem; color: white;
-        }
-        .slide-step {
-            display: inline-block; background: var(--gold); color: var(--navy-dark);
-            font-weight: 800; font-size: 0.7rem; padding: 3px 10px; border-radius: 12px;
-            margin-bottom: 6px;
-        }
-        .slide-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
+ /* Phone viewport for zoom */
+ .phone-viewport {
+ flex-shrink: 0; overflow: hidden; border-radius: 40px;
+ }
 
-        .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; }
-        .dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            background: rgba(26,79,122,0.2); transition: all 0.3s; cursor: pointer;
-        }
-        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
-        .playback-controls {
-            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center;
-        }
-        .play-pause-btn {
-            background: var(--navy); color: white; border: none; border-radius: 50%;
-            width: 40px; height: 40px; cursor: pointer; font-size: 1rem;
-            display: flex; align-items: center; justify-content: center; transition: background 0.3s;
-        }
-        .play-pause-btn:hover { background: var(--navy-medium); }
-        .voice-btn {
-            background: var(--navy); color: white; border: none; border-radius: 50%;
-            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.3s, opacity 0.3s;
-        }
-        .voice-btn:hover { background: var(--navy-medium); }
-        .voice-btn.muted { opacity: 0.5; }
-        .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+ /* Phone frame */
+ .phone-frame {
+ width: 300px; position: relative;
+ border: 10px solid var(--navy-dark); border-radius: 40px;
+ overflow: hidden; background: #000;
+ box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+ aspect-ratio: 9 / 19.5; }
+ .phone-frame::before {
+ content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+ width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+ z-index: 20;
+ }
+ .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+ .slide {
+ position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+ opacity: 0; transition: opacity 0.8s ease-in-out;
+ }
+ .slide.active { opacity: 1; }
+ .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+ .slide-overlay {
+ position: absolute; bottom: 0; left: 0; right: 0;
+ background: linear-gradient(transparent, rgba(0,0,0,0.85));
+ padding: 3rem 1.2rem 1.5rem; color: white;
+ }
+ .slide-step {
+ display: inline-block; background: var(--gold); color: var(--navy-dark);
+ font-weight: 800; font-size: 0.7rem; padding: 3px 10px; border-radius: 12px;
+ margin-bottom: 6px;
+ }
+ .slide-title { font-size: 0.95rem; font-weight: 700; line-height: 1.3; }
 
-        /* Chapter navigation */
-        .chapter-nav {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
-            margin-top: 1.5rem; padding: 0 1rem;
-        }
-        .chapter-btn {
-            background: var(--navy); color: white; border: 2px solid var(--navy);
-            padding: 0.55rem 1.2rem; border-radius: 20px; cursor: pointer;
-            font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif;
-            transition: all 0.3s ease;
-        }
-        .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
-        .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
+ .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; }
+ .dot {
+ width: 10px; height: 10px; border-radius: 50%;
+ background: rgba(26,79,122,0.2); transition: all 0.3s; cursor: pointer;
+ }
+ .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+ .playback-controls {
+ display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center;
+ }
+ .play-pause-btn {
+ background: var(--navy); color: white; border: none; border-radius: 50%;
+ width: 40px; height: 40px; cursor: pointer; font-size: 1rem;
+ display: flex; align-items: center; justify-content: center; transition: background 0.3s;
+ }
+ .play-pause-btn:hover { background: var(--navy-medium); }
+ .voice-btn {
+ background: var(--navy); color: white; border: none; border-radius: 50%;
+ width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+ display: flex; align-items: center; justify-content: center;
+ transition: background 0.3s, opacity 0.3s;
+ }
+ .voice-btn:hover { background: var(--navy-medium); }
+ .voice-btn.muted { opacity: 0.5; }
+ .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
 
-        /* Steps panel */
-        .steps-panel { max-width: 420px; flex: 1; min-width: 280px; }
-        .step-card {
-            background: var(--background); border-radius: 16px; padding: 1.5rem 1.8rem;
-            margin-bottom: 0.8rem; border-left: 5px solid transparent;
-            opacity: 0.4; transform: scale(0.97); transition: all 0.4s ease;
-            cursor: pointer;
-        }
-        .step-card.active {
-            opacity: 1; transform: scale(1); background: var(--white);
-            border-left-color: var(--gold);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-        }
-        .step-card-num {
-            display: inline-block; background: var(--navy); color: white;
-            font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px;
-            margin-bottom: 0.4rem;
-        }
-        .step-card h3 {
-            font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
-            color: var(--navy); margin-bottom: 0.3rem;
-        }
-        .step-card p { color: var(--slate); font-size: 0.9rem; line-height: 1.5; }
-        .step-timer {
-            height: 3px; background: var(--gold); border-radius: 2px;
-            margin-top: 0.6rem; width: 0%; transition: width linear;
-        }
-        .step-card.active .step-timer { width: 100%; }
+ /* Chapter navigation */
+ .chapter-nav {
+ display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
+ margin-top: 1.5rem; padding: 0 1rem;
+ }
+ .chapter-btn {
+ background: var(--navy); color: white; border: 2px solid var(--navy);
+ padding: 0.55rem 1.2rem; border-radius: 20px; cursor: pointer;
+ font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif;
+ transition: all 0.3s ease;
+ }
+ .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
+ .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
 
-        /* Formats */
-        .formats-section { background: var(--background); padding: 3rem 2rem; text-align: center; }
-        .formats-section .container { max-width: 1200px; margin: 0 auto; }
-        .formats-label {
-            font-size: 0.9rem; font-weight: 600; color: var(--slate);
-            margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .formats-list {
-            display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
-            font-weight: 600; color: var(--navy); font-size: 1rem;
-        }
-        .format-badge {
-            padding: 0.7rem 1.4rem; background: var(--white); border-radius: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .format-badge.highlight {
-            background: var(--gold); color: var(--navy-dark); font-weight: 700;
-            box-shadow: 0 4px 12px rgba(240,192,64,0.3);
-        }
+ /* Steps panel */
+ .steps-panel { max-width: 420px; flex: 1; min-width: 280px; }
+ .step-card {
+ background: var(--background); border-radius: 16px; padding: 1.5rem 1.8rem;
+ margin-bottom: 0.8rem; border-left: 5px solid transparent;
+ opacity: 0.4; transform: scale(0.97); transition: all 0.4s ease;
+ cursor: pointer;
+ }
+ .step-card.active {
+ opacity: 1; transform: scale(1); background: var(--white);
+ border-left-color: var(--gold);
+ box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+ }
+ .step-card-num {
+ display: inline-block; background: var(--navy); color: white;
+ font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px;
+ margin-bottom: 0.4rem;
+ }
+ .step-card h3 {
+ font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.3rem;
+ }
+ .step-card p { color: var(--slate); font-size: 0.9rem; line-height: 1.5; }
+ .step-timer {
+ height: 3px; background: var(--gold); border-radius: 2px;
+ margin-top: 0.6rem; width: 0%; transition: width linear;
+ }
+ .step-card.active .step-timer { width: 100%; }
 
-        /* WiFi scanner callout */
-        .wifi-callout {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
-            padding: 3rem 2rem; text-align: center; color: white;
-        }
-        .wifi-callout .container { max-width: 800px; margin: 0 auto; }
-        .wifi-callout h3 {
-            font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .wifi-callout p { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; line-height: 1.7; }
-        .wifi-badge {
-            display: inline-block; background: var(--gold); color: var(--navy-dark);
-            padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 800; font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
+ /* Formats */
+ .formats-section { background: var(--background); padding: 3rem 2rem; text-align: center; }
+ .formats-section .container { max-width: 1200px; margin: 0 auto; }
+ .formats-label {
+ font-size: 0.9rem; font-weight: 600; color: var(--slate);
+ margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px;
+ }
+ .formats-list {
+ display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap;
+ font-weight: 600; color: var(--navy); font-size: 1rem;
+ }
+ .format-badge {
+ padding: 0.7rem 1.4rem; background: var(--white); border-radius: 20px;
+ box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+ }
+ .format-badge.highlight {
+ background: var(--gold); color: var(--navy-dark); font-weight: 700;
+ box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+ }
 
-        /* CTA */
-        .cta-section {
-            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
-            padding: 4rem 2rem; text-align: center;
-        }
-        .cta-section .container { max-width: 1200px; margin: 0 auto; }
-        .cta-section h2 {
-            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
-            color: var(--white); margin-bottom: 2rem;
-        }
-        .download-button {
-            display: inline-block; background: var(--gold); color: var(--navy);
-            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
-            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
-        }
-        .download-button:hover {
-            background: var(--gold-dark); transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
-        }
+ /* WiFi scanner callout */
+ .wifi-callout {
+ background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+ padding: 3rem 2rem; text-align: center; color: white;
+ }
+ .wifi-callout .container { max-width: 800px; margin: 0 auto; }
+ .wifi-callout h3 {
+ font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700;
+ margin-bottom: 1rem;
+ }
+ .wifi-callout p { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 1.5rem; line-height: 1.7; }
+ .wifi-badge {
+ display: inline-block; background: var(--gold); color: var(--navy-dark);
+ padding: 0.5rem 1.5rem; border-radius: 30px; font-weight: 800; font-size: 0.9rem;
+ letter-spacing: 1px;
+ }
 
-        footer {
-            background-color: var(--navy-dark); color: var(--white);
-            padding: 2rem; text-align: center; font-size: 0.9rem;
-        }
-        footer a { color: var(--gold); text-decoration: none; }
-        footer a:hover { color: var(--gold-dark); }
+ /* CTA */
+ .cta-section {
+ background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+ padding: 4rem 2rem; text-align: center;
+ }
+ .cta-section .container { max-width: 1200px; margin: 0 auto; }
+ .cta-section h2 {
+ font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+ color: var(--white); margin-bottom: 2rem;
+ }
+ .download-button {
+ display: inline-block; background: var(--gold); color: var(--navy);
+ padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+ text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+ box-shadow: 0 4px 15px rgba(240,192,64,0.3);
+ }
+ .download-button:hover {
+ background: var(--gold-dark); transform: translateY(-2px);
+ box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+ }
 
-        /* Breadcrumbs */
-        .breadcrumbs {
-            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
-            font-size: 0.9rem; color: var(--slate);
-        }
-        .breadcrumbs a {
-            color: var(--navy-medium); text-decoration: none; font-weight: 500;
-        }
-        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
-        .breadcrumbs span.sep { margin: 0 0.4rem; color: #8AAABB; }
-        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+ footer {
+ background-color: var(--navy-dark); color: var(--white);
+ padding: 2rem; text-align: center; font-size: 0.9rem;
+ }
+ footer a { color: var(--gold); text-decoration: none; }
+ footer a:hover { color: var(--gold-dark); }
 
-        @media (max-width: 768px) {
-            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
-            .hero h1 { font-size: 2rem; }
-            .ba-wrapper { flex-direction: column; align-items: center; }
-            .ba-arrow { transform: rotate(90deg); }
-            .wt-wrapper { flex-direction: column; }
-            .phone-frame { width: 260px; }
-            .chapter-nav { gap: 0.5rem; }
-            .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
-        }
-        @media (max-width: 480px) {
-            nav { padding: 0.8rem 1rem; }
-            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
-            .hero { padding: 2.5rem 1rem; }
-            .hero h1 { font-size: 1.5rem; }
-            .phone-frame { width: 230px; }
-            .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
-            .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
-        }
-    </style>
+ /* Breadcrumbs */
+ .breadcrumbs {
+ max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+ font-size: 0.9rem; color: var(--slate);
+ }
+ .breadcrumbs a {
+ color: var(--navy-medium); text-decoration: none; font-weight: 500;
+ }
+ .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+ .breadcrumbs span.sep { margin: 0 0.4rem; color: #8AAABB; }
+ .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+ @media (max-width: 768px) {
+ nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+ .hero h1 { font-size: 2rem; }
+ .ba-wrapper { flex-direction: column; align-items: center; }
+ .ba-arrow { transform: rotate(90deg); }
+ .wt-wrapper { flex-direction: column; }
+ .phone-frame { width: 260px; }
+ .chapter-nav { gap: 0.5rem; }
+ .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+ }
+ @media (max-width: 480px) {
+ nav { padding: 0.8rem 1rem; }
+ nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+ .hero { padding: 2.5rem 1rem; }
+ .hero h1 { font-size: 1.5rem; }
+ .phone-frame { width: 230px; }
+ .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
+ .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
+ }
+ </style>
 </head>
 <body>
-    <nav>
-        <div class="container">
-            <a href="/" class="logo">JosspaTech</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/#products">Products</a></li>
-                <li><a href="/how-to/">How To</a></li>
-                <li><a href="#" class="cta-button">Get the App</a></li>
-            </ul>
-        </div>
-    </nav>
+ <nav>
+ <div class="container">
+ <a href="/" class="logo">JosspaTech</a>
+ <ul class="nav-links">
+ <li><a href="/">Home</a></li>
+ <li><a href="/#products">Products</a></li>
+ <li><a href="/how-to/">How To</a></li>
+ <li><a href="#" class="cta-button">Get the App</a></li>
+ </ul>
+ </div>
+ </nav>
 
-    <div class="breadcrumbs">
-        <a href="/">Home</a><span class="sep">/</span>
-        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
-        <a href="/how-to/">How To</a><span class="sep">/</span>
-        <span class="current">Import Bank Data</span>
-    </div>
+ <div class="breadcrumbs">
+ <a href="/">Home</a><span class="sep">/</span>
+ <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+ <a href="/how-to/">How To</a><span class="sep">/</span>
+ <span class="current">Import Bank Data</span>
+ </div>
 
-    <section class="hero">
-        <div class="container">
-            <h1>See Your Full Financial Picture</h1>
-            <p class="subheader">Import months of transactions from your bank and instantly compare your spending month to month.</p>
-        </div>
-    </section>
+ <section class="hero">
+ <div class="container">
+ <h1>See Your Full Financial Picture</h1>
+ <p class="subheader">Import months of transactions from your bank and instantly compare your spending month to month.</p>
+ </div>
+ </section>
 
-    <!-- Before / After -->
-    <section class="before-after">
-        <div class="container">
-            <h2>One Import Changes Everything</h2>
-            <p class="section-sub">Go from an empty app to a fully loaded dashboard in under 60 seconds.</p>
-            <div class="ba-wrapper">
-                <div class="ba-card before">
-                    <div class="ba-header">Before Import</div>
-                    <div class="ba-body">
-                        <div class="ba-empty">
-                            <div class="ba-empty-icon">📭</div>
-                            <p>No transactions yet.<br>Dashboard is blank. Budget bars empty.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="ba-arrow">&#10132;</div>
-                <div class="ba-card after">
-                    <div class="ba-header">After Import</div>
-                    <div class="ba-body">
-                        <div class="ba-stat-row">
-                            <span class="ba-stat-label">Transactions</span>
-                            <span class="ba-stat-val green">247 loaded</span>
-                        </div>
-                        <div class="ba-stat-row">
-                            <span class="ba-stat-label">Categories</span>
-                            <span class="ba-stat-val gold">Auto-sorted</span>
-                        </div>
-                        <div class="ba-stat-row">
-                            <span class="ba-stat-label">Budget bars</span>
-                            <span class="ba-stat-val green">Live tracking</span>
-                        </div>
-                        <div class="ba-stat-row">
-                            <span class="ba-stat-label">Spending trends</span>
-                            <span class="ba-stat-val green">3 months visible</span>
-                        </div>
-                        <div class="ba-stat-row">
-                            <span class="ba-stat-label">Health score</span>
-                            <span class="ba-stat-val gold">Calculated</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+ <!-- Before / After -->
+ <section class="before-after">
+ <div class="container">
+ <h2>One Import Changes Everything</h2>
+ <p class="section-sub">Go from an empty app to a fully loaded dashboard in under 60 seconds.</p>
+ <div class="ba-wrapper">
+ <div class="ba-card before">
+ <div class="ba-header">Before Import</div>
+ <div class="ba-body">
+ <div class="ba-empty">
+ <div class="ba-empty-icon">📭</div>
+ <p>No transactions yet.<br>Dashboard is blank. Budget bars empty.</p>
+ </div>
+ </div>
+ </div>
+ <div class="ba-arrow">&#10132;</div>
+ <div class="ba-card after">
+ <div class="ba-header">After Import</div>
+ <div class="ba-body">
+ <div class="ba-stat-row">
+ <span class="ba-stat-label">Transactions</span>
+ <span class="ba-stat-val green">247 loaded</span>
+ </div>
+ <div class="ba-stat-row">
+ <span class="ba-stat-label">Categories</span>
+ <span class="ba-stat-val gold">Auto-sorted</span>
+ </div>
+ <div class="ba-stat-row">
+ <span class="ba-stat-label">Budget bars</span>
+ <span class="ba-stat-val green">Live tracking</span>
+ </div>
+ <div class="ba-stat-row">
+ <span class="ba-stat-label">Spending trends</span>
+ <span class="ba-stat-val green">3 months visible</span>
+ </div>
+ <div class="ba-stat-row">
+ <span class="ba-stat-label">Health score</span>
+ <span class="ba-stat-val gold">Calculated</span>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-    <!-- Animated Walkthrough -->
-    <section class="walkthrough">
-        <div class="container">
-            <h2>How It Works</h2>
-            <p class="section-sub">Complete import and export workflow, step by step. From your bank to your dashboard.</p>
-            <div class="wt-wrapper">
-                <div>
-                    <div>
-                        <div class="phone-frame">
-                            <div class="slideshow" id="slideshow">
-                            <!-- Slide 0: Download from Bank -->
-                            <div class="slide active" data-index="0">
-                                <img src="/assets/screenshots/scanner.png" alt="Bank download" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 1</span>
-                                    <div class="slide-title">Download from Your Bank</div>
-                                </div>
-                            </div>
-                            <!-- Slide 1: File Format -->
-                            <div class="slide" data-index="1">
-                                <img src="/assets/screenshots/scanner.png" alt="File format selection" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 2</span>
-                                    <div class="slide-title">CSV is Best, But You Have Options</div>
-                                </div>
-                            </div>
-                            <!-- Slide 2: Import History -->
-                            <div class="slide" data-index="2">
-                                <img src="/assets/screenshots/transactions.png" alt="History selection" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 3</span>
-                                    <div class="slide-title">Grab at Least 3 Months</div>
-                                </div>
-                            </div>
-                            <!-- Slide 3: Phone Import -->
-                            <div class="slide" data-index="3">
-                                <img src="/assets/screenshots/scanner.png" alt="Phone import" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 4</span>
-                                    <div class="slide-title">Tap Import, Pick Your File</div>
-                                </div>
-                            </div>
-                            <!-- Slide 4: Smart Mapping -->
-                            <div class="slide" data-index="4">
-                                <img src="/assets/screenshots/transactions.png" alt="Smart mapping" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 5</span>
-                                    <div class="slide-title">Automatic Column Detection</div>
-                                </div>
-                            </div>
-                            <!-- Slide 5: Camera & Scanner -->
-                            <div class="slide" data-index="5">
-                                <img src="/assets/screenshots/scanner.png" alt="Receipt scanning" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 6</span>
-                                    <div class="slide-title">Snap Receipts With Your Camera</div>
-                                </div>
-                            </div>
-                            <!-- Slide 6: WiFi Scanner -->
-                            <div class="slide" data-index="6">
-                                <img src="/assets/screenshots/scanner.png" alt="WiFi scanner" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 7</span>
-                                    <div class="slide-title">Feed a Stack, Walk Away</div>
-                                </div>
-                            </div>
-                            <!-- Slide 7: PC Dashboard -->
-                            <div class="slide" data-index="7">
-                                <img src="/assets/screenshots/dashboard.png" alt="PC dashboard" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 8</span>
-                                    <div class="slide-title">Drag and Drop from Your Desktop</div>
-                                </div>
-                            </div>
-                            <!-- Slide 8: Export & Backup -->
-                            <div class="slide" data-index="8">
-                                <img src="/assets/screenshots/budget.png" alt="Export options" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">SLIDE 9</span>
-                                    <div class="slide-title">Your Data, Your Way — 6 Formats</div>
-                                </div>
-                            </div>
-                            <!-- Slide 9: Summary -->
-                            <div class="slide" data-index="9">
-                                <img src="/assets/screenshots/dashboard.png" alt="Complete dashboard" loading="lazy">
-                                <div class="slide-overlay">
-                                    <span class="slide-step">DONE</span>
-                                    <div class="slide-title">Import Early, Import Often</div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="progress-dots" id="dots"></div>
-                    <div class="playback-controls">
-                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause">&#10074;&#10074;</button>
-                        <span class="speed-label" id="speedLabel">Auto-playing</span>
-                    </div>
-                    <div class="chapter-nav" id="chapterNav">
-                        <!-- Chapter buttons will be inserted here by JavaScript -->
-                    </div>
-                </div>
-                <div class="steps-panel" id="stepsPanel">
-                    <!-- Slide 0: Download from Bank -->
-                    <div class="step-card active" data-index="0" onclick="goTo(0)">
-                        <span class="step-card-num">Slide 1</span>
-                        <h3>Finding the Download Option</h3>
-                        <p>Log into your bank's website. Look for "Download Transactions," "Export Activity," or "Transaction History." Every bank is a little different, but they all have this somewhere—usually under Statements or Activity.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 1: File Format -->
-                    <div class="step-card" data-index="1" onclick="goTo(1)">
-                        <span class="step-card-num">Slide 2</span>
-                        <h3>CSV is Best, But You Have Options</h3>
-                        <p>We recommend CSV—it's the most universal format and PocketBudJet's Smart Mapper handles it beautifully. If CSV isn't available, look for OFX or QFX formats. All work perfectly.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 2: Import History -->
-                    <div class="step-card" data-index="2" onclick="goTo(2)">
-                        <span class="step-card-num">Slide 3</span>
-                        <h3>More Data = Better AI</h3>
-                        <p>Download as much history as your bank allows. Three months is the minimum—but six months or a year is even better. More data means smarter AI, better reports, and more useful trend analysis.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 3: Phone Import -->
-                    <div class="step-card" data-index="3" onclick="goTo(3)">
-                        <span class="step-card-num">Slide 4</span>
-                        <h3>Tap Import, Pick Your File</h3>
-                        <p>Open PocketBudJet, tap the Import button. Browse to your Downloads folder and pick the file. Our Smart CSV Mapper automatically detects the key columns—date, amount, description. Preview before import.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 4: Smart Mapping -->
-                    <div class="step-card" data-index="4" onclick="goTo(4)">
-                        <span class="step-card-num">Slide 5</span>
-                        <h3>Automatic Column Detection & Deduplication</h3>
-                        <p>The Smart Mapper is trained on dozens of real bank formats. It also detects overlapping date ranges and skips duplicates automatically. Nine times out of ten, no manual adjustment needed.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 5: Camera & Scanner -->
-                    <div class="step-card" data-index="5" onclick="goTo(5)">
-                        <span class="step-card-num">Slide 6</span>
-                        <h3>Snap Receipts With Your Camera</h3>
-                        <p>Don't have a bank file? No problem. Point your camera at any receipt and PocketBudJet's OCR reads the merchant, amount, date, and line items. Works with printed receipts and handwritten notes.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 6: WiFi Scanner -->
-                    <div class="step-card" data-index="6" onclick="goTo(6)">
-                        <span class="step-card-num">Slide 7</span>
-                        <h3>Feed a Stack, Walk Away</h3>
-                        <p>This is something we haven't seen in other budgeting apps. If you have a WiFi scanner at home with an automatic document feeder, connect directly. Feed receipts into the tray and walk away. Every receipt gets read and categorized.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 7: PC Dashboard -->
-                    <div class="step-card" data-index="7" onclick="goTo(7)">
-                        <span class="step-card-num">Slide 8</span>
-                        <h3>Drag and Drop from Your Desktop</h3>
-                        <p>Do your banking on a computer? Open PocketBudJet's PC Web Dashboard by scanning a QR code. Download your bank file and drag it right into the import area. Syncs over local WiFi instantly.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 8: Export & Backup -->
-                    <div class="step-card" data-index="8" onclick="goTo(8)">
-                        <span class="step-card-num">Slide 9</span>
-                        <h3>Your Data, Your Way — 6 Formats</h3>
-                        <p>Export as CSV, XLSX, OFX, PDF, JSON, or encrypted backup. Share with your accountant, back up securely, or run a LAN server. You control your data completely.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                    <!-- Slide 9: Summary -->
-                    <div class="step-card" data-index="9" onclick="goTo(9)">
-                        <span class="step-card-num">Done</span>
-                        <h3>Import Early, Import Often</h3>
-                        <p>The more data you give PocketBudJet, the smarter it gets. No bank login credentials ever touch our app. You download and import yourself. That's privacy by design.</p>
-                        <div class="step-timer"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+ <!-- Animated Walkthrough -->
+ <section class="walkthrough">
+ <div class="container">
+ <h2>How It Works</h2>
+ <p class="section-sub">Complete import and export workflow, step by step. From your bank to your dashboard.</p>
+ <div class="wt-wrapper">
+ <div>
+ <div class="phone-viewport">
+ <div class="phone-frame">
+ <div class="slideshow" id="slideshow">
+ <!-- Slide 0: Download from Bank -->
+ <div class="slide active" data-index="0">
+ <img src="/assets/screenshots/scanner.png" alt="Bank download" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 1</span>
+ <div class="slide-title">Download from Your Bank</div>
+ </div>
+ </div>
+ <!-- Slide 1: File Format -->
+ <div class="slide" data-index="1">
+ <img src="/assets/screenshots/scanner.png" alt="File format selection" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 2</span>
+ <div class="slide-title">CSV is Best, But You Have Options</div>
+ </div>
+ </div>
+ <!-- Slide 2: Import History -->
+ <div class="slide" data-index="2">
+ <img src="/assets/screenshots/transactions.png" alt="History selection" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 3</span>
+ <div class="slide-title">Grab at Least 3 Months</div>
+ </div>
+ </div>
+ <!-- Slide 3: Phone Import -->
+ <div class="slide" data-index="3">
+ <img src="/assets/screenshots/scanner.png" alt="Phone import" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 4</span>
+ <div class="slide-title">Tap Import, Pick Your File</div>
+ </div>
+ </div>
+ <!-- Slide 4: Smart Mapping -->
+ <div class="slide" data-index="4">
+ <img src="/assets/screenshots/transactions.png" alt="Smart mapping" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 5</span>
+ <div class="slide-title">Automatic Column Detection</div>
+ </div>
+ </div>
+ <!-- Slide 5: Camera & Scanner -->
+ <div class="slide" data-index="5">
+ <img src="/assets/screenshots/scanner.png" alt="Receipt scanning" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 6</span>
+ <div class="slide-title">Snap Receipts With Your Camera</div>
+ </div>
+ </div>
+ <!-- Slide 6: WiFi Scanner -->
+ <div class="slide" data-index="6">
+ <img src="/assets/screenshots/scanner.png" alt="WiFi scanner" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 7</span>
+ <div class="slide-title">Feed a Stack, Walk Away</div>
+ </div>
+ </div>
+ <!-- Slide 7: PC Dashboard -->
+ <div class="slide" data-index="7">
+ <img src="/assets/screenshots/dashboard.png" alt="PC dashboard" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 8</span>
+ <div class="slide-title">Drag and Drop from Your Desktop</div>
+ </div>
+ </div>
+ <!-- Slide 8: Export & Backup -->
+ <div class="slide" data-index="8">
+ <img src="/assets/screenshots/budget.png" alt="Export options" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">SLIDE 9</span>
+ <div class="slide-title">Your Data, Your Way — 6 Formats</div>
+ </div>
+ </div>
+ <!-- Slide 9: Summary -->
+ <div class="slide" data-index="9">
+ <img src="/assets/screenshots/dashboard.png" alt="Complete dashboard" loading="lazy">
+ <div class="slide-overlay">
+ <span class="slide-step">DONE</span>
+ <div class="slide-title">Import Early, Import Often</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="progress-dots" id="dots"></div>
+ <div class="playback-controls">
+ <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause">&#10074;&#10074;</button>
+ <span class="speed-label" id="speedLabel">Auto-playing</span>
+ </div>
+ <div class="chapter-nav" id="chapterNav">
+ <!-- Chapter buttons will be inserted here by JavaScript -->
+ </div>
+ </div>
+ <div class="steps-panel" id="stepsPanel">
+ <!-- Slide 0: Download from Bank -->
+ <div class="step-card active" data-index="0" onclick="goTo(0)">
+ <span class="step-card-num">Slide 1</span>
+ <h3>Finding the Download Option</h3>
+ <p>Log into your bank's website. Look for "Download Transactions," "Export Activity," or "Transaction History." Every bank is a little different, but they all have this somewhere—usually under Statements or Activity.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 1: File Format -->
+ <div class="step-card" data-index="1" onclick="goTo(1)">
+ <span class="step-card-num">Slide 2</span>
+ <h3>CSV is Best, But You Have Options</h3>
+ <p>We recommend CSV—it's the most universal format and PocketBudJet's Smart Mapper handles it beautifully. If CSV isn't available, look for OFX or QFX formats. All work perfectly.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 2: Import History -->
+ <div class="step-card" data-index="2" onclick="goTo(2)">
+ <span class="step-card-num">Slide 3</span>
+ <h3>More Data = Better AI</h3>
+ <p>Download as much history as your bank allows. Three months is the minimum—but six months or a year is even better. More data means smarter AI, better reports, and more useful trend analysis.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 3: Phone Import -->
+ <div class="step-card" data-index="3" onclick="goTo(3)">
+ <span class="step-card-num">Slide 4</span>
+ <h3>Tap Import, Pick Your File</h3>
+ <p>Open PocketBudJet, tap the Import button. Browse to your Downloads folder and pick the file. Our Smart CSV Mapper automatically detects the key columns—date, amount, description. Preview before import.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 4: Smart Mapping -->
+ <div class="step-card" data-index="4" onclick="goTo(4)">
+ <span class="step-card-num">Slide 5</span>
+ <h3>Automatic Column Detection & Deduplication</h3>
+ <p>The Smart Mapper is trained on dozens of real bank formats. It also detects overlapping date ranges and skips duplicates automatically. Nine times out of ten, no manual adjustment needed.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 5: Camera & Scanner -->
+ <div class="step-card" data-index="5" onclick="goTo(5)">
+ <span class="step-card-num">Slide 6</span>
+ <h3>Snap Receipts With Your Camera</h3>
+ <p>Don't have a bank file? No problem. Point your camera at any receipt and PocketBudJet's OCR reads the merchant, amount, date, and line items. Works with printed receipts and handwritten notes.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 6: WiFi Scanner -->
+ <div class="step-card" data-index="6" onclick="goTo(6)">
+ <span class="step-card-num">Slide 7</span>
+ <h3>Feed a Stack, Walk Away</h3>
+ <p>This is something we haven't seen in other budgeting apps. If you have a WiFi scanner at home with an automatic document feeder, connect directly. Feed receipts into the tray and walk away. Every receipt gets read and categorized.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 7: PC Dashboard -->
+ <div class="step-card" data-index="7" onclick="goTo(7)">
+ <span class="step-card-num">Slide 8</span>
+ <h3>Drag and Drop from Your Desktop</h3>
+ <p>Do your banking on a computer? Open PocketBudJet's PC Web Dashboard by scanning a QR code. Download your bank file and drag it right into the import area. Syncs over local WiFi instantly.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 8: Export & Backup -->
+ <div class="step-card" data-index="8" onclick="goTo(8)">
+ <span class="step-card-num">Slide 9</span>
+ <h3>Your Data, Your Way — 6 Formats</h3>
+ <p>Export as CSV, XLSX, OFX, PDF, JSON, or encrypted backup. Share with your accountant, back up securely, or run a LAN server. You control your data completely.</p>
+ <div class="step-timer"></div>
+ </div>
+ <!-- Slide 9: Summary -->
+ <div class="step-card" data-index="9" onclick="goTo(9)">
+ <span class="step-card-num">Done</span>
+ <h3>Import Early, Import Often</h3>
+ <p>The more data you give PocketBudJet, the smarter it gets. No bank login credentials ever touch our app. You download and import yourself. That's privacy by design.</p>
+ <div class="step-timer"></div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
 
-    <!-- Supported Formats -->
-    <section class="formats-section">
-        <div class="container">
-            <p class="formats-label">Supported Formats</p>
-            <div class="formats-list">
-                <div class="format-badge highlight">CSV</div>
-                <div class="format-badge">OFX</div>
-                <div class="format-badge">QFX</div>
-                <div class="format-badge">QIF</div>
-                <div class="format-badge">XLSX</div>
-                <div class="format-badge">PDF</div>
-            </div>
-        </div>
-    </section>
+ <!-- Supported Formats -->
+ <section class="formats-section">
+ <div class="container">
+ <p class="formats-label">Supported Formats</p>
+ <div class="formats-list">
+ <div class="format-badge highlight">CSV</div>
+ <div class="format-badge">OFX</div>
+ <div class="format-badge">QFX</div>
+ <div class="format-badge">QIF</div>
+ <div class="format-badge">XLSX</div>
+ <div class="format-badge">PDF</div>
+ </div>
+ </div>
+ </section>
 
-    <!-- WiFi Scanner Callout -->
-    <section class="wifi-callout">
-        <div class="container">
-            <h3>Got a WiFi Scanner at Home?</h3>
-            <p>As of launch, PocketBudJet is the only budgeting app we know of that connects to your home ADF scanner over WiFi. Feed a stack of receipts, walk away, and come back to every transaction logged and categorized.</p>
-            <span class="wifi-badge">A POCKETBUDJET FIRST</span>
-        </div>
-    </section>
+ <!-- WiFi Scanner Callout -->
+ <section class="wifi-callout">
+ <div class="container">
+ <h3>Got a WiFi Scanner at Home?</h3>
+ <p>As of launch, PocketBudJet is the only budgeting app we know of that connects to your home ADF scanner over WiFi. Feed a stack of receipts, walk away, and come back to every transaction logged and categorized.</p>
+ <span class="wifi-badge">A POCKETBUDJET FIRST</span>
+ </div>
+ </section>
 
-    <section class="cta-section">
-        <div class="container">
-            <h2>Ready to take control of your finances?</h2>
-            <a href="#" class="download-button">Download PocketBudJet</a>
-        </div>
-    </section>
+ <section class="cta-section">
+ <div class="container">
+ <h2>Ready to take control of your finances?</h2>
+ <a href="#" class="download-button">Download PocketBudJet</a>
+ </div>
+ </section>
 
-    <footer>
-        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
-    </footer>
+ <footer>
+ <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+ </footer>
 
-    <script>
-    var goTo; // expose globally for onclick handlers
-    (function() {
-        const SLIDE_DURATION = 8000;
-        const slides = document.querySelectorAll('.slide');
-        const cards = document.querySelectorAll('.step-card');
-        const dotsContainer = document.getElementById('dots');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const speedLabel = document.getElementById('speedLabel');
-        const chapterNav = document.getElementById('chapterNav');
-        let current = 0, playing = true, timer = null;
-        let audioElement = null, voiceEnabled = true, advanceTimeout = null;
+ <script>
+ var goTo; // expose globally for onclick handlers
+ (function() {
+ const SLIDE_DURATION = 8000;
+ const slides = document.querySelectorAll('.slide');
+ const cards = document.querySelectorAll('.step-card');
+ const dotsContainer = document.getElementById('dots');
+ const playPauseBtn = document.getElementById('playPauseBtn');
+ const speedLabel = document.getElementById('speedLabel');
+ const chapterNav = document.getElementById('chapterNav');
+ let current = 0, playing = true, timer = null;
+ let audioElement = null, voiceEnabled = true, advanceTimeout = null;
 
-        // Chapter definitions
-        const chapters = [
-            ['Download from Bank', 0], ['File Types', 1], ['Import History', 2],
-            ['Phone Import', 3], ['Smart Mapping', 4], ['Camera & Scanner', 5],
-            ['WiFi Scanner', 6], ['PC Dashboard', 7], ['Export & Backup', 8], ['Summary', 9]
-        ];
+ // Chapter definitions
+ const chapters = [
+ ['Download from Bank', 0], ['File Types', 1], ['Import History', 2],
+ ['Phone Import', 3], ['Smart Mapping', 4], ['Camera & Scanner', 5],
+ ['WiFi Scanner', 6], ['PC Dashboard', 7], ['Export & Backup', 8], ['Summary', 9]
+ ];
 
-        // MP3 audio paths (pre-generated via edge-tts)
-        const audioPaths = [
-            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
-            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
-            'audio/slide-8.mp3', 'audio/slide-9.mp3'
-        ];
+ // MP3 audio paths (pre-generated via edge-tts)
+ const audioPaths = [
+ 'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+ 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
+ 'audio/slide-8.mp3', 'audio/slide-9.mp3'
+ ];
 
-        // Zoom focus zones per slide
+ // Voice toggle button
+ const voiceBtn = document.createElement('button');
+ voiceBtn.className = 'voice-btn';
+ voiceBtn.innerHTML = '&#128264;';
+ voiceBtn.title = 'Toggle voice narration';
+ voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+ document.querySelector('.playback-controls').appendChild(voiceBtn);
 
-        // Voice toggle button
-        const voiceBtn = document.createElement('button');
-        voiceBtn.className = 'voice-btn';
-        voiceBtn.innerHTML = '&#128264;';
-        voiceBtn.title = 'Toggle voice narration';
-        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
-        document.querySelector('.playback-controls').appendChild(voiceBtn);
+ voiceBtn.addEventListener('click', () => {
+ voiceEnabled = !voiceEnabled;
+ voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+ voiceBtn.classList.toggle('muted', !voiceEnabled);
+ if (!voiceEnabled) {
+ stopAudio();
+ if (playing) resetTimer();
+ } else {
+ clearInterval(timer);
+ playSlideAudio(current);
+ }
+ });
 
-        voiceBtn.addEventListener('click', () => {
-            voiceEnabled = !voiceEnabled;
-            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
-            voiceBtn.classList.toggle('muted', !voiceEnabled);
-            if (!voiceEnabled) {
-                stopAudio();
-                if (playing) resetTimer();
-            } else {
-                clearInterval(timer);
-                playSlideAudio(current);
-            }
-        });
+ function stopAudio() {
+ if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
+ clearTimeout(advanceTimeout);
+ }
 
-        function stopAudio() {
-            if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
-            clearTimeout(advanceTimeout);
-        }
+ function playSlideAudio(index) {
+ stopAudio();
+ if (!voiceEnabled) return;
+ const src = audioPaths[index];
+ if (!src) return;
+ audioElement = new Audio(src);
+ audioElement.volume = 1.0;
+ audioElement.onended = () => {
+ if (playing && voiceEnabled) {
+ advanceTimeout = setTimeout(() => {
+ if (current < slides.length - 1) { next(); }
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
+ }, 1200);
+ }
+ };
+ audioElement.onerror = () => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); };
+ audioElement.play().catch(() => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); });
+ }
 
-        function playSlideAudio(index) {
-            stopAudio();
-            if (!voiceEnabled) return;
-            const src = audioPaths[index];
-            if (!src) return;
-            audioElement = new Audio(src);
-            audioElement.volume = 1.0;
-            audioElement.onended = () => {
-                if (playing && voiceEnabled) {
-                    advanceTimeout = setTimeout(() => {
-                        if (current < slides.length - 1) { next(); }
-                    }, 1200);
-                }
-            };
-            audioElement.onerror = () => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); };
-            audioElement.play().catch(() => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); });
-        }
+ // Create progress dots
+ slides.forEach((_, i) => {
+ const dot = document.createElement('div');
+ dot.className = 'dot' + (i === 0 ? ' active' : '');
+ dot.addEventListener('click', () => goTo(i));
+ dotsContainer.appendChild(dot);
+ });
 
+ // Create chapter buttons
+ chapters.forEach(([name, idx]) => {
+ const btn = document.createElement('button');
+ btn.className = 'chapter-btn' + (idx === 0 ? ' active' : '');
+ btn.textContent = name;
+ btn.addEventListener('click', () => goTo(idx));
+ chapterNav.appendChild(btn);
+ });
 
-            setTimeout(() => {
-            }, zone.delay);
-        }
+ goTo = function(index) {
+ slides[current].classList.remove('active');
+ cards[current].classList.remove('active');
+ dotsContainer.children[current].classList.remove('active');
+ chapterNav.children[current].classList.remove('active');
+ cards[current].querySelector('.step-timer').style.transition = 'none';
+ cards[current].querySelector('.step-timer').style.width = '0%';
 
+ current = index;
+ slides[current].classList.add('active');
+ cards[current].classList.add('active');
+ dotsContainer.children[current].classList.add('active');
+ chapterNav.children[current].classList.add('active');
+
+ const timerBar = cards[current].querySelector('.step-timer');
+ requestAnimationFrame(() => {
+ timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+ timerBar.style.width = '100%';
+ });
+ if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
+ else if (playing) speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
+ else if (playing) { resetTimer(); }
+ };
+
+ function next() {
+ if (current < slides.length - 1) { goTo(current + 1); }
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; stopAudio(); clearInterval(timer); }
+ }
+ function resetTimer() {
+ clearInterval(timer); clearTimeout(advanceTimeout);
+ timer = setInterval(() => {
+ if (current < slides.length - 1) next();
+ else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
+ }, SLIDE_DURATION);
+ }
+
+ playPauseBtn.addEventListener('click', () => {
+ playing = !playing;
+ if (playing) {
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) { playSlideAudio(current); } else { resetTimer(); }
+ const tb = cards[current].querySelector('.step-timer');
+ tb.style.transition = 'none'; tb.style.width = '0%';
+ requestAnimationFrame(() => { tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear'; tb.style.width = '100%'; });
+ } else {
+ playPauseBtn.innerHTML = '&#9654;';
+ speedLabel.textContent = 'Paused';
+ stopAudio(); clearInterval(timer); clearTimeout(advanceTimeout);  const tb = cards[current].querySelector('.step-timer');
+ const w = getComputedStyle(tb).width;
+ tb.style.transition = 'none'; tb.style.width = w;
+ }
+ });
+
+ goTo(0);
+ })();
+ </script>
+</body>
+</html>
