@@ -15,10 +15,10 @@
 
 ---
 
-### Shot 2 (0:06 - 0:15)
-**Visual:** Phone screen — Setup wizard: Step 1 appears, "What's your monthly income?" Input field, user taps and enters $4,500.
-**Audio/VO:** "Step one: Tell us your monthly income. If you're not sure, estimate. You can change it anytime."
-**Text overlay:** "Step 1: Monthly Income"
+### Shot 2 (0:06 - 0:18)
+**Visual:** Phone screen — Setup wizard: Step 4 "What's your regular pay?" Two input fields: Gross pay ($4,500) and Take-home pay ($3,200). Frequency selector shows "Every 2 Weeks." User taps + Add Income.
+**Audio/VO:** "Enter your gross pay and your take-home pay — both from any pay stub. Pocket Budget figures out the difference and saves it as your total paycheck deductions. Want to itemize those deductions later? Just tap any income transaction and choose Paycheck Breakdown."
+**Text overlay:** "Gross Pay + Take-Home → Deductions Calculated"
 
 ---
 
@@ -31,7 +31,7 @@
 
 ### Shot 4 (0:25 - 0:38)
 **Visual:** Phone screen — Template auto-generates categories: Housing, Groceries, Utilities, Dining, Transportation, Savings, Entertainment. Each shows a suggested budget amount. User taps "Add Account."
-**Audio/VO:** "The template auto-creates categories with suggested budgets based on your income. Don't like the amounts? Tap to adjust. Want to add more categories? Just tap the plus button."
+**Audio/VO:** "The template auto-creates categories with suggested budgets based on your take-home pay. Don't like the amounts? Tap to adjust. Want to add more categories? Just tap the plus button."
 **Text overlay:** "Suggested Categories" → "Customize Anytime"
 
 ---

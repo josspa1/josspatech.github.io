@@ -539,7 +539,14 @@
         }
 
         function next() {
-            goTo((current + 1) % slides.length);
+            if (current < slides.length - 1) {
+                goTo(current + 1);
+            } else {
+                playing = false;
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Finished';
+                clearInterval(timer);
+            }
         }
 
         function resetTimer() {
