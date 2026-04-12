@@ -44,7 +44,7 @@
 ---
 
 ### Shot 6 (0:52 - 0:68)
-**Visual:** Phone screen — Transaction entry: "Add first transaction" screen. User taps camera icon, points at coffee receipt, snap. Amount ($4.50) and merchant (Starbucks) auto-populate. Category auto-suggests "Dining." User taps checkmark.
+**Visual:** Phone screen — Transaction entry: "Add first transaction" screen. User taps camera icon, points at coffee receipt, snap. Amount ($4.50) and merchant (Daily Grind) auto-populate. Category auto-suggests "Dining." User taps checkmark.
 **Audio/VO:** "Add your first transaction. Snap a receipt with your camera. The amount and merchant auto-fill. Category auto-populates. One tap to save."
 **Text overlay:** "Transaction Capture" → "Auto-Fill • Auto-Categorize • One Tap"
 

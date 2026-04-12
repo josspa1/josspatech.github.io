@@ -175,17 +175,6 @@
         footer a { color: var(--gold); text-decoration: none; }
         footer a:hover { color: var(--gold-dark); }
 
-        /* Embedded guide frame */
-        .guide-embed-frame {
-            width: 100%; max-width: 1000px; margin: 0 auto;
-            border-radius: 14px; overflow: hidden;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-            border: 2px solid var(--gold);
-            background: var(--white);
-        }
-        .guide-embed-frame iframe {
-            width: 100%; height: 700px; border: none; display: block;
-        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -195,7 +184,6 @@
             .guide-card { flex-direction: column; text-align: center; gap: 1rem; }
             .guide-card .arrow { display: none; }
             .card-grid { grid-template-columns: 1fr; }
-            .guide-embed-frame iframe { height: 500px; }
         }
         @media (max-width: 480px) {
             nav { padding: 0.8rem 1rem; }
@@ -356,18 +344,16 @@
     <section class="section">
         <div class="container">
             <h2>Complete User Guide</h2>
-            <p class="section-sub">Every screen, every feature, every setting — scroll through the full guide below, or watch the video version.</p>
+            <p class="section-sub">Every screen, every feature, every setting — 27 chapters covering everything PocketBudJet can do.</p>
 
-            <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                <a href="/videos/user-guide/" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--navy); padding: 0.7rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; transition: background 0.3s;">
-                    &#9654; Watch the Full User Guide Video
-                </a>
-                <span style="color: var(--slate); font-size: 0.9rem;">~18 min · 27 chapters</span>
-            </div>
-
-            <div class="guide-embed-frame">
-                <iframe src="/videos/user-guide/" title="Complete User Guide" loading="lazy"></iframe>
-            </div>
+            <a href="/videos/user-guide/" class="guide-card">
+                <div class="guide-card-icon">&#128218;</div>
+                <div class="guide-card-body">
+                    <h3>Watch the Full User Guide Video</h3>
+                    <p>A visual walkthrough of every screen, feature, and setting across 27 chapters. ~18 min.</p>
+                </div>
+                <div class="arrow">&#8594;</div>
+            </a>
 
             <div style="text-align: center; margin-top: 1.5rem;">
                 <p style="color: var(--slate); font-size: 0.95rem;">
