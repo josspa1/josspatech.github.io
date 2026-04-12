@@ -176,6 +176,19 @@
         footer a:hover { color: var(--gold-dark); }
 
 
+        /* Category sub-headers within card grids */
+        .card-category {
+            grid-column: 1 / -1;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--navy);
+            padding: 0.8rem 0 0.2rem;
+            border-bottom: 3px solid var(--gold);
+            margin-top: 0.5rem;
+        }
+        .card-category:first-child { margin-top: 0; }
+
         /* Responsive */
         @media (max-width: 768px) {
             nav .nav-links { gap: 1rem; font-size: 0.85rem; }
@@ -224,9 +237,13 @@
     <section class="section">
         <div class="container">
             <h2>Videos</h2>
-            <p class="section-sub">Short, focused video walkthroughs. Watch only the ones you need.</p>
+            <p class="section-sub">Short, focused video walkthroughs organized by topic. Watch only the ones you need.</p>
 
             <div class="card-grid">
+
+                <!-- ── Getting Started ── -->
+                <div class="card-category">Getting Started</div>
+
                 <a href="/videos/quick-start/" class="card start-here">
                     <span class="start-here-badge">Start Here</span>
                     <div class="card-icon">&#127937;</div>
@@ -236,30 +253,6 @@
                         <div class="card-meta">
                             <span class="card-type">&#9654; Walkthrough</span>
                             <span class="card-time">~4 min</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/videos/import/" class="card">
-                    <div class="card-icon">&#128229;</div>
-                    <div class="card-body">
-                        <h3>Import Bank Data</h3>
-                        <p>Download a CSV from your bank and import it into PocketBudJet. Three steps, under a minute, all your transactions appear.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~1 min</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/videos/user-guide/" class="card">
-                    <div class="card-icon">&#127916;</div>
-                    <div class="card-body">
-                        <h3>Complete User Guide</h3>
-                        <p>A full video walkthrough of every screen and feature in PocketBudJet — 27 chapters covering setup, transactions, budgets, debt tracking, reports, AI tools, and every setting.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~18 min</span>
                         </div>
                     </div>
                 </a>
@@ -276,6 +269,21 @@
                     </div>
                 </a>
 
+                <a href="/gary-demo/" class="card">
+                    <div class="card-icon">&#127911;</div>
+                    <div class="card-body">
+                        <h3>Interactive Demo</h3>
+                        <p>Follow Gary as he sets up his budget, tracks spending, and gets his finances under control. An interactive story.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Interactive Demo</span>
+                            <span class="card-time">~5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ── Core Features ── -->
+                <div class="card-category">Core Features</div>
+
                 <a href="/videos/pocketbudjet/budget-setup/" class="card">
                     <div class="card-icon">&#128202;</div>
                     <div class="card-body">
@@ -284,6 +292,54 @@
                         <div class="card-meta">
                             <span class="card-type">&#9654; Walkthrough</span>
                             <span class="card-time">~90 sec</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/import/" class="card">
+                    <div class="card-icon">&#128229;</div>
+                    <div class="card-body">
+                        <h3>Import Bank Data</h3>
+                        <p>Download a CSV from your bank and import it into PocketBudJet. Three steps, under a minute, all your transactions appear.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/receipt-scanning/" class="card">
+                    <div class="card-icon">&#128247;</div>
+                    <div class="card-body">
+                        <h3>Receipt Scanning &amp; WiFi Scanner</h3>
+                        <p>Snap receipts with your camera for instant entry, or connect a WiFi scanner for hands-free batch processing.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/ai-coach/" class="card">
+                    <div class="card-icon">&#129302;</div>
+                    <div class="card-body">
+                        <h3>AI Coach &amp; Smart Insights</h3>
+                        <p>How the AI learns your habits, spots patterns, warns about overspending, and answers questions about your money.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/household-sync/" class="card">
+                    <div class="card-icon">&#127968;</div>
+                    <div class="card-body">
+                        <h3>Household Sync</h3>
+                        <p>Share your budget with family over WiFi — no cloud, no internet required. QR pairing, joint budgets, and conflict resolution.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
                         </div>
                     </div>
                 </a>
@@ -299,6 +355,72 @@
                         </div>
                     </div>
                 </a>
+
+                <!-- ── Advanced Features ── -->
+                <div class="card-category">Advanced Features</div>
+
+                <a href="/videos/pocketbudjet/pc-dashboard/" class="card">
+                    <div class="card-icon">&#128187;</div>
+                    <div class="card-body">
+                        <h3>PC Web Dashboard</h3>
+                        <p>Manage your budget from a full-size screen. QR pairing, drag-and-drop import, and five dedicated tabs.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/reports/" class="card">
+                    <div class="card-icon">&#128200;</div>
+                    <div class="card-body">
+                        <h3>Reports &amp; Analytics</h3>
+                        <p>Ten-plus report types: spending trends, category breakdowns, income vs. expenses, and AI-powered summaries.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/net-worth/" class="card">
+                    <div class="card-icon">&#128184;</div>
+                    <div class="card-body">
+                        <h3>Net Worth Tracker</h3>
+                        <p>Stocks, crypto, real estate via Zillow, credit score — track everything that makes up your net worth in one place.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/tax-time/" class="card">
+                    <div class="card-icon">&#128203;</div>
+                    <div class="card-body">
+                        <h3>Tax Time with PBJ</h3>
+                        <p>IRS-ready categories, mileage tracking, AI deduction finder, and a one-tap accountant report.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="/videos/pocketbudjet/voice-shortcuts/" class="card">
+                    <div class="card-icon">&#127908;</div>
+                    <div class="card-body">
+                        <h3>Voice Shortcuts</h3>
+                        <p>Add transactions, check budgets, and ask your AI coach questions — all hands-free with Siri or Google Assistant.</p>
+                        <div class="card-meta">
+                            <span class="card-type">&#9654; Walkthrough</span>
+                            <span class="card-time">~1.5 min</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ── Why PocketBudJet ── -->
+                <div class="card-category">Why PocketBudJet</div>
 
                 <a href="/videos/pocketbudjet/privacy-pitch/" class="card">
                     <div class="card-icon">&#128274;</div>
@@ -316,58 +438,10 @@
                     <div class="card-icon">&#9878;</div>
                     <div class="card-body">
                         <h3>PBJ vs Competitors</h3>
-                        <p>How PocketBudJet stacks up against YNAB, Monarch, EveryDollar, and others — features, pricing, and privacy compared.</p>
+                        <p>How PocketBudJet stacks up against YNAB, Monarch, EveryDollar, and others — features, pricing, and privacy.</p>
                         <div class="card-meta">
                             <span class="card-type">&#9654; Walkthrough</span>
                             <span class="card-time">~45 sec</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/videos/pocketbudjet/ai-coach/" class="card">
-                    <div class="card-icon">&#129302;</div>
-                    <div class="card-body">
-                        <h3>AI Coach &amp; Smart Insights</h3>
-                        <p>How the AI learns your habits, spots patterns, warns about overspending, and answers questions about your money — all on-device.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~1.5 min</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/videos/pocketbudjet/receipt-scanning/" class="card">
-                    <div class="card-icon">&#128247;</div>
-                    <div class="card-body">
-                        <h3>Receipt Scanning &amp; WiFi Scanner</h3>
-                        <p>Snap receipts with your camera for instant entry, or connect a WiFi scanner for hands-free batch processing. No bank login required.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~1.5 min</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/videos/pocketbudjet/household-sync/" class="card">
-                    <div class="card-icon">&#127968;</div>
-                    <div class="card-body">
-                        <h3>Household Sync</h3>
-                        <p>Share your budget with family over WiFi — no cloud, no internet required. QR pairing, joint budgets, and smart conflict resolution.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Walkthrough</span>
-                            <span class="card-time">~1.5 min</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="/gary-demo/" class="card">
-                    <div class="card-icon">&#127911;</div>
-                    <div class="card-body">
-                        <h3>Interactive Demo</h3>
-                        <p>Follow Gary as he sets up his budget, tracks spending, and gets his finances under control. An interactive story showing every major feature.</p>
-                        <div class="card-meta">
-                            <span class="card-type">&#9654; Interactive Demo</span>
-                            <span class="card-time">~5 min</span>
                         </div>
                     </div>
                 </a>
