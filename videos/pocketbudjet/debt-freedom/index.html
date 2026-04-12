@@ -501,7 +501,7 @@
  <script>
  const SLIDE_DURATION = 8000;
  let currentSlide = 0;
- let isPlaying = false;   // start paused
+ let isPlaying = true;
 let audioUnlocked = false;
  let autoPlayTimeout;
  const slides = document.querySelectorAll('.slide');
@@ -565,17 +565,28 @@ let audioUnlocked = false;
  audioElement.onerror = () => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); };
  // Tap-to-start overlay (satisfies mobile autoplay gesture requirement)
         const tapToStart = document.getElementById('tapToStart');
-        function startPlayback() {
-            if (audioUnlocked) return;
-            audioUnlocked = true;
-            tapToStart.classList.add('hidden');
-            isPlaying = true;
-            if (typeof playSlideAudio === 'function') playSlideAudio(typeof currentSlide !== 'undefined' ? currentSlide : 0);
-            else if (typeof startSlide === 'function') startSlide(0);
-        }
-        tapToStart.addEventListener('click', startPlayback);
 
-        audioElement.play().catch(() => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); });
+        const _p = audioElement.play();
+        if (_p !== undefined) {
+            _p.then(() => {
+                if (!audioUnlocked) {
+                    audioUnlocked = true;
+                    tapToStart.classList.add('hidden');
+                    playPauseBtn.innerHTML = '&#10074;&#10074;';
+                    speedLabel.textContent = 'Auto-playing';
+                }
+            }).catch(() => {
+                if (!audioUnlocked) {
+                    isPlaying = false;
+                    playPauseBtn.innerHTML = '&#9654;';
+                    speedLabel.textContent = 'Tap to play';
+                } else if (isPlaying) {
+                    advanceTimeout = setTimeout(() => {
+                        if (currentSlide < slides.length - 1) nextSlide();
+                    }, SLIDE_DURATION);
+                }
+            });
+        }
  }
 
  function updateSlide(index) {
@@ -617,6 +628,19 @@ let audioUnlocked = false;
  } else {
  stopAudio(); clearTimeout(autoPlayTimeout); clearTimeout(advanceTimeout);  }
  });
+
+ // Tap-to-start: unlock audio on mobile, hidden automatically on desktop
+ const tapToStart = document.getElementById('tapToStart');
+ function startPlayback() {
+     if (audioUnlocked) return;
+     audioUnlocked = true;
+     tapToStart.classList.add('hidden');
+     isPlaying = true;
+     playPauseBtn.textContent = '\u23F8\u23F8';
+     speedLabel.textContent = 'Auto-playing';
+     playSlideAudio(currentSlide);
+ }
+ tapToStart.addEventListener('click', startPlayback);
 
  // Start
  updateSlide(0);
