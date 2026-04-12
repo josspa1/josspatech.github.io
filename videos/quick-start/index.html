@@ -62,7 +62,7 @@
         }
 
         /* Animated Video Section */
-        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section { background-color: var(--background); padding: 4rem 2rem; overflow: hidden; }
         .video-section .container { max-width: 1200px; margin: 0 auto; }
         .video-section h2 {
             font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
@@ -74,22 +74,17 @@
         .video-wrapper {
             display: flex; gap: 3rem; align-items: center;
             justify-content: center; flex-wrap: wrap;
-        }
-
-        /* Phone viewport — clips the phone frame during zoom */
-        .phone-viewport {
-            flex-shrink: 0; overflow: hidden; border-radius: 40px;
+            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease;
+            will-change: transform;
         }
 
         /* Phone frame */
         .phone-frame {
-            width: 320px; position: relative;
+            width: 320px; flex-shrink: 0; position: relative;
             border: 10px solid var(--navy-dark); border-radius: 40px;
             overflow: hidden; background: #000;
             box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
             aspect-ratio: 9 / 19.5;
-            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease;
-            will-change: transform;
         }
         .phone-frame::before {
             content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
@@ -344,7 +339,7 @@
             <h2>Your First Look</h2>
             <p class="section-sub">What you'll see when you open the app — and what to do first.</p>
             <div class="video-wrapper">
-                <div class="phone-viewport">
+                <div>
                     <div class="phone-frame">
                         <div class="slideshow" id="slideshow">
                             <div class="slide active" data-index="0">
@@ -405,7 +400,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="progress-dots" id="dots"></div>
+                </div>
+                <div class="progress-dots" id="dots"></div>
                     <div class="playback-controls">
                         <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause slideshow">&#10074;&#10074;</button>
                         <span class="speed-label" id="speedLabel">Auto-playing</span>
@@ -662,28 +658,27 @@
         }
 
         // ── Zoom/Focus feature ──
-        // Zooms the entire phone frame (like a camera push-in).
-        // The phone screen content stays static — the viewer's eye is drawn to a region.
-        const phoneFrame = document.querySelector('.phone-frame');
+        // Zooms the entire page view toward the phone area.
+        // Phone, narration panel, everything scales up — like the viewer moving closer.
+        const videoWrapper = document.querySelector('.video-wrapper');
 
         function applyZoom(index) {
             const zone = focusZones[index];
-            if (!zone || !phoneFrame) return;
-            // Start un-zoomed, then push in after a delay
-            phoneFrame.style.transformOrigin = zone.originX + '% ' + zone.originY + '%';
-            phoneFrame.style.transform = 'scale(1)';
+            if (!zone || !videoWrapper) return;
+            videoWrapper.style.transformOrigin = zone.originX + '% ' + zone.originY + '%';
+            videoWrapper.style.transform = 'scale(1)';
             setTimeout(() => {
-                phoneFrame.style.transform = 'scale(' + zone.scale + ')';
+                videoWrapper.style.transform = 'scale(' + zone.scale + ')';
             }, zone.delay);
         }
 
         function resetZoom(index) {
-            if (!phoneFrame) return;
-            phoneFrame.style.transform = 'scale(1)';
+            if (!videoWrapper) return;
+            videoWrapper.style.transform = 'scale(1)';
         }
 
         function resetAllZoom() {
-            if (phoneFrame) phoneFrame.style.transform = 'scale(1)';
+            if (videoWrapper) videoWrapper.style.transform = 'scale(1)';
         }
 
         // ── Build dots ──
