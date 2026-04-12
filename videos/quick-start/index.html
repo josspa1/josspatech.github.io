@@ -99,8 +99,12 @@
         .slide.active { opacity: 1; }
         .slide img {
             width: 100%; height: 100%; object-fit: cover; object-position: top;
-            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease;
+            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease, filter 0.8s ease;
             will-change: transform;
+        }
+        /* Colorblind-friendly palette swap — simulates blue/orange/purple scheme */
+        .slide img.colorblind-preview {
+            filter: hue-rotate(200deg) saturate(1.3) brightness(1.05);
         }
         .slide-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
@@ -436,7 +440,7 @@
                     <div class="narration-card" data-index="5">
                         <span class="narration-step-badge">Step 6 of 8</span>
                         <h3>What the Colors Mean</h3>
-                        <p>PBJ uses color everywhere to give you instant status. Green means on track. Yellow means you're getting close to a limit. Red means you've gone over. The spending pace indicator compares where you are in the month to where your spending is &mdash; if you've used 80% of your budget but you're only 50% through the month, it warns you.</p>
+                        <p>PBJ uses color everywhere to give you instant status. Green means on track. Yellow means you're getting close to a limit. Red means you've gone over. The spending pace indicator compares where you are in the month to where your spending is &mdash; if you've used 80% of your budget but you're only 50% through the month, it warns you. And if you're colorblind, PBJ has you covered &mdash; switch to a colorblind-friendly palette and every indicator stays just as clear.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="6">
@@ -529,6 +533,8 @@
         let audioElement = null;
         let voiceEnabled = true;
         let advanceTimeout = null;
+        let colorblindOnTimer = null;
+        let colorblindOffTimer = null;
 
         // ── MP3 audio paths (pre-generated via edge-tts, en-US-AvaNeural) ──
         const audioPaths = [
@@ -580,6 +586,17 @@
                 audioElement = null;
             }
             clearTimeout(advanceTimeout);
+            clearColorblindPreview();
+        }
+
+        function clearColorblindPreview() {
+            clearTimeout(colorblindOnTimer);
+            clearTimeout(colorblindOffTimer);
+            colorblindOnTimer = null;
+            colorblindOffTimer = null;
+            // Remove class from slide 5 img if it's still applied
+            var img5 = slides[5] && slides[5].querySelector('img');
+            if (img5) img5.classList.remove('colorblind-preview');
         }
 
         function playSlideAudio(index) {
@@ -621,6 +638,21 @@
                     }, SLIDE_DURATION);
                 }
             });
+
+            // Slide 5: briefly show colorblind-friendly palette when narrator mentions it
+            if (index === 5) {
+                var cbImg = slides[5].querySelector('img');
+                if (cbImg) {
+                    // At ~23s into the 30s audio, narrator says "if you're colorblind..."
+                    colorblindOnTimer = setTimeout(function() {
+                        cbImg.classList.add('colorblind-preview');
+                    }, 23000);
+                    // Hold for ~4s, then revert to normal colors
+                    colorblindOffTimer = setTimeout(function() {
+                        cbImg.classList.remove('colorblind-preview');
+                    }, 27000);
+                }
+            }
         }
 
         // ── Zoom/Focus feature ──
@@ -661,6 +693,8 @@
 
         // ── Navigation ──
         function goTo(index) {
+            // Clean up colorblind preview if leaving slide 5
+            if (current === 5) clearColorblindPreview();
             // Reset outgoing slide
             resetZoom(current);
             slides[current].classList.remove('active');
