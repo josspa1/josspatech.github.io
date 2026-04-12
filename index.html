@@ -561,6 +561,18 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 }
 .footer-contact:hover{color:var(--slate-lt);}
 
+/* ══ COPY-EMAIL TOAST ══════════════════════════════════ */
+.copy-toast{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--navy);color:#fff;font-size:14px;font-weight:600;
+  padding:12px 24px;border-radius:8px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  opacity:0;transition:opacity .3s,transform .3s;
+  z-index:9999;pointer-events:none;
+  white-space:nowrap;
+}
+.copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 /* ══ REVEAL ═════════════════════════════════════════════ */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .65s var(--ease),transform .65s var(--ease);}
 .rv.d1{transition-delay:.07s;}.rv.d2{transition-delay:.14s;}.rv.d3{transition-delay:.21s;}
@@ -2662,6 +2674,39 @@ function toggleFT(b) {
   }
   sw(0, true);
   startR();
+})();
+
+/* ── EMAIL: click-to-copy fallback ── */
+(function(){
+  var toast = document.createElement('div');
+  toast.className = 'copy-toast';
+  document.body.appendChild(toast);
+  var hideTimer;
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2500);
+  }
+
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="mailto:"]');
+    if (!link) return;
+    var email = link.href.replace('mailto:', '');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(function() {
+        showToast('✉ ' + email + ' copied to clipboard!');
+      });
+    } else {
+      var t = document.createElement('textarea');
+      t.value = email; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
+      showToast('✉ ' + email + ' copied to clipboard!');
+    }
+  });
 })();
 
 </script>
