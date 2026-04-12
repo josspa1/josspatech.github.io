@@ -140,7 +140,7 @@
             opacity: 0; transition: opacity 0.8s ease-in-out;
         }
         .slide.active { opacity: 1; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease; will-change: transform; }
         .slide-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
             background: linear-gradient(transparent, rgba(0,0,0,0.85));
@@ -605,7 +605,7 @@
     <script>
     var goTo; // expose globally for onclick handlers
     (function() {
-        const SLIDE_DURATION = 5500;
+        const SLIDE_DURATION = 8000;
         const slides = document.querySelectorAll('.slide');
         const cards = document.querySelectorAll('.step-card');
         const dotsContainer = document.getElementById('dots');
@@ -613,83 +613,35 @@
         const speedLabel = document.getElementById('speedLabel');
         const chapterNav = document.getElementById('chapterNav');
         let current = 0, playing = true, timer = null;
+        let audioElement = null, voiceEnabled = true, advanceTimeout = null;
 
-        // Chapter definitions: [name, slideIndex]
+        // Chapter definitions
         const chapters = [
-            ['Download from Bank', 0],
-            ['File Types', 1],
-            ['Import History', 2],
-            ['Phone Import', 3],
-            ['Smart Mapping', 4],
-            ['Camera & Scanner', 5],
-            ['WiFi Scanner', 6],
-            ['PC Dashboard', 7],
-            ['Export & Backup', 8],
-            ['Summary', 9]
+            ['Download from Bank', 0], ['File Types', 1], ['Import History', 2],
+            ['Phone Import', 3], ['Smart Mapping', 4], ['Camera & Scanner', 5],
+            ['WiFi Scanner', 6], ['PC Dashboard', 7], ['Export & Backup', 8], ['Summary', 9]
         ];
 
-        // Voiceover scripts
-        const voiceoverScripts = [
-            // Slide 0: Download from Bank
-            "Log into your bank's website. Look for download transactions, export activity, or transaction history. Every bank is a little different, but they all have this somewhere—usually under statements or activity.",
-            // Slide 1: File Format
-            "We recommend CSV. It's the most universal format and PocketBudJet's Smart Mapper handles it beautifully. If CSV isn't available, look for OFX or QFX formats. All work perfectly.",
-            // Slide 2: Import History
-            "Download as much history as your bank allows. Three months is the minimum—but six months or a year is even better. More data means smarter AI, better reports, and more useful trend analysis.",
-            // Slide 3: Phone Import
-            "Open PocketBudJet, tap the Import button. Browse to your downloads folder and pick the file. Our Smart CSV Mapper automatically detects the key columns—date, amount, description. Preview before import.",
-            // Slide 4: Smart Mapping
-            "The Smart Mapper is trained on dozens of real bank formats. It also detects overlapping date ranges and skips duplicates automatically. Nine times out of ten, no manual adjustment needed.",
-            // Slide 5: Camera & Scanner
-            "Don't have a bank file? No problem. Point your camera at any receipt and PocketBudJet's OCR reads the merchant, amount, date, and line items. Works with printed receipts and handwritten notes.",
-            // Slide 6: WiFi Scanner
-            "If you have a WiFi scanner at home with an automatic document feeder, connect directly. Feed receipts into the tray and walk away. Every receipt gets read and categorized.",
-            // Slide 7: PC Dashboard
-            "Do your banking on a computer? Open PocketBudJet's PC Web Dashboard by scanning a QR code. Download your bank file and drag it right into the import area. Syncs over local WiFi instantly.",
-            // Slide 8: Export & Backup
-            "Export as CSV, XLSX, OFX, PDF, JSON, or encrypted backup. Share with your accountant, back up securely, or run a LAN server. You control your data completely.",
-            // Slide 9: Summary
-            "The more data you give PocketBudJet, the smarter it gets. No bank login credentials ever touch our app. You download and import yourself. That's privacy by design."
+        // MP3 audio paths (pre-generated via edge-tts)
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
+            'audio/slide-8.mp3', 'audio/slide-9.mp3'
         ];
 
-        // Voice synthesis setup
-        const synth = window.speechSynthesis;
-        let voiceEnabled = true;
-        let currentUtterance = null;
-        let speechTimeout = null;
-        const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
-        let cachedVoice = null;
-
-        // Load voices (async on some browsers like Chrome)
-        function loadVoices() {
-            cachedVoice = pickBestVoice(synth.getVoices());
-        }
-        if (synth.getVoices().length) loadVoices();
-        synth.onvoiceschanged = loadVoices;
-
-        // Pick the most natural-sounding male voice available
-        function pickBestVoice(voices) {
-            if (!voices.length) return null;
-            const preferred = [
-                ["Microsoft Guy", "en"], ["Microsoft Ryan", "en"], ["Microsoft Mark", "en"],
-                ["Google US English", "en"], ["en-us-x-tpd", "en"], ["en-us-x-sfg", "en"],
-                ["English United States", "en"], ["Alex", "en"], ["Fred", "en"],
-                ["Tom", "en"], ["Aaron", "en"], ["Male", "en-US"], ["Male", "en"],
-            ];
-            for (const [nameFrag, langFrag] of preferred) {
-                const match = voices.find(v => v.name.includes(nameFrag) && v.lang.startsWith(langFrag));
-                if (match) return match;
-            }
-            const maleUS = voices.find(v => v.lang.startsWith("en-US") && /male/i.test(v.name) && !/female/i.test(v.name));
-            if (maleUS) return maleUS;
-            const maleEn = voices.find(v => v.lang.startsWith("en") && /male/i.test(v.name) && !/female/i.test(v.name));
-            if (maleEn) return maleEn;
-            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
-            if (anyUS) return anyUS;
-            const anyEn = voices.find(v => v.lang.startsWith("en"));
-            if (anyEn) return anyEn;
-            return voices[0];
-        }
+        // Zoom focus zones per slide
+        const focusZones = [
+            { scale: 1.4, originX: 50, originY: 25, delay: 1500 },
+            { scale: 1.5, originX: 50, originY: 40, delay: 1200 },
+            { scale: 1.6, originX: 50, originY: 35, delay: 1000 },
+            { scale: 1.4, originX: 50, originY: 50, delay: 1500 },
+            { scale: 1.5, originX: 50, originY: 55, delay: 1200 },
+            { scale: 1.6, originX: 50, originY: 45, delay: 1000 },
+            { scale: 1.4, originX: 50, originY: 30, delay: 1500 },
+            { scale: 1.5, originX: 50, originY: 60, delay: 1200 },
+            { scale: 1.6, originX: 50, originY: 38, delay: 1000 },
+            { scale: 1.4, originX: 50, originY: 42, delay: 1500 }
+        ];
 
         // Voice toggle button
         const voiceBtn = document.createElement('button');
@@ -704,36 +656,49 @@
             voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
             voiceBtn.classList.toggle('muted', !voiceEnabled);
             if (!voiceEnabled) {
-                synth.cancel();
-                clearTimeout(speechTimeout);
+                stopAudio();
                 if (playing) resetTimer();
             } else {
-                speakSlide(current);
+                clearInterval(timer);
+                playSlideAudio(current);
             }
         });
 
-        function speakSlide(index) {
-            if (!voiceEnabled || !synth) return;
-            synth.cancel();
-            clearTimeout(speechTimeout);
-            const text = voiceoverScripts[index];
-            if (!text) return;
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.rate = isMobile ? 0.88 : 0.92;
-            currentUtterance.pitch = isMobile ? 0.75 : 0.88;
-            currentUtterance.volume = 1.0;
-            if (!cachedVoice) loadVoices();
-            if (cachedVoice) currentUtterance.voice = cachedVoice;
-            currentUtterance.onend = () => {
-                if (playing && voiceEnabled) {
-                    speechTimeout = setTimeout(next, 1200);
-                }
-            };
-            clearInterval(timer);
-            synth.speak(currentUtterance);
+        function stopAudio() {
+            if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
+            clearTimeout(advanceTimeout);
         }
 
-        // Voices loaded via onvoiceschanged above
+        function playSlideAudio(index) {
+            stopAudio();
+            if (!voiceEnabled) return;
+            const src = audioPaths[index];
+            if (!src) return;
+            audioElement = new Audio(src);
+            audioElement.volume = 1.0;
+            audioElement.onended = () => {
+                if (playing && voiceEnabled) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) { next(); }
+                        else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; resetZoom(current); }
+                    }, 1200);
+                }
+            };
+            audioElement.onerror = () => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); };
+            audioElement.play().catch(() => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); });
+        }
+
+        function applyZoom(index) {
+            const zone = focusZones[index]; if (!zone) return;
+            const img = slides[index].querySelector('img'); if (!img) return;
+            img.style.transformOrigin = zone.originX + '% ' + zone.originY + '%';
+            img.style.transform = 'scale(1)';
+            setTimeout(() => { img.style.transform = 'scale(' + zone.scale + ')'; }, zone.delay);
+        }
+        function resetZoom(index) {
+            const img = slides[index] && slides[index].querySelector('img');
+            if (img) img.style.transform = 'scale(1)';
+        }
 
         // Create progress dots
         slides.forEach((_, i) => {
@@ -753,6 +718,7 @@
         });
 
         goTo = function(index) {
+            resetZoom(current);
             slides[current].classList.remove('active');
             cards[current].classList.remove('active');
             dotsContainer.children[current].classList.remove('active');
@@ -771,38 +737,39 @@
                 timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
                 timerBar.style.width = '100%';
             });
-            if (voiceEnabled) {
-                speakSlide(current);
-            } else if (playing) {
-                resetTimer();
-            }
+            applyZoom(current);
+            if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
+            else if (playing) speedLabel.textContent = 'Auto-playing';
+            if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
+            else if (playing) { resetTimer(); }
         };
 
-        function next() { goTo((current + 1) % slides.length); }
-        function resetTimer() { clearInterval(timer); timer = setInterval(next, SLIDE_DURATION); }
+        function next() {
+            if (current < slides.length - 1) { goTo(current + 1); }
+            else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; stopAudio(); clearInterval(timer); resetZoom(current); }
+        }
+        function resetTimer() {
+            clearInterval(timer); clearTimeout(advanceTimeout);
+            timer = setInterval(() => {
+                if (current < slides.length - 1) next();
+                else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; resetZoom(current); }
+            }, SLIDE_DURATION);
+        }
 
         playPauseBtn.addEventListener('click', () => {
             playing = !playing;
             if (playing) {
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
-                if (voiceEnabled) {
-                    speakSlide(current);
-                } else {
-                    resetTimer();
-                }
+                if (voiceEnabled) { playSlideAudio(current); } else { resetTimer(); }
                 const tb = cards[current].querySelector('.step-timer');
                 tb.style.transition = 'none'; tb.style.width = '0%';
-                requestAnimationFrame(() => {
-                    tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
-                    tb.style.width = '100%';
-                });
+                requestAnimationFrame(() => { tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear'; tb.style.width = '100%'; });
+                applyZoom(current);
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
-                synth.cancel();
-                clearInterval(timer);
-                clearTimeout(speechTimeout);
+                stopAudio(); clearInterval(timer); clearTimeout(advanceTimeout); resetZoom(current);
                 const tb = cards[current].querySelector('.step-timer');
                 const w = getComputedStyle(tb).width;
                 tb.style.transition = 'none'; tb.style.width = w;

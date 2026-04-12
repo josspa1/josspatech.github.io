@@ -1547,13 +1547,10 @@
         let currentStepIndex = 0;
         let isPlaying = false;
         let isMuted = false;
-        let currentUtterance = null;
         let typewriterTimeout = null;
         let typewriterDone = false;
         let ttsDone = false;
         let pendingAdvanceDelay = 0;
-        let preferredVoice = null;
-        let voicesLoaded = false;
 
         // DOM ELEMENTS
         const josspa = document.getElementById("josspa");
@@ -1569,94 +1566,14 @@
         const progressBar = document.getElementById("progressBar");
 
         // ============================
-        // VOICE SELECTION — find the best natural-sounding voice
+        // MP3 AUDIO — pre-generated via edge-tts (en-US-AndrewNeural)
         // ============================
-        function pickBestVoice() {
-            const voices = window.speechSynthesis.getVoices();
-            if (!voices.length) return null;
-
-            // Priority list: natural-sounding male voices that sound authoritative
-            // Each entry: [name fragment, lang fragment] — first match wins
-            const preferred = [
-                // American male voices first — consistent across devices
-                ["Microsoft Guy", "en"],          // Edge neural — American male
-                ["Microsoft Ryan", "en"],         // Edge neural — American male
-                ["Microsoft Mark", "en"],         // Edge — American male
-                ["Google US English", "en"],      // Chrome desktop — American
-                // Android Samsung / Google TTS American male voices
-                ["en-us-x-tpd", "en"],           // Google TTS deep male (Android)
-                ["en-us-x-sfg", "en"],           // Google TTS male variant (Android)
-                ["English United States", "en"],  // Samsung TTS
-                // macOS American male voices
-                ["Alex", "en"],                   // macOS — American male
-                ["Fred", "en"],                   // macOS — American male
-                ["Tom", "en"],                    // macOS — American male
-                ["Aaron", "en"],                  // macOS — American male
-                // Generic fallbacks — prefer male, then any US English
-                ["Male", "en-US"],
-                ["Male", "en"],
-                ["English", "en-US"],
-            ];
-
-            for (const [nameFrag, langFrag] of preferred) {
-                const match = voices.find(v =>
-                    v.name.includes(nameFrag) && v.lang.startsWith(langFrag)
-                );
-                if (match) {
-                    console.log(`TTS voice selected: ${match.name} (${match.lang})`);
-                    return match;
-                }
-            }
-
-            // Log all available voices for debugging
-            console.log("Available TTS voices:", voices.map(v => `${v.name} (${v.lang})`).join(", "));
-
-            // Prefer American male voice
-            const maleUS = voices.find(v =>
-                v.lang.startsWith("en-US") && /male/i.test(v.name) && !/female/i.test(v.name)
-            );
-            if (maleUS) {
-                console.log(`TTS voice (US male fallback): ${maleUS.name} (${maleUS.lang})`);
-                return maleUS;
-            }
-
-            // Any male English voice
-            const maleEnglish = voices.find(v =>
-                v.lang.startsWith("en") && /male/i.test(v.name) && !/female/i.test(v.name)
-            );
-            if (maleEnglish) {
-                console.log(`TTS voice (male fallback): ${maleEnglish.name} (${maleEnglish.lang})`);
-                return maleEnglish;
-            }
-
-            // Last resort: any US English, then any English
-            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
-            if (anyUS) {
-                console.log(`TTS voice (US fallback): ${anyUS.name} (${anyUS.lang})`);
-                return anyUS;
-            }
-            const anyEnglish = voices.find(v => v.lang.startsWith("en"));
-            if (anyEnglish) {
-                console.log(`TTS voice fallback: ${anyEnglish.name} (${anyEnglish.lang})`);
-                return anyEnglish;
-            }
-
-            return voices[0];
-        }
-
-        // Load voices (async on some browsers)
-        function loadVoices() {
-            preferredVoice = pickBestVoice();
-            voicesLoaded = true;
-        }
-
-        if ('speechSynthesis' in window) {
-            // Chrome loads voices async
-            if (window.speechSynthesis.getVoices().length) {
-                loadVoices();
-            }
-            window.speechSynthesis.onvoiceschanged = loadVoices;
-        }
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
+            'audio/slide-8.mp3', 'audio/slide-9.mp3'
+        ];
+        let audioElement = null;
 
         // ============================
         // INITIALIZE
@@ -1751,8 +1668,6 @@
         // NARRATION ENGINE — speech + typewriter sync
         // ============================
         function startNarration(text) {
-            const step = steps[currentStepIndex];
-            const voiceText = step.ttsText || text;
             // Reset coordination flags
             typewriterDone = false;
             ttsDone = false;
@@ -1760,12 +1675,11 @@
             // Always start mouth + talking class
             josspa.classList.add("talking");
             startMouthCycle();
-            if (!isMuted && 'speechSynthesis' in window) {
-                speakText(voiceText);
+            if (!isMuted) {
+                playStepAudio(currentStepIndex, text);
             } else {
-                // No TTS — mark TTS as "done" immediately so advance waits only on typewriter
+                // No audio — mark TTS as "done" immediately so advance waits only on typewriter
                 ttsDone = true;
-                // Calculate read delay for muted mode
                 const wordCount = text.split(/\s+/).length;
                 pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
             }
@@ -1802,91 +1716,53 @@
             typeNextChar();
         }
 
-        // Split long text into short sentence chunks to avoid Chrome/Android TTS kill bug
-        function splitIntoChunks(text) {
-            // Split on sentence endings (. ! ?) or em dashes (—) followed by space
-            const parts = text.split(/(?<=[.!?])\s+|(?<=—)\s*/);
-            const chunks = [];
-            let current = '';
-
-            for (const part of parts) {
-                // Keep chunks very short — under 80 chars for mobile Chrome safety
-                if ((current + ' ' + part).length > 80 && current.length > 0) {
-                    chunks.push(current.trim());
-                    current = part;
-                } else {
-                    current = current ? current + ' ' + part : part;
-                }
+        function stopStepAudio() {
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.removeAttribute('src');
+                audioElement.load();
+                audioElement = null;
             }
-            if (current.trim()) chunks.push(current.trim());
-            console.log("TTS chunks:", chunks.length, chunks);
-            return chunks;
         }
 
-        function speakText(text) {
-            if (!('speechSynthesis' in window)) return;
-
-            // Cancel any existing speech
-            window.speechSynthesis.cancel();
-
-            const isMobileDevice = /Android|iPhone|iPad/i.test(navigator.userAgent);
-            const rate = isMobileDevice ? 0.88 : 0.92;
-            const pitch = isMobileDevice ? 0.75 : 0.88;
-            const ttsStartTime = Date.now();
-            const totalWordCount = text.split(/\s+/).length;
-
-            // Split into sentence-sized chunks to prevent Chrome from killing long utterances
-            const chunks = splitIntoChunks(text);
-            let chunkIndex = 0;
-
-            function speakNextChunk() {
-                if (chunkIndex >= chunks.length) {
-                    // All chunks spoken — done
-                    stopMouthCycle();
-                    josspa.classList.remove("talking");
-                    const elapsed = Date.now() - ttsStartTime;
-                    if (elapsed < 2000 && totalWordCount > 10) {
-                        pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
-                    } else {
-                        pendingAdvanceDelay = 500;
-                    }
-                    ttsDone = true;
-                    tryAdvance();
-                    return;
-                }
-
-                const utterance = new SpeechSynthesisUtterance(chunks[chunkIndex]);
-                currentUtterance = utterance;
-
-                if (preferredVoice) {
-                    utterance.voice = preferredVoice;
-                }
-                utterance.rate = rate;
-                utterance.pitch = pitch;
-                utterance.volume = 1.0;
-
-                utterance.onend = () => {
-                    chunkIndex++;
-                    // Small delay between chunks — Android Chrome needs breathing room
-                    setTimeout(speakNextChunk, 80);
-                };
-
-                utterance.onerror = (e) => {
-                    console.warn("TTS chunk error:", e.error, "chunk:", chunkIndex, "text:", chunks[chunkIndex]);
-                    // TTS failed — give time to read
-                    stopMouthCycle();
-                    josspa.classList.remove("talking");
-                    pendingAdvanceDelay = Math.max(2000, totalWordCount * 50 + 1500);
-                    ttsDone = true;
-                    tryAdvance();
-                };
-
-                window.speechSynthesis.speak(utterance);
+        function playStepAudio(stepIndex, fallbackText) {
+            stopStepAudio();
+            const src = audioPaths[stepIndex];
+            if (!src) {
+                // No MP3 — fall back to read delay
+                const wordCount = fallbackText.split(/\s+/).length;
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                ttsDone = true;
+                tryAdvance();
+                return;
             }
-
+            audioElement = new Audio(src);
+            audioElement.volume = 1.0;
+            audioElement.onended = () => {
+                stopMouthCycle();
+                josspa.classList.remove("talking");
+                pendingAdvanceDelay = 500;
+                ttsDone = true;
+                tryAdvance();
+            };
+            audioElement.onerror = () => {
+                // MP3 failed — give time to read
+                stopMouthCycle();
+                josspa.classList.remove("talking");
+                const wordCount = fallbackText.split(/\s+/).length;
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                ttsDone = true;
+                tryAdvance();
+            };
             josspa.classList.add("talking");
             startMouthCycle();
-            speakNextChunk();
+            audioElement.play().catch(() => {
+                // Autoplay blocked — fall back
+                const wordCount = fallbackText.split(/\s+/).length;
+                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                ttsDone = true;
+                tryAdvance();
+            });
         }
 
         let advanceTimer = null;
@@ -1950,12 +1826,9 @@
                 typewriterTimeout = null;
             }
             clearAdvanceTimer();
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
+            stopStepAudio();
             stopMouthCycle();
             josspa.classList.remove("talking");
-            currentUtterance = null;
         }
 
         // ============================
@@ -1977,15 +1850,12 @@
             isMuted = !isMuted;
             updateButtons();
 
-            if (isMuted && 'speechSynthesis' in window) {
-                // Muting — stop speech, let typewriter continue
-                window.speechSynthesis.cancel();
+            if (isMuted) {
+                // Muting — stop audio, let typewriter continue
+                stopStepAudio();
             } else if (!isMuted && isPlaying) {
-                // Unmuting mid-play — speak current text if typewriter is done
-                const step = steps[currentStepIndex];
-                if (speechText.textContent === step.narration) {
-                    speakText(step.ttsText || step.narration);
-                }
+                // Unmuting mid-play — play audio for current step
+                playStepAudio(currentStepIndex, steps[currentStepIndex].narration);
             }
         }
 

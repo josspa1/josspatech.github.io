@@ -99,6 +99,8 @@
         .slide.active { opacity: 1; }
         .slide img {
             width: 100%; height: 100%; object-fit: cover; object-position: top;
+            transition: transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform-origin 0.3s ease;
+            will-change: transform;
         }
         .slide-overlay {
             position: absolute; bottom: 0; left: 0; right: 0;
@@ -515,7 +517,7 @@
 
     <script>
     (function() {
-        const SLIDE_DURATION = 5000;
+        const SLIDE_DURATION = 8000; // fallback when voice is off
         const slides = document.querySelectorAll('.slide');
         const cards = document.querySelectorAll('.narration-card');
         const dotsContainer = document.getElementById('dots');
@@ -524,59 +526,31 @@
         let current = 0;
         let playing = true;
         let timer = null;
+        let audioElement = null;
+        let voiceEnabled = true;
+        let advanceTimeout = null;
 
-        // Voiceover scripts
-        const voiceoverScripts = [
-            "When you first launch PocketBudJet, the dashboard will look mostly empty. That's completely normal — it fills in as you add your financial data. In a few minutes, this will be your financial command center.",
-            "The first time you open the app, a setup wizard walks you through creating your first account — checking, savings, credit card, whatever you use most. Follow it all the way through. It only takes a minute and sets up the foundation everything else depends on.",
-            "Tap plus, enter an amount, pick a category, and name the merchant. One habit that matters early: always spell merchant names the same way. Daily Grind one time and DAILY GRIND another creates two separate entries in your reports. Use the auto-suggestions the app offers.",
-            "Instead of entering months of old transactions by hand, import them from your bank. Download a CSV or OFX file from your bank's website and import it into PBJ. The more history you give it, the smarter your budgets, reports, and AI coaching become. See our Import Bank Data video for the full walkthrough.",
-            "Once you have data flowing in, the dashboard comes alive. The top cards show your income, total spent, and what's left. Below that, you'll see your budget progress, upcoming bills, and spending trends. Each widget updates in real time as transactions are added.",
-            "PBJ uses color everywhere to give you instant status. Green means on track. Yellow means you're getting close to a limit. Red means you've gone over. The spending pace indicator compares where you are in the month to where your spending is — if you've used 80 percent of your budget but you're only halfway through the month, it warns you.",
-            "Pick a template like 50/30/20 or build your own from scratch. Once it's set, PBJ tracks your spending against it automatically — progress bars update after every transaction. See our Budget Setup video for a detailed walkthrough.",
-            "After about a week of use, PBJ starts doing things you can't do yourself. The AI coach spots spending patterns and warns you before you overspend. Reports show real trends across months. Debt projections calculate your payoff date. The app gets meaningfully smarter the longer you use it — that's the whole point of the setup you just did."
+        // ── MP3 audio paths (pre-generated via edge-tts, en-US-AvaNeural) ──
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3'
         ];
 
-        // Voice synthesis setup
-        const synth = window.speechSynthesis;
-        let voiceEnabled = true;
-        let currentUtterance = null;
-        let speechTimeout = null;
-        const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
-        let cachedVoice = null;
+        // ── Zoom focus zones per slide ──
+        // Each entry: { scale, originX%, originY%, delay (ms before zoom) }
+        // Zoom into the relevant part of the screenshot while narrator talks about it
+        const focusZones = [
+            { scale: 1.4, originX: 50, originY: 25, delay: 1500 },  // Slide 0: dashboard top area
+            { scale: 1.5, originX: 50, originY: 40, delay: 1200 },  // Slide 1: setup wizard mid-screen
+            { scale: 1.6, originX: 50, originY: 35, delay: 1000 },  // Slide 2: transaction entry area
+            { scale: 1.5, originX: 50, originY: 50, delay: 1200 },  // Slide 3: scanner/import center
+            { scale: 1.4, originX: 50, originY: 55, delay: 1500 },  // Slide 4: dashboard widgets below top
+            { scale: 1.5, originX: 50, originY: 45, delay: 1200 },  // Slide 5: budget progress bars mid
+            { scale: 1.5, originX: 50, originY: 40, delay: 1000 },  // Slide 6: budget setup area
+            { scale: 1.4, originX: 50, originY: 45, delay: 1500 },  // Slide 7: AI coach area
+        ];
 
-        // Load voices (async on some browsers like Chrome)
-        function loadVoices() {
-            cachedVoice = pickBestVoice(synth.getVoices());
-        }
-        if (synth.getVoices().length) loadVoices();
-        synth.onvoiceschanged = loadVoices;
-
-        // Pick the most natural-sounding female voice available
-        function pickBestVoice(voices) {
-            if (!voices.length) return null;
-            const preferred = [
-                ["Samantha", "en"], ["Microsoft Zira", "en"], ["Google UK English Female", "en"],
-                ["Karen", "en"], ["Moira", "en"], ["Tessa", "en"], ["Serena", "en"],
-                ["Victoria", "en"], ["Fiona", "en"], ["Veena", "en"],
-                ["Female", "en-US"], ["Female", "en"],
-            ];
-            for (const [nameFrag, langFrag] of preferred) {
-                const match = voices.find(v => v.name.includes(nameFrag) && v.lang.startsWith(langFrag));
-                if (match) return match;
-            }
-            const femaleUS = voices.find(v => v.lang.startsWith("en-US") && /female/i.test(v.name));
-            if (femaleUS) return femaleUS;
-            const femaleEn = voices.find(v => v.lang.startsWith("en") && /female/i.test(v.name));
-            if (femaleEn) return femaleEn;
-            const anyUS = voices.find(v => v.lang.startsWith("en-US"));
-            if (anyUS) return anyUS;
-            const anyEn = voices.find(v => v.lang.startsWith("en"));
-            if (anyEn) return anyEn;
-            return voices[0];
-        }
-
-        // Voice toggle button
+        // ── Voice toggle button ──
         const voiceBtn = document.createElement('button');
         voiceBtn.className = 'voice-btn';
         voiceBtn.innerHTML = '&#128264;';
@@ -589,36 +563,95 @@
             voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
             voiceBtn.classList.toggle('muted', !voiceEnabled);
             if (!voiceEnabled) {
-                synth.cancel();
-                clearTimeout(speechTimeout);
+                stopAudio();
                 if (playing) resetTimer();
             } else {
-                speakSlide(current);
+                clearInterval(timer);
+                playSlideAudio(current);
             }
         });
 
-        function speakSlide(index) {
-            if (!voiceEnabled || !synth) return;
-            synth.cancel();
-            clearTimeout(speechTimeout);
-            const text = voiceoverScripts[index];
-            if (!text) return;
-            currentUtterance = new SpeechSynthesisUtterance(text);
-            currentUtterance.rate = isMobile ? 0.88 : 0.92;
-            currentUtterance.pitch = isMobile ? 0.82 : 0.95;
-            currentUtterance.volume = 1.0;
-            if (!cachedVoice) loadVoices();
-            if (cachedVoice) currentUtterance.voice = cachedVoice;
-            currentUtterance.onend = () => {
-                if (playing && voiceEnabled) {
-                    speechTimeout = setTimeout(next, 1200);
-                }
-            };
-            clearInterval(timer);
-            synth.speak(currentUtterance);
+        // ── Audio playback (MP3) ──
+        function stopAudio() {
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.removeAttribute('src');
+                audioElement.load();
+                audioElement = null;
+            }
+            clearTimeout(advanceTimeout);
         }
 
-        // Build dots
+        function playSlideAudio(index) {
+            stopAudio();
+            if (!voiceEnabled) return;
+            const src = audioPaths[index];
+            if (!src) return;
+            audioElement = new Audio(src);
+            audioElement.volume = 1.0;
+            audioElement.onended = () => {
+                if (playing && voiceEnabled) {
+                    // After audio ends, wait 1.2s then advance (if not last slide)
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) {
+                            next();
+                        } else {
+                            // Last slide finished — stop playback
+                            playing = false;
+                            playPauseBtn.innerHTML = '&#9654;';
+                            speedLabel.textContent = 'Finished';
+                            resetZoom(current);
+                        }
+                    }, 1200);
+                }
+            };
+            audioElement.onerror = () => {
+                // If MP3 fails to load, fall back to timer-based advance
+                if (playing) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) next();
+                    }, SLIDE_DURATION);
+                }
+            };
+            audioElement.play().catch(() => {
+                // Autoplay blocked — fall back to timer
+                if (playing) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) next();
+                    }, SLIDE_DURATION);
+                }
+            });
+        }
+
+        // ── Zoom/Focus feature ──
+        function applyZoom(index) {
+            const zone = focusZones[index];
+            if (!zone) return;
+            const img = slides[index].querySelector('img');
+            if (!img) return;
+            // Start un-zoomed, then zoom in after a delay
+            img.style.transformOrigin = zone.originX + '% ' + zone.originY + '%';
+            img.style.transform = 'scale(1)';
+            setTimeout(() => {
+                img.style.transform = 'scale(' + zone.scale + ')';
+            }, zone.delay);
+        }
+
+        function resetZoom(index) {
+            const img = slides[index].querySelector('img');
+            if (!img) return;
+            img.style.transform = 'scale(1)';
+        }
+
+        // Reset zoom on ALL slides (for clean state)
+        function resetAllZoom() {
+            slides.forEach((slide) => {
+                const img = slide.querySelector('img');
+                if (img) img.style.transform = 'scale(1)';
+            });
+        }
+
+        // ── Build dots ──
         slides.forEach((_, i) => {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -626,15 +659,19 @@
             dotsContainer.appendChild(dot);
         });
 
+        // ── Navigation ──
         function goTo(index) {
+            // Reset outgoing slide
+            resetZoom(current);
             slides[current].classList.remove('active');
             cards[current].classList.remove('active');
             dotsContainer.children[current].classList.remove('active');
-            // Reset timer bar
             cards[current].querySelector('.narration-timer').style.transition = 'none';
             cards[current].querySelector('.narration-timer').style.width = '0%';
 
             current = index;
+
+            // Activate incoming slide
             slides[current].classList.add('active');
             cards[current].classList.add('active');
             dotsContainer.children[current].classList.add('active');
@@ -646,33 +683,67 @@
                 timerBar.style.width = '100%';
             });
 
+            // Apply zoom focus
+            applyZoom(current);
+
+            // Update speed label
+            if (playing && current === slides.length - 1) {
+                speedLabel.textContent = 'Last step';
+            } else if (playing) {
+                speedLabel.textContent = 'Auto-playing';
+            }
+
             if (voiceEnabled) {
-                speakSlide(current);
+                clearInterval(timer);
+                playSlideAudio(current);
             } else if (playing) {
                 resetTimer();
             }
         }
 
         function next() {
-            goTo((current + 1) % slides.length);
+            // STOP at last slide — no looping
+            if (current < slides.length - 1) {
+                goTo(current + 1);
+            } else {
+                // Reached the end — stop
+                playing = false;
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Finished';
+                stopAudio();
+                clearInterval(timer);
+                resetZoom(current);
+            }
         }
 
         function resetTimer() {
             clearInterval(timer);
-            timer = setInterval(next, SLIDE_DURATION);
+            clearTimeout(advanceTimeout);
+            timer = setInterval(() => {
+                if (current < slides.length - 1) {
+                    next();
+                } else {
+                    clearInterval(timer);
+                    playing = false;
+                    playPauseBtn.innerHTML = '&#9654;';
+                    speedLabel.textContent = 'Finished';
+                    resetZoom(current);
+                }
+            }, SLIDE_DURATION);
         }
 
+        // ── Play/Pause ──
         playPauseBtn.addEventListener('click', () => {
             playing = !playing;
             if (playing) {
                 playPauseBtn.innerHTML = '&#10074;&#10074;';
                 speedLabel.textContent = 'Auto-playing';
                 if (voiceEnabled) {
-                    speakSlide(current);
+                    playSlideAudio(current);
                 } else {
                     resetTimer();
                 }
-                // Restart current timer animation
+                // Restart timer bar animation
                 const timerBar = cards[current].querySelector('.narration-timer');
                 timerBar.style.transition = 'none';
                 timerBar.style.width = '0%';
@@ -680,12 +751,14 @@
                     timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
                     timerBar.style.width = '100%';
                 });
+                applyZoom(current);
             } else {
                 playPauseBtn.innerHTML = '&#9654;';
                 speedLabel.textContent = 'Paused';
-                synth.cancel();
+                stopAudio();
                 clearInterval(timer);
-                clearTimeout(speechTimeout);
+                clearTimeout(advanceTimeout);
+                resetZoom(current);
                 // Pause timer bar
                 const timerBar = cards[current].querySelector('.narration-timer');
                 const computed = getComputedStyle(timerBar).width;
@@ -694,7 +767,7 @@
             }
         });
 
-        // Start
+        // ── Start ──
         goTo(0);
     })();
     </script>
