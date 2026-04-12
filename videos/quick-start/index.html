@@ -559,7 +559,7 @@
         const speedLabel = document.getElementById('speedLabel');
         const tapToStart = document.getElementById('tapToStart');
         let current = 0;
-        let playing = false;   // start paused — wait for user gesture (mobile autoplay policy)
+        let playing = true;
         let audioUnlocked = false;
         let timer = null;
         let audioElement = null;
@@ -666,14 +666,27 @@
                     }, SLIDE_DURATION);
                 }
             };
-            audioElement.play().catch(() => {
-                // Autoplay blocked — fall back to timer
-                if (playing) {
-                    advanceTimeout = setTimeout(() => {
-                        if (current < slides.length - 1) next();
-                    }, SLIDE_DURATION);
-                }
-            });
+            const _p = audioElement.play();
+            if (_p !== undefined) {
+                _p.then(() => {
+                    if (!audioUnlocked) {
+                        audioUnlocked = true;
+                        tapToStart.classList.add('hidden');
+                        playPauseBtn.innerHTML = '&#10074;&#10074;';
+                        speedLabel.textContent = 'Auto-playing';
+                    }
+                }).catch(() => {
+                    if (!audioUnlocked) {
+                        playing = false;
+                        playPauseBtn.innerHTML = '&#9654;';
+                        speedLabel.textContent = 'Tap to play';
+                    } else if (playing) {
+                        advanceTimeout = setTimeout(() => {
+                            if (current < slides.length - 1) next();
+                        }, SLIDE_DURATION);
+                    }
+                });
+            }
 
             // Slide 5: briefly show colorblind-friendly palette when narrator mentions it
             if (index === 5) {
