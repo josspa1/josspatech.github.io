@@ -1918,12 +1918,15 @@
         // START — auto-play on load for immediate engagement
         init();
 
-        // Auto-play after a brief moment (lets the page render first)
-        setTimeout(() => {
+        // Tap-to-start overlay handles first play (mobile autoplay policy)
+        const tapToStart = document.getElementById('tapToStart');
+        tapToStart.addEventListener('click', function() {
+            if (isPlaying) return;
+            tapToStart.classList.add('hidden');
             isPlaying = true;
             updateButtons();
             startNarration(steps[0].narration);
-        }, 600);
+        });
     </script>
 </body>
 </html>

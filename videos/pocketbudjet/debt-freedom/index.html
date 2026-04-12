@@ -285,6 +285,28 @@
  }
  .voice-btn:hover { background: var(--navy-medium); }
  .voice-btn.muted { opacity: 0.5; }
+        /* Tap-to-start overlay — shown on load, hidden after first user gesture */
+        .tap-to-start {
+            position: absolute; inset: 0; z-index: 20;
+            background: rgba(10, 26, 57, 0.72);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border-radius: inherit;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+        .tap-to-start-icon {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--gold); color: var(--navy-dark);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 0.6rem;
+        }
+        .tap-to-start-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            color: white; letter-spacing: 0.05em;
+        }
  </style>
 </head>
 <body>
@@ -323,6 +345,11 @@
  <div class="phone-viewport">
  <div class="phone-frame">
  <div class="slideshow" id="slideshow">
+                            <!-- Tap-to-start overlay (handles mobile autoplay policy) -->
+                            <div class="tap-to-start" id="tapToStart">
+                                <div class="tap-to-start-icon">&#9654;</div>
+                                <div class="tap-to-start-label">Tap to play</div>
+                            </div>
  <div class="slide active" data-index="0">
  <img src="/assets/screenshots/debt.png" alt="The Problem: Debt is stressful" loading="lazy">
  <div class="slide-overlay">
@@ -474,7 +501,8 @@
  <script>
  const SLIDE_DURATION = 8000;
  let currentSlide = 0;
- let isPlaying = true;
+ let isPlaying = false;   // start paused
+let audioUnlocked = false;
  let autoPlayTimeout;
  const slides = document.querySelectorAll('.slide');
  const narrationCards = document.querySelectorAll('.narration-card');
@@ -535,7 +563,19 @@
  }
  };
  audioElement.onerror = () => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); };
- audioElement.play().catch(() => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); });
+ // Tap-to-start overlay (satisfies mobile autoplay gesture requirement)
+        const tapToStart = document.getElementById('tapToStart');
+        function startPlayback() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            tapToStart.classList.add('hidden');
+            isPlaying = true;
+            if (typeof playSlideAudio === 'function') playSlideAudio(typeof currentSlide !== 'undefined' ? currentSlide : 0);
+            else if (typeof startSlide === 'function') startSlide(0);
+        }
+        tapToStart.addEventListener('click', startPlayback);
+
+        audioElement.play().catch(() => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); });
  }
 
  function updateSlide(index) {
