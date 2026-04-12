@@ -124,15 +124,21 @@
 
         /* Narration panel */
         .narration-panel {
-            max-width: 400px; flex: 1; min-width: 280px;
+            max-width: 400px; flex: 1; min-width: 280px; position: relative;
         }
         .narration-card {
             background: var(--white); border-radius: 16px; padding: 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
             margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
             transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute; top: 0; left: 0; width: 100%;
+            pointer-events: none;
         }
-        .narration-card.active { opacity: 1; transform: translateY(0); }
+        .narration-card.active {
+            opacity: 1; transform: translateY(0);
+            position: relative;
+            pointer-events: auto;
+        }
         .narration-step-badge {
             display: inline-block; background: var(--navy); color: white;
             font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
@@ -483,6 +489,14 @@
         let currentUtterance = null;
         let speechTimeout = null;
         const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+        let cachedVoice = null;
+
+        // Load voices (async on some browsers like Chrome)
+        function loadVoices() {
+            cachedVoice = pickBestVoice(synth.getVoices());
+        }
+        if (synth.getVoices().length) loadVoices();
+        synth.onvoiceschanged = loadVoices;
 
         // Pick the most natural-sounding male voice available
         function pickBestVoice(voices) {
@@ -547,8 +561,8 @@
             currentUtterance.rate = isMobile ? 0.88 : 0.92;
             currentUtterance.pitch = isMobile ? 0.75 : 0.88;
             currentUtterance.volume = 1.0;
-            const pick = pickBestVoice(synth.getVoices());
-            if (pick) currentUtterance.voice = pick;
+            if (!cachedVoice) loadVoices();
+            if (cachedVoice) currentUtterance.voice = cachedVoice;
             currentUtterance.onend = () => {
                 if (playing && voiceEnabled) {
                     speechTimeout = setTimeout(next, 1200);

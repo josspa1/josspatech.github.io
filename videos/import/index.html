@@ -659,6 +659,14 @@
         let currentUtterance = null;
         let speechTimeout = null;
         const isMobile = /Android|iPhone|iPad/.test(navigator.userAgent);
+        let cachedVoice = null;
+
+        // Load voices (async on some browsers like Chrome)
+        function loadVoices() {
+            cachedVoice = pickBestVoice(synth.getVoices());
+        }
+        if (synth.getVoices().length) loadVoices();
+        synth.onvoiceschanged = loadVoices;
 
         // Pick the most natural-sounding male voice available
         function pickBestVoice(voices) {
@@ -715,8 +723,8 @@
             currentUtterance.rate = isMobile ? 0.88 : 0.92;
             currentUtterance.pitch = isMobile ? 0.75 : 0.88;
             currentUtterance.volume = 1.0;
-            const pick = pickBestVoice(synth.getVoices());
-            if (pick) currentUtterance.voice = pick;
+            if (!cachedVoice) loadVoices();
+            if (cachedVoice) currentUtterance.voice = cachedVoice;
             currentUtterance.onend = () => {
                 if (playing && voiceEnabled) {
                     speechTimeout = setTimeout(next, 1200);
@@ -726,9 +734,7 @@
             synth.speak(currentUtterance);
         }
 
-        if (synth && synth.onvoiceschanged !== undefined) {
-            synth.onvoiceschanged = () => {};
-        }
+        // Voices loaded via onvoiceschanged above
 
         // Create progress dots
         slides.forEach((_, i) => {
