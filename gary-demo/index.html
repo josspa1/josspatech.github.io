@@ -1065,6 +1065,7 @@
     <div class="breadcrumbs">
         <a href="/">Home</a><span class="sep">/</span>
         <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <a href="/how-to/">How To</a><span class="sep">/</span>
         <span class="current">Gary Demo</span>
     </div>
 
@@ -1545,7 +1546,8 @@
 
         // STATE
         let currentStepIndex = 0;
-        let isPlaying = false;
+        let isPlaying = true;
+        let audioUnlocked = false;
         let isMuted = false;
         let typewriterTimeout = null;
         let typewriterDone = false;
@@ -1756,13 +1758,27 @@
             };
             josspa.classList.add("talking");
             startMouthCycle();
-            audioElement.play().catch(() => {
-                // Autoplay blocked — fall back
-                const wordCount = fallbackText.split(/\s+/).length;
-                pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
-                ttsDone = true;
-                tryAdvance();
-            });
+            const _p = audioElement.play();
+            if (_p !== undefined) {
+                _p.then(() => {
+                    if (!audioUnlocked) {
+                        audioUnlocked = true;
+                        tapToStart.classList.add('hidden');
+                        updateButtons();
+                    }
+                }).catch(() => {
+                    if (!audioUnlocked) {
+                        isPlaying = false;
+                        updateButtons();
+                    } else {
+                        // Autoplay blocked on subsequent slide — fall back
+                        const wordCount = fallbackText.split(/\s+/).length;
+                        pendingAdvanceDelay = Math.max(2000, wordCount * 50 + 1500);
+                        ttsDone = true;
+                        tryAdvance();
+                    }
+                });
+            }
         }
 
         let advanceTimer = null;
@@ -1922,6 +1938,7 @@
         const tapToStart = document.getElementById('tapToStart');
         tapToStart.addEventListener('click', function() {
             if (isPlaying) return;
+            audioUnlocked = true;
             tapToStart.classList.add('hidden');
             isPlaying = true;
             updateButtons();
