@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>完整用户指南 - PocketBudJet | JosspaTech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+      --gold: #F0C040; --gold-dark: #E8A820;
+      --slate: #5A7A9A; --slate-light: #8AAABB;
+      --background: #EDF2F7; --white: #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; color: var(--navy); background-color: var(--white); line-height: 1.6; }
+
+    nav { position: sticky; top: 0; z-index: 1000; background-color: var(--navy); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+    nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+    nav .nav-links a { color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+    nav .nav-links a:hover { color: var(--gold); }
+    nav .cta-button { background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem; border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s ease; }
+    nav .cta-button:hover { background-color: var(--gold-dark); }
+
+    .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.9rem; color: var(--slate); }
+    .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+    .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+    .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+    .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+    .hero .container { max-width: 1200px; margin: 0 auto; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; line-height: 1.2; }
+    .hero .subheader { font-size: 1.25rem; font-weight: 300; max-width: 700px; margin: 0 auto; color: rgba(255,255,255,0.95); }
+
+    .video-section { background-color: var(--background); padding: 4rem 2rem; }
+    .video-section .container { max-width: 1200px; margin: 0 auto; }
+    .video-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; color: var(--navy); }
+    .video-section .section-sub { text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem; }
+    .video-wrapper { display: flex; gap: 3rem; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+
+    .phone-viewport { flex-shrink: 0; overflow: hidden; border-radius: 40px; }
+    .phone-frame { width: 320px; position: relative; border: 10px solid var(--navy-dark); border-radius: 40px; overflow: hidden; background: #000; box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1); aspect-ratio: 9 / 19.5; }
+    .phone-frame::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px; z-index: 20; }
+    .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+    .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; }
+    .slide.active { opacity: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+    .tap-to-start { position: absolute; inset: 0; z-index: 20; background: rgba(10,26,57,0.72); display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: inherit; cursor: pointer; transition: opacity 0.3s; }
+    .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+    .tap-to-start-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--gold); color: var(--navy-dark); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.6rem; }
+    .tap-to-start-label { font-family: 'Source Sans 3', sans-serif; font-size: 0.9rem; font-weight: 700; color: white; letter-spacing: 0.05em; }
+
+    .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; flex-wrap: wrap; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer; }
+    .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+
+    .narration-panel { max-width: 450px; flex: 1; min-width: 300px; position: relative; }
+    .narration-card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold); margin-bottom: 1rem; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+    .narration-card.active { opacity: 1; transform: translateY(0); position: relative; pointer-events: auto; }
+    .narration-step-badge { display: inline-block; background: var(--navy); color: white; font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 0.6rem; }
+    .narration-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.8rem; }
+    .narration-card p { color: var(--slate); font-size: 1rem; line-height: 1.7; }
+    .narration-timer { height: 3px; background: var(--gold); border-radius: 2px; margin-top: 1rem; width: 0%; transition: width linear; }
+    .narration-card.active .narration-timer { width: 100%; }
+
+    .chapter-nav { display: flex; justify-content: center; gap: 0.8rem; margin-top: 2rem; flex-wrap: wrap; align-items: center; }
+    .chapter-btn { background: var(--navy); color: white; border: 2px solid var(--navy); padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; }
+    .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
+    .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
+
+    .playback-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; align-items: center; }
+    .play-pause-btn { background: var(--navy); color: white; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: background 0.3s; }
+    .play-pause-btn:hover { background: var(--navy-medium); }
+    .voice-btn { background: var(--navy); color: white; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: background 0.3s, opacity 0.3s; }
+    .voice-btn:hover { background: var(--navy-medium); }
+    .voice-btn.muted { opacity: 0.5; }
+
+    .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+    .steps-section .container { max-width: 1200px; margin: 0 auto; }
+    .steps-section h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; text-align: center; margin-bottom: 3rem; color: var(--navy); }
+    .timeline { max-width: 900px; margin: 0 auto; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 4px; height: 100%; background-color: var(--gold); }
+    .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
+    .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
+    .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
+    .timeline-marker { position: absolute; left: 50%; transform: translateX(-50%); top: 0; width: 50px; height: 50px; background-color: var(--gold); border: 4px solid var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3); }
+    .timeline-content { background-color: var(--background); padding: 2rem; border-radius: 12px; border-left: 5px solid var(--gold); }
+    .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
+    .timeline-content h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
+    .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
+
+    .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); padding: 4rem 2rem; text-align: center; }
+    .cta-section .container { max-width: 1200px; margin: 0 auto; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+    .cta-section p { color: rgba(255,255,255,0.95); font-size: 1.05rem; max-width: 600px; margin: 0 auto 2rem; }
+    .download-button { display: inline-block; background-color: var(--gold); color: var(--navy); padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700; text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold); box-shadow: 0 4px 15px rgba(240,192,64,0.3); }
+    .download-button:hover { background-color: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(240,192,64,0.4); }
+
+    footer { background-color: var(--navy-dark); color: var(--white); padding: 2rem; text-align: center; font-size: 0.9rem; }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-dark); }
+
+    @media (max-width: 768px) {
+      nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+      .hero h1 { font-size: 2rem; }
+      .hero .subheader { font-size: 1rem; }
+      .video-wrapper { flex-direction: column; gap: 2rem; }
+      .phone-frame { width: 280px; }
+      .narration-panel { max-width: 100%; }
+      .chapter-nav { gap: 0.6rem; margin-top: 1.5rem; }
+      .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
+      .timeline::before { left: 25px; }
+      .timeline-step:nth-child(odd), .timeline-step:nth-child(even) { text-align: left; padding-right: 0; padding-left: 90px; }
+      .timeline-marker { left: 0; transform: translateX(0); }
+      .timeline-content, .timeline-step:nth-child(odd) .timeline-content { border-left: 5px solid var(--gold); border-right: none; }
+      .steps-section h2 { font-size: 1.8rem; }
+    }
+    @media (max-width: 480px) {
+      nav { padding: 0.8rem 1rem; }
+      nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+      nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
+      .hero { padding: 2.5rem 1rem; }
+      .hero h1 { font-size: 1.5rem; }
+      .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
+      .phone-frame { width: 240px; }
+      .video-section { padding: 2.5rem 1rem; }
+      .chapter-nav { gap: 0.5rem; margin-top: 1.2rem; }
+      .chapter-btn { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+      .steps-section { padding: 2.5rem 1rem; }
+      .steps-section h2 { font-size: 1.5rem; }
+      .timeline-step { padding-left: 70px !important; margin-bottom: 2rem; }
+      .timeline-marker { width: 40px; height: 40px; font-size: 1.1rem; }
+      .narration-card { padding: 1.5rem; }
+      .narration-card h3 { font-size: 1.1rem; }
+      .narration-card p { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">JosspaTech</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#products">Products</a></li>
+        <li><a href="/how-to/">How To</a></li>
+        <li><a href="#" class="cta-button">Get the App</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="breadcrumbs">
+    <a href="/">首页</a>
+    <span class="sep">/</span>
+    <a href="/#pbj">PocketBudJet</a>
+    <span class="sep">/</span>
+    <a href="/how-to/">使用指南</a>
+    <span class="sep">/</span>
+    <span class="current">用户指南</span>
+  </div>
+
+  <div class="hero">
+    <div class="container">
+      <h1>PocketBudJet 完整用户指南</h1>
+      <p class="subheader">每个界面。每项功能。每个设置。全面的视觉导览，带您了解 PocketBudJet 能为您的财务做的一切。</p>
+    </div>
+  </div>
+
+  <div class="video-section">
+    <div class="container">
+      <h2>观看完整导览</h2>
+      <p class="section-sub">跟随我们游览27个章节的每项功能</p>
+      <div class="video-wrapper">
+        <div>
+          <div class="phone-viewport">
+            <div class="phone-frame">
+              <div class="slideshow">
+          <div class="slide active">
+            <img src="/assets/screenshots/dashboard.png" alt="仪表板">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="交易">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="交易">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/scanner.png" alt="扫描仪">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/budget.png" alt="预算">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/bills.png" alt="账单">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/budget.png" alt="储蓄">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/debt.png" alt="债务">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="投资">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="报告">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/ai-coach.png" alt="AI教练">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/ai-coach.png" alt="AI助手">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="搜索">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/privacy.png" alt="导出">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="电脑仪表板">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="税务">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/privacy.png" alt="家庭">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/bills.png" alt="日历">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/transactions.png" alt="规则">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="无障碍">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/budget.png" alt="正念功能">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="退休">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/ai-coach.png" alt="语音">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="定价">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/privacy.png" alt="隐私">
+          </div>
+          <div class="slide">
+            <img src="/assets/screenshots/dashboard.png" alt="帮助">
+          </div>
+                <div class="tap-to-start" id="tapToStart">
+                  <div class="tap-to-start-icon">&#9654;</div>
+                  <div class="tap-to-start-label">TAP TO PLAY</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="progress-dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+        <span class="dot" data-slide="3"></span>
+        <span class="dot" data-slide="4"></span>
+        <span class="dot" data-slide="5"></span>
+        <span class="dot" data-slide="6"></span>
+        <span class="dot" data-slide="7"></span>
+        <span class="dot" data-slide="8"></span>
+        <span class="dot" data-slide="9"></span>
+        <span class="dot" data-slide="10"></span>
+        <span class="dot" data-slide="11"></span>
+        <span class="dot" data-slide="12"></span>
+        <span class="dot" data-slide="13"></span>
+        <span class="dot" data-slide="14"></span>
+        <span class="dot" data-slide="15"></span>
+        <span class="dot" data-slide="16"></span>
+        <span class="dot" data-slide="17"></span>
+        <span class="dot" data-slide="18"></span>
+        <span class="dot" data-slide="19"></span>
+        <span class="dot" data-slide="20"></span>
+        <span class="dot" data-slide="21"></span>
+        <span class="dot" data-slide="22"></span>
+        <span class="dot" data-slide="23"></span>
+        <span class="dot" data-slide="24"></span>
+        <span class="dot" data-slide="25"></span>
+          </div>
+        </div>
+
+        <div class="narration-panel">
+        <div class="narration-card active">
+          <span class="narration-step-badge">第 1 页，共27页</span>
+          <h3>欢迎与入门</h3>
+          <p>下载Pocket Budget，运行设置向导，创建您的第一个账户，开始35天免费试用。向导将引导您完成姓名、货币、账户、收入、账单、目标和预算风格的设置——这是应用程序从第一天起就能智能运作所需的一切。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 2 页，共27页</span>
+          <h3>您的仪表板</h3>
+          <p>顶部显示收入、支出和净值卡片。支出进度指示器显示您是否按计划进行。小部件提供快速操作。异常提醒标记异常交易。指示器将您当前的位置与本月到目前为止您应在的位置进行比较。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 3 页，共27页</span>
+          <h3>添加交易</h3>
+          <p>点击加号按钮，输入金额，选择类别，完成。将交易分摊到多个类别。添加收据照片等附件。使用预设进行重复录入。提示：每次以相同方式拼写商户名称，这样它们在报告中能正确分组。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 4 页，共27页</span>
+          <h3>导入数据</h3>
+          <p>导入CSV、OFX、QFX、QIF、XLSX或PDF格式的银行对账单。智能映射器自动检测列。重复检测防止双重计算。至少导入三个月的历史记录——数据越多，AI越智能，报告越准确。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 5 页，共27页</span>
+          <h3>扫描文档</h3>
+          <p>用相机扫描收据。OCR读取商户、金额和日期。WiFi扫描仪支持连接您家中的ADF扫描仪进行批量处理。甚至可以读取手写内容。截至发布时，Pocket Budget是我们所知道的唯一支持WiFi扫描仪的预算应用程序。将一叠收据放入扫描仪的纸盒中，然后走开就好。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 6 页，共27页</span>
+          <h3>管理预算</h3>
+          <p>五个预算模板或自定义创建。带有彩色进度条的类别限额。结转未使用的预算。健康概览显示您的整体状况。差异报告比较计划与实际情况。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 7 页，共27页</span>
+          <h3>账单与定期交易</h3>
+          <p>带有到期日期的可视化账单日历。绿色圆点标记发薪日。设置定期收入和支出。智能预测根据规律估算即将到来的账单。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 8 页，共27页</span>
+          <h3>储蓄与目标</h3>
+          <p>设置带有目标日期的储蓄目标。为计划中的支出创建专项储蓄基金。购物愿望清单设有30天冷静期，以控制冲动消费。您会惊讶地发现，有多少必买品撑不过这段等待。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 9 页，共27页</span>
+          <h3>消除债务</h3>
+          <p>在一个地方追踪所有债务。选择雪崩法（最高利率优先）或滚雪球法（最小余额优先）。查看您的无债务日期。知道您确切的无债务日期会将压倒性的债务堆转变为倒计时。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 10 页，共27页</span>
+          <h3>投资与净资产</h3>
+          <p>追踪股票、加密货币（支持19种币种）以及通过房产估值平台估算的房产价值。监控您的信用评分。将保险单与资产一起查看，获得完整的净资产图景。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 11 页，共27页</span>
+          <h3>报告与分析</h3>
+          <p>超过10种报告类型：按类别的支出、收入与支出对比、逐年比较、异常仪表板、税务摘要以及您自己设计的自定义报告。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 12 页，共27页</span>
+          <h3>AI财务教练</h3>
+          <p>基于您消费模式的个性化见解。仅在您选择加入时生效。发现您可能错过的趋势，对异常活动发出警告，并发送每周财务回顾。您给它的数据越多，它就越智能。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 13 页，共27页</span>
+          <h3>AI助手</h3>
+          <p>用简单的语言询问您的财务问题。我上个月在餐饮上花了多少？我超出预算了吗？十一种查询类型，全部在您的设备上处理。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 14 页，共27页</span>
+          <h3>即时查找任何功能</h3>
+          <p>Pocket Budget有数十种功能——您不会通过随意点击就全部找到。按金额或商户搜索交易。搜索功能：尝试里程查找税务追踪，语音查找语音快捷方式，退休查找规划器，或色盲查找无障碍选项。如果您想知道Pocket Budget是否能做某件事，只需搜索它。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 15 页，共27页</span>
+          <h3>导出与共享</h3>
+          <p>六种格式导出：CSV、XLSX、OFX、PDF、JSON和加密备份。生成适合会计师的税务报告。运行局域网服务器将文件传输到您的计算机。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 16 页，共27页</span>
+          <h3>电脑网页仪表板</h3>
+          <p>从本地网络上的任何浏览器访问Pocket Budget。扫描二维码配对。五个标签：仪表板、交易、预算、报告、设置。与手机实时同步。非常适合导入您在计算机上下载的银行文件——直接拖放到浏览器中。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 17 页，共27页</span>
+          <h3>税务功能</h3>
+          <p>用八个税务类别标记交易。为您的会计师生成税务摘要。季度预估税计算器。内置里程追踪器用于商业扣除。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 18 页，共27页</span>
+          <h3>家庭同步</h3>
+          <p>通过WiFi或蓝牙与家庭成员同步——无需互联网。用二维码配对。联合预算与个人支出可见性。自动解决同时编辑产生的冲突。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 19 页，共27页</span>
+          <h3>日历视图</h3>
+          <p>月度日历显示每天的交易点。账单到期日和发薪日标记。按类别进行颜色编码。点击任意一天查看当天的交易。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 20 页，共27页</span>
+          <h3>书签与规则</h3>
+          <p>将重要交易加入书签以便快速访问。按商户名称创建自动分类规则。一次批量编辑多个交易。规则是一大省时工具——设置一条规则，未来每笔交易都会自动分类。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 21 页，共27页</span>
+          <h3>无障碍功能</h3>
+          <p>深色模式、高对比度模式和色盲友好调色板。使用生物识别的应用程序锁定。大字体支持。完整的屏幕阅读器兼容性。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 22 页，共27页</span>
+          <h3>正念功能</h3>
+          <p>正念预算视图去除数字，显示简单的进度环。时间成本模式将价格转换为工作小时数。一顿五十美元的晚餐变成了两个半小时的工作。它改变了您对支出的思考方式。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 23 页，共27页</span>
+          <h3>退休规划</h3>
+          <p>追踪向储蓄里程碑的进度。提前退休计算器。安全提款率预测。基于当前储蓄率的退休收入估算器。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 24 页，共27页</span>
+          <h3>语音快捷方式</h3>
+          <p>适用于Siri和Google助手。六个内置快捷方式：添加交易、查看余额、预算状态等。为您最常见的操作创建自定义语音快捷方式。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 25 页，共27页</span>
+          <h3>定价</h3>
+          <p>二十一天全功能免费试用。然后选择月度、年度或三年计划。随时取消。无广告，不出售数据——您的订阅是我们唯一的收入来源。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 26 页，共27页</span>
+          <h3>隐私与安全</h3>
+          <p>所有数据在您的设备上加密。从不存储银行登录凭据。无需云端。使用PIN或生物识别的应用程序锁定。除非您导出，否则您的财务数据永远不会离开您的手机。</p>
+          <div class="narration-timer"></div>
+        </div>
+        <div class="narration-card">
+          <span class="narration-step-badge">第 27 页，共27页</span>
+          <h3>需要帮助？</h3>
+          <p>发送电子邮件至support at josspatech dot com——我们通常在24小时内回复。使用应用内反馈表单提交错误报告和功能请求。访问josspatech dot com slash how-to获取视频指南。</p>
+          <div class="narration-timer"></div>
+        </div>
+          <div class="playback-controls">
+            <button class="play-pause-btn" id="playPauseBtn" title="Play/Pause">&#9654;</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chapter-nav">
+      <button class="chapter-btn active" data-slide="0">入门</button>
+      <button class="chapter-btn" data-slide="1">仪表板</button>
+      <button class="chapter-btn" data-slide="2">交易</button>
+      <button class="chapter-btn" data-slide="3">导入</button>
+      <button class="chapter-btn" data-slide="4">扫描</button>
+      <button class="chapter-btn" data-slide="5">预算</button>
+      <button class="chapter-btn" data-slide="6">账单</button>
+      <button class="chapter-btn" data-slide="7">储蓄</button>
+      <button class="chapter-btn" data-slide="8">债务</button>
+      <button class="chapter-btn" data-slide="9">投资</button>
+      <button class="chapter-btn" data-slide="10">报告</button>
+      <button class="chapter-btn" data-slide="11">AI教练</button>
+      <button class="chapter-btn" data-slide="12">AI助手</button>
+      <button class="chapter-btn" data-slide="13">搜索</button>
+      <button class="chapter-btn" data-slide="14">导出</button>
+      <button class="chapter-btn" data-slide="15">电脑端</button>
+      <button class="chapter-btn" data-slide="16">税务</button>
+      <button class="chapter-btn" data-slide="17">家庭</button>
+      <button class="chapter-btn" data-slide="18">日历</button>
+      <button class="chapter-btn" data-slide="19">规则</button>
+      <button class="chapter-btn" data-slide="20">无障碍</button>
+      <button class="chapter-btn" data-slide="21">正念</button>
+      <button class="chapter-btn" data-slide="22">退休</button>
+      <button class="chapter-btn" data-slide="23">语音</button>
+      <button class="chapter-btn" data-slide="24">定价</button>
+      <button class="chapter-btn" data-slide="25">隐私</button>
+      <button class="chapter-btn" data-slide="26">帮助</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps-section">
+    <div class="container">
+      <h2>完整导览 — 27个章节</h2>
+      <div class="timeline">
+        <div class="timeline-step">
+          <div class="timeline-marker">1</div>
+          <div class="timeline-content">
+            <h3>入门</h3>
+            <p>下载、设置向导、免费试用</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">2</div>
+          <div class="timeline-content">
+            <h3>仪表板</h3>
+            <p>一目了然的财务概览</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">3</div>
+          <div class="timeline-content">
+            <h3>交易</h3>
+            <p>追踪、搜索并分类每一笔支出</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">4</div>
+          <div class="timeline-content">
+            <h3>导入</h3>
+            <p>CSV、OFX、QFX、QIF、XLSX、PDF对账单</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">5</div>
+          <div class="timeline-content">
+            <h3>扫描</h3>
+            <p>相机、WiFi扫描仪、OCR、手写识别</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">6</div>
+          <div class="timeline-content">
+            <h3>预算</h3>
+            <p>模板、自定义限额、进度追踪</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">7</div>
+          <div class="timeline-content">
+            <h3>账单</h3>
+            <p>可视化账单日历与定期交易</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">8</div>
+          <div class="timeline-content">
+            <h3>储蓄</h3>
+            <p>目标、专项储蓄、愿望清单</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">9</div>
+          <div class="timeline-content">
+            <h3>债务</h3>
+            <p>雪崩法或滚雪球法，含无债务日期</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">10</div>
+          <div class="timeline-content">
+            <h3>投资</h3>
+            <p>股票、加密货币、房产、信用评分</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">11</div>
+          <div class="timeline-content">
+            <h3>报告</h3>
+            <p>10种以上报告类型和自定义报告</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">12</div>
+          <div class="timeline-content">
+            <h3>AI教练</h3>
+            <p>个性化见解和每周回顾</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">13</div>
+          <div class="timeline-content">
+            <h3>AI助手</h3>
+            <p>用简单语言提问</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">14</div>
+          <div class="timeline-content">
+            <h3>搜索</h3>
+            <p>即时查找交易和功能</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">15</div>
+          <div class="timeline-content">
+            <h3>导出</h3>
+            <p>六种格式及加密备份</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">16</div>
+          <div class="timeline-content">
+            <h3>电脑端</h3>
+            <p>局域网浏览器访问</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">17</div>
+          <div class="timeline-content">
+            <h3>税务</h3>
+            <p>税务类别、摘要、里程追踪</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">18</div>
+          <div class="timeline-content">
+            <h3>家庭</h3>
+            <p>WiFi或蓝牙家庭同步</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">19</div>
+          <div class="timeline-content">
+            <h3>日历</h3>
+            <p>带交易点的月度视图</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">20</div>
+          <div class="timeline-content">
+            <h3>规则</h3>
+            <p>自动分类与批量编辑</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">21</div>
+          <div class="timeline-content">
+            <h3>无障碍</h3>
+            <p>深色模式、色盲调色板、屏幕阅读器</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">22</div>
+          <div class="timeline-content">
+            <h3>正念</h3>
+            <p>时间成本模式与健康检测</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">23</div>
+          <div class="timeline-content">
+            <h3>退休</h3>
+            <p>FIRE计算器与里程碑追踪</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">24</div>
+          <div class="timeline-content">
+            <h3>语音</h3>
+            <p>Siri和Google助手快捷方式</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">25</div>
+          <div class="timeline-content">
+            <h3>定价</h3>
+            <p>21天免费试用，灵活计划</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">26</div>
+          <div class="timeline-content">
+            <h3>隐私</h3>
+            <p>设备端加密，无需云端</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-marker">27</div>
+          <div class="timeline-content">
+            <h3>帮助</h3>
+            <p>电子邮件支持和应用内反馈</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="container">
+      <h2>准备好掌控您的财务了吗？</h2>
+      <p>立即下载 PocketBudJet，从内置的完整用户指南导览开始您的旅程。</p>
+      <a href="#" class="download-button">获取应用</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 JosspaTech. 保留所有权利。 | <a href="/">首页</a> | <a href="/#products">产品</a></p>
+  </footer>
+
+  <script>
+    // Audio: zh-CN-YunyangNeural (Microsoft Neural TTS, professional male Mandarin, News style)
+    const slides = document.querySelectorAll('.slide');
+    const dots = document.querySelectorAll('.dot');
+    const narrationCards = document.querySelectorAll('.narration-card');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const chapterBtns = document.querySelectorAll('.chapter-btn');
+    const tapToStart = document.getElementById('tapToStart');
+
+    let currentSlide = 0;
+    let isPlaying = false;
+    let audioUnlocked = false;
+    let slideTimer = null;
+    const SLIDE_DURATION = 8000;
+    let audioElement = null, voiceEnabled = true, advanceTimeout = null;
+
+    const audioPaths = ['audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3', 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3', 'audio/slide-8.mp3', 'audio/slide-9.mp3', 'audio/slide-10.mp3', 'audio/slide-11.mp3', 'audio/slide-12.mp3', 'audio/slide-13.mp3', 'audio/slide-14.mp3', 'audio/slide-15.mp3', 'audio/slide-16.mp3', 'audio/slide-17.mp3', 'audio/slide-18.mp3', 'audio/slide-19.mp3', 'audio/slide-20.mp3', 'audio/slide-21.mp3', 'audio/slide-22.mp3', 'audio/slide-23.mp3', 'audio/slide-24.mp3', 'audio/slide-25.mp3'];
+
+    // Voice toggle button
+    const voiceBtn = document.createElement('button');
+    voiceBtn.className = 'voice-btn';
+    voiceBtn.innerHTML = '&#128264;';
+    voiceBtn.title = 'Toggle voice narration';
+    voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+    document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+    voiceBtn.addEventListener('click', () => {
+      voiceEnabled = !voiceEnabled;
+      voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+      voiceBtn.classList.toggle('muted', !voiceEnabled);
+      if (!voiceEnabled) { stopAudio(); if (isPlaying) startAutoPlay(); }
+      else { stopAutoPlay(); playSlideAudio(currentSlide); }
+    });
+
+    function stopAudio() {
+      if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
+      clearTimeout(advanceTimeout);
+    }
+
+    function playSlideAudio(index) {
+      stopAudio();
+      if (!voiceEnabled) return;
+      const src = audioPaths[index]; if (!src) return;
+      audioElement = new Audio(src);
+      audioElement.volume = 1.0;
+      audioElement.onended = () => {
+        if (isPlaying && voiceEnabled) {
+          advanceTimeout = setTimeout(() => {
+            if (currentSlide < slides.length - 1) nextSlide();
+            else { isPlaying = false; playPauseBtn.innerHTML = '&#9654;'; }
+          }, 1200);
+        }
+      };
+      audioElement.onerror = () => {
+        if (isPlaying) advanceTimeout = setTimeout(() => {
+          if (currentSlide < slides.length - 1) nextSlide();
+        }, SLIDE_DURATION);
+      };
+      const _p = audioElement.play();
+      if (_p !== undefined) {
+        _p.then(() => {
+          if (!audioUnlocked) {
+            audioUnlocked = true;
+            tapToStart.classList.add('hidden');
+            playPauseBtn.innerHTML = '&#10074;&#10074;';
+          }
+        }).catch(() => {
+          if (!audioUnlocked) {
+            isPlaying = false;
+            playPauseBtn.innerHTML = '&#9654;';
+          } else if (isPlaying) {
+            advanceTimeout = setTimeout(() => {
+              if (currentSlide < slides.length - 1) nextSlide();
+            }, SLIDE_DURATION);
+          }
+        });
+      }
+    }
+
+    function showSlide(index) {
+      slides.forEach(s => s.classList.remove('active'));
+      dots.forEach(d => d.classList.remove('active'));
+      narrationCards.forEach(c => c.classList.remove('active'));
+      chapterBtns.forEach(b => b.classList.remove('active'));
+      if (slides[index]) slides[index].classList.add('active');
+      if (dots[index]) dots[index].classList.add('active');
+      if (narrationCards[index]) narrationCards[index].classList.add('active');
+      if (chapterBtns[index]) chapterBtns[index].classList.add('active');
+      currentSlide = index;
+      if (voiceEnabled) { stopAutoPlay(); playSlideAudio(index); }
+      else if (isPlaying) { startAutoPlay(); }
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) { showSlide(currentSlide + 1); }
+      else { isPlaying = false; playPauseBtn.innerHTML = '&#9654;'; stopAudio(); stopAutoPlay(); }
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay(); clearTimeout(advanceTimeout);
+      slideTimer = setInterval(() => {
+        if (currentSlide < slides.length - 1) nextSlide();
+        else { clearInterval(slideTimer); slideTimer = null; isPlaying = false; playPauseBtn.innerHTML = '&#9654;'; }
+      }, SLIDE_DURATION);
+    }
+
+    function stopAutoPlay() {
+      if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
+    }
+
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      playPauseBtn.innerHTML = isPlaying ? '&#10074;&#10074;' : '&#9654;';
+      if (isPlaying) {
+        if (voiceEnabled) { playSlideAudio(currentSlide); } else { startAutoPlay(); }
+      } else { stopAudio(); stopAutoPlay(); }
+    }
+
+    dots.forEach((dot, i) => dot.addEventListener('click', () => { stopAutoPlay(); showSlide(i); }));
+    chapterBtns.forEach((btn, i) => btn.addEventListener('click', () => { stopAutoPlay(); showSlide(i); }));
+    playPauseBtn.addEventListener('click', togglePlayPause);
+
+    function startPlayback() {
+      if (audioUnlocked) return;
+      audioUnlocked = true;
+      tapToStart.classList.add('hidden');
+      isPlaying = true;
+      playPauseBtn.innerHTML = '&#10074;&#10074;';
+      playSlideAudio(currentSlide);
+    }
+    tapToStart.addEventListener('click', startPlayback);
+
+    showSlide(0);
+  </script>
+</body>
+</html>

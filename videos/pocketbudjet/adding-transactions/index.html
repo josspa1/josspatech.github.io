@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Transactions - PocketBudJet | JosspaTech</title>
+    <!-- Voice: en-US-GuyNeural (Microsoft Neural TTS, authoritative male, American English) -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
+        }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button {
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white); padding: 4rem 2rem; text-align: center;
+        }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .hero .subheader {
+            font-size: 1.25rem; font-weight: 300; max-width: 700px;
+            margin: 0 auto; color: rgba(255,255,255,0.95);
+        }
+
+        /* Animated Video Section */
+        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section .container { max-width: 1200px; margin: 0 auto; }
+        .video-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem; color: var(--navy);
+        }
+        .video-section .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .video-wrapper {
+            display: flex; gap: 3rem; align-items: center;
+            justify-content: center; flex-wrap: wrap;
+        }
+
+        /* Phone viewport */
+        .phone-viewport {
+            flex-shrink: 0; overflow: hidden; border-radius: 40px;
+        }
+
+        /* Phone frame */
+        .phone-frame {
+            width: 320px; position: relative;
+            border: 10px solid var(--navy-dark); border-radius: 40px;
+            overflow: hidden; background: #000;
+            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+            aspect-ratio: 9 / 19.5;
+        }
+        .phone-frame::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+            z-index: 20;
+        }
+        .slideshow {
+            width: 100%; height: 100%; position: relative; overflow: hidden;
+        }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+        .slide img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top;
+        }
+        .slide-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 3rem 1.2rem 1.5rem; color: white;
+        }
+        .slide-step {
+            display: inline-block; background: var(--gold); color: var(--navy-dark);
+            font-weight: 800; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px;
+            margin-bottom: 6px; letter-spacing: 0.5px;
+        }
+        .slide-title { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+
+        /* Progress dots */
+        .progress-dots {
+            display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem;
+        }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
+        }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+
+        /* Narration panel */
+        .narration-panel {
+            max-width: 400px; flex: 1; min-width: 280px; position: relative;
+        }
+        .narration-card {
+            background: var(--white); border-radius: 16px; padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
+            margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute; top: 0; left: 0; width: 100%;
+            pointer-events: none;
+        }
+        .narration-card.active {
+            opacity: 1; transform: translateY(0);
+            position: relative;
+            pointer-events: auto;
+        }
+        .narration-step-badge {
+            display: inline-block; background: var(--navy); color: white;
+            font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 0.6rem;
+        }
+        .narration-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+            font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;
+        }
+        .narration-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+        .narration-timer {
+            height: 3px; background: var(--gold); border-radius: 2px;
+            margin-top: 0.8rem; width: 0%; transition: width linear;
+        }
+        .narration-card.active .narration-timer { width: 100%; }
+
+        /* Playback controls */
+        .playback-controls {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;
+            align-items: center;
+        }
+        .play-pause-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s;
+        }
+        .play-pause-btn:hover { background: var(--navy-medium); }
+        .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+
+        /* Timeline Steps */
+        .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+        .steps-section .container { max-width: 1200px; margin: 0 auto; }
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
+            text-align: center; margin-bottom: 3rem; color: var(--navy);
+        }
+        .timeline { max-width: 800px; margin: 0 auto; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background-color: var(--gold);
+        }
+        .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
+        .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
+        .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
+        .timeline-marker {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            width: 50px; height: 50px; background-color: var(--gold);
+            border: 4px solid var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+        }
+        .timeline-content {
+            background-color: var(--background); padding: 2rem; border-radius: 12px;
+            border-left: 5px solid var(--gold);
+        }
+        .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 0.75rem;
+        }
+        .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
+
+        /* Tips */
+        .tips-section { background-color: var(--background); padding: 3rem 2rem; margin-top: 3rem; }
+        .tips-section .container { max-width: 800px; margin: 0 auto; }
+        .tips-callout {
+            background-color: var(--white); border-left: 6px solid var(--gold);
+            padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .tips-callout h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 1rem;
+        }
+        .tips-callout p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
+        .tips-callout a {
+            color: var(--navy); font-weight: 600; text-decoration: none;
+            border-bottom: 2px solid var(--gold); transition: color 0.3s;
+        }
+        .tips-callout a:hover { color: var(--navy-medium); }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem; text-align: center;
+        }
+        .cta-section .container { max-width: 1200px; margin: 0 auto; }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            color: var(--white); margin-bottom: 2rem;
+        }
+        .download-button {
+            display: inline-block; background-color: var(--gold); color: var(--navy);
+            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
+        }
+        .download-button:hover {
+            background-color: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+        }
+
+        footer {
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light, #8AAABB); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero .subheader { font-size: 1rem; }
+            .video-wrapper { flex-direction: column; }
+            .phone-frame { width: 280px; }
+            .narration-panel { max-width: 100%; }
+            .timeline::before { left: 25px; }
+            .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
+                text-align: left; padding-right: 0; padding-left: 90px;
+            }
+            .timeline-marker { left: 0; transform: translateX(0); }
+            .timeline-content, .timeline-step:nth-child(odd) .timeline-content {
+                border-left: 5px solid var(--gold); border-right: none;
+            }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .phone-frame { width: 240px; }
+            .video-section { padding: 2.5rem 1rem; }
+            .steps-section h2 { font-size: 1.5rem; }
+            .timeline-step { padding-left: 70px !important; }
+            .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+
+        /* Voice narration button */
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
+        /* Tap-to-start overlay */
+        .tap-to-start {
+            position: absolute; inset: 0; z-index: 20;
+            background: rgba(10, 26, 57, 0.72);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border-radius: inherit;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+        .tap-to-start-icon {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--gold); color: var(--navy-dark);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 0.6rem;
+        }
+        .tap-to-start-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            color: white; letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/how-to/">How To</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <a href="/how-to/">How To</a><span class="sep">/</span>
+        <span class="current">Adding Transactions</span>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Log a Transaction in Under 10 Seconds</h1>
+            <p class="subheader">Tap the + button, enter the amount, pick a category, and done. Every dollar tracked, every budget updated — instantly.</p>
+        </div>
+    </section>
+
+    <section class="video-section">
+        <div class="container">
+            <h2>Watch It in Action</h2>
+            <p class="section-sub">See how fast and easy logging transactions really is.</p>
+            <div class="video-wrapper">
+                <div>
+                    <div class="phone-viewport">
+                        <div class="phone-frame">
+                        <div class="slideshow" id="slideshow">
+                            <!-- Tap-to-start overlay (handles mobile autoplay policy) -->
+                            <div class="tap-to-start" id="tapToStart">
+                                <div class="tap-to-start-icon">&#9654;</div>
+                                <div class="tap-to-start-label">Tap to play</div>
+                            </div>
+                            <div class="slide active" data-index="0">
+                                <img src="/assets/screenshots/transactions.png" alt="PocketBudJet Transactions" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 1</span>
+                                    <div class="slide-title">Tap the + button — any screen, any time</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="1">
+                                <img src="/assets/screenshots/transactions.png" alt="Enter Amount" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 2</span>
+                                    <div class="slide-title">Amount first — always</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="2">
+                                <img src="/assets/screenshots/transactions.png" alt="Merchant Name" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 3</span>
+                                    <div class="slide-title">Name merchants consistently</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="3">
+                                <img src="/assets/screenshots/budget.png" alt="Pick Category" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 4</span>
+                                    <div class="slide-title">Pick a category — or let the app suggest one</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="4">
+                                <img src="/assets/screenshots/transactions.png" alt="Choose Account" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 5</span>
+                                    <div class="slide-title">Choose the account</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="5">
+                                <img src="/assets/screenshots/transactions.png" alt="Split Transaction" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 6</span>
+                                    <div class="slide-title">Split a transaction across categories</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="6">
+                                <img src="/assets/screenshots/transactions.png" alt="Transaction Rules" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 7</span>
+                                    <div class="slide-title">Create a transaction rule</div>
+                                </div>
+                            </div>
+                            <div class="slide" data-index="7">
+                                <img src="/assets/screenshots/dashboard.png" alt="Dashboard Updated" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 8</span>
+                                    <div class="slide-title">Saved — your dashboard updates instantly</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="progress-dots" id="dots"></div>
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause slideshow">&#10074;&#10074;</button>
+                        <span class="speed-label" id="speedLabel">Auto-playing</span>
+                    </div>
+                </div>
+
+                <div class="narration-panel" id="narrationPanel">
+                    <div class="narration-card" data-index="0">
+                        <span class="narration-step-badge">Step 1 of 8</span>
+                        <h3>Tap the + button — any screen, any time</h3>
+                        <p>The gold + button lives at the bottom center of every screen. You never have to navigate to log a transaction — just tap it wherever you are. You can be done in under 10 seconds.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="1">
+                        <span class="narration-step-badge">Step 2 of 8</span>
+                        <h3>Amount first — always</h3>
+                        <p>The amount is the one thing you must not forget. Enter it first, while it's fresh. Everything else &mdash; the name, the category, the account &mdash; you can update later. Amount first, always.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="2">
+                        <span class="narration-step-badge">Step 3 of 8</span>
+                        <h3>Name merchants consistently</h3>
+                        <p>Type the merchant name the same way every time &mdash; "Walmart" every time, not "walmart" one day and "WMT" the next. Consistent names power the auto-categorization and make your spending reports accurate.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="3">
+                        <span class="narration-step-badge">Step 4 of 8</span>
+                        <h3>Pick a category — or let the app suggest one</h3>
+                        <p>Tap the category field to choose where this expense belongs &mdash; Groceries, Dining, Gas, Entertainment. PocketBudJet learns your patterns and suggests the right category automatically over time.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="4">
+                        <span class="narration-step-badge">Step 5 of 8</span>
+                        <h3>Choose the account</h3>
+                        <p>Select which account this came from &mdash; checking, savings, or a credit card. Accurate account selection keeps your balances right and your spending reports honest across all your accounts.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="5">
+                        <span class="narration-step-badge">Step 6 of 8</span>
+                        <h3>Split a transaction across categories</h3>
+                        <p>For a receipt that covers multiple categories, tap Split. Assign a portion to Groceries and a portion to Household &mdash; the total stays locked to what you paid. Perfect for big-box or warehouse store runs.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="6">
+                        <span class="narration-step-badge">Step 7 of 8</span>
+                        <h3>Create a transaction rule</h3>
+                        <p>If you always buy coffee at the same place, set a rule. Tap the transaction, then Transaction Rules. That merchant auto-categorizes from now on &mdash; zero additional effort, every future transaction handled automatically.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="7">
+                        <span class="narration-step-badge">Step 8 of 8</span>
+                        <h3>Saved — your dashboard updates instantly</h3>
+                        <p>Tap Save and you're done. Your budget category updates immediately. Your account balance updates immediately. Your dashboard is always current &mdash; no syncing, no waiting, no manual refreshing.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="container">
+            <h2>How Transactions Work</h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Tap the Gold + Button</h3>
+                        <p>Available from any screen &mdash; never hunt for it</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Enter the Amount</h3>
+                        <p>The most important field &mdash; log it while it's fresh</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Add Merchant &amp; Category</h3>
+                        <p>Consistent names build smarter auto-suggestions over time</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Select Your Account</h3>
+                        <p>Checking, savings, credit card, or cash &mdash; tracked separately</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Split or Set a Rule (Optional)</h3>
+                        <p>Split receipts across categories, or automate future entries</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">6</div>
+                    <div class="timeline-content">
+                        <h3>Save &mdash; Dashboard Updates</h3>
+                        <p>Every budget and account balance reflects the change instantly</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tips-section">
+                <div class="container">
+                    <div class="tips-callout">
+                        <h3>Pro Tip: Use Receipt Scanning for Speed</h3>
+                        <p>Tap the gold + button and choose Scan Receipt. Point your camera at any receipt and the amount auto-fills &mdash; no typing required. Category suggestion fires automatically.</p>
+                        <p>See the full walkthrough: <a href="/videos/pocketbudjet/budget-setup/">Budget Setup</a> &bull; <a href="/how-to/">All How-To Videos</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to take control of your finances?</h2>
+            <a href="#" class="download-button">Download PocketBudJet</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+    </footer>
+
+    <script>
+    (function() {
+        const SLIDE_DURATION = 8000;
+        const slides = document.querySelectorAll('.slide');
+        const cards = document.querySelectorAll('.narration-card');
+        const dotsContainer = document.getElementById('dots');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const speedLabel = document.getElementById('speedLabel');
+        const tapToStart = document.getElementById('tapToStart');
+        let current = 0;
+        let playing = true;
+        let audioUnlocked = false;
+        let timer = null;
+        let audioElement = null;
+        let voiceEnabled = true;
+        let advanceTimeout = null;
+
+        // MP3 audio paths — pre-generated via edge-tts, voice: en-US-GuyNeural
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3'
+        ];
+
+        // Voice toggle button
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn';
+        voiceBtn.innerHTML = '&#128264;';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                stopAudio();
+                if (playing) resetTimer();
+            } else {
+                clearInterval(timer);
+                playSlideAudio(current);
+            }
+        });
+
+        // Audio playback (MP3)
+        function stopAudio() {
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.removeAttribute('src');
+                audioElement.load();
+                audioElement = null;
+            }
+            clearTimeout(advanceTimeout);
+        }
+
+        function playSlideAudio(index) {
+            stopAudio();
+            if (!voiceEnabled) return;
+            const src = audioPaths[index];
+            if (!src) return;
+            audioElement = new Audio(src);
+            audioElement.volume = 1.0;
+            audioElement.onended = () => {
+                if (playing && voiceEnabled) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) {
+                            next();
+                        } else {
+                            playing = false;
+                            playPauseBtn.innerHTML = '&#9654;';
+                            speedLabel.textContent = 'Finished';
+                        }
+                    }, 1200);
+                }
+            };
+            audioElement.onerror = () => {
+                if (playing) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) next();
+                    }, SLIDE_DURATION);
+                }
+            };
+            const _p = audioElement.play();
+            if (_p !== undefined) {
+                _p.then(() => {
+                    if (!audioUnlocked) {
+                        audioUnlocked = true;
+                        tapToStart.classList.add('hidden');
+                        playPauseBtn.innerHTML = '&#10074;&#10074;';
+                        speedLabel.textContent = 'Auto-playing';
+                    }
+                }).catch(() => {
+                    if (!audioUnlocked) {
+                        playing = false;
+                        playPauseBtn.innerHTML = '&#9654;';
+                        speedLabel.textContent = 'Tap to play';
+                    } else if (playing) {
+                        advanceTimeout = setTimeout(() => {
+                            if (current < slides.length - 1) next();
+                        }, SLIDE_DURATION);
+                    }
+                });
+            }
+        }
+
+        // Build dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goTo(index) {
+            slides[current].classList.remove('active');
+            cards[current].classList.remove('active');
+            dotsContainer.children[current].classList.remove('active');
+            cards[current].querySelector('.narration-timer').style.transition = 'none';
+            cards[current].querySelector('.narration-timer').style.width = '0%';
+
+            current = index;
+            slides[current].classList.add('active');
+            cards[current].classList.add('active');
+            dotsContainer.children[current].classList.add('active');
+
+            const timerBar = cards[current].querySelector('.narration-timer');
+            requestAnimationFrame(() => {
+                timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                timerBar.style.width = '100%';
+            });
+
+            if (playing && current === slides.length - 1) {
+                speedLabel.textContent = 'Last step';
+            } else if (playing) {
+                speedLabel.textContent = 'Auto-playing';
+            }
+
+            if (voiceEnabled) {
+                clearInterval(timer);
+                playSlideAudio(current);
+            } else if (playing) {
+                resetTimer();
+            }
+        }
+
+        function next() {
+            if (current < slides.length - 1) {
+                goTo(current + 1);
+            } else {
+                playing = false;
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Finished';
+                stopAudio();
+                clearInterval(timer);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            clearTimeout(advanceTimeout);
+            timer = setInterval(() => {
+                if (current < slides.length - 1) {
+                    next();
+                } else {
+                    clearInterval(timer);
+                    playing = false;
+                    playPauseBtn.innerHTML = '&#9654;';
+                    speedLabel.textContent = 'Finished';
+                }
+            }, SLIDE_DURATION);
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (!audioUnlocked) { startPlayback(); return; }
+            playing = !playing;
+            if (playing) {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';
+                speedLabel.textContent = 'Auto-playing';
+                if (voiceEnabled) {
+                    playSlideAudio(current);
+                } else {
+                    resetTimer();
+                }
+                const timerBar = cards[current].querySelector('.narration-timer');
+                timerBar.style.transition = 'none';
+                timerBar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                    timerBar.style.width = '100%';
+                });
+            } else {
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Paused';
+                stopAudio();
+                clearInterval(timer);
+                clearTimeout(advanceTimeout);
+                const timerBar = cards[current].querySelector('.narration-timer');
+                const computed = getComputedStyle(timerBar).width;
+                timerBar.style.transition = 'none';
+                timerBar.style.width = computed;
+            }
+        });
+
+        function startPlayback() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            tapToStart.classList.add('hidden');
+            playing = true;
+            playPauseBtn.innerHTML = '&#10074;&#10074;';
+            speedLabel.textContent = 'Auto-playing';
+            playSlideAudio(current);
+        }
+        tapToStart.addEventListener('click', startPlayback);
+
+        goTo(0);
+
+    })();
+    </script>
+</body>
+</html>
