@@ -207,48 +207,42 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="50" data-tap-y="15">
-                                <img src="/assets/screenshots/transactions.png" alt="Search Bar" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:15%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Search Bar" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 1</span>
                                     <div class="slide-title">The search bar — top of Transactions</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="15">
-                                <img src="/assets/screenshots/transactions.png" alt="Search by Merchant" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:15%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Search by Merchant" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Search by merchant name</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="15">
-                                <img src="/assets/screenshots/transactions.png" alt="Search by Amount" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:15%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Search by Amount" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Search by amount or range</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/budget.png" alt="Search by Category" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Search by Category" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Filter to a single category</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="4" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Search by Date" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Search by Date" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">Set a date range</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="5" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Combine Filters" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Combine Filters" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">Stack filters for precision</div>
@@ -262,8 +256,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="7" data-tap-x="85" data-tap-y="8">
-                                <img src="/assets/screenshots/transactions.png" alt="Export Results" loading="lazy">
-                                <div class="tap-indicator" style="left:85%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Export Results" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 8</span>
                                     <div class="slide-title">Export your search results</div>
@@ -522,6 +515,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
         goTo(0);
     })();
     </script>

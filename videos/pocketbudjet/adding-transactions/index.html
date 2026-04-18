@@ -415,56 +415,49 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/transactions.png" alt="PocketBudJet Transactions" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="PocketBudJet Transactions" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 1</span>
                                     <div class="slide-title">Tap the + button — any screen, any time</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Enter Amount" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Enter Amount" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Amount first — always</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="38">
-                                <img src="/assets/screenshots/transactions.png" alt="Merchant Name" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:38%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Merchant Name" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Name merchants consistently</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="48">
-                                <img src="/assets/screenshots/budget.png" alt="Pick Category" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:48%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Pick Category" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Pick a category — or let the app suggest one</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="4" data-tap-x="50" data-tap-y="55">
-                                <img src="/assets/screenshots/transactions.png" alt="Choose Account" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:55%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Choose Account" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">Choose the account</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="5" data-tap-x="50" data-tap-y="62">
-                                <img src="/assets/screenshots/transactions.png" alt="Split Transaction" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:62%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Split Transaction" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">Split a transaction across categories</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="6" data-tap-x="70" data-tap-y="22">
-                                <img src="/assets/screenshots/transactions.png" alt="Transaction Rules" loading="lazy">
-                                <div class="tap-indicator" style="left:70%;top:22%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Transaction Rules" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
                                     <div class="slide-title">Create a transaction rule</div>
@@ -824,6 +817,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

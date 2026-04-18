@@ -214,48 +214,42 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="90" data-tap-y="8">
-                                <img src="/assets/screenshots/transactions.png" alt="Export Settings" loading="lazy">
-                                <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Export Settings" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Settings → Export — choose your format</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Date Range" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Date Range" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Set your date range</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="38">
-                                <img src="/assets/screenshots/budget.png" alt="Category Filter" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:38%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Category Filter" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Filter by category</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="4" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/transactions.png" alt="CSV Export" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="CSV Export" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">CSV — opens in any spreadsheet app</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="5" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/budget.png" alt="PDF Report" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="PDF Report" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">PDF — formatted and ready to share</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="6" data-tap-x="50" data-tap-y="75">
-                                <img src="/assets/screenshots/transactions.png" alt="Share" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:75%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Share" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
                                     <div class="slide-title">Share directly from your phone</div>
@@ -521,6 +515,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
         goTo(0);
     })();
     </script>

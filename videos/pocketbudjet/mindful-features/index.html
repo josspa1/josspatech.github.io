@@ -221,16 +221,14 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="75">
-                                <img src="/assets/screenshots/transactions.png" alt="Impulse Check" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:75%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Impulse Check" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Impulse check before you commit</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/transactions.png" alt="Cooling Off" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Cooling Off" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Cooling-off period for big purchases</div>
@@ -251,8 +249,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="6" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/budget.png" alt="Guilt-Free Spending" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Guilt-Free Spending" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
                                     <div class="slide-title">Budget for fun — guilt-free category</div>
@@ -518,6 +515,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
         goTo(0);
     })();
     </script>

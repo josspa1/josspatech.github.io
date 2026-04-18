@@ -351,8 +351,7 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="85" data-tap-y="95">
-                                <img src="/assets/screenshots/dashboard.png" alt="Reports Overview" loading="lazy">
-                                <div class="tap-indicator" style="left:85%;top:95%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Reports Overview" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">OVERVIEW</span>
                                     <div class="slide-title">Ten-plus reports built from your real data</div>
@@ -700,6 +699,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

@@ -214,24 +214,21 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/budget.png" alt="Set Target" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Set Target" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Set your retirement age and income target</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Current Savings" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Current Savings" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Enter your current retirement savings</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="28">
-                                <img src="/assets/screenshots/transactions.png" alt="Track Contributions" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:28%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Track Contributions" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Track monthly contributions</div>
@@ -252,8 +249,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="6" data-tap-x="50" data-tap-y="50">
-                                <img src="/assets/screenshots/budget.png" alt="Scenario Planning" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:50%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Scenario Planning" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
                                     <div class="slide-title">Adjust and scenario-plan</div>
@@ -519,6 +515,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
         goTo(0);
     })();
     </script>

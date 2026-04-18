@@ -402,16 +402,14 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  </div>
  </div>
  <div class="slide" data-index="1" data-tap-x="50" data-tap-y="95">
- <img src="/assets/screenshots/debt.png" alt="See every debt in one place" loading="lazy">
- <div class="tap-indicator" style="left:50%;top:95%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/debt.png" alt="See every debt in one place" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">STEP 2</span>
  <div class="slide-title">See every debt in one place</div>
  </div>
  </div>
  <div class="slide" data-index="2" data-tap-x="50" data-tap-y="45">
- <img src="/assets/screenshots/budget.png" alt="Snowball or Avalanche strategy" loading="lazy">
- <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/budget.png" alt="Snowball or Avalanche strategy" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">STEP 3</span>
  <div class="slide-title">Snowball or Avalanche — pick your path</div>
@@ -425,8 +423,7 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  </div>
  </div>
  <div class="slide" data-index="4" data-tap-x="50" data-tap-y="50">
- <img src="/assets/screenshots/ai-coach.png" alt="What-If scenarios" loading="lazy">
- <div class="tap-indicator" style="left:50%;top:50%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/ai-coach.png" alt="What-If scenarios" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">STEP 5</span>
  <div class="slide-title">What if you paid more? See the impact instantly</div>
@@ -688,6 +685,12 @@ let audioUnlocked = false;
      playSlideAudio(currentSlide);
  }
  tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
  // Start
  updateSlide(0);

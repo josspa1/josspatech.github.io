@@ -430,8 +430,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="2" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/transactions.png" alt="First Transaction">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="First Transaction"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
                                     <div class="slide-title">Enter your first transaction &mdash; and name it right</div>
@@ -459,8 +458,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="6" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/budget.png" alt="Budget Setup">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/budget.png" alt="Budget Setup"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 7</span>
                                     <div class="slide-title">Set a budget and let PBJ track it for you</div>
@@ -659,6 +657,12 @@
             }
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         // ── Audio playback (MP3) ──
         function stopAudio() {

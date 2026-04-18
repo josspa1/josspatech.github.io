@@ -214,8 +214,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="85" data-tap-y="8">
-                                <img src="/assets/screenshots/dashboard.png" alt="Open Calendar" loading="lazy">
-                                <div class="tap-indicator" style="left:85%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Open Calendar" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Tap the calendar icon to switch views</div>
@@ -243,8 +242,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="5" data-tap-x="50" data-tap-y="50">
-                                <img src="/assets/screenshots/transactions.png" alt="Day View" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:50%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Day View" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">Tap any date for the full day breakdown</div>
@@ -517,6 +515,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
         goTo(0);
     })();
     </script>

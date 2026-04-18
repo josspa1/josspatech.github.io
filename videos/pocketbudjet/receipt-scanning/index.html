@@ -359,8 +359,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/scanner.png" alt="Camera Receipt Scan" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/scanner.png" alt="Camera Receipt Scan" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">CAMERA SCAN</span>
                                     <div class="slide-title">Point your camera at any receipt</div>
@@ -374,8 +373,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="90" data-tap-y="8">
-                                <img src="/assets/screenshots/scanner.png" alt="WiFi Scanner Setup" loading="lazy">
-                                <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/scanner.png" alt="WiFi Scanner Setup" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">WIFI SCANNER</span>
                                     <div class="slide-title">Connect a dedicated scanner over WiFi</div>
@@ -705,6 +703,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

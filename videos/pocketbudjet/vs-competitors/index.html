@@ -740,6 +740,12 @@
         }
         tapToStart.addEventListener('click', startPlayback);
 
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
+
         goTo(0);
 
     })();

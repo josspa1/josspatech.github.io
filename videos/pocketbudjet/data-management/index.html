@@ -349,8 +349,7 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="90" data-tap-y="8">
-                                <img src="/assets/screenshots/dashboard.png" alt="Settings Data and Backup" loading="lazy">
-                                <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Settings Data and Backup" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">WHERE TO FIND IT</span>
                                     <div class="slide-title">Settings &rarr; Data &amp; Backup</div>
@@ -385,8 +384,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="5" data-tap-x="50" data-tap-y="50">
-                                <img src="/assets/screenshots/dashboard.png" alt="Free Up Space" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:50%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Free Up Space" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">FREE UP SPACE</span>
                                     <div class="slide-title">Preview exactly what moves before anything is removed</div>
@@ -714,6 +712,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

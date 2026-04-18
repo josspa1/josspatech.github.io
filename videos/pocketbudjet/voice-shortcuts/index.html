@@ -351,8 +351,7 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="90" data-tap-y="8">
-                                <img src="/assets/screenshots/ai-coach.png" alt="Voice Overview" loading="lazy">
-                                <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/ai-coach.png" alt="Voice Overview" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">OVERVIEW</span>
                                     <div class="slide-title">Hands-free budgeting with voice commands</div>
@@ -687,6 +686,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

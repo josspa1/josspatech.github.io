@@ -422,8 +422,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/transactions.png" alt="Add a Bill" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Add a Bill" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Add a bill in seconds</div>
@@ -437,16 +436,14 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="50">
-                                <img src="/assets/screenshots/transactions.png" alt="Mark Paid" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:50%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Mark Paid" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Mark it paid — one tap</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="4" data-tap-x="50" data-tap-y="88">
-                                <img src="/assets/screenshots/transactions.png" alt="Recurring Income" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:88%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Recurring Income" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">Track your paycheck as recurring income</div>
@@ -820,6 +817,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

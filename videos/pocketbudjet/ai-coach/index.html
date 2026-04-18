@@ -422,8 +422,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="4" data-tap-x="90" data-tap-y="8">
-                                <img src="/assets/screenshots/ai-coach.png" alt="Ask Your Coach" loading="lazy">
-                                <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/ai-coach.png" alt="Ask Your Coach" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">ASK ANYTHING</span>
                                     <div class="slide-title">Ask questions about your money in plain English</div>
@@ -749,6 +748,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

@@ -351,16 +351,14 @@
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
                             <div class="slide active" data-index="0" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/dashboard.png" alt="Net Worth Overview" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Net Worth Overview" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">NET WORTH</span>
                                     <div class="slide-title">Your total net worth, updated in real time</div>
                                 </div>
                             </div>
                             <div class="slide" data-index="1" data-tap-x="50" data-tap-y="38">
-                                <img src="/assets/screenshots/transactions.png" alt="Stock Tracking" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:38%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/transactions.png" alt="Stock Tracking" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STOCKS</span>
                                     <div class="slide-title">Track stock portfolios with live prices</div>
@@ -374,8 +372,7 @@
                                 </div>
                             </div>
                             <div class="slide" data-index="3" data-tap-x="50" data-tap-y="45">
-                                <img src="/assets/screenshots/dashboard.png" alt="Real Estate" loading="lazy">
-                                <div class="tap-indicator" style="left:50%;top:45%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <img src="/assets/screenshots/dashboard.png" alt="Real Estate" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">REAL ESTATE</span>
                                     <div class="slide-title">Property values via Zillow integration</div>
@@ -702,6 +699,12 @@
             playSlideAudio(current);
         }
         tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
         goTo(0);
 

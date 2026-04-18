@@ -502,8 +502,7 @@
  </div>
  <!-- Slide 3: Phone Import -->
  <div class="slide" data-index="3" data-tap-x="50" data-tap-y="15">
- <img src="/assets/screenshots/scanner.png" alt="Phone import" loading="lazy">
- <div class="tap-indicator" style="left:50%;top:15%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/scanner.png" alt="Phone import" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 4</span>
  <div class="slide-title">Save to PocketBudJet, Import Automatically</div>
@@ -519,8 +518,7 @@
  </div>
  <!-- Slide 5: Camera & Scanner -->
  <div class="slide" data-index="5" data-tap-x="85" data-tap-y="8">
- <img src="/assets/screenshots/scanner.png" alt="Receipt scanning" loading="lazy">
- <div class="tap-indicator" style="left:85%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/scanner.png" alt="Receipt scanning" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 6</span>
  <div class="slide-title">Snap Receipts With Your Camera</div>
@@ -544,8 +542,7 @@
  </div>
  <!-- Slide 8: Export & Backup -->
  <div class="slide" data-index="8" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/budget.png" alt="Export options" loading="lazy">
- <div class="tap-indicator" style="left:90%;top:8%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+ <img src="/assets/screenshots/budget.png" alt="Export options" loading="lazy"><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 9</span>
  <div class="slide-title">Your Data, Your Way — 6 Formats</div>
@@ -848,7 +845,7 @@
  }
  });
 
- const tapToStart = document.getElementById('tapToStart');
+ 
  function startPlayback() {
      if (audioUnlocked) return;
      audioUnlocked = true;
@@ -859,6 +856,12 @@
      playSlideAudio(current);
  }
  tapToStart.addEventListener('click', startPlayback);
+
+        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
 
  goTo(0);
  })();
