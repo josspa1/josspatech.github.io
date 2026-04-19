@@ -49,7 +49,7 @@
  /* Hero */
  .hero {
  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
- color: var(--white); padding: 4rem 2rem; text-align: center;
+ color: var(--white); padding: 2rem 2rem; text-align: center;
  }
  .hero .container { max-width: 1200px; margin: 0 auto; }
  .hero h1 {
@@ -72,7 +72,7 @@
  text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
  }
  .video-wrapper {
- display: flex; gap: 3rem; align-items: center;
+ display: flex; gap: 3rem; align-items: flex-start;
  justify-content: center; flex-wrap: wrap;
  }
 
@@ -87,7 +87,8 @@
  border: 10px solid var(--navy-dark); border-radius: 40px;
  overflow: hidden; background: #000;
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
- aspect-ratio: 9 / 19.5; }
+ aspect-ratio: 9 / 19.5;
+            max-height: 580px; }
  .phone-frame::before {
  content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
  width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;

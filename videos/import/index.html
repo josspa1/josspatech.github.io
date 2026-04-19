@@ -48,7 +48,7 @@
  /* Hero */
  .hero {
  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
- color: var(--white); padding: 4rem 2rem; text-align: center;
+ color: var(--white); padding: 2rem 2rem; text-align: center;
  }
  .hero .container { max-width: 1200px; margin: 0 auto; }
  .hero h1 {
@@ -118,7 +118,7 @@
  text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
  }
  .wt-wrapper {
- display: flex; gap: 3rem; align-items: center; justify-content: center; flex-wrap: wrap;
+ display: flex; gap: 3rem; align-items: flex-start; justify-content: center; flex-wrap: wrap;
  }
 
  /* Phone viewport for zoom */
@@ -132,7 +132,8 @@
  border: 10px solid var(--navy-dark); border-radius: 40px;
  overflow: hidden; background: #000;
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
- aspect-ratio: 9 / 19.5; }
+ aspect-ratio: 9 / 19.5;
+            max-height: 580px; }
  .phone-frame::before {
  content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
  width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
@@ -573,7 +574,7 @@
  <div class="step-card active" data-index="0" onclick="goTo(0)">
  <span class="step-card-num">Slide 1</span>
  <h3>Finding the Download Option</h3>
- <p>Log into your bank's website. Look for "Download Transactions," "Export Activity," or "Transaction History." When your phone asks where to save the file, choose the PocketBudJet folder — it shows up right in your Save dialog on both iPhone and Android.</p>
+ <p>Log into your bank's website. Look for "Download Transactions," "Export Activity," or "Transaction History." When your phone asks where to save the file, choose the PocketBudJet folder — specifically the <strong>Import</strong> subfolder inside it. It shows up right in your Save dialog on both iPhone and Android.</p>
  <div class="step-timer"></div>
  </div>
  <!-- Slide 1: File Format -->
@@ -594,7 +595,7 @@
  <div class="step-card" data-index="3" onclick="goTo(3)">
  <span class="step-card-num">Slide 4</span>
  <h3>Save to PocketBudJet, Import Automatically</h3>
- <p>Save your bank file to the PocketBudJet folder on your phone. Next time you open the app, you'll see a green banner: "New files ready to import." One tap and you're done — no hunting through Downloads, no file picker. The app finds it for you and cleans up the file after a successful import.</p>
+ <p>Save your bank file to the <strong>Import</strong> folder inside PocketBudJet on your phone. Next time you open the app, you'll see a green banner: "New files ready to import." One tap and you're done — no hunting through Downloads, no file picker. The app finds it for you and cleans up the file after a successful import.</p>
  <div class="step-timer"></div>
  </div>
  <!-- Slide 4: Smart Mapping -->

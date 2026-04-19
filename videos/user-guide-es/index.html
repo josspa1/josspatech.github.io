@@ -31,7 +31,7 @@
     .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
     .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
 
-    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+    .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 2rem 2rem; text-align: center; }
     .hero .container { max-width: 1200px; margin: 0 auto; }
     .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; line-height: 1.2; }
     .hero .subheader { font-size: 1.25rem; font-weight: 300; max-width: 700px; margin: 0 auto; color: rgba(255,255,255,0.95); }
@@ -43,7 +43,8 @@
     .video-wrapper { display: flex; gap: 3rem; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
 
     .phone-viewport { flex-shrink: 0; overflow: hidden; border-radius: 40px; }
-    .phone-frame { width: 320px; position: relative; border: 10px solid var(--navy-dark); border-radius: 40px; overflow: hidden; background: #000; box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1); aspect-ratio: 9 / 19.5; }
+    .phone-frame { width: 320px; position: relative; border: 10px solid var(--navy-dark); border-radius: 40px; overflow: hidden; background: #000; box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1); aspect-ratio: 9 / 19.5;
+            max-height: 580px; }
     .phone-frame::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px; z-index: 20; }
     .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
     .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; }
