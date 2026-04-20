@@ -61,12 +61,11 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   font-size:9px;letter-spacing:2.5px;text-transform:uppercase;
   color:var(--slate-lt);font-weight:600;
 }
-.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-links{display:flex;align-items:center;gap:4px;}
 .nav-link{
   font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);
   text-decoration:none;padding:7px 14px;border-radius:7px;
   transition:all .18s;
-  white-space:nowrap;
 }
 .nav-link:hover{color:#fff;background:rgba(255,255,255,0.08);}
 .nav-cta{
@@ -580,10 +579,6 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .rv.on{opacity:1;transform:translateY(0);}
 
 /* ══ RESPONSIVE ═════════════════════════════════════════ */
-@media(max-width:1100px){
-  .nav-link{padding:7px 10px;}
-  .nav-cta{padding:8px 14px;}
-}
 @media(max-width:900px){
   .site-nav{padding:0 24px;}
   .nav-links{display:none;}
@@ -625,8 +620,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .nav-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;line-height:1;letter-spacing:-0.3px;}
 .nav-name span{color:var(--gold);}
 .nav-tagline{font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:#8AAABB;font-weight:600;}
-.nav-links{display:flex;align-items:center;gap:8px;}
-.nav-link{font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);text-decoration:none;padding:7px 14px;border-radius:7px;transition:all .18s;white-space:nowrap;}
+.nav-links{display:flex;align-items:center;gap:4px;}
+.nav-link{font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);text-decoration:none;padding:7px 14px;border-radius:7px;transition:all .18s;}
 .nav-link:hover{color:#fff;background:rgba(255,255,255,0.08);}
 .nav-back{font-size:12px;color:rgba(255,255,255,0.35);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .15s;margin-right:4px;}
 .nav-back:hover{color:rgba(255,255,255,0.65);}
@@ -1210,9 +1205,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
         <ul class="product-features">
           <li><div class="pf-check"></div>Budgets, goals, debt payoff &amp; spending alerts &mdash; finally see where it all goes</li>
-          <li><div class="pf-check"></div>100% private &mdash; your financial data stays on your device, period</li>
+          <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info, you pick where data lives</li>
           <li><div class="pf-check"></div>AI Financial Coach watches for unusual spending and gives plain-English advice</li>
-          <li><div class="pf-check"></div>Scan receipts, bills &amp; pay stubs with your camera &mdash; nothing leaves your phone</li>
+          <li><div class="pf-check"></div>Scan receipts, bills &amp; pay stubs with your camera &mdash; on-device OCR by default</li>
           <li><div class="pf-check"></div>Import bank statements (CSV, OFX, QFX, QIF, XLSX) &mdash; load as many months as you want and compare them</li>
           <li><div class="pf-check"></div>PC Web Dashboard &mdash; manage your budget from any browser on your WiFi</li>
           <li><div class="pf-check"></div>Debt-free date calculator &mdash; Avalanche vs Snowball, see which saves more</li>
@@ -1388,7 +1383,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it all private.</em></h1>
       <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p class="hero-sub">Budgets, debt payoff, AI coaching, receipt scanning, PC dashboard &mdash; and your data never leaves your phone. <strong>Try every feature free for 21 days.</strong> No credit card. No account. No bank login.</p>
+      <p class="hero-sub">Budgets, debt payoff, AI coaching, receipt scanning, PC dashboard &mdash; with no account, no bank login, and no personal info required. <strong>Try every feature free for 21 days.</strong> No credit card.</p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Try Free for 21 Days &#8594;</a>
         <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Guides</a>
@@ -1399,7 +1394,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 <div class="pstrip">
   <div class="psi"><div class="psd"></div>21-day free trial &mdash; every feature unlocked</div>
-  <div class="psi"><div class="psd"></div>Your data never leaves your phone</div>
+  <div class="psi"><div class="psd"></div>You choose where your data lives</div>
   <div class="psi"><div class="psd"></div>No credit card &middot; No account required</div>
   <div class="psi"><div class="psd"></div>No ads &middot; No data sold &middot; Ever</div>
   <div class="psi"><div class="psd"></div>iOS &amp; Android &middot; From $6.25/mo</div>
@@ -1442,7 +1437,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="sstrip rv d1">
       <div class="sc"><div class="sc-n">21</div><div class="sc-l">Days free &mdash; every feature</div></div>
       <div class="sc"><div class="sc-n">40+</div><div class="sc-l">Features included in every plan</div></div>
-      <div class="sc"><div class="sc-n">100%</div><div class="sc-l">Private &mdash; data stays on your phone</div></div>
+      <div class="sc"><div class="sc-n">$0</div><div class="sc-l">Personal info required to use the app</div></div>
       <div class="sc"><div class="sc-n">$6.25</div><div class="sc-l">Per month on the annual plan</div></div>
     </div>
     <div class="showcase rv d2">
@@ -1593,7 +1588,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <p class="sec-su" style="color:rgba(255,255,255,0.5);margin-bottom:0;">Most finance apps make money from your data. PocketBudJet makes money from a fair price &mdash; and that's the whole business model. Your attention is not the product.</p>
     </div>
     <div class="priv-r rv d1">
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Personal data stored on your device</div><p class="pcard-b">Transactions, budgets, goals, and debt data live in an AES-256 encrypted local database on your phone. JosspaTech has no access to it.</p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Your data lives on your device</div><p class="pcard-b">Transactions, budgets, goals, and debts live in PocketBudJet&rsquo;s private app storage on your phone. Turn on backups or cloud sync and you pick the provider &mdash; payloads are always AES-256 encrypted with a key only you know.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No bank login required</div><p class="pcard-b">Import as many months of bank statements as you want (PDF, CSV, OFX, QFX) and compare your spending month to month. Scan receipts, capture from email, or enter manually. PocketBudJet never asks for your banking credentials.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#F0C040" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>No account required &mdash; ever</div><p class="pcard-b">Open the app and start. No email, no password, no profile. When you delete the app, your data goes with it.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/></svg></div>AI coach &mdash; on your device, on your terms</div><p class="pcard-b">Ask the AI Financial Coach anything about your money in plain English. It uses only aggregated summaries &mdash; category totals, not individual transactions. Opt-in. Opt-out any time in Settings.</p></div>
@@ -1607,7 +1602,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div>
         <span class="sec-ey">How We Compare</span>
         <h2 class="sec-ti">More features. Lower price.<br><em>Your data stays yours.</em></h2>
-        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and send your financial data to their servers. PocketBudJet starts at $74.99/year, keeps everything on your device, and gives you 21 days to try it all &mdash; no credit card required.</p>
+        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and require you to hand over bank credentials. PocketBudJet starts at $74.99/year, works without an account or bank login, and gives you 21 days to try it all &mdash; no credit card required.</p>
       </div>
       <div>
         <table class="ctbl">
@@ -1615,7 +1610,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <tbody>
             <tr><td>21-day full-access trial</td><td class="nt">7&ndash;14 days</td><td class="ck">&#10003;</td></tr>
             <tr><td>3-year plan option</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
-            <tr><td>Data stays on your device</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>You choose where data lives</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No bank login required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>AI Financial Coach included</td><td class="nt">Add-on / none</td><td class="ck">&#10003;</td></tr>
@@ -1843,6 +1838,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <tr><td>LAN report server (view on big screen)</td><td class="ck">&#10003;</td></tr>
           <tr><td>Natural language transaction search</td><td class="ck">&#10003;</td></tr>
           <tr><td>Voice shortcuts (Siri / Google Assistant)</td><td class="ck">&#10003;</td></tr>
+          <tr><td>Home screen widget (iOS &amp; Android)</td><td class="ck">&#10003;</td></tr>
           <tr class="sr"><td colspan="2">Privacy &amp; Accessibility</td></tr>
           <tr><td>All data stored on your device &mdash; not our servers</td><td class="ck">&#10003;</td></tr>
           <tr><td>App lock: Face ID, Touch ID, fingerprint, or PIN</td><td class="ck">&#10003;</td></tr>
@@ -2511,7 +2507,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
         <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Your Data, Your Device</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything is stored locally with AES-256 encryption. No accounts required, no cloud uploads by default. Optional cloud sync available for Pro users who want cross-device access.</p>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Stored in the app&rsquo;s private storage on your device. No account required. Backups and optional cloud sync are always AES-256 encrypted with a key only you know &mdash; your cloud provider can&rsquo;t read it.</p>
       </div>
       <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>

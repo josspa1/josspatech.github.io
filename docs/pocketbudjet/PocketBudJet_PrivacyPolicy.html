@@ -13,11 +13,8 @@ header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align
 .hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
 .hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
 .hdr-name span{color:var(--gold);}
-.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;}
-.breadcrumb a{color:var(--light-slate);text-decoration:none;transition:color .15s;}
-.breadcrumb a:hover{color:var(--gold);}
-.breadcrumb .bc-sep{color:rgba(255,255,255,0.2);}
-.breadcrumb .bc-cur{color:rgba(255,255,255,0.7);font-weight:600;}
+.hdr-back{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
+.hdr-back:hover{color:var(--gold);}
 .doc-hero{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}
 .doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
 .doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
@@ -41,7 +38,7 @@ footer .fn span{color:var(--gold);}
 </head>
 <body>
 <header>
-  <a class="hdr-logo" href="/#pbj">
+  <a class="hdr-logo" href="index.html#pbj">
     <svg width="32" height="32" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg">
       <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2E6FA3"/><stop offset="100%" stop-color="#0C3358"/></linearGradient><linearGradient id="gg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#F0C040"/><stop offset="100%" stop-color="#E8A820"/></linearGradient></defs>
       <path d="M30,2 C30,2 4,24 4,42 C4,54 13,60 22,57 C18,63 15,68 8,71 L52,71 C45,68 42,63 38,57 C47,60 56,54 56,42 C56,24 30,2 30,2 Z" fill="url(#sg)"/>
@@ -50,105 +47,108 @@ footer .fn span{color:var(--gold);}
     </svg>
     <span class="hdr-name">Josspa<span>Tech</span>™</span>
   </a>
-  <nav class="breadcrumb" aria-label="breadcrumb">
-    <a href="/">JosspaTech</a>
-    <span class="bc-sep">/</span>
-    <a href="/#pbj">PocketBudJet</a>
-    <span class="bc-sep">/</span>
-    <span class="bc-cur">Privacy Policy</span>
-  </nav>
+  <a class="hdr-back" href="index.html#pbj">← PocketBudJet</a>
 </header>
 
 <div class="doc-hero">
   <span class="doc-type">PocketBudJet · Legal Document</span>
   <h1>Privacy Policy</h1>
   <div class="doc-meta">
-    <span>Effective Date: March 20, 2026</span>
+    <span>Effective Date: April 20, 2026</span>
     <span>Developer: JosspaTech</span>
-    <span>Contact: <a href="/cdn-cgi/l/email-protection#5e2d2b2e2e312c2a1e34312d2d2e3f2a3b3d36703d3133"><span class="__cf_email__" data-cfemail="cebdbbbebea1bcba8ea4a1bdbdbeafbaabada6e0ada1a3">[email&#160;protected]</span></a></span>
+    <span>Contact: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
 </div>
 
 <main>
   <div class="summary-box">
-    <strong>The short version:</strong> PocketBudJet stores all your financial data on your device only. JosspaTech cannot see your data, has no server that receives it, and never will. Your finances are yours alone.
+    <strong>The short version:</strong> We don't ask for your name, address, SSN, or bank credentials. Your financial data lives on your device by default — you decide if you want to back it up to a cloud provider <em>you pick</em>. A few transaction-level details are sent (anonymized) to power smart features like AI coaching, crowd benchmarks, and merchant categorization — the sections below list exactly what, when, and why.
   </div>
 
   <h2>1. Information We Collect</h2>
-  <p><strong>Information You Enter</strong></p>
-  <p>All financial data you enter into PocketBudJet — including transaction amounts, descriptions, category names, financial source names, debt balances, interest rates, and goals — is stored exclusively on your device. We do not collect, transmit, or have access to any of this data.</p>
-  <p><strong>Information We Do NOT Collect</strong></p>
+  <p><strong>What we do NOT collect:</strong></p>
   <ul>
-    <li>Bank account numbers or routing numbers</li>
-    <li>Credit card numbers or financial account credentials</li>
+    <li>Your name, address, phone number, or email address (unless you choose to enter them for your own records)</li>
+    <li>Social Security numbers or government IDs</li>
+    <li>Bank account numbers, routing numbers, or card numbers</li>
     <li>Passwords to any external services</li>
-    <li>Real-time bank or financial institution data</li>
-    <li>Location data</li>
+    <li>Real-time bank or financial institution credentials</li>
+    <li>Precise location data</li>
     <li>Device contacts or contact lists</li>
-    <li>Social Security numbers or government identification</li>
-    <li>Biometric data of any kind</li>
+    <li>Biometric data (Face ID / fingerprint are verified by your phone's OS — PocketBudJet never receives the biometric)</li>
+    <li>Persistent advertising identifiers tied to your financial data</li>
   </ul>
+  <p><strong>What you enter into the app:</strong> Transactions, budgets, debts, goals, categories, and similar financial entries are stored in PocketBudJet's private app storage on your device. You can optionally enter a zip code and country to participate in crowd benchmarks (§9) — this is the only semi-identifying data we ask for, and it remains optional.</p>
 
   <h2>2. How Your Data Is Stored</h2>
-  <p>All data entered into PocketBudJet is stored locally on your device using SQLite with AES-256 encryption. This data is contained within the app's private storage sandbox and is not accessible to JosspaTech or any third party. Your data does not leave your device.</p>
+  <p><strong>On your device.</strong> Your data is kept in PocketBudJet's private app storage sandbox. On iOS, that storage is protected by Apple's Data Protection; on Android, by the platform's app-data isolation. Sensitive items like your PIN hash, biometric-lock flag, and any OAuth tokens you create are stored in the iOS Keychain or Android Keystore via <code>expo-secure-store</code>.</p>
+  <p><strong>If you turn on backups or sync.</strong> You pick the cloud provider (iCloud, Google Drive, OneDrive, or Dropbox). Before anything leaves your device, the payload is compressed and encrypted with AES-256-CTR + HMAC-SHA256 using a key derived from a password <em>only you know</em>. JosspaTech has no copy of that password and cannot decrypt your backups.</p>
+  <p><strong>On the network.</strong> All traffic to the services listed in §4, §9, and §10 is over TLS.</p>
 
-  <h2>3. Camera Use</h2>
-  <p>Camera access is requested only for receipt scanning. Receipt images are processed locally on your device using on-device OCR technology. Images are not transmitted to any server. You control whether any scanned data is saved.</p>
+  <h2>3. Camera and Receipt Scanning</h2>
+  <p>Camera access is used for receipt scanning. By default, receipt images are processed with on-device OCR (Apple Vision / Android ML Kit text recognition) — the image never leaves your phone.</p>
+  <p><strong>Optional Cloud OCR fallback.</strong> If you turn on "Cloud OCR" in Settings, and on-device OCR returns low confidence, the image is sent over TLS to OCR.Space for text extraction. OCR.Space does not retain uploads after processing. This is off by default.</p>
 
-  <h2>4. AI Features and Privacy</h2>
-  <p>PocketBudJet offers two tiers of AI features:</p>
-  <p><strong>Tier 1 — On-Device AI (always on, free):</strong> Category prediction, anomaly detection, and spending forecasts run entirely on your device. No data is ever transmitted for these features.</p>
-  <p><strong>Tier 2 — PBJ Financial Coach (optional, premium, must be explicitly enabled):</strong> When you choose to enable the AI Financial Coach, aggregated numerical summaries of your finances are transmitted to Anthropic, Inc. (the maker of the Claude AI) to generate personalized guidance. Specifically, only the following is ever sent:</p>
+  <h2>4. AI Financial Coach (Optional)</h2>
+  <p>PocketBudJet's AI features come in two layers:</p>
+  <p><strong>On-device AI (always on, free):</strong> Category prediction, anomaly detection, and spending forecasts run on your device. Nothing is transmitted for these.</p>
+  <p><strong>AI Financial Coach (premium, opt-in):</strong> When you use a coach feature, a summary is sent over TLS to Anthropic, Inc. (the maker of the Claude AI) to generate personalized guidance. The payload includes:</p>
   <ul>
-    <li>Monthly income total and monthly spending total</li>
-    <li>Spending totals per category (e.g. "Groceries: $380" — never the individual transactions)</li>
-    <li>Total debt balance and number of debts</li>
-    <li>Calculated savings rate percentage</li>
+    <li>Category spending breakdown (e.g. "Groceries: $380")</li>
+    <li>Top merchant names with aggregated totals (e.g. "Target: $210" — no dates, no individual transactions)</li>
+    <li>Monthly income, monthly spending, total debt, and calculated savings rate</li>
   </ul>
-  <p><strong>What is NEVER sent to Anthropic or any third party:</strong> Individual transaction amounts, merchant names, transaction descriptions, account names, account numbers, dates of specific purchases, or any information that could identify you personally.</p>
-  <p>The AI Financial Coach is disabled by default and can be turned on or off at any time in Settings. You can use PocketBudJet fully and indefinitely without ever enabling this feature. Anthropic's privacy policy governs their handling of the aggregated data received. Anthropic does not receive your name, email, or any identifying information — only the anonymized financial summaries described above.</p>
+  <p><strong>What is NOT sent to Anthropic:</strong> Your name, email, phone, address, account numbers, card numbers, device identifiers, or individual transaction-level records. Anthropic does not retain customer API inputs for training (see Anthropic's Commercial Terms and privacy policy).</p>
+  <p>The AI Financial Coach is disabled by default and can be toggled in Settings. You can use PocketBudJet indefinitely without ever turning it on.</p>
 
-  <h2>5. Bank Account Connectivity (Future Optional Feature)</h2>
-  <p>A future version of PocketBudJet will offer an optional feature to connect your bank accounts for on-demand transaction import. This feature will:</p>
+  <h2>5. Bank Account Connectivity (Roadmap)</h2>
+  <p>A future version of PocketBudJet will offer an optional feature to connect your bank accounts for transaction import via Plaid, Inc. This feature will:</p>
   <ul>
-    <li>Be entirely opt-in — disabled by default and never enabled without your explicit action</li>
-    <li>Use Plaid, Inc. as the bank connectivity provider — JosspaTech will never see your bank credentials</li>
-    <li>Only sync when you manually tap "Sync Now" — nothing connects automatically unless you choose a schedule</li>
+    <li>Be entirely opt-in — disabled by default and enabled only by your explicit action</li>
+    <li>Use Plaid as the bank connectivity provider — JosspaTech will never see your bank credentials</li>
+    <li>Let you control sync frequency (manual-only is supported)</li>
     <li>Show you every transaction for your review before anything is imported</li>
-    <li>Store access tokens only on your device in encrypted secure storage — never transmitted to JosspaTech</li>
+    <li>Store Plaid access tokens on your device in Keychain/Keystore</li>
   </ul>
-  <p>This feature is not available in the current version. This policy will be updated with full details before that feature is released. You will be notified in-app before it becomes available.</p>
+  <p>This feature is not yet available. This policy will be updated with full details before it launches.</p>
 
   <h2>6. Voice Shortcuts</h2>
-  <p>Voice shortcuts (Siri on iOS, Google Assistant on Android) are an optional opt-in feature that is disabled by default. If you choose to enable voice shortcuts, voice audio is processed by Apple or Google under their respective privacy policies — not by JosspaTech. No financial data, balances, or transaction history is transmitted. Only the text of your spoken command is used to create a transaction locally on your device.</p>
+  <p>Voice shortcuts (Siri on iOS, Google Assistant / App Actions on Android) are opt-in and off by default. Voice audio is processed by Apple or Google under their respective privacy policies — not by JosspaTech. Only the resulting text command is used to create a transaction locally on your device.</p>
 
-  <h2>7. Subscription and Payment Data</h2>
-  <p>Subscription purchases are processed entirely by Apple App Store or Google Play Store. JosspaTech does not collect, store, or process payment card information. All billing is handled by Apple or Google under their respective privacy policies.</p>
+  <h2>7. Subscriptions and Payments</h2>
+  <p>Purchases are processed entirely by Apple App Store or Google Play Store. JosspaTech does not collect, store, or process payment card information. Subscription status is verified through RevenueCat, which receives an anonymous app user ID — not your name or email.</p>
 
-  <h2>8. Analytics</h2>
-  <p>The current version of PocketBudJet does not collect analytics, usage data, or crash reports. If this changes in a future version, this policy will be updated and users will be notified in advance.</p>
+  <h2>8. Diagnostics and Crash Reports</h2>
+  <p>PocketBudJet uses Firebase Crashlytics to collect anonymous crash diagnostics so we can find and fix bugs. Crash reports contain stack traces, device model, OS version, and app version. They do <strong>not</strong> contain your financial data. You can opt out in Settings → Data &amp; Privacy.</p>
 
-  <h2>9. Anonymized Merchant Data</h2>
-  <p>To improve auto-categorization accuracy for all PocketBudJet users, the app may periodically send anonymized merchant-to-category mappings to JosspaTech. For example: "Target → Groceries" or "Shell → Transportation." This data is:</p>
+  <h2>9. Crowd Benchmarks and Merchant Intelligence</h2>
+  <p>To make the app smarter for everyone, PocketBudJet contributes a small amount of anonymized data to a shared pool hosted by JosspaTech (PocketBase). You can turn this off any time in Settings → Data &amp; Privacy.</p>
+  <p><strong>What is contributed:</strong></p>
   <ul>
-    <li>Sent only over WiFi, in weekly batches</li>
-    <li>Completely anonymous — no user ID, device ID, IP address, or any identifier is included</li>
-    <li>Limited to merchant business names and their assigned category — never transaction amounts, dates, descriptions, or any financial data</li>
-    <li>Public business information, not personal data</li>
+    <li><strong>Merchant → category mappings</strong> (e.g. "Target → Groceries"). No amounts, dates, or identifiers.</li>
+    <li><strong>Bucketed spending benchmarks</strong> by category, keyed to zip code and country, using coarse buckets so individual transactions are never reconstructable. No user ID, device ID, or IP.</li>
+    <li><strong>Product intelligence</strong>: if you scan a barcode, the UPC is queried against public databases (upcitemdb.com, openfoodfacts.org). The UPC is all that's sent.</li>
   </ul>
-  <p>This feature is enabled by default. You can turn it off at any time in Settings → Data &amp; Privacy → "Help Improve Categorization." Turning it off immediately deletes any queued data that has not yet been sent. JosspaTech may use the aggregated merchant database for commercial purposes, including licensing to third parties.</p>
+  <p>This pool powers features like "how does my Groceries spend compare to others in my zip?" and auto-categorization suggestions. JosspaTech may use the aggregated merchant database for commercial purposes, including licensing to third parties. Individual user data is not identifiable in the pool.</p>
 
-  <h2>10. Children's Privacy</h2>
-  <p>PocketBudJet is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided information through the app, please contact us at <a href="/cdn-cgi/l/email-protection#b0c3c5c0c0dfc2c4f0dadfc3c3c0d1c4d5d3d89ed3dfdd"><span class="__cf_email__" data-cfemail="1f6c6a6f6f706d6b5f75706c6c6f7e6b7a7c77317c7072">[email&#160;protected]</span></a>.</p>
+  <h2>10. Other Network Services</h2>
+  <ul>
+    <li><strong>Exchange rates</strong> (open.er-api.com): only currency pair codes (e.g. "USD→EUR") are sent. No amounts, no user data.</li>
+    <li><strong>Email receipt scanning</strong> (optional): if you connect Gmail or Outlook, OAuth tokens are stored on your device in Keychain/Keystore. PocketBudJet uses them to fetch receipt messages from your mailbox; parsing happens on your device. JosspaTech never receives your email content.</li>
+    <li><strong>PC dashboard</strong> (optional): a local-only web server on your home network. Data stays inside your LAN.</li>
+  </ul>
 
-  <h2>11. Data Deletion</h2>
-  <p>Because all data is stored exclusively on your device, you can delete all data at any time by uninstalling the app. JosspaTech does not retain any copy of your data and has nothing to delete on our end.</p>
+  <h2>11. Children's Privacy</h2>
+  <p>PocketBudJet is not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe a child under 13 has provided information through the app, please contact us at <a href="mailto:support@josspatech.com">support@josspatech.com</a>.</p>
 
-  <h2>12. Changes to This Policy</h2>
+  <h2>12. Data Deletion</h2>
+  <p>Because your financial data is stored on your device (and any backups you made to a cloud provider <em>you control</em>), you delete it by uninstalling the app and, if applicable, deleting your backups from your cloud provider. JosspaTech does not retain a copy of your financial data and has nothing to delete on our end. Anonymous crash reports and aggregated crowd-pool contributions cannot be linked back to you, so they cannot be individually withdrawn — but you can turn off future contributions at any time in Settings.</p>
+
+  <h2>13. Changes to This Policy</h2>
   <p>We may update this Privacy Policy from time to time. We will update the effective date when we do. Continued use of the App after changes constitutes acceptance of the updated policy. For material changes we will provide in-app notification.</p>
 
-  <h2>13. Contact</h2>
-  <p>Privacy questions or concerns: <strong><a href="/cdn-cgi/l/email-protection#9feceaefeff0edebdff5f0ececeffeebfafcf7b1fcf0f2"><span class="__cf_email__" data-cfemail="6d1e181d1d021f192d07021e1e1d0c19080e05430e0200">[email&#160;protected]</span></a></strong></p>
+  <h2>14. Contact</h2>
+  <p>Privacy questions or concerns: <strong><a href="mailto:support@josspatech.com">support@josspatech.com</a></strong></p>
   <!-- ── LEGAL DOCUMENT NAVIGATION BAR ── -->
   <div style="background:#EDF2F7;border-top:1px solid rgba(26,79,122,0.2);margin-top:48px;padding:28px 48px 24px;">
     <p style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet™ — Legal Documents</p>
@@ -156,9 +156,15 @@ footer .fn span{color:var(--gold);}
       <a href="PocketBudJet_PrivacyPolicy.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">🔒 Privacy Policy</a>
       <a href="PocketBudJet_TermsOfService.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📋 Terms of Service</a>
       <a href="PocketBudJet_EULA.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📄 End User License Agreement</a>
-      <a href="/#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">← Back to PocketBudJet</a>
+      <a href="index.html#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">← Back to PocketBudJet</a>
     </div>
   </div>
 
 </main>
-<footer style="background:#0C3358;border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-
+<footer style="background:#0C3358;border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+  <span style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;">Josspa<span style="color:#F0C040;">Tech</span>™</span>
+  <p style="font-size:12px;color:#8AAABB;">© 2026 JosspaTech. All Rights Reserved.</p>
+  <a href="index.html#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
+</footer>
+</body>
+</html>

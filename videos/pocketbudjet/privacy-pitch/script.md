@@ -30,15 +30,15 @@
 ---
 
 ### Shot 4 (0:22 - 0:32)
-**Visual:** Phone screen — Dashboard with encrypted lock animation, data stays on-device indicator. Then show WiFi sync icon—data flows between two phones over WiFi only, no cloud.
-**Audio/VO:** "All your data is encrypted on your phone. Optional WiFi household sync—stays in your home network. No cloud. No data selling. Full control."
-**Text overlay:** "On-Device Encrypted" → "WiFi Sync Only" → "No Cloud Required"
+**Visual:** Phone screen — Dashboard with AES-256 lock animation, then show WiFi sync icon between two phones over WiFi, then a "your choice" badge for optional cloud sync.
+**Audio/VO:** "No name, no account numbers, no personal info. You pick where your data lives — local by default, or a cloud provider you choose. Backups are AES-256 encrypted with a key only you know."
+**Text overlay:** "No Personal Info" → "You Pick Where It Lives" → "AES-256 Encrypted Backups"
 
 ---
 
 ### Shot 5 (0:32 - 0:45)
 **Visual:** Phone screen — Export menu showing 6 formats (PDF, Excel, Word, OFX, HTML, Accountant), price card showing $9.99/month with privacy badge, Josspa mascot gives thumbs up.
-**Audio/VO:** "Export anytime in six formats. Take your data anywhere. Privacy-first budgeting shouldn't cost more. At nine ninety-nine a month, PocketBudJet is the cheapest and the safest."
+**Audio/VO:** "Export anytime in six formats. Take your data anywhere. Privacy-first budgeting shouldn't cost more. At nine ninety-nine a month, Pocket Budget is the most transparent — and still the cheapest."
 **Text overlay:** "Export to 6 Formats" → "Only $9.99/month" → "Privacy First."
 
 ---
