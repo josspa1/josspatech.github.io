@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Backup Setup - PocketBudJet | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--navy); background-color: var(--white); line-height: 1.6;
+        }
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background-color: var(--navy); padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 1200px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo {
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--white); text-decoration: none;
+        }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a {
+            color: var(--white); text-decoration: none; font-size: 0.95rem;
+            font-weight: 500; transition: color 0.3s ease;
+        }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button {
+            background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem;
+            border-radius: 4px; font-weight: 600; text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+        .hero {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            color: var(--white); padding: 2rem 2rem; text-align: center;
+        }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Playfair Display', serif; font-size: 3rem;
+            font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
+        }
+        .hero .subheader {
+            font-size: 1.25rem; font-weight: 300; max-width: 740px;
+            margin: 0 auto; color: rgba(255,255,255,0.95);
+        }
+        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section .container { max-width: 1200px; margin: 0 auto; }
+        .video-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem; color: var(--navy);
+        }
+        .video-section .section-sub {
+            text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+        }
+        .video-wrapper {
+            display: flex; gap: 3rem; align-items: flex-start;
+            justify-content: center; flex-wrap: wrap;
+        }
+        .phone-viewport { flex-shrink: 0; overflow: hidden; border-radius: 40px; }
+        .phone-frame {
+            width: 320px; position: relative;
+            border: 10px solid var(--navy-dark); border-radius: 40px;
+            overflow: hidden; background: #fff;
+            box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
+            aspect-ratio: 9 / 19.5;
+            max-height: 620px;
+        }
+        .phone-frame::before {
+            content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
+            z-index: 20;
+        }
+        .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .slide.active { opacity: 1; }
+        .slide .scene {
+            width: 100%; height: 100%; background: #fff;
+            display: flex; align-items: stretch; justify-content: center;
+        }
+        .slide .scene svg { width: 100%; height: 100%; display: block; }
+        .slide-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 3rem 1.2rem 1.5rem; color: white;
+        }
+        .slide-step {
+            display: inline-block; background: var(--gold); color: var(--navy-dark);
+            font-weight: 800; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px;
+            margin-bottom: 6px; letter-spacing: 0.5px;
+        }
+        .slide-title { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+        .tap-indicator {
+            position: absolute; z-index: 15; pointer-events: none;
+            transform: translate(-50%, -50%);
+            opacity: 0; transition: opacity 0.4s ease 0.3s;
+        }
+        .slide.active .tap-indicator { opacity: 1; }
+        .tap-ring {
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 3px solid var(--gold);
+            animation: tap-pulse 1.8s ease-out infinite;
+            box-shadow: 0 0 12px rgba(240,192,64,0.4);
+        }
+        .tap-ring-outer {
+            position: absolute; top: 50%; left: 50%;
+            width: 44px; height: 44px;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(240,192,64,0.6);
+            border-radius: 50%;
+            animation: tap-ripple 1.8s ease-out infinite 0.2s;
+        }
+        .tap-finger {
+            position: absolute; bottom: -18px; right: -14px;
+            font-size: 22px;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+            animation: tap-bounce 1.8s ease-in-out infinite;
+        }
+        @keyframes tap-pulse {
+            0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+            70% { transform: scale(1.4); opacity: 0; box-shadow: 0 0 0 rgba(240,192,64,0); }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        @keyframes tap-ripple {
+            0% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+        }
+        @keyframes tap-bounce {
+            0%, 100% { transform: translateY(0) rotate(-15deg); }
+            40% { transform: translateY(-5px) rotate(-15deg); }
+            60% { transform: translateY(2px) rotate(-15deg); }
+        }
+        .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; }
+        .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
+        }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+        .narration-panel { max-width: 400px; flex: 1; min-width: 280px; position: relative; }
+        .narration-card {
+            background: var(--white); border-radius: 16px; padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
+            margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute; top: 0; left: 0; width: 100%; pointer-events: none;
+        }
+        .narration-card.active {
+            opacity: 1; transform: translateY(0); position: relative; pointer-events: auto;
+        }
+        .narration-step-badge {
+            display: inline-block; background: var(--navy); color: white;
+            font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 0.6rem;
+        }
+        .narration-card h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.2rem;
+            font-weight: 700; color: var(--navy); margin-bottom: 0.5rem;
+        }
+        .narration-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+        .narration-timer {
+            height: 3px; background: var(--gold); border-radius: 2px;
+            margin-top: 0.8rem; width: 0%; transition: width linear;
+        }
+        .narration-card.active .narration-timer { width: 100%; }
+        .playback-controls {
+            display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center;
+        }
+        .play-pause-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
+            display: flex; align-items: center; justify-content: center; transition: background 0.3s;
+        }
+        .play-pause-btn:hover { background: var(--navy-medium); }
+        .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+        .voice-btn {
+            background: var(--navy); color: white; border: none; border-radius: 50%;
+            width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.3s, opacity 0.3s;
+        }
+        .voice-btn:hover { background: var(--navy-medium); }
+        .voice-btn.muted { opacity: 0.5; }
+        .tap-to-start {
+            position: absolute; inset: 0; z-index: 20;
+            background: rgba(10, 26, 57, 0.72);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border-radius: inherit;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+        .tap-to-start-icon {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--gold); color: var(--navy-dark);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 0.6rem;
+        }
+        .tap-to-start-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            color: white; letter-spacing: 0.05em;
+        }
+        .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+        .steps-section .container { max-width: 1200px; margin: 0 auto; }
+        .steps-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
+            text-align: center; margin-bottom: 3rem; color: var(--navy);
+        }
+        .timeline { max-width: 800px; margin: 0 auto; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+            width: 4px; height: 100%; background-color: var(--gold);
+        }
+        .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
+        .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
+        .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
+        .timeline-marker {
+            position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+            width: 50px; height: 50px; background-color: var(--gold);
+            border: 4px solid var(--white); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+        }
+        .timeline-content {
+            background-color: var(--background); padding: 2rem; border-radius: 12px;
+            border-left: 5px solid var(--gold);
+        }
+        .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
+        .timeline-content h3 {
+            font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+            color: var(--navy); margin-bottom: 0.75rem;
+        }
+        .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
+        .privacy-note {
+            max-width: 800px; margin: 2.5rem auto 0;
+            background: #FFF7E0; border-left: 5px solid var(--gold);
+            padding: 1.5rem 1.75rem; border-radius: 10px;
+        }
+        .privacy-note h4 {
+            font-family: 'Playfair Display', serif; font-size: 1.1rem;
+            color: var(--navy); margin-bottom: 0.5rem; font-weight: 700;
+        }
+        .privacy-note p { color: var(--navy-dark); font-size: 0.95rem; line-height: 1.6; }
+        .cta-section {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
+            padding: 4rem 2rem; text-align: center;
+        }
+        .cta-section .container { max-width: 1200px; margin: 0 auto; }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+            color: var(--white); margin-bottom: 2rem;
+        }
+        .download-button {
+            display: inline-block; background-color: var(--gold); color: var(--navy);
+            padding: 1rem 2.5rem; border-radius: 6px; font-size: 1.1rem; font-weight: 700;
+            text-decoration: none; transition: all 0.3s; border: 2px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(240,192,64,0.3);
+        }
+        .download-button:hover {
+            background-color: var(--gold-dark); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(240,192,64,0.4);
+        }
+        footer {
+            background-color: var(--navy-dark); color: var(--white);
+            padding: 2rem; text-align: center; font-size: 0.9rem;
+        }
+        footer a { color: var(--gold); text-decoration: none; }
+        footer a:hover { color: var(--gold-dark); }
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light, #8AAABB); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+        @media (max-width: 768px) {
+            nav .nav-links { gap: 1rem; font-size: 0.85rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero .subheader { font-size: 1rem; }
+            .video-wrapper { flex-direction: column; }
+            .phone-frame { width: 280px; }
+            .narration-panel { max-width: 100%; }
+            .timeline::before { left: 25px; }
+            .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
+                text-align: left; padding-right: 0; padding-left: 90px;
+            }
+            .timeline-marker { left: 0; transform: translateX(0); }
+            .timeline-content, .timeline-step:nth-child(odd) .timeline-content {
+                border-left: 5px solid var(--gold); border-right: none;
+            }
+        }
+        @media (max-width: 480px) {
+            nav { padding: 0.8rem 1rem; }
+            nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
+            nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
+            .hero { padding: 2.5rem 1rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .phone-frame { width: 240px; }
+            .video-section { padding: 2.5rem 1rem; }
+            .steps-section h2 { font-size: 1.5rem; }
+            .timeline-step { padding-left: 70px !important; }
+            .timeline-marker { width: 40px; height: 40px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="/" class="logo">JosspaTech</a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/#products">Products</a></li>
+                <li><a href="/how-to/">How To</a></li>
+                <li><a href="#" class="cta-button">Get the App</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="breadcrumbs">
+        <a href="/">Home</a><span class="sep">/</span>
+        <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+        <a href="/how-to/">How To</a><span class="sep">/</span>
+        <span class="current">Cloud Backup Setup</span>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Set Up Cloud Backup</h1>
+            <p class="subheader">Connect the cloud you already use &mdash; Google Drive, OneDrive, Dropbox, or iCloud &mdash; and PocketBudJet keeps your budget data and saved receipts safe, even if your phone disappears.</p>
+        </div>
+    </section>
+
+    <section class="video-section">
+        <div class="container">
+            <h2>Five Taps to Bulletproof Your Data</h2>
+            <p class="section-sub">Your cloud, your account. PocketBudJet never stores your data on its own servers.</p>
+            <div class="video-wrapper">
+                <div>
+                    <div class="phone-viewport">
+                        <div class="phone-frame">
+                        <div class="slideshow" id="slideshow">
+                            <div class="tap-to-start" id="tapToStart">
+                                <div class="tap-to-start-icon">&#9654;</div>
+                                <div class="tap-to-start-label">Tap to play</div>
+                            </div>
+
+                            <!-- Slide 0: intro / why -->
+                            <div class="slide active" data-index="0">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <defs>
+                                            <linearGradient id="bgGrad0" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0" stop-color="#EDF2F7"/>
+                                                <stop offset="1" stop-color="#FFFFFF"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="320" height="620" fill="url(#bgGrad0)"/>
+                                        <!-- Cloud shape -->
+                                        <g transform="translate(160 220)">
+                                            <ellipse cx="0" cy="20" rx="100" ry="36" fill="#1A4F7A"/>
+                                            <circle cx="-60" cy="0" r="40" fill="#1A4F7A"/>
+                                            <circle cx="-20" cy="-22" r="44" fill="#1A4F7A"/>
+                                            <circle cx="32" cy="-18" r="38" fill="#1A4F7A"/>
+                                            <circle cx="64" cy="4" r="34" fill="#1A4F7A"/>
+                                        </g>
+                                        <!-- Shield with check inside cloud -->
+                                        <g transform="translate(160 220)">
+                                            <path d="M 0,-18 L 28,-8 L 28,16 Q 28,38 0,52 Q -28,38 -28,16 L -28,-8 Z" fill="#F0C040" stroke="#0C3358" stroke-width="2"/>
+                                            <path d="M -10,14 L -3,22 L 12,4" fill="none" stroke="#0C3358" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </g>
+                                        <!-- Phone outline below -->
+                                        <g transform="translate(160 410)">
+                                            <rect x="-50" y="-70" width="100" height="160" rx="16" fill="#FFFFFF" stroke="#1A4F7A" stroke-width="3"/>
+                                            <rect x="-40" y="-58" width="80" height="124" rx="4" fill="#EDF2F7"/>
+                                            <circle cx="0" cy="78" r="4" fill="#1A4F7A"/>
+                                        </g>
+                                        <!-- Connection lines from phone to cloud -->
+                                        <path d="M 160 340 Q 160 290 160 270" stroke="#F0C040" stroke-width="3" stroke-dasharray="6 6" fill="none"/>
+                                        <!-- Title text -->
+                                        <text x="160" y="510" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="20" font-weight="700" fill="#1A4F7A">Your Cloud,</text>
+                                        <text x="160" y="535" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="20" font-weight="700" fill="#1A4F7A">Your Account</text>
+                                        <text x="160" y="565" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" fill="#5A7A9A">PocketBudJet never holds your data</text>
+                                    </svg>
+                                </div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">OVERVIEW</span>
+                                    <div class="slide-title">Why Cloud Backup matters</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 1: Settings list, Storage & Backup highlighted -->
+                            <div class="slide" data-index="1" data-tap-x="50" data-tap-y="62">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <rect width="320" height="620" fill="#EDF2F7"/>
+                                        <!-- Status bar -->
+                                        <rect x="0" y="0" width="320" height="32" fill="#FFFFFF"/>
+                                        <text x="20" y="22" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#1A4F7A">9:41</text>
+                                        <text x="300" y="22" text-anchor="end" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">100%</text>
+                                        <!-- Header -->
+                                        <rect x="0" y="32" width="320" height="60" fill="#FFFFFF"/>
+                                        <text x="160" y="70" text-anchor="middle" font-family="Playfair Display, serif" font-size="22" font-weight="700" fill="#1A4F7A">Settings</text>
+                                        <line x1="0" y1="92" x2="320" y2="92" stroke="#E2E8F0" stroke-width="1"/>
+                                        <!-- Section label -->
+                                        <text x="20" y="118" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#5A7A9A" letter-spacing="1">DATA &amp; PRIVACY</text>
+                                        <!-- Setting rows -->
+                                        <g font-family="Source Sans 3, sans-serif" fill="#1A4F7A">
+                                            <!-- Row 1 -->
+                                            <rect x="14" y="130" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <circle cx="38" cy="158" r="14" fill="#E8F0FE"/>
+                                            <text x="38" y="163" text-anchor="middle" font-size="14">&#x1F510;</text>
+                                            <text x="62" y="156" font-size="14" font-weight="600">App Lock</text>
+                                            <text x="62" y="173" font-size="11" fill="#5A7A9A">Require PIN to open</text>
+                                            <text x="296" y="163" text-anchor="end" font-size="14" fill="#8AAABB">&#8250;</text>
+                                            <!-- Row 2: Storage & Backup (highlighted) -->
+                                            <rect x="10" y="194" width="300" height="60" rx="12" fill="#FFFFFF" stroke="#F0C040" stroke-width="3"/>
+                                            <circle cx="38" cy="224" r="16" fill="#FFF3CC"/>
+                                            <text x="38" y="230" text-anchor="middle" font-size="16">&#x2601;</text>
+                                            <text x="62" y="220" font-size="15" font-weight="700">Storage &amp; Backup</text>
+                                            <text x="62" y="238" font-size="11" fill="#5A7A9A">Storage, retention, local + cloud backup</text>
+                                            <text x="296" y="227" text-anchor="end" font-size="16" fill="#F0C040">&#8250;</text>
+                                            <!-- Row 3 -->
+                                            <rect x="14" y="262" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <circle cx="38" cy="290" r="14" fill="#E8F0FE"/>
+                                            <text x="38" y="295" text-anchor="middle" font-size="14">&#x1F4E5;</text>
+                                            <text x="62" y="288" font-size="14" font-weight="600">Import &amp; Export</text>
+                                            <text x="62" y="305" font-size="11" fill="#5A7A9A">Bring data in, send data out</text>
+                                            <text x="296" y="295" text-anchor="end" font-size="14" fill="#8AAABB">&#8250;</text>
+                                            <!-- Row 4 -->
+                                            <rect x="14" y="326" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <circle cx="38" cy="354" r="14" fill="#E8F0FE"/>
+                                            <text x="38" y="359" text-anchor="middle" font-size="14">&#x1F4DC;</text>
+                                            <text x="62" y="352" font-size="14" font-weight="600">Privacy Policy</text>
+                                            <text x="62" y="369" font-size="11" fill="#5A7A9A">How your data is handled</text>
+                                            <text x="296" y="359" text-anchor="end" font-size="14" fill="#8AAABB">&#8250;</text>
+                                        </g>
+                                        <!-- Bottom tab bar -->
+                                        <rect x="0" y="560" width="320" height="60" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+                                        <g font-family="Source Sans 3, sans-serif" font-size="10" fill="#5A7A9A" text-anchor="middle">
+                                            <text x="40" y="595">Home</text>
+                                            <text x="106" y="595">Trans</text>
+                                            <text x="170" y="595">Reports</text>
+                                            <text x="234" y="595">Goals</text>
+                                            <text x="290" y="595" font-weight="700" fill="#1A4F7A">Settings</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="tap-indicator" style="left:50%;top:38%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 1</span>
+                                    <div class="slide-title">Open Settings &rsaquo; Storage &amp; Backup</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: Tab bar with Cloud highlighted -->
+                            <div class="slide" data-index="2" data-tap-x="86" data-tap-y="22">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <rect width="320" height="620" fill="#EDF2F7"/>
+                                        <!-- Status bar -->
+                                        <rect x="0" y="0" width="320" height="32" fill="#FFFFFF"/>
+                                        <text x="20" y="22" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#1A4F7A">9:41</text>
+                                        <text x="300" y="22" text-anchor="end" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">100%</text>
+                                        <!-- Header -->
+                                        <rect x="0" y="32" width="320" height="60" fill="#FFFFFF"/>
+                                        <text x="160" y="70" text-anchor="middle" font-family="Playfair Display, serif" font-size="20" font-weight="700" fill="#1A4F7A">Storage &amp; Backup</text>
+                                        <!-- Tab bar -->
+                                        <rect x="0" y="92" width="320" height="48" fill="#FFFFFF"/>
+                                        <line x1="0" y1="140" x2="320" y2="140" stroke="#E2E8F0" stroke-width="1"/>
+                                        <g font-family="Source Sans 3, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+                                            <text x="40" y="120" fill="#5A7A9A">Storage</text>
+                                            <text x="120" y="120" fill="#5A7A9A">Data</text>
+                                            <text x="200" y="120" fill="#5A7A9A">Backup</text>
+                                            <text x="280" y="120" fill="#1A4F7A" font-weight="800">Cloud</text>
+                                        </g>
+                                        <!-- Active indicator under Cloud -->
+                                        <rect x="244" y="136" width="72" height="3" fill="#F0C040"/>
+                                        <!-- Section label -->
+                                        <text x="20" y="172" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#5A7A9A" letter-spacing="1">CLOUD PROVIDERS</text>
+                                        <!-- Provider rows preview -->
+                                        <g font-family="Source Sans 3, sans-serif">
+                                            <rect x="14" y="184" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="198" width="32" height="32" rx="8" fill="#E8F0FE"/>
+                                            <text x="38" y="220" text-anchor="middle" font-size="16">G</text>
+                                            <text x="64" y="212" font-size="14" font-weight="600" fill="#1A4F7A">Google Drive</text>
+                                            <text x="64" y="228" font-size="11" fill="#5A7A9A">Connect your Google account</text>
+                                            <text x="296" y="222" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                            <rect x="14" y="248" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="262" width="32" height="32" rx="8" fill="#E0F0FF"/>
+                                            <text x="38" y="284" text-anchor="middle" font-size="16">&#x25A6;</text>
+                                            <text x="64" y="276" font-size="14" font-weight="600" fill="#1A4F7A">OneDrive</text>
+                                            <text x="64" y="292" font-size="11" fill="#5A7A9A">Connect your Microsoft account</text>
+                                            <text x="296" y="286" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                            <rect x="14" y="312" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="326" width="32" height="32" rx="8" fill="#E6EDFF"/>
+                                            <text x="38" y="348" text-anchor="middle" font-size="14">&#x2601;</text>
+                                            <text x="64" y="340" font-size="14" font-weight="600" fill="#1A4F7A">Dropbox</text>
+                                            <text x="64" y="356" font-size="11" fill="#5A7A9A">Connect your Dropbox account</text>
+                                            <text x="296" y="350" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                            <rect x="14" y="376" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="390" width="32" height="32" rx="8" fill="#F0F0F0"/>
+                                            <text x="38" y="411" text-anchor="middle" font-size="16">&#xF8FF;</text>
+                                            <text x="64" y="404" font-size="14" font-weight="600" fill="#1A4F7A">iCloud Drive</text>
+                                            <text x="64" y="420" font-size="11" fill="#5A7A9A">iOS only &mdash; uses your Apple ID</text>
+                                            <text x="296" y="414" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="tap-indicator" style="left:86%;top:22%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 2</span>
+                                    <div class="slide-title">Tap the Cloud tab</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: Pick a provider -->
+                            <div class="slide" data-index="3" data-tap-x="50" data-tap-y="34">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <rect width="320" height="620" fill="#EDF2F7"/>
+                                        <!-- Status bar -->
+                                        <rect x="0" y="0" width="320" height="32" fill="#FFFFFF"/>
+                                        <text x="20" y="22" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#1A4F7A">9:41</text>
+                                        <text x="300" y="22" text-anchor="end" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">100%</text>
+                                        <!-- Header -->
+                                        <rect x="0" y="32" width="320" height="60" fill="#FFFFFF"/>
+                                        <text x="160" y="70" text-anchor="middle" font-family="Playfair Display, serif" font-size="20" font-weight="700" fill="#1A4F7A">Storage &amp; Backup</text>
+                                        <!-- Tab bar (Cloud active) -->
+                                        <rect x="0" y="92" width="320" height="48" fill="#FFFFFF"/>
+                                        <line x1="0" y1="140" x2="320" y2="140" stroke="#E2E8F0" stroke-width="1"/>
+                                        <g font-family="Source Sans 3, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+                                            <text x="40" y="120" fill="#5A7A9A">Storage</text>
+                                            <text x="120" y="120" fill="#5A7A9A">Data</text>
+                                            <text x="200" y="120" fill="#5A7A9A">Backup</text>
+                                            <text x="280" y="120" fill="#1A4F7A" font-weight="800">Cloud</text>
+                                        </g>
+                                        <rect x="244" y="136" width="72" height="3" fill="#F0C040"/>
+                                        <!-- Section label -->
+                                        <text x="20" y="172" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#5A7A9A" letter-spacing="1">CLOUD PROVIDERS</text>
+                                        <!-- Highlighted Google Drive row -->
+                                        <g font-family="Source Sans 3, sans-serif">
+                                            <rect x="10" y="180" width="300" height="64" rx="12" fill="#FFFFFF" stroke="#F0C040" stroke-width="3"/>
+                                            <rect x="22" y="196" width="36" height="36" rx="8" fill="#E8F0FE"/>
+                                            <text x="40" y="221" text-anchor="middle" font-size="18" font-weight="700" fill="#4285F4">G</text>
+                                            <text x="68" y="216" font-size="15" font-weight="700" fill="#1A4F7A">Google Drive</text>
+                                            <text x="68" y="232" font-size="11" fill="#5A7A9A">Tap to connect</text>
+                                            <text x="296" y="222" text-anchor="end" font-size="22" fill="#F0C040" font-weight="700">+</text>
+                                            <!-- Other providers -->
+                                            <rect x="14" y="252" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="266" width="32" height="32" rx="8" fill="#E0F0FF"/>
+                                            <text x="38" y="288" text-anchor="middle" font-size="16">&#x25A6;</text>
+                                            <text x="64" y="280" font-size="14" font-weight="600" fill="#1A4F7A">OneDrive</text>
+                                            <text x="64" y="296" font-size="11" fill="#5A7A9A">Connect your Microsoft account</text>
+                                            <text x="296" y="290" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                            <rect x="14" y="316" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="330" width="32" height="32" rx="8" fill="#E6EDFF"/>
+                                            <text x="38" y="352" text-anchor="middle" font-size="14">&#x2601;</text>
+                                            <text x="64" y="344" font-size="14" font-weight="600" fill="#1A4F7A">Dropbox</text>
+                                            <text x="64" y="360" font-size="11" fill="#5A7A9A">Connect your Dropbox account</text>
+                                            <text x="296" y="354" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                            <rect x="14" y="380" width="292" height="56" rx="10" fill="#FFFFFF"/>
+                                            <rect x="22" y="394" width="32" height="32" rx="8" fill="#F0F0F0"/>
+                                            <text x="38" y="415" text-anchor="middle" font-size="16">&#xF8FF;</text>
+                                            <text x="64" y="408" font-size="14" font-weight="600" fill="#1A4F7A">iCloud Drive</text>
+                                            <text x="64" y="424" font-size="11" fill="#5A7A9A">iOS only &mdash; uses your Apple ID</text>
+                                            <text x="296" y="418" text-anchor="end" font-size="20" fill="#1A4F7A">+</text>
+                                        </g>
+                                        <!-- Helper text -->
+                                        <text x="160" y="470" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Use any cloud you already have.</text>
+                                        <text x="160" y="486" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Connect more than one for extra safety.</text>
+                                    </svg>
+                                </div>
+                                <div class="tap-indicator" style="left:50%;top:34%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 3</span>
+                                    <div class="slide-title">Pick the cloud you already use</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: Sign-in flow -->
+                            <div class="slide" data-index="4">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <rect width="320" height="620" fill="#FFFFFF"/>
+                                        <!-- Browser-like address bar -->
+                                        <rect x="0" y="0" width="320" height="44" fill="#F1F3F4"/>
+                                        <rect x="20" y="12" width="280" height="22" rx="11" fill="#FFFFFF" stroke="#E2E8F0"/>
+                                        <text x="34" y="27" font-family="Source Sans 3, sans-serif" font-size="10" fill="#5A7A9A">&#x1F512; accounts.google.com</text>
+                                        <!-- Google logo placeholder -->
+                                        <text x="160" y="100" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="28" font-weight="700" fill="#4285F4">G</text>
+                                        <text x="160" y="130" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" fill="#5A7A9A">Sign in to continue to</text>
+                                        <text x="160" y="150" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" font-weight="700" fill="#1A4F7A">PocketBudJet</text>
+                                        <!-- Email field -->
+                                        <rect x="40" y="180" width="240" height="44" rx="6" fill="#FFFFFF" stroke="#CBD5E0" stroke-width="1.5"/>
+                                        <text x="54" y="207" font-family="Source Sans 3, sans-serif" font-size="13" fill="#1A4F7A">you@gmail.com</text>
+                                        <!-- Next button -->
+                                        <rect x="190" y="240" width="90" height="40" rx="6" fill="#4285F4"/>
+                                        <text x="235" y="265" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#FFFFFF">Next</text>
+                                        <!-- Permission box -->
+                                        <rect x="20" y="320" width="280" height="180" rx="12" fill="#FFFBEB" stroke="#F0C040" stroke-width="2"/>
+                                        <text x="40" y="350" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="700" fill="#1A4F7A">PocketBudJet wants to:</text>
+                                        <g font-family="Source Sans 3, sans-serif" font-size="12" fill="#1A4F7A">
+                                            <text x="40" y="380">&#x2713; Create files in its own folder</text>
+                                            <text x="40" y="400">&#x2713; Read files it created</text>
+                                            <text x="40" y="420">&#x2715; Read your other files</text>
+                                            <text x="40" y="440">&#x2715; Share or send your files</text>
+                                        </g>
+                                        <text x="40" y="478" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Limited to the PocketBudJet folder only.</text>
+                                        <!-- Allow button -->
+                                        <rect x="160" y="540" width="120" height="44" rx="8" fill="#1A4F7A"/>
+                                        <text x="220" y="568" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Allow</text>
+                                        <rect x="40" y="540" width="100" height="44" rx="8" fill="#FFFFFF" stroke="#CBD5E0"/>
+                                        <text x="90" y="568" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#5A7A9A">Cancel</text>
+                                    </svg>
+                                </div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 4</span>
+                                    <div class="slide-title">Sign in &mdash; PocketBudJet only sees its own folder</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 5: Connected -->
+                            <div class="slide" data-index="5">
+                                <div class="scene">
+                                    <svg viewBox="0 0 320 620" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                                        <rect width="320" height="620" fill="#EDF2F7"/>
+                                        <!-- Status bar -->
+                                        <rect x="0" y="0" width="320" height="32" fill="#FFFFFF"/>
+                                        <text x="20" y="22" font-family="Source Sans 3, sans-serif" font-size="13" font-weight="600" fill="#1A4F7A">9:41</text>
+                                        <text x="300" y="22" text-anchor="end" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">100%</text>
+                                        <!-- Header -->
+                                        <rect x="0" y="32" width="320" height="60" fill="#FFFFFF"/>
+                                        <text x="160" y="70" text-anchor="middle" font-family="Playfair Display, serif" font-size="20" font-weight="700" fill="#1A4F7A">Storage &amp; Backup</text>
+                                        <!-- Tab bar -->
+                                        <rect x="0" y="92" width="320" height="48" fill="#FFFFFF"/>
+                                        <line x1="0" y1="140" x2="320" y2="140" stroke="#E2E8F0" stroke-width="1"/>
+                                        <g font-family="Source Sans 3, sans-serif" font-size="11" font-weight="600" text-anchor="middle">
+                                            <text x="40" y="120" fill="#5A7A9A">Storage</text>
+                                            <text x="120" y="120" fill="#5A7A9A">Data</text>
+                                            <text x="200" y="120" fill="#5A7A9A">Backup</text>
+                                            <text x="280" y="120" fill="#1A4F7A" font-weight="800">Cloud</text>
+                                        </g>
+                                        <rect x="244" y="136" width="72" height="3" fill="#F0C040"/>
+                                        <!-- Section label -->
+                                        <text x="20" y="172" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#5A7A9A" letter-spacing="1">CLOUD PROVIDERS</text>
+                                        <!-- Connected Google Drive row -->
+                                        <g font-family="Source Sans 3, sans-serif">
+                                            <rect x="14" y="184" width="292" height="64" rx="12" fill="#FFFFFF"/>
+                                            <rect x="22" y="200" width="36" height="36" rx="8" fill="#E8F0FE"/>
+                                            <text x="40" y="225" text-anchor="middle" font-size="18" font-weight="700" fill="#4285F4">G</text>
+                                            <text x="68" y="218" font-size="15" font-weight="700" fill="#1A4F7A">Google Drive</text>
+                                            <text x="68" y="234" font-size="11" fill="#5A7A9A">you@gmail.com</text>
+                                            <!-- Connected chip -->
+                                            <rect x="220" y="208" width="84" height="22" rx="11" fill="#ECFDF5"/>
+                                            <text x="231" y="223" font-size="11" fill="#10B981" font-weight="700">&#x2713;</text>
+                                            <text x="262" y="223" text-anchor="middle" font-size="10" font-weight="700" fill="#10B981">Connected</text>
+                                        </g>
+                                        <!-- Section: Backup Schedule -->
+                                        <text x="20" y="278" font-family="Source Sans 3, sans-serif" font-size="11" font-weight="700" fill="#5A7A9A" letter-spacing="1">BACKUP SCHEDULE</text>
+                                        <g font-family="Source Sans 3, sans-serif">
+                                            <rect x="14" y="290" width="292" height="46" rx="10" fill="#FFFFFF"/>
+                                            <text x="26" y="318" font-size="13" font-weight="600" fill="#1A4F7A">Automatic Backup</text>
+                                            <rect x="252" y="304" width="42" height="22" rx="11" fill="#10B981"/>
+                                            <circle cx="284" cy="315" r="9" fill="#FFFFFF"/>
+                                            <rect x="14" y="340" width="292" height="46" rx="10" fill="#FFFFFF"/>
+                                            <text x="26" y="368" font-size="13" font-weight="600" fill="#1A4F7A">Frequency</text>
+                                            <text x="294" y="368" text-anchor="end" font-size="13" fill="#1A4F7A" font-weight="600">Weekly &#8250;</text>
+                                        </g>
+                                        <!-- Status meta -->
+                                        <text x="20" y="416" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Last backup: never</text>
+                                        <text x="20" y="432" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Next scheduled: today</text>
+                                        <!-- Backup Now button -->
+                                        <rect x="14" y="460" width="292" height="50" rx="12" fill="#1A4F7A"/>
+                                        <text x="160" y="491" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF">&#x2601; Backup Now</text>
+                                        <!-- Reassurance line -->
+                                        <text x="160" y="540" text-anchor="middle" font-family="Source Sans 3, sans-serif" font-size="11" fill="#5A7A9A">Receipts you keep are saved here too.</text>
+                                    </svg>
+                                </div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">DONE</span>
+                                    <div class="slide-title">Connected &mdash; backups run automatically</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="progress-dots" id="dots"></div>
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause slideshow">&#10074;&#10074;</button>
+                        <span class="speed-label" id="speedLabel">Auto-playing</span>
+                    </div>
+                </div>
+
+                <div class="narration-panel" id="narrationPanel">
+                    <div class="narration-card active" data-index="0">
+                        <span class="narration-step-badge">Slide 1 of 6</span>
+                        <h3>Why Cloud Backup Matters</h3>
+                        <p>Your phone can break, get lost, or be replaced. Cloud Backup keeps your Pocket Budget data &mdash; and any receipts you chose to keep &mdash; safe in a cloud account you already own. Pocket Budget never stores your data on its own servers. It&rsquo;s your cloud, your account, your control.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="1">
+                        <span class="narration-step-badge">Slide 2 of 6</span>
+                        <h3>Open Settings</h3>
+                        <p>Open Pocket Budget, tap Settings at the bottom, then tap Storage and Backup. That&rsquo;s the one place where everything about your device storage, local backups, and cloud backups lives.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="2">
+                        <span class="narration-step-badge">Slide 3 of 6</span>
+                        <h3>Tap the Cloud Tab</h3>
+                        <p>At the top of Storage and Backup you&rsquo;ll see four tabs: Storage, Data, Backup, and Cloud. Tap Cloud. This is where you connect the cloud you want Pocket Budget to use.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="3">
+                        <span class="narration-step-badge">Slide 4 of 6</span>
+                        <h3>Pick Your Cloud Provider</h3>
+                        <p>Pick the one you already use: Google Drive, OneDrive, Dropbox, or iCloud on iPhone. Any of them work the same &mdash; Pocket Budget just needs one place to put your backup. If you use more than one cloud, you can connect several and Pocket Budget will back up to all of them.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="4">
+                        <span class="narration-step-badge">Slide 5 of 6</span>
+                        <h3>Sign In</h3>
+                        <p>Tap the provider and Pocket Budget takes you to the official sign-in screen for that service. Pocket Budget only asks for permission to write to its own backup folder &mdash; it cannot read any of your other files.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                    <div class="narration-card" data-index="5">
+                        <span class="narration-step-badge">Slide 6 of 6</span>
+                        <h3>You&rsquo;re Done</h3>
+                        <p>Once you&rsquo;re connected, Pocket Budget backs up automatically &mdash; weekly by default, or whenever you add new transactions. Any receipts you chose to keep are safely tucked into the same backup folder. If something happens to your phone, you install Pocket Budget on a new device, sign back into the same cloud, and your data &mdash; including every kept receipt &mdash; comes right back.</p>
+                        <div class="narration-timer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="steps-section">
+        <div class="container">
+            <h2>Why Cloud Backup, Done This Way</h2>
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h3>Your Cloud, Not Ours</h3>
+                        <p>PocketBudJet doesn&rsquo;t run a backup server. Your data goes straight from your phone to a cloud account you control &mdash; Google, Microsoft, Dropbox, or Apple. JosspaTech never has a copy.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h3>Scoped Permission Only</h3>
+                        <p>The sign-in flow only grants PocketBudJet access to its own folder. The app cannot see your other files, photos, or documents in your cloud.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h3>Encrypted with Your Password</h3>
+                        <p>Backup files are encrypted with a password you set on first connection. Without that password, the file can&rsquo;t be restored &mdash; not by anyone, including JosspaTech.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h3>Two Dated Copies, Always</h3>
+                        <p>PocketBudJet keeps two dated backup files in a folder named PocketBudJet System Backups. If one ever gets corrupted, the other one&rsquo;s still good.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">5</div>
+                    <div class="timeline-content">
+                        <h3>Receipts Ride Along</h3>
+                        <p>Receipts you chose to keep go to the same backup folder. They&rsquo;re tied to the transaction they came from &mdash; restore the backup and the receipts come back attached.</p>
+                    </div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-marker">6</div>
+                    <div class="timeline-content">
+                        <h3>Recover on a New Phone</h3>
+                        <p>Lost your phone? Install PocketBudJet on the new one, sign into the same cloud, choose Restore from Cloud, enter your password, and your full history is back.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-note">
+                <h4>Why we built it this way</h4>
+                <p>A lot of finance apps store your data on their own servers and call it &ldquo;cloud sync.&rdquo; That makes them a target &mdash; one breach exposes everyone. PocketBudJet refuses to be the one holding the bag. Your data lives in a cloud account you already trust, with permissions limited to a single app folder, encrypted with a password only you know.</p>
+            </div>
+
+            <div class="privacy-note" style="background: #E8F0FE; border-left-color: #2E6FA3;">
+                <h4>Connect more than one cloud</h4>
+                <p>You can connect Google Drive, OneDrive, and Dropbox at the same time. PocketBudJet writes to each one on the schedule you pick, so a problem with any single provider can&rsquo;t take your backup with it. iCloud is iPhone-only.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Five taps to take loss off the table.</h2>
+            <a href="#" class="download-button">Download PocketBudJet</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="https://josspatech.com">JosspaTech.com</a></p>
+    </footer>
+
+    <script>
+    (function() {
+        const SLIDE_DURATION = 8000;
+        const slides = document.querySelectorAll('.slide');
+        const cards = document.querySelectorAll('.narration-card');
+        const dotsContainer = document.getElementById('dots');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const speedLabel = document.getElementById('speedLabel');
+        const tapToStart = document.getElementById('tapToStart');
+        let current = 0;
+        let playing = true;
+        let audioUnlocked = false;
+        let timer = null;
+        let audioElement = null;
+        let voiceEnabled = true;
+        let advanceTimeout = null;
+
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3',
+            'audio/slide-3.mp3', 'audio/slide-4.mp3', 'audio/slide-5.mp3'
+        ];
+
+        const voiceBtn = document.createElement('button');
+        voiceBtn.className = 'voice-btn';
+        voiceBtn.innerHTML = '&#128264;';
+        voiceBtn.title = 'Toggle voice narration';
+        voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
+        document.querySelector('.playback-controls').appendChild(voiceBtn);
+
+        voiceBtn.addEventListener('click', () => {
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
+            voiceBtn.classList.toggle('muted', !voiceEnabled);
+            if (!voiceEnabled) {
+                stopAudio();
+                if (playing) resetTimer();
+            } else {
+                clearInterval(timer);
+                playSlideAudio(current);
+            }
+        });
+
+        function stopAudio() {
+            if (audioElement) {
+                audioElement.pause();
+                audioElement.removeAttribute('src');
+                audioElement.load();
+                audioElement = null;
+            }
+            clearTimeout(advanceTimeout);
+        }
+
+        function playSlideAudio(index) {
+            stopAudio();
+            if (!voiceEnabled) return;
+            const src = audioPaths[index];
+            if (!src) return;
+            audioElement = new Audio(src);
+            audioElement.volume = 1.0;
+            audioElement.onended = () => {
+                if (playing && voiceEnabled) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) {
+                            next();
+                        } else {
+                            playing = false;
+                            playPauseBtn.innerHTML = '&#9654;';
+                            speedLabel.textContent = 'Finished';
+                        }
+                    }, 1200);
+                }
+            };
+            audioElement.onerror = () => {
+                if (playing) {
+                    advanceTimeout = setTimeout(() => {
+                        if (current < slides.length - 1) next();
+                    }, SLIDE_DURATION);
+                }
+            };
+            const _p = audioElement.play();
+            if (_p !== undefined) {
+                _p.then(() => {
+                    if (!audioUnlocked) {
+                        audioUnlocked = true;
+                        tapToStart.classList.add('hidden');
+                        playPauseBtn.innerHTML = '&#10074;&#10074;';
+                        speedLabel.textContent = 'Auto-playing';
+                    }
+                }).catch(() => {
+                    if (!audioUnlocked) {
+                        playing = false;
+                        playPauseBtn.innerHTML = '&#9654;';
+                        speedLabel.textContent = 'Tap to play';
+                    } else if (playing) {
+                        advanceTimeout = setTimeout(() => {
+                            if (current < slides.length - 1) next();
+                        }, SLIDE_DURATION);
+                    }
+                });
+            }
+        }
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goTo(index) {
+            slides[current].classList.remove('active');
+            cards[current].classList.remove('active');
+            dotsContainer.children[current].classList.remove('active');
+            cards[current].querySelector('.narration-timer').style.transition = 'none';
+            cards[current].querySelector('.narration-timer').style.width = '0%';
+
+            current = index;
+            slides[current].classList.add('active');
+            cards[current].classList.add('active');
+            dotsContainer.children[current].classList.add('active');
+
+            const timerBar = cards[current].querySelector('.narration-timer');
+            requestAnimationFrame(() => {
+                timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                timerBar.style.width = '100%';
+            });
+
+            if (playing && current === slides.length - 1) {
+                speedLabel.textContent = 'Last step';
+            } else if (playing) {
+                speedLabel.textContent = 'Auto-playing';
+            }
+
+            if (voiceEnabled) {
+                clearInterval(timer);
+                playSlideAudio(current);
+            } else if (playing) {
+                resetTimer();
+            }
+        }
+
+        function next() {
+            if (current < slides.length - 1) {
+                goTo(current + 1);
+            } else {
+                playing = false;
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Finished';
+                stopAudio();
+                clearInterval(timer);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            clearTimeout(advanceTimeout);
+            timer = setInterval(() => {
+                if (current < slides.length - 1) {
+                    next();
+                } else {
+                    clearInterval(timer);
+                    playing = false;
+                    playPauseBtn.innerHTML = '&#9654;';
+                    speedLabel.textContent = 'Finished';
+                }
+            }, SLIDE_DURATION);
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (!audioUnlocked) { startPlayback(); return; }
+            playing = !playing;
+            if (playing) {
+                playPauseBtn.innerHTML = '&#10074;&#10074;';
+                speedLabel.textContent = 'Auto-playing';
+                if (voiceEnabled) {
+                    playSlideAudio(current);
+                } else {
+                    resetTimer();
+                }
+                const timerBar = cards[current].querySelector('.narration-timer');
+                timerBar.style.transition = 'none';
+                timerBar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+                    timerBar.style.width = '100%';
+                });
+            } else {
+                playPauseBtn.innerHTML = '&#9654;';
+                speedLabel.textContent = 'Paused';
+                stopAudio();
+                clearInterval(timer);
+                clearTimeout(advanceTimeout);
+                const timerBar = cards[current].querySelector('.narration-timer');
+                const computed = getComputedStyle(timerBar).width;
+                timerBar.style.transition = 'none';
+                timerBar.style.width = computed;
+            }
+        });
+
+        function startPlayback() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            tapToStart.classList.add('hidden');
+            playing = true;
+            playPauseBtn.innerHTML = '&#10074;&#10074;';
+            speedLabel.textContent = 'Auto-playing';
+            playSlideAudio(current);
+        }
+        tapToStart.addEventListener('click', startPlayback);
+
+        if (!navigator.maxTouchPoints) {
+            audioUnlocked = true;
+            if (tapToStart) tapToStart.classList.add('hidden');
+        }
+
+        goTo(0);
+    })();
+    </script>
+</body>
+</html>
