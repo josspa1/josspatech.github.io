@@ -14,7 +14,7 @@
   <meta name="AI-crawler" content="noindex, nofollow">
   <meta name="GPTBot" content="noindex, nofollow">
   <meta name="referrer" content="no-referrer">
-  <title>PocketBudJet — Flywheel Dashboard</title>
+  <title>JosspaTech — Flywheel Operations</title>
   <style>
     /* ─── PocketBudJet brand palette ────────────────────────
        Matches src/constants/index.ts — navy/gold, light mode.
@@ -631,9 +631,9 @@
     <div class="login-head">
       <svg class="mascot"><use href="#josspa"/></svg>
       <h1>
-        <span class="pbj-brand">PocketBud<span class="amp">J</span>et</span><br>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
         <span style="font-weight:400;font-size:14px;color:var(--text-dim)">
-          Flywheel · crowd-data operations
+          Flywheel · shared ops for PBJ · HHH · CVC
         </span>
       </h1>
     </div>
@@ -650,8 +650,8 @@
       <div class="brand">
         <svg class="mascot-sm"><use href="#josspa"/></svg>
         <h1>
-          PocketBud<span class="amp">J</span>et
-          <span class="subtitle">Flywheel Operations</span>
+          Jossp<span class="amp">a</span>Tech
+          <span class="subtitle">Flywheel Ops · PBJ · HHH · CVC</span>
         </h1>
       </div>
       <div class="controls">
@@ -880,9 +880,10 @@
       <div id="reference">
         <h3>What this dashboard is</h3>
         <p>
-          This is the <strong>Flywheel Dashboard</strong> for the PocketBudJet crowd-data system.
-          It watches the PocketBase instance that PBJ, HHH, and CVC all share, so you have one
-          place to see whether the consensus engine is healthy instead of bouncing between PocketBase
+          This is the <strong>JosspaTech Flywheel Ops</strong> dashboard. It watches the shared
+          PocketBase instance that all three JosspaTech apps write to &mdash; PocketBudJet (PBJ),
+          Handy Horology Helper (HHH), and Curator's Vault (CVC) &mdash; so you have one place
+          to see whether the consensus engine is healthy instead of bouncing between PocketBase
           admin, GitHub Insights, PocketHost billing, and Google Play Console.
         </p>
         <p>
@@ -2432,10 +2433,10 @@ Generated ${new Date().toISOString()}.
           }
         }
         const question = document.getElementById("claudeQuestion")?.value?.trim() || "";
-        const prompt = `I'm looking at the live PocketBudJet Flywheel Dashboard for ${new Date().toLocaleString()}. Here's the current state:
+        const prompt = `I'm looking at the live JosspaTech Flywheel Ops dashboard for ${new Date().toLocaleString()}. Here's the current state:
 ${lines.join("\n")}
 
-Context: PocketBudJet is a budgeting app with a crowd-sourced flywheel — users scan receipts, anonymized data feeds a shared PocketBase, server-side hooks aggregate into canonical merchants/employers/payees, and per-category price intelligence gets fed back to all users. HHH (Handy Horology Helper) and CVC (Curator's Vault) are sibling apps on the same PocketBase.
+Context: this dashboard watches the shared PocketBase instance that three JosspaTech apps write to — PBJ (PocketBudJet, budgeting), HHH (Handy Horology Helper, watch collection), and CVC (Curator's Vault, collectibles). Users scan receipts / catalog items / do searches; anonymized submissions feed consensus tables; server-side hooks aggregate into canonical merchants/employers/payees and per-item market intel; each app reads the enriched data back on the next scan or search.
 
 ${question
   ? `My specific question: ${question}`
