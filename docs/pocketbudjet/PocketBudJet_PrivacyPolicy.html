@@ -86,8 +86,8 @@ footer .fn span{color:var(--gold);}
   <p><strong>On the network.</strong> All traffic to the services listed in §4, §9, and §10 is over TLS.</p>
 
   <h2>3. Camera and Receipt Scanning</h2>
-  <p>Camera access is used for receipt scanning. By default, receipt images are processed with on-device OCR (Apple Vision / Android ML Kit text recognition) — the image never leaves your phone.</p>
-  <p><strong>Optional Cloud OCR fallback.</strong> If you turn on "Cloud OCR" in Settings, and on-device OCR returns low confidence, the image is sent over TLS to OCR.Space for text extraction. OCR.Space does not retain uploads after processing. This is off by default.</p>
+  <p>Camera access is used for receipt scanning. By default, receipt images are processed with on-device OCR first (Apple Vision / Android ML Kit) — the image only leaves your phone if on-device OCR can't read it clearly, in which case a cloud OCR fallback is used for better accuracy.</p>
+  <p><strong>Cloud OCR fallback (on by default).</strong> When and on-device OCR returns low confidence, the image is sent over TLS to OCR.Space for text extraction. OCR.Space does not retain uploads after processing. This is on by default and can be disabled in Settings → Advanced.</p>
 
   <h2>4. AI Financial Coach (Optional)</h2>
   <p>PocketBudJet's AI features come in two layers:</p>
