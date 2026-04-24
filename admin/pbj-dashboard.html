@@ -296,10 +296,20 @@
   // ========================================================
 
   const PB_URL = "https://josspatech.pockethost.io";
+  const FETCH_TIMEOUT_MS = 12000; // per-request ceiling
   let   token  = sessionStorage.getItem("pbj_dash_token") || null;
   let   tick   = null;
   let   intervalSec = 30;
   let   prevCounts  = {};
+
+  // Abortable fetch with timeout — prevents one stuck request from
+  // freezing the whole refresh.
+  function timedFetch(url, opts) {
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), FETCH_TIMEOUT_MS);
+    return fetch(url, { ...(opts || {}), signal: ctl.signal })
+      .finally(() => clearTimeout(t));
+  }
 
   // ─── Auth ──────────────────────────────────────────────
   async function doLogin() {
@@ -354,30 +364,39 @@
 
   // ─── Fetch helpers ─────────────────────────────────────
   async function pbCount(collection, filter) {
-    const f = filter ? `&filter=${encodeURIComponent(filter)}` : "";
-    const res = await fetch(
-      `${PB_URL}/api/collections/${collection}/records?perPage=1&fields=id${f}`,
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    if (res.status === 401) { doLogout(); throw new Error("Session expired"); }
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.totalItems ?? null;
+    try {
+      const f = filter ? `&filter=${encodeURIComponent(filter)}` : "";
+      const res = await timedFetch(
+        `${PB_URL}/api/collections/${collection}/records?perPage=1&fields=id${f}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      if (res.status === 401) { doLogout(); throw new Error("Session expired"); }
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.totalItems ?? null;
+    } catch (e) {
+      if (e && e.message === "Session expired") throw e;
+      return null; // timeout / network — render as "—" but keep going
+    }
   }
 
   async function pbList(collection, filter, sort, limit) {
-    const params = new URLSearchParams({
-      perPage: String(limit || 10),
-      ...(sort   ? { sort }   : {}),
-      ...(filter ? { filter } : {}),
-    });
-    const res = await fetch(
-      `${PB_URL}/api/collections/${collection}/records?${params}`,
-      { headers: { Authorization: `Bearer ${token}` } },
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.items || [];
+    try {
+      const params = new URLSearchParams({
+        perPage: String(limit || 10),
+        ...(sort   ? { sort }   : {}),
+        ...(filter ? { filter } : {}),
+      });
+      const res = await timedFetch(
+        `${PB_URL}/api/collections/${collection}/records?${params}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      if (!res.ok) return [];
+      const data = await res.json();
+      return data.items || [];
+    } catch {
+      return [];
+    }
   }
 
   // ─── Card rendering ────────────────────────────────────
@@ -424,6 +443,16 @@
     const grid  = document.getElementById("grid");
     const parts = [];
 
+    // Show immediate "loading" so the user isn't staring at an empty page
+    // while ~30 fetches stream in. Replaced as real data lands.
+    grid.innerHTML = `
+      <div class="section-header">Loading live data from PocketBase…</div>
+      <div class="card"><div class="label">Connecting</div>
+        <div class="value small">Fetching ${'\u00B7'.repeat(3)}</div>
+        <div class="sub">First page takes ~10 seconds cold.</div>
+      </div>`;
+    const paint = () => { grid.innerHTML = parts.join(""); };
+
     try {
       // === SECTION: FLYWHEEL HEALTH ===
       parts.push(`<div class="section-header">Flywheel Health</div>`);
@@ -462,6 +491,7 @@
         lastProcessed ? relTime(lastProcessed) : "never",
         lastProcessed ? `runs hourly on the server` : `pb_hooks may not be deployed yet`,
         lastProcState));
+      paint();
 
       // === SECTION: CANONICAL LIBRARY ===
       parts.push(`<div class="section-header">Canonical Library</div>`);
@@ -479,6 +509,7 @@
       parts.push(card("Alias votes",
         `${aliasesP ?? 0} / ${aliasesA ?? 0} / ${aliasesR ?? 0}`,
         "pending / approved / rejected"));
+      paint();
 
       // === SECTION: DATA POOLS ===
       parts.push(`<div class="section-header">Aggregate Data Pools</div>`);
@@ -500,6 +531,7 @@
       parts.push(card("Household benchmarks",   household));
       parts.push(card("OCR correction patterns", docs));
       parts.push(card("Subscription library",   subs));
+      paint();
 
       // === SECTION: CROSS-APP ===
       parts.push(`<div class="section-header">Cross-App · HHH · CVC</div>`);
@@ -515,6 +547,7 @@
       parts.push(card("HHH market intel",         hhhMkt));
       parts.push(card("CVC market intel",         cvcMkt));
       parts.push(card("Cross-app purchase links", links));
+      paint();
 
       // === SECTION: ANOMALIES (list) ===
       parts.push(`<div class="section-header">Quality & Security</div>`);
@@ -587,7 +620,7 @@
           ${quarRows}
         </div>`);
 
-      grid.innerHTML = parts.join("");
+      paint();
       document.getElementById("lastRefresh").textContent =
         `updated ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
