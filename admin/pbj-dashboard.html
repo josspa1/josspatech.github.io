@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketBudJet — Flywheel Dashboard</title>
+  <style>
+    :root {
+      --bg:          #0F1419;
+      --surface:     #1A2028;
+      --surface-2:   #232B35;
+      --border:      #2D3744;
+      --text:        #E8EDF2;
+      --text-dim:    #8A99AB;
+      --primary:     #4A9FD8;
+      --accent:      #F0C040;
+      --success:     #4ECB71;
+      --warning:     #F5A623;
+      --danger:      #E85A50;
+      --mono: "SF Mono", Consolas, Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    a { color: var(--primary); text-decoration: none; }
+
+    /* ─── Login ─────────────────────────────────────────────── */
+    #login {
+      max-width: 400px;
+      margin: 10vh auto;
+      padding: 32px;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    #login h1 { font-size: 20px; margin-bottom: 8px; }
+    #login p  { color: var(--text-dim); font-size: 13px; margin-bottom: 24px; }
+    #login input {
+      display: block; width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+    }
+    #login button {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #login .err {
+      margin-top: 12px;
+      padding: 10px;
+      border: 1px solid var(--danger);
+      border-radius: 6px;
+      background: rgba(232, 90, 80, 0.1);
+      color: var(--danger);
+      font-size: 13px;
+      display: none;
+    }
+
+    /* ─── Header ─────────────────────────────────────────────── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--surface);
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    header h1 .accent { color: var(--accent); }
+    header .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    header select, header button {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    header .pulse {
+      display: inline-block; width: 8px; height: 8px;
+      border-radius: 50%; background: var(--success);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    header .pulse.stale { background: var(--warning); animation: none; }
+
+    /* ─── Main layout ─────────────────────────────────────── */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .section-header {
+      grid-column: 1 / -1;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-top: 16px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-header:first-child { margin-top: 0; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .card .label {
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .card .value {
+      font-size: 32px;
+      font-weight: 600;
+      font-family: var(--mono);
+      line-height: 1;
+    }
+    .card .value.small { font-size: 18px; }
+    .card .sub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .card.ok     { border-left: 3px solid var(--success); }
+    .card.warn   { border-left: 3px solid var(--warning); }
+    .card.crit   { border-left: 3px solid var(--danger); }
+
+    .card .delta.up   { color: var(--danger); }   /* queue growing = bad */
+    .card .delta.down { color: var(--success); }  /* queue draining = good */
+
+    /* ─── Anomaly / quarantine lists ───────────────────── */
+    .list-card {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .list-card .head {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .list-card ul {
+      list-style: none;
+    }
+    .list-card li {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .list-card li:last-child { border-bottom: 0; }
+    .list-card li .sev {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      min-width: 52px;
+      text-align: center;
+      height: 18px;
+      flex-shrink: 0;
+    }
+    .list-card li .sev.high   { background: rgba(232, 90, 80, 0.2);  color: var(--danger); }
+    .list-card li .sev.medium { background: rgba(245, 166, 35, 0.2); color: var(--warning); }
+    .list-card li .sev.low    { background: rgba(78, 203, 113, 0.15); color: var(--success); }
+    .list-card li .when {
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 11px;
+      flex-shrink: 0;
+      min-width: 90px;
+    }
+    .list-card li .what { flex: 1; }
+    .list-card li .what code {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      display: block;
+      margin-top: 2px;
+      word-break: break-all;
+    }
+    .list-card .empty {
+      padding: 24px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+    .list-card .empty.ok::before {
+      content: "✓ ";
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 12px; }
+      .card .value { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Login form ────────────────────────────────────── -->
+  <div id="login">
+    <h1><span style="color:var(--accent)">PocketBudJet</span> · Flywheel Dashboard</h1>
+    <p>Log in with your PocketBase admin account. Token is kept in this browser tab's session only.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+
+  <!-- ─── Main dashboard ────────────────────────────────── -->
+  <div id="dashboard" style="display:none">
+    <header>
+      <h1>PocketBudJet · <span class="accent">Flywheel</span></h1>
+      <div class="controls">
+        <span class="pulse" id="pulse"></span>
+        <span id="lastRefresh">—</span>
+        <select id="refreshInterval" onchange="setRefresh()">
+          <option value="15">15s</option>
+          <option value="30" selected>30s</option>
+          <option value="60">1m</option>
+          <option value="300">5m</option>
+          <option value="0">off</option>
+        </select>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main id="grid"></main>
+  </div>
+
+  <script>
+  // ========================================================
+  // PocketBudJet Flywheel Dashboard
+  // © 2026 JosspaTech. All Rights Reserved.
+  //
+  // Single-file HTML dashboard that reads the PocketBase
+  // admin API for everything you care about: submission queue
+  // depth, canonical library growth, anomalies, quarantine,
+  // market-intelligence freshness.
+  //
+  // Deploy options:
+  //   1. Double-click this file to open locally.
+  //   2. FTP to ftp.pockethost.io/josspatech/pb_public/
+  //      then visit https://josspatech.pockethost.io/dashboard.html
+  //   3. Bookmark the file:// URL in any browser.
+  // ========================================================
+
+  const PB_URL = "https://josspatech.pockethost.io";
+  let   token  = sessionStorage.getItem("pbj_dash_token") || null;
+  let   tick   = null;
+  let   intervalSec = 30;
+  let   prevCounts  = {};
+
+  // ─── Auth ──────────────────────────────────────────────
+  async function doLogin() {
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const err      = document.getElementById("loginErr");
+    err.style.display = "none";
+    try {
+      // Try 0.23+ superusers endpoint first.
+      let res = await fetch(`${PB_URL}/api/collections/_superusers/auth-with-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ identity: email, password }),
+      });
+      if (!res.ok) {
+        // Fallback for older PocketBase.
+        res = await fetch(`${PB_URL}/api/admins/auth-with-password`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identity: email, password }),
+        });
+      }
+      if (!res.ok) { throw new Error(`Auth failed (${res.status})`); }
+      const data = await res.json();
+      token = data.token;
+      sessionStorage.setItem("pbj_dash_token", token);
+      showDashboard();
+    } catch (e) {
+      err.textContent = e.message || "Login failed.";
+      err.style.display = "block";
+    }
+  }
+
+  function doLogout() {
+    sessionStorage.removeItem("pbj_dash_token");
+    token = null;
+    if (tick) clearInterval(tick);
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+  function setRefresh() {
+    intervalSec = parseInt(document.getElementById("refreshInterval").value, 10);
+    if (tick) clearInterval(tick);
+    if (intervalSec > 0) {
+      tick = setInterval(refresh, intervalSec * 1000);
+      document.getElementById("pulse").classList.remove("stale");
+    } else {
+      document.getElementById("pulse").classList.add("stale");
+    }
+  }
+
+  // ─── Fetch helpers ─────────────────────────────────────
+  async function pbCount(collection, filter) {
+    const f = filter ? `&filter=${encodeURIComponent(filter)}` : "";
+    const res = await fetch(
+      `${PB_URL}/api/collections/${collection}/records?perPage=1&fields=id${f}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (res.status === 401) { doLogout(); throw new Error("Session expired"); }
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.totalItems ?? null;
+  }
+
+  async function pbList(collection, filter, sort, limit) {
+    const params = new URLSearchParams({
+      perPage: String(limit || 10),
+      ...(sort   ? { sort }   : {}),
+      ...(filter ? { filter } : {}),
+    });
+    const res = await fetch(
+      `${PB_URL}/api/collections/${collection}/records?${params}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.items || [];
+  }
+
+  // ─── Card rendering ────────────────────────────────────
+  function card(label, value, sub, state) {
+    const small = typeof value === "string" && value.length > 10;
+    return `
+      <div class="card ${state || ''}">
+        <div class="label">${label}</div>
+        <div class="value ${small ? 'small' : ''}">${value ?? "—"}</div>
+        ${sub ? `<div class="sub">${sub}</div>` : ''}
+      </div>`;
+  }
+
+  function queueCard(label, collection, unprocessed, total) {
+    const prev   = prevCounts[collection];
+    const deltaN = prev != null ? (unprocessed - prev) : null;
+    const state  = unprocessed > 500 ? "crit"
+                 : unprocessed > 100 ? "warn"
+                 : "ok";
+    const dir = deltaN == null ? ""
+              : deltaN > 0 ? `<span class="delta up">+${deltaN} since last poll</span>`
+              : deltaN < 0 ? `<span class="delta down">${deltaN} since last poll</span>`
+              : `no change since last poll`;
+    prevCounts[collection] = unprocessed;
+    return card(label,
+      unprocessed ?? "—",
+      `${total ?? "?"} total ever · ${dir}`,
+      state);
+  }
+
+  function relTime(iso) {
+    if (!iso) return "—";
+    const t = Date.parse(iso);
+    if (Number.isNaN(t)) return iso;
+    const diff = (Date.now() - t) / 1000;
+    if (diff < 60)        return Math.floor(diff) + "s ago";
+    if (diff < 3600)      return Math.floor(diff / 60) + "m ago";
+    if (diff < 86400)     return Math.floor(diff / 3600) + "h ago";
+    return Math.floor(diff / 86400) + "d ago";
+  }
+
+  // ─── Refresh loop ──────────────────────────────────────
+  async function refresh() {
+    const grid  = document.getElementById("grid");
+    const parts = [];
+
+    try {
+      // === SECTION: FLYWHEEL HEALTH ===
+      parts.push(`<div class="section-header">Flywheel Health</div>`);
+
+      const [
+        merchUnprocessed, merchTotal,
+        paycheckUnprocessed, paycheckTotal,
+        billUnprocessed, billTotal,
+      ] = await Promise.all([
+        pbCount("pbj_merchant_submissions",  "is_stale = false"),
+        pbCount("pbj_merchant_submissions",  ""),
+        pbCount("pbj_paycheck_submissions",  "is_stale = false"),
+        pbCount("pbj_paycheck_submissions",  ""),
+        pbCount("pbj_bill_submissions",      "is_stale = false"),
+        pbCount("pbj_bill_submissions",      ""),
+      ]);
+
+      parts.push(queueCard("Merchant queue",  "pbj_merchant_submissions",  merchUnprocessed,    merchTotal));
+      parts.push(queueCard("Pay-stub queue",  "pbj_paycheck_submissions",  paycheckUnprocessed, paycheckTotal));
+      parts.push(queueCard("Bill queue",      "pbj_bill_submissions",      billUnprocessed,     billTotal));
+
+      // Last aggregation run — most recent processed_at across all submissions
+      const [mRecent, pRecent, bRecent] = await Promise.all([
+        pbList("pbj_merchant_submissions",  "processed_at != ''", "-processed_at", 1),
+        pbList("pbj_paycheck_submissions",  "processed_at != ''", "-processed_at", 1),
+        pbList("pbj_bill_submissions",      "processed_at != ''", "-processed_at", 1),
+      ]);
+      const lastProcessed = [mRecent[0], pRecent[0], bRecent[0]]
+        .filter(Boolean)
+        .map(r => r.processed_at)
+        .sort().pop();
+      const lastProcState = !lastProcessed ? "warn"
+                         : (Date.now() - Date.parse(lastProcessed)) > 2 * 3600 * 1000 ? "warn"
+                         : "ok";
+      parts.push(card("Last aggregation",
+        lastProcessed ? relTime(lastProcessed) : "never",
+        lastProcessed ? `runs hourly on the server` : `pb_hooks may not be deployed yet`,
+        lastProcState));
+
+      // === SECTION: CANONICAL LIBRARY ===
+      parts.push(`<div class="section-header">Canonical Library</div>`);
+      const [merchants, employers, payees, aliasesP, aliasesA, aliasesR] = await Promise.all([
+        pbCount("shared_entity_library", "entity_type = 'merchant'"),
+        pbCount("shared_entity_library", "entity_type = 'employer'"),
+        pbCount("shared_entity_library", "entity_type = 'payee'"),
+        pbCount("shared_entity_aliases", "status = 'pending'"),
+        pbCount("shared_entity_aliases", "status = 'approved'"),
+        pbCount("shared_entity_aliases", "status = 'rejected'"),
+      ]);
+      parts.push(card("Canonical merchants",  merchants  ?? "—"));
+      parts.push(card("Canonical employers",  employers  ?? "—"));
+      parts.push(card("Canonical payees",     payees     ?? "—"));
+      parts.push(card("Alias votes",
+        `${aliasesP ?? 0} / ${aliasesA ?? 0} / ${aliasesR ?? 0}`,
+        "pending / approved / rejected"));
+
+      // === SECTION: DATA POOLS ===
+      parts.push(`<div class="section-header">Aggregate Data Pools</div>`);
+      const [merchDat, priceTrnd, spendBench, storeIntel, recur, household, docs, subs] = await Promise.all([
+        pbCount("pbj_merchant_data", ""),
+        pbCount("pbj_price_trends", ""),
+        pbCount("pbj_spending_benchmarks", ""),
+        pbCount("pbj_store_intel", ""),
+        pbCount("pbj_recurring_patterns", ""),
+        pbCount("pbj_household_benchmarks", ""),
+        pbCount("pbj_document_patterns", ""),
+        pbCount("pbj_subscription_library", ""),
+      ]);
+      parts.push(card("Merchant data",          merchDat));
+      parts.push(card("Price trends",           priceTrnd));
+      parts.push(card("Spending benchmarks",    spendBench));
+      parts.push(card("Store intel",            storeIntel));
+      parts.push(card("Recurring patterns",     recur));
+      parts.push(card("Household benchmarks",   household));
+      parts.push(card("OCR correction patterns", docs));
+      parts.push(card("Subscription library",   subs));
+
+      // === SECTION: CROSS-APP ===
+      parts.push(`<div class="section-header">Cross-App · HHH · CVC</div>`);
+      const [hhhVal, cvcVal, hhhMkt, cvcMkt, links] = await Promise.all([
+        pbCount("hhh_collection_values",    ""),
+        pbCount("cvc_collection_values",    ""),
+        pbCount("hhh_market_intelligence",  ""),
+        pbCount("cts_market_intelligence",  ""),
+        pbCount("pbj_purchase_links",       ""),
+      ]);
+      parts.push(card("HHH collection snapshots", hhhVal));
+      parts.push(card("CVC collection snapshots", cvcVal));
+      parts.push(card("HHH market intel",         hhhMkt));
+      parts.push(card("CVC market intel",         cvcMkt));
+      parts.push(card("Cross-app purchase links", links));
+
+      // === SECTION: ANOMALIES (list) ===
+      parts.push(`<div class="section-header">Quality & Security</div>`);
+
+      const [anomalyUnresolved, quarantineCount] = await Promise.all([
+        pbCount("_anomaly_log",              "resolved = false"),
+        pbCount("_quarantine_submissions",   ""),
+      ]);
+      parts.push(card("Open anomalies",
+        anomalyUnresolved ?? 0,
+        "check list below for details",
+        (anomalyUnresolved > 0) ? "warn" : "ok"));
+      parts.push(card("PII quarantine",
+        quarantineCount ?? 0,
+        "submissions blocked from consensus",
+        (quarantineCount > 10) ? "warn" : "ok"));
+
+      // Full anomaly list
+      const anomalies = await pbList("_anomaly_log", "resolved = false", "-detected_at", 10);
+      let anomalyRows = "";
+      if (anomalies.length === 0) {
+        anomalyRows = `<div class="empty ok">No open anomalies — system healthy.</div>`;
+      } else {
+        anomalyRows = `<ul>${anomalies.map(a => {
+          const ctx = a.context_json ? (() => { try { return JSON.stringify(JSON.parse(a.context_json)); } catch { return String(a.context_json); } })() : "";
+          return `<li>
+            <span class="sev ${a.severity || 'low'}">${a.severity || 'low'}</span>
+            <span class="when">${relTime(a.detected_at)}</span>
+            <span class="what">
+              <strong>${a.anomaly_type || "unknown"}</strong>
+              <code>${(ctx || "").slice(0, 240)}</code>
+            </span>
+          </li>`;
+        }).join("")}</ul>`;
+      }
+      parts.push(`
+        <div class="list-card">
+          <div class="head">
+            <span>Recent anomalies</span>
+            <span>${anomalies.length} shown</span>
+          </div>
+          ${anomalyRows}
+        </div>`);
+
+      // Quarantine list
+      const quarantined = await pbList("_quarantine_submissions", "", "-flagged_at", 5);
+      let quarRows = "";
+      if (quarantined.length === 0) {
+        quarRows = `<div class="empty ok">No PII matches in recent submissions.</div>`;
+      } else {
+        quarRows = `<ul>${quarantined.map(q => {
+          let kinds = [];
+          try { kinds = JSON.parse(q.pii_patterns || "[]"); } catch {}
+          return `<li>
+            <span class="sev medium">PII</span>
+            <span class="when">${relTime(q.flagged_at)}</span>
+            <span class="what">
+              <strong>${q.origin_collection || "unknown"}</strong>
+              <code>patterns: ${kinds.join(", ") || "—"}</code>
+            </span>
+          </li>`;
+        }).join("")}</ul>`;
+      }
+      parts.push(`
+        <div class="list-card">
+          <div class="head">
+            <span>Recent quarantine</span>
+            <span>${quarantined.length} shown (last 5)</span>
+          </div>
+          ${quarRows}
+        </div>`);
+
+      grid.innerHTML = parts.join("");
+      document.getElementById("lastRefresh").textContent =
+        `updated ${new Date().toLocaleTimeString()}`;
+      document.getElementById("pulse").classList.remove("stale");
+    } catch (e) {
+      document.getElementById("lastRefresh").textContent = `error: ${e.message}`;
+      document.getElementById("pulse").classList.add("stale");
+    }
+  }
+
+  // ─── Boot ──────────────────────────────────────────────
+  function showDashboard() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+    refresh();
+    setRefresh();
+  }
+
+  if (token) {
+    showDashboard();
+  }
+
+  // Enter submits login
+  document.getElementById("password").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") doLogin();
+  });
+  document.getElementById("email").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") document.getElementById("password").focus();
+  });
+  </script>
+</body>
+</html>
