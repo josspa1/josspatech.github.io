@@ -3,25 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bot hardening. robots.txt already disallows /admin/, but some bots
+       (AI training scrapers in particular) ignore robots.txt. These meta
+       tags are the belt-and-suspenders: noindex prevents search indexing,
+       noarchive prevents cached snapshots, nosnippet prevents excerpts,
+       noimageindex hides any inline SVG. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="bingbot" content="noindex, nofollow">
+  <meta name="AI-crawler" content="noindex, nofollow">
+  <meta name="GPTBot" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
   <title>PocketBudJet — Flywheel Dashboard</title>
   <style>
+    /* ─── PocketBudJet brand palette ────────────────────────
+       Matches src/constants/index.ts — navy/gold, light mode.
+       See JosspaMascot.tsx for the character that inspired the
+       warm-but-professional feel we're copying into this dashboard.
+       ────────────────────────────────────────────────────────── */
     :root {
-      --bg:          #0F1419;
-      --surface:     #1A2028;
-      --surface-2:   #232B35;
-      --border:      #2D3744;
-      --text:        #E8EDF2;
-      --text-dim:    #8A99AB;
-      --primary:     #4A9FD8;
-      --accent:      #F0C040;
-      --success:     #4ECB71;
-      --warning:     #F5A623;
-      --danger:      #E85A50;
-      --mono: "SF Mono", Consolas, Menlo, monospace;
+      --bg:            #F5F7FA;   /* PBJ app background */
+      --surface:       #FFFFFF;   /* cards */
+      --surface-alt:   #EEF2F7;   /* hover / subtle panels */
+      --border:        #D5E1EC;
+      --text:          #1A1A2E;
+      --text-dim:      #5A6A7E;
+      --text-muted:    #64748B;
+      --primary:       #1A4F7A;   /* PBJ navy */
+      --primary-dark:  #143B5C;
+      --primary-soft:  #E7EEF5;
+      --accent:        #F0C040;   /* PBJ gold — Josspa's tie */
+      --accent-soft:   #FDF4D6;
+      --success:       #27AE60;
+      --warning:       #E67E22;
+      --danger:        #C0392B;
+      --disclaimer:    #FFF8E7;
+      --disclaimer-txt:#8B6F47;
+      --mono: ui-monospace, "SF Mono", Consolas, Menlo, monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
@@ -31,42 +53,72 @@
 
     /* ─── Login ─────────────────────────────────────────────── */
     #login {
-      max-width: 400px;
-      margin: 10vh auto;
+      max-width: 420px;
+      margin: 8vh auto;
       padding: 32px;
       background: var(--surface);
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid var(--border);
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.05), 0 8px 24px rgba(26, 79, 122, 0.08);
     }
-    #login h1 { font-size: 20px; margin-bottom: 8px; }
-    #login p  { color: var(--text-dim); font-size: 13px; margin-bottom: 24px; }
+    #login .login-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    #login .mascot {
+      width: 56px; height: 56px;
+      flex-shrink: 0;
+    }
+    #login h1 {
+      font-size: 20px;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+    #login h1 .pbj-brand { color: var(--primary); font-weight: 700; }
+    #login h1 .pbj-brand .amp { color: var(--accent); font-weight: 700; }
+    #login p {
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
     #login input {
       display: block; width: 100%;
       padding: 12px 14px;
       margin-bottom: 12px;
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 8px;
       color: var(--text);
       font-size: 14px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    #login input:focus {
+      outline: 0;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-soft);
     }
     #login button {
       width: 100%;
-      padding: 12px;
+      padding: 13px;
       background: var(--primary);
       color: #fff;
       border: 0;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+      letter-spacing: 0.2px;
+      transition: background 0.15s;
     }
+    #login button:hover { background: var(--primary-dark); }
     #login .err {
       margin-top: 12px;
       padding: 10px;
       border: 1px solid var(--danger);
-      border-radius: 6px;
-      background: rgba(232, 90, 80, 0.1);
+      border-radius: 8px;
+      background: rgba(192, 57, 43, 0.06);
       color: var(--danger);
       font-size: 13px;
       display: none;
@@ -74,43 +126,76 @@
 
     /* ─── Header ─────────────────────────────────────────────── */
     header {
-      border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      background: var(--surface);
+      border-bottom: 3px solid var(--accent);
+      box-shadow: 0 2px 8px rgba(26, 79, 122, 0.15);
     }
-    header h1 {
-      font-size: 18px;
-      font-weight: 600;
-    }
-    header h1 .accent { color: var(--accent); }
-    header .controls {
+    header .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 13px;
-      color: var(--text-dim);
+    }
+    header .mascot-sm {
+      width: 34px; height: 34px;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+    }
+    header h1 .amp { color: var(--accent); font-weight: 700; }
+    header h1 .subtitle {
+      display: block;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.65);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+    header .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
     }
     header select, header button {
-      background: var(--surface-2);
-      color: var(--text);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
       padding: 6px 10px;
       border-radius: 6px;
       font-size: 12px;
       cursor: pointer;
+      font-family: inherit;
     }
+    header select:hover, header button:hover { background: rgba(255,255,255,0.15); }
     header .pulse {
       display: inline-block; width: 8px; height: 8px;
-      border-radius: 50%; background: var(--success);
+      border-radius: 50%; background: var(--accent);
+      box-shadow: 0 0 0 0 var(--accent);
       animation: pulse 2s infinite;
     }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-    header .pulse.stale { background: var(--warning); animation: none; }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(240, 192, 64, 0.6); }
+      70%  { box-shadow: 0 0 0 6px rgba(240, 192, 64, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(240, 192, 64, 0); }
+    }
+    header .pulse.stale {
+      background: var(--warning);
+      animation: none;
+      box-shadow: none;
+    }
 
     /* ─── Main layout ─────────────────────────────────────── */
     main {
@@ -119,18 +204,28 @@
       padding: 24px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 16px;
+      gap: 14px;
     }
     .section-header {
       grid-column: 1 / -1;
       font-size: 11px;
-      font-weight: 600;
-      color: var(--text-dim);
+      font-weight: 700;
+      color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.8px;
-      margin-top: 16px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid var(--border);
+      margin-top: 18px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-header::before {
+      content: "";
+      display: inline-block;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 3px;
     }
     .section-header:first-child { margin-top: 0; }
 
@@ -139,32 +234,49 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(26, 79, 122, 0.08);
     }
     .card .label {
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .card .description {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.35;
+      margin-bottom: 10px;
+      min-height: 32px;
     }
     .card .value {
-      font-size: 32px;
-      font-weight: 600;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--primary);
       font-family: var(--mono);
-      line-height: 1;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
     }
     .card .value.small { font-size: 18px; }
     .card .sub {
       margin-top: 8px;
       font-size: 12px;
       color: var(--text-dim);
+      line-height: 1.4;
     }
-    .card.ok     { border-left: 3px solid var(--success); }
-    .card.warn   { border-left: 3px solid var(--warning); }
-    .card.crit   { border-left: 3px solid var(--danger); }
+    .card.ok     { border-left: 4px solid var(--success); }
+    .card.warn   { border-left: 4px solid var(--warning); background: var(--disclaimer); }
+    .card.crit   { border-left: 4px solid var(--danger);  background: rgba(192, 57, 43, 0.04); }
 
-    .card .delta.up   { color: var(--danger); }   /* queue growing = bad */
-    .card .delta.down { color: var(--success); }  /* queue draining = good */
+    .card .delta.up   { color: var(--warning); font-weight: 600; }  /* queue growing */
+    .card .delta.down { color: var(--success); font-weight: 600; }  /* queue draining */
 
     /* ─── Anomaly / quarantine lists ───────────────────── */
     .list-card {
@@ -173,63 +285,65 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
     }
     .list-card .head {
       padding: 14px 16px;
       border-bottom: 1px solid var(--border);
+      background: var(--primary-soft);
       display: flex;
       justify-content: space-between;
       font-size: 12px;
-      font-weight: 600;
-      color: var(--text-dim);
+      font-weight: 700;
+      color: var(--primary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .list-card ul {
-      list-style: none;
-    }
+    .list-card ul { list-style: none; }
     .list-card li {
       padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       display: flex;
       gap: 12px;
       font-size: 13px;
+      align-items: flex-start;
     }
     .list-card li:last-child { border-bottom: 0; }
+    .list-card li:hover { background: var(--surface-alt); }
     .list-card li .sev {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
       font-size: 10px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       min-width: 52px;
       text-align: center;
-      height: 18px;
       flex-shrink: 0;
     }
-    .list-card li .sev.high   { background: rgba(232, 90, 80, 0.2);  color: var(--danger); }
-    .list-card li .sev.medium { background: rgba(245, 166, 35, 0.2); color: var(--warning); }
-    .list-card li .sev.low    { background: rgba(78, 203, 113, 0.15); color: var(--success); }
+    .list-card li .sev.high   { background: rgba(192, 57, 43, 0.12);  color: var(--danger); }
+    .list-card li .sev.medium { background: rgba(230, 126, 34, 0.15); color: var(--warning); }
+    .list-card li .sev.low    { background: rgba(39, 174, 96, 0.12); color: var(--success); }
     .list-card li .when {
-      color: var(--text-dim);
+      color: var(--text-muted);
       font-family: var(--mono);
       font-size: 11px;
       flex-shrink: 0;
-      min-width: 90px;
+      min-width: 80px;
     }
-    .list-card li .what { flex: 1; }
+    .list-card li .what { flex: 1; min-width: 0; }
+    .list-card li .what strong { color: var(--primary); font-weight: 600; }
     .list-card li .what code {
       font-family: var(--mono);
       font-size: 11px;
-      color: var(--text-dim);
+      color: var(--text-muted);
       display: block;
       margin-top: 2px;
       word-break: break-all;
     }
     .list-card .empty {
-      padding: 24px;
+      padding: 28px;
       text-align: center;
       color: var(--text-dim);
       font-size: 13px;
@@ -237,21 +351,293 @@
     .list-card .empty.ok::before {
       content: "✓ ";
       color: var(--success);
+      font-weight: 700;
+    }
+
+    /* ─── Week-over-week banner ──────────────────────── */
+    #wowBanner {
+      max-width: 1400px;
+      margin: 16px auto 0;
+      padding: 14px 20px;
+      border-radius: 10px;
+      background: var(--disclaimer);
+      color: var(--disclaimer-txt);
+      border-left: 4px solid var(--accent);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    #wowBanner strong { color: var(--primary); }
+    #wowBanner .wow-item { margin: 2px 0; }
+    #wowBanner .wow-item.up   { color: var(--success); }
+    #wowBanner .wow-item.down { color: var(--warning); }
+    #wowBanner .wow-item.crit { color: var(--danger); }
+
+    /* ─── Alias reviewer mini-UI ─────────────────────── */
+    #aliasReviewerPanel {
+      margin-top: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface-alt);
+    }
+    #aliasReviewerPanel .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    #aliasReviewerPanel .row:last-child { border-bottom: 0; }
+    #aliasReviewerPanel .row .alias-text {
+      flex: 1;
+      font-family: var(--mono);
+      font-size: 12px;
+      word-break: break-all;
+    }
+    #aliasReviewerPanel .row .alias-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      min-width: 90px;
+    }
+    #aliasReviewerPanel .mini-btn {
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 11px;
       font-weight: 600;
+      border: 0;
+      cursor: pointer;
+    }
+    #aliasReviewerPanel .mini-btn.approve { background: var(--success); color: #fff; }
+    #aliasReviewerPanel .mini-btn.reject  { background: var(--danger); color: #fff; }
+    #aliasReviewerPanel .mini-btn:disabled { opacity: 0.5; cursor: wait; }
+
+    /* ─── Reference section (About + Deploy) ────────── */
+    #reference {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+      margin-top: 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text);
+    }
+    #reference h3 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 8px;
+      padding-bottom: 4px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    #reference h3:not(:first-of-type) { margin-top: 18px; }
+    #reference p { margin: 6px 0 10px; color: var(--text-dim); }
+    #reference p strong { color: var(--text); }
+    #reference ul { margin: 4px 0 10px 20px; color: var(--text-dim); }
+    #reference ul li { margin-bottom: 6px; }
+    #reference code, #reference pre {
+      font-family: var(--mono);
+      font-size: 12px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    #reference pre {
+      display: block;
+      padding: 10px 12px;
+      margin: 4px 0 12px;
+      white-space: pre;
+      overflow-x: auto;
+      line-height: 1.4;
+      border-left: 3px solid var(--accent);
+    }
+
+    /* ─── Log tail pane ──────────────────────────────── */
+    #logTailPane {
+      margin-top: 10px;
+      background: #0F1419;
+      color: #B8D9F3;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      max-height: 320px;
+      overflow-y: auto;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    #logTailPane .l-info  { color: #B8D9F3; }
+    #logTailPane .l-warn  { color: #F5A623; }
+    #logTailPane .l-error { color: #FFB3B3; }
+
+    kbd {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+
+    /* ─── Maintenance panel ───────────────────────────── */
+    #maintenance {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+    #maintenance h2 {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin: 18px 0 6px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #maintenance h2::before {
+      content: "";
+      display: inline-block;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      border-radius: 3px;
+    }
+    #maintenance .m-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    #maintenance .m-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    #maintenance .m-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    #maintenance .m-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    #maintenance button.m-btn {
+      padding: 8px 14px;
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    #maintenance button.m-btn:hover { background: var(--primary-dark); }
+    #maintenance button.m-btn:disabled { opacity: 0.5; cursor: wait; }
+    #maintenance button.m-btn.danger  { background: var(--danger); }
+    #maintenance button.m-btn.danger:hover { background: #8E1A0E; }
+    #maintenance button.m-btn.accent  { background: var(--accent); color: var(--primary); }
+    #maintenance button.m-btn.accent:hover { background: #D9AE38; }
+    #maintenance select.m-sel {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      min-width: 220px;
+    }
+    #log {
+      margin-top: 16px;
+      background: var(--primary);
+      color: #B8D9F3;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      min-height: 60px;
+      max-height: 240px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+    #log .log-entry { margin-bottom: 3px; }
+    #log .log-entry .t { color: rgba(255,255,255,0.45); }
+    #log .log-entry.ok  { color: #90EE90; }
+    #log .log-entry.err { color: #FFB3B3; }
+    #log .log-entry.info { color: #B8D9F3; }
+    #log:empty::before {
+      content: "No maintenance actions run yet.";
+      color: rgba(255,255,255,0.5);
+      font-style: italic;
     }
 
     @media (max-width: 600px) {
-      main { padding: 12px; }
+      header { padding: 12px 14px; }
+      main   { padding: 14px; }
+      #maintenance { padding: 0 14px 30px; }
       .card .value { font-size: 26px; }
+      header .mascot-sm { width: 28px; height: 28px; }
+      #login .mascot { width: 44px; height: 44px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- A tiny Josspa-inspired mascot (chibi head + glasses + gold
+       bowtie). Re-used in both the login card and the top-bar. -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <!-- head -->
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <!-- hair -->
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <!-- glasses -->
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <!-- eyes -->
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <!-- smile -->
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <!-- body + gold tie -->
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+
   <!-- ─── Login form ────────────────────────────────────── -->
   <div id="login">
-    <h1><span style="color:var(--accent)">PocketBudJet</span> · Flywheel Dashboard</h1>
-    <p>Log in with your PocketBase admin account. Token is kept in this browser tab's session only.</p>
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">PocketBud<span class="amp">J</span>et</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">
+          Flywheel · crowd-data operations
+        </span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
     <input type="email"    id="email"    placeholder="Admin email">
     <input type="password" id="password" placeholder="Password">
     <button onclick="doLogin()">Sign in</button>
@@ -261,21 +647,319 @@
   <!-- ─── Main dashboard ────────────────────────────────── -->
   <div id="dashboard" style="display:none">
     <header>
-      <h1>PocketBudJet · <span class="accent">Flywheel</span></h1>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          PocketBud<span class="amp">J</span>et
+          <span class="subtitle">Flywheel Operations</span>
+        </h1>
+      </div>
       <div class="controls">
         <span class="pulse" id="pulse"></span>
         <span id="lastRefresh">—</span>
         <select id="refreshInterval" onchange="setRefresh()">
-          <option value="15">15s</option>
-          <option value="30" selected>30s</option>
-          <option value="60">1m</option>
+          <option value="30">30s</option>
+          <option value="60" selected>1m</option>
+          <option value="120">2m</option>
           <option value="300">5m</option>
+          <option value="600">10m</option>
           <option value="0">off</option>
         </select>
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
+    <!-- ─── Week-over-week insights banner ─────────────────
+         Auto-populated on refresh. Hidden unless something's off. -->
+    <div id="wowBanner" style="display:none"></div>
+
     <main id="grid"></main>
+
+    <!-- ─── Maintenance & Reports Panel ───────────────────── -->
+    <section id="maintenance">
+      <h2>Maintenance &amp; Reports</h2>
+
+      <div class="m-group">
+        <div class="m-group-title">Backups</div>
+        <div class="m-desc">
+          A fresh backup gives you a point-in-time recovery file AND powers the "Database size" card above.
+          Keep 2–3 at a time; older backups waste storage.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mCreateBackup()">Create backup now</button>
+          <button class="m-btn danger" onclick="mPruneBackups()">Delete all but latest 3 backups</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Data hygiene</div>
+        <div class="m-desc">
+          Purge resolved anomaly records and old quarantine entries so the "Quality &amp; Security" cards
+          reflect current state, not historical noise.
+        </div>
+        <div class="m-row">
+          <button class="m-btn danger" onclick="mClearResolvedAnomalies()">Clear resolved anomalies (older than 7 days)</button>
+          <button class="m-btn danger" onclick="mClearOldQuarantine()">Clear quarantine records older than 30 days</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Export a collection as CSV</div>
+        <div class="m-desc">
+          Downloads every record in the selected collection as a CSV file. Large collections (&gt;10k rows)
+          may take 30–60 seconds to stream.
+        </div>
+        <div class="m-row">
+          <select class="m-sel" id="exportCol">
+            <optgroup label="PBJ">
+              <option value="pbj_category_analytics">pbj_category_analytics</option>
+              <option value="pbj_merchant_data">pbj_merchant_data</option>
+              <option value="pbj_price_trends">pbj_price_trends</option>
+              <option value="pbj_spending_benchmarks">pbj_spending_benchmarks</option>
+              <option value="pbj_store_intel">pbj_store_intel</option>
+              <option value="pbj_recurring_patterns">pbj_recurring_patterns</option>
+              <option value="pbj_household_benchmarks">pbj_household_benchmarks</option>
+              <option value="pbj_document_patterns">pbj_document_patterns</option>
+              <option value="pbj_subscription_library">pbj_subscription_library</option>
+              <option value="pbj_merchant_submissions">pbj_merchant_submissions</option>
+              <option value="pbj_paycheck_submissions">pbj_paycheck_submissions</option>
+              <option value="pbj_bill_submissions">pbj_bill_submissions</option>
+              <option value="pbj_purchase_links">pbj_purchase_links</option>
+            </optgroup>
+            <optgroup label="Shared">
+              <option value="shared_entity_library">shared_entity_library</option>
+              <option value="shared_entity_aliases">shared_entity_aliases</option>
+              <option value="product_intel">product_intel</option>
+            </optgroup>
+            <optgroup label="Cross-app">
+              <option value="hhh_collection_values">hhh_collection_values</option>
+              <option value="hhh_market_intelligence">hhh_market_intelligence</option>
+              <option value="cvc_collection_values">cvc_collection_values</option>
+              <option value="cts_market_intelligence">cts_market_intelligence</option>
+            </optgroup>
+            <optgroup label="Ops">
+              <option value="_anomaly_log">_anomaly_log</option>
+              <option value="_quarantine_submissions">_quarantine_submissions</option>
+              <option value="_site_visits">_site_visits</option>
+            </optgroup>
+          </select>
+          <button class="m-btn" onclick="mExportCSV()">Download CSV</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Reports</div>
+        <div class="m-desc">
+          Quick canned reports. Each produces a downloadable file you can mail to yourself or check in.
+        </div>
+        <div class="m-row">
+          <button class="m-btn accent" onclick="mWeeklySummary()">Weekly summary (.md)</button>
+          <button class="m-btn accent" onclick="mTopMerchants()">Top merchants report (.md)</button>
+          <button class="m-btn accent" onclick="mSiteTraffic()">7-day site traffic (.md)</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Testing &amp; verification</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> you just deployed <code>pb_hooks</code> or suspect the aggregation isn't
+          running. The test-submission button writes a fake merchant submission with a unique fingerprint;
+          wait for the next hour, then check that it was processed. The delete-by-ID tool is for removing
+          one specific stub/test record without clicking through the admin UI.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mSendTestSubmission()">Send test submission</button>
+          <span id="testSubStatus" style="color:var(--text-dim); font-size:12px;"></span>
+        </div>
+        <div class="m-row">
+          <select class="m-sel" id="deleteCol" style="min-width:200px">
+            <optgroup label="PBJ">
+              <option value="pbj_merchant_submissions">pbj_merchant_submissions</option>
+              <option value="pbj_paycheck_submissions">pbj_paycheck_submissions</option>
+              <option value="pbj_bill_submissions">pbj_bill_submissions</option>
+              <option value="pbj_merchant_data">pbj_merchant_data</option>
+              <option value="pbj_price_trends">pbj_price_trends</option>
+              <option value="pbj_purchase_links">pbj_purchase_links</option>
+            </optgroup>
+            <optgroup label="Shared">
+              <option value="shared_entity_library">shared_entity_library</option>
+              <option value="shared_entity_aliases">shared_entity_aliases</option>
+            </optgroup>
+            <optgroup label="Ops">
+              <option value="_anomaly_log">_anomaly_log</option>
+              <option value="_quarantine_submissions">_quarantine_submissions</option>
+              <option value="_site_visits">_site_visits</option>
+            </optgroup>
+          </select>
+          <input type="text" class="m-sel" id="deleteId" placeholder="Record ID (15-char)"
+                 style="min-width:180px; font-family:var(--mono);">
+          <button class="m-btn danger" onclick="mDeleteById()">Delete record</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Flywheel curation</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> the pending alias count is growing and you want to force-approve the
+          confident ones <em>now</em> rather than waiting for the hourly aggregation cron. Or when you want
+          manual control over which aliases promote — the reviewer shows the 20 oldest pending votes with
+          approve/reject buttons.
+        </div>
+        <div class="m-row">
+          Promote all pending aliases with
+          <input type="number" id="promoteThreshold" class="m-sel" value="5" min="1" max="100"
+                 style="min-width:70px; width:80px;">
+          votes or more
+          <button class="m-btn" onclick="mPromoteAliases()">Run promotion</button>
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mOpenAliasReviewer()">Open alias reviewer (20 oldest pending)</button>
+        </div>
+        <div id="aliasReviewerPanel" style="display:none"></div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Operations</div>
+        <div class="m-desc">
+          <strong>Use when:</strong>
+          <em>Maintenance mode</em> — you're about to do a risky schema change or deploy a new hooks
+          version and want clients to back off writing. (Note: the PBJ app doesn't check the flag yet —
+          this is wired for future builds. Toggling it now just records the intent.)
+          <em>Log tail</em> — you want to see server-side hook output in real time (e.g. <code>[aggregate]
+          merchant=12 paycheck=3…</code> lines as they fire). Stop the tail when you're done to avoid
+          hammering rate limits.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mToggleMaintenance()">Toggle maintenance mode</button>
+          <span id="maintenanceStatus" style="color:var(--text-dim); font-size:12px;">checking…</span>
+        </div>
+        <div class="m-row">
+          <button class="m-btn" id="logTailBtn" onclick="mToggleLogTail()">Start log tail (every 30s)</button>
+          <span id="logTailStatus" style="color:var(--text-dim); font-size:12px;"></span>
+        </div>
+        <pre id="logTailPane"></pre>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Force-run server jobs</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> you don't want to wait for the scheduled cron. Each button invokes
+          the same logic as the recurring job, on demand. Requires <code>ops_routes.pb.js</code> to be
+          deployed to <code>pb_hooks/</code> (alongside aggregation / staleness / anomaly / retention).
+          If the route returns a 404, the hook file isn't deployed yet.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mForceRun('aggregate')">Run aggregation now</button>
+          <button class="m-btn" onclick="mForceRun('staleness')">Run staleness sweep</button>
+          <button class="m-btn" onclick="mForceRun('anomaly')">Run anomaly detection</button>
+          <button class="m-btn" onclick="mForceRun('retention')">Run retention cleanup</button>
+        </div>
+        <div class="m-row">
+          <button class="m-btn accent" onclick="mOpsHealth()">Ping /api/ops/health</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Ask Claude to analyze</div>
+        <div class="m-desc">
+          Grabs every number visible on the dashboard right now, wraps it into a well-formatted
+          analysis prompt, copies it to your clipboard, then opens Claude in a new tab.
+          Paste (<kbd>Cmd/Ctrl+V</kbd>) and get a take on what the flywheel looks like today.
+          Zero cost — runs in your existing Claude session.
+        </div>
+        <div class="m-row">
+          <input type="text" id="claudeQuestion" class="m-sel"
+                 placeholder="Optional follow-up — e.g. 'What should I watch this week?'"
+                 style="flex:1; min-width:260px;">
+          <button class="m-btn accent" onclick="mAskClaude()">Copy &amp; open Claude</button>
+        </div>
+      </div>
+
+      <div id="log"></div>
+
+      <!-- ─── Reference: About + Deploying updates ─── -->
+      <div id="reference">
+        <h3>What this dashboard is</h3>
+        <p>
+          This is the <strong>Flywheel Dashboard</strong> for the PocketBudJet crowd-data system.
+          It watches the PocketBase instance that PBJ, HHH, and CVC all share, so you have one
+          place to see whether the consensus engine is healthy instead of bouncing between PocketBase
+          admin, GitHub Insights, PocketHost billing, and Google Play Console.
+        </p>
+        <p>
+          <strong>The flywheel:</strong> users scan receipts / pay stubs / bills. PBJ writes anonymized
+          submissions to PocketBase. Server-side hooks (deployed from this dashboard's deploy scripts)
+          drain those submissions into canonical merchants/employers/payees. Every device then reads
+          back richer intel on the next scan. Each user correction makes the database a little smarter
+          for every future user.
+        </p>
+        <p>
+          The cards above are the instrumentation. The buttons in <em>Maintenance &amp; Reports</em> are
+          the controls. If something's off, start with <em>Week-over-week</em> banner (top), then the
+          red/yellow cards, then the anomaly &amp; crash lists.
+        </p>
+
+        <h3>Deploying updates</h3>
+        <p>
+          There are four things that can change and how to ship each:
+        </p>
+
+        <p><strong>1. Server-side hooks</strong> (anything in <code>pb_hooks/*.pb.js</code> — aggregation
+        logic, anomaly thresholds, rate limits, force-run routes).</p>
+        <pre>cd C:\Users\jossp\Documents\MobileApps\ClaudeFiles
+powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
+        <p>
+          Prompts for your PocketHost email + password. Uploads all 6 hook files via FTPS. PocketBase
+          hot-reloads in ~5 seconds — no restart. Mac/Linux: run <code>./deploy_everything.sh</code>
+          instead (same contract, bash version).
+        </p>
+
+        <p><strong>2. This dashboard</strong> (<code>pbj_dashboard.html</code>).</p>
+        <p>
+          The <code>deploy_everything.ps1</code> script above already uploads it to PocketHost's
+          <code>pb_public/</code>, which is why you can reach it at
+          <code>josspatech.pockethost.io/pbj_dashboard.html</code>. To update the nicer
+          <code>josspatech.com/admin/pbj-dashboard.html</code> version, also push the website:
+        </p>
+        <pre>cd C:\Users\jossp\Documents\GitHub\josspatech.github.io
+git add -A
+git commit -m "dashboard update"
+git push</pre>
+        <p>GitHub Pages rebuilds in 30–60 seconds.</p>
+
+        <p><strong>3. The website itself</strong> (<code>index.html</code>, the site-visit tracker,
+        any other page content).</p>
+        <p>Same <code>git push</code> as above — GitHub Pages picks up everything in the repo.</p>
+
+        <p><strong>4. The PBJ / HHH / CVC apps</strong> (client-side code — new features, bug fixes,
+        <code>maintenanceGate.ts</code>, <code>crashReporter.ts</code>, etc.).</p>
+        <p>Standard build &amp; submit:</p>
+        <ul>
+          <li><strong>iOS:</strong> <code>npx eas build --platform ios --profile production</code>, then
+          <code>npx eas submit --platform ios --profile production --latest</code></li>
+          <li><strong>Android:</strong> scorched-earth bundle per CLAUDE.md, then
+          <code>.\gradlew.bat bundleRelease</code>, then <code>npx eas submit --platform android --profile production --path "Builds-Android\app-release-N.aab"</code></li>
+        </ul>
+
+        <h3>If something breaks</h3>
+        <ul>
+          <li><strong>Dashboard shows "Last aggregation: never"</strong> — hooks aren't deployed. Run
+          <code>deploy_everything.ps1</code>.</li>
+          <li><strong>Queue card turns red (&gt;500)</strong> — aggregation isn't keeping up. Click
+          <em>Run aggregation now</em> in the Force-run section.</li>
+          <li><strong>Force-run buttons return 404</strong> — <code>ops_routes.pb.js</code> didn't
+          load. Re-run deploy, then click <em>Ping /api/ops/health</em> to verify.</li>
+          <li><strong>Crashes spike after a release</strong> — click into the <em>Recent crashes</em>
+          list and group by <code>error_name</code>. Roll back the release if it's systemic.</li>
+          <li><strong>Dashboard fetches get rate-limited</strong> — PocketHost added <code>/api</code>
+          rate limits. Bump the refresh interval dropdown up top to <code>5m</code> or <code>off</code>.</li>
+        </ul>
+
+        <p style="margin-top:18px; font-size:11px; color:var(--text-muted)">
+          Full file inventory + session context:
+          <code>MobileApps/ClaudeFiles/SESSION_64_MASTER_STATUS.md</code>
+        </p>
+      </div>
+    </section>
   </div>
 
   <script>
@@ -296,11 +980,16 @@
   // ========================================================
 
   const PB_URL = "https://josspatech.pockethost.io";
+  const GITHUB_REPO = "josspa1/josspatech.github.io";
   const FETCH_TIMEOUT_MS = 12000; // per-request ceiling
+  const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000; // poll GitHub at most every 5 min
   let   token  = sessionStorage.getItem("pbj_dash_token") || null;
   let   tick   = null;
-  let   intervalSec = 30;
+  let   intervalSec = 60;  // PocketHost rate-limits /api — default slower than before to stay under
+  let   logTailTick = null;
+  let   maintenanceFlag = null;  // last known state of _app_config.maintenance_mode
   let   prevCounts  = {};
+  let   githubCache = null;      // { sizeKB, pushedAt, fetchedAt }
 
   // Abortable fetch with timeout — prevents one stuck request from
   // freezing the whole refresh.
@@ -400,17 +1089,24 @@
   }
 
   // ─── Card rendering ────────────────────────────────────
-  function card(label, value, sub, state) {
+  // card(label, description, value, sub, state)
+  //   label       — short title (e.g. "Merchant queue")
+  //   description — 1-sentence explanation of what the number represents
+  //   value       — the big number / string
+  //   sub         — footnote (thresholds, context)
+  //   state       — 'ok' | 'warn' | 'crit' (drives left border color)
+  function card(label, description, value, sub, state) {
     const small = typeof value === "string" && value.length > 10;
     return `
       <div class="card ${state || ''}">
         <div class="label">${label}</div>
+        ${description ? `<div class="description">${description}</div>` : ''}
         <div class="value ${small ? 'small' : ''}">${value ?? "—"}</div>
         ${sub ? `<div class="sub">${sub}</div>` : ''}
       </div>`;
   }
 
-  function queueCard(label, collection, unprocessed, total) {
+  function queueCard(label, description, collection, unprocessed, total, thresholdsNote) {
     const prev   = prevCounts[collection];
     const deltaN = prev != null ? (unprocessed - prev) : null;
     const state  = unprocessed > 500 ? "crit"
@@ -418,13 +1114,21 @@
                  : "ok";
     const dir = deltaN == null ? ""
               : deltaN > 0 ? `<span class="delta up">+${deltaN} since last poll</span>`
-              : deltaN < 0 ? `<span class="delta down">${deltaN} since last poll</span>`
+              : deltaN < 0 ? `<span class="delta down">${deltaN} drained since last poll</span>`
               : `no change since last poll`;
     prevCounts[collection] = unprocessed;
-    return card(label,
+    const subParts = [
+      `${total ?? "?"} submitted all-time`,
+      dir,
+      thresholdsNote,
+    ].filter(Boolean);
+    return card(
+      label,
+      description,
       unprocessed ?? "—",
-      `${total ?? "?"} total ever · ${dir}`,
-      state);
+      subParts.join(" · "),
+      state,
+    );
   }
 
   function relTime(iso) {
@@ -470,9 +1174,24 @@
         pbCount("pbj_bill_submissions",      ""),
       ]);
 
-      parts.push(queueCard("Merchant queue",  "pbj_merchant_submissions",  merchUnprocessed,    merchTotal));
-      parts.push(queueCard("Pay-stub queue",  "pbj_paycheck_submissions",  paycheckUnprocessed, paycheckTotal));
-      parts.push(queueCard("Bill queue",      "pbj_bill_submissions",      billUnprocessed,     billTotal));
+      parts.push(queueCard(
+        "Merchant queue",
+        "Scanned receipts waiting for the server's hourly aggregation.",
+        "pbj_merchant_submissions", merchUnprocessed, merchTotal,
+        "Should stay under 100. Over 500 = aggregation isn't running."
+      ));
+      parts.push(queueCard(
+        "Pay-stub queue",
+        "Scanned pay stubs waiting for server-side employer canonicalization.",
+        "pbj_paycheck_submissions", paycheckUnprocessed, paycheckTotal,
+        "Lower volume than receipts. Over 50 = investigate hooks."
+      ));
+      parts.push(queueCard(
+        "Bill queue",
+        "Scanned bills waiting for server-side payee canonicalization.",
+        "pbj_bill_submissions", billUnprocessed, billTotal,
+        "Lower volume. Over 50 = investigate."
+      ));
 
       // Last aggregation run — most recent processed_at across all submissions
       const [mRecent, pRecent, bRecent] = await Promise.all([
@@ -484,17 +1203,23 @@
         .filter(Boolean)
         .map(r => r.processed_at)
         .sort().pop();
-      const lastProcState = !lastProcessed ? "warn"
-                         : (Date.now() - Date.parse(lastProcessed)) > 2 * 3600 * 1000 ? "warn"
-                         : "ok";
-      parts.push(card("Last aggregation",
+      const lastProcAgeH = lastProcessed ? (Date.now() - Date.parse(lastProcessed)) / 3600000 : null;
+      const lastProcState = lastProcAgeH == null ? "warn"
+                          : lastProcAgeH > 2 ? "warn"
+                          : "ok";
+      parts.push(card(
+        "Last aggregation",
+        "When the server-side cron last processed the queues.",
         lastProcessed ? relTime(lastProcessed) : "never",
-        lastProcessed ? `runs hourly on the server` : `pb_hooks may not be deployed yet`,
-        lastProcState));
+        lastProcessed
+          ? `Runs hourly. Under 2h = healthy.`
+          : `pb_hooks not deployed yet — the aggregation.pb.js cron isn't running.`,
+        lastProcState
+      ));
       paint();
 
       // === SECTION: CANONICAL LIBRARY ===
-      parts.push(`<div class="section-header">Canonical Library</div>`);
+      parts.push(`<div class="section-header">Canonical Library · shared across PBJ/HHH/CVC</div>`);
       const [merchants, employers, payees, aliasesP, aliasesA, aliasesR] = await Promise.all([
         pbCount("shared_entity_library", "entity_type = 'merchant'"),
         pbCount("shared_entity_library", "entity_type = 'employer'"),
@@ -503,16 +1228,35 @@
         pbCount("shared_entity_aliases", "status = 'approved'"),
         pbCount("shared_entity_aliases", "status = 'rejected'"),
       ]);
-      parts.push(card("Canonical merchants",  merchants  ?? "—"));
-      parts.push(card("Canonical employers",  employers  ?? "—"));
-      parts.push(card("Canonical payees",     payees     ?? "—"));
-      parts.push(card("Alias votes",
+      parts.push(card(
+        "Canonical merchants",
+        "Unique merchants that consensus has identified across all users. The product of the flywheel.",
+        merchants ?? "—",
+        "Grows over time as more users scan receipts."
+      ));
+      parts.push(card(
+        "Canonical employers",
+        "Unique employers recognized from pay-stub scans.",
+        employers ?? "—",
+        "Slower growth — users scan fewer pay stubs than receipts."
+      ));
+      parts.push(card(
+        "Canonical payees",
+        "Unique bill payees (utilities, insurance, subscriptions) recognized.",
+        payees ?? "—",
+        "Mid-volume growth."
+      ));
+      parts.push(card(
+        "Alias votes",
+        "Raw-name-to-canonical proposals: awaiting votes / confirmed / rejected.",
         `${aliasesP ?? 0} / ${aliasesA ?? 0} / ${aliasesR ?? 0}`,
-        "pending / approved / rejected"));
+        "Approved grows steadily. Pending should churn hourly (votes → approved).",
+        ((aliasesP ?? 0) > 200) ? "warn" : "ok"
+      ));
       paint();
 
       // === SECTION: DATA POOLS ===
-      parts.push(`<div class="section-header">Aggregate Data Pools</div>`);
+      parts.push(`<div class="section-header">Aggregate Data Pools · powered by user scans</div>`);
       const [merchDat, priceTrnd, spendBench, storeIntel, recur, household, docs, subs] = await Promise.all([
         pbCount("pbj_merchant_data", ""),
         pbCount("pbj_price_trends", ""),
@@ -523,18 +1267,104 @@
         pbCount("pbj_document_patterns", ""),
         pbCount("pbj_subscription_library", ""),
       ]);
-      parts.push(card("Merchant data",          merchDat));
-      parts.push(card("Price trends",           priceTrnd));
-      parts.push(card("Spending benchmarks",    spendBench));
-      parts.push(card("Store intel",            storeIntel));
-      parts.push(card("Recurring patterns",     recur));
-      parts.push(card("Household benchmarks",   household));
-      parts.push(card("OCR correction patterns", docs));
-      parts.push(card("Subscription library",   subs));
+      parts.push(card(
+        "Merchant data",
+        "Crowd-sourced category votes + store-level metrics per merchant.",
+        merchDat,
+        "Drives category auto-suggest on every new scan."
+      ));
+      parts.push(card(
+        "Price trends",
+        "Category×region price averages by period.",
+        priceTrnd,
+        "Feeds 'you're paying more than average' insights."
+      ));
+      parts.push(card(
+        "Spending benchmarks",
+        "How much similar households spend per category each month.",
+        spendBench,
+        "Powers peer-comparison on the budget screen."
+      ));
+      parts.push(card(
+        "Store intel",
+        "Per-location data for specific stores (e.g. Walmart #1042).",
+        storeIntel,
+        "Unlocks store-level price variance insights."
+      ));
+      parts.push(card(
+        "Recurring patterns",
+        "Known recurring-charge cadences across users.",
+        recur,
+        "Improves subscription detection for new users."
+      ));
+      parts.push(card(
+        "Household benchmarks",
+        "Split-ratio data for multi-person households.",
+        household,
+        "Feeds split-expense suggestions."
+      ));
+      parts.push(card(
+        "OCR correction patterns",
+        "What OCR misread vs. what users corrected to. The 98%→99% training loop.",
+        docs,
+        "Every scan correction adds one row here. Growth = health."
+      ));
+      parts.push(card(
+        "Subscription library",
+        "Known subscription services + their typical amounts/frequencies.",
+        subs,
+        "Seeded by the team; you may not see growth here."
+      ));
+      paint();
+
+      // === SECTION: PER-APP ACTIVITY (LAST 24H) ===
+      parts.push(`<div class="section-header">Per-App Activity · last 24 hours</div>`);
+
+      // Compute the ISO cutoff for "last 24h"
+      const dayAgo = new Date(Date.now() - 24 * 3600 * 1000)
+        .toISOString()
+        .replace('T', ' ')      // PocketBase filter format
+        .slice(0, 19);          // YYYY-MM-DD HH:MM:SS
+      const dayAgoFilter = `created >= "${dayAgo}"`;
+
+      const [
+        pbjToday, hhhTodayMi, cvcTodayMi, aliasesToday, visitsToday,
+      ] = await Promise.all([
+        pbCount("pbj_merchant_submissions",  dayAgoFilter),
+        pbCount("hhh_market_intelligence",   dayAgoFilter),
+        pbCount("cts_market_intelligence",   dayAgoFilter),
+        pbCount("shared_entity_aliases",     dayAgoFilter),
+        pbCount("_site_visits",              dayAgoFilter),
+      ]);
+
+      parts.push(card(
+        "PBJ writes · 24h",
+        "New merchant submissions from PocketBudJet scans today. Closest proxy for daily PBJ user activity.",
+        pbjToday ?? 0,
+        "Grows with active scanners. 0 = nobody scanned today."
+      ));
+      parts.push(card(
+        "HHH writes · 24h",
+        "New watch-market snapshots from Handy Horology Helper today.",
+        hhhTodayMi ?? 0,
+        "HHH writes when users search or add watches."
+      ));
+      parts.push(card(
+        "CVC writes · 24h",
+        "New collectible-market snapshots from Curator's Vault today.",
+        cvcTodayMi ?? 0,
+        "CVC writes when users search or add items."
+      ));
+      parts.push(card(
+        "Shared alias votes · 24h",
+        "New raw-name-to-canonical proposals from all three apps combined.",
+        aliasesToday ?? 0,
+        "Feeds the canonical entity registry. Grows with total scan volume."
+      ));
       paint();
 
       // === SECTION: CROSS-APP ===
-      parts.push(`<div class="section-header">Cross-App · HHH · CVC</div>`);
+      parts.push(`<div class="section-header">Cross-App Integration · HHH + CVC</div>`);
       const [hhhVal, cvcVal, hhhMkt, cvcMkt, links] = await Promise.all([
         pbCount("hhh_collection_values",    ""),
         pbCount("cvc_collection_values",    ""),
@@ -542,28 +1372,119 @@
         pbCount("cts_market_intelligence",  ""),
         pbCount("pbj_purchase_links",       ""),
       ]);
-      parts.push(card("HHH collection snapshots", hhhVal));
-      parts.push(card("CVC collection snapshots", cvcVal));
-      parts.push(card("HHH market intel",         hhhMkt));
-      parts.push(card("CVC market intel",         cvcMkt));
-      parts.push(card("Cross-app purchase links", links));
+      parts.push(card(
+        "HHH collection snapshots",
+        "Periodic total-value writes from the Handy Horology Helper app.",
+        hhhVal,
+        "One per HHH user per periodic sync."
+      ));
+      parts.push(card(
+        "CVC collection snapshots",
+        "Periodic total-value writes from Curator's Vault.",
+        cvcVal,
+        "One per CVC user per periodic sync."
+      ));
+      parts.push(card(
+        "HHH market intel",
+        "Watch-model price intelligence (asking + sold averages) from HHH's eBay crawler.",
+        hhhMkt,
+        "PBJ reads this for linked-purchase market values."
+      ));
+      parts.push(card(
+        "CVC market intel",
+        "Collectible price intelligence from CVC's crawler (stored as cts_market_intelligence).",
+        cvcMkt,
+        "Same role as HHH's but for coins/cards/stamps."
+      ));
+      parts.push(card(
+        "Cross-app purchase links",
+        "PBJ transactions that the user linked to an HHH watch or CVC item.",
+        links,
+        "Each = one user consciously connected a purchase to a collectible."
+      ));
       paint();
 
-      // === SECTION: ANOMALIES (list) ===
-      parts.push(`<div class="section-header">Quality & Security</div>`);
-
-      const [anomalyUnresolved, quarantineCount] = await Promise.all([
-        pbCount("_anomaly_log",              "resolved = false"),
-        pbCount("_quarantine_submissions",   ""),
+      // === SECTION: CRASH REPORTS (app stability) ===
+      parts.push(`<div class="section-header">App Stability · crash reports</div>`);
+      const [crashAll, crash24h, crash7d] = await Promise.all([
+        pbCount("_crash_reports", ""),
+        pbCount("_crash_reports", dayAgoFilter),
+        pbCount("_crash_reports", `created >= "${new Date(Date.now() - 7 * 86400000).toISOString().replace('T', ' ').slice(0, 19)}"`),
       ]);
-      parts.push(card("Open anomalies",
+      parts.push(card(
+        "Crashes · 24h",
+        "React render errors, unhandled promise rejections, and explicit reportError() calls from the last 24 hours.",
+        crash24h ?? 0,
+        "Zero is normal. Non-zero = check the recent crashes list below.",
+        (crash24h > 0) ? "warn" : "ok"
+      ));
+      parts.push(card(
+        "Crashes · 7 days",
+        "Same signal, wider window. Good for spotting regressions after a release.",
+        crash7d ?? 0,
+        crash7d > crash24h * 7
+          ? `Trending up — investigate most common error_name`
+          : "Compare against 24h × 7 to judge trend."
+      ));
+      parts.push(card(
+        "Crashes · lifetime",
+        "Every crash ever reported. Mostly useful as a total health signal over time.",
+        crashAll ?? 0,
+        "Archive older resolved crashes from the maintenance panel when this grows past ~10k."
+      ));
+      paint();
+
+      // Recent crashes list (only render when there are some)
+      if (crash7d > 0) {
+        const recentCrashes = await pbList("_crash_reports", "", "-created", 10);
+        if (recentCrashes.length > 0) {
+          parts.push(`
+            <div class="list-card">
+              <div class="head">
+                <span>Recent crashes</span>
+                <span>${recentCrashes.length} shown · newest first</span>
+              </div>
+              <ul>${recentCrashes.map(c => {
+                const sev = String(c.action || '').includes('fatal') ? 'high'
+                          : String(c.action || '').includes('crash') ? 'medium'
+                          : 'low';
+                const what = `${c.platform || '?'} ${c.app_version || ''} · ${c.screen || 'unknown screen'}${c.action ? ' · ' + c.action : ''}`;
+                const msg = (c.error_name ? c.error_name + ': ' : '') + (c.error_message || '').slice(0, 200);
+                return `<li>
+                  <span class="sev ${sev}">${sev}</span>
+                  <span class="when">${relTime(c.created)}</span>
+                  <span class="what">
+                    <strong>${what}</strong>
+                    <code>${msg.replace(/</g, '&lt;')}</code>
+                  </span>
+                </li>`;
+              }).join('')}</ul>
+            </div>`);
+        }
+      }
+      paint();
+
+      // === SECTION: QUALITY & SECURITY ===
+      parts.push(`<div class="section-header">Quality &amp; Security</div>`);
+      const [anomalyUnresolved, anomalyTotal, quarantineCount] = await Promise.all([
+        pbCount("_anomaly_log",            "resolved = false"),
+        pbCount("_anomaly_log",            ""),
+        pbCount("_quarantine_submissions", ""),
+      ]);
+      parts.push(card(
+        "Open anomalies",
+        "Category flips, alias storms, or image-dupe floods flagged by the anomaly hook.",
         anomalyUnresolved ?? 0,
-        "check list below for details",
-        (anomalyUnresolved > 0) ? "warn" : "ok"));
-      parts.push(card("PII quarantine",
+        `${anomalyTotal ?? 0} total ever · see list below for details`,
+        (anomalyUnresolved > 0) ? "warn" : "ok"
+      ));
+      parts.push(card(
+        "PII quarantine",
+        "Submissions that matched PII regex (SSN, card#, etc.) before entering consensus.",
         quarantineCount ?? 0,
-        "submissions blocked from consensus",
-        (quarantineCount > 10) ? "warn" : "ok"));
+        "Blocked from the flywheel. Grows slowly = false positives are rare.",
+        (quarantineCount > 10) ? "warn" : "ok"
+      ));
 
       // Full anomaly list
       const anomalies = await pbList("_anomaly_log", "resolved = false", "-detected_at", 10);
@@ -619,8 +1540,224 @@
           </div>
           ${quarRows}
         </div>`);
-
       paint();
+
+      // === SECTION: QUOTAS & THRESHOLDS ===
+      parts.push(`<div class="section-header">Quotas &amp; Thresholds</div>`);
+
+      // Sum record counts across all known PBJ/shared collections so we can
+      // estimate storage consumption vs. PocketHost's 1 GB free-tier cap.
+      // PocketBase doesn't expose a disk-usage endpoint on this version, so
+      // this is a rough proxy (≈1 KB per record on average across our shapes).
+      const tracked = [
+        ["pbj_merchant_submissions", merchTotal],
+        ["pbj_paycheck_submissions", paycheckTotal],
+        ["pbj_bill_submissions",     billTotal],
+        ["pbj_merchant_data",        merchDat],
+        ["pbj_price_trends",         priceTrnd],
+        ["pbj_spending_benchmarks",  spendBench],
+        ["pbj_store_intel",          storeIntel],
+        ["pbj_recurring_patterns",   recur],
+        ["pbj_household_benchmarks", household],
+        ["pbj_document_patterns",    docs],
+        ["pbj_subscription_library", subs],
+        ["shared_entity_library",    (merchants ?? 0) + (employers ?? 0) + (payees ?? 0)],
+        ["shared_entity_aliases",    (aliasesP ?? 0) + (aliasesA ?? 0) + (aliasesR ?? 0)],
+        ["hhh_collection_values",    hhhVal],
+        ["cvc_collection_values",    cvcVal],
+        ["hhh_market_intelligence",  hhhMkt],
+        ["cts_market_intelligence",  cvcMkt],
+        ["pbj_purchase_links",       links],
+        ["_anomaly_log",             anomalyTotal],
+        ["_quarantine_submissions",  quarantineCount],
+      ];
+      const totalRecords = tracked.reduce((s, [, n]) => s + (Number(n) || 0), 0);
+
+      // ≈1 KB per record is a blunt estimate — some (market_intelligence JSON)
+      // are larger, some (purchase_links) are tiny. Overall it's within 2× for
+      // most PBJ data shapes. Close enough for a capacity gauge.
+      const estBytes = totalRecords * 1024;
+      const FREE_TIER_BYTES = 1024 * 1024 * 1024; // PocketHost free tier — 1 GB
+      const pctFree = Math.min(100, (estBytes / FREE_TIER_BYTES) * 100);
+      const storageState = pctFree > 85 ? "crit"
+                         : pctFree > 60 ? "warn"
+                         : "ok";
+      const mb = (estBytes / (1024 * 1024)).toFixed(1);
+
+      parts.push(card(
+        "Total records tracked",
+        "Sum of every tracked collection — the flywheel's raw corpus size.",
+        totalRecords.toLocaleString(),
+        "Grows with user scans; aggregation keeps the submission queues bounded."
+      ));
+
+      // Real DB size via /api/backups — if a backup exists, its ZIP size is a
+      // close proxy for the compressed DB. PocketBase doesn't expose disk
+      // usage directly on 0.36.9; this is the cleanest available signal.
+      let backupBytes = null;
+      let backupModified = null;
+      try {
+        const r = await timedFetch(`${PB_URL}/api/backups`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (r.ok) {
+          const list = await r.json();
+          // API returns an array (sometimes wrapped). Normalize.
+          const items = Array.isArray(list) ? list : (list?.items || []);
+          if (items.length > 0) {
+            // Use the most recent by modified
+            const sorted = items.slice().sort((a, b) =>
+              String(b.modified || "").localeCompare(String(a.modified || "")));
+            backupBytes = sorted[0].size;
+            backupModified = sorted[0].modified;
+          }
+        }
+      } catch { /* leave null — card shows fallback */ }
+
+      if (backupBytes != null) {
+        const dbMb = (backupBytes / (1024 * 1024)).toFixed(1);
+        parts.push(card(
+          "Database size (backup)",
+          "Compressed size of the most recent PocketBase backup — closest signal to true DB size on this PocketBase version.",
+          `${dbMb} MB`,
+          `From backup made ${backupModified ? relTime(backupModified) : "unknown"} · create fresh backups in Settings → Backups for a current read`,
+          "ok"
+        ));
+      } else {
+        parts.push(card(
+          "Database size (backup)",
+          "Compressed DB size — only visible when at least one backup exists.",
+          "no backup yet",
+          "Go to Settings → Backups → Initialize new backup. This dashboard will show the size once it finishes.",
+          "warn"
+        ));
+      }
+
+      // PocketHost is fair-use, not a hard-quota tier, so the "% of 1 GB"
+      // framing I had before was misleading. Keep the record-based estimate
+      // but correctly frame what the ceiling actually is.
+      parts.push(card(
+        "Record-count estimate (rough)",
+        "Proxy DB size at ~1 KB/record. Real number is the card above when backups exist.",
+        `${mb} MB`,
+        `PocketHost has no hard storage cap — they monitor under a fair-use policy. Most small apps stay under 500 MB for years.`,
+        totalRecords > 500000 ? "warn" : "ok"
+      ));
+      // Website size via GitHub public API — cached 5 min to stay well under
+      // the 60/hour anonymous rate limit even if the dashboard is left open.
+      if (!githubCache || (Date.now() - githubCache.fetchedAt) > GITHUB_CACHE_TTL_MS) {
+        try {
+          const ghRes = await timedFetch(`https://api.github.com/repos/${GITHUB_REPO}`);
+          if (ghRes.ok) {
+            const gh = await ghRes.json();
+            githubCache = {
+              sizeKB: gh.size,
+              pushedAt: gh.pushed_at,
+              fetchedAt: Date.now(),
+            };
+          }
+        } catch { /* leave cache as-is */ }
+      }
+      if (githubCache) {
+        const WEB_LIMIT_BYTES = 1024 * 1024 * 1024; // 1 GB GitHub Pages soft limit
+        const webBytes = githubCache.sizeKB * 1024;
+        const webPct = Math.min(100, (webBytes / WEB_LIMIT_BYTES) * 100);
+        const webMb = (webBytes / (1024 * 1024)).toFixed(1);
+        const webState = webPct > 85 ? "crit" : webPct > 60 ? "warn" : "ok";
+        parts.push(card(
+          "Website repo size",
+          "GitHub Pages serves josspatech.com from this repo — measured by GitHub.",
+          `${webMb} MB`,
+          `~${webPct.toFixed(1)}% of GitHub Pages 1 GB soft cap · last push ${relTime(githubCache.pushedAt)}`,
+          webState
+        ));
+      } else {
+        parts.push(card(
+          "Website repo size",
+          "GitHub Pages serves josspatech.com from this repo.",
+          "unknown",
+          "Couldn't reach github.com (rate limit or offline)."
+        ));
+      }
+
+      parts.push(card(
+        "Website bandwidth",
+        "Outbound bytes GitHub Pages serves to visitors. Free tier: 100 GB/month.",
+        "check manually",
+        `Only visible in Repo → Insights → Traffic for ${GITHUB_REPO}. GitHub does not expose this via API.`,
+        "ok"
+      ));
+
+      parts.push(card(
+        "OCR.Space quota",
+        "Free tier: 25,000 requests/month shared across all PBJ users.",
+        "check manually",
+        `Monitor at ocr.space/ocrapi — PRO ($30/mo) = 300k/month + no per-IP rate limit`,
+        "ok"
+      ));
+      // === SECTION: SITE TRAFFIC ===
+      // Pulls from _site_visits, written by the tracking snippet on
+      // josspatech.com. If the snippet isn't installed yet these all
+      // show 0 — that's the card story: "add tracker to see real data."
+      parts.push(`<div class="section-header">Site Traffic · josspatech.com</div>`);
+      const [visitsAll, visitsList] = await Promise.all([
+        pbCount("_site_visits", ""),
+        pbList("_site_visits", dayAgoFilter, "-created", 500),
+      ]);
+      const uniqueSessionsToday = new Set(visitsList.map(v => v.session_id).filter(Boolean)).size;
+      const sourceCounts = visitsList.reduce((acc, v) => {
+        const s = v.source || 'unknown';
+        acc[s] = (acc[s] || 0) + 1;
+        return acc;
+      }, {});
+      const sortedSources = Object.entries(sourceCounts).sort((a, b) => b[1] - a[1]);
+      const topSource = sortedSources[0] || ["—", 0];
+      const pageCounts = visitsList.reduce((acc, v) => {
+        const p = v.page || '/';
+        acc[p] = (acc[p] || 0) + 1;
+        return acc;
+      }, {});
+      const sortedPages = Object.entries(pageCounts).sort((a, b) => b[1] - a[1]);
+      const topPage = sortedPages[0] || ["—", 0];
+
+      parts.push(card(
+        "Visits · 24h",
+        "Page loads on josspatech.com in the last 24 hours (includes all landing pages + this dashboard).",
+        visitsToday ?? 0,
+        `${visitsAll ?? 0} all-time · ${uniqueSessionsToday} unique sessions today`,
+        (visitsToday === 0) ? "warn" : "ok"
+      ));
+      parts.push(card(
+        "Top traffic source · 24h",
+        "Where today's visitors came from: direct URL, search engine, social link, or another site.",
+        (topSource[0] === "—") ? "—" : `${topSource[0]} (${topSource[1]})`,
+        sortedSources.length > 1
+          ? sortedSources.slice(1, 4).map(([s, c]) => `${s}:${c}`).join(" · ")
+          : "Install the site-visit tracker snippet on josspatech.com to populate this card."
+      ));
+      parts.push(card(
+        "Most-visited page · 24h",
+        "Which page on the site got the most loads today.",
+        (topPage[0] === "—") ? "—" : topPage[0],
+        topPage[1] > 0
+          ? `${topPage[1]} loads · ${sortedPages.length} unique pages visited`
+          : "Tracking snippet not active yet — see site_visit_tracker.html in ClaudeFiles."
+      ));
+      paint();
+
+      parts.push(card(
+        "Play Store test gate",
+        "14-day / 12-tester closed testing required before first production release.",
+        "manual",
+        "Tracked in Google Play Console — this dashboard can't read it.",
+        "ok"
+      ));
+      paint();
+
+      // Banner + maintenance status refresh alongside the main grid.
+      // updateWowBanner has its own try/catch — it doesn't block if it fails.
+      updateWowBanner().catch(() => {});
+
       document.getElementById("lastRefresh").textContent =
         `updated ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
@@ -636,6 +1773,9 @@
     document.getElementById("dashboard").style.display = "block";
     refresh();
     setRefresh();
+    // One-shot maintenance-flag check — updates the status label
+    // under the Operations group.
+    mCheckMaintenanceFlag().catch(() => {});
   }
 
   if (token) {
@@ -649,6 +1789,740 @@
   document.getElementById("email").addEventListener("keydown", (e) => {
     if (e.key === "Enter") document.getElementById("password").focus();
   });
+
+  // ========================================================
+  // Maintenance + reports
+  // ========================================================
+
+  function log(msg, kind) {
+    const el = document.getElementById("log");
+    const ts = new Date().toLocaleTimeString();
+    const entry = document.createElement("div");
+    entry.className = "log-entry " + (kind || "info");
+    entry.innerHTML = `<span class="t">${ts}</span> &nbsp;${msg}`;
+    el.prepend(entry); // newest on top
+  }
+
+  async function withBusy(selector, label, fn) {
+    const btn = typeof selector === 'string' ? document.querySelector(selector) : selector;
+    if (btn) {
+      btn.disabled = true;
+      const oldText = btn.textContent;
+      btn.textContent = label;
+      try { await fn(); }
+      finally { btn.disabled = false; btn.textContent = oldText; }
+    } else {
+      await fn();
+    }
+  }
+
+  async function pbAuth(path, init) {
+    return await timedFetch(PB_URL + path, {
+      ...(init || {}),
+      headers: { ...(init && init.headers || {}), Authorization: `Bearer ${token}` },
+    });
+  }
+
+  /** Paginate through an entire collection. Returns array of records. */
+  async function listAllRecords(collection, filter, fields) {
+    const pageSize = 200;
+    let page = 1;
+    const out = [];
+    while (true) {
+      const params = new URLSearchParams({ perPage: String(pageSize), page: String(page) });
+      if (filter) params.set("filter", filter);
+      if (fields) params.set("fields", fields);
+      const res = await pbAuth(`/api/collections/${encodeURIComponent(collection)}/records?${params}`);
+      if (!res.ok) throw new Error(`List ${collection} failed (${res.status})`);
+      const data = await res.json();
+      out.push(...(data.items || []));
+      if (out.length >= (data.totalItems || 0) || (data.items || []).length === 0) break;
+      page++;
+      if (page > 100) break; // hard safety
+    }
+    return out;
+  }
+
+  function downloadFile(filename, content, mime) {
+    const blob = new Blob([content], { type: mime || "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  }
+
+  function recordsToCSV(records) {
+    if (!records.length) return "";
+    // Collect union of keys; system fields first in a sensible order.
+    const systemOrder = ["id", "created", "updated"];
+    const seen = new Set(systemOrder);
+    const headers = [...systemOrder];
+    for (const r of records) {
+      for (const k of Object.keys(r)) {
+        if (!seen.has(k) && !k.startsWith("collection")) {
+          seen.add(k);
+          headers.push(k);
+        }
+      }
+    }
+    const esc = (v) => {
+      if (v == null) return "";
+      let s = typeof v === "object" ? JSON.stringify(v) : String(v);
+      if (/[",\n\r]/.test(s)) s = `"${s.replace(/"/g, '""')}"`;
+      return s;
+    };
+    const lines = [headers.join(",")];
+    for (const r of records) {
+      lines.push(headers.map(h => esc(r[h])).join(","));
+    }
+    return lines.join("\n");
+  }
+
+  // ─── Backups ────────────────────────────────────────────
+  async function mCreateBackup() {
+    if (!confirm("Create a new PocketBase backup now? This can take 10-60 seconds.")) return;
+    await withBusy(event?.target, "Backing up…", async () => {
+      try {
+        log("Starting backup via /api/backups…", "info");
+        const r = await pbAuth("/api/backups", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+        if (r.ok) {
+          log("Backup created ✓  — refresh the page for the new DB-size card.", "ok");
+        } else {
+          const txt = (await r.text()).slice(0, 200);
+          log(`Backup failed (${r.status}): ${txt}`, "err");
+        }
+      } catch (e) { log(`Backup threw: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mPruneBackups() {
+    if (!confirm("Delete all backups except the 3 most recent? This cannot be undone.")) return;
+    await withBusy(event?.target, "Pruning…", async () => {
+      try {
+        const r = await pbAuth("/api/backups");
+        if (!r.ok) throw new Error(`list backups failed (${r.status})`);
+        const list = await r.json();
+        const items = Array.isArray(list) ? list : (list.items || []);
+        items.sort((a, b) => String(b.modified || "").localeCompare(String(a.modified || "")));
+        const toDelete = items.slice(3);
+        if (!toDelete.length) { log("Nothing to prune — fewer than 4 backups.", "info"); return; }
+        log(`Deleting ${toDelete.length} older backups…`, "info");
+        let ok = 0, fail = 0;
+        for (const b of toDelete) {
+          const d = await pbAuth(`/api/backups/${encodeURIComponent(b.key)}`, { method: "DELETE" });
+          if (d.ok) ok++; else fail++;
+        }
+        log(`Prune complete — ${ok} deleted, ${fail} failed.`, fail ? "err" : "ok");
+      } catch (e) { log(`Prune threw: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Data hygiene ───────────────────────────────────────
+  async function mClearResolvedAnomalies() {
+    if (!confirm("Delete resolved anomalies older than 7 days?")) return;
+    await withBusy(event?.target, "Clearing…", async () => {
+      try {
+        const cutoff = new Date(Date.now() - 7 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+        const rows = await listAllRecords("_anomaly_log", `resolved = true && detected_at < "${cutoff}"`, "id");
+        log(`Deleting ${rows.length} resolved anomaly rows…`, "info");
+        let ok = 0, fail = 0;
+        for (const row of rows) {
+          const d = await pbAuth(`/api/collections/_anomaly_log/records/${row.id}`, { method: "DELETE" });
+          if (d.ok) ok++; else fail++;
+        }
+        log(`Cleared — ${ok} deleted, ${fail} failed.`, fail ? "err" : "ok");
+      } catch (e) { log(`Clear threw: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mClearOldQuarantine() {
+    if (!confirm("Delete quarantine records older than 30 days?")) return;
+    await withBusy(event?.target, "Clearing…", async () => {
+      try {
+        const cutoff = new Date(Date.now() - 30 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+        const rows = await listAllRecords("_quarantine_submissions", `flagged_at < "${cutoff}"`, "id");
+        log(`Deleting ${rows.length} old quarantine rows…`, "info");
+        let ok = 0, fail = 0;
+        for (const row of rows) {
+          const d = await pbAuth(`/api/collections/_quarantine_submissions/records/${row.id}`, { method: "DELETE" });
+          if (d.ok) ok++; else fail++;
+        }
+        log(`Cleared — ${ok} deleted, ${fail} failed.`, fail ? "err" : "ok");
+      } catch (e) { log(`Clear threw: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Export CSV ─────────────────────────────────────────
+  async function mExportCSV() {
+    const col = document.getElementById("exportCol").value;
+    await withBusy(event?.target, "Exporting…", async () => {
+      try {
+        log(`Streaming records from ${col}…`, "info");
+        const rows = await listAllRecords(col);
+        const csv = recordsToCSV(rows);
+        const stamp = new Date().toISOString().slice(0, 10);
+        downloadFile(`${col}_${stamp}.csv`, csv, "text/csv;charset=utf-8");
+        log(`Exported ${rows.length} rows from ${col} → ${col}_${stamp}.csv ✓`, "ok");
+      } catch (e) { log(`Export failed: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Reports ────────────────────────────────────────────
+  async function mWeeklySummary() {
+    await withBusy(event?.target, "Building…", async () => {
+      try {
+        log("Aggregating 7-day flywheel stats…", "info");
+        const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+        const f = `created >= "${weekAgo}"`;
+        const [
+          merch7, merchTot, paycheck7, bill7, alias7, aggAll, visitsWk,
+          merchants, employers, payees, anomaliesOpen, quarantineTot,
+        ] = await Promise.all([
+          pbCount("pbj_merchant_submissions", f),
+          pbCount("pbj_merchant_submissions", ""),
+          pbCount("pbj_paycheck_submissions", f),
+          pbCount("pbj_bill_submissions", f),
+          pbCount("shared_entity_aliases", f),
+          pbCount("pbj_merchant_submissions", 'is_stale = true'),
+          pbCount("_site_visits", f),
+          pbCount("shared_entity_library", `entity_type = "merchant"`),
+          pbCount("shared_entity_library", `entity_type = "employer"`),
+          pbCount("shared_entity_library", `entity_type = "payee"`),
+          pbCount("_anomaly_log", "resolved = false"),
+          pbCount("_quarantine_submissions", ""),
+        ]);
+        const today = new Date().toISOString().slice(0, 10);
+        const md = `# PocketBudJet Flywheel — Weekly Summary
+**Week ending ${today}**
+
+## Ingest this week
+| Stream | 7-day writes | Lifetime |
+|---|---:|---:|
+| Merchant submissions | ${merch7 ?? '—'} | ${merchTot ?? '—'} |
+| Pay-stub submissions | ${paycheck7 ?? '—'} | — |
+| Bill submissions | ${bill7 ?? '—'} | — |
+| Alias votes | ${alias7 ?? '—'} | — |
+| Site visits (josspatech.com) | ${visitsWk ?? '—'} | — |
+
+## Canonical library state
+| Type | Count |
+|---|---:|
+| Canonical merchants | ${merchants ?? '—'} |
+| Canonical employers | ${employers ?? '—'} |
+| Canonical payees | ${payees ?? '—'} |
+
+## Quality
+| Signal | Count |
+|---|---:|
+| Aggregated submissions (lifetime) | ${aggAll ?? '—'} |
+| Open anomalies | ${anomaliesOpen ?? 0} |
+| PII quarantine (lifetime) | ${quarantineTot ?? 0} |
+
+Generated ${new Date().toISOString()} by the Flywheel Dashboard.
+`;
+        downloadFile(`pbj_weekly_${today}.md`, md, "text/markdown;charset=utf-8");
+        log("Weekly summary downloaded ✓", "ok");
+      } catch (e) { log(`Summary failed: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mTopMerchants() {
+    await withBusy(event?.target, "Building…", async () => {
+      try {
+        log("Ranking canonical merchants by submission_count…", "info");
+        const res = await pbAuth(`/api/collections/shared_entity_library/records?perPage=50&sort=-submission_count&filter=${encodeURIComponent("entity_type = \"merchant\"")}`);
+        if (!res.ok) throw new Error(`list failed (${res.status})`);
+        const data = await res.json();
+        const items = data.items || [];
+        const today = new Date().toISOString().slice(0, 10);
+        const rows = items.map((r, i) =>
+          `| ${i + 1} | ${(r.canonical_name || '—').slice(0, 50)} | ${r.submission_count ?? 0} | ${Number(r.confidence ?? 0).toFixed(2)} | ${r.region || '—'} |`);
+        const md = `# Top 50 Canonical Merchants
+**Ranked by cumulative submission count, ${today}**
+
+| Rank | Merchant | Votes | Confidence | Region |
+|---:|---|---:|---:|---|
+${rows.join("\n")}
+
+Generated ${new Date().toISOString()}.
+`;
+        downloadFile(`pbj_top_merchants_${today}.md`, md, "text/markdown;charset=utf-8");
+        log(`Top ${items.length} merchants downloaded ✓`, "ok");
+      } catch (e) { log(`Report failed: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Testing & verification ─────────────────────────
+  async function mSendTestSubmission() {
+    await withBusy(event?.target, "Sending…", async () => {
+      try {
+        const marker = `CLAUDE_TEST_${Date.now()}`;
+        const body = {
+          merchant_entity_ref: null,
+          merchant_key: marker,                  // fingerprint-unique key
+          raw_name: "DASHBOARD TEST MERCHANT",
+          category: "Uncategorized",
+          subcategory: "",
+          amount_bucket: "10-25",
+          store_number: "",
+          zip_code: "00000",
+          region: "US",
+          phone_canonical: "",
+          website_domain: "",
+          count: 1,
+          app_version: "dashboard-test",
+          match_method: "none",
+          confidence: 0.5,
+          is_stale: false,
+          ocr_confidence: 0.8,
+          source_fingerprint: marker,
+          image_hash: "",
+        };
+        // Anonymous POST (no auth header) — tests the real client write path.
+        const r = await timedFetch(`${PB_URL}/api/collections/pbj_merchant_submissions/records`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (r.ok) {
+          const created = await r.json();
+          const s = document.getElementById("testSubStatus");
+          s.innerHTML = `created <code>${created.id}</code> · aggregation should flip it to processed within the hour`;
+          log(`Test submission ${created.id} (key ${marker}) created ✓`, "ok");
+        } else {
+          const t = (await r.text()).slice(0, 200);
+          log(`Test submission failed (${r.status}): ${t}`, "err");
+        }
+      } catch (e) { log(`Test submission threw: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mDeleteById() {
+    const col = document.getElementById("deleteCol").value;
+    const id  = document.getElementById("deleteId").value.trim();
+    if (!id) { log("Enter a record ID first.", "err"); return; }
+    if (!confirm(`Delete ${col}/${id}? This cannot be undone.`)) return;
+    await withBusy(event?.target, "Deleting…", async () => {
+      try {
+        const r = await pbAuth(`/api/collections/${encodeURIComponent(col)}/records/${encodeURIComponent(id)}`, {
+          method: "DELETE",
+        });
+        if (r.ok) {
+          log(`Deleted ${col}/${id} ✓`, "ok");
+          document.getElementById("deleteId").value = "";
+        } else if (r.status === 404) {
+          log(`Record ${col}/${id} not found.`, "err");
+        } else {
+          const t = (await r.text()).slice(0, 200);
+          log(`Delete failed (${r.status}): ${t}`, "err");
+        }
+      } catch (e) { log(`Delete threw: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Flywheel curation ───────────────────────────────
+  async function mPromoteAliases() {
+    const n = parseInt(document.getElementById("promoteThreshold").value, 10);
+    if (!Number.isFinite(n) || n < 1) { log("Enter a threshold ≥ 1.", "err"); return; }
+    if (!confirm(`Promote every pending alias with ≥ ${n} submission_count votes to 'approved'?`)) return;
+    await withBusy(event?.target, "Promoting…", async () => {
+      try {
+        const filter = `status = "pending" && submission_count >= ${n}`;
+        const rows = await listAllRecords("shared_entity_aliases", filter, "id,submission_count");
+        log(`Promoting ${rows.length} aliases with ${n}+ votes…`, "info");
+        let ok = 0, fail = 0;
+        for (const r of rows) {
+          const res = await pbAuth(`/api/collections/shared_entity_aliases/records/${r.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: "approved" }),
+          });
+          if (res.ok) ok++; else fail++;
+        }
+        log(`Promotion complete — ${ok} approved, ${fail} failed.`, fail ? "err" : "ok");
+      } catch (e) { log(`Promotion threw: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mOpenAliasReviewer() {
+    const panel = document.getElementById("aliasReviewerPanel");
+    panel.style.display = "block";
+    panel.innerHTML = `<div style="padding:14px;color:var(--text-dim);font-size:12px">Loading…</div>`;
+    try {
+      const r = await pbAuth(`/api/collections/shared_entity_aliases/records?perPage=20&sort=created&filter=${encodeURIComponent("status = \"pending\"")}`);
+      if (!r.ok) throw new Error(`list failed (${r.status})`);
+      const data = await r.json();
+      const items = data.items || [];
+      if (!items.length) {
+        panel.innerHTML = `<div style="padding:14px;color:var(--success);font-size:13px">✓ No pending aliases. Canonicalization is caught up.</div>`;
+        return;
+      }
+      panel.innerHTML = items.map(r => `
+        <div class="row" data-id="${r.id}">
+          <span class="alias-text">${(r.alias || "").replace(/</g, "&lt;")} → ${(r.alias_key || "").slice(0, 30)}</span>
+          <span class="alias-meta">${r.submission_count || 0} votes · ${r.reject_count || 0} rej</span>
+          <button class="mini-btn approve" onclick="mApproveAlias('${r.id}')">Approve</button>
+          <button class="mini-btn reject"  onclick="mRejectAlias('${r.id}')">Reject</button>
+        </div>`).join("");
+    } catch (e) {
+      panel.innerHTML = `<div style="padding:14px;color:var(--danger);font-size:13px">Failed to load: ${e.message}</div>`;
+    }
+  }
+
+  async function mSetAliasStatus(id, status) {
+    const row = document.querySelector(`#aliasReviewerPanel .row[data-id="${id}"]`);
+    if (row) row.querySelectorAll("button").forEach(b => b.disabled = true);
+    try {
+      const r = await pbAuth(`/api/collections/shared_entity_aliases/records/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
+      if (r.ok) {
+        if (row) row.style.opacity = 0.4;
+        log(`Alias ${id} → ${status} ✓`, "ok");
+      } else {
+        log(`Alias ${id} patch failed (${r.status})`, "err");
+        if (row) row.querySelectorAll("button").forEach(b => b.disabled = false);
+      }
+    } catch (e) {
+      log(`Alias ${id} patch threw: ${e.message}`, "err");
+      if (row) row.querySelectorAll("button").forEach(b => b.disabled = false);
+    }
+  }
+  async function mApproveAlias(id) { await mSetAliasStatus(id, "approved"); }
+  async function mRejectAlias(id)  { await mSetAliasStatus(id, "rejected"); }
+
+  // ─── Operations: maintenance mode ────────────────────
+  async function mCheckMaintenanceFlag() {
+    const s = document.getElementById("maintenanceStatus");
+    try {
+      const r = await pbAuth(`/api/collections/_app_config/records?filter=${encodeURIComponent("key = \"maintenance_mode\"")}&perPage=1`);
+      if (r.status === 404) {
+        s.textContent = "_app_config not created yet — use this button to create + toggle.";
+        maintenanceFlag = null;
+        return;
+      }
+      if (!r.ok) { s.textContent = `check failed (${r.status})`; return; }
+      const data = await r.json();
+      const rec = (data.items || [])[0];
+      maintenanceFlag = rec ? rec.value === "true" : false;
+      s.innerHTML = maintenanceFlag
+        ? `<strong style="color:var(--danger)">ON — clients should be read-only</strong>`
+        : `<span style="color:var(--success)">OFF — normal writes</span>`;
+    } catch (e) { s.textContent = `check threw: ${e.message}`; }
+  }
+
+  async function mToggleMaintenance() {
+    const target = !maintenanceFlag;
+    if (!confirm(`Set maintenance_mode = ${target}?\n\nNote: PBJ app doesn't check this yet — this is a stub for future app builds. Safe to toggle now.`)) return;
+    await withBusy(event?.target, "Toggling…", async () => {
+      try {
+        // Find existing row or create new
+        const r = await pbAuth(`/api/collections/_app_config/records?filter=${encodeURIComponent("key = \"maintenance_mode\"")}&perPage=1`);
+        if (r.status === 404) {
+          // collection doesn't exist — create it first
+          const create = await pbAuth(`/api/collections`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: "_app_config",
+              type: "base",
+              listRule: "", viewRule: "",
+              createRule: null, updateRule: null, deleteRule: null,
+              fields: [
+                { name: "key",   type: "text", required: true },
+                { name: "value", type: "text", required: false },
+                { name: "note",  type: "text", required: false },
+              ],
+            }),
+          });
+          if (!create.ok) { log(`Couldn't create _app_config (${create.status})`, "err"); return; }
+          log("_app_config collection created ✓", "ok");
+        }
+        const data = r.ok ? await r.json() : { items: [] };
+        const existing = (data.items || [])[0];
+        const body = {
+          key: "maintenance_mode",
+          value: target ? "true" : "false",
+          note: target ? `Enabled via dashboard ${new Date().toISOString()}` : `Disabled via dashboard ${new Date().toISOString()}`,
+        };
+        if (existing) {
+          const p = await pbAuth(`/api/collections/_app_config/records/${existing.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+          if (!p.ok) { log(`Toggle PATCH failed (${p.status})`, "err"); return; }
+        } else {
+          const c = await pbAuth(`/api/collections/_app_config/records`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+          if (!c.ok) { log(`Toggle POST failed (${c.status})`, "err"); return; }
+        }
+        log(`Maintenance mode → ${target ? "ON" : "OFF"} ✓`, "ok");
+        await mCheckMaintenanceFlag();
+      } catch (e) { log(`Toggle threw: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Operations: log tail ────────────────────────────
+  async function mToggleLogTail() {
+    const btn = document.getElementById("logTailBtn");
+    const pane = document.getElementById("logTailPane");
+    const status = document.getElementById("logTailStatus");
+
+    if (logTailTick) {
+      clearInterval(logTailTick);
+      logTailTick = null;
+      btn.textContent = "Start log tail (every 30s)";
+      status.textContent = "stopped";
+      return;
+    }
+    pane.style.display = "block";
+    btn.textContent = "Stop log tail";
+    status.textContent = "polling…";
+
+    const poll = async () => {
+      try {
+        const r = await pbAuth("/api/logs?perPage=20&sort=-created");
+        if (r.status === 429) { status.textContent = "rate-limited — slow down"; return; }
+        if (!r.ok) { status.textContent = `error ${r.status}`; return; }
+        const data = await r.json();
+        const items = (data.items || []).reverse();
+        pane.innerHTML = items.map(l => {
+          const level = (l.level || "").toLowerCase();
+          const klass = level.includes("err") ? "l-error"
+                      : level.includes("warn") ? "l-warn"
+                      : "l-info";
+          const when = (l.created || "").slice(11, 19);
+          const msg = (l.message || JSON.stringify(l).slice(0, 300)).replace(/</g, "&lt;");
+          return `<div class="${klass}">${when}  ${msg}</div>`;
+        }).join("") || "(no recent log entries)";
+        status.textContent = `last poll ${new Date().toLocaleTimeString()}`;
+      } catch (e) { status.textContent = `poll threw: ${e.message}`; }
+    };
+    await poll();
+    logTailTick = setInterval(poll, 30000);
+  }
+
+  // ─── Force-run server jobs ───────────────────────────
+  async function mForceRun(job) {
+    const labels = {
+      aggregate: "aggregation",
+      staleness: "staleness sweep",
+      anomaly:   "anomaly detection",
+      retention: "retention cleanup",
+    };
+    if (!confirm(`Force-run ${labels[job] || job} on the server?`)) return;
+    await withBusy(event?.target, "Running…", async () => {
+      try {
+        log(`POST /api/ops/${job} …`, "info");
+        const r = await pbAuth(`/api/ops/${job}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: "{}",
+        });
+        if (r.status === 404) {
+          log(`/api/ops/${job} not found — deploy ops_routes.pb.js to pb_hooks/`, "err");
+          return;
+        }
+        const body = await r.text();
+        if (!r.ok) { log(`${job} failed (${r.status}): ${body.slice(0, 200)}`, "err"); return; }
+        let parsed;
+        try { parsed = JSON.parse(body); } catch { parsed = body; }
+        log(`${job} ✓ — ${typeof parsed === 'object' ? JSON.stringify(parsed).slice(0, 300) : parsed.slice(0, 300)}`, "ok");
+      } catch (e) { log(`${job} threw: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mOpsHealth() {
+    await withBusy(event?.target, "Pinging…", async () => {
+      try {
+        const r = await pbAuth("/api/ops/health");
+        if (r.status === 404) {
+          log("ops_routes.pb.js not deployed (404). Upload the file to pb_hooks/ via FTP.", "err");
+          return;
+        }
+        const body = await r.json();
+        log(`/api/ops/health ✓ — ${body.routes_available.length} routes live at ${body.timestamp}`, "ok");
+      } catch (e) { log(`Ping threw: ${e.message}`, "err"); }
+    });
+  }
+
+  // ─── Week-over-week banner ───────────────────────────
+  async function updateWowBanner() {
+    const banner = document.getElementById("wowBanner");
+    if (!banner) return;
+    try {
+      const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+      const twoWeek = new Date(Date.now() - 14 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+      const [thisWeek, lastWeek, newAnomalies] = await Promise.all([
+        pbCount("pbj_merchant_submissions", `created >= "${weekAgo}"`),
+        pbCount("pbj_merchant_submissions", `created >= "${twoWeek}" && created < "${weekAgo}"`),
+        pbCount("_anomaly_log", `detected_at >= "${weekAgo}" && resolved = false`),
+      ]);
+      const items = [];
+      if (thisWeek != null && lastWeek != null && lastWeek > 0) {
+        const pct = ((thisWeek - lastWeek) / lastWeek) * 100;
+        if (Math.abs(pct) >= 40) {
+          const klass = pct > 0 ? "up" : "down";
+          items.push(`<div class="wow-item ${klass}">Merchant submissions ${pct > 0 ? "up" : "down"} <strong>${Math.abs(pct).toFixed(0)}%</strong> vs. last week — ${thisWeek} this week, ${lastWeek} last week.</div>`);
+        }
+      }
+      if (newAnomalies && newAnomalies > 0) {
+        items.push(`<div class="wow-item crit"><strong>${newAnomalies}</strong> new unresolved anomal${newAnomalies === 1 ? 'y' : 'ies'} this week — check the Quality &amp; Security section.</div>`);
+      }
+      if (items.length === 0) {
+        banner.style.display = "none";
+        return;
+      }
+      banner.innerHTML = `<strong>Week-over-week signal</strong><br>${items.join("")}`;
+      banner.style.display = "block";
+    } catch {
+      banner.style.display = "none";
+    }
+  }
+
+  // ─── Ask Claude (clipboard + open tab) ─────────────────
+  // No server-side dependency — just scrapes the rendered dashboard
+  // DOM, turns every card into a bullet line, formats an analysis
+  // prompt, copies it to the clipboard, and opens claude.ai in a
+  // new tab. User pastes manually. No API key, no cost.
+  async function mAskClaude() {
+    await withBusy(event?.target, "Preparing…", async () => {
+      try {
+        // Walk the grid — each section-header groups the cards below it.
+        const grid = document.getElementById("grid");
+        const nodes = Array.from(grid.children);
+        const lines = [];
+        let section = "";
+        for (const n of nodes) {
+          if (n.classList?.contains("section-header")) {
+            section = n.textContent.trim();
+            lines.push(`\n### ${section}`);
+            continue;
+          }
+          if (n.classList?.contains("card")) {
+            const label = n.querySelector(".label")?.textContent.trim() || "";
+            const value = n.querySelector(".value")?.textContent.trim() || "";
+            const sub   = n.querySelector(".sub")?.textContent.trim() || "";
+            if (label || value) {
+              const subPart = sub ? `  — _${sub}_` : "";
+              lines.push(`- **${label}**: \`${value}\`${subPart}`);
+            }
+          }
+          if (n.classList?.contains("list-card")) {
+            const title = n.querySelector(".head span")?.textContent.trim() || "";
+            const items = Array.from(n.querySelectorAll("li")).slice(0, 10).map(li => {
+              const when = li.querySelector(".when")?.textContent.trim() || "";
+              const what = li.querySelector(".what")?.textContent.trim().replace(/\s+/g, ' ').slice(0, 180) || "";
+              return `  - ${when} — ${what}`;
+            });
+            const empty = n.querySelector(".empty")?.textContent.trim();
+            lines.push(`\n**${title}:**`);
+            if (items.length) lines.push(items.join("\n"));
+            else if (empty)   lines.push(`  - ${empty}`);
+          }
+        }
+        const question = document.getElementById("claudeQuestion")?.value?.trim() || "";
+        const prompt = `I'm looking at the live PocketBudJet Flywheel Dashboard for ${new Date().toLocaleString()}. Here's the current state:
+${lines.join("\n")}
+
+Context: PocketBudJet is a budgeting app with a crowd-sourced flywheel — users scan receipts, anonymized data feeds a shared PocketBase, server-side hooks aggregate into canonical merchants/employers/payees, and per-category price intelligence gets fed back to all users. HHH (Handy Horology Helper) and CVC (Curator's Vault) are sibling apps on the same PocketBase.
+
+${question
+  ? `My specific question: ${question}`
+  : `Please analyze:
+1. What's working well (flywheel signals that look healthy)?
+2. What's concerning (queue depths, anomalies, gaps)?
+3. What should I focus on this week?
+Keep it tight — 3-5 bullets per section.`}
+`;
+
+        // Copy to clipboard
+        let copied = false;
+        try {
+          await navigator.clipboard.writeText(prompt);
+          copied = true;
+        } catch (_) {
+          // Fallback — older browsers / insecure context
+          const ta = document.createElement("textarea");
+          ta.value = prompt;
+          ta.style.position = "fixed"; ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          try { copied = document.execCommand("copy"); } catch {}
+          ta.remove();
+        }
+
+        if (copied) {
+          log(`Prompt (${prompt.length} chars) copied to clipboard. Opening Claude…`, "ok");
+          // Open Claude in a new tab. claude.ai's /new spawns a fresh conversation.
+          window.open("https://claude.ai/new", "_blank", "noopener");
+        } else {
+          log(`Clipboard copy blocked by browser. Prompt printed below — select + copy manually.`, "err");
+          log(`<pre style="white-space:pre-wrap;margin-top:6px">${prompt.replace(/</g,"&lt;")}</pre>`, "info");
+        }
+      } catch (e) { log(`Ask Claude failed: ${e.message}`, "err"); }
+    });
+  }
+
+  async function mSiteTraffic() {
+    await withBusy(event?.target, "Building…", async () => {
+      try {
+        log("Streaming 7-day site visits for analysis…", "info");
+        const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().replace("T", " ").slice(0, 19);
+        const rows = await listAllRecords("_site_visits", `created >= "${weekAgo}"`);
+        // Group by day
+        const byDay = {};
+        const bySource = {};
+        const byPage = {};
+        const byReferrer = {};
+        const uniqueSessions = new Set();
+        for (const v of rows) {
+          const day = (v.created || "").slice(0, 10) || "unknown";
+          byDay[day] = (byDay[day] || 0) + 1;
+          bySource[v.source || "unknown"] = (bySource[v.source || "unknown"] || 0) + 1;
+          byPage[v.page || "/"] = (byPage[v.page || "/"] || 0) + 1;
+          if (v.referrer_host) byReferrer[v.referrer_host] = (byReferrer[v.referrer_host] || 0) + 1;
+          if (v.session_id) uniqueSessions.add(v.session_id);
+        }
+        const sortEntries = (obj) => Object.entries(obj).sort((a, b) => b[1] - a[1]);
+        const today = new Date().toISOString().slice(0, 10);
+        const md = `# josspatech.com — 7-day Site Traffic
+**Through ${today}**
+
+- **Total page loads:** ${rows.length}
+- **Unique sessions:** ${uniqueSessions.size}
+- **Tracked pages:** ${Object.keys(byPage).length}
+- **Distinct referrer domains:** ${Object.keys(byReferrer).length}
+
+## By day
+${sortEntries(byDay).sort((a, b) => a[0].localeCompare(b[0])).map(([d, c]) => `- ${d}: ${c}`).join("\n")}
+
+## By source
+${sortEntries(bySource).map(([s, c]) => `- ${s}: ${c}`).join("\n") || "- (no visits yet — install the tracker on josspatech.com)"}
+
+## Top pages
+${sortEntries(byPage).slice(0, 10).map(([p, c]) => `- \`${p}\` — ${c}`).join("\n")}
+
+## Top external referrers
+${sortEntries(byReferrer).slice(0, 10).map(([r, c]) => `- ${r} — ${c}`).join("\n") || "- (none recorded yet)"}
+
+Generated ${new Date().toISOString()}.
+`;
+        downloadFile(`site_traffic_${today}.md`, md, "text/markdown;charset=utf-8");
+        log(`Traffic report (${rows.length} visits) downloaded ✓`, "ok");
+      } catch (e) { log(`Report failed: ${e.message}`, "err"); }
+    });
+  }
   </script>
 </body>
 </html>

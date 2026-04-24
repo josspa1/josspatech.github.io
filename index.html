@@ -2706,5 +2706,46 @@ function toggleFT(b) {
 })();
 
 </script>
+
+<!-- ============================================================
+     Session 64 — Site visit tracker (writes to PocketBase
+     _site_visits). Categorizes referrer, anonymizes, ~1KB payload.
+     Feeds the Flywheel Dashboard's Site Traffic section.
+     ============================================================ -->
+<script>
+(function () {
+  try {
+    var PB = 'https://josspatech.pockethost.io';
+    var VISIT_COL = '_site_visits';
+    var sid = sessionStorage.getItem('pbj_visit_sid');
+    if (!sid) {
+      sid = (Math.random().toString(36).slice(2, 10)) + Date.now().toString(36);
+      sessionStorage.setItem('pbj_visit_sid', sid);
+    }
+    var ref = document.referrer || '';
+    var refHost = '';
+    try { refHost = ref ? new URL(ref).hostname : ''; } catch (e) {}
+    var source;
+    if (!refHost) source = 'direct';
+    else if (refHost === location.hostname) source = 'internal';
+    else if (/google|bing|duckduckgo|yahoo|ecosia|brave\.com|search\.|startpage/i.test(refHost)) source = 'search';
+    else if (/facebook|twitter|x\.com|instagram|linkedin|reddit|youtube|tiktok|pinterest|mastodon|threads/i.test(refHost)) source = 'social';
+    else source = 'external';
+    fetch(PB + '/api/collections/' + VISIT_COL + '/records', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        page: location.pathname + location.hash,
+        referrer_host: refHost.slice(0, 120),
+        referrer_raw:  ref.slice(0, 500),
+        user_agent:    (navigator.userAgent || '').slice(0, 300),
+        session_id:    sid,
+        source:        source,
+      }),
+      keepalive: true,
+    }).catch(function () {});
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
