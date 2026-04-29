@@ -7,13 +7,41 @@
        (AI training scrapers in particular) ignore robots.txt. These meta
        tags are the belt-and-suspenders: noindex prevents search indexing,
        noarchive prevents cached snapshots, nosnippet prevents excerpts,
-       noimageindex hides any inline SVG. -->
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="bingbot" content="noindex, nofollow">
-  <meta name="AI-crawler" content="noindex, nofollow">
-  <meta name="GPTBot" content="noindex, nofollow">
-  <meta name="referrer" content="no-referrer">
+       noimageindex hides any inline SVG. The login wall behind the page
+       is the third line of defense — even if a scraper fetches this URL,
+       all it sees is the login form, not the dashboard contents.
+
+       Order: generic robots → search engines → AI training bots → other.
+       Named individually so per-bot parsers hit an explicit directive
+       even when the bot ignores the generic "robots" tag. -->
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="DuckDuckBot"           content="noindex, nofollow">
+  <meta name="YandexBot"             content="noindex, nofollow">
+
+  <!-- AI training scrapers (search-indexing AND model-training) -->
+  <meta name="AI-crawler"            content="noindex, nofollow">
+  <meta name="GPTBot"                content="noindex, nofollow">
+  <meta name="ChatGPT-User"          content="noindex, nofollow">
+  <meta name="OAI-SearchBot"         content="noindex, nofollow">
+  <meta name="ClaudeBot"             content="noindex, nofollow">
+  <meta name="Claude-Web"            content="noindex, nofollow">
+  <meta name="anthropic-ai"          content="noindex, nofollow">
+  <meta name="Google-Extended"       content="noindex, nofollow">
+  <meta name="CCBot"                 content="noindex, nofollow">
+  <meta name="PerplexityBot"         content="noindex, nofollow">
+  <meta name="cohere-ai"             content="noindex, nofollow">
+  <meta name="Bytespider"            content="noindex, nofollow">
+  <meta name="Applebot-Extended"     content="noindex, nofollow">
+  <meta name="Amazonbot"             content="noindex, nofollow">
+  <meta name="Diffbot"               content="noindex, nofollow">
+  <meta name="omgilibot"             content="noindex, nofollow">
+  <meta name="FacebookBot"           content="noindex, nofollow">
+  <meta name="Meta-ExternalAgent"    content="noindex, nofollow">
+  <meta name="ImagesiftBot"          content="noindex, nofollow">
+
+  <meta name="referrer"              content="no-referrer">
   <title>JosspaTech — Flywheel Operations</title>
   <style>
     /* ─── PocketBudJet brand palette ────────────────────────
@@ -511,6 +539,386 @@
       background: var(--accent);
       border-radius: 3px;
     }
+    /* ─── Section explainers (descriptive paragraphs) ────────── */
+    .section-explainer {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin: 0 0 16px 0;
+    }
+    .section-explainer code {
+      background: var(--surface-alt);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+    .section-explainer a { color: var(--primary); text-decoration: underline; }
+    .section-explainer strong { color: var(--text); }
+
+    /* ─── App Versions table ─────────────────────────────────── */
+    #appVersions { margin-top: 32px; }
+    #appVersions h2 {
+      font-size: 18px; color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    #appVersionsTable {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    #appVersionsTable table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    #appVersionsTable th {
+      background: var(--surface-alt);
+      color: var(--text-dim);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 14px;
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border);
+    }
+    #appVersionsTable td {
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    #appVersionsTable tr:last-child td { border-bottom: 0; }
+    #appVersionsTable .v-app  { font-weight: 700; color: var(--primary); }
+    #appVersionsTable .v-mono { font-family: var(--mono); font-size: 12px; }
+    #appVersionsTable .v-dim  { color: var(--text-muted); font-style: italic; }
+    #appVersionsTable .v-status {
+      font-size: 11px; padding: 2px 8px; border-radius: 10px;
+      text-transform: uppercase; letter-spacing: 0.4px; font-weight: 600;
+      display: inline-block;
+    }
+    #appVersionsTable .v-status.live      { background: rgba(39,174,96,0.12);  color: var(--success); }
+    #appVersionsTable .v-status.review    { background: rgba(230,126,34,0.12); color: var(--warning); }
+    #appVersionsTable .v-status.rejected  { background: rgba(192,57,43,0.10);  color: var(--danger); }
+    #appVersionsTable .v-status.notship   { background: var(--surface-alt);    color: var(--text-muted); }
+    #appVersionsTable .v-status.testflight{ background: rgba(26,79,122,0.10);  color: var(--primary); }
+
+    /* ─── Quick Actions ──────────────────────────────────────── */
+    #quickActions { margin-top: 32px; }
+    #quickActions h2 {
+      font-size: 18px; color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    #qaLog { font-family: var(--mono); }
+
+    /* ─── Cron Health ────────────────────────────────────────── */
+    #cronHealth { margin-top: 32px; }
+    #cronHealth h2 {
+      font-size: 18px; color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    .cron-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 14px;
+    }
+    .cron-card.green  { border-left: 4px solid var(--success); }
+    .cron-card.yellow { border-left: 4px solid var(--warning); }
+    .cron-card.red    { border-left: 4px solid var(--danger); }
+    .cron-card.unknown{ border-left: 4px solid var(--text-muted); }
+    .cron-name { font-weight: 700; color: var(--primary); flex: 1; }
+    .cron-last { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+
+    /* ─── Quarantine Watch ───────────────────────────────────── */
+    #quarantineWatch { margin-top: 32px; }
+    #quarantineWatch h2 {
+      font-size: 18px; color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    .qw-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 14px;
+    }
+    .qw-card.green  { border-left: 4px solid var(--success); }
+    .qw-card.yellow { border-left: 4px solid var(--warning); background: var(--disclaimer); }
+    .qw-card.red    { border-left: 4px solid var(--danger);  background: rgba(192,57,43,0.04); }
+    .qw-count {
+      font-size: 32px; font-weight: 900; font-variant-numeric: tabular-nums;
+      color: var(--primary);
+    }
+    .qw-count.warn { color: var(--warning); }
+    .qw-count.crit { color: var(--danger); }
+    .qw-label { color: var(--text-dim); font-size: 13px; }
+
+    /* ─── Recent Commits ─────────────────────────────────────── */
+    #recentCommits { margin-top: 32px; }
+    #recentCommits h2 {
+      font-size: 18px; color: var(--primary);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+    #recentCommitsGrid {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+      overflow: hidden;
+    }
+    .commit-row {
+      display: grid;
+      grid-template-columns: 90px 1fr 110px;
+      gap: 12px;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      align-items: center;
+    }
+    .commit-row:last-child { border-bottom: 0; }
+    .commit-row:hover { background: var(--surface-alt); }
+    .commit-sha {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .commit-msg {
+      color: var(--text);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .commit-msg a { color: var(--text); text-decoration: none; }
+    .commit-msg a:hover { color: var(--primary); text-decoration: underline; }
+    .commit-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── Quick Links panel ─────────────────────────────────── */
+    #quicklinks {
+      margin-top: 32px;
+    }
+    #quicklinks h2 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    #quickLinksGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .ql-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    .ql-group-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ql-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      margin: 0 -4px;
+      border-radius: 5px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      transition: background 0.12s;
+    }
+    .ql-link:hover {
+      background: var(--surface-alt);
+    }
+    .ql-link .ql-arrow {
+      color: var(--text-muted);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .ql-link:hover .ql-arrow {
+      color: var(--primary);
+    }
+    .ql-link .ql-label {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ─── Services & Status panel ─────────────────────────── */
+    #services {
+      margin-top: 32px;
+    }
+    #services h2 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    #servicesGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 14px;
+    }
+    .svc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .svc-card.ok    { border-left: 4px solid var(--success); }
+    .svc-card.warn  { border-left: 4px solid var(--warning); }
+    .svc-card.crit  { border-left: 4px solid var(--danger); }
+    .svc-card.todo  { border-left: 4px solid var(--accent); }
+    .svc-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 8px;
+    }
+    .svc-name {
+      font-size: 14px; font-weight: 700;
+      color: var(--text);
+      flex: 1;
+    }
+    .svc-light {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .svc-light .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--text-muted);
+    }
+    .svc-light.green  { background: rgba(39,174,96,0.12);  color: var(--success); }
+    .svc-light.green .dot { background: var(--success); }
+    .svc-light.red    { background: rgba(192,57,43,0.10);  color: var(--danger); }
+    .svc-light.red .dot { background: var(--danger); }
+    .svc-light.yellow { background: rgba(230,126,34,0.12); color: var(--warning); }
+    .svc-light.yellow .dot { background: var(--warning); }
+    .svc-light.checking { background: var(--surface-alt); color: var(--text-muted); }
+    .svc-light.checking .dot { background: var(--text-muted); animation: svcPulse 1.2s infinite; }
+    .svc-light.unknown { background: var(--surface-alt); color: var(--text-muted); }
+    @keyframes svcPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.85); }
+    }
+    .svc-tier {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--surface-alt);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .svc-tier.free { background: rgba(39,174,96,0.10); color: var(--success); }
+    .svc-tier.paid { background: rgba(240,192,64,0.20); color: var(--disclaimer-txt); }
+    .svc-tier.todo { background: rgba(192,57,43,0.10); color: var(--danger); }
+    .svc-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+    .svc-quota {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      line-height: 1.5;
+    }
+    .svc-quota strong { color: var(--text-dim); }
+    /* "used / limit" meter — appears next to the status light when a
+       probe returns numeric usage data. <60% green, 60–85% yellow,
+       >85% red. Numeric, monospace, easy to scan at a glance. */
+    .svc-meter {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--surface-alt);
+      color: var(--text-dim);
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+    .svc-meter.green  { background: rgba(39,174,96,0.10);  color: var(--success); }
+    .svc-meter.yellow { background: rgba(230,126,34,0.12); color: var(--warning); }
+    .svc-meter.red    { background: rgba(192,57,43,0.10);  color: var(--danger); }
+    .svc-meter .pct {
+      opacity: 0.65;
+      font-weight: 500;
+      margin-left: 4px;
+      font-size: 11px;
+    }
+    .svc-meter-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      align-items: center;
+      margin-top: 2px;
+    }
+    .svc-links {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 4px;
+    }
+    .svc-links a {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 10px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .svc-links a:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .svc-links a.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .svc-links a.primary:hover { background: var(--primary-dark); }
+
     #maintenance .m-group {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -673,6 +1081,148 @@
     <div id="wowBanner" style="display:none"></div>
 
     <main id="grid"></main>
+
+    <!-- ─── App Version Snapshot ──────────────────────────────
+         At-a-glance view of which build of each app is currently
+         live on each store. Static data — update manually when you
+         ship. Saves the round-trip to App Store Connect + Play
+         Console + EAS just to answer "what version is live?". -->
+    <section id="appVersions">
+      <h2>App Version Snapshot</h2>
+      <p class="section-explainer">
+        What's currently shipped on each store. <strong>Update the table when you ship</strong>
+        — there's no automatic source of truth that's free + auth-less, so this is hand-maintained.
+        The <em>versionCode</em> matches the `versionCode` in `android/app/build.gradle` and
+        Apple's auto-incremented build number. <strong>"Last submitted"</strong> is the
+        date you last tapped Submit, not when it went live. <strong>"Status"</strong> is
+        what the store will tell users (Live / In Review / Rejected / Not Shipped).
+      </p>
+      <div id="appVersionsTable"></div>
+    </section>
+
+    <!-- ─── Quick Actions Bar ─────────────────────────────────
+         One-click ops buttons for common admin tasks. Use these
+         when you'd otherwise drop to PowerShell or SSH. Each
+         button shows its result inline below. -->
+    <section id="quickActions">
+      <h2>Quick Actions</h2>
+      <p class="section-explainer">
+        Single-click admin tasks. Each button hits an endpoint and shows the result inline.
+        Use the green/red <strong>Force-refresh status checks</strong> when you've made
+        a change and want immediate feedback rather than waiting on the next page reload.
+      </p>
+      <div class="m-row" id="quickActionsRow">
+        <button class="m-btn" onclick="refreshServiceStatus(); qaLog('Service status refreshed')">Force-refresh status checks</button>
+        <button class="m-btn" onclick="qaPingWorker()">Ping Worker /health</button>
+        <button class="m-btn" onclick="qaPingPocketBase()">Ping PocketBase /api/health</button>
+        <button class="m-btn" onclick="qaCheckQuotas()">Re-fetch /health/quotas</button>
+      </div>
+      <div class="m-row" id="quickActionsTestsRow" style="margin-top: 8px;">
+        <span style="font-size: 11px; color: var(--text-muted); align-self: center; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Endpoint smoke tests:</span>
+        <button class="m-btn accent" onclick="qaSampleVision()">PBJ — /vision/receipt</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('watch', 'Rolex Submariner Date 16610 stainless steel oyster bracelet')">HHH — /identify/watch</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('coin', '1909-S VDB Lincoln Wheat Cent United States')">CVC — /identify/coin</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('card', '1986 Fleer Michael Jordan rookie card #57')">CVC — /identify/card</button>
+      </div>
+      <pre id="qaLog" style="margin-top: 12px; max-height: 240px; overflow: auto; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: pre-wrap; display: none;"></pre>
+    </section>
+
+    <!-- ─── Quick Links Panel ─────────────────────────────────
+         Flat bookmarks-style grid of every URL Joe needs to
+         administer the three apps. Grouped by category for fast
+         scanning. Separate from the Services & Status panel
+         because this one is just navigation — no probing, no
+         capacity data, just one-click access. -->
+    <section id="quicklinks">
+      <h2>Quick Links</h2>
+      <div id="quickLinksGrid"></div>
+    </section>
+
+    <!-- ─── External Services & Status Panel ──────────────────
+         Operational visibility into every third-party service the
+         apps depend on. Green/red dots auto-probe when the page
+         loads (or when the Refresh button is clicked) for any
+         endpoint that's CORS-permissive from the browser. Services
+         that block direct browser probes show a "Open dashboard"
+         link as the manual check path.
+         ──────────────────────────────────────────────────────── -->
+    <section id="services">
+      <h2>External Services &amp; Status</h2>
+      <div class="m-row" style="margin-bottom: 12px;">
+        <button class="m-btn" onclick="refreshServiceStatus()">Refresh status checks</button>
+        <span id="svcLastChecked" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+
+      <!-- Cards built from the SERVICES array in JS so adding a new
+           service is a one-line change instead of an HTML edit. -->
+      <div id="servicesGrid"></div>
+    </section>
+
+    <!-- ─── Cron Health Panel ─────────────────────────────────
+         Verifies the hourly aggregation cron in PocketBase is
+         actually firing. Reads a heartbeat record that the
+         aggregation hook updates on every run. -->
+    <section id="cronHealth">
+      <h2>Cron Health</h2>
+      <p class="section-explainer">
+        The <strong>aggregation cron</strong> is a scheduled task inside PocketBase that runs every hour
+        on the top of the hour. It drains the merchant / paycheck / bill submission queues into
+        the consensus tables, weights submissions by confidence, applies user-merge alias
+        promotions, and copies vendor phone/domain onto canonical entities. <strong>If the cron
+        stops firing, crowd-data accumulates in the queue but never aggregates</strong> — the
+        seed library stops growing, alias promotions stall, and the flywheel stalls.
+        <br><br>
+        This card reads a heartbeat that the hook writes on every run. <strong style="color: var(--success);">Green</strong>
+        if the last run was within 90 minutes (cron is healthy). <strong style="color: var(--warning);">Yellow</strong>
+        90-180 min (might just be one missed cycle). <strong style="color: var(--danger);">Red</strong> if &gt;180 min
+        (cron is broken — investigate). <strong style="color: var(--text-muted);">Gray</strong> means the heartbeat
+        collection doesn't exist yet — create <code>_cron_heartbeat</code> in PocketBase admin
+        with fields <code>name</code> (text) and <code>last_run</code> (date), and the
+        aggregation hook will start writing to it on the next run.
+      </p>
+      <div id="cronHealthGrid"></div>
+    </section>
+
+    <!-- ─── Quarantine Watch Panel ────────────────────────────
+         Surfaces records the aggregation hook flagged as PII or
+         otherwise weird. They sit in _quarantine_submissions
+         awaiting manual review. -->
+    <section id="quarantineWatch">
+      <h2>Quarantine Watch</h2>
+      <p class="section-explainer">
+        When the aggregation hook scans an incoming submission and detects something that
+        looks like personally identifiable information (SSN, credit card, email, phone, routing
+        number, account number), it routes the submission to <code>_quarantine_submissions</code>
+        instead of feeding it into the consensus tables. <strong>Privacy-by-default:</strong>
+        we'd rather false-positive a usable data point than leak PII into a public-read
+        collection. <strong style="color: var(--success);">Green</strong> at 0 records.
+        <strong style="color: var(--warning);">Yellow</strong> at 1–10 records (review when convenient).
+        <strong style="color: var(--danger);">Red</strong> at &gt;10 (something's misclassifying — investigate the
+        hook's PII patterns and check whether legitimate user data is getting trapped).
+      </p>
+      <div id="quarantineWatchGrid"></div>
+    </section>
+
+    <!-- ─── Recent Commits Panel ──────────────────────────────
+         Pulls public commit history from GitHub for the website
+         repo. App-source repos are private; can't be queried
+         without a personal access token. Last 5 commits shown. -->
+    <section id="recentCommits">
+      <h2>Recent Commits</h2>
+      <p class="section-explainer">
+        Last commits across <strong>website + app-source repos</strong> via GitHub's API. The website
+        repo (<code>josspatech.github.io</code>) is public; commits are read without auth.
+        App-source repos (PBJ / HHH / CVC) are private; commits require a fine-grained
+        personal access token. <strong>To include the private repos:</strong>
+        generate a PAT at
+        <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener noreferrer">github.com/settings/personal-access-tokens</a>
+        with read-only <em>Contents</em> permission on the three repos, then in the browser
+        console (F12 → Console) run <code>localStorage.setItem("gh_pat", "github_pat_…")</code>
+        and reload the page. The token stays per-browser — never committed to source.
+        Until then, only website commits show; private repos are skipped silently.
+      </p>
+      <div id="recentCommitsGrid"></div>
+    </section>
 
     <!-- ─── Maintenance & Reports Panel ───────────────────── -->
     <section id="maintenance">
@@ -2524,6 +3074,872 @@ Generated ${new Date().toISOString()}.
       } catch (e) { log(`Report failed: ${e.message}`, "err"); }
     });
   }
+
+  /* ─── App Version Snapshot — manually maintained ─────────────
+     Update the rows when you ship. There's no free, auth-less
+     source of truth from Apple/Google for this; both stores
+     gate the relevant APIs behind App Store Connect Auth or Play
+     Console service-account keys. Keeping it manual is acceptable
+     because the act of submitting is already a manual gesture.
+     ──────────────────────────────────────────────────────────── */
+  const APP_VERSIONS = [
+    {
+      app: "PocketBudJet (PBJ)",
+      ios:    { version: "1.0.0", build: "104", status: "testflight" },   // Update on next iOS submission
+      android:{ version: "1.0.0", build: "103", status: "testflight" },   // Update on next AAB upload
+      lastSubmitted: "2026-04-27",
+      bundleId: "com.josspatech.pocketbudjet",
+      // Update with the Apple-assigned numeric App ID once the App Store
+      // listing is approved (App Store Connect → App Information → Apple ID).
+      // Until then, leave null — the dashboard renders a placeholder.
+      appStoreId: null,
+      notes: "Build 105 pending — receipt scan resilience + web companion magic-link + country grouping"
+    },
+    {
+      app: "Handy Horology Helper (HHH)",
+      ios:    { version: null,   build: null,  status: "notship" },
+      android:{ version: null,   build: null,  status: "notship" },
+      lastSubmitted: null,
+      bundleId: "com.josspatech.handyhorology",   // Verify against actual bundle ID
+      appStoreId: null,
+      notes: "AI calls migrated to Worker (Session 67). Awaiting first build."
+    },
+    {
+      app: "Curator's Vault: Classics (CVC)",
+      ios:    { version: null,   build: null,  status: "notship" },
+      android:{ version: null,   build: null,  status: "notship" },
+      lastSubmitted: null,
+      bundleId: "com.josspatech.curatorsvault",   // Verify against actual bundle ID
+      appStoreId: null,
+      notes: "First-ever build owed — SetCompletion, GradingGuide, cert-verify, photo-studio camera all in source."
+    },
+  ];
+
+  function renderAppVersions() {
+    const root = document.getElementById("appVersionsTable");
+    if (!root) return;
+    const statusLabel = (s) => ({
+      live: "Live", review: "In Review", rejected: "Rejected",
+      notship: "Not Shipped", testflight: "TestFlight / Closed Testing",
+    }[s] || s);
+    const cell = (s) => s.version
+      ? `<span class="v-mono">${s.version} (${s.build})</span> <span class="v-status ${s.status}">${statusLabel(s.status)}</span>`
+      : `<span class="v-dim">—</span>`;
+    // Public-listings column — Play URL is constructible from the bundle ID
+    // (works the moment the listing goes live), so we link it any time the
+    // bundle ID is known. App Store URL needs the Apple-assigned numeric ID
+    // which is only known post-approval — placeholder dash until then.
+    const listings = (a) => {
+      const playUrl = a.bundleId ? `https://play.google.com/store/apps/details?id=${a.bundleId}` : null;
+      const appUrl  = a.appStoreId ? `https://apps.apple.com/us/app/id${a.appStoreId}` : null;
+      const ios     = appUrl  ? `<a href="${appUrl}"  target="_blank" rel="noopener noreferrer" style="text-decoration:none">🍎 App Store ↗</a>` : `<span class="v-dim">🍎 —</span>`;
+      const android = playUrl ? `<a href="${playUrl}" target="_blank" rel="noopener noreferrer" style="text-decoration:none">🤖 Play ↗</a>`     : `<span class="v-dim">🤖 —</span>`;
+      return `<div style="display:flex; gap:10px; flex-direction:column; font-size:11px;">${ios}<br>${android}</div>`;
+    };
+    root.innerHTML = `
+      <table>
+        <thead><tr>
+          <th>App</th><th>iOS</th><th>Android</th><th>Last Submitted</th><th>Public Listings</th><th>Notes</th>
+        </tr></thead>
+        <tbody>
+          ${APP_VERSIONS.map(a => `
+            <tr>
+              <td class="v-app">${a.app}</td>
+              <td>${cell(a.ios)}</td>
+              <td>${cell(a.android)}</td>
+              <td class="v-mono">${a.lastSubmitted || '<span class="v-dim">—</span>'}</td>
+              <td>${listings(a)}</td>
+              <td style="color: var(--text-dim); font-size: 12px;">${a.notes}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>`;
+  }
+
+  /* ─── Quick Actions ──────────────────────────────────────────
+     Buttons that fire admin tasks. Output streams into #qaLog.
+     Each function appends a timestamped line to the log. */
+  function qaLog(msg, level) {
+    const log = document.getElementById("qaLog");
+    if (!log) return;
+    log.style.display = "block";
+    const t = new Date().toLocaleTimeString();
+    const color = level === "err" ? "var(--danger)"
+                : level === "ok"  ? "var(--success)"
+                : "var(--text-dim)";
+    log.innerHTML += `<div style="color:${color}">[${t}] ${msg}</div>`;
+    log.scrollTop = log.scrollHeight;
+  }
+
+  async function qaPingWorker() {
+    qaLog("Pinging Worker /...");
+    try {
+      const t0 = performance.now();
+      const r = await fetch(WORKER_BASE + "/", { cache: "no-store", signal: AbortSignal.timeout(8000) });
+      const ms = (performance.now() - t0).toFixed(0);
+      const txt = await r.text();
+      const j = (() => { try { return JSON.parse(txt); } catch { return null; } })();
+      if (j) qaLog(`Worker OK (${ms}ms) — endpoints: ${(j.endpoints || []).join(", ")}`, "ok");
+      else   qaLog(`Worker responded ${r.status} (${ms}ms): ${txt.slice(0, 200)}`, r.ok ? "ok" : "err");
+    } catch (e) { qaLog(`Worker ping failed: ${e.message}`, "err"); }
+  }
+
+  async function qaPingPocketBase() {
+    qaLog("Pinging PocketBase /api/health...");
+    try {
+      const t0 = performance.now();
+      const r = await fetch("https://josspatech.pockethost.io/api/health", { cache: "no-store", signal: AbortSignal.timeout(8000) });
+      const ms = (performance.now() - t0).toFixed(0);
+      const j = await r.json();
+      qaLog(`PocketBase ${j.code === 200 ? "OK" : "?"} (${ms}ms) — ${j.message || JSON.stringify(j)}`, j.code === 200 ? "ok" : "err");
+    } catch (e) { qaLog(`PocketBase ping failed: ${e.message}`, "err"); }
+  }
+
+  async function qaCheckQuotas() {
+    qaLog("Re-fetching /health/quotas...");
+    try {
+      const r = await fetch(WORKER_BASE + "/health/quotas", { cache: "no-store", signal: AbortSignal.timeout(8000) });
+      if (!r.ok) {
+        qaLog(`/health/quotas returned HTTP ${r.status} — endpoint may not be deployed yet`, "err");
+        return;
+      }
+      const j = await r.json();
+      quotaCache = j;
+      qaLog(`/health/quotas OK — ${Object.keys(j).length} services tracked: ${Object.keys(j).join(", ")}`, "ok");
+      renderServices({}); // re-render the Services panel with the new data
+    } catch (e) { qaLog(`/health/quotas failed: ${e.message}`, "err"); }
+  }
+
+  async function qaTestIdentify(category, description) {
+    qaLog(`Testing /identify/${category} with description: "${description}"...`);
+    try {
+      const t0 = performance.now();
+      const r = await fetch(WORKER_BASE + `/identify/${category}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description }),
+        signal: AbortSignal.timeout(45000),
+      });
+      const ms = (performance.now() - t0).toFixed(0);
+      if (r.status === 404) {
+        qaLog(`/identify/${category} returned 404 (${ms}ms) — endpoint not deployed yet. Run "npm run deploy" from C:\\PBJ\\cloudflare-worker`, "err");
+        return;
+      }
+      if (!r.ok) {
+        qaLog(`/identify/${category} returned HTTP ${r.status} (${ms}ms)`, "err");
+        return;
+      }
+      const j = await r.json();
+      const summary = j.success
+        ? `success — brand=${j.brand || "?"}, model=${j.model || "?"}, confidence=${j.confidence != null ? (j.confidence * 100).toFixed(0) + "%" : "?"}`
+        : `success=false (${j.error || "model returned no usable identification"})`;
+      qaLog(`/identify/${category} responded in ${ms}ms — ${summary}`, "ok");
+    } catch (e) { qaLog(`/identify/${category} failed: ${e.message}`, "err"); }
+  }
+
+  async function qaSampleVision() {
+    // Sample image: a 64x64 white JPEG (~600 bytes base64). Doesn't
+    // contain a real receipt — just verifies the endpoint accepts
+    // a payload and routes through Gemini Vision. Vision will say
+    // "no receipt found" but should return success: false cleanly.
+    qaLog("Testing /vision/receipt with a 64x64 placeholder image...");
+    try {
+      // Generate a tiny solid-color JPEG via canvas → dataURL → base64
+      const c = document.createElement("canvas");
+      c.width = 64; c.height = 64;
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#FFFFFF"; ctx.fillRect(0, 0, 64, 64);
+      ctx.fillStyle = "#000000"; ctx.font = "10px sans-serif";
+      ctx.fillText("test", 4, 36);
+      const dataUrl = c.toDataURL("image/jpeg", 0.7);
+      const b64 = dataUrl.split(",")[1];
+      const t0 = performance.now();
+      const r = await fetch(WORKER_BASE + "/vision/receipt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ image: b64 }),
+        signal: AbortSignal.timeout(45000),
+      });
+      const ms = (performance.now() - t0).toFixed(0);
+      if (!r.ok) { qaLog(`/vision/receipt returned HTTP ${r.status} (${ms}ms)`, "err"); return; }
+      const j = await r.json();
+      const summary = j.success
+        ? `parsed something (merchant=${j.merchant || "?"}, total=${j.total || "?"})`
+        : `success=false (${j.error || "no fields extractable — expected for a blank image"})`;
+      qaLog(`/vision/receipt responded in ${ms}ms — ${summary}`, "ok");
+    } catch (e) { qaLog(`/vision/receipt failed: ${e.message}`, "err"); }
+  }
+
+  /* ─── Cron Health — read a heartbeat written by the hook ─────
+     The aggregation hook writes to a `_cron_heartbeat` collection
+     in PocketBase on every run. This card polls that collection
+     and computes how recently each cron ticked. Honors the user
+     having authenticated against PocketBase already (the existing
+     dashboard's login flow stores a token in localStorage). */
+  const CRON_HEARTBEATS_TO_TRACK = [
+    { name: "aggregate_submissions", description: "Aggregation cron (hourly)" },
+    { name: "retention",             description: "Retention cleanup (daily)" },
+    { name: "anomaly_detection",     description: "Anomaly scan (hourly)" },
+  ];
+
+  function cronStateFromAge(minutes, expectedHourly) {
+    if (minutes == null) return "unknown";
+    const limit = expectedHourly ? 90 : 36 * 60; // hourly: 90 min OK, daily: 36 hrs OK
+    if (minutes < limit)             return "green";
+    if (minutes < limit * 2)         return "yellow";
+    return "red";
+  }
+
+  async function loadCronHealth() {
+    const root = document.getElementById("cronHealthGrid");
+    if (!root) return;
+    root.innerHTML = `<div class="cron-card unknown"><div class="cron-name">Loading…</div></div>`;
+
+    const token = localStorage.getItem("pb_admin_token") || "";
+    let rows = [];
+    let collectionMissing = false;
+    try {
+      const r = await fetch("https://josspatech.pockethost.io/api/collections/_cron_heartbeat/records?perPage=50&sort=-last_run", {
+        headers: token ? { "Authorization": token } : {},
+        signal: AbortSignal.timeout(8000),
+      });
+      if (r.status === 404) {
+        collectionMissing = true;
+      } else if (!r.ok) {
+        // Likely 401/403 — user not logged in OR collection access-rules need ADMIN
+        rows = [];
+      } else {
+        const j = await r.json();
+        rows = j.items || [];
+      }
+    } catch { /* network error → empty */ }
+
+    if (collectionMissing) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name">Collection <code>_cron_heartbeat</code> not created yet</div>
+            <div class="cron-last">In PocketBase admin: New collection → name <code>_cron_heartbeat</code> → fields: <code>name</code> (text, unique) + <code>last_run</code> (date). The aggregation hook will start writing on its next run.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    // Build cards: one per tracked cron name, plus "ad-hoc" rows for any
+    // unrecognized name found in the heartbeat collection.
+    const byName = Object.fromEntries(rows.map(r => [r.name, r]));
+    const cards = CRON_HEARTBEATS_TO_TRACK.map(c => {
+      const row = byName[c.name];
+      const lastRun = row?.last_run ? new Date(row.last_run) : null;
+      const minutes = lastRun ? (Date.now() - lastRun.getTime()) / 60000 : null;
+      const expectedHourly = c.name === "aggregate_submissions" || c.name === "anomaly_detection";
+      const state = cronStateFromAge(minutes, expectedHourly);
+      const stateLabel = state === "green" ? "Healthy"
+                       : state === "yellow" ? "Possibly stale"
+                       : state === "red" ? "Stalled"
+                       : "No heartbeat yet";
+      const timeStr = lastRun
+        ? `Last: ${lastRun.toLocaleString()} (${minutes < 60 ? `${minutes.toFixed(0)} min` : `${(minutes/60).toFixed(1)} hr`} ago) — ${stateLabel}`
+        : `Never — ${stateLabel}`;
+      return `
+        <div class="cron-card ${state}" style="margin-bottom: 10px;">
+          <div>
+            <div class="cron-name">${c.description} — <code>${c.name}</code></div>
+            <div class="cron-last">${timeStr}</div>
+          </div>
+        </div>`;
+    });
+    root.innerHTML = cards.join("");
+  }
+
+  /* ─── Quarantine Watch — count of PII-flagged submissions ──── */
+  async function loadQuarantineWatch() {
+    const root = document.getElementById("quarantineWatchGrid");
+    if (!root) return;
+    root.innerHTML = `<div class="qw-card"><div class="qw-label">Loading…</div></div>`;
+
+    const token = localStorage.getItem("pb_admin_token") || "";
+    try {
+      const r = await fetch("https://josspatech.pockethost.io/api/collections/_quarantine_submissions/records?perPage=1", {
+        headers: token ? { "Authorization": token } : {},
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!r.ok) {
+        root.innerHTML = `<div class="qw-card"><div class="qw-label">Couldn't read collection (HTTP ${r.status}). Are you logged in to PocketBase admin?</div></div>`;
+        return;
+      }
+      const j = await r.json();
+      const count = j.totalItems || 0;
+      const cls = count === 0 ? "green" : count <= 10 ? "yellow" : "red";
+      const countCls = count === 0 ? "" : count <= 10 ? "warn" : "crit";
+      const advice = count === 0
+        ? "No PII-flagged submissions. The aggregation hook's privacy guard is doing its job; nothing leaked into public collections."
+        : count <= 10
+          ? `${count} record${count === 1 ? "" : "s"} flagged for PII. Open the collection in PocketBase admin → review whether each is genuinely PII or a false-positive worth tuning the regex for.`
+          : `${count} records flagged. Either users are submitting a lot of PII (concerning) or the hook's PII patterns are too aggressive (also concerning). Investigate.`;
+      root.innerHTML = `
+        <div class="qw-card ${cls}">
+          <div class="qw-count ${countCls}">${count}</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Quarantine submissions awaiting review</div>
+            <div class="qw-label">${advice}</div>
+          </div>
+          <a class="m-btn" style="text-decoration: none; color: #fff; padding: 8px 14px;" href="https://josspatech.pockethost.io/_/#/collections?collection=_quarantine_submissions" target="_blank" rel="noopener noreferrer">Open in admin ↗</a>
+        </div>`;
+    } catch (e) {
+      root.innerHTML = `<div class="qw-card"><div class="qw-label">Network error: ${e.message}</div></div>`;
+    }
+  }
+
+  /* ─── Recent Commits — public + private repos when PAT set ────
+     The website repo is public; commits are read without auth.
+     App-source repos are private; reading their commits requires
+     a fine-grained PAT with read-only "Contents" access on the
+     specific repos. The PAT is stored in localStorage under the
+     key `gh_pat` — set it once via:
+        localStorage.setItem("gh_pat", "github_pat_xxxxxxxxxx")
+     in the browser console. The token never gets committed to
+     source because localStorage is per-browser.
+     ──────────────────────────────────────────────────────────── */
+  const GITHUB_REPOS = [
+    // Public repo — always queried, no auth needed.
+    { repo: "josspatech/josspatech.github.io", label: "Website",       isPrivate: false },
+    // Private repos — only queried when a PAT is in localStorage.
+    // Repo paths are placeholders; update if your repo names differ.
+    { repo: "josspatech/PocketBudJet",         label: "PBJ source",    isPrivate: true },
+    { repo: "josspatech/HandyHorology",        label: "HHH source",    isPrivate: true },
+    { repo: "josspatech/CuratorsVault",        label: "CVC source",    isPrivate: true },
+  ];
+
+  async function loadRecentCommits() {
+    const root = document.getElementById("recentCommitsGrid");
+    if (!root) return;
+    root.innerHTML = `<div class="commit-row"><div class="commit-sha">…</div><div class="commit-msg">Loading…</div><div class="commit-date"></div></div>`;
+
+    const pat = (() => { try { return localStorage.getItem("gh_pat") || ""; } catch { return ""; } })();
+    const headers = { "Accept": "application/vnd.github+json" };
+    if (pat) headers["Authorization"] = `Bearer ${pat}`;
+
+    // Walk repos in order. Skip private ones if no PAT. Build a flat
+    // list of {repo, label, commit} entries, take the most recent
+    // 8 across all repos.
+    const all = [];
+    let firstError = null;
+    for (const r of GITHUB_REPOS) {
+      if (r.isPrivate && !pat) continue;
+      try {
+        const resp = await fetch(`https://api.github.com/repos/${r.repo}/commits?per_page=3`, {
+          headers, cache: "no-store", signal: AbortSignal.timeout(8000),
+        });
+        if (!resp.ok) {
+          if (!firstError) firstError = `${r.label} returned HTTP ${resp.status}${resp.status === 404 ? " (repo not found or PAT lacks access)" : ""}`;
+          continue;
+        }
+        const commits = await resp.json();
+        for (const c of commits) all.push({ repo: r.label, ...c });
+      } catch (e) {
+        if (!firstError) firstError = `${r.label}: ${e.message}`;
+      }
+    }
+    // Sort newest first across all repos and slice the top 8.
+    all.sort((a, b) => {
+      const ad = new Date(a.commit?.author?.date || 0).getTime();
+      const bd = new Date(b.commit?.author?.date || 0).getTime();
+      return bd - ad;
+    });
+    const top = all.slice(0, 8);
+
+    if (top.length === 0) {
+      const msg = pat
+        ? (firstError || "No commits returned from any repo.")
+        : "No PAT set; only the public website repo is queried. To include PBJ/HHH/CVC source repos, run in the browser console: <code>localStorage.setItem(\"gh_pat\", \"github_pat_…\")</code> with a fine-grained token scoped to read-only Contents on those repos.";
+      root.innerHTML = `<div class="commit-row"><div class="commit-sha"></div><div class="commit-msg">${msg}</div><div class="commit-date"></div></div>`;
+      return;
+    }
+
+    root.innerHTML = top.map(c => {
+      const sha = c.sha?.slice(0, 7) || "—";
+      const msg = (c.commit?.message || "").split("\n")[0];
+      const url = c.html_url || "#";
+      const dateStr = c.commit?.author?.date
+        ? new Date(c.commit.author.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "2-digit" })
+        : "";
+      return `
+        <div class="commit-row" style="grid-template-columns: 80px 90px 1fr 90px;">
+          <div class="commit-sha">${sha}</div>
+          <div class="commit-sha" style="color: var(--primary); font-weight: 700;">${c.repo}</div>
+          <div class="commit-msg"><a href="${url}" target="_blank" rel="noopener noreferrer">${msg.replace(/[<>]/g, "")}</a></div>
+          <div class="commit-date">${dateStr}</div>
+        </div>`;
+    }).join("");
+
+    if (!pat) {
+      root.innerHTML += `<div class="commit-row" style="grid-template-columns: 1fr; padding: 8px 14px;"><div class="commit-msg" style="color: var(--text-muted); font-size: 11px; font-style: italic;">PBJ / HHH / CVC source repos hidden — set <code>gh_pat</code> in localStorage to include them.</div></div>`;
+    }
+  }
+
+  /* ─── Quick Links — flat bookmarks of every admin URL ─────────
+     Grouped by category. Each group becomes a card; each link
+     becomes a row. Edit this array when a service is added or
+     replaced; the panel re-renders automatically. */
+  const QUICK_LINKS = [
+    {
+      group: "App stores & dev portals",
+      links: [
+        { label: "Apple App Store Connect",     url: "https://appstoreconnect.apple.com/" },
+        { label: "Apple Developer Account",     url: "https://developer.apple.com/account/" },
+        { label: "Apple Developer Members",     url: "https://developer.apple.com/membercenter/" },
+        { label: "Google Play Console",         url: "https://play.google.com/console/" },
+        { label: "Google Play — Closed testing", url: "https://play.google.com/console/u/0/developers/closed-testing" },
+        { label: "BetaFamily (Play 12-tester gate)", url: "https://betafamily.com/" },
+        { label: "TestFlight (Apple beta)",      url: "https://testflight.apple.com/" },
+      ],
+    },
+    {
+      group: "Build & deploy",
+      links: [
+        { label: "Expo / EAS dashboard",         url: "https://expo.dev/" },
+        { label: "EAS — projects",               url: "https://expo.dev/accounts/josspatech/projects" },
+        { label: "EAS — billing",                url: "https://expo.dev/accounts/josspatech/settings/billing" },
+        { label: "Cloudflare dashboard",         url: "https://dash.cloudflare.com/" },
+        { label: "Cloudflare — Workers",         url: "https://dash.cloudflare.com/?to=/:account/workers" },
+        { label: "GitHub — josspatech profile",  url: "https://github.com/josspatech" },
+        { label: "GitHub Status",                url: "https://www.githubstatus.com/" },
+      ],
+    },
+    {
+      group: "AI & API consoles",
+      links: [
+        { label: "Anthropic — API keys",         url: "https://console.anthropic.com/settings/keys" },
+        { label: "Anthropic — usage",            url: "https://console.anthropic.com/settings/usage" },
+        { label: "Anthropic — billing",          url: "https://console.anthropic.com/settings/billing" },
+        { label: "Google AI Studio (Gemini)",    url: "https://aistudio.google.com/" },
+        { label: "Google AI Studio — usage",     url: "https://aistudio.google.com/app/usage" },
+        { label: "Google AI Studio — keys",      url: "https://aistudio.google.com/app/apikey" },
+        { label: "Google Cloud — billing",       url: "https://console.cloud.google.com/billing" },
+        { label: "OCR.Space — account",          url: "https://ocr.space/ocrapi" },
+        { label: "OCR.Space — upgrade",          url: "https://ocr.space/ocrapi#price" },
+      ],
+    },
+    {
+      group: "Backend",
+      links: [
+        { label: "PocketBase admin (josspatech)", url: "https://josspatech.pockethost.io/_/" },
+        { label: "PocketBase — health endpoint",  url: "https://josspatech.pockethost.io/api/health" },
+        { label: "PocketHost dashboard",          url: "https://pockethost.io/dashboard" },
+        { label: "PocketHost status",             url: "https://status.pockethost.io/" },
+        { label: "Cloudflare Worker — health",    url: "https://pbj-import-worker.morning-star-b5e0.workers.dev/" },
+      ],
+    },
+    {
+      group: "Subscriptions & analytics",
+      links: [
+        { label: "RevenueCat dashboard",         url: "https://app.revenuecat.com/" },
+        { label: "RevenueCat — projects",        url: "https://app.revenuecat.com/projects" },
+        { label: "RevenueCat — pricing",         url: "https://www.revenuecat.com/pricing/" },
+        { label: "Firebase — PBJ (PocketBudJet)", url: "https://console.firebase.google.com/project/pocketbudjet-b70f3" },
+        { label: "Firebase — HHH (placeholder, set when configured)", url: "https://console.firebase.google.com/" },
+        { label: "Firebase — CVC (placeholder, set when configured)", url: "https://console.firebase.google.com/" },
+        { label: "Firebase — all projects",      url: "https://console.firebase.google.com/" },
+      ],
+    },
+    {
+      group: "Domain & website",
+      links: [
+        { label: "josspatech.com (live site)",   url: "https://josspatech.com/" },
+        { label: "GitHub Pages repo",            url: "https://github.com/josspatech/josspatech.github.io" },
+        { label: "Admin dashboard (this page)",  url: "https://josspatech.com/admin/josspatech-dashboard.html" },
+      ],
+    },
+    {
+      group: "Reference docs",
+      links: [
+        { label: "PocketBase docs",              url: "https://pocketbase.io/docs/" },
+        { label: "Cloudflare Workers docs",      url: "https://developers.cloudflare.com/workers/" },
+        { label: "Expo docs",                    url: "https://docs.expo.dev/" },
+        { label: "Apple Human Interface guide",  url: "https://developer.apple.com/design/human-interface-guidelines/" },
+        { label: "Material 3 design",            url: "https://m3.material.io/" },
+      ],
+    },
+  ];
+
+  function renderQuickLinks() {
+    const grid = document.getElementById("quickLinksGrid");
+    if (!grid) return;
+    grid.innerHTML = QUICK_LINKS.map(g => {
+      const links = g.links.map(l =>
+        `<a class="ql-link" href="${l.url}" target="_blank" rel="noopener noreferrer">
+           <span class="ql-label">${l.label}</span>
+           <span class="ql-arrow">↗</span>
+         </a>`
+      ).join("");
+      return `<div class="ql-group">
+        <div class="ql-group-title">${g.group}</div>
+        ${links}
+      </div>`;
+    }).join("");
+  }
+
+  /* ─── External services & status ──────────────────────────────
+     Each entry describes a service the apps depend on. The optional
+     `probe` field is a function that returns a Promise resolving to:
+       { state: 'green'|'yellow'|'red'|'unknown',
+         used?: number, limit?: number, unit?: string }
+     - state alone: status-only card (no usage data available)
+     - state + used + limit: shows a "used / limit" meter that colors
+       green/yellow/red based on the percentage of capacity consumed
+     Services without a probe show 'unknown' and rely on the user
+     clicking through to their dashboard for a manual check.
+
+     Bulk-loaded usage from the Worker's /health/quotas endpoint
+     overrides individual probes when available — single network call
+     gets capacity numbers for ALL the auth-gated services at once
+     (Gemini, Anthropic, OCR.Space, RevenueCat). The Worker tallies
+     them via Workers KV counters incremented on every proxied call.
+     ──────────────────────────────────────────────────────────── */
+  const WORKER_BASE = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
+
+  // Cache the most recent /health/quotas response so individual probes
+  // can read from it. Refreshed on every refreshServiceStatus() call.
+  let quotaCache = null;
+
+  /** Convert a raw used/limit pair to a state + the meter's display
+   *  color. Thresholds: <60% green, 60–85% yellow, >85% red. */
+  function stateFromPercent(pct) {
+    if (pct < 0.60) return "green";
+    if (pct < 0.85) return "yellow";
+    return "red";
+  }
+
+  /** Compact number formatter: 1234 → "1.23K", 1500000 → "1.5M". */
+  function fmtNum(n) {
+    if (n == null || isNaN(n)) return "—";
+    if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
+    if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, "") + "K";
+    if (Math.abs(n) >= 1)   return n.toLocaleString("en-US", { maximumFractionDigits: 2 });
+    return n.toFixed(2); // currency-like sub-dollar
+  }
+
+  /** Build a probe that reads its data from the cached /health/quotas
+   *  response. Used for services where the Worker tracks the count. */
+  function quotaProbe(quotaKey) {
+    return async () => {
+      const q = quotaCache?.[quotaKey];
+      if (!q || typeof q.used !== "number" || typeof q.limit !== "number") {
+        return { state: "unknown" };
+      }
+      const pct = q.limit > 0 ? q.used / q.limit : 0;
+      return {
+        state: stateFromPercent(pct),
+        used:  q.used,
+        limit: q.limit,
+        unit:  q.unit || "",
+      };
+    };
+  }
+
+  const SERVICES = [
+    {
+      name: "Cloudflare Worker — pbj-import-worker",
+      tier: "free",
+      desc: "AI/OCR proxy for receipts, PDFs, and HHH/CVC identification. Hosts /vision/*, /identify/*, /ask, /anthropic-proxy.",
+      quota: "Free: 100K req/day, 10ms CPU. Paid ($5/mo): 10M req/month + 50ms.",
+      probe: async () => {
+        // Try the /health/quotas endpoint first — gives us numeric usage.
+        // Falls back to the basic / health check if /health/quotas isn't
+        // deployed yet (tomorrow's Worker redeploy ships it).
+        const q = quotaCache?.cloudflare_worker;
+        if (q && typeof q.used === "number" && typeof q.limit === "number") {
+          return { state: stateFromPercent(q.used / q.limit), used: q.used, limit: q.limit, unit: "req/day" };
+        }
+        try {
+          const r = await fetch(WORKER_BASE + "/", { cache: "no-store", signal: AbortSignal.timeout(5000) });
+          if (!r.ok) return { state: "red" };
+          const j = await r.json();
+          return { state: j.ok ? "green" : "yellow" };
+        } catch { return { state: "red" }; }
+      },
+      links: [
+        { label: "Health endpoint",   url: "https://pbj-import-worker.morning-star-b5e0.workers.dev/", primary: true },
+        { label: "Cloudflare dash",   url: "https://dash.cloudflare.com/" },
+        { label: "Worker limits",     url: "https://developers.cloudflare.com/workers/platform/limits/" },
+      ],
+    },
+    {
+      name: "PocketBase — josspatech instance",
+      tier: "paid",
+      desc: "Crowd-data backend. Shared by PBJ + HHH + CVC. FTPS quirk: use curl, not WinSCP (Session 68 notes).",
+      quota: "PocketHost smart tier: 5GB DB. Migration runbook in ClaudeFiles/HETZNER_MIGRATION_RUNBOOK.md.",
+      probe: async () => {
+        const q = quotaCache?.pocketbase_db;
+        if (q && typeof q.used === "number" && typeof q.limit === "number") {
+          return { state: stateFromPercent(q.used / q.limit), used: q.used, limit: q.limit, unit: "MB" };
+        }
+        try {
+          const r = await fetch("https://josspatech.pockethost.io/api/health", { cache: "no-store", signal: AbortSignal.timeout(5000) });
+          if (!r.ok) return { state: "red" };
+          const j = await r.json();
+          return { state: j.code === 200 ? "green" : "yellow" };
+        } catch { return { state: "red" }; }
+      },
+      links: [
+        { label: "PocketBase admin",   url: "https://josspatech.pockethost.io/_/", primary: true },
+        { label: "PocketHost dash",    url: "https://pockethost.io/dashboard" },
+        { label: "Status page",        url: "https://status.pockethost.io/" },
+      ],
+    },
+    {
+      name: "Gemini Flash (Google AI Studio)",
+      tier: "free",
+      desc: "Vision parser for receipts (/vision/receipt) and bank statements (/vision/pdf). Worker secret: GEMINI_API_KEY.",
+      quota: "Free: 1,500 req/day. Paid: ~$0.0002 per receipt-vision call → ~$450/mo at 75K calls/day.",
+      probe: quotaProbe("gemini"),
+      links: [
+        { label: "Usage dashboard",    url: "https://aistudio.google.com/app/usage", primary: true },
+        { label: "Manage keys",        url: "https://aistudio.google.com/app/apikey" },
+        { label: "Add billing/alerts", url: "https://console.cloud.google.com/billing" },
+      ],
+    },
+    {
+      name: "Anthropic Claude",
+      tier: "todo",
+      desc: "Identification (HHH/CVC) and general AI calls. Worker secret: ANTHROPIC_API_KEY — not yet set.",
+      quota: "Starting credit: $5 (~6K Haiku calls). Anthropic emails when low. Action: create key → wrangler secret put → npm run deploy.",
+      probe: quotaProbe("anthropic_credit"),
+      links: [
+        { label: "Create / manage keys", url: "https://console.anthropic.com/settings/keys", primary: true },
+        { label: "Usage",                url: "https://console.anthropic.com/settings/usage" },
+        { label: "Billing / alerts",     url: "https://console.anthropic.com/settings/billing" },
+      ],
+    },
+    {
+      name: "OCR.Space",
+      tier: "free",
+      desc: "Stage 2 OCR cloud fallback when on-device OCR returns thin results. Used by receipt scan and PDF import.",
+      quota: "Free: 25K/month + 500/day per IP + 1MB. PRO ($30/mo): 300K + 5MB.",
+      probe: quotaProbe("ocr_space"),
+      links: [
+        { label: "Account dashboard",  url: "https://ocr.space/ocrapi", primary: true },
+        { label: "Get / view key",     url: "https://ocr.space/ocrapikey" },
+        { label: "Upgrade to PRO",     url: "https://ocr.space/ocrapi#price" },
+      ],
+    },
+    {
+      name: "RevenueCat",
+      tier: "free",
+      desc: "Subscription management. Anonymous app-user IDs, IAP receipt validation, churn analytics. Used by PBJ; HHH/CVC will adopt.",
+      quota: "Free up to $10K MTR. Past that: 1% of MTR. At ~$30K MTR (3K subscribers × $9.99) → ~$200/mo.",
+      probe: quotaProbe("revenuecat_mtr"),
+      links: [
+        { label: "Dashboard",          url: "https://app.revenuecat.com/", primary: true },
+        { label: "Projects",           url: "https://app.revenuecat.com/projects" },
+        { label: "Pricing",            url: "https://www.revenuecat.com/pricing/" },
+      ],
+    },
+    {
+      name: "Firebase / Crashlytics",
+      tier: "free",
+      desc: "Crash reporting + analytics for PBJ. google-services.json + GoogleService-Info.plist baked into Builds.",
+      quota: "Spark plan: generous for solo-dev volume. No action needed unless usage exceeds Spark caps.",
+      probe: null,
+      links: [
+        { label: "PBJ Firebase",       url: "https://console.firebase.google.com/project/pocketbudjet-b70f3", primary: true },
+        { label: "All projects",       url: "https://console.firebase.google.com/" },
+      ],
+    },
+    {
+      name: "Apple App Store Connect",
+      tier: "paid",
+      desc: "PBJ live listing + TestFlight. iOS submission, pricing, screenshots, In-App Purchases.",
+      quota: "$99/year Apple Developer fee, auto-renew. Set calendar reminder if turning off auto-renew.",
+      probe: null,
+      links: [
+        { label: "App Store Connect",  url: "https://appstoreconnect.apple.com/", primary: true },
+        { label: "Apple Developer",    url: "https://developer.apple.com/account/" },
+        { label: "Users / access",     url: "https://appstoreconnect.apple.com/access/users" },
+      ],
+    },
+    {
+      name: "Google Play Console",
+      tier: "paid",
+      desc: "PBJ Play Store listing + closed testing. Android submission, rollout, billing.",
+      quota: "$25 one-time Google Dev fee. 12-tester gate: use BetaFamily ($30–50, 14 days).",
+      probe: null,
+      links: [
+        { label: "Play Console",       url: "https://play.google.com/console/", primary: true },
+        { label: "Closed testing",     url: "https://play.google.com/console/u/0/developers/closed-testing" },
+        { label: "BetaFamily",         url: "https://betafamily.com/" },
+      ],
+    },
+    {
+      name: "Expo / EAS",
+      tier: "free",
+      desc: "iOS cloud builds + submission. (Android builds are local Gradle from C:\\PBJ\\android.)",
+      quota: "Free: 30 builds/month. Paid tiers from $19/mo if needed.",
+      probe: null,
+      links: [
+        { label: "Expo dashboard",     url: "https://expo.dev/", primary: true },
+        { label: "Projects",           url: "https://expo.dev/accounts/josspatech/projects" },
+        { label: "Billing",            url: "https://expo.dev/accounts/josspatech/settings/billing" },
+      ],
+    },
+    {
+      name: "GitHub",
+      tier: "free",
+      desc: "Source control (private app repos) + GitHub Pages hosting for josspatech.com.",
+      quota: "Free: private repos, GitHub Pages, sufficient for solo dev.",
+      probe: async () => {
+        // GitHub status API is CORS-friendly. Status-only — no usage meter.
+        try {
+          const r = await fetch("https://www.githubstatus.com/api/v2/status.json", {
+            cache: "no-store",
+            signal: AbortSignal.timeout(5000),
+          });
+          if (!r.ok) return { state: "yellow" };
+          const j = await r.json();
+          if (j?.status?.indicator === "none")  return { state: "green" };
+          if (j?.status?.indicator === "minor") return { state: "yellow" };
+          return { state: "red" };
+        } catch { return { state: "unknown" }; }
+      },
+      links: [
+        { label: "Profile",            url: "https://github.com/josspatech", primary: true },
+        { label: "Status page",        url: "https://www.githubstatus.com/" },
+      ],
+    },
+  ];
+
+  function svcLightHTML(state) {
+    const labels = {
+      green:    "Online",
+      yellow:   "Degraded",
+      red:      "Down",
+      checking: "Checking…",
+      unknown:  "Manual check",
+    };
+    const cls = state || "unknown";
+    return `<span class="svc-light ${cls}"><span class="dot"></span>${labels[cls] || labels.unknown}</span>`;
+  }
+
+  /** Format a numeric meter "used / limit unit · NN%" with the same
+   *  green/yellow/red coloring as the status light. Only renders when
+   *  the probe returned numeric usage data; status-only results show
+   *  nothing here. */
+  function svcMeterHTML(result) {
+    if (!result || typeof result.used !== "number" || typeof result.limit !== "number") return "";
+    const pct = result.limit > 0 ? Math.min(1, result.used / result.limit) : 0;
+    const cls = stateFromPercent(pct);
+    const unit = result.unit ? ` ${result.unit}` : "";
+    const usedFmt  = fmtNum(result.used);
+    const limitFmt = fmtNum(result.limit);
+    const pctFmt   = (pct * 100).toFixed(pct < 0.10 ? 1 : 0);
+    return `<span class="svc-meter ${cls}">${usedFmt} / ${limitFmt}${unit}<span class="pct">${pctFmt}%</span></span>`;
+  }
+
+  function renderServices(results /* { name → result | string } */) {
+    const grid = document.getElementById("servicesGrid");
+    if (!grid) return;
+    grid.innerHTML = SERVICES.map(s => {
+      // Normalize: results may carry the legacy plain-string state,
+      // or the new { state, used?, limit?, unit? } object. Old probes
+      // are dead, but the migration leaves this defensive.
+      let r = results[s.name];
+      if (typeof r === "string") r = { state: r };
+      if (!r) r = { state: s.probe ? "checking" : "unknown" };
+      const state = r.state;
+
+      // Card border accent — meter percent overrides status when available
+      // so capacity warnings dominate the visual hierarchy.
+      let cardState = state;
+      if (typeof r.used === "number" && typeof r.limit === "number" && r.limit > 0) {
+        cardState = stateFromPercent(r.used / r.limit);
+      }
+      const cardCls = cardState === "red" ? "crit"
+                    : cardState === "yellow" ? "warn"
+                    : cardState === "green" ? "ok"
+                    : s.tier === "todo" ? "todo" : "";
+
+      const tierBadge = `<span class="svc-tier ${s.tier}">${s.tier}</span>`;
+      const meter     = svcMeterHTML(r);
+      const links = s.links.map(l =>
+        `<a href="${l.url}" target="_blank" rel="noopener noreferrer" ${l.primary ? 'class="primary"' : ""}>${l.label} ↗</a>`
+      ).join("");
+      return `
+        <div class="svc-card ${cardCls}">
+          <div class="svc-head">
+            <div class="svc-name">${s.name}</div>
+            ${svcLightHTML(state)}
+          </div>
+          <div class="svc-meter-row">
+            ${tierBadge}
+            ${meter}
+          </div>
+          <div class="svc-desc">${s.desc}</div>
+          <div class="svc-links">${links}</div>
+          <div class="svc-quota"><strong>Limits:</strong> ${s.quota}</div>
+        </div>`;
+    }).join("");
+  }
+
+  async function refreshServiceStatus() {
+    // Step 1 — render placeholders so the UI snaps in immediately.
+    const results = {};
+    for (const s of SERVICES) results[s.name] = { state: s.probe ? "checking" : "unknown" };
+    renderServices(results);
+    document.getElementById("svcLastChecked").textContent = "Checking…";
+
+    // Step 2 — bulk-fetch the Worker's /health/quotas snapshot. This
+    // gives us the numeric usage for every auth-gated service in a
+    // single network call. If it fails (Worker hasn't been redeployed
+    // with the endpoint yet), individual probes fall back gracefully.
+    try {
+      const r = await fetch(WORKER_BASE + "/health/quotas", {
+        cache: "no-store",
+        signal: AbortSignal.timeout(7000),
+      });
+      if (r.ok) {
+        quotaCache = await r.json();
+      } else {
+        quotaCache = null;
+      }
+    } catch {
+      quotaCache = null;
+    }
+
+    // Step 3 — run individual probes in parallel; update each card as
+    // it resolves. quota-driven probes pull from quotaCache.
+    await Promise.all(SERVICES.map(async (s) => {
+      if (!s.probe) { return; }
+      try {
+        results[s.name] = await s.probe();
+      } catch {
+        results[s.name] = { state: "red" };
+      }
+      renderServices(results);
+    }));
+
+    document.getElementById("svcLastChecked").textContent =
+      `Last checked: ${new Date().toLocaleTimeString()}` +
+      (quotaCache ? "" : "  ·  capacity numbers unavailable (Worker /health/quotas not deployed)");
+  }
+
+  // Auto-run once after the dashboard finishes loading. The existing
+  // dashboard's grid renderer fires on login success — we hook off the
+  // same window load to keep startup ordering predictable.
+  window.addEventListener("DOMContentLoaded", () => {
+    // Synchronous renders first — no network, instant paint.
+    renderAppVersions();
+    renderQuickLinks();
+
+    // Network-bound renders deferred slightly so login flow doesn't
+    // fight for the wire on first load.
+    setTimeout(() => {
+      refreshServiceStatus();
+      loadCronHealth();
+      loadQuarantineWatch();
+      loadRecentCommits();
+    }, 600);
+  });
   </script>
 </body>
 </html>
