@@ -925,6 +925,95 @@
     }
     .svc-links a.primary:hover { background: var(--primary-dark); }
 
+    /* ─── Anthropic balance tracker (lives inside the Anthropic
+         service card). Manual log of credit balance with burn-rate
+         estimate so you know when to top up without auto-reload. ─── */
+    .ant-tracker {
+      margin-top: 6px;
+      padding: 12px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ant-tracker .ant-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .ant-tracker .ant-label {
+      color: var(--text-dim);
+      font-weight: 600;
+      min-width: 130px;
+    }
+    .ant-tracker .ant-value {
+      font-family: var(--mono);
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .ant-tracker .ant-balance.ok   { color: var(--success); }
+    .ant-tracker .ant-balance.warn { color: var(--warning); }
+    .ant-tracker .ant-balance.crit { color: var(--danger); }
+    .ant-tracker .ant-aux {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .ant-tracker .ant-aux.stale-yellow { color: var(--warning); font-weight: 600; }
+    .ant-tracker .ant-aux.stale-red    { color: var(--danger);  font-weight: 600; }
+    .ant-tracker .ant-empty {
+      color: var(--text-dim);
+      font-style: italic;
+      padding: 4px 0;
+    }
+    .ant-tracker .ant-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .ant-tracker .ant-btn {
+      display: inline-flex; align-items: center;
+      padding: 5px 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ant-tracker .ant-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .ant-tracker .ant-btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .ant-tracker .ant-btn.primary:hover { background: var(--primary-dark); }
+    .ant-tracker .ant-history {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      max-height: 90px;
+      overflow-y: auto;
+      border-top: 1px dashed var(--border);
+      padding-top: 6px;
+    }
+    .ant-tracker .ant-history-row {
+      display: flex; justify-content: space-between;
+      padding: 1px 0;
+    }
+
     #maintenance .m-group {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -3657,6 +3746,165 @@ Generated ${new Date().toISOString()}.
     };
   }
 
+  // ─── Anthropic balance tracker ────────────────────────────
+  // Manual log of credit balance. Joe checks platform.claude.com/settings/billing,
+  // taps "Record balance" here, types what he saw. We persist a short history in
+  // localStorage so we can compute a rough burn-rate from consecutive readings.
+  // Data is per-browser; not synced. Single-admin dashboard, that's fine.
+  const ANT_HISTORY_KEY = "jt_anthropic_balance_history";
+  const ANT_HISTORY_MAX = 12;
+
+  function antGetHistory() {
+    try {
+      const arr = JSON.parse(localStorage.getItem(ANT_HISTORY_KEY) || "[]");
+      return Array.isArray(arr) ? arr : [];
+    } catch { return []; }
+  }
+  function antSetHistory(arr) {
+    try { localStorage.setItem(ANT_HISTORY_KEY, JSON.stringify(arr)); }
+    catch (e) { console.warn("ant: localStorage write failed", e); }
+  }
+  function antLogBalance() {
+    const v = window.prompt(
+      "Enter the credit balance you see on platform.claude.com (in dollars).\n" +
+      "Example: 9.85"
+    );
+    if (v === null) return; // cancelled
+    const num = parseFloat(String(v).replace(/[^0-9.]/g, ""));
+    if (!isFinite(num) || num < 0) {
+      alert("Couldn't read that as a number. Try again — just digits and a decimal point, like 9.85");
+      return;
+    }
+    const history = antGetHistory();
+    history.push({ amount: num, at: new Date().toISOString() });
+    while (history.length > ANT_HISTORY_MAX) history.shift();
+    antSetHistory(history);
+    // Re-render the Services panel so the card updates immediately.
+    renderServices(window.__lastServiceResults || {});
+  }
+  function antResetHistory() {
+    if (!confirm("Clear all recorded Anthropic balance readings? This can't be undone.")) return;
+    antSetHistory([]);
+    renderServices(window.__lastServiceResults || {});
+  }
+
+  // Returns the most recent burn-rate window: a strictly-decreasing pair of
+  // readings (so we don't treat a top-up as "negative burn"). Returns null
+  // if we don't have one. Walks backward from the latest reading until it
+  // finds the most recent prior reading where amount > latest.amount; that
+  // window is the user's spend trajectory.
+  function antBurnWindow() {
+    const h = antGetHistory();
+    if (h.length < 2) return null;
+    const last = h[h.length - 1];
+    for (let i = h.length - 2; i >= 0; i--) {
+      const prev = h[i];
+      if (prev.amount > last.amount) {
+        const dt = (new Date(last.at) - new Date(prev.at)) / 86400000; // days
+        if (dt <= 0) continue;
+        const dv = prev.amount - last.amount;
+        return { burnPerDay: dv / dt, days: dt, from: prev, to: last };
+      }
+    }
+    return null;
+  }
+
+  // Card-state for the Anthropic service card — escalates if balance is low
+  // OR the last reading is stale. "Don't know" is treated as a soft warning.
+  function antDeriveState() {
+    const h = antGetHistory();
+    if (h.length === 0) return { state: "unknown" };
+    const last = h[h.length - 1];
+    const ageDays = (Date.now() - new Date(last.at)) / 86400000;
+    if (last.amount < 5)  return { state: "red" };
+    if (ageDays > 30)     return { state: "red" };  // truly stale
+    if (last.amount < 10) return { state: "yellow" };
+    if (ageDays > 14)     return { state: "yellow" };
+    return { state: "green" };
+  }
+
+  // Render the tracker block. Inserted into the Anthropic card via SERVICES[i].extra.
+  function antRenderTracker() {
+    const h = antGetHistory();
+    if (h.length === 0) {
+      return `
+        <div class="ant-tracker">
+          <div class="ant-empty">No balance recorded yet. After you check the billing page, tap below to log it.</div>
+          <div class="ant-actions">
+            <button class="ant-btn primary" onclick="antLogBalance()">Record balance</button>
+            <a class="ant-btn" href="https://platform.claude.com/settings/billing" target="_blank" rel="noopener noreferrer">Open billing ↗</a>
+          </div>
+        </div>`;
+    }
+    const last = h[h.length - 1];
+    const ageMs = Date.now() - new Date(last.at);
+    const ageDays = Math.floor(ageMs / 86400000);
+    const ageHours = Math.floor(ageMs / 3600000);
+    let ageText;
+    if (ageHours < 1)        ageText = "just now";
+    else if (ageHours < 24)  ageText = `${ageHours} hour${ageHours === 1 ? "" : "s"} ago`;
+    else if (ageDays === 1)  ageText = "yesterday";
+    else                     ageText = `${ageDays} days ago`;
+    let staleClass = "";
+    if (ageDays > 30) staleClass = "stale-red";
+    else if (ageDays > 14) staleClass = "stale-yellow";
+
+    let balanceClass = "ok";
+    if (last.amount < 5) balanceClass = "crit";
+    else if (last.amount < 10) balanceClass = "warn";
+
+    const burn = antBurnWindow();
+    let burnHTML = "";
+    if (burn) {
+      const daysLeft = burn.burnPerDay > 0 ? last.amount / burn.burnPerDay : Infinity;
+      const projection = isFinite(daysLeft)
+        ? `≈ ${Math.floor(daysLeft)} day${Math.floor(daysLeft) === 1 ? "" : "s"} of runway at this pace`
+        : "burn rate ~0";
+      burnHTML = `
+        <div class="ant-row">
+          <span class="ant-label">Burn rate:</span>
+          <span class="ant-value">$${burn.burnPerDay.toFixed(2)}/day</span>
+          <span class="ant-aux">${projection}</span>
+        </div>`;
+    } else if (h.length >= 2) {
+      burnHTML = `
+        <div class="ant-row">
+          <span class="ant-label">Burn rate:</span>
+          <span class="ant-aux">— last change was a top-up; record again after some usage</span>
+        </div>`;
+    } else {
+      burnHTML = `
+        <div class="ant-row">
+          <span class="ant-label">Burn rate:</span>
+          <span class="ant-aux">— need a second reading to estimate</span>
+        </div>`;
+    }
+
+    // Compact history (last 4) — collapsed by default would be nice but
+    // we'll just show inline for simplicity.
+    const histRows = h.slice(-4).reverse().map(r => {
+      const d = new Date(r.at);
+      const stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
+      return `<div class="ant-history-row"><span>${stamp}</span><span>$${r.amount.toFixed(2)}</span></div>`;
+    }).join("");
+
+    return `
+      <div class="ant-tracker">
+        <div class="ant-row">
+          <span class="ant-label">Last known balance:</span>
+          <span class="ant-value ant-balance ${balanceClass}">$${last.amount.toFixed(2)}</span>
+          <span class="ant-aux ${staleClass}">checked ${ageText}</span>
+        </div>
+        ${burnHTML}
+        <div class="ant-actions">
+          <button class="ant-btn primary" onclick="antLogBalance()">Record balance</button>
+          <a class="ant-btn" href="https://platform.claude.com/settings/billing" target="_blank" rel="noopener noreferrer">Top up ↗</a>
+          <button class="ant-btn" onclick="antResetHistory()" title="Clear recorded readings">Reset</button>
+        </div>
+        <div class="ant-history" title="Recent readings">${histRows}</div>
+      </div>`;
+  }
+
   const SERVICES = [
     {
       name: "Cloudflare Worker — pbj-import-worker",
@@ -3721,14 +3969,22 @@ Generated ${new Date().toISOString()}.
     },
     {
       name: "Anthropic Claude",
-      tier: "todo",
-      desc: "Identification (HHH/CVC) and general AI calls. Worker secret: ANTHROPIC_API_KEY — not yet set.",
-      quota: "Starting credit: $5 (~6K Haiku calls). Anthropic emails when low. Action: create key → wrangler secret put → npm run deploy.",
+      tier: "paid",
+      desc: "Identification (HHH/CVC) and general AI calls (/ask, /identify/*, /anthropic-proxy). Worker secret ANTHROPIC_API_KEY is deployed.",
+      quota: "Pre-paid credits, manual top-up (auto-reload off). ~$0.003–0.005 per identify call. Track balance via the panel below — record what you see when you check the billing page.",
       probe: quotaProbe("anthropic_credit"),
+      // Custom widget renders inside the card. Lets Joe log the balance he
+      // sees on platform.claude.com without integrating Anthropic's Admin API
+      // (which would need yet another key + a Worker proxy). Stores readings
+      // in localStorage so each browser keeps its own log; that's fine for a
+      // single-admin dashboard. Stays one click away from the billing page
+      // and surfaces stale or low balances back into the card's status light.
+      extra: () => antRenderTracker(),
+      stateOverride: () => antDeriveState(),
       links: [
-        { label: "Create / manage keys", url: "https://console.anthropic.com/settings/keys", primary: true },
-        { label: "Usage",                url: "https://console.anthropic.com/settings/usage" },
-        { label: "Billing / alerts",     url: "https://console.anthropic.com/settings/billing" },
+        { label: "Buy credits / billing", url: "https://platform.claude.com/settings/billing", primary: true },
+        { label: "Usage",                 url: "https://platform.claude.com/settings/usage" },
+        { label: "Manage keys",           url: "https://platform.claude.com/settings/keys" },
       ],
     },
     {
@@ -3856,6 +4112,11 @@ Generated ${new Date().toISOString()}.
   }
 
   function renderServices(results /* { name → result | string } */) {
+    // Cache the last results so card-internal widgets (e.g. the Anthropic
+    // balance tracker) can trigger a re-render after a state change without
+    // losing the most recent probe data.
+    window.__lastServiceResults = results || {};
+
     const grid = document.getElementById("servicesGrid");
     if (!grid) return;
     grid.innerHTML = SERVICES.map(s => {
@@ -3865,6 +4126,16 @@ Generated ${new Date().toISOString()}.
       let r = results[s.name];
       if (typeof r === "string") r = { state: r };
       if (!r) r = { state: s.probe ? "checking" : "unknown" };
+
+      // A service can supply `stateOverride()` to compute its own state
+      // from local data (the Anthropic tracker does this — its state comes
+      // from a manual balance log, not a network probe).
+      if (typeof s.stateOverride === "function") {
+        try {
+          const o = s.stateOverride();
+          if (o && o.state) r = { ...r, ...o };
+        } catch (e) { console.warn("svc stateOverride failed for", s.name, e); }
+      }
       const state = r.state;
 
       // Card border accent — meter percent overrides status when available
@@ -3883,6 +4154,7 @@ Generated ${new Date().toISOString()}.
       const links = s.links.map(l =>
         `<a href="${l.url}" target="_blank" rel="noopener noreferrer" ${l.primary ? 'class="primary"' : ""}>${l.label} ↗</a>`
       ).join("");
+      const extraHTML = (typeof s.extra === "function") ? (s.extra() || "") : "";
       return `
         <div class="svc-card ${cardCls}">
           <div class="svc-head">
@@ -3896,6 +4168,7 @@ Generated ${new Date().toISOString()}.
           <div class="svc-desc">${s.desc}</div>
           <div class="svc-links">${links}</div>
           <div class="svc-quota"><strong>Limits:</strong> ${s.quota}</div>
+          ${extraHTML}
         </div>`;
     }).join("");
   }
