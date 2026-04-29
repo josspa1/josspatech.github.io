@@ -1234,6 +1234,7 @@
         <button class="m-btn accent" onclick="qaTestIdentify('watch', 'Rolex Submariner Date 16610 stainless steel oyster bracelet')">HHH — /identify/watch</button>
         <button class="m-btn accent" onclick="qaTestIdentify('coin', '1909-S VDB Lincoln Wheat Cent United States')">CVC — /identify/coin</button>
         <button class="m-btn accent" onclick="qaTestIdentify('card', '1986 Fleer Michael Jordan rookie card #57')">CVC — /identify/card</button>
+        <button class="m-btn" onclick="clearPbjKey()" title="Forget the stored Worker shared key in this browser. Next smoke test will re-prompt.">Clear PBJ key</button>
       </div>
       <pre id="qaLog" style="margin-top: 12px; max-height: 240px; overflow: auto; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: pre-wrap; display: none;"></pre>
     </section>
@@ -3318,13 +3319,45 @@ Generated ${new Date().toISOString()}.
     } catch (e) { qaLog(`/health/quotas failed: ${e.message}`, "err"); }
   }
 
+  // ─── PBJ_SHARED_KEY storage (per-browser localStorage) ────
+  // The Worker requires X-PBJ-Key on every auth-gated POST. The key
+  // never lives in the HTML or in git — it's prompted on first use
+  // and cached in localStorage. To rotate, click "Clear PBJ key" in
+  // Quick Actions, then run any smoke test to be re-prompted.
+  const PBJ_KEY_STORAGE = "pbj_shared_key";
+  function getPbjKey() {
+    let key = localStorage.getItem(PBJ_KEY_STORAGE);
+    if (key) return key;
+    const entered = prompt(
+      "Enter PBJ_SHARED_KEY (the Worker shared secret).\n\n" +
+      "This is the value you set with `wrangler secret put PBJ_SHARED_KEY`.\n" +
+      "Stored only in this browser's localStorage — never sent to GitHub.\n\n" +
+      "Cancel to abort."
+    );
+    if (!entered) return null;
+    const trimmed = String(entered).trim();
+    if (trimmed.length < 8) {
+      alert("That doesn't look long enough. Try again or paste the full value.");
+      return null;
+    }
+    localStorage.setItem(PBJ_KEY_STORAGE, trimmed);
+    return trimmed;
+  }
+  function clearPbjKey() {
+    if (!confirm("Forget the stored PBJ_SHARED_KEY in this browser?")) return;
+    localStorage.removeItem(PBJ_KEY_STORAGE);
+    qaLog("PBJ key cleared from localStorage. Next smoke test will re-prompt.", "ok");
+  }
+
   async function qaTestIdentify(category, description) {
     qaLog(`Testing /identify/${category} with description: "${description}"...`);
+    const key = getPbjKey();
+    if (!key) { qaLog("Aborted — no PBJ_SHARED_KEY supplied.", "err"); return; }
     try {
       const t0 = performance.now();
       const r = await fetch(WORKER_BASE + `/identify/${category}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-PBJ-Key": key },
         body: JSON.stringify({ description }),
         signal: AbortSignal.timeout(45000),
       });
@@ -3361,10 +3394,12 @@ Generated ${new Date().toISOString()}.
       ctx.fillText("test", 4, 36);
       const dataUrl = c.toDataURL("image/jpeg", 0.7);
       const b64 = dataUrl.split(",")[1];
+      const key = getPbjKey();
+      if (!key) { qaLog("Aborted — no PBJ_SHARED_KEY supplied.", "err"); return; }
       const t0 = performance.now();
       const r = await fetch(WORKER_BASE + "/vision/receipt", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "X-PBJ-Key": key },
         body: JSON.stringify({ image: b64 }),
         signal: AbortSignal.timeout(45000),
       });
