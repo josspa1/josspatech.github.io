@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Local-First — PocketBudJet by JosspaTech</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+:root{--navy:#1A4F7A;--navy-dark:#0C3358;--navy-mid:#2E6FA3;--gold:#E8A820;--slate:#5A7A9A;--light-slate:#8AAABB;--bg:#EDF2F7;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Source Sans 3",sans-serif;background:var(--bg);color:#222;line-height:1.8;font-size:16px;}
+header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);}
+.hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
+.hdr-name span{color:var(--gold);}
+.hdr-back{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
+.hdr-back:hover{color:var(--gold);}
+.doc-hero{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}
+.doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
+.doc-meta{font-size:15px;color:var(--light-slate);}
+main{max-width:760px;margin:0 auto;padding:52px 24px 80px;}
+.summary-box{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--gold);}
+.summary-box strong{color:var(--gold);}
+h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}
+p{font-size:17px;margin-bottom:14px;}
+ul{margin:6px 0 14px 22px;}
+li{font-size:17px;margin-bottom:6px;}
+.callout{background:#fff;border:1px solid #d8e1ec;border-left:3px solid var(--gold);padding:16px 20px;margin:20px 0;border-radius:4px;}
+.muted{color:var(--slate);font-size:15px;}
+footer{background:var(--navy-dark);color:#fff;text-align:center;padding:24px;font-size:14px;}
+footer a{color:var(--gold);text-decoration:none;}
+</style>
+</head>
+<body>
+<header>
+  <a class="hdr-logo" href="/">
+    <span class="hdr-name">Pocket<span>BudJet</span></span>
+  </a>
+  <a class="hdr-back" href="/#pbj">← Back to PocketBudJet</a>
+</header>
+
+<div class="doc-hero">
+  <span class="doc-type">Trust &amp; Transparency</span>
+  <h1>Why Local-First</h1>
+  <div class="doc-meta">Updated April 2026</div>
+</div>
+
+<main>
+  <div class="summary-box">
+    <strong>The short version:</strong> your financial data lives on your phone, not on our servers. We don't have a copy of your transactions to leak, sell, or hand over.
+  </div>
+
+  <h2>What &ldquo;local-first&rdquo; means here</h2>
+  <p>When you add a transaction, set a budget, or import a statement, that information is stored on your device in a private database. It isn't sent to a JosspaTech server. We don't have a master copy somewhere &mdash; we genuinely don't know what you spent at the grocery store last week, and we don't want to.</p>
+  <p>This is different from how most personal-finance apps work. Most use a cloud-first model where your data is uploaded to the company's servers, indexed, analyzed, and synced back to your devices. That model is convenient, but it means there's a centralized copy of your financial life sitting in someone else's database.</p>
+
+  <h2>What this protects you from</h2>
+  <ul>
+    <li><strong>Data breaches.</strong> If we got hacked tomorrow, attackers wouldn't find your transactions on our servers because they aren't there.</li>
+    <li><strong>Subpoenas and broad requests.</strong> We can't hand over data we don't hold.</li>
+    <li><strong>Internal misuse.</strong> No JosspaTech employee can scroll through your spending out of curiosity. Nobody can.</li>
+    <li><strong>Re-purposing.</strong> Your data won't be quietly used to train models, build advertising profiles, or feed lead-gen partnerships.</li>
+  </ul>
+
+  <h2>Where data <em>does</em> leave the device</h2>
+  <p>We're not pretending the app runs on a deserted island. There are a few places where data crosses the wire, all of which are opt-in or limited:</p>
+  <ul>
+    <li><strong>Cloud OCR (off by default).</strong> If you turn this on, blurry receipt scans get sent to a third-party OCR service over TLS to be read more accurately. The image isn't retained by the provider.</li>
+    <li><strong>AI features (off by default).</strong> Optional AI features send aggregated patterns &mdash; not raw transactions &mdash; to our backend for analysis. Raw amounts and merchants stay on-device.</li>
+    <li><strong>Crowd-sourced reference data (opt-out).</strong> Anonymized aggregate signals like &ldquo;most-used name for this barcode&rdquo; or &ldquo;most-common category for this merchant&rdquo; flow into a shared reference that helps every user. There's nothing personal in that contribution.</li>
+    <li><strong>Backups you choose.</strong> If you turn on iCloud, Google Drive, or another backup, the encrypted backup goes to your storage, not ours.</li>
+    <li><strong>Sync with a partner you choose.</strong> If you set up household sync with a partner, an encrypted snapshot is exchanged peer-to-peer or via a relay we run. Even there, our servers don't keep your data &mdash; the relay forwards encrypted bytes and forgets them.</li>
+  </ul>
+
+  <h2>What this costs you</h2>
+  <p>Local-first is honest about its trade-offs. The big one is that you're responsible for your data: if you lose your phone and don't have a backup turned on, the data goes with it. We've built backup, restore, and partner-sync to make this easy &mdash; but we can't recover data from our servers because we never had it.</p>
+  <p>We think that's the right trade. The alternative is convenience at the cost of giving someone else permanent custody of your financial life.</p>
+
+  <div class="callout">
+    <p class="muted" style="margin:0;"><strong>Why don't more apps do it this way?</strong> Local-first is harder to build, harder to monetize, and harder to support than cloud-first. There's no way to mine the data for second revenue streams, no way to A/B-test on aggregated server logs, and no easy &ldquo;just look it up for them&rdquo; in customer support. It's a deliberate constraint &mdash; and it's the constraint that makes the privacy promise real instead of marketing.</p>
+  </div>
+
+  <h2>Where to learn more</h2>
+  <p>Our <a href="PocketBudJet_PrivacyPolicy.html" style="color:var(--navy-mid);">Privacy Policy</a> spells out the specifics. Our <a href="HowWeMakeMoney.html" style="color:var(--navy-mid);">How We Make Money</a> page explains the business model. If you have questions either page doesn't answer, email <a href="mailto:hello@josspatech.com" style="color:var(--navy-mid);">hello@josspatech.com</a>.</p>
+</main>
+
+<footer>
+  &copy; 2026 JosspaTech &middot; <a href="/">Home</a> &middot; <a href="PocketBudJet_PrivacyPolicy.html">Privacy</a> &middot; <a href="HowWeMakeMoney.html">How We Make Money</a>
+</footer>
+</body>
+</html>
