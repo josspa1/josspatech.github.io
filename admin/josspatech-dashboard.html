@@ -519,25 +519,74 @@
       margin: 0 auto;
       padding: 0 24px 40px;
     }
-    #maintenance h2 {
-      font-size: 11px;
-      font-weight: 700;
+    /* ─── Unified section heading style ────────────────────────
+         One look across every section so you can scan the page
+         vertically and spot which area you're in immediately. The
+         left accent bar + larger type + soft gradient fade make
+         each h2 a clear visual anchor. */
+    html { scroll-behavior: smooth; }
+    #dashboard section[id] {
+      margin-top: 40px;
+      scroll-margin-top: 88px; /* clears the sticky nav on anchor jumps */
+    }
+    #dashboard section[id] > h2,
+    #maintenance > h2 {
+      font-size: 24px;
+      font-weight: 800;
       color: var(--primary);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin: 18px 0 6px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--accent);
+      letter-spacing: 0.2px;
+      margin: 0 0 14px 0;
+      padding: 10px 14px 12px 16px;
+      border-left: 6px solid var(--accent);
+      border-bottom: 2px solid var(--border);
+      border-radius: 0 4px 0 0;
+      background: linear-gradient(to right, rgba(230,126,34,0.07), transparent 55%);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      text-transform: none;
     }
-    #maintenance h2::before {
-      content: "";
-      display: inline-block;
-      width: 14px; height: 14px;
+
+    /* ─── Sticky section jump nav ──────────────────────────────
+         Top-of-page chips: tap one to scroll to that panel. Stays
+         pinned to the top of the viewport so it's always one click
+         away regardless of where you've scrolled. */
+    #sectionNav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+      margin: 0 0 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .sn-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .sn-chip:hover {
       background: var(--accent);
-      border-radius: 3px;
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .sn-chip.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
     }
     /* ─── Section explainers (descriptive paragraphs) ────────── */
     .section-explainer {
@@ -562,12 +611,7 @@
     .section-explainer strong { color: var(--text); }
 
     /* ─── App Versions table ─────────────────────────────────── */
-    #appVersions { margin-top: 32px; }
-    #appVersions h2 {
-      font-size: 18px; color: var(--primary);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     #appVersionsTable {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -608,21 +652,11 @@
     #appVersionsTable .v-status.testflight{ background: rgba(26,79,122,0.10);  color: var(--primary); }
 
     /* ─── Quick Actions ──────────────────────────────────────── */
-    #quickActions { margin-top: 32px; }
-    #quickActions h2 {
-      font-size: 18px; color: var(--primary);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     #qaLog { font-family: var(--mono); }
 
     /* ─── Cron Health ────────────────────────────────────────── */
-    #cronHealth { margin-top: 32px; }
-    #cronHealth h2 {
-      font-size: 18px; color: var(--primary);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     .cron-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -640,12 +674,7 @@
     .cron-last { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
 
     /* ─── Quarantine Watch ───────────────────────────────────── */
-    #quarantineWatch { margin-top: 32px; }
-    #quarantineWatch h2 {
-      font-size: 18px; color: var(--primary);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     .qw-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -667,12 +696,7 @@
     .qw-label { color: var(--text-dim); font-size: 13px; }
 
     /* ─── Recent Commits ─────────────────────────────────────── */
-    #recentCommits { margin-top: 32px; }
-    #recentCommits h2 {
-      font-size: 18px; color: var(--primary);
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--border); padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     #recentCommitsGrid {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -710,16 +734,7 @@
     }
 
     /* ─── Quick Links panel ─────────────────────────────────── */
-    #quicklinks {
-      margin-top: 32px;
-    }
-    #quicklinks h2 {
-      font-size: 18px;
-      color: var(--primary);
-      margin-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     #quickLinksGrid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -773,16 +788,7 @@
     }
 
     /* ─── Services & Status panel ─────────────────────────── */
-    #services {
-      margin-top: 32px;
-    }
-    #services h2 {
-      font-size: 18px;
-      color: var(--primary);
-      margin-bottom: 14px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 8px;
-    }
+    /* Section heading styled by the unified rule above. */
     #servicesGrid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -1081,6 +1087,22 @@
     <div id="wowBanner" style="display:none"></div>
 
     <main id="grid"></main>
+
+    <!-- ─── Section jump nav ──────────────────────────────────
+         Click any chip to scroll to that panel. Sticks to the top
+         of the viewport so it's always one click away regardless
+         of how far down the page you are. -->
+    <nav id="sectionNav" aria-label="Dashboard sections">
+      <a class="sn-chip" href="#appVersions">App Versions</a>
+      <a class="sn-chip" href="#quickActions">Quick Actions</a>
+      <a class="sn-chip" href="#quicklinks">Quick Links</a>
+      <a class="sn-chip" href="#services">Services &amp; Status</a>
+      <a class="sn-chip" href="#cronHealth">Cron Health</a>
+      <a class="sn-chip" href="#quarantineWatch">Quarantine</a>
+      <a class="sn-chip" href="#recentCommits">Recent Commits</a>
+      <a class="sn-chip" href="#maintenance">Maintenance</a>
+      <a class="sn-chip" href="#reference">Reference</a>
+    </nav>
 
     <!-- ─── App Version Snapshot ──────────────────────────────
          At-a-glance view of which build of each app is currently
@@ -1464,18 +1486,15 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
           instead (same contract, bash version).
         </p>
 
-        <p><strong>2. This dashboard</strong> (<code>pbj_dashboard.html</code>).</p>
+        <p><strong>2. This dashboard</strong> (<code>admin/josspatech-dashboard.html</code>).</p>
         <p>
-          The <code>deploy_everything.ps1</code> script above already uploads it to PocketHost's
-          <code>pb_public/</code>, which is why you can reach it at
-          <code>josspatech.pockethost.io/pbj_dashboard.html</code>. To update the nicer
-          <code>josspatech.com/admin/pbj-dashboard.html</code> version, also push the website:
+          Live at <code>josspatech.com/admin/josspatech-dashboard.html</code>. Edit the file in
+          <code>C:\Users\jossp\Documents\MobileApps\WebSite\HostedFiles\admin\</code> and
+          <code>C:\Users\jossp\Documents\GitHub\josspatech.github.io\admin\</code>
+          (keep both folders in sync per the project rules), then push via GitHub Desktop —
+          stage the change, write a commit message, push to <code>main</code>. GitHub Pages
+          rebuilds in 30–60 seconds.
         </p>
-        <pre>cd C:\Users\jossp\Documents\GitHub\josspatech.github.io
-git add -A
-git commit -m "dashboard update"
-git push</pre>
-        <p>GitHub Pages rebuilds in 30–60 seconds.</p>
 
         <p><strong>3. The website itself</strong> (<code>index.html</code>, the site-visit tracker,
         any other page content).</p>
