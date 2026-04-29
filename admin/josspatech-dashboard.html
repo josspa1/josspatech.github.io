@@ -3371,8 +3371,13 @@ Generated ${new Date().toISOString()}.
         return;
       }
       const j = await r.json();
+      // Worker returns confidence as a string label ("high"|"medium"|"low"),
+      // not a 0-1 number. Display whichever shape it actually is.
+      const confDisplay = (typeof j.confidence === "number")
+        ? (j.confidence * 100).toFixed(0) + "%"
+        : (j.confidence || "?");
       const summary = j.success
-        ? `success — brand=${j.brand || "?"}, model=${j.model || "?"}, confidence=${j.confidence != null ? (j.confidence * 100).toFixed(0) + "%" : "?"}`
+        ? `success — brand=${j.brand || "?"}, model=${j.model || "?"}, confidence=${confDisplay}`
         : `success=false (${j.error || "model returned no usable identification"})`;
       qaLog(`/identify/${category} responded in ${ms}ms — ${summary}`, "ok");
     } catch (e) { qaLog(`/identify/${category} failed: ${e.message}`, "err"); }
