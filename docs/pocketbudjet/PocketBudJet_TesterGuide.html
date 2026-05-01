@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beta Tester Guide — PocketBudJet by JosspaTech</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+:root{--navy:#1A4F7A;--navy-dark:#0C3358;--navy-mid:#2E6FA3;--gold:#E8A820;--slate:#5A7A9A;--light-slate:#8AAABB;--bg:#EDF2F7;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Source Sans 3",sans-serif;background:var(--bg);color:#222;line-height:1.8;font-size:16px;}
+header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);}
+.hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
+.hdr-name span{color:var(--gold);}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;}
+.breadcrumb a{color:var(--light-slate);text-decoration:none;transition:color .15s;}
+.breadcrumb a:hover{color:var(--gold);}
+.breadcrumb .bc-sep{color:rgba(255,255,255,0.2);}
+.breadcrumb .bc-cur{color:rgba(255,255,255,0.7);font-weight:600;}
+.doc-hero{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}
+.doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}
+.doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
+.doc-meta{font-size:15px;color:var(--light-slate);}
+.doc-meta span{margin-right:20px;}
+main{max-width:760px;margin:0 auto;padding:52px 24px 80px;}
+.summary-box{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--gold);}
+.summary-box strong{color:var(--gold);}
+h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}
+h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);font-weight:700;margin:22px 0 6px;}
+p{font-size:17px;margin-bottom:14px;}
+ul{margin:6px 0 14px 22px;}
+li{font-size:17px;margin-bottom:6px;}
+.feature-card{background:#fff;border:1px solid rgba(26,79,122,0.15);border-radius:8px;padding:14px 18px;margin:8px 0;}
+.feature-card .feature-where{font-size:14px;color:var(--slate);font-style:italic;margin-top:4px;}
+.callout{background:#FFF6E0;border-left:3px solid var(--gold);padding:14px 18px;margin:14px 0;border-radius:4px;}
+.callout strong{color:var(--navy-dark);}
+footer{background:var(--navy-dark);border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+footer p{font-size:12px;color:var(--light-slate);}
+@media(max-width:600px){header,footer{padding:0 20px;}.doc-hero{padding:36px 20px 28px;}main{padding:36px 20px 60px;}}
+</style>
+</head>
+<body>
+<header>
+  <a class="hdr-logo" href="/#pbj">
+    <svg width="32" height="32" viewBox="0 0 60 72" xmlns="http://www.w3.org/2000/svg">
+      <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2E6FA3"/><stop offset="100%" stop-color="#0C3358"/></linearGradient><linearGradient id="gg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#F0C040"/><stop offset="100%" stop-color="#E8A820"/></linearGradient></defs>
+      <path d="M30,2 C30,2 4,24 4,42 C4,54 13,60 22,57 C18,63 15,68 8,71 L52,71 C45,68 42,63 38,57 C47,60 56,54 56,42 C56,24 30,2 30,2 Z" fill="url(#sg)"/>
+      <circle cx="5" cy="43" r="3" fill="url(#gg)"/><circle cx="55" cy="43" r="3" fill="url(#gg)"/><circle cx="30" cy="3" r="2.5" fill="url(#gg)"/>
+      <text x="30" y="47" font-family="Georgia,serif" font-size="14" font-weight="700" fill="#F0C040" text-anchor="middle">JT</text>
+    </svg>
+    <span class="hdr-name">Josspa<span>Tech</span>™</span>
+  </a>
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <a href="/">JosspaTech</a>
+    <span class="bc-sep">/</span>
+    <a href="/#pbj">PocketBudJet</a>
+    <span class="bc-sep">/</span>
+    <span class="bc-cur">Tester Guide</span>
+  </nav>
+</header>
+
+<div class="doc-hero">
+  <span class="doc-type">PocketBudJet · Beta Tester Guide</span>
+  <h1>Welcome, tester.</h1>
+  <div class="doc-meta">
+    <span>Build 105+</span>
+    <span>Updated: April 29, 2026</span>
+    <span>Feedback: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
+  </div>
+</div>
+
+<main>
+  <div class="summary-box">
+    <strong>The deal:</strong> You're getting an early build of PocketBudJet — a personal-finance app that runs on your device and never asks for your bank credentials. We need real-life use to surface the rough edges. The list below tells you what to try, what to ignore, and how to send feedback.
+  </div>
+
+  <h2>1. Install</h2>
+  <p><strong>iPhone:</strong> Tap the TestFlight invite from your inbox. If TestFlight isn't installed yet, the App Store will prompt you. Accept and tap "Install" inside TestFlight.</p>
+  <p><strong>Android:</strong> Tap the Internal-Testing invite from Google Play. The Play Store opens straight to PocketBudJet — tap "Install."</p>
+  <p>Updates land automatically. If you ever feel like you're seeing yesterday's app, force-quit and reopen.</p>
+
+  <h2>2. Your first ten minutes</h2>
+  <p>Goal: get the app to the point where it has enough of your data to feel useful.</p>
+  <ol style="margin:6px 0 14px 28px;">
+    <li><strong>Run through Setup.</strong> The wizard asks for your monthly income source(s) and a few common categories. Skip anything that doesn't fit — you can edit later.</li>
+    <li><strong>Add 5–10 recent transactions.</strong> Easiest way: tap the big <em>+</em> on the dashboard and dictate or type them. Or scan a receipt with the camera.</li>
+    <li><strong>Open the dashboard.</strong> See if the cards make sense for your situation. They should look like <em>your</em> spending, not a demo.</li>
+  </ol>
+  <div class="callout"><strong>If anything in the first 10 minutes confused you, that's the most valuable thing you can tell us.</strong> Confusion in the opening minutes is a bug, even if everything technically worked.</div>
+
+  <h2>3. Hidden gems we want stress-tested</h2>
+  <p>These features are built and we want eyes on them. Some are buried — that's part of what we're trying to fix.</p>
+
+  <div class="feature-card">
+    <strong>Calendar bills view</strong>
+    <p>See what hits your account this week, next week, this month — all on one calendar grid.</p>
+    <div class="feature-where">Find it: Budget tab → Bills &amp; Recurring → Bills tab</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Net Worth over time</strong>
+    <p>One chart of your assets minus debts going back as far as you have data. Useful even if you only enter a starting balance.</p>
+    <div class="feature-where">Find it: Reports → Net Worth History</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Subscription audit</strong>
+    <p>The app sniffs out recurring charges (Netflix, gym, cloud storage) and shows them all in one place with totals. We want to know whether it found yours and whether anything looked wrong.</p>
+    <div class="feature-where">Find it: Budget tab → Bills &amp; Recurring → Subscriptions tab</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Receipt gallery</strong>
+    <p>Every receipt you've scanned, browsable as a grid with date and category filters. Tax-season superpower.</p>
+    <div class="feature-where">Find it: Transactions → Receipt Gallery</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Mileage log</strong>
+    <p>Log business / medical / charity miles with the IRS rate auto-applied. Rolls into the tax export.</p>
+    <div class="feature-where">Find it: Reports → Mileage Log</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Tax export</strong>
+    <p>One-button export of deductible transactions + Schedule C-style buckets + your mileage. Email it to your CPA.</p>
+    <div class="feature-where">Find it: Reports → Tax Export</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Email forwarding</strong>
+    <p>Brand new. Forward bank/billing emails to a private address; PocketBudJet parses them into transactions for your review. <strong>Off by default</strong> — flip it on in Settings if you want to try.</p>
+    <div class="feature-where">Find it: Import → Email Forwarding</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Couples / household view</strong>
+    <p>Track shared finances with a partner. Different from Partner Sync (Bluetooth-based device sync) — this is the household-level dashboard.</p>
+    <div class="feature-where">Find it: Settings → Couples Dashboard</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Investment portfolio</strong>
+    <p>Track 401k / IRA / brokerage balances over time. Manual entry — we don't read your accounts.</p>
+    <div class="feature-where">Find it: Settings → Investment Portfolio</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Home-screen widgets &amp; smartwatch tile</strong>
+    <p>Glance at your top number from your phone home screen or watch face. Setup instructions inside the app.</p>
+    <div class="feature-where">Find it: Settings → Widgets &amp; Smartwatch</div>
+  </div>
+
+  <div class="feature-card">
+    <strong>Notification preferences</strong>
+    <p>Single screen with every alert type (overspend warnings, bills due, weekly recap). Tune to taste — don't just disable everything in the OS.</p>
+    <div class="feature-where">Find it: Settings → Notification Preferences</div>
+  </div>
+
+  <h2>4. What we want to hear</h2>
+  <ul>
+    <li><strong>"This was confusing."</strong> Specifics please — which screen, what you expected, what you got.</li>
+    <li><strong>"This crashed."</strong> What you tapped right before it died. Bonus: a screenshot of the error.</li>
+    <li><strong>"This was wrong."</strong> Wrong number, wrong category, wrong date. Tell us what should've shown up instead.</li>
+    <li><strong>"I couldn't find X."</strong> Even if X exists — that's a finding.</li>
+    <li><strong>"This was great."</strong> Don't skip this. Knowing what's working is just as valuable.</li>
+  </ul>
+
+  <h2>5. What we're NOT testing in this round</h2>
+  <ul>
+    <li><strong>Bank login / Plaid.</strong> Not in this build. Manual entry, receipts, PDFs, and email forwarding are the import paths.</li>
+    <li><strong>Credit-score tracking.</strong> Coming in a later version.</li>
+    <li><strong>Pricing / subscription billing.</strong> Pro features are unlocked for testers.</li>
+  </ul>
+
+  <h2>6. Sending feedback</h2>
+  <p>Three ways, in order of preference:</p>
+  <ol style="margin:6px 0 14px 28px;">
+    <li><strong>TestFlight (iOS):</strong> shake the phone or use the in-app feedback button → goes straight to us with a screenshot and crash log.</li>
+    <li><strong>Email:</strong> <a href="mailto:support@josspatech.com">support@josspatech.com</a> — describe the issue and tell us what device + OS you're on.</li>
+    <li><strong>Texting Joe:</strong> if you have his number and it's urgent, fine. We'll log it.</li>
+  </ol>
+
+  <div class="callout"><strong>Privacy reminder.</strong> Your financial data lives on your phone. Don't include account numbers, balances, or other private detail in feedback unless we ask. Screenshots with numbers blurred are fine.</div>
+
+  <h2>7. Thank you</h2>
+  <p>Tester rounds are how an app stops feeling like the developer's pet project and starts feeling like something real people use. The honest, awkward, "this didn't make sense" feedback is the gold here. Send it. We'd rather hear it now than hear it from a 1-star review.</p>
+
+  <!-- ── DOCUMENT NAVIGATION BAR ── -->
+  <div style="background:#EDF2F7;border-top:1px solid rgba(26,79,122,0.2);margin-top:48px;padding:28px 48px 24px;">
+    <p style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet™ — Documents</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="PocketBudJet_PrivacyPolicy.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;">🔒 Privacy Policy</a>
+      <a href="PocketBudJet_TermsOfService.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;">📋 Terms of Service</a>
+      <a href="PocketBudJet_EULA.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;">📄 EULA</a>
+      <a href="/#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">← Back to PocketBudJet</a>
+    </div>
+  </div>
+
+</main>
+<footer>
+  <span style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;">Josspa<span style="color:#F0C040;">Tech</span>™</span>
+  <p>© 2026 JosspaTech. All Rights Reserved.</p>
+  <a href="/#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
+</footer>
+</body>
+</html>
