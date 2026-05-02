@@ -1392,8 +1392,124 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a href="#pricing" class="btn-ghost">See pricing</a>
       </div>
     </div>
+
+    <!-- Hero screenshot strip — 3 phones above the fold so visitors
+         see real product UI before scrolling. The single biggest
+         conversion lever for an unlaunched product page: substitute
+         "trust me, it's good" with "look at it." -->
+    <div class="pbj-hero-shots" aria-label="PocketBudJet screenshots">
+      <div class="pbj-shot pbj-shot-side">
+        <img src="assets/screenshots/budget.png" alt="Budget overview screen" loading="lazy">
+      </div>
+      <div class="pbj-shot pbj-shot-center">
+        <img src="assets/screenshots/dashboard.png" alt="Main dashboard with health score" loading="lazy">
+      </div>
+      <div class="pbj-shot pbj-shot-side">
+        <img src="assets/screenshots/ai-coach.png" alt="AI Coach insights" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
+
+<!-- Sticky bottom-bar — visible on every scroll position, single
+     dominant CTA. Mailto: keeps it backend-free for now; swap to a
+     real notify form once a list provider is set up. -->
+<style>
+.pbj-hero-shots {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.pbj-shot {
+  flex: 0 0 auto;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #0c1726;
+}
+.pbj-shot img {
+  display: block;
+  width: 220px;
+  height: auto;
+  border-radius: 28px;
+}
+.pbj-shot-center img {
+  width: 240px;
+  transform: translateY(-12px);
+}
+.pbj-shot-side img {
+  opacity: 0.85;
+}
+@media (max-width: 720px) {
+  .pbj-shot-side { display: none; }
+  .pbj-shot-center img { width: 280px; transform: none; }
+}
+
+.pbj-sticky-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: linear-gradient(to top, rgba(13, 30, 58, 0.95), rgba(13, 30, 58, 0.85));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 14px 18px;
+  z-index: 100;
+  font-family: inherit;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.pbj-sticky-bar.visible { transform: translateY(0); }
+.pbj-sticky-bar-text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.pbj-sticky-bar-cta {
+  background: #F0C040;
+  color: #0D2E4A;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+.pbj-sticky-bar-cta:hover { filter: brightness(1.05); }
+@media (max-width: 480px) {
+  .pbj-sticky-bar { gap: 10px; padding: 10px 14px; }
+  .pbj-sticky-bar-text { font-size: 12px; }
+  .pbj-sticky-bar-cta { padding: 8px 16px; font-size: 13px; }
+}
+</style>
+<div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="Get notified when PocketBudJet launches">
+  <span class="pbj-sticky-bar-text">PocketBudJet — launching soon for iOS &amp; Android.</span>
+  <a class="pbj-sticky-bar-cta" href="mailto:hello@josspatech.com?subject=Notify%20me%20when%20PocketBudJet%20launches&amp;body=Please%20let%20me%20know%20when%20PocketBudJet%20is%20available%20for%20download.">Notify me</a>
+</div>
+<script>
+// Reveal the sticky bar after the user scrolls past the first hero.
+// Avoids covering the eyebrow content on landing.
+(function() {
+  var bar = document.getElementById('pbjStickyBar');
+  if (!bar) return;
+  function update() {
+    var threshold = window.innerHeight * 0.6;
+    if (window.scrollY > threshold) bar.classList.add('visible');
+    else bar.classList.remove('visible');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
 <div class="pstrip">
   <div class="psi"><div class="psd"></div>no-contract subscription &mdash; every feature unlocked</div>
   <div class="psi"><div class="psd"></div>You choose where your data lives</div>
