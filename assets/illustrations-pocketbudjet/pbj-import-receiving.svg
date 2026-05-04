@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 760" width="400" height="760" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <!-- Phone frame -->
+  <rect x="0" y="0" width="400" height="760" rx="32" fill="#202124"/>
+  <rect x="8" y="8" width="384" height="744" rx="26" fill="#EDF2F7"/>
+
+  <!-- Status bar -->
+  <rect x="8" y="8" width="384" height="28" fill="#EDF2F7"/>
+  <text x="24" y="26" font-size="12" font-weight="600" fill="#1A4F7A">9:41</text>
+
+  <!-- PBJ navy hero header -->
+  <rect x="8" y="36" width="384" height="84" fill="#1A4F7A"/>
+  <text x="24" y="76" font-size="22" font-weight="900" fill="#ffffff">Import</text>
+  <text x="24" y="100" font-size="12" font-weight="500" fill="#F0C040" letter-spacing="0.4">RECEIVED FROM SHARE</text>
+
+  <!-- File card (the shared file) -->
+  <rect x="20" y="140" width="360" height="120" rx="12" fill="#ffffff" stroke="#F0C040" stroke-width="2"/>
+  <rect x="36" y="160" width="56" height="80" rx="6" fill="#fce8e8"/>
+  <text x="64" y="194" font-size="14" font-weight="700" fill="#c5302d" text-anchor="middle">PDF</text>
+  <text x="64" y="210" font-size="10" fill="#c5302d" text-anchor="middle">2.1 MB</text>
+  <text x="108" y="178" font-size="14" font-weight="700" fill="#1A4F7A">April 2026 Statement.pdf</text>
+  <text x="108" y="200" font-size="12" fill="#5A7A9A">Shared from your bank app</text>
+  <text x="108" y="220" font-size="11" font-weight="600" fill="#1a7f5a">✓ Recognized as a bank statement</text>
+  <text x="108" y="240" font-size="11" fill="#5A7A9A">Auto-detected: Citizens (or your bank)</text>
+
+  <!-- Spinner / parsing -->
+  <rect x="20" y="280" width="360" height="64" rx="12" fill="#ffffff"/>
+  <circle cx="48" cy="312" r="14" fill="none" stroke="#F0C040" stroke-width="3" stroke-dasharray="50 30"/>
+  <text x="76" y="306" font-size="13" font-weight="600" fill="#1A4F7A">Reading 31 transactions…</text>
+  <text x="76" y="322" font-size="11" fill="#5A7A9A">Mar 25 – Apr 24, 2026</text>
+
+  <!-- Preview rows (drafts, faded) -->
+  <rect x="20" y="364" width="360" height="42" rx="8" fill="#ffffff" opacity="0.95"/>
+  <text x="36" y="386" font-size="12" font-weight="600" fill="#1A4F7A">Apr 23 · Whole Foods Market</text>
+  <text x="364" y="386" font-size="12" font-weight="700" fill="#c5302d" text-anchor="end">−$67.42</text>
+  <text x="36" y="400" font-size="10" fill="#5A7A9A">Groceries · ✓ matched</text>
+
+  <rect x="20" y="412" width="360" height="42" rx="8" fill="#ffffff" opacity="0.95"/>
+  <text x="36" y="434" font-size="12" font-weight="600" fill="#1A4F7A">Apr 21 · Shell Gas</text>
+  <text x="364" y="434" font-size="12" font-weight="700" fill="#c5302d" text-anchor="end">−$43.18</text>
+  <text x="36" y="448" font-size="10" fill="#5A7A9A">Transportation · ✓ matched</text>
+
+  <rect x="20" y="460" width="360" height="42" rx="8" fill="#ffffff" opacity="0.85"/>
+  <text x="36" y="482" font-size="12" font-weight="600" fill="#1A4F7A">Apr 19 · Direct Deposit</text>
+  <text x="364" y="482" font-size="12" font-weight="700" fill="#1a7f5a" text-anchor="end">+$2,840.00</text>
+  <text x="36" y="496" font-size="10" fill="#5A7A9A">Income · ✓ matched</text>
+
+  <rect x="20" y="508" width="360" height="42" rx="8" fill="#ffffff" opacity="0.7"/>
+  <text x="36" y="530" font-size="12" font-weight="600" fill="#1A4F7A">Apr 18 · Spotify</text>
+  <text x="364" y="530" font-size="12" font-weight="700" fill="#c5302d" text-anchor="end">−$10.99</text>
+  <text x="36" y="544" font-size="10" fill="#5A7A9A">Subscriptions · recurring detected</text>
+
+  <rect x="20" y="556" width="360" height="42" rx="8" fill="#ffffff" opacity="0.55"/>
+  <text x="36" y="578" font-size="12" font-weight="600" fill="#1A4F7A">… 27 more transactions</text>
+
+  <!-- Confidence summary header -->
+  <rect x="20" y="616" width="360" height="62" rx="12" fill="#EDF7EC"/>
+  <text x="36" y="640" font-size="12" font-weight="700" fill="#1a7f5a">29 of 31 confident · 2 need a quick look</text>
+  <text x="36" y="660" font-size="11" fill="#5A7A9A">Tap any flagged row to fix it before confirming.</text>
+
+  <!-- Confirm button -->
+  <rect x="20" y="688" width="360" height="48" rx="24" fill="#F0C040"/>
+  <text x="200" y="718" font-size="15" font-weight="800" fill="#1A4F7A" text-anchor="middle">Confirm and add to budget</text>
+</svg>

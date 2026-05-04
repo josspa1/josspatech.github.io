@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!--
+  PocketBudJet Web Companion (read-only)
+  © 2026 JosspaTech. All Rights Reserved.
+
+  Static page at josspatech.com/web that renders a read-only
+  view of a user's PBJ data. Pairs to the phone via the same
+  magic-link token PBJ already issues for the QR-pair flow
+  (see PBJWebCompanionScreen on the phone). Token is stashed
+  in localStorage on first pair, then used to call the
+  Cloudflare Worker for live data.
+
+  Design philosophy:
+    - Single self-contained file, no build step. Ships via
+      GitHub Pages alongside the rest of josspatech.github.io.
+    - Read-only by design (Phase 6). Edits stay on the phone
+      where the local-first data lives. Eliminates the
+      "what if web edits drift from phone state" sync problem
+      that other budget apps fight constantly.
+    - Same brand (navy + gold) as the marketing site.
+    - Mobile-friendly so users can also use it on a tablet.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="PocketBudJet Web Companion — read-only view of your finances on any browser.">
+<meta name="robots" content="noindex">
+<title>PocketBudJet Web — Your Finances at a Glance</title>
+<style>
+:root {
+  --navy: #1A4F7A;
+  --navy-dark: #0C3358;
+  --gold: #F0C040;
+  --bg: #E6ECF5;
+  --surface: #FFFFFF;
+  --border: #C8D2E0;
+  --text: #1A1A2E;
+  --muted: #5A6A7E;
+  --success: #27AE60;
+  --error: #C0392B;
+  --warning: #E67E22;
+  --shadow-card: 0 3px 10px rgba(12,51,88,0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --navy: #2E6FA3;
+    --bg: #0B1622;
+    --surface: #14243A;
+    --border: #1C3050;
+    --text: #E5EAF0;
+    --muted: #8AA0B8;
+    --shadow-card: 0 4px 16px rgba(0,0,0,0.45);
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--text); }
+header { background: var(--navy-dark); color: #fff; padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+header .logo-pill { background: var(--gold); color: var(--navy-dark); font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 14px; letter-spacing: 0.5px; }
+header h1 { font-size: 16px; margin: 0; font-weight: 600; }
+header .spacer { flex: 1; }
+header .ro-badge { font-size: 11px; opacity: 0.8; padding: 4px 8px; border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+main { max-width: 980px; margin: 0 auto; padding: 16px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0));
+  pointer-events: none;
+  border-radius: 14px 14px 0 0;
+}
+@media (prefers-color-scheme: dark) {
+  .card::before { background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0)); }
+}
+.card > * { position: relative; }
+.card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 0 0 10px 0; font-weight: 700; }
+.hero-num { font-size: 44px; font-weight: 800; color: var(--navy); margin: 4px 0 2px 0; font-variant-numeric: tabular-nums; }
+.hero-num.green { color: var(--success); }
+.hero-num.red { color: var(--error); }
+.hero-sub { color: var(--muted); font-size: 13px; }
+.grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 700px) { .grid { grid-template-columns: 1fr 1fr; } }
+.row { display: flex; align-items: center; padding: 8px 0; border-top: 1px solid var(--border); gap: 10px; }
+.row:first-child { border-top: none; }
+.row .desc { flex: 1; font-size: 14px; }
+.row .meta { color: var(--muted); font-size: 12px; }
+.row .amt { font-weight: 600; font-variant-numeric: tabular-nums; }
+.row .amt.debit { color: var(--error); }
+.row .amt.credit { color: var(--success); }
+.bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.bar > span { display: block; height: 100%; background: var(--navy); border-radius: 3px; transition: width 0.4s ease; }
+.bar > span.over { background: var(--error); }
+.bar > span.warn { background: var(--warning); }
+.bar > span.good { background: var(--success); }
+.empty { text-align: center; padding: 40px 16px; color: var(--muted); }
+.pair-screen { max-width: 480px; margin: 60px auto; padding: 32px; background: var(--surface); border-radius: 16px; box-shadow: var(--shadow-card); text-align: center; }
+.pair-screen h2 { font-size: 24px; margin: 0 0 12px 0; color: var(--navy); }
+.pair-screen p { color: var(--muted); line-height: 1.5; margin: 8px 0; }
+.pair-input { width: 100%; padding: 12px 14px; font-size: 16px; border: 1px solid var(--border); border-radius: 8px; margin: 16px 0; box-sizing: border-box; background: var(--bg); color: var(--text); font-family: monospace; letter-spacing: 1px; }
+.pair-btn { background: var(--navy); color: #fff; border: none; padding: 12px 24px; font-size: 15px; font-weight: 600; border-radius: 8px; cursor: pointer; width: 100%; }
+.pair-btn:hover { background: var(--navy-dark); }
+.pair-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.error { color: var(--error); font-size: 13px; margin-top: 8px; }
+footer { text-align: center; padding: 24px 16px; color: var(--muted); font-size: 12px; }
+footer a { color: var(--navy); text-decoration: none; }
+.skeleton { background: linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%); background-size: 200% 100%; animation: shimmer 1.4s ease-in-out infinite; border-radius: 6px; height: 18px; margin: 8px 0; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo-pill">PBJ</span>
+  <h1>Web Companion</h1>
+  <span class="spacer"></span>
+  <span class="ro-badge" id="ro-badge">Read Only</span>
+</header>
+
+<main id="main">
+  <!-- Initial pair screen, replaced after token is stored -->
+  <div class="pair-screen" id="pair-screen">
+    <h2>Pair this device</h2>
+    <p>Open PocketBudJet on your phone, go to <strong>Settings → Web Companion</strong>, and scan the QR code or tap "Issue web token."</p>
+    <p style="margin-top: 20px;">Then paste the token here:</p>
+    <input class="pair-input" id="token-input" placeholder="pbj-web-…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button class="pair-btn" id="pair-btn">Connect</button>
+    <p class="error" id="pair-error" style="display:none;"></p>
+    <p style="margin-top: 24px; font-size: 12px;">
+      Your data stays in your browser only. The token is stored in <code>localStorage</code> on this device.
+    </p>
+  </div>
+
+  <!-- Dashboard (hidden until paired) -->
+  <div id="dashboard" style="display:none;">
+    <div style="display:flex;justify-content:flex-end;margin-bottom:8px;">
+      <button id="signout-btn" style="background:none;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:6px;font-size:13px;cursor:pointer;">
+        Sign out of this device
+      </button>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2>Net Worth</h2>
+        <div class="hero-num" id="net-worth">—</div>
+        <div class="hero-sub" id="net-worth-sub">Loading…</div>
+      </div>
+      <div class="card">
+        <h2>This Month</h2>
+        <div class="hero-num" id="month-net">—</div>
+        <div class="hero-sub" id="month-sub">Loading…</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Top Categories</h2>
+      <div id="categories-list">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Recent Transactions</h2>
+      <div id="transactions-list">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Goals Progress</h2>
+      <div id="goals-list">
+        <div class="empty">No goals shared yet.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a href="/">JosspaTech</a> · <a href="/#pbj">About PocketBudJet</a> · Read-only web view · Edits stay on your phone.
+</footer>
+
+<script>
+const WORKER_BASE = 'https://pbj-import-worker.morning-star-b5e0.workers.dev';
+const TOKEN_KEY  = 'pbj-web-token';
+
+document.getElementById('pair-btn').addEventListener('click', async () => {
+  const token = document.getElementById('token-input').value.trim();
+  const err = document.getElementById('pair-error');
+  const btn = document.getElementById('pair-btn');
+  err.style.display = 'none';
+  if (!token.startsWith('pbj-web-')) {
+    err.textContent = 'That doesn\'t look right. Tokens start with "pbj-web-".';
+    err.style.display = 'block';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Connecting…';
+  try {
+    // Validate token by attempting a snapshot fetch.
+    const resp = await fetch(`${WORKER_BASE}/web/snapshot`, {
+      method: 'GET',
+      headers: { 'x-pbj-web-token': token },
+    });
+    if (resp.status === 401 || resp.status === 403) {
+      throw new Error('Token rejected. Make sure you copied the whole thing.');
+    }
+    if (!resp.ok && resp.status !== 404) {
+      // 404 is fine — it just means /web/snapshot endpoint isn't deployed yet.
+      // We accept the token anyway; the page will show "no data shared yet"
+      // until Joe ships the endpoint.
+      throw new Error(`Server returned ${resp.status}.`);
+    }
+    localStorage.setItem(TOKEN_KEY, token);
+    showDashboard();
+  } catch (e) {
+    err.textContent = e.message || 'Could not connect. Try again in a minute.';
+    err.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Connect';
+  }
+});
+
+function showDashboard() {
+  document.getElementById('pair-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  loadSnapshot();
+}
+
+// Sign-out handler. Two parts:
+//   1. Best-effort POST to /web/revoke so the Worker invalidates the
+//      token server-side (defensive — keeps a leaked browser token from
+//      being reusable from another machine).
+//   2. Always clear localStorage and return to the pair screen, even if
+//      the network call fails. The user's intent is "I'm done here."
+document.getElementById('signout-btn').addEventListener('click', async () => {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!confirm('Sign out and remove this browser\'s pairing? You\'ll need a new token from your phone to come back.')) return;
+  if (token) {
+    try {
+      await fetch(`${WORKER_BASE}/web/revoke`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-pbj-web-token': token },
+        body: JSON.stringify({ token }),
+      });
+    } catch { /* network failure shouldn't block local sign-out */ }
+  }
+  localStorage.removeItem(TOKEN_KEY);
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('pair-screen').style.display = 'block';
+  document.getElementById('token-input').value = '';
+});
+
+async function loadSnapshot() {
+  const token = localStorage.getItem(TOKEN_KEY);
+  if (!token) return;
+  try {
+    const resp = await fetch(`${WORKER_BASE}/web/snapshot`, {
+      method: 'GET',
+      headers: { 'x-pbj-web-token': token },
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    renderSnapshot(data);
+  } catch (e) {
+    // Render an honest empty state. Don't fake data.
+    document.getElementById('net-worth').textContent = '—';
+    document.getElementById('net-worth-sub').textContent = 'No data shared yet from your phone.';
+    document.getElementById('month-net').textContent = '—';
+    document.getElementById('month-sub').textContent = 'Your phone will push a snapshot the next time you open the app.';
+    document.getElementById('categories-list').innerHTML = '<div class="empty">Snapshot pending.</div>';
+    document.getElementById('transactions-list').innerHTML = '<div class="empty">Snapshot pending.</div>';
+  }
+}
+
+function fmt(n) {
+  if (n === null || n === undefined || isNaN(n)) return '—';
+  const sign = n < 0 ? '−' : '';
+  return sign + '$' + Math.abs(Math.round(n)).toLocaleString();
+}
+
+function renderSnapshot(d) {
+  // Net Worth
+  if (typeof d.netWorth === 'number') {
+    const el = document.getElementById('net-worth');
+    el.textContent = fmt(d.netWorth);
+    el.className = 'hero-num ' + (d.netWorth >= 0 ? 'green' : 'red');
+    document.getElementById('net-worth-sub').textContent =
+      d.netWorthDeltaThisMonth >= 0
+        ? `+${fmt(d.netWorthDeltaThisMonth)} this month`
+        : `${fmt(d.netWorthDeltaThisMonth)} this month`;
+  }
+  // Month
+  if (typeof d.monthIncome === 'number' && typeof d.monthSpent === 'number') {
+    const net = d.monthIncome - d.monthSpent;
+    const el = document.getElementById('month-net');
+    el.textContent = (net >= 0 ? '+' : '') + fmt(net);
+    el.className = 'hero-num ' + (net >= 0 ? 'green' : 'red');
+    document.getElementById('month-sub').textContent =
+      `${fmt(d.monthIncome)} in · ${fmt(d.monthSpent)} out`;
+  }
+  // Categories
+  if (Array.isArray(d.topCategories) && d.topCategories.length) {
+    const max = Math.max(...d.topCategories.map(c => c.spent || 0));
+    document.getElementById('categories-list').innerHTML = d.topCategories.slice(0, 5).map(c => {
+      const pct = max > 0 ? Math.min(100, (c.spent / max) * 100) : 0;
+      const overPct = c.limit > 0 ? (c.spent / c.limit) * 100 : 0;
+      const cls = overPct > 100 ? 'over' : overPct > 80 ? 'warn' : 'good';
+      return `<div class="row" style="display:block;">
+        <div style="display:flex; align-items:center;">
+          <span class="desc">${escapeHtml(c.name)}</span>
+          <span class="amt">${fmt(c.spent)}</span>
+        </div>
+        <div class="bar"><span class="${cls}" style="width:${pct}%"></span></div>
+        ${c.limit ? `<div class="meta">of ${fmt(c.limit)} budget</div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  // Transactions
+  if (Array.isArray(d.recentTransactions) && d.recentTransactions.length) {
+    document.getElementById('transactions-list').innerHTML = d.recentTransactions.slice(0, 30).map(tx => {
+      const cls = tx.amount < 0 ? 'debit' : 'credit';
+      return `<div class="row">
+        <span class="desc">${escapeHtml(tx.description || 'Transaction')}<div class="meta">${escapeHtml(tx.date || '')}</div></span>
+        <span class="amt ${cls}">${tx.amount < 0 ? '−' : '+'}${fmt(Math.abs(tx.amount))}</span>
+      </div>`;
+    }).join('');
+  }
+  // Goals
+  if (Array.isArray(d.goals) && d.goals.length) {
+    document.getElementById('goals-list').innerHTML = d.goals.map(g => {
+      const pct = g.target > 0 ? Math.min(100, (g.current / g.target) * 100) : 0;
+      return `<div class="row" style="display:block;">
+        <div style="display:flex; align-items:center;">
+          <span class="desc">${escapeHtml(g.name)}</span>
+          <span class="amt">${fmt(g.current)} / ${fmt(g.target)}</span>
+        </div>
+        <div class="bar"><span class="good" style="width:${pct}%"></span></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// Auto-show dashboard if already paired
+if (localStorage.getItem(TOKEN_KEY)) {
+  showDashboard();
+}
+</script>
+
+</body>
+</html>

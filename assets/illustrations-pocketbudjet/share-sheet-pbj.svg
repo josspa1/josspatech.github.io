@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 760" width="400" height="760" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <!-- Phone frame -->
+  <rect x="0" y="0" width="400" height="760" rx="32" fill="#202124"/>
+  <rect x="8" y="8" width="384" height="744" rx="26" fill="#1a7f5a" opacity="0.45"/>
+
+  <!-- Status bar -->
+  <rect x="8" y="8" width="384" height="28" fill="#1a7f5a" opacity="0.6"/>
+  <text x="24" y="26" font-size="12" font-weight="600" fill="#ffffff">9:41</text>
+
+  <!-- Dimmed bank app behind the share sheet -->
+  <rect x="8" y="36" width="384" height="304" fill="#0e5c41" opacity="0.5"/>
+  <text x="200" y="190" font-size="13" fill="#ffffff" opacity="0.7" text-anchor="middle">(your bank app dims behind)</text>
+
+  <!-- Share sheet card -->
+  <rect x="8" y="340" width="384" height="412" rx="20" fill="#ffffff"/>
+  <!-- Drag handle -->
+  <rect x="184" y="354" width="32" height="4" rx="2" fill="#bdc1c6"/>
+
+  <!-- File preview at top -->
+  <rect x="32" y="378" width="336" height="68" rx="10" fill="#f5f7fa"/>
+  <rect x="44" y="392" width="40" height="44" rx="4" fill="#fce8e8"/>
+  <text x="56" y="416" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="100" y="408" font-size="14" font-weight="600" fill="#202124">April 2026 Statement.pdf</text>
+  <text x="100" y="426" font-size="12" fill="#5f6368">2.1 MB</text>
+
+  <!-- Section: Apps -->
+  <text x="32" y="478" font-size="11" font-weight="700" fill="#5f6368" letter-spacing="0.6">SHARE TO</text>
+
+  <!-- App row 1 -->
+  <g transform="translate(32, 494)">
+    <!-- Messages -->
+    <rect x="0" y="0" width="56" height="56" rx="14" fill="#5fbe5b"/>
+    <text x="28" y="36" font-size="22" fill="#ffffff" text-anchor="middle">💬</text>
+    <text x="28" y="76" font-size="10" fill="#5f6368" text-anchor="middle">Messages</text>
+  </g>
+
+  <g transform="translate(108, 494)">
+    <!-- Mail -->
+    <rect x="0" y="0" width="56" height="56" rx="14" fill="#1a73e8"/>
+    <text x="28" y="36" font-size="22" fill="#ffffff" text-anchor="middle">✉</text>
+    <text x="28" y="76" font-size="10" fill="#5f6368" text-anchor="middle">Mail</text>
+  </g>
+
+  <!-- HIGHLIGHTED: PocketBudJet (gold ring) -->
+  <g transform="translate(184, 488)">
+    <!-- Pulse ring (static for SVG, but visually obvious) -->
+    <rect x="-6" y="-6" width="74" height="74" rx="20" fill="none" stroke="#F0C040" stroke-width="3"/>
+    <rect x="0" y="0" width="62" height="62" rx="16" fill="#1A4F7A"/>
+    <text x="31" y="40" font-size="20" font-weight="900" fill="#F0C040" text-anchor="middle">PBJ</text>
+    <text x="31" y="82" font-size="10" font-weight="700" fill="#1A4F7A" text-anchor="middle">PocketBudJet</text>
+  </g>
+
+  <g transform="translate(268, 494)">
+    <!-- Drive -->
+    <rect x="0" y="0" width="56" height="56" rx="14" fill="#fbbc04"/>
+    <text x="28" y="36" font-size="22" fill="#ffffff" text-anchor="middle">▲</text>
+    <text x="28" y="76" font-size="10" fill="#5f6368" text-anchor="middle">Drive</text>
+  </g>
+
+  <g transform="translate(336, 494)">
+    <!-- More -->
+    <rect x="0" y="0" width="32" height="56" rx="14" fill="#f1f3f4"/>
+    <text x="16" y="36" font-size="18" fill="#5f6368" text-anchor="middle">⋯</text>
+  </g>
+
+  <!-- Section: Actions -->
+  <text x="32" y="612" font-size="11" font-weight="700" fill="#5f6368" letter-spacing="0.6">ACTIONS</text>
+
+  <!-- Action row -->
+  <rect x="32" y="624" width="336" height="48" rx="10" fill="#f5f7fa"/>
+  <text x="48" y="654" font-size="18" fill="#5f6368">⎙</text>
+  <text x="80" y="654" font-size="14" fill="#202124">Save to Files</text>
+
+  <rect x="32" y="676" width="336" height="48" rx="10" fill="#f5f7fa"/>
+  <text x="48" y="706" font-size="18" fill="#5f6368">⎘</text>
+  <text x="80" y="706" font-size="14" fill="#202124">Copy</text>
+</svg>

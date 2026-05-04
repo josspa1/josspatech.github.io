@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Bank Statements to PocketBudJet — The Fastest Import | JosspaTech</title>
+    <meta name="description" content="The fastest way to import a bank statement: tap Share in your bank's app and pick PocketBudJet. No download, no email forwarding, no copy-paste.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Source Sans 3', sans-serif; color: var(--navy); background-color: var(--white); line-height: 1.6; }
+
+        /* Navigation */
+        nav { position: sticky; top: 0; z-index: 1000; background-color: var(--navy); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a { color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button { background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem; border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s ease; }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 2rem 2rem; text-align: center; }
+        .hero .container { max-width: 1200px; margin: 0 auto; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; margin-bottom: 1rem; line-height: 1.2; }
+        .hero .subheader { font-size: 1.25rem; font-weight: 300; max-width: 700px; margin: 0 auto; color: rgba(255,255,255,0.95); }
+        .hero .badge { display: inline-block; background: var(--gold); color: var(--navy-dark); padding: 0.4rem 1rem; border-radius: 16px; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.8rem; letter-spacing: 0.5px; }
+
+        /* Animated Video Section */
+        .video-section { background-color: var(--background); padding: 4rem 2rem; }
+        .video-section .container { max-width: 1200px; margin: 0 auto; }
+        .video-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 0.5rem; color: var(--navy); }
+        .video-section .section-sub { text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem; }
+        .video-wrapper { display: flex; gap: 3rem; align-items: flex-start; justify-content: center; flex-wrap: wrap; }
+
+        .phone-viewport { flex-shrink: 0; overflow: hidden; border-radius: 40px; }
+        .phone-frame { width: 320px; position: relative; border: 10px solid var(--navy-dark); border-radius: 40px; overflow: hidden; background: #000; box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1); aspect-ratio: 9 / 19.5; max-height: 580px; }
+        .phone-frame::before { content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px; z-index: 20; }
+        .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in-out; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+        .slide-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.85)); padding: 3rem 1.2rem 1.5rem; color: white; }
+        .slide-step { display: inline-block; background: var(--gold); color: var(--navy-dark); font-weight: 800; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; margin-bottom: 6px; letter-spacing: 0.5px; }
+        .slide-title { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+
+        /* Tap indicator */
+        .tap-indicator { position: absolute; z-index: 15; pointer-events: none; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.4s ease 0.3s; }
+        .slide.active .tap-indicator { opacity: 1; }
+        .tap-ring { width: 44px; height: 44px; border-radius: 50%; border: 3px solid var(--gold); animation: tap-pulse 1.8s ease-out infinite; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+        .tap-ring-outer { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); border: 2px solid rgba(240,192,64,0.6); border-radius: 50%; animation: tap-ripple 1.8s ease-out infinite 0.2s; }
+        .tap-finger { position: absolute; bottom: -18px; right: -14px; font-size: 22px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5)); animation: tap-bounce 1.8s ease-in-out infinite; }
+        @keyframes tap-pulse {
+            0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+            70% { transform: scale(1.4); opacity: 0; box-shadow: 0 0 0 rgba(240,192,64,0); }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        @keyframes tap-ripple {
+            0% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+            20% { opacity: 0.5; }
+            100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+        }
+        @keyframes tap-bounce {
+            0%, 100% { transform: translateY(0) rotate(-15deg); }
+            40% { transform: translateY(-5px) rotate(-15deg); }
+            60% { transform: translateY(2px) rotate(-15deg); }
+        }
+
+        /* Progress dots + controls */
+        .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer; }
+        .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+
+        .narration-panel { max-width: 400px; flex: 1; min-width: 280px; position: relative; }
+        .narration-card { background: var(--white); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold); margin-bottom: 1rem; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; position: absolute; top: 0; left: 0; width: 100%; pointer-events: none; }
+        .narration-card.active { opacity: 1; transform: translateY(0); position: relative; pointer-events: auto; }
+        .narration-step-badge { display: inline-block; background: var(--navy); color: white; font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px; margin-bottom: 0.6rem; }
+        .narration-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+        .narration-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+        .narration-timer { height: 3px; background: var(--gold); border-radius: 2px; margin-top: 1rem; transform-origin: left; transform: scaleX(0); }
+
+        .playback-controls { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 0.8rem; }
+        .play-pause-btn { background: var(--navy); color: var(--white); border: none; width: 38px; height: 38px; border-radius: 50%; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(26,79,122,0.3); transition: transform 0.2s ease, background 0.2s ease; }
+        .play-pause-btn:hover { background: var(--navy-medium); transform: scale(1.05); }
+        .speed-label { color: var(--slate); font-size: 0.85rem; font-weight: 500; }
+
+        /* Steps */
+        .steps-section { background-color: var(--white); padding: 4rem 2rem; }
+        .steps-section .container { max-width: 1100px; margin: 0 auto; }
+        .steps-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--navy); margin-bottom: 2rem; text-align: center; }
+        .timeline { position: relative; padding-left: 50px; }
+        .timeline::before { content: ''; position: absolute; left: 18px; top: 8px; bottom: 8px; width: 3px; background: var(--gold); border-radius: 2px; }
+        .timeline-step { position: relative; margin-bottom: 1.6rem; }
+        .timeline-marker { position: absolute; left: -42px; top: 0; width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--navy-dark); font-size: 1rem; border: 3px solid var(--white); box-shadow: 0 0 0 3px var(--gold); }
+        .timeline-content { padding-left: 0.5rem; }
+        .timeline-content h3 { color: var(--navy); margin-bottom: 0.4rem; font-size: 1.1rem; }
+        .timeline-content p { color: var(--slate); line-height: 1.6; font-size: 0.95rem; }
+        .privacy-note { background: #FBF7E9; border-left: 4px solid var(--gold); padding: 1.4rem 1.6rem; border-radius: 6px; margin-top: 2rem; }
+        .privacy-note h4 { color: var(--navy); margin-bottom: 0.4rem; font-size: 1rem; }
+        .privacy-note p { color: var(--slate); font-size: 0.9rem; line-height: 1.6; }
+
+        /* CTA */
+        .cta-section { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); color: var(--white); padding: 4rem 2rem; text-align: center; }
+        .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-section p { font-size: 1rem; margin-bottom: 1.4rem; color: rgba(255,255,255,0.9); }
+        .download-button { display: inline-block; background: var(--gold); color: var(--navy-dark); padding: 1rem 2.4rem; border-radius: 6px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; }
+        .download-button:hover { background: var(--gold-dark); transform: translateY(-2px); }
+
+        footer { background: var(--navy-dark); color: rgba(255,255,255,0.7); text-align: center; padding: 1.4rem 2rem; font-size: 0.85rem; }
+        footer a { color: var(--gold); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .video-wrapper { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="/" class="logo">JosspaTech</a>
+        <ul class="nav-links">
+            <li><a href="/#pbj">PocketBudJet</a></li>
+            <li><a href="/videos/pocketbudjet/">All Videos</a></li>
+            <li><a href="/" class="cta-button">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="container">
+        <span class="badge">FASTEST IMPORT METHOD</span>
+        <h1>Share Bank Statements to PocketBudJet</h1>
+        <p class="subheader">Your bank app already has a Share button. Tap it, pick PocketBudJet, and the statement opens straight in the Import screen — parsed and ready to confirm. No downloads. No email forwarding. No copy-paste.</p>
+    </div>
+</section>
+
+<section class="video-section">
+    <div class="container">
+        <h2>From bank app to budget — under 10 seconds</h2>
+        <p class="section-sub">Six taps. That&rsquo;s it.</p>
+        <div class="video-wrapper">
+            <div>
+                <div class="phone-viewport">
+                    <div class="phone-frame">
+                        <div class="slideshow" id="slideshow">
+
+                            <!-- Slide 0: title card -->
+                            <div class="slide active" data-index="0">
+                                <img src="/assets/screenshots/dashboard.png" alt="PocketBudJet dashboard" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">INTRO</span>
+                                    <div class="slide-title">The fastest way to import a statement</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 1: bank app statement view -->
+                            <div class="slide" data-index="1">
+                                <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Bank app showing recent statements list" loading="lazy">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 1</span>
+                                    <div class="slide-title">Open your bank&rsquo;s app and find a statement</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: tap the share icon -->
+                            <div class="slide" data-index="2">
+                                <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Tap the share icon next to the statement">
+                                <div class="tap-indicator" style="left:88%;top:33%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 2</span>
+                                    <div class="slide-title">Tap the Share icon on the statement</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: share sheet appears -->
+                            <div class="slide" data-index="3">
+                                <img src="/assets/illustrations-pocketbudjet/share-sheet-pbj.svg" alt="Share sheet shows PocketBudJet">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 3</span>
+                                    <div class="slide-title">Your phone&rsquo;s share sheet appears</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: tap PBJ in share sheet -->
+                            <div class="slide" data-index="4">
+                                <img src="/assets/illustrations-pocketbudjet/share-sheet-pbj.svg" alt="Tap PocketBudJet in share sheet">
+                                <div class="tap-indicator" style="left:53%;top:68%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 4</span>
+                                    <div class="slide-title">Tap the PocketBudJet icon</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 5: PBJ opens straight to Import -->
+                            <div class="slide" data-index="5">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-import-receiving.svg" alt="PocketBudJet opens to Import screen with the statement loaded">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 5</span>
+                                    <div class="slide-title">PocketBudJet opens straight to Import</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 6: review then confirm -->
+                            <div class="slide" data-index="6">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-import-receiving.svg" alt="Review parsed transactions and tap Confirm">
+                                <div class="tap-indicator" style="left:50%;top:91%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                                <div class="slide-overlay">
+                                    <span class="slide-step">STEP 6</span>
+                                    <div class="slide-title">Review the draft, tap Confirm</div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 7: done -->
+                            <div class="slide" data-index="7">
+                                <img src="/assets/screenshots/transactions.png" alt="Transactions appear in PocketBudJet">
+                                <div class="slide-overlay">
+                                    <span class="slide-step">DONE</span>
+                                    <div class="slide-title">Statement imported &mdash; now in your budget</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="progress-dots" id="dots"></div>
+                    <div class="playback-controls">
+                        <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause slideshow">&#10074;&#10074;</button>
+                        <span class="speed-label" id="speedLabel">Auto-playing</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="narration-panel" id="narrationPanel">
+                <div class="narration-card active" data-index="0">
+                    <span class="narration-step-badge">Slide 1 of 8</span>
+                    <h3>The Share Trick</h3>
+                    <p>The fastest way to get a bank statement into Pocket Budget isn&rsquo;t downloading the file or emailing it to yourself. It&rsquo;s the Share button that&rsquo;s already in every bank app. Six taps from your bank&rsquo;s home screen to a fully parsed statement in your budget.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="1">
+                    <span class="narration-step-badge">Slide 2 of 8</span>
+                    <h3>Open Your Bank App</h3>
+                    <p>Open your bank&rsquo;s app and tap into the account you want a statement from. Find the Statements section &mdash; usually under Accounts, Documents, or Activity. Pick the month you want.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="2">
+                    <span class="narration-step-badge">Slide 3 of 8</span>
+                    <h3>Tap the Share Icon</h3>
+                    <p>Look for the Share icon &mdash; usually a square with an arrow pointing up, or three dots that lead to a Share menu. Some banks show it right next to each statement; others put it inside the open PDF view. Either way, it&rsquo;s there.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="3">
+                    <span class="narration-step-badge">Slide 4 of 8</span>
+                    <h3>The Share Sheet Appears</h3>
+                    <p>Your phone slides up the standard share sheet &mdash; the same one you see when you share a photo or a webpage. It shows every app on your phone that can accept a PDF.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="4">
+                    <span class="narration-step-badge">Slide 5 of 8</span>
+                    <h3>Pick Pocket Budget</h3>
+                    <p>Tap the Pocket Budget icon. If you don&rsquo;t see it in the first row, scroll right or tap More &mdash; once you pick it the first time, your phone remembers and pins it near the top.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="5">
+                    <span class="narration-step-badge">Slide 6 of 8</span>
+                    <h3>Pocket Budget Takes Over</h3>
+                    <p>Pocket Budget opens directly to the Import screen with your statement already loaded. It auto-detects which bank the statement is from and starts reading the transactions immediately. No menu hunting. No file picker. The work is already underway by the time the screen finishes opening.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="6">
+                    <span class="narration-step-badge">Slide 7 of 8</span>
+                    <h3>Review and Confirm</h3>
+                    <p>Pocket Budget shows you every transaction it found, color-coded by confidence. Green checkmarks mean it&rsquo;s sure. A small flag means it would like a second pair of eyes. Tap any row to fix it. When you&rsquo;re happy, tap Confirm.</p>
+                    <div class="narration-timer"></div>
+                </div>
+                <div class="narration-card" data-index="7">
+                    <span class="narration-step-badge">Slide 8 of 8</span>
+                    <h3>Done</h3>
+                    <p>That&rsquo;s the whole import. Your statement is now part of your budget &mdash; categorized, dated, and visible on your dashboard. The PDF itself never leaves your phone unless you choose to keep a copy in your own Cloud Backup.</p>
+                    <div class="narration-timer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="steps-section">
+    <div class="container">
+        <h2>Why Share Beats Every Other Import Method</h2>
+        <div class="timeline">
+            <div class="timeline-step">
+                <div class="timeline-marker">1</div>
+                <div class="timeline-content">
+                    <h3>Six Taps Total</h3>
+                    <p>From your bank&rsquo;s home screen to a parsed statement: open account, open statements, pick month, tap Share, pick Pocket Budget, tap Confirm. That&rsquo;s it.</p>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-marker">2</div>
+                <div class="timeline-content">
+                    <h3>No Downloads to Manage</h3>
+                    <p>Sharing skips your Downloads folder entirely. The PDF goes straight from your bank app to Pocket Budget, no file cleanup needed afterward.</p>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-marker">3</div>
+                <div class="timeline-content">
+                    <h3>Auto-Detects Your Bank</h3>
+                    <p>Pocket Budget recognizes the format from the very first page &mdash; Citizens, Chase, Bank of America, Wells Fargo, Capital One, smaller credit unions, and more. You don&rsquo;t pick the bank; the app figures it out.</p>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-marker">4</div>
+                <div class="timeline-content">
+                    <h3>Works for Credit Card Statements Too</h3>
+                    <p>Same flow for any credit card statement &mdash; Visa, Mastercard, American Express, Discover, store cards. Pocket Budget knows the difference between a checking statement and a credit card statement and labels the transactions accordingly.</p>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-marker">5</div>
+                <div class="timeline-content">
+                    <h3>Password-Protected PDFs Supported</h3>
+                    <p>Some banks lock their PDFs with a password (often the last four of your account number, or your date of birth). Pocket Budget asks you for the password right inside the Import screen, unlocks it on your device, and never sends the password anywhere else.</p>
+                </div>
+            </div>
+            <div class="timeline-step">
+                <div class="timeline-marker">6</div>
+                <div class="timeline-content">
+                    <h3>Recurring Charges Auto-Linked</h3>
+                    <p>If a transaction matches a subscription you already track, Pocket Budget links them. Your Spotify charge from the statement won&rsquo;t double up with the Spotify recurring you already added &mdash; it just confirms the recurring fired.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="privacy-note">
+            <h4>Why this is the privacy-friendly path</h4>
+            <p>Pocket Budget never asks for your bank login. Sharing the statement gives Pocket Budget the data on the page &mdash; the same data you can already see &mdash; and nothing more. No ongoing access to your account, no permission to read future statements, no token sitting around. Each share is one file, one time. That&rsquo;s it.</p>
+        </div>
+
+        <div class="privacy-note" style="background: #E8F0FE; border-left-color: var(--navy-medium);">
+            <h4>What if my bank app doesn&rsquo;t have a Share button?</h4>
+            <p>Most do, but a few hide it. If you can&rsquo;t find one, download the PDF the normal way, save it to your Downloads folder, then tap the Plus button on the Transactions screen and tap Import. Pocket Budget will find it. Same outcome &mdash; just one more step. <a href="../digital-receipt-import/" style="color: var(--navy-medium); font-weight: 600;">See the Downloads-folder workflow.</a></p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Try the share method on your next statement.</h2>
+        <p>Six taps from your bank app to a parsed budget entry.</p>
+        <a href="/" class="download-button">Get Pocket Budget</a>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 JosspaTech &mdash; <a href="/">josspatech.com</a></p>
+</footer>
+
+<script>
+const slides   = document.querySelectorAll('.slide');
+const narrCards = document.querySelectorAll('.narration-card');
+const dotsEl   = document.getElementById('dots');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const speedLabel   = document.getElementById('speedLabel');
+let current = 0;
+let isPaused = false;
+let advanceTimer = null;
+let currentAudio = null;
+
+const audioPaths = [
+    'audio/slide-0.mp3','audio/slide-1.mp3','audio/slide-2.mp3','audio/slide-3.mp3',
+    'audio/slide-4.mp3','audio/slide-5.mp3','audio/slide-6.mp3','audio/slide-7.mp3'
+];
+const fallbackDurations = [9000, 9000, 11000, 8000, 9000, 13000, 12000, 9000];
+
+// Build dots
+slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.addEventListener('click', () => { goTo(i); });
+    dotsEl.appendChild(d);
+});
+const dots = document.querySelectorAll('.dot');
+
+function clearTimer() {
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+}
+function stopAudio() {
+    if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+}
+
+function goTo(i) {
+    current = (i + slides.length) % slides.length;
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === current));
+    narrCards.forEach((c, idx) => c.classList.toggle('active', idx === current));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+    playSlide();
+}
+
+function playSlide() {
+    clearTimer();
+    stopAudio();
+    if (isPaused) return;
+    const audio = new Audio(audioPaths[current]);
+    currentAudio = audio;
+    let advanced = false;
+    const advance = () => {
+        if (advanced) return;
+        advanced = true;
+        // Stop at the last slide instead of looping (per video standards).
+        if (current >= slides.length - 1) {
+            isPaused = true;
+            playPauseBtn.innerHTML = '&#9654;';
+            speedLabel.textContent = 'Finished';
+            return;
+        }
+        goTo(current + 1);
+    };
+    audio.addEventListener('ended', advance);
+    audio.addEventListener('error', () => {
+        clearTimer();
+        advanceTimer = setTimeout(advance, fallbackDurations[current] || 9000);
+    });
+    audio.play().catch(() => {
+        // Autoplay may be blocked; rely on the duration fallback.
+        clearTimer();
+        advanceTimer = setTimeout(advance, fallbackDurations[current] || 9000);
+    });
+    // Belt-and-suspenders fallback: if the audio loads but never fires "ended"
+    // (rare on some browsers), still advance after a max ceiling.
+    clearTimer();
+    advanceTimer = setTimeout(advance, (fallbackDurations[current] || 9000) + 2000);
+}
+
+playPauseBtn.addEventListener('click', () => {
+    isPaused = !isPaused;
+    if (isPaused) {
+        clearTimer();
+        if (currentAudio) currentAudio.pause();
+        playPauseBtn.innerHTML = '&#9654;';
+        speedLabel.textContent = 'Paused';
+    } else {
+        playPauseBtn.innerHTML = '&#10074;&#10074;';
+        speedLabel.textContent = 'Auto-playing';
+        playSlide();
+    }
+});
+
+// Kick off
+playSlide();
+</script>
+
+</body>
+</html>
