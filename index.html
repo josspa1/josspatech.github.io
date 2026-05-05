@@ -221,8 +221,10 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   position:relative;overflow:hidden;
   box-shadow:0 8px 24px rgba(12,51,88,0.18),0 32px 64px rgba(12,51,88,0.14);
   text-decoration:none;
+  cursor:pointer;
   transition:transform .22s var(--ease),box-shadow .22s var(--ease);
 }
+.product-card:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
 .product-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(12,51,88,0.22),0 40px 80px rgba(12,51,88,0.18);}
 .product-card::before{
   content:'';position:absolute;top:-80px;right:-80px;
@@ -310,8 +312,10 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   position:relative;overflow:hidden;
   box-shadow:0 8px 24px rgba(12,51,88,0.18),0 32px 64px rgba(12,51,88,0.14);
   text-decoration:none;
+  cursor:pointer;
   transition:transform .22s var(--ease),box-shadow .22s var(--ease);
 }
+.hhh-card:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
 .hhh-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(12,51,88,0.22),0 40px 80px rgba(12,51,88,0.18);}
 .hhh-card::before{
   content:'';position:absolute;top:-60px;right:-60px;
@@ -396,8 +400,10 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   position:relative;overflow:hidden;
   box-shadow:0 8px 24px rgba(12,51,88,0.18),0 32px 64px rgba(12,51,88,0.14);
   text-decoration:none;
+  cursor:pointer;
   transition:transform .22s var(--ease),box-shadow .22s var(--ease);
 }
+.cvc-card:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
 .cvc-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(12,51,88,0.22),0 40px 80px rgba(12,51,88,0.18);}
 .cvc-card::before{
   content:'';position:absolute;top:-60px;right:-60px;
@@ -1189,7 +1195,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="products-grid">
 
       <!-- PocketBudJet card -->
-      <a href="#pbj" onclick="showPage('pbj');return false;" class="product-card rv d1">
+      <div role="button" tabindex="0" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="product-card rv d1">
         <div class="product-badge">
           <div class="product-badge-dot"></div>
           Available Now
@@ -1201,7 +1207,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info, you pick where data lives</li>
           <li><div class="pf-check"></div>AI Financial Coach watches for unusual spending and gives plain-English advice</li>
           <li><div class="pf-check"></div>Scan receipts, bills &amp; pay stubs with your camera &mdash; AI-powered, cloud-assisted for tough receipts</li>
-          <li><div class="pf-check"></div>Import bank statements (CSV, OFX, QFX, QIF, XLSX, PDF) &mdash; load as many months as you want and compare them</li>
+          <li><div class="pf-check"></div>Share statements straight from your bank app, or import CSV, OFX, QFX, QIF, XLSX, PDF &mdash; load as many months as you want and compare them</li>
           <li><div class="pf-check"></div>Hand clean data to your accountant, financial planner, or mortgage broker &mdash; export to PDF, Excel, Word, OFX, or HTML in formats your bank can't produce. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
           <li><div class="pf-check"></div>PC Web Dashboard &mdash; manage your budget from any browser on your WiFi</li>
           <li><div class="pf-check"></div>Debt-free date calculator &mdash; Avalanche vs Snowball, see which saves more</li>
@@ -1216,10 +1222,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="platform-pill">iOS</div>
           <div class="platform-pill">Android</div>
         </div>
-      </a>
+      </div>
 
       <!-- Handy Horology Helper card -->
-      <a href="#hhh" onclick="showPage('hhh');return false;" class="hhh-card rv d2">
+      <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hhh-card rv d2">
         <div class="hhh-badge">
           <div class="hhh-badge-dot"></div>
           In Development
@@ -1247,10 +1253,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="hhh-pill">iOS</div>
           <div class="hhh-pill">Android</div>
         </div>
-      </a>
+      </div>
 
       <!-- Curator's Vault: Classics card -->
-      <a href="#cvc" onclick="showPage('cvc');return false;" class="cvc-card rv d3">
+      <div role="button" tabindex="0" onclick="showPage('cvc');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('cvc');}" class="cvc-card rv d3">
         <div class="cvc-badge">
           <div class="cvc-badge-dot"></div>
           In Development
@@ -1276,7 +1282,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="cvc-pill">iOS</div>
           <div class="cvc-pill">Android</div>
         </div>
-      </a>
+      </div>
 
     </div>
   </div>
@@ -1704,7 +1710,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No bank login required</div><p class="pcard-b">Import as many months of bank statements as you want (PDF, CSV, OFX, QFX) and compare your spending month to month. Scan receipts, capture from email, or enter manually. PocketBudJet never asks for your banking credentials.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#F0C040" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>No account required &mdash; ever</div><p class="pcard-b">Open the app and start. No email, no password, no profile. When you delete the app, your data goes with it.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/></svg></div>AI coach &mdash; on your device, on your terms</div><p class="pcard-b">Ask the AI Financial Coach anything about your money in plain English. It uses only aggregated summaries &mdash; category totals, not individual transactions. Opt-in. Opt-out any time in Settings.</p></div>
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3h7v7" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3l-9 9" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Your financial home base &mdash; and your translator</div><p class="pcard-b">Bank export menus are meager. PocketBudJet imports anything &mdash; CSV, OFX, QFX, QIF, XLSX, PDF &mdash; and exports clean data your accountant, financial planner, or mortgage broker can actually use. PDF, Excel, Word, OFX, HTML, and accountant-formatted reports. Hand off your year-end, refi packet, or planner upload in two taps. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3h7v7" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3l-9 9" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Your financial home base &mdash; and your translator</div><p class="pcard-b">Bank export menus are meager. PocketBudJet imports anything &mdash; share-sheet straight from your bank app, CSV, OFX, QFX, QIF, XLSX, PDF &mdash; and exports clean data your accountant, financial planner, or mortgage broker can actually use. PDF, Excel, Word, OFX, HTML, and accountant-formatted reports. Hand off your year-end, refi packet, or planner upload in two taps. <a href="/videos/pocketbudjet/share-statements/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">See how share-to-PocketBudJet works &rarr;</a></p></div>
     </div>
   </div>
 </section>
