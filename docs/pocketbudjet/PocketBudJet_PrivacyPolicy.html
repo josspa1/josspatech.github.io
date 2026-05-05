@@ -86,8 +86,20 @@ footer .fn span{color:var(--gold);}
   <p><strong>On the network.</strong> All traffic to the services listed in §4, §5, §10, and §11 is over TLS.</p>
 
   <h2>3. Camera and Receipt Scanning</h2>
-  <p>Camera access is used for receipt scanning. By default, receipt images are processed with on-device OCR first (Apple Vision / Android ML Kit) — the image only leaves your phone if on-device OCR can't read it clearly, in which case a cloud OCR fallback is used for better accuracy.</p>
-  <p><strong>Cloud OCR fallback (on by default).</strong> When and on-device OCR returns low confidence, the image is sent over TLS to OCR.Space for text extraction. OCR.Space does not retain uploads after processing. This is on by default and can be disabled in Settings → Advanced.</p>
+  <p>Camera access is used for receipt scanning. By default, receipt images are processed with on-device OCR first (Apple Vision / Android ML Kit) — the image only leaves your phone if on-device OCR can't read it clearly, in which case a cloud fallback is used for better accuracy.</p>
+  <p><strong>Cloud OCR fallback (on by default).</strong> When on-device OCR returns low confidence, the image is sent over TLS to OCR.Space for text extraction. OCR.Space does not retain uploads after processing. This is on by default and can be disabled in Settings → Advanced.</p>
+  <p><strong>AI Vision fallback (rare).</strong> If both on-device OCR and OCR.Space fail to produce usable receipt data, the image may be forwarded — over TLS, through a JosspaTech-operated Cloudflare Worker — to <strong>Google's Gemini API</strong> for structured extraction (merchant, date, items, total). Google does not retain Gemini API inputs for training under its API terms. The image is processed in-flight; neither JosspaTech nor Google retains it after the structured response is returned. You can disable cloud-based parsing entirely (OCR.Space + Gemini) in Settings → Advanced.</p>
+
+  <h2>3a. PDF Statement and Document Import</h2>
+  <p>When you import a PDF (bank statement, credit-card statement, paystub, invoice, or receipt) — by sharing it from another app, browsing files, or forwarding via email — PocketBudJet uses a layered parsing approach. Each layer is tried in order; processing stops at the first one that succeeds.</p>
+  <ul>
+    <li><strong>Layer 1 — Local text scan.</strong> Many PDFs already contain extractable text. We first try to read that text directly on your device, with no network call.</li>
+    <li><strong>Layer 2 — Worker text extraction.</strong> If the on-device scan fails, the PDF bytes are sent over TLS to a JosspaTech-operated Cloudflare Worker, which uses an open-source PDF text-extraction library (<code>unpdf</code>) to pull the raw text. The text is returned to your device for parsing. The PDF is processed in memory and is not retained on the Worker.</li>
+    <li><strong>Layer 3 — AI Vision.</strong> If the previous layers can't make sense of the document (scanned/image-only PDFs, paystubs with complex layouts, multi-account statements), the PDF is forwarded — through the same Worker — to <strong>Google's Gemini API</strong>, which returns structured transactions or a paystub breakdown. Google does not retain Gemini API inputs for training under its API terms. The PDF is processed in-flight and is not retained by JosspaTech or Google after the structured response is returned.</li>
+  </ul>
+  <p><strong>What is sent:</strong> the PDF bytes themselves. Bank statements typically include the account holder name, masked account number, posting dates, and transaction descriptions. The full PDF is required for Layer 3 because the AI needs the visual layout to identify rows accurately. Nothing is added to the upload — no device identifiers, no JosspaTech account ID (PocketBudJet does not require an account).</p>
+  <p><strong>What is NOT sent:</strong> any other data on your device, your other PDFs, your transactions database, or your settings.</p>
+  <p><strong>Disabling:</strong> the cloud parsing layers can be disabled in Settings → Advanced. With them off, only Layer 1 (on-device) runs, which works for most modern bank PDFs but will fail on scanned or image-only documents.</p>
 
   <h2>4. Email Forwarding (Optional)</h2>
   <p>PocketBudJet can ingest financial emails (bank confirmations, billing statements, payment receipts) that you forward to a unique inbound address. This feature is <strong>off by default</strong> and only activates when you enable it in Settings → Import &amp; Connections → Email Forwarding.</p>
