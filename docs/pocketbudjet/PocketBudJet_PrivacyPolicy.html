@@ -54,7 +54,7 @@ footer .fn span{color:var(--gold);}
   <span class="doc-type">PocketBudJet · Legal Document</span>
   <h1>Privacy Policy</h1>
   <div class="doc-meta">
-    <span>Effective Date: April 29, 2026</span>
+    <span>Effective Date: May 17, 2026</span>
     <span>Developer: JosspaTech</span>
     <span>Contact: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
@@ -137,16 +137,19 @@ footer .fn span{color:var(--gold);}
   <p><strong>What is NOT sent to Anthropic:</strong> Your name, email, phone, address, account numbers, card numbers, device identifiers, or individual transaction-level records. Anthropic does not retain customer API inputs for training (see Anthropic's Commercial Terms and privacy policy).</p>
   <p>The AI Financial Coach is disabled by default and can be toggled in Settings. You can use PocketBudJet indefinitely without ever turning it on.</p>
 
-  <h2>6. Bank Account Connectivity (Roadmap)</h2>
-  <p>A future version of PocketBudJet will offer an optional feature to connect your bank accounts for transaction import via Plaid, Inc. This feature will:</p>
+  <h2>6. Bank Account Connectivity</h2>
+  <p>PocketBudJet offers an optional feature to connect your bank accounts for automatic transaction import. This feature is provided via <strong>Quiltt, Inc.</strong>, a third-party financial data aggregator. Bank connectivity is available to paid-tier subscribers only and is entirely opt-in — disabled by default and enabled only by your explicit action through the in-app connection flow.</p>
+  <p><strong>How the data flows:</strong></p>
   <ul>
-    <li>Be entirely opt-in — disabled by default and enabled only by your explicit action</li>
-    <li>Use Plaid as the bank connectivity provider — JosspaTech will never see your bank credentials</li>
-    <li>Let you control sync frequency (manual-only is supported)</li>
-    <li>Show you every transaction for your review before anything is imported</li>
-    <li>Store Plaid access tokens on your device in Keychain/Keystore</li>
+    <li>When you choose to connect a bank, PocketBudJet hands you off to Quiltt's secure connection flow. You enter your bank credentials directly with Quiltt or your bank — JosspaTech never sees, receives, or stores your bank credentials.</li>
+    <li>Quiltt establishes the connection with your bank and returns an access token to PocketBudJet. That token is stored on your device in iOS Keychain / Android Keystore — it never leaves your device unencrypted.</li>
+    <li>When the app fetches transactions, it asks Quiltt (using the stored token) to retrieve recent activity. Quiltt fetches from your bank and returns the transactions to PocketBudJet, where they are stored locally on your device alongside the rest of your financial data.</li>
+    <li>You control sync frequency. Manual-only sync is supported. You can disconnect any bank at any time from Settings → Financial Sources, which revokes Quiltt's access and deletes the stored token from your device.</li>
   </ul>
-  <p>This feature is not yet available. This policy will be updated with full details before it launches.</p>
+  <p><strong>What Quiltt sees and does with it:</strong> Quiltt acts as a service provider / processor on your behalf to retrieve your transaction data. They see your bank credentials (which you enter into their secure flow), your account balances and transactions, and the merchant strings and amounts in those transactions. Quiltt's own privacy practices apply to that data — see <a href="https://www.quiltt.io/privacy" target="_blank" rel="noopener noreferrer">https://www.quiltt.io/privacy</a> for their disclosures. JosspaTech does not receive a copy of your bank credentials, and our handling of the transaction data Quiltt returns is governed by the rest of this Privacy Policy (it stays on your device unless you've enabled an optional cloud backup or anonymized crowd contribution).</p>
+  <p><strong>Paid-tier gating:</strong> The bank-sync feature is part of PocketBudJet's paid tier. If you cancel your subscription, the bank-sync connection is disconnected automatically and the stored access token is removed from your device. Transactions that were previously imported remain on your device — disconnecting does not delete your historical data.</p>
+  <p><strong>Trial users:</strong> Bank sync may be available during free trials. At the end of your trial, if you do not subscribe, the bank-sync connection is automatically disconnected and the stored token is removed. You will retain any transactions already imported, but no new transactions will be synced.</p>
+  <p><strong>Your rights:</strong> You can request deletion of any data Quiltt holds about you by contacting Quiltt directly (see their privacy policy for the deletion-request process). PocketBudJet's own data deletion process is described in Section 11 below.</p>
 
   <h2>7. Voice Shortcuts</h2>
   <p>Voice shortcuts (Siri on iOS, Google Assistant / App Actions on Android) are opt-in and off by default. Voice audio is processed by Apple or Google under their respective privacy policies — not by JosspaTech. Only the resulting text command is used to create a transaction locally on your device.</p>
@@ -185,27 +188,22 @@ footer .fn span{color:var(--gold);}
   <h2>13. Data Deletion</h2>
   <p>Because your financial data is stored on your device (and any backups you made to a cloud provider <em>you control</em>), you delete it by uninstalling the app and, if applicable, deleting your backups from your cloud provider. JosspaTech does not retain a copy of your financial data and has nothing to delete on our end. If you've enabled Email Forwarding, disabling it (Settings → Import &amp; Connections → Email Forwarding) removes your forwarding-address mapping from the Worker. Anonymous crash reports and aggregated crowd-pool contributions cannot be linked back to you, so they cannot be individually withdrawn — but you can turn off future contributions at any time in Settings.</p>
 
-  <h2>14. Changes to This Policy</h2>
-  <p>We may update this Privacy Policy from time to time. We will update the effective date when we do. Continued use of the App after changes constitutes acceptance of the updated policy. For material changes we will provide in-app notification.</p>
+  <p>We may update this Privacy Policy from time to time. We will update the effective date when we do. Continued use of the App after changes are posted constitutes acceptance of the revised policy. Material changes will be surfaced via in-app notification.</p>
 
   <h2>15. Contact</h2>
-  <p>Privacy questions or concerns: <strong><a href="mailto:support@josspatech.com">support@josspatech.com</a></strong></p>
+  <p>Privacy questions: <strong><a href="mailto:privacy@josspatech.com">privacy@josspatech.com</a></strong></p>
+
   <!-- ── LEGAL DOCUMENT NAVIGATION BAR ── -->
   <div style="background:#EDF2F7;border-top:1px solid rgba(26,79,122,0.2);margin-top:48px;padding:28px 48px 24px;">
-    <p style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet™ — Legal Documents</p>
+    <p style="font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#5A7A9A;font-weight:700;margin-bottom:16px;">PocketBudJet&trade; &mdash; Legal Documents</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
       <a href="PocketBudJet_PrivacyPolicy.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">🔒 Privacy Policy</a>
       <a href="PocketBudJet_TermsOfService.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📋 Terms of Service</a>
       <a href="PocketBudJet_EULA.html" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:#fff;border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#0C3358;font-size:15px;font-weight:600;transition:border-color 0.2s;">📄 End User License Agreement</a>
-      <a href="index.html#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">← Back to PocketBudJet</a>
+      <a href="/#pbj" style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,79,122,0.08);border:1px solid rgba(26,79,122,0.3);border-radius:6px;text-decoration:none;color:#1A4F7A;font-size:15px;font-weight:600;">&larr; Back to PocketBudJet</a>
     </div>
   </div>
 
 </main>
-<footer style="background:#0C3358;border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-  <span style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;">Josspa<span style="color:#F0C040;">Tech</span>™</span>
-  <p style="font-size:12px;color:#8AAABB;">© 2026 JosspaTech. All Rights Reserved.</p>
-  <a href="index.html#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
-</footer>
 </body>
 </html>

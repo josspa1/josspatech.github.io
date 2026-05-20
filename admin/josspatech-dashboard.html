@@ -1295,6 +1295,55 @@
       <div id="cronHealthGrid"></div>
     </section>
 
+    <!-- ─── OCR Quota & Cost Panel ──────────────────────────
+         Real-time view of today's cloud OCR usage + estimated
+         overage cost. Reads /ocr/quota/stats on the Worker (KV
+         counters). Tunable from wrangler.toml — see §6 of
+         PBJ_OCR_QUOTA_DESIGN.md. -->
+    <section id="ocrQuotaPanel">
+      <h2>OCR Quota &amp; Cost</h2>
+      <p class="section-explainer">
+        Real-time snapshot of today's cloud OCR usage straight from the Worker's KV
+        counters. The progress bar tracks the GLOBAL daily call total against the
+        circuit-breaker limit set in <code>wrangler.toml</code>. <strong style="color: var(--success);">Green</strong>
+        under 75% utilization, <strong style="color: var(--warning);">yellow</strong> 75-90%,
+        <strong style="color: var(--danger);">red</strong> above 90% — the circuit breaker
+        arms at 100% and starts denying FREE users automatically (premium/trial keep working).
+        <br><br>
+        <strong>Estimated cost</strong> is non-zero only when a service exceeds its free-tier
+        daily quota (OCR.Space 500/day, Gemini 1500/day). Overage calls are multiplied by
+        the per-call USD rate in <code>wrangler.toml</code>. Tune those rates as real bills
+        arrive. To raise or lower any limit: edit <code>wrangler.toml</code>, run
+        <code>wrangler deploy</code>. No app build needed.
+      </p>
+      <div id="ocrQuotaGrid">Loading…</div>
+    </section>
+
+    <!-- ─── Teller Status & Cost Panel ──────────────────────
+         Health + cost tracking for Teller bank-sync. Reads
+         /teller/stats on the Worker (KV counters maintained by
+         /teller/exchange, /teller/disconnect, /teller/webhook).
+         See PBJ_FEATURE_ACCESS_GATES.md §4 for the lifecycle. -->
+    <section id="tellerStatusPanel">
+      <h2>Teller Status &amp; Cost</h2>
+      <p class="section-explainer">
+        Live view of the Teller bank-sync integration. Active enrollments
+        are tracked via the Worker's <code>/teller/exchange</code> and
+        <code>/teller/disconnect</code> routes (running counter in KV).
+        Webhook health uses the timestamp of the most recent
+        <code>/teller/webhook</code> POST — green if within 24h, yellow
+        24-72h, red older or never received with active enrollments.
+        <br><br>
+        <strong>Estimated monthly cost</strong> = active enrollments ×
+        <code>TELLER_COST_PER_CONNECTION_USD</code> from
+        <code>wrangler.toml</code>. Sandbox and development environments
+        always show $0 because Teller does not bill for them. The cost
+        becomes real only when <code>TELLER_ENV</code> is flipped to
+        <code>production</code> in <code>wrangler.toml</code>.
+      </p>
+      <div id="tellerStatusGrid">Loading…</div>
+    </section>
+
     <!-- ─── Quarantine Watch Panel ────────────────────────────
          Surfaces records the aggregation hook flagged as PII or
          otherwise weird. They sit in _quarantine_submissions
@@ -3438,6 +3487,279 @@ Generated ${new Date().toISOString()}.
     return "red";
   }
 
+
+
+  /* ─── Teller Status & Cost — Worker /teller/stats ─────────── */
+  async function loadTellerStatusPanel() {
+    const root = document.getElementById("tellerStatusGrid");
+    if (!root) return;
+
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name">X-PBJ-Key not set in this browser</div>
+            <div class="cron-last">Log in through the existing dashboard auth flow so the shared key is stored; this panel uses the same key.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    let stats = null;
+    let httpStatus = 0;
+    try {
+      const r = await fetch(`${WORKER_BASE}/teller/stats`, {
+        headers: { "X-PBJ-Key": key },
+        signal: AbortSignal.timeout(8000),
+      });
+      httpStatus = r.status;
+      if (r.ok) stats = await r.json();
+    } catch (e) { /* network error */ }
+
+    if (!stats) {
+      root.innerHTML = `
+        <div class="cron-card red">
+          <div>
+            <div class="cron-name">Could not load Teller stats (HTTP ${httpStatus || "network error"})</div>
+            <div class="cron-last">Verify Worker is deployed and the X-PBJ-Key matches the Worker's PBJ_SHARED_KEY secret.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const cardStyle = "background: var(--surface, #fff); border: 1px solid var(--border, rgba(0,0,0,0.1)); border-radius: 12px; padding: 16px;";
+    const muted     = "color: var(--text-muted, #666); font-size: 12px;";
+    const num       = "font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 700;";
+
+    const envBadgeColor = stats.environment === "production" ? "var(--danger, #dc2626)"
+                        : stats.environment === "development" ? "var(--warning, #f59e0b)"
+                        : "var(--success, #10b981)"; // sandbox default
+    const whColor = stats.webhookHealth === "healthy" ? "var(--success, #10b981)"
+                  : stats.webhookHealth === "stale"  ? "var(--danger, #dc2626)"
+                  : "var(--text-muted, #666)";
+    const whLabel = stats.webhookHealth === "healthy" ? "Healthy"
+                  : stats.webhookHealth === "stale"  ? "Stale"
+                  : "No data yet";
+
+    function ago(iso) {
+      if (!iso) return "never";
+      const t = new Date(iso).getTime();
+      if (!Number.isFinite(t)) return "never";
+      const m = (Date.now() - t) / 60000;
+      if (m < 1)    return "just now";
+      if (m < 60)   return `${m.toFixed(0)} min ago`;
+      if (m < 1440) return `${(m/60).toFixed(1)} hr ago`;
+      return `${(m/1440).toFixed(1)} days ago`;
+    }
+
+    const notesHtml = stats.notes && stats.notes.length
+      ? `<div style="${cardStyle} background: var(--surface-alt, #fffbe6); border-color: var(--warning, #f59e0b);">
+           <strong style="display: block; margin-bottom: 6px;">Notes</strong>
+           <ul style="margin: 0; padding-left: 20px; font-size: 13px; color: var(--text-secondary, #444);">
+             ${stats.notes.map(n => `<li style="margin-bottom: 4px;">${n}</li>`).join("")}
+           </ul>
+         </div>`
+      : "";
+
+    root.innerHTML = `
+      <div style="display: grid; gap: 14px;">
+        <div style="${cardStyle}">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 12px;">
+            <strong>Environment</strong>
+            <span style="font-weight: 700; color: ${envBadgeColor}; text-transform: uppercase; letter-spacing: 1px;">
+              ${stats.environment}
+            </span>
+          </div>
+          <div style="${muted}">App ID: <code>${stats.appId}</code></div>
+        </div>
+
+        <div style="${cardStyle}">
+          <strong style="display: block; margin-bottom: 10px;">Active enrollments &amp; estimated cost</strong>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div>
+              <div style="${muted}">Active enrollments</div>
+              <div style="${num}">${stats.active.toLocaleString()}</div>
+            </div>
+            <div>
+              <div style="${muted}">Rate per connection</div>
+              <div style="${num}">$${Number(stats.costPerConnectionUsd).toFixed(2)}/mo</div>
+            </div>
+            <div>
+              <div style="${muted}">Estimated monthly cost</div>
+              <div style="${num}; color: ${stats.estimatedMonthlyCostUsd > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">
+                $${Number(stats.estimatedMonthlyCostUsd).toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="${cardStyle}">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 12px;">
+            <strong>Webhook health</strong>
+            <span style="font-weight: 700; color: ${whColor};">${whLabel}</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div>
+              <div style="${muted}">Last webhook</div>
+              <div style="${num}">${ago(stats.lastWebhook)}</div>
+            </div>
+            <div>
+              <div style="${muted}">Webhooks today</div>
+              <div style="${num}">${stats.today.webhooks.toLocaleString()}</div>
+            </div>
+            <div>
+              <div style="${muted}">Webhooks MTD</div>
+              <div style="${num}">${stats.month_to_date.webhooks.toLocaleString()}</div>
+            </div>
+          </div>
+          <div style="${muted}; margin-top: 10px;">
+            Last exchange: ${ago(stats.lastExchange)} · Last disconnect: ${ago(stats.lastDisconnect)}
+          </div>
+        </div>
+
+        ${notesHtml}
+
+        <div style="${muted}; text-align: right;">Data fetched ${new Date().toLocaleTimeString()}</div>
+      </div>
+    `;
+  }
+
+  /* ─── OCR Quota & Cost — Worker /ocr/quota/stats ─────────── */
+  async function loadOcrQuotaPanel() {
+    const root = document.getElementById("ocrQuotaGrid");
+    if (!root) return;
+
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name">X-PBJ-Key not set in this browser</div>
+            <div class="cron-last">Log in through the existing dashboard auth flow so the shared key is stored; this panel uses the same key.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    let stats = null;
+    let httpStatus = 0;
+    try {
+      const r = await fetch(`${WORKER_BASE}/ocr/quota/stats`, {
+        headers: { "X-PBJ-Key": key },
+        signal: AbortSignal.timeout(8000),
+      });
+      httpStatus = r.status;
+      if (r.ok) stats = await r.json();
+    } catch (e) { /* network error */ }
+
+    if (!stats) {
+      root.innerHTML = `
+        <div class="cron-card red">
+          <div>
+            <div class="cron-name">Could not load OCR stats (HTTP ${httpStatus || "network error"})</div>
+            <div class="cron-last">Verify Worker is deployed and the X-PBJ-Key in localStorage matches the Worker's PBJ_SHARED_KEY secret.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const usedPct = stats.caps.globalDailyLimit > 0
+      ? Math.min(100, (stats.today.total / stats.caps.globalDailyLimit) * 100)
+      : 0;
+    const barColor = usedPct >= 90 ? "var(--danger, #dc2626)"
+                    : usedPct >= 75 ? "var(--warning, #f59e0b)"
+                    : "var(--success, #10b981)";
+    const cb = stats.today.circuitBreakerArmed;
+    const costToday = Number(stats.today.estimatedCostUsd || 0);
+    const costMtd   = Number(stats.month_to_date.estimatedCostUsd || 0);
+    const cardStyle = "background: var(--surface, #fff); border: 1px solid var(--border, rgba(0,0,0,0.1)); border-radius: 12px; padding: 16px;";
+    const muted = "color: var(--text-muted, #666); font-size: 12px;";
+    const num = "font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 700;";
+
+    root.innerHTML = `
+      <div style="display: grid; gap: 14px;">
+        <div style="${cardStyle}">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; gap: 12px; flex-wrap: wrap;">
+            <strong>Today's global usage</strong>
+            <span style="font-variant-numeric: tabular-nums;">
+              ${stats.today.total.toLocaleString()} / ${stats.caps.globalDailyLimit.toLocaleString()}
+              ${cb ? `<span style="color: var(--danger, #dc2626); font-weight: 700; margin-left: 8px;">⚠ breaker armed</span>` : ""}
+            </span>
+          </div>
+          <div style="background: rgba(0,0,0,0.08); border-radius: 8px; height: 12px; overflow: hidden;">
+            <div style="background: ${barColor}; height: 100%; width: ${usedPct.toFixed(1)}%; transition: width 0.3s;"></div>
+          </div>
+          <div style="display: flex; gap: 18px; margin-top: 10px; ${muted}; flex-wrap: wrap;">
+            <div>OCR.Space: <strong style="color: var(--text); font-variant-numeric: tabular-nums;">${stats.today.space.toLocaleString()}</strong> / ${stats.freeTier.spaceDaily.toLocaleString()} free</div>
+            <div>Gemini: <strong style="color: var(--text); font-variant-numeric: tabular-nums;">${stats.today.gemini.toLocaleString()}</strong> / ${stats.freeTier.geminiDaily.toLocaleString()} free</div>
+          </div>
+        </div>
+
+        <div style="${cardStyle}">
+          <strong style="display: block; margin-bottom: 10px;">Today's overage &amp; cost</strong>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+            <div>
+              <div style="${muted}">OCR.Space overage</div>
+              <div style="${num}">${stats.today.overageSpace.toLocaleString()} calls</div>
+            </div>
+            <div>
+              <div style="${muted}">Gemini overage</div>
+              <div style="${num}">${stats.today.overageGemini.toLocaleString()} calls</div>
+            </div>
+            <div>
+              <div style="${muted}">Estimated cost today</div>
+              <div style="${num}; color: ${costToday > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">$${costToday.toFixed(4)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="${cardStyle}">
+          <strong style="display: block; margin-bottom: 10px;">Month-to-date</strong>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+            <div>
+              <div style="${muted}">Total calls</div>
+              <div style="${num}">${stats.month_to_date.total.toLocaleString()}</div>
+            </div>
+            <div>
+              <div style="${muted}">OCR.Space</div>
+              <div style="${num}">${stats.month_to_date.space.toLocaleString()}</div>
+            </div>
+            <div>
+              <div style="${muted}">Gemini</div>
+              <div style="${num}">${stats.month_to_date.gemini.toLocaleString()}</div>
+            </div>
+            <div>
+              <div style="${muted}">Estimated cost MTD</div>
+              <div style="${num}; color: ${costMtd > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">$${costMtd.toFixed(2)}</div>
+            </div>
+          </div>
+        </div>
+
+        <details style="${cardStyle}">
+          <summary style="cursor: pointer; font-weight: 600;">Currently deployed caps &amp; rates</summary>
+          <div style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; font-size: 13px; font-variant-numeric: tabular-nums;">
+            <div>Free monthly cap: <strong>${stats.caps.monthlyFree}</strong></div>
+            <div>Trial monthly cap: <strong>${stats.caps.monthlyTrial}</strong></div>
+            <div>Active monthly cap: <strong>${stats.caps.monthlyActive}</strong></div>
+            <div>Per-device daily ceiling: <strong>${stats.caps.dailyCeiling}</strong></div>
+            <div>Global circuit breaker: <strong>${stats.caps.globalDailyLimit}/day</strong></div>
+            <div>OCR.Space free tier: <strong>${stats.freeTier.spaceDaily}/day</strong></div>
+            <div>Gemini free tier: <strong>${stats.freeTier.geminiDaily}/day</strong></div>
+            <div>OCR.Space rate: <strong>$${stats.rates.spaceUsd}/call</strong></div>
+            <div>Gemini rate: <strong>$${stats.rates.geminiUsd}/call</strong></div>
+          </div>
+          <div style="margin-top: 12px; ${muted};">
+            To adjust: edit the <code>OCR_*</code> lines in <code>cloudflare-worker/wrangler.toml</code>
+            and run <code>wrangler deploy</code>. No app rebuild required.
+          </div>
+        </details>
+
+        <div style="${muted}; text-align: right;">Data fetched ${new Date().toLocaleTimeString()}</div>
+      </div>
+    `;
+  }
+
   async function loadCronHealth() {
     const root = document.getElementById("cronHealthGrid");
     if (!root) return;
@@ -4270,6 +4592,8 @@ Generated ${new Date().toISOString()}.
       loadCronHealth();
       loadQuarantineWatch();
       loadRecentCommits();
+      loadOcrQuotaPanel();
+      loadTellerStatusPanel();
     }, 600);
   });
   </script>
