@@ -54,7 +54,7 @@ footer .fn span{color:var(--gold);}
   <span class="doc-type">PocketBudJet · Legal Document</span>
   <h1>Privacy Policy</h1>
   <div class="doc-meta">
-    <span>Effective Date: May 17, 2026</span>
+    <span>Effective Date: May 20, 2026</span>
     <span>Developer: JosspaTech</span>
     <span>Contact: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
@@ -62,7 +62,7 @@ footer .fn span{color:var(--gold);}
 
 <main>
   <div class="summary-box">
-    <strong>The short version:</strong> We don't ask for your name, address, SSN, or bank credentials. Your financial data lives on your device by default — you decide if you want to back it up to a cloud provider <em>you pick</em>. A few transaction-level details are sent (anonymized) to power smart features like AI coaching, crowd benchmarks, and merchant categorization — the sections below list exactly what, when, and why.
+    <strong>The short version:</strong> We don't ask for your name, address, SSN, or bank credentials. Your financial data lives on your device by default — you decide if you want to back it up to a cloud provider <em>you pick</em>. A few transaction-level details are sent (anonymized) to power smart features like AI coaching, crowd benchmarks, merchant categorization, and suggested category splits — the sections below list exactly what, when, and why. Every outbound data flow that contributes to the shared crowd model can be turned off in Settings → Data &amp; Privacy without affecting the rest of the app.
   </div>
 
   <h2>1. Information We Collect</h2>
@@ -117,11 +117,13 @@ footer .fn span{color:var(--gold);}
     <li><strong>Anthropic:</strong> the email subject and body for parsing into structured fields. Anthropic does not retain customer API inputs for training (see Anthropic's Commercial Terms and privacy policy).</li>
   </ul>
   <p><strong>What is NOT sent:</strong> your name, phone number, postal address, account numbers, or any data unrelated to the forwarded email.</p>
+  <p><strong>Few-shot learning corpus (added May 2026):</strong> When you confirm a forwarded transaction in PocketBudJet, the list of line items extracted from the message (e.g. "eggs, bread, Tide pods") plus the category you confirmed (e.g. "Groceries") is sent to the JosspaTech Worker and stored as an example for the merchant. The Worker uses the most recent 5 examples per merchant to prompt Anthropic on future extractions from the same merchant, improving accuracy over time. No amounts, dates, or personal identifiers are sent with these examples. You can opt out of contributing to this corpus in Settings → Data &amp; Privacy → "Help PBJ learn from everyone." When opted out, your confirmations are still saved locally but nothing is sent to the Worker.</p>
   <p><strong>Retention:</strong></p>
   <ul>
     <li>Forwarded message bodies are processed in-flight and are not retained after structured extraction.</li>
     <li>The mapping of <em>{your forwarding address → your device}</em> is stored on the JosspaTech Worker for as long as the feature stays enabled. Disabling Email Forwarding removes the mapping.</li>
     <li>Parsed transactions waiting for your device to pick them up are kept for <strong>up to 7 days</strong>, then deleted automatically.</li>
+    <li>Few-shot examples (items + category per merchant) are retained on the Worker indefinitely as part of the shared learning corpus. They are not linked to your device or identity.</li>
   </ul>
   <p><strong>Disabling:</strong> Settings → Import &amp; Connections → Email Forwarding → Disable. This removes your forwarding address mapping from the Worker; subsequent emails are discarded.</p>
 
@@ -138,18 +140,8 @@ footer .fn span{color:var(--gold);}
   <p>The AI Financial Coach is disabled by default and can be toggled in Settings. You can use PocketBudJet indefinitely without ever turning it on.</p>
 
   <h2>6. Bank Account Connectivity</h2>
-  <p>PocketBudJet offers an optional feature to connect your bank accounts for automatic transaction import. This feature is provided via <strong>Quiltt, Inc.</strong>, a third-party financial data aggregator. Bank connectivity is available to paid-tier subscribers only and is entirely opt-in — disabled by default and enabled only by your explicit action through the in-app connection flow.</p>
-  <p><strong>How the data flows:</strong></p>
-  <ul>
-    <li>When you choose to connect a bank, PocketBudJet hands you off to Quiltt's secure connection flow. You enter your bank credentials directly with Quiltt or your bank — JosspaTech never sees, receives, or stores your bank credentials.</li>
-    <li>Quiltt establishes the connection with your bank and returns an access token to PocketBudJet. That token is stored on your device in iOS Keychain / Android Keystore — it never leaves your device unencrypted.</li>
-    <li>When the app fetches transactions, it asks Quiltt (using the stored token) to retrieve recent activity. Quiltt fetches from your bank and returns the transactions to PocketBudJet, where they are stored locally on your device alongside the rest of your financial data.</li>
-    <li>You control sync frequency. Manual-only sync is supported. You can disconnect any bank at any time from Settings → Financial Sources, which revokes Quiltt's access and deletes the stored token from your device.</li>
-  </ul>
-  <p><strong>What Quiltt sees and does with it:</strong> Quiltt acts as a service provider / processor on your behalf to retrieve your transaction data. They see your bank credentials (which you enter into their secure flow), your account balances and transactions, and the merchant strings and amounts in those transactions. Quiltt's own privacy practices apply to that data — see <a href="https://www.quiltt.io/privacy" target="_blank" rel="noopener noreferrer">https://www.quiltt.io/privacy</a> for their disclosures. JosspaTech does not receive a copy of your bank credentials, and our handling of the transaction data Quiltt returns is governed by the rest of this Privacy Policy (it stays on your device unless you've enabled an optional cloud backup or anonymized crowd contribution).</p>
-  <p><strong>Paid-tier gating:</strong> The bank-sync feature is part of PocketBudJet's paid tier. If you cancel your subscription, the bank-sync connection is disconnected automatically and the stored access token is removed from your device. Transactions that were previously imported remain on your device — disconnecting does not delete your historical data.</p>
-  <p><strong>Trial users:</strong> Bank sync may be available during free trials. At the end of your trial, if you do not subscribe, the bank-sync connection is automatically disconnected and the stored token is removed. You will retain any transactions already imported, but no new transactions will be synced.</p>
-  <p><strong>Your rights:</strong> You can request deletion of any data Quiltt holds about you by contacting Quiltt directly (see their privacy policy for the deletion-request process). PocketBudJet's own data deletion process is described in Section 11 below.</p>
+  <p><strong>Automatic bank-account syncing is not currently active in PocketBudJet.</strong> The app's transaction import is performed entirely through (a) CSV / OFX / QFX / PDF files you import yourself from your bank's web portal, (b) receipt scans, or (c) the optional Email Forwarding feature described in §4. JosspaTech does not have any active connection to your bank, does not see your bank login credentials, and does not pull transactions from your bank on your behalf.</p>
+  <p>If automatic bank-account syncing is added to PocketBudJet in a future release through a third-party data aggregator (e.g. Plaid, Teller, MX, or similar), this section will be updated to describe the exact data flow, the third party's identity, what they see, retention, and how to opt out — before the feature ships to users. We will also surface a material-changes notice in the app under §14 below.</p>
 
   <h2>7. Voice Shortcuts</h2>
   <p>Voice shortcuts (Siri on iOS, Google Assistant / App Actions on Android) are opt-in and off by default. Voice audio is processed by Apple or Google under their respective privacy policies — not by JosspaTech. Only the resulting text command is used to create a transaction locally on your device.</p>
@@ -167,14 +159,17 @@ footer .fn span{color:var(--gold);}
   <p>PocketBudJet uses Firebase Crashlytics to collect anonymous crash diagnostics so we can find and fix bugs. Crash reports contain stack traces, device model, OS version, and app version. They do <strong>not</strong> contain your financial data. You can opt out in Settings → Data &amp; Privacy.</p>
 
   <h2>10. Crowd Benchmarks and Merchant Intelligence</h2>
-  <p>To make the app smarter for everyone, PocketBudJet contributes a small amount of anonymized data to a shared pool hosted by JosspaTech (PocketBase). You can turn this off any time in Settings → Data &amp; Privacy.</p>
+  <p>To make the app smarter for everyone, PocketBudJet contributes a small amount of anonymized data to a shared pool hosted by JosspaTech (PocketBase, plus the JosspaTech Cloudflare Worker key-value store). You can turn this off any time in Settings → Data &amp; Privacy → "Help PBJ learn from everyone." Turning it off stops outbound contributions; you still receive the benefit of other users' contributions in your category suggestions.</p>
   <p><strong>What is contributed:</strong></p>
   <ul>
-    <li><strong>Merchant → category mappings</strong> (e.g. "Target → Groceries"). No amounts, dates, or identifiers.</li>
+    <li><strong>Merchant → category mappings</strong> (e.g. "Target → Groceries"). One vote per confirmation. No amounts, dates, or identifiers. Categories must be one of PocketBudJet's 15 default categories — generic merchant-name buckets (e.g. "Amazon", "Walmart") are filtered out and never become votes.</li>
+    <li><strong>Suggested category splits</strong> (added May 2026): when you accept or adjust a suggested category split on a multi-category merchant (e.g. Walmart trip = 60% Groceries / 30% Household / 10% Clothing), the merchant slug, a coarse amount bucket (e.g. "$100&ndash;$300"), and the percentage distribution are sent. <strong>The actual transaction amount is never sent — only the bucket it falls into.</strong> No dates, no user ID, no device ID. This powers the credibility-blended split suggestions you see for big-box merchants.</li>
+    <li><strong>Few-shot extraction examples</strong> (added May 2026): when you confirm a forwarded email transaction, the line items (e.g. "eggs, bread, Tide pods") and the category you confirmed are stored on the Worker as an example for that merchant, capped at 5 most-recent per merchant. The Worker uses them to prompt Anthropic on future emails. See §4 for detail.</li>
     <li><strong>Bucketed spending benchmarks</strong> by category, keyed to zip code and country, using coarse buckets so individual transactions are never reconstructable. No user ID, device ID, or IP.</li>
     <li><strong>Product intelligence</strong>: if you scan a barcode, the UPC is queried against public databases (upcitemdb.com, openfoodfacts.org). The UPC is all that's sent.</li>
   </ul>
-  <p>This pool powers features like "how does my Groceries spend compare to others in my zip?" and auto-categorization suggestions. JosspaTech may use the aggregated merchant database for commercial purposes, including licensing to third parties. Individual user data is not identifiable in the pool.</p>
+  <p><strong>What is NEVER contributed to the crowd pool:</strong> your actual transaction amounts, transaction dates, account numbers, merchant strings the model can't confidently slugify, your name, your email, your phone, your device identifier, your IP address, your zip code outside of the §10 benchmark feature (which itself is opt-in), or any link back to you.</p>
+  <p>This pool powers features like "how does my Groceries spend compare to others in my zip?", auto-categorization suggestions on imports, and credibility-blended split suggestions on big-box merchants. JosspaTech may use the aggregated merchant database for commercial purposes, including licensing to third parties. Individual user data is not identifiable in the pool.</p>
 
   <h2>11. Other Network Services</h2>
   <ul>
