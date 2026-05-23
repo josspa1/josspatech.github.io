@@ -9,16 +9,16 @@
 ## Shot List
 
 ### Shot 1 (0:00 - 0:05)
-**Visual:** Dark screen. Red warning icon appears, then Plaid logo with a red X over it.
-**Audio/VO:** "What if I told you that you don't have to give every budgeting app your bank login?"
-**Text overlay:** "No Bank Login. No Plaid. No Risk."
+**Visual:** Dark screen. A padlock icon appears, then a phone with a shield badge.
+**Audio/VO:** "What if your budgeting app put you in control of your own financial data?"
+**Text overlay:** "Your Data. Your Rules."
 
 ---
 
 ### Shot 2 (0:05 - 0:12)
-**Visual:** Split screen — left side shows competitor app asking for bank credentials (scary red text); right side shows PocketBudJet with green checkmarks and a padlock icon.
-**Audio/VO:** "YNAB, Monarch, Copilot—they all demand your credentials. PocketBudJet? We never ask. Your password stays yours."
-**Text overlay:** "They Want Your Login" | "We Respect Your Privacy"
+**Visual:** Phone showing PocketBudJet's data controls — green checkmarks, a padlock icon, and a toggle for optional bank connection.
+**Audio/VO:** "Connect a bank for automatic sync if you want it. Skip it if you don't. Either way, your data stays on your device — and it's never sold."
+**Text overlay:** "Connect Or Don't" | "Your Data Stays Yours"
 
 ---
 
@@ -45,7 +45,7 @@
 
 ## Production Notes
 
-- **Visual Hierarchy:** Make the contrast between competitor (scary) and PocketBudJet (safe) very clear.
+- **Visual Hierarchy:** Keep the tone calm and empowering — focus on the user being in control, not on fear of competitors.
 - **Icons:** Use standard lock, WiFi, cloud-blocked, CSV/PDF icons for immediate recognition.
 - **Tone:** Reassuring but not preachy. Address privacy concerns directly but avoid FUD (fear, uncertainty, doubt) about competitors.
 - **Text Overlays:** Bold, minimal text. White or gold on dark blue.

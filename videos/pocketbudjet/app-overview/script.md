@@ -10,21 +10,21 @@
 
 ### Shot 1 (0:00 - 0:05)
 **Visual:** Phone screen — clean white background, then PocketBudJet logo animates in with gold accent. Josspa mascot appears in corner waving.
-**Audio/VO:** "Tired of budgeting apps that demand your bank login? Meet PocketBudJet."
+**Audio/VO:** "Tired of budgeting apps that won't let you in without your bank login? Meet PocketBudJet."
 **Text overlay:** "PocketBudJet — Your privacy matters."
 
 ---
 
 ### Shot 2 (0:05 - 0:15)
 **Visual:** Phone screen — quick walkthrough: Dashboard appears with net worth number ($65,420), income/expense pie chart animates in, budget categories slide in with color-coded bars.
-**Audio/VO:** "One app. Stocks. Crypto. Real estate. Credit scores. Everything in one place—without sharing your banking credentials."
-**Text overlay:** "Complete Financial Visibility" → "Zero Bank Login"
+**Audio/VO:** "One app. Stocks. Crypto. Real estate. Credit scores. Everything in one place — tracked your way."
+**Text overlay:** "Complete Financial Visibility" → "Bank Sync Optional"
 
 ---
 
 ### Shot 3 (0:15 - 0:25)
 **Visual:** Phone screen — Camera point at receipt, snap photo, amount and merchant auto-extract and categorize. Then show WiFi scanner plugged in, scanning stack of documents in seconds.
-**Audio/VO:** "Scan receipts with your camera. Or connect a WiFi scanner and upload entire stacks in seconds. No manual entry. No Plaid. No nonsense."
+**Audio/VO:** "Scan receipts with your camera. Connect a WiFi scanner and upload entire stacks in seconds. Or link a bank for automatic import. Whatever works for you."
 **Text overlay:** "5 Import Methods" → "Receipts • CSV • PDF • WiFi Scanner • Manual"
 
 ---
