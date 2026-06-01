@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PocketBudJet — Data Deletion</title>
+<style>
+  :root {
+    --navy: #0F1A28;
+    --ink:  #1A2533;
+    --gold: #E8B845;
+    --muted:#5D6D7E;
+    --bg:   #FBF8F2;
+    --card: #FFFFFF;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.55; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 64px; }
+  header { margin-bottom: 24px; }
+  header a { color: var(--navy); text-decoration: none; font-weight: 600; font-size: 14px; }
+  header a:hover { text-decoration: underline; }
+  h1 { color: var(--navy); font-size: 28px; margin: 16px 0 8px; line-height: 1.2; }
+  h2 { color: var(--navy); font-size: 18px; margin: 32px 0 8px; }
+  .card { background: var(--card); border-radius: 14px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  ol, ul { padding-left: 22px; }
+  li { margin: 6px 0; }
+  .meta { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .gold { color: var(--gold); font-weight: 700; }
+  code { background: #F1ECDF; padding: 1px 6px; border-radius: 4px; font-size: 90%; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 13px; text-align: center; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <a href="/">&larr; PocketBudJet home</a>
+  </header>
+
+  <h1>How to delete your PocketBudJet data</h1>
+  <p class="meta">Last updated: May 31, 2026</p>
+
+  <div class="card">
+    <p><strong>Short version:</strong> PocketBudJet stores your data on your phone, not in the cloud. To delete it, you can either erase it from inside the app, or uninstall the app — both wipe everything.</p>
+  </div>
+
+  <h2>Option 1 — Erase from inside the app</h2>
+  <ol>
+    <li>Open PocketBudJet</li>
+    <li>Tap the gear icon (Settings)</li>
+    <li>Scroll to <strong>Data &amp; Backup</strong></li>
+    <li>Tap <strong>Delete All Data</strong> at the bottom</li>
+    <li>Confirm</li>
+  </ol>
+  <p>That clears every transaction, budget, goal, account, asset, debt, scanned receipt, and setting from your phone immediately. The app returns to the first-launch state, like a fresh install.</p>
+
+  <h2>Option 2 — Uninstall the app</h2>
+  <p>Removing the app from your phone deletes everything PocketBudJet stored — there is no cloud copy that survives an uninstall.</p>
+  <ul>
+    <li><strong>Android:</strong> long-press the PocketBudJet icon &rarr; App info &rarr; Uninstall</li>
+    <li><strong>iOS:</strong> long-press the PocketBudJet icon &rarr; Remove App &rarr; Delete App</li>
+  </ul>
+
+  <h2>What about cloud backups?</h2>
+  <p>If you chose to back up to your own Google Drive, OneDrive, or Dropbox account, those backups live in <em>your</em> cloud, not ours. We never receive or store them. To delete a backup:</p>
+  <ol>
+    <li>Open your cloud storage app (Drive, OneDrive, or Dropbox)</li>
+    <li>Navigate to the <code>PocketBudJet</code> folder</li>
+    <li>Delete it</li>
+  </ol>
+
+  <h2>What about the anonymized data shared with the PocketBudJet community?</h2>
+  <p>If you opted into community contributions (paid tier only), some aggregated merchant data — like <em>"this merchant is categorized as Coffee Shops"</em> — was sent to our community database. This data is anonymized and not linked to you. Because it is not personal data and not tied to any user identity, it cannot be individually identified or removed.</p>
+  <p>If you would like us to <em>stop</em> further contributions before you delete your account, turn off the toggle in <strong>Settings &rarr; Privacy &rarr; Crowd contributions</strong> before deleting or uninstalling.</p>
+
+  <h2>What about crash reports?</h2>
+  <p>If a crash report was sent to our diagnostics service while you used the app, those reports do not contain personal data — just stack traces, app version, and device model. They are aggregated for stability monitoring and cannot be tied back to you for individual removal.</p>
+
+  <h2>Questions?</h2>
+  <p>Email <a href="mailto:support@josspatech.com">support@josspatech.com</a> and we will help.</p>
+
+  <footer>
+    &copy; 2026 JosspaTech &middot; <a href="PocketBudJet_PrivacyPolicy.html">Privacy Policy</a> &middot; <a href="PocketBudJet_TermsOfService.html">Terms</a>
+  </footer>
+
+</div>
+</body>
+</html>

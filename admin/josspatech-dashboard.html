@@ -1344,6 +1344,38 @@
       <div id="tellerStatusGrid">Loading…</div>
     </section>
 
+    <!-- ─── OpenCellID Quota Panel ───────────────────────────
+         Daily usage tracker for the cell-tower geolocation tier.
+         Reads /opencellid/stats on the Worker. -->
+    <section id="openCellIdPanel">
+      <h2>OpenCellID Quota</h2>
+      <p class="section-explainer">
+        Cell-tower geolocation usage for the day. The Worker proxies all
+        OpenCellID lookups through <code>/cell/lookup</code> (key lives as
+        a Worker secret, not in the APK) and caches each tower for 7 days,
+        so this counter only grows when a previously-unseen tower is
+        looked up.
+        <br><br>
+        <strong>Watch levels (free tier cap = 1,000 / day):</strong>
+        <br>
+        <code>&lt; 50%</code> — green, plenty of headroom.<br>
+        <code>50&#8211;79%</code> — yellow, monitor; usually still fine
+        but worth a glance.<br>
+        <code>&ge; 80%</code> — red alert. The Worker will start refusing
+        lookups at 100% and <code>resolveCell</code> falls back silently
+        to GPS / IP. Either raise <code>OPENCELLID_DAILY_CAP</code> in
+        <code>wrangler.toml</code> and redeploy, or upgrade the
+        OpenCellID plan.
+        <br><br>
+        The OpenCellID dashboard shows lifetime totals and per-token
+        analytics not captured here &mdash; bookmark it for trend
+        visibility:
+        <a href="https://my.opencellid.org/dashboard" target="_blank" rel="noopener">https://my.opencellid.org/dashboard</a>
+        &rarr; Access Tokens / Analytics.
+      </p>
+      <div id="openCellIdGrid">Loading&hellip;</div>
+    </section>
+
     <!-- ─── Quarantine Watch Panel ────────────────────────────
          Surfaces records the aggregation hook flagged as PII or
          otherwise weird. They sit in _quarantine_submissions
@@ -3760,6 +3792,109 @@ Generated ${new Date().toISOString()}.
     `;
   }
 
+  /* ─── OpenCellID Quota — Worker /opencellid/stats ──────────
+     Daily cell-tower lookup counter. Free tier cap = 1,000/day;
+     Worker caches each tower for 7 days so this only grows on
+     new towers. Watch levels:
+       <50%  green
+       50-79% yellow
+       >=80%  red
+  */
+  async function loadOpenCellIdPanel() {
+    const root = document.getElementById("openCellIdGrid");
+    if (!root) return;
+
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name">X-PBJ-Key not set in this browser</div>
+            <div class="cron-last">Log in through the existing dashboard auth flow so the shared key is stored; this panel uses the same key.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    let stats = null;
+    let httpStatus = 0;
+    try {
+      const r = await fetch(`${WORKER_BASE}/opencellid/stats`, {
+        headers: { "X-PBJ-Key": key },
+        signal: AbortSignal.timeout(8000),
+      });
+      httpStatus = r.status;
+      if (r.ok) stats = await r.json();
+    } catch (e) { /* network error */ }
+
+    if (!stats) {
+      root.innerHTML = `
+        <div class="cron-card red">
+          <div>
+            <div class="cron-name">Could not load OpenCellID stats (HTTP ${httpStatus || "network error"})</div>
+            <div class="cron-last">Verify the Worker is deployed with the /opencellid/stats route and the X-PBJ-Key matches the Worker's PBJ_SHARED_KEY secret.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const pct = Number(stats.pct_used) || 0;
+    const cap = Number(stats.cap) || 0;
+    const used = Number(stats.used_today) || 0;
+    const remaining = Number(stats.remaining) || 0;
+    const history = Array.isArray(stats.history) ? stats.history : [];
+
+    let color, label;
+    if (pct >= 80)      { color = "#dc2626"; label = "RED"; }
+    else if (pct >= 50) { color = "#d97706"; label = "YELLOW"; }
+    else                { color = "#16a34a"; label = "GREEN"; }
+
+    const cardStyle = "background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px;";
+    const muted = "color: #6b7280; font-size: 12px;";
+
+    // Mini sparkline: last 7 days as horizontal bars.
+    const maxCount = Math.max(...history.map(h => Number(h.count) || 0), 1);
+    const historyHtml = history.map(h => {
+      const c = Number(h.count) || 0;
+      const w = Math.round((c / maxCount) * 100);
+      return `
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;">
+          <div style="${muted}; width: 90px; flex-shrink: 0;">${h.date}</div>
+          <div style="flex: 1; background: #f3f4f6; border-radius: 4px; height: 14px; overflow: hidden;">
+            <div style="background: #60a5fa; height: 100%; width: ${w}%;"></div>
+          </div>
+          <div style="font-variant-numeric: tabular-nums; min-width: 50px; text-align: right;">${c}</div>
+        </div>`;
+    }).join("");
+
+    root.innerHTML = `
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px;">
+        <div style="${cardStyle}">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 12px;">
+            <strong>Today &mdash; ${stats.today}</strong>
+            <span style="font-weight: 700; color: ${color};">${label}</span>
+          </div>
+          <div style="font-size: 32px; font-weight: 700; line-height: 1.1;">
+            ${used.toLocaleString()} <span style="${muted}; font-weight: 400; font-size: 16px;">/ ${cap.toLocaleString()}</span>
+          </div>
+          <div style="${muted}; margin-top: 4px;">${pct}% used &mdash; ${remaining.toLocaleString()} remaining</div>
+          <div style="margin-top: 12px; background: #f3f4f6; border-radius: 6px; height: 10px; overflow: hidden;">
+            <div style="background: ${color}; height: 100%; width: ${Math.min(pct, 100)}%;"></div>
+          </div>
+        </div>
+
+        <div style="${cardStyle}">
+          <div style="margin-bottom: 10px;"><strong>Last 7 days</strong></div>
+          ${historyHtml}
+        </div>
+      </div>
+      <div style="${muted}; text-align: right; margin-top: 8px;">
+        Data fetched ${new Date().toLocaleTimeString()} &middot;
+        <a href="https://my.opencellid.org/dashboard" target="_blank" rel="noopener">OpenCellID Dashboard &rarr;</a>
+      </div>
+    `;
+  }
+
   async function loadCronHealth() {
     const root = document.getElementById("cronHealthGrid");
     if (!root) return;
@@ -4594,6 +4729,7 @@ Generated ${new Date().toISOString()}.
       loadRecentCommits();
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
+      loadOpenCellIdPanel();
     }, 600);
   });
   </script>
