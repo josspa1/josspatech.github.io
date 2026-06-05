@@ -17,7 +17,7 @@
 
 ### Shot 2 (0:05 - 0:15)
 **Visual:** Phone screen — quick walkthrough: Dashboard appears with net worth number ($65,420), income/expense pie chart animates in, budget categories slide in with color-coded bars.
-**Audio/VO:** "One app. Stocks. Crypto. Real estate. Credit scores. Everything in one place — tracked your way."
+**Audio/VO:** "Every transaction, budget category, and savings goal in one place — on your phone, on your terms."
 **Text overlay:** "Complete Financial Visibility" → "Bank Sync Optional"
 
 ---
@@ -38,7 +38,7 @@
 
 ### Shot 5 (0:40 - 0:50)
 **Visual:** Phone screen — Family icons sync over WiFi icon, budget dashboard splits household view. Price card appears: "$9.99/month" with checkmarks for 36 Premium features.
-**Audio/VO:** "Share your household budget with family over WiFi. No internet required. Thirty-six Premium features. All for $9.99 a month."
+**Audio/VO:** "Start free forever, try Premium for 21 days with no card, or subscribe at $9.99/month or $74.99/year. Thirty-six Premium features including household WiFi sync."
 **Text overlay:** "Household Sync Included" → "Only $9.99/month" → "36 Premium Features"
 
 ---
