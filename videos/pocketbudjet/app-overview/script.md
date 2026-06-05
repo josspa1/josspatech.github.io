@@ -37,16 +37,16 @@
 ---
 
 ### Shot 5 (0:40 - 0:50)
-**Visual:** Phone screen — Family icons sync over WiFi icon, budget dashboard splits household view. Price card appears: "$9.99/month" with checkmarks for 34+ features.
-**Audio/VO:** "Share your household budget with family over WiFi. No internet required. Thirty-four premium features. All for $9.99 a month."
-**Text overlay:** "Household Sync Included" → "Only $9.99/month" → "34+ Premium Features"
+**Visual:** Phone screen — Family icons sync over WiFi icon, budget dashboard splits household view. Price card appears: "$9.99/month" with checkmarks for 36 Premium features.
+**Audio/VO:** "Share your household budget with family over WiFi. No internet required. Thirty-six Premium features. All for $9.99 a month."
+**Text overlay:** "Household Sync Included" → "Only $9.99/month" → "36 Premium Features"
 
 ---
 
 ### Shot 6 (0:50 - 0:60)
 **Visual:** App Store / Google Play download button appears. Logo at bottom with gold accent. Optional: Josspa thumbs up.
 **Audio/VO:** "Download PocketBudJet free. Free tier is yours to keep. Upgrade to Premium for nine ninety-nine a month when you want cloud-assisted scanning, AI coach, and backup."
-**Text overlay:** "Download Free • 21-Day Trial • No CC Required" → "josspatech.com" or direct app store link
+**Text overlay:** "Download Free • 21-Day Premium Trial" → "josspatech.com" or direct app store link
 
 ---
 

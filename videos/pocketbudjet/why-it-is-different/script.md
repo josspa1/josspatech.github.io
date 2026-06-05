@@ -21,7 +21,7 @@
 **Visual:** Animated comparison table slides in. Three rows. The comparison column for established apps shows a single anonymized swatch ("Category average") rather than per-app names:
 - **Price:** PocketBudJet $9.99/mo (green checkmark), Category average $14–$18/mo (red X)
 - **Bank login:** PocketBudJet None required (green), Category average Required (red X)
-- **Feature count:** PocketBudJet 34+ (PBJ bar tallest), Category average 25–30
+- **Feature count:** PocketBudJet 36 Premium (PBJ bar tallest), Category average 25–30
 **Audio/VO:** "Price: lower than the category average. Privacy: bank login is optional. Features: more than most established apps in this category."
 **Text overlay:** "Price • Privacy • Features" → "PocketBudJet Wins"
 
