@@ -762,7 +762,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .gring{width:50px;height:50px;flex-shrink:0;position:relative;}
 .gring svg{position:absolute;inset:0;transform:rotate(-90deg);}
 .gringp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--navy-dk);}
-.sh-pricing{border-top:1px solid rgba(26,79,122,0.07);display:grid;grid-template-columns:repeat(3,1fr);background:#fafbfc;}
+.sh-pricing{border-top:1px solid rgba(26,79,122,0.07);display:grid;grid-template-columns:repeat(4,1fr);background:#fafbfc;}
 .sh-pc{padding:15px 17px;text-align:center;border-right:1px solid rgba(26,79,122,0.07);transition:background .18s;}
 .sh-pc:last-child{border-right:none;}
 .sh-pc:hover{background:#f0f4f8;}
@@ -806,6 +806,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .plan{background:var(--bg);border-radius:16px;padding:30px 24px;border:1.5px solid rgba(26,79,122,0.1);position:relative;transition:all .22s;box-shadow:0 2px 6px rgba(12,51,88,0.04);}
 .plan:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(12,51,88,0.1);}
 .plan.best{background:#fff;border-color:var(--gold);box-shadow:0 4px 16px rgba(232,168,32,0.14),0 16px 48px rgba(12,51,88,0.09);}
+.plan.free-start{background:#fff;border-color:var(--gold);border-left:5px solid var(--gold);box-shadow:0 4px 18px rgba(232,168,32,0.14);}
+.plan-badge-start{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--navy-dk);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap;}
+.trial-strip{background:linear-gradient(90deg,rgba(240,192,64,0.18),rgba(240,192,64,0.08));border:1px solid rgba(240,192,64,0.35);border-radius:12px;padding:14px 22px;margin-bottom:28px;text-align:center;font-size:14px;color:var(--navy-dk);line-height:1.55;}
+.trial-strip strong{color:var(--navy-dk);}
+.ftable-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;font-size:12px;color:var(--slate);margin-bottom:14px;}
+.ftable-legend span{display:inline-flex;align-items:center;gap:6px;}
+.ftable-legend .lg-dot{width:10px;height:10px;border-radius:2px;background:var(--success);opacity:0.85;}
+.ftable-legend .lg-dot.pm{background:var(--gold);}
 .plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dk);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap;}
 .plan-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--slate);margin-bottom:8px;}
 .plan-pr{font-family:'Playfair Display',serif;font-size:38px;font-weight:900;color:var(--navy-dk);line-height:1;letter-spacing:-1.5px;margin-bottom:4px;}
@@ -902,6 +910,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .li-no{font-size:11px;color:var(--slate-lt);display:block;margin-top:1px;}
 .li-ar{font-size:13px;color:var(--slate-lt);}
 .li-pt{font-size:9px;font-weight:700;background:rgba(26,79,122,0.08);color:var(--slate);border-radius:4px;padding:2px 6px;white-space:nowrap;}
+.li-pt.beta{background:rgba(240,192,64,0.18);color:var(--navy-md);border:1px solid rgba(240,192,64,0.35);}
+.li-pt.soon{opacity:0.75;}
 .site-footer{background:var(--navy-dk);border-top:1px solid rgba(240,192,64,0.12);padding:48px 48px 32px;}
 .ft-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:24px;}
 .ft-bn{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;}
@@ -954,7 +964,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   .plan-grid{grid-template-columns:1fr;}
   .sh-pricing{grid-template-columns:1fr 1fr;}
   .sh-pc:nth-child(2){border-right:none;}
-  .sh-pc:nth-child(3){grid-column:span 2;border-top:1px solid rgba(26,79,122,0.07);}
+  .sh-pc:nth-child(3){border-top:1px solid rgba(26,79,122,0.07);}
+  .sh-pc:nth-child(4){grid-column:span 2;border-top:1px solid rgba(26,79,122,0.07);}
   .ft-cols{gap:28px;}
 }
 
@@ -1198,27 +1209,26 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div role="button" tabindex="0" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="product-card rv d1">
         <div class="product-badge">
           <div class="product-badge-dot"></div>
-          Available Now
+          Closed Beta
         </div>
         <div class="product-name">Pocket<span>BudJet</span>™</div>
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
         <ul class="product-features">
-          <li><div class="pf-check"></div>Budgets, goals, debt payoff &amp; spending alerts &mdash; finally see where it all goes</li>
-          <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info, you pick where data lives</li>
-          <li><div class="pf-check"></div>AI Financial Coach watches for unusual spending and gives plain-English advice</li>
-          <li><div class="pf-check"></div>Scan receipts, bills &amp; pay stubs with your camera &mdash; AI-powered, cloud-assisted for tough receipts</li>
-          <li><div class="pf-check"></div>Share statements straight from your bank app, or import CSV, OFX, QFX, QIF, XLSX, PDF &mdash; load as many months as you want and compare them</li>
-          <li><div class="pf-check"></div>Hand clean data to your accountant, financial planner, or mortgage broker &mdash; export to PDF, Excel, Word, OFX, or HTML in formats your bank can't produce. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
-          <li><div class="pf-check"></div>PC Web Dashboard &mdash; manage your budget from any browser on your WiFi</li>
-          <li><div class="pf-check"></div>Debt-free date calculator &mdash; Avalanche vs Snowball, see which saves more</li>
-          <li><div class="pf-check"></div>43 currencies &middot; $74.99/year &middot; no-contract subscription &middot; cheapest premium budget app</li>
+          <li><div class="pf-check"></div><strong>Free:</strong> budgets, goals, on-device receipt scan, bank file import (CSV, OFX, QFX, QIF, XLSX), and core dashboards</li>
+          <li><div class="pf-check"></div><strong>21-day trial:</strong> try all Premium features free &mdash; no card required; bank sync excluded during trial</li>
+          <li><div class="pf-check"></div><strong>Premium:</strong> AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</li>
+          <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info; data stays on your phone by default</li>
+          <li><div class="pf-check"></div>Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/import/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></li>
+          <li><div class="pf-check"></div>Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
+          <li><div class="pf-check"></div>Optional bank sync via Teller for <strong>paid Premium</strong> subscribers who want hands-off automation</li>
+          <li><div class="pf-check"></div>43 currencies &middot; $9.99/mo or $74.99/yr &middot; cancel anytime &middot; no contract</li>
         </ul>
         <div class="product-cta">
           See PocketBudJet
           <span class="product-cta-arrow">→</span>
         </div>
         <div class="product-platforms">
-          <div class="platform-pill free">no-contract subscription</div>
+          <div class="platform-pill free">Free + 21-day trial</div>
           <div class="platform-pill">iOS</div>
           <div class="platform-pill">Android</div>
         </div>
@@ -1359,6 +1369,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a href="docs/pocketbudjet/PocketBudJet_EULA.html">EULA</a>
         <a href="docs/pocketbudjet/HowWeMakeMoney.html">How We Make Money</a>
         <a href="docs/pocketbudjet/WhyLocalFirst.html">Why Local-First</a>
+        <a href="docs/pocketbudjet/PocketBudJet_DataDeletion.html">Data Deletion</a>
+      </div>
+      <div class="footer-col">
+        <h4>Guides</h4>
+        <a href="getting-started/">Getting Started</a>
+        <a href="import/">Import Guide</a>
+        <a href="for-professionals/">For Professionals</a>
+        <a href="how-to/">How To &amp; Guides</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -1385,7 +1403,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it all private.</em></h1>
       <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p class="hero-sub">Budgets, debt payoff, AI coaching, receipt scanning, PC dashboard &mdash; no account and no personal info required. Connect a bank for hands-off automation, or stay fully manual &mdash; your call. <strong>Free to download. Upgrade anytime. Cancel anytime.</strong></p>
+      <p class="hero-sub">Start free forever, try Premium for 21 days (no card required), or subscribe when you&rsquo;re ready. No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Upgrade anytime. Cancel anytime.</strong></p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Start Free &#8594;</a>
         <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Guides</a>
@@ -1684,6 +1702,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           </div>
           <div class="sh-pricing">
             <div class="sh-pc"><div class="sh-pamt">$0</div><div class="sh-pper">always free</div><div class="sh-plbl">Free Tier</div><div class="sh-ptag">Core budgeting tools</div></div>
+            <div class="sh-pc feat"><div class="sh-pamt">21 days</div><div class="sh-pper">no card required</div><div class="sh-plbl">Premium Trial</div><div class="sh-ptag gld">All Premium except bank sync</div></div>
             <div class="sh-pc"><div class="sh-pamt">$9.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
             <div class="sh-pc feat"><div class="sh-pamt">$74.99</div><div class="sh-pper">per year &middot; $6.25/mo</div><div class="sh-plbl">Premium Annual</div><div class="sh-ptag gld">Save 37% vs monthly</div></div>
           </div>
@@ -1707,11 +1726,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
     <div class="priv-r rv d1">
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Your data lives on your device</div><p class="pcard-b">Transactions, budgets, goals, and debts live in PocketBudJet&rsquo;s private app storage on your phone. Turn on backups or cloud sync and you pick the provider &mdash; payloads are always AES-256 encrypted with a key only you know.</p></div>
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>No bank login. No middleman.</div><p class="pcard-b">Import as many months of bank statements as you want (PDF, CSV, OFX, QFX) and compare your spending month to month. Scan receipts, capture from email, or enter manually. PocketBudJet never asks for your banking credentials &mdash; and doesn&rsquo;t sit behind a third-party data pipeline that can break, get repriced, or change its terms.</p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#F0C040" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Bank connection is optional</div><p class="pcard-b">Stay fully manual with imports and scans, or connect a bank with paid Premium via Teller when you want hands-off sync. Import as many months of statements as you want (CSV, OFX, QFX, QIF, XLSX, PDF), compare spending month to month, and never require a bank login to get started.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#F0C040" stroke-width="1.8"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>No account required &mdash; ever</div><p class="pcard-b">Open the app and start. No email, no password, no profile. When you delete the app, your data goes with it.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="#F0C040" stroke-width="1.8" stroke-linejoin="round"/></svg></div>AI coach &mdash; on your device, on your terms</div><p class="pcard-b">Ask the AI Financial Coach anything about your money in plain English. It uses only aggregated summaries &mdash; category totals, not individual transactions. Opt-in. Opt-out any time in Settings.</p></div>
       <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3h7v7" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3l-9 9" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 14v5a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h5" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>Your financial home base &mdash; and your translator</div><p class="pcard-b">Bank export menus are meager. PocketBudJet imports anything &mdash; share-sheet straight from your bank app, CSV, OFX, QFX, QIF, XLSX, PDF &mdash; and exports clean data your accountant, financial planner, or mortgage broker can actually use. PDF, Excel, Word, OFX, HTML, and accountant-formatted reports. Hand off your year-end, refi packet, or planner upload in two taps. <a href="/videos/pocketbudjet/share-statements/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">See how share-to-PocketBudJet works &rarr;</a></p></div>
-      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>Why this matters in 2026</div><p class="pcard-b">Bank-data middlemen have started charging fintechs for the connections most budget apps depend on, and those costs get passed down. PocketBudJet doesn&rsquo;t use them &mdash; your statements come from your bank app, not a third-party pipeline. So when banks and aggregators renegotiate their terms, your access doesn&rsquo;t break and your subscription price doesn&rsquo;t move because of someone else&rsquo;s deal.</p></div>
+      <div class="pcard"><div class="pcard-t"><div class="pcard-ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="#F0C040" stroke-width="1.8" stroke-linecap="round"/></svg></div>Why this matters in 2026</div><p class="pcard-b">Most budget apps force bank login on day one. PocketBudJet starts with imports and manual entry, then offers optional Teller bank sync for paid Premium subscribers who want automation. You&rsquo;re not locked into a middleman pipeline just to see where your money went.</p></div>
     </div>
   </div>
 </section>
@@ -1732,8 +1751,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <tr><td>You choose where data lives</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>Bank connection optional &mdash; never required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
-            <tr><td>AI Financial Coach included</td><td class="nt">Add-on / none</td><td class="ck">&#10003;</td></tr>
-            <tr><td>PC Web Dashboard (WiFi)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>21-day Premium trial (no card)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>AI Financial Coach (Premium)</td><td class="nt">Add-on / none</td><td class="ck">&#10003;</td></tr>
+            <tr><td>PC Web Dashboard (WiFi, Premium)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>Automatic bank sync (paid Premium only)</td><td class="nt">Required at signup</td><td class="ck">Optional</td></tr>
             <tr><td>iOS &amp; Android</td><td class="nt">Most</td><td class="ck">&#10003;</td></tr>
             <tr class="pbj"><td>Annual price</td><td class="nt">$80&ndash;$109</td><td class="ck">$74.99</td></tr>
           </tbody>
@@ -1782,8 +1803,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <h2 class="pricing-h">One app. Every tool<br>your budget needs.</h2>
       <p class="pricing-su">Start free forever, try Premium free for 21 days, or subscribe when you're ready. Premium unlocks debt payoff, cloud-assisted scanning, AI coaching, PC dashboard, and 36+ power tools. Cancel anytime. No contract.</p>
     </div>
+    <div class="trial-strip rv"><strong>21-day Premium trial</strong> &mdash; genuinely free, no card required. Includes all Premium features except automatic bank sync (Teller). Bank sync unlocks with an active paid subscription.</div>
     <div class="plan-grid rv d1">
-      <div class="plan">
+      <div class="plan free-start">
+        <div class="plan-badge-start">Start here</div>
         <div class="plan-lbl">Free Forever</div>
         <div class="plan-pr">$0</div>
         <div class="plan-per">no expiration &middot; no card required</div>
@@ -1892,6 +1915,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </ul>
         <p style="font-size:11px;color:var(--slate-lt);margin-top:18px;line-height:1.5;">Premium members get first access as each app launches.</p>
       </div>
+    </div>
+    <div class="ftable-legend rv d2">
+      <span><span class="lg-dot"></span> Included in Free</span>
+      <span><span class="lg-dot pm"></span> Premium (trial + paid)</span>
+      <span>Trial = Premium except bank sync</span>
     </div>
     <div class="tog-wrap rv d2">
       <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9660;</span><span id="fttext">See full Free vs Premium feature list</span></button>
@@ -2044,28 +2072,29 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="launch-cta rv d1">
       <div class="launch-cta-inner">
         <div class="launch-cta-text">
-          <div class="launch-cta-title">Launching soon on iOS &amp; Android</div>
-          <div class="launch-cta-sub">Get notified the moment PocketBudJet is available in your app store.</div>
+          <div class="launch-cta-title">Closed beta &mdash; build 223</div>
+          <div class="launch-cta-sub">PocketBudJet is in friends-and-family testing on iOS (TestFlight) and Android (Google Play closed testing). Public App Store and Play listings are coming soon.</div>
         </div>
-        <form class="launch-form" onsubmit="event.preventDefault();this.querySelector('.launch-btn').textContent='Added!';this.querySelector('.launch-btn').style.background='var(--success)';">
-          <input type="email" class="launch-input" placeholder="your@email.com" required>
-          <button type="submit" class="launch-btn">Notify Me</button>
-        </form>
+        <div class="launch-form" style="flex-direction:column;align-items:stretch;min-width:220px;">
+          <a href="mailto:support@josspatech.com?subject=PocketBudJet%20Beta%20Access" class="launch-btn" style="text-align:center;text-decoration:none;display:block;">Request beta access</a>
+          <a href="docs/pocketbudjet/PocketBudJet_TesterGuide.html" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;margin-top:8px;">Tester guide</a>
+        </div>
       </div>
     </div>
     <div class="links-grid">
       <div class="lg rv d1">
         <h3>Download</h3>
-        <div class="li ph"><div class="li-lft"><span class="li-ic">&#127822;</span><div><span class="li-ti">App Store &mdash; iOS</span><span class="li-no">iPhone &amp; iPad &middot; iOS 16+</span></div></div><span class="li-pt">Coming Soon</span></div>
-        <div class="li ph"><div class="li-lft"><span class="li-ic">&#129302;</span><div><span class="li-ti">Google Play &mdash; Android</span><span class="li-no">Android 9.0+</span></div></div><span class="li-pt">Coming Soon</span></div>
-        <div class="li ph"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">TestFlight Beta &mdash; iOS</span><span class="li-no">Friends &amp; family testing</span></div></div><span class="li-pt">Coming Soon</span></div>
-        <div class="li ph"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Google Play Beta &mdash; Android</span><span class="li-no">Friends &amp; family testing</span></div></div><span class="li-pt">Coming Soon</span></div>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">TestFlight Beta &mdash; iOS</span><span class="li-no">Invite required &middot; iOS 16+</span></div></div><span class="li-pt beta">Closed Beta</span></a>
+        <a class="li" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" target="_blank" rel="noopener"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Google Play Closed Testing</span><span class="li-no">Android 9.0+ &middot; tester enrollment</span></div></div><span class="li-pt beta">Closed Beta</span></a>
+        <div class="li ph"><div class="li-lft"><span class="li-ic">&#127822;</span><div><span class="li-ti">App Store &mdash; iOS</span><span class="li-no">Public release after beta</span></div></div><span class="li-pt soon">Coming Soon</span></div>
+        <div class="li ph"><div class="li-lft"><span class="li-ic">&#129302;</span><div><span class="li-ti">Google Play &mdash; Android</span><span class="li-no">Public release after beta</span></div></div><span class="li-pt soon">Coming Soon</span></div>
       </div>
       <div class="lg rv d2">
         <h3>Legal &amp; Policies</h3>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_PrivacyPolicy.html"><div class="li-lft"><span class="li-ic">&#128274;</span><div><span class="li-ti">Privacy Policy</span><span class="li-no">Effective Mar 20, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_TermsOfService.html"><div class="li-lft"><span class="li-ic">&#128203;</span><div><span class="li-ti">Terms of Service</span><span class="li-no">Effective Mar 20, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_EULA.html"><div class="li-lft"><span class="li-ic">&#128196;</span><div><span class="li-ti">End User License Agreement</span><span class="li-no">Effective Mar 20, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_PrivacyPolicy.html"><div class="li-lft"><span class="li-ic">&#128274;</span><div><span class="li-ti">Privacy Policy</span><span class="li-no">Effective May 20, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_TermsOfService.html"><div class="li-lft"><span class="li-ic">&#128203;</span><div><span class="li-ti">Terms of Service</span><span class="li-no">Effective May 17, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_EULA.html"><div class="li-lft"><span class="li-ic">&#128196;</span><div><span class="li-ti">End User License Agreement</span><span class="li-no">Effective May 17, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_DataDeletion.html"><div class="li-lft"><span class="li-ic">&#128465;</span><div><span class="li-ti">Data Deletion</span><span class="li-no">Updated May 31, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="docs/pocketbudjet/HowWeMakeMoney.html"><div class="li-lft"><span class="li-ic">&#128181;</span><div><span class="li-ti">How We Make Money</span><span class="li-no">Subscriptions only — no ads, no data sales</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="docs/pocketbudjet/WhyLocalFirst.html"><div class="li-lft"><span class="li-ic">&#128241;</span><div><span class="li-ti">Why Local-First</span><span class="li-no">Your data lives on your phone</span></div></div><span class="li-ar">&#8594;</span></a>
       </div>
@@ -2073,7 +2102,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <h3>Support</h3>
         <a class="li" href="mailto:support@josspatech.com"><div class="li-lft"><span class="li-ic">&#9993;</span><div><span class="li-ti">Contact Support</span><span class="li-no">support@josspatech.com</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener"><div class="li-lft"><span class="li-ic">&#128172;</span><div><span class="li-ti">Beta Feedback</span><span class="li-no">Report bugs &amp; request features (PocketBudJet)</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="getting-started/"><div class="li-lft"><span class="li-ic">&#128640;</span><div><span class="li-ti">Getting Started</span><span class="li-no">First-run setup and quick wins</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="import/"><div class="li-lft"><span class="li-ic">&#128229;</span><div><span class="li-ti">Import Guide</span><span class="li-no">Bank files, share-sheet, and receipts</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="how-to/"><div class="li-lft"><span class="li-ic">&#128214;</span><div><span class="li-ti">How To &amp; Guides</span><span class="li-no">Quick start, walkthroughs, and full user guide</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="for-professionals/"><div class="li-lft"><span class="li-ic">&#128188;</span><div><span class="li-ti">For Professionals</span><span class="li-no">Accountants, planners, and mortgage brokers</span></div></div><span class="li-ar">&#8594;</span></a>
         <div class="li ph"><div class="li-lft"><span class="li-ic">&#128506;</span><div><span class="li-ti">Feature Roadmap</span><span class="li-no">What's coming next</span></div></div><span class="li-pt">Coming Soon</span></div>
       </div>
     </div>
@@ -2099,6 +2131,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a href="docs/pocketbudjet/PocketBudJet_EULA.html">EULA</a>
         <a href="docs/pocketbudjet/HowWeMakeMoney.html">How We Make Money</a>
         <a href="docs/pocketbudjet/WhyLocalFirst.html">Why Local-First</a>
+        <a href="docs/pocketbudjet/PocketBudJet_DataDeletion.html">Data Deletion</a>
+      </div>
+      <div class="footer-col">
+        <h4>Guides</h4>
+        <a href="getting-started/">Getting Started</a>
+        <a href="import/">Import Guide</a>
+        <a href="for-professionals/">For Professionals</a>
+        <a href="how-to/">How To &amp; Guides</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
