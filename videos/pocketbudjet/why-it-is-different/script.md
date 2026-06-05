@@ -34,7 +34,7 @@
 - Household Sync: PocketBudJet included · Category average $5–$7 extra (red cost icons)
 - Investment Tracking: PocketBudJet includes property + credit · Category average covers fewer asset types
 - Offline-First: PocketBudJet ✓ · Category average requires internet (red X)
-**Audio/VO:** "WiFi scanner. Household sync at no extra cost. Works offline. All three are rare in this category."
+**Audio/VO:** "WiFi scanner. Household sync included with Premium. Works offline. All three are rare in this category."
 **Text overlay:** "Rare in this category:" → "WiFi Scanner • Offline • No Sync Fees"
 
 ---

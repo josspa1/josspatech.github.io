@@ -140,14 +140,14 @@
     <div class="container">
         <span class="badge">FASTEST IMPORT METHOD</span>
         <h1>Share Bank Statements to PocketBudJet</h1>
-        <p class="subheader">Your bank app already has a Share button. Tap it, pick PocketBudJet, and the statement opens straight in the Import screen — parsed and ready to confirm. No downloads. No email forwarding. No copy-paste.</p>
+        <p class="subheader">PDF statement import is Premium (included in the 21-day trial). Tap Share in your bank app, pick PocketBudJet, and the statement opens straight in Import &mdash; parsed and ready to confirm. Six taps total.</p>
     </div>
 </section>
 
 <section class="video-section">
     <div class="container">
         <h2>From bank app to budget — under 10 seconds</h2>
-        <p class="section-sub">Six taps. That&rsquo;s it.</p>
+        <p class="section-sub">Illustrated screens show exactly where to tap. Gold pulse = your next tap.</p>
         <div class="video-wrapper">
             <div>
                 <div class="phone-viewport">
@@ -164,7 +164,7 @@
                             </div>
 
                             <!-- Slide 1: bank app statement view -->
-                            <div class="slide" data-index="1">
+                            <div class="slide" data-index="1" data-tap-hint="Open your bank app &rarr; pick the account &rarr; open <strong>Statements</strong> (sometimes under Documents or Activity).">
                                 <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Bank app showing recent statements list" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 1</span>
@@ -173,7 +173,7 @@
                             </div>
 
                             <!-- Slide 2: tap the share icon -->
-                            <div class="slide" data-index="2">
+                            <div class="slide" data-index="2" data-tap-label="Share" data-tap-hint="Tap the <strong>Share icon</strong> (square with arrow up) next to the statement PDF.">
                                 <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Tap the share icon next to the statement">
                                 <div class="tap-indicator" style="left:88%;top:33%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
@@ -192,7 +192,7 @@
                             </div>
 
                             <!-- Slide 4: tap PBJ in share sheet -->
-                            <div class="slide" data-index="4">
+                            <div class="slide" data-index="4" data-tap-label="PocketBudJet" data-tap-hint="On the share sheet, tap the <strong>PocketBudJet</strong> icon. Scroll right or tap More if you don&rsquo;t see it yet.">
                                 <img src="/assets/illustrations-pocketbudjet/share-sheet-pbj.svg" alt="Tap PocketBudJet in share sheet">
                                 <div class="tap-indicator" style="left:53%;top:68%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
@@ -211,7 +211,7 @@
                             </div>
 
                             <!-- Slide 6: review then confirm -->
-                            <div class="slide" data-index="6">
+                            <div class="slide" data-index="6" data-tap-label="Confirm" data-tap-hint="Review each parsed row, fix any flagged items, then tap <strong>Confirm</strong> at the bottom.">
                                 <img src="/assets/illustrations-pocketbudjet/pbj-import-receiving.svg" alt="Review parsed transactions and tap Confirm">
                                 <div class="tap-indicator" style="left:50%;top:91%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
@@ -343,7 +343,7 @@
 
         <div class="privacy-note">
             <h4>Why this is the privacy-friendly path</h4>
-            <p>Sharing a statement is a one-time handoff: Pocket Budget gets the data on that page &mdash; the same data you can already see &mdash; and nothing more. No ongoing access to your account, no permission to read future statements, no token sitting around. Each share is one file, one time. Prefer automatic updates? You can connect a bank instead &mdash; that&rsquo;s your call.</p>
+            <p>Sharing a statement is a one-time handoff: Pocket Budget gets the data on that page &mdash; the same data you can already see &mdash; and nothing more. No ongoing access to your account, no permission to read future statements, no token sitting around. Each share is one file, one time. Prefer automatic updates? Connect a bank with paid Premium via Teller &mdash; not included in the 21-day trial.</p>
         </div>
 
         <div class="privacy-note" style="background: #E8F0FE; border-left-color: var(--navy-medium);">
@@ -459,5 +459,7 @@ playPauseBtn.addEventListener('click', () => {
 playSlide();
 </script>
 
+<link rel="stylesheet" href="/videos/shared/walkthrough.css">
+<script src="/videos/shared/walkthrough.js" defer></script>
 </body>
 </html>

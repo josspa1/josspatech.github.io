@@ -17,7 +17,7 @@
 
 ### Shot 2 (0:05 - 0:12)
 **Visual:** Phone showing PocketBudJet's data controls — green checkmarks, a padlock icon, and a toggle for optional bank connection.
-**Audio/VO:** "Connect a bank for automatic sync if you want it. Skip it if you don't. Either way, your data stays on your device — and it's never sold."
+**Audio/VO:** "Connect a bank with paid Premium via Teller if you want automatic sync. Skip it if you don't. Either way, your data stays on your device — and it's never sold."
 **Text overlay:** "Connect Or Don't" | "Your Data Stays Yours"
 
 ---
