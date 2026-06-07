@@ -400,6 +400,90 @@
     #wowBanner .wow-item.down { color: var(--warning); }
     #wowBanner .wow-item.crit { color: var(--danger); }
 
+    /* ─── Proactive ops alert banner (red) ─────────────── */
+    #opsAlertBanner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      background: rgba(192, 57, 43, 0.12);
+      color: var(--danger);
+      border-bottom: 3px solid var(--danger);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+    #opsAlertBanner ul {
+      margin: 8px 0 0 18px;
+      font-weight: 500;
+    }
+    #opsAlertBanner .ops-alert-title {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    /* ─── Breakeven card ─────────────────────────────── */
+    .be-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .be-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .be-card .be-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .be-card .be-value {
+      font-size: 22px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      margin-top: 4px;
+    }
+    .be-card .be-sub {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    .be-manual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-end;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: var(--surface-alt);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .be-manual label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .be-manual input {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      width: 120px;
+      font-variant-numeric: tabular-nums;
+    }
+    .be-status-ok { color: var(--success); font-weight: 700; }
+    .be-status-warn { color: var(--warning); font-weight: 700; }
+    .be-status-bad { color: var(--danger); font-weight: 700; }
+
     /* ─── Alias reviewer mini-UI ─────────────────────── */
     #aliasReviewerPanel {
       margin-top: 12px;
@@ -1171,6 +1255,8 @@
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
+    <!-- Red banner when Gemini ≥80%, circuit breaker, worker/cron fail -->
+    <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
     <!-- ─── Week-over-week insights banner ─────────────────
          Auto-populated on refresh. Hidden unless something's off. -->
     <div id="wowBanner" style="display:none"></div>
@@ -1183,10 +1269,15 @@
          of how far down the page you are. -->
     <nav id="sectionNav" aria-label="Dashboard sections">
       <a class="sn-chip" href="#appVersions">App Versions</a>
+      <a class="sn-chip" href="#breakevenPanel">Breakeven</a>
       <a class="sn-chip" href="#quickActions">Quick Actions</a>
       <a class="sn-chip" href="#quicklinks">Quick Links</a>
       <a class="sn-chip" href="#services">Services &amp; Status</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
+      <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
+      <a class="sn-chip" href="#tellerStatusPanel">Teller</a>
+      <a class="sn-chip" href="#openCellIdPanel">OpenCellID</a>
+      <a class="sn-chip" href="#founderBreakeven">Breakeven</a>
       <a class="sn-chip" href="#quarantineWatch">Quarantine</a>
       <a class="sn-chip" href="#recentCommits">Recent Commits</a>
       <a class="sn-chip" href="#maintenance">Maintenance</a>
@@ -1209,6 +1300,33 @@
         what the store will tell users (Live / In Review / Rejected / Not Shipped).
       </p>
       <div id="appVersionsTable"></div>
+    </section>
+
+    <!-- ─── Breakeven & Revenue ─────────────────────────────
+         Fixed costs from docs/JOE_OPS_COSTS.md — $8.49 net/mo sub. -->
+    <section id="breakevenPanel">
+      <h2>Breakeven &amp; Paying Subscribers</h2>
+      <p class="section-explainer">
+        Fixed monthly burn and how many <strong>$9.99/mo</strong> subscribers (after 15% store cut →
+        <strong>$8.49 net</strong>) cover infrastructure + founder tools. Values match
+        <code>docs/JOE_OPS_COSTS.md</code> in the PBJ repo. Enter your current paying subs below until
+        RevenueCat is wired — the dashboard saves it in this browser only.
+      </p>
+      <div id="breakevenGrid">Loading…</div>
+      <div class="be-manual">
+        <div>
+          <label for="joePayingSubs">Current paying monthly subs</label>
+          <input type="number" id="joePayingSubs" min="0" step="1" placeholder="0"
+                 onchange="saveJoePayingSubs()" oninput="renderBreakevenPanel()">
+        </div>
+        <div>
+          <label for="joeMrrManual">Manual MRR ($/mo net, optional)</label>
+          <input type="number" id="joeMrrManual" min="0" step="0.01" placeholder="auto"
+                 onchange="saveJoeMrrManual()" oninput="renderBreakevenPanel()">
+        </div>
+        <div id="breakevenStatus" style="font-size: 13px; flex: 1; min-width: 200px;"></div>
+      </div>
+      <p id="revenueCatHint" class="section-explainer" style="margin-top: 12px; margin-bottom: 0;"></p>
     </section>
 
     <!-- ─── Quick Actions Bar ─────────────────────────────────
@@ -1374,6 +1492,22 @@
         &rarr; Access Tokens / Analytics.
       </p>
       <div id="openCellIdGrid">Loading&hellip;</div>
+    </section>
+
+    <!-- ─── Founder breakeven (static reference) ───────────────
+         Fixed-cost math lives in PBJ docs/JOE_OPS_COSTS.md.
+         Paying-sub count: RevenueCat dashboard (no API on-page yet). -->
+    <section id="founderBreakeven">
+      <h2>Founder Breakeven</h2>
+      <p class="section-explainer">
+        Static reference for fixed monthly burn and how many <strong>paying monthly subs</strong>
+        cover it at <strong>$8.49/mo net</strong> ($9.99 shelf minus 15% store cut). Variable API
+        costs (Gemini, OCR, Teller) are tracked in the panels above — add those on top when they
+        go non-zero. For live paying-subscriber count, open
+        <a href="https://app.revenuecat.com/" target="_blank" rel="noopener noreferrer">RevenueCat</a>
+        (not wired into this page yet).
+      </p>
+      <div id="founderBreakevenGrid"></div>
     </section>
 
     <!-- ─── Quarantine Watch Panel ────────────────────────────
@@ -2498,6 +2632,8 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       // Banner + maintenance status refresh alongside the main grid.
       // updateWowBanner has its own try/catch — it doesn't block if it fails.
       updateWowBanner().catch(() => {});
+      updateOpsAlertBanner().catch(() => {});
+      renderBreakevenPanel();
 
       document.getElementById("lastRefresh").textContent =
         `updated ${new Date().toLocaleTimeString()}`;
@@ -3897,12 +4033,12 @@ Generated ${new Date().toISOString()}.
     if (!root) return;
     root.innerHTML = `<div class="cron-card unknown"><div class="cron-name">Loading…</div></div>`;
 
-    const token = localStorage.getItem("pb_admin_token") || "";
+    const authHdr = token ? { Authorization: `Bearer ${token}` } : {};
     let rows = [];
     let collectionMissing = false;
     try {
       const r = await fetch("https://josspatech.pockethost.io/api/collections/_cron_heartbeat/records?perPage=50&sort=-last_run", {
-        headers: token ? { "Authorization": token } : {},
+        headers: authHdr,
         signal: AbortSignal.timeout(8000),
       });
       if (r.status === 404) {
@@ -3960,10 +4096,10 @@ Generated ${new Date().toISOString()}.
     if (!root) return;
     root.innerHTML = `<div class="qw-card"><div class="qw-label">Loading…</div></div>`;
 
-    const token = localStorage.getItem("pb_admin_token") || "";
+    const authHdr = token ? { Authorization: `Bearer ${token}` } : {};
     try {
       const r = await fetch("https://josspatech.pockethost.io/api/collections/_quarantine_submissions/records?perPage=1", {
-        headers: token ? { "Authorization": token } : {},
+        headers: authHdr,
         signal: AbortSignal.timeout(8000),
       });
       if (!r.ok) {
@@ -4200,6 +4336,210 @@ Generated ${new Date().toISOString()}.
      them via Workers KV counters incremented on every proxied call.
      ──────────────────────────────────────────────────────────── */
   const WORKER_BASE = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
+
+  /* ─── Breakeven — synced with PBJ docs/JOE_OPS_COSTS.md ─── */
+  const FIXED_COSTS = {
+    net_per_monthly_sub: 8.49,
+    stacks: { lean: 15.67, realistic: 35.67, comfort: 50.67 },
+    breakeven_subs: { lean: 2, realistic: 5, comfort: 6 },
+  };
+  const JOE_SUBS_KEY = "joe_paying_subs";
+  const JOE_MRR_KEY = "joe_mrr_manual";
+
+  function getJoePayingSubs() {
+    const v = parseInt(localStorage.getItem(JOE_SUBS_KEY) || "0", 10);
+    return Number.isFinite(v) && v >= 0 ? v : 0;
+  }
+
+  function saveJoePayingSubs() {
+    const el = document.getElementById("joePayingSubs");
+    const v = parseInt(el?.value || "0", 10);
+    localStorage.setItem(JOE_SUBS_KEY, String(Number.isFinite(v) && v >= 0 ? v : 0));
+    renderBreakevenPanel();
+  }
+
+  function saveJoeMrrManual() {
+    const el = document.getElementById("joeMrrManual");
+    const raw = el?.value?.trim();
+    if (!raw) {
+      localStorage.removeItem(JOE_MRR_KEY);
+    } else {
+      const v = parseFloat(raw);
+      localStorage.setItem(JOE_MRR_KEY, String(Number.isFinite(v) && v >= 0 ? v : 0));
+    }
+    renderBreakevenPanel();
+  }
+
+  function renderBreakevenPanel() {
+    const grid = document.getElementById("breakevenGrid");
+    const status = document.getElementById("breakevenStatus");
+    if (!grid) return;
+
+    const subs = getJoePayingSubs();
+    const manualMrr = localStorage.getItem(JOE_MRR_KEY);
+    const mrr = manualMrr != null && manualMrr !== ""
+      ? parseFloat(manualMrr)
+      : subs * FIXED_COSTS.net_per_monthly_sub;
+
+    grid.innerHTML = `
+      <div class="be-grid">
+        ${["lean", "realistic", "comfort"].map(stack => `
+          <div class="be-card">
+            <div class="be-label">${stack.charAt(0).toUpperCase() + stack.slice(1)} stack</div>
+            <div class="be-value">$${FIXED_COSTS.stacks[stack].toFixed(2)}/mo</div>
+            <div class="be-sub">${FIXED_COSTS.breakeven_subs[stack]} paying subs @ $${FIXED_COSTS.net_per_monthly_sub} net</div>
+          </div>
+        `).join("")}
+        <div class="be-card">
+          <div class="be-label">Your net MRR (est.)</div>
+          <div class="be-value">$${mrr.toFixed(2)}/mo</div>
+          <div class="be-sub">${subs} paying monthly subs × $${FIXED_COSTS.net_per_monthly_sub}</div>
+        </div>
+      </div>`;
+
+    if (status) {
+      const realistic = FIXED_COSTS.stacks.realistic;
+      const comfort = FIXED_COSTS.stacks.comfort;
+      let cls = "be-status-bad";
+      let msg = `Below realistic breakeven — need ${FIXED_COSTS.breakeven_subs.realistic} subs ($${realistic.toFixed(2)}/mo fixed).`;
+      if (mrr >= comfort) {
+        cls = "be-status-ok";
+        msg = `At or above comfort stack ($${comfort.toFixed(2)}/mo) — ${subs} subs cover fixed burn + buffer.`;
+      } else if (mrr >= realistic) {
+        cls = "be-status-warn";
+        msg = `Covers realistic stack ($${realistic.toFixed(2)}/mo) — ${subs} subs; comfort needs ${FIXED_COSTS.breakeven_subs.comfort}.`;
+      } else if (mrr >= FIXED_COSTS.stacks.lean) {
+        cls = "be-status-warn";
+        msg = `Covers lean infra only ($${FIXED_COSTS.stacks.lean.toFixed(2)}/mo) — realistic needs ${FIXED_COSTS.breakeven_subs.realistic} subs.`;
+      }
+      status.innerHTML = `<span class="${cls}">${msg}</span>`;
+    }
+
+    const subsEl = document.getElementById("joePayingSubs");
+    const mrrEl = document.getElementById("joeMrrManual");
+    if (subsEl && document.activeElement !== subsEl) subsEl.value = subs || "";
+    if (mrrEl && document.activeElement !== mrrEl && manualMrr != null && manualMrr !== "") {
+      mrrEl.value = parseFloat(manualMrr).toFixed(2);
+    }
+  }
+
+  async function loadRevenueFromWorker() {
+    const hint = document.getElementById("revenueCatHint");
+    if (!hint) return;
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      hint.textContent = "RevenueCat: enter paying subs above. Worker /ops/revenue needs X-PBJ-Key in this browser.";
+      return;
+    }
+    try {
+      const r = await fetch(`${WORKER_BASE}/ops/revenue`, {
+        headers: { "X-PBJ-Key": key },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (!r.ok) {
+        hint.textContent = `RevenueCat API not available (HTTP ${r.status}) — use manual paying subs field.`;
+        return;
+      }
+      const j = await r.json();
+      if (j.source === "api" && j.paying_subscribers != null) {
+        localStorage.setItem(JOE_SUBS_KEY, String(Math.round(j.paying_subscribers)));
+        const mrrEl = document.getElementById("joeMrrManual");
+        if (j.mrr_usd != null && mrrEl) {
+          mrrEl.value = Number(j.mrr_usd).toFixed(2);
+          localStorage.setItem(JOE_MRR_KEY, String(j.mrr_usd));
+        }
+        renderBreakevenPanel();
+        hint.textContent = `RevenueCat live: ${j.paying_subscribers} active subs${j.mrr_usd != null ? ` · $${Number(j.mrr_usd).toFixed(2)} MRR` : ""}.`;
+      } else if (j.hint) {
+        hint.textContent = j.hint;
+      } else if (j.error) {
+        hint.textContent = `RevenueCat error: ${j.error} — use manual field.`;
+      } else {
+        hint.textContent = "RevenueCat not configured on Worker — enter paying subs manually (saved in this browser).";
+      }
+    } catch {
+      hint.textContent = "Could not reach /ops/revenue — enter paying subs manually.";
+    }
+  }
+
+  /* ─── Proactive ops alerts (red banner when logged in) ─── */
+  async function updateOpsAlertBanner() {
+    const banner = document.getElementById("opsAlertBanner");
+    if (!banner || !token) {
+      if (banner) banner.style.display = "none";
+      return;
+    }
+
+    const issues = [];
+    const key = localStorage.getItem("pbj_shared_key") || "";
+
+    if (key) {
+      try {
+        const r = await fetch(`${WORKER_BASE}/ocr/quota/stats`, {
+          headers: { "X-PBJ-Key": key },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (r.ok) {
+          const stats = await r.json();
+          const geminiCap = stats.freeTier?.geminiDaily || 1500;
+          const geminiPct = geminiCap > 0 ? (stats.today.gemini / geminiCap) * 100 : 0;
+          if (geminiPct >= 80) {
+            issues.push(`Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
+          }
+          if (stats.today.circuitBreakerArmed) {
+            issues.push("OCR circuit breaker ARMED — free users denied cloud OCR");
+          }
+        } else {
+          issues.push(`Worker OCR stats unreachable (HTTP ${r.status})`);
+        }
+      } catch {
+        issues.push("Worker OCR stats request failed — check Worker deploy");
+      }
+    } else {
+      issues.push("X-PBJ-Key not set — run a smoke test to store the Worker key");
+    }
+
+    try {
+      const r = await fetch(`${WORKER_BASE}/`, { cache: "no-store", signal: AbortSignal.timeout(6000) });
+      if (!r.ok) issues.push(`Worker health ping failed (HTTP ${r.status})`);
+    } catch {
+      issues.push("Worker health ping failed — pbj-import-worker may be down");
+    }
+
+    try {
+      const authHdr = token ? { Authorization: `Bearer ${token}` } : {};
+      const r = await fetch(
+        "https://josspatech.pockethost.io/api/collections/_cron_heartbeat/records?perPage=1&sort=-last_run&filter=" +
+        encodeURIComponent('name="aggregate_submissions"'),
+        { headers: authHdr, signal: AbortSignal.timeout(8000) },
+      );
+      if (r.ok) {
+        const j = await r.json();
+        const lastRun = j.items?.[0]?.last_run;
+        if (lastRun) {
+          const minutes = (Date.now() - new Date(lastRun).getTime()) / 60000;
+          if (minutes > 180) {
+            issues.push(`PocketBase aggregation cron stale (${Math.round(minutes)} min since last run)`);
+          }
+        } else {
+          issues.push("PocketBase aggregation cron — no heartbeat recorded yet");
+        }
+      }
+    } catch {
+      issues.push("PocketBase cron heartbeat check failed");
+    }
+
+    if (issues.length === 0) {
+      banner.style.display = "none";
+      banner.innerHTML = "";
+      return;
+    }
+
+    banner.innerHTML =
+      `<div class="ops-alert-title">⚠ Ops alert — action needed</div>` +
+      `<ul>${issues.map(i => `<li>${i}</li>`).join("")}</ul>`;
+    banner.style.display = "block";
+  }
 
   // Cache the most recent /health/quotas response so individual probes
   // can read from it. Refreshed on every refreshServiceStatus() call.
@@ -4727,6 +5067,9 @@ Generated ${new Date().toISOString()}.
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
       loadOpenCellIdPanel();
+      renderBreakevenPanel();
+      loadRevenueFromWorker();
+      updateOpsAlertBanner().catch(() => {});
     }, 600);
   });
   </script>
