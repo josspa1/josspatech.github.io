@@ -484,6 +484,51 @@
     .be-status-warn { color: var(--warning); font-weight: 700; }
     .be-status-bad { color: var(--danger); font-weight: 700; }
 
+    /* ─── Founder fixed-cost reference table ─────────── */
+    #founderBreakevenGrid {
+      margin-bottom: 14px;
+    }
+    .founder-cost-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .founder-cost-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .founder-cost-wrap th,
+    .founder-cost-wrap td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .founder-cost-wrap th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+      background: var(--surface-alt);
+    }
+    .founder-cost-wrap td.num {
+      text-align: right;
+      font-family: var(--mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .founder-cost-wrap tr.subtotal td {
+      font-weight: 700;
+      color: var(--primary);
+      border-top: 2px solid var(--border);
+    }
+    .founder-cost-wrap .cost-note {
+      font-size: 11px;
+      color: var(--text-dim);
+      padding: 8px 12px;
+      background: var(--surface-alt);
+    }
+
     /* ─── Alias reviewer mini-UI ─────────────────────── */
     #aliasReviewerPanel {
       margin-top: 12px;
@@ -1269,15 +1314,14 @@
          of how far down the page you are. -->
     <nav id="sectionNav" aria-label="Dashboard sections">
       <a class="sn-chip" href="#appVersions">App Versions</a>
-      <a class="sn-chip" href="#breakevenPanel">Breakeven</a>
       <a class="sn-chip" href="#quickActions">Quick Actions</a>
       <a class="sn-chip" href="#quicklinks">Quick Links</a>
       <a class="sn-chip" href="#services">Services &amp; Status</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
+      <a class="sn-chip" href="#founderBreakeven">Founder Economics</a>
       <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
       <a class="sn-chip" href="#tellerStatusPanel">Teller</a>
       <a class="sn-chip" href="#openCellIdPanel">OpenCellID</a>
-      <a class="sn-chip" href="#founderBreakeven">Breakeven</a>
       <a class="sn-chip" href="#quarantineWatch">Quarantine</a>
       <a class="sn-chip" href="#recentCommits">Recent Commits</a>
       <a class="sn-chip" href="#maintenance">Maintenance</a>
@@ -1300,33 +1344,6 @@
         what the store will tell users (Live / In Review / Rejected / Not Shipped).
       </p>
       <div id="appVersionsTable"></div>
-    </section>
-
-    <!-- ─── Breakeven & Revenue ─────────────────────────────
-         Fixed costs from docs/JOE_OPS_COSTS.md — $8.49 net/mo sub. -->
-    <section id="breakevenPanel">
-      <h2>Breakeven &amp; Paying Subscribers</h2>
-      <p class="section-explainer">
-        Fixed monthly burn and how many <strong>$9.99/mo</strong> subscribers (after 15% store cut →
-        <strong>$8.49 net</strong>) cover infrastructure + founder tools. Values match
-        <code>docs/JOE_OPS_COSTS.md</code> in the PBJ repo. Enter your current paying subs below until
-        RevenueCat is wired — the dashboard saves it in this browser only.
-      </p>
-      <div id="breakevenGrid">Loading…</div>
-      <div class="be-manual">
-        <div>
-          <label for="joePayingSubs">Current paying monthly subs</label>
-          <input type="number" id="joePayingSubs" min="0" step="1" placeholder="0"
-                 onchange="saveJoePayingSubs()" oninput="renderBreakevenPanel()">
-        </div>
-        <div>
-          <label for="joeMrrManual">Manual MRR ($/mo net, optional)</label>
-          <input type="number" id="joeMrrManual" min="0" step="0.01" placeholder="auto"
-                 onchange="saveJoeMrrManual()" oninput="renderBreakevenPanel()">
-        </div>
-        <div id="breakevenStatus" style="font-size: 13px; flex: 1; min-width: 200px;"></div>
-      </div>
-      <p id="revenueCatHint" class="section-explainer" style="margin-top: 12px; margin-bottom: 0;"></p>
     </section>
 
     <!-- ─── Quick Actions Bar ─────────────────────────────────
@@ -1413,6 +1430,81 @@
       <div id="cronHealthGrid"></div>
     </section>
 
+    <!-- ─── Founder economics & breakeven ─────────────────────
+         Fixed-cost stacks, paying-sub comparison, alert playbook.
+         Synced with PBJ docs/JOE_OPS_COSTS.md. OCR Quota panel
+         below is the live Gemini / circuit-breaker monitor. -->
+    <section id="founderBreakeven">
+      <h2>Founder Economics &amp; Breakeven</h2>
+      <p class="section-explainer">
+        <strong>What this is:</strong> Your fixed monthly burn as a solo founder — domains, store
+        accounts, PocketHost, and optional tools — plus how many paying PocketBudJet subscribers
+        cover that burn at <strong>$8.49/mo net</strong> ($9.99 shelf minus 15% Apple/Google cut).
+        Use this section before the <strong>OCR Quota &amp; Cost</strong> panel below: economics
+        first, then live API quota.
+        <br><br>
+        <strong>Fixed monthly stack</strong> (infra + domains + licenses — shared across PBJ, HHH,
+        and future apps; do not double-count Apple/Google per app):
+        <br>
+        josspatech.com ~$1/mo · pocketbudjet.com ~$1/mo · Apple Developer $8.25/mo ($99/yr) ·
+        Google Play $0.42/mo ($25 one-time, amortized) · PocketHost $5/mo · Cloudflare Workers
+        $0 (free tier) · GitHub Pages $0 · Firebase Spark $0 · RevenueCat $0 (until ~$10K MTR) ·
+        Expo EAS $0 (free 30 builds/mo). <strong>Infra subtotal: $15.67/mo.</strong>
+        Founder-tool stacks on top: <strong>Lean</strong> $15.67 (no Cursor) ·
+        <strong>Realistic</strong> $35.67 (+ Cursor ~$20) · <strong>Comfort</strong> $50.67
+        (+ $15 misc buffer). Full line items:
+        <code>docs/JOE_OPS_COSTS.md</code> in the PBJ repo.
+        <br><br>
+        <strong>Breakeven</strong> at $8.49 net per monthly sub
+        (<code>ceil(fixed ÷ 8.49)</code>): <strong>Lean → 2 subs</strong> ·
+        <strong>Realistic → 5 subs</strong> · <strong>Comfort → 6 subs</strong>.
+        Annual plan nets ~$5.31/mo — use monthly for conservative planning.
+        <br><br>
+        <strong>Variable costs</strong> (tracked separately — not baked into fixed stacks; add on
+        top when they go non-zero): Gemini API overage above 1,500 free calls/day, Claude API
+        (Cursor agent + app <code>/anthropic-proxy</code>), Teller ~$2/active enrollment/mo in
+        production (see Teller panel), OCR.Space PRO if rate-limited. Panels below show live usage.
+        <br><br>
+        <strong>Joe's three alerts</strong> (what to watch and what already fires automatically):
+        <br>
+        (a) <strong>Enough paying users for Gemini paid tier</strong> — compare your manual paying
+        subs (or RevenueCat when wired) against the breakeven cards; realistic stack (~5 subs)
+        is the day-to-day target before variable API bills hurt.
+        <br>
+        (b) <strong>Approaching free Gemini cap</strong> — watch the <strong>OCR Quota &amp; Cost</strong>
+        panel below (Gemini daily bar); the red <strong>ops alert banner</strong> at the top of this
+        page appears at ≥80% utilization. The Worker hourly cron also emails
+        <code>support@josspatech.com</code> when quota thresholds trip (MailChannels or Postmark).
+        <br>
+        (c) <strong>Service stopped because cap hit</strong> — when the global circuit breaker
+        arms at 100%, free users are denied cloud OCR; the red banner shows
+        <em>OCR circuit breaker ARMED</em>. Premium/trial users keep working. Raise limits in
+        <code>wrangler.toml</code> and redeploy, or upgrade the API plan.
+        <br><br>
+        <strong>How to use:</strong> Enter current paying monthly subs below (saved in this browser
+        until RevenueCat <code>/ops/revenue</code> is live). Compare your count and status line
+        against lean / realistic / comfort breakeven. Scroll to <strong>OCR Quota</strong> for
+        today's Gemini usage. If you get a quota email from the Worker cron, cross-check the
+        panel and banner here before changing caps.
+      </p>
+      <div id="founderBreakevenGrid"></div>
+      <div id="breakevenGrid">Loading…</div>
+      <div class="be-manual">
+        <div>
+          <label for="joePayingSubs">Current paying monthly subs</label>
+          <input type="number" id="joePayingSubs" min="0" step="1" placeholder="0"
+                 onchange="saveJoePayingSubs()" oninput="renderBreakevenPanel()">
+        </div>
+        <div>
+          <label for="joeMrrManual">Manual MRR ($/mo net, optional)</label>
+          <input type="number" id="joeMrrManual" min="0" step="0.01" placeholder="auto"
+                 onchange="saveJoeMrrManual()" oninput="renderBreakevenPanel()">
+        </div>
+        <div id="breakevenStatus" style="font-size: 13px; flex: 1; min-width: 200px;"></div>
+      </div>
+      <p id="revenueCatHint" class="section-explainer" style="margin-top: 12px; margin-bottom: 0;"></p>
+    </section>
+
     <!-- ─── OCR Quota & Cost Panel ──────────────────────────
          Real-time view of today's cloud OCR usage + estimated
          overage cost. Reads /ocr/quota/stats on the Worker (KV
@@ -1421,12 +1513,15 @@
     <section id="ocrQuotaPanel">
       <h2>OCR Quota &amp; Cost</h2>
       <p class="section-explainer">
+        Live Gemini / OCR quota for alert (b) and (c) in <strong>Founder Economics</strong> above.
         Real-time snapshot of today's cloud OCR usage straight from the Worker's KV
         counters. The progress bar tracks the GLOBAL daily call total against the
         circuit-breaker limit set in <code>wrangler.toml</code>. <strong style="color: var(--success);">Green</strong>
         under 75% utilization, <strong style="color: var(--warning);">yellow</strong> 75-90%,
         <strong style="color: var(--danger);">red</strong> above 90% — the circuit breaker
         arms at 100% and starts denying FREE users automatically (premium/trial keep working).
+        The page-top red banner mirrors ≥80% Gemini and armed breaker; hourly cron emails
+        <code>support@josspatech.com</code> on threshold trips.
         <br><br>
         <strong>Estimated cost</strong> is non-zero only when a service exceeds its free-tier
         daily quota (OCR.Space 500/day, Gemini 1500/day). Overage calls are multiplied by
@@ -1492,22 +1587,6 @@
         &rarr; Access Tokens / Analytics.
       </p>
       <div id="openCellIdGrid">Loading&hellip;</div>
-    </section>
-
-    <!-- ─── Founder breakeven (static reference) ───────────────
-         Fixed-cost math lives in PBJ docs/JOE_OPS_COSTS.md.
-         Paying-sub count: RevenueCat dashboard (no API on-page yet). -->
-    <section id="founderBreakeven">
-      <h2>Founder Breakeven</h2>
-      <p class="section-explainer">
-        Static reference for fixed monthly burn and how many <strong>paying monthly subs</strong>
-        cover it at <strong>$8.49/mo net</strong> ($9.99 shelf minus 15% store cut). Variable API
-        costs (Gemini, OCR, Teller) are tracked in the panels above — add those on top when they
-        go non-zero. For live paying-subscriber count, open
-        <a href="https://app.revenuecat.com/" target="_blank" rel="noopener noreferrer">RevenueCat</a>
-        (not wired into this page yet).
-      </p>
-      <div id="founderBreakevenGrid"></div>
     </section>
 
     <!-- ─── Quarantine Watch Panel ────────────────────────────
@@ -2633,6 +2712,7 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       // updateWowBanner has its own try/catch — it doesn't block if it fails.
       updateWowBanner().catch(() => {});
       updateOpsAlertBanner().catch(() => {});
+      renderFounderCostTable();
       renderBreakevenPanel();
 
       document.getElementById("lastRefresh").textContent =
@@ -4342,6 +4422,21 @@ Generated ${new Date().toISOString()}.
     net_per_monthly_sub: 8.49,
     stacks: { lean: 15.67, realistic: 35.67, comfort: 50.67 },
     breakeven_subs: { lean: 2, realistic: 5, comfort: 6 },
+    lines: [
+      { item: "josspatech.com (domain)", monthly: 1.0, note: "estimate" },
+      { item: "pocketbudjet.com (domain)", monthly: 1.0, note: "estimate" },
+      { item: "Apple Developer Program", monthly: 8.25, note: "$99/yr" },
+      { item: "Google Play developer", monthly: 0.42, note: "$25 one-time ÷ 60 mo" },
+      { item: "PocketHost / PocketBase", monthly: 5.0, note: "shared PBJ/HHH/CVC" },
+      { item: "Cloudflare Workers", monthly: 0, note: "free tier" },
+      { item: "GitHub Pages", monthly: 0, note: "" },
+      { item: "Firebase Spark · RevenueCat · Expo EAS", monthly: 0, note: "free at current scale" },
+    ],
+    founder_tools: [
+      { stack: "Lean", monthly: 15.67, cursor: 0, buffer: 0 },
+      { stack: "Realistic", monthly: 35.67, cursor: 20, buffer: 0 },
+      { stack: "Comfort", monthly: 50.67, cursor: 20, buffer: 15 },
+    ],
   };
   const JOE_SUBS_KEY = "joe_paying_subs";
   const JOE_MRR_KEY = "joe_mrr_manual";
@@ -4368,6 +4463,33 @@ Generated ${new Date().toISOString()}.
       localStorage.setItem(JOE_MRR_KEY, String(Number.isFinite(v) && v >= 0 ? v : 0));
     }
     renderBreakevenPanel();
+  }
+
+  function renderFounderCostTable() {
+    const root = document.getElementById("founderBreakevenGrid");
+    if (!root) return;
+    const infraSubtotal = FIXED_COSTS.lines.reduce((s, l) => s + l.monthly, 0);
+    const rows = FIXED_COSTS.lines.map(l => `
+      <tr>
+        <td>${l.item}${l.note ? ` <span style="color:var(--text-muted)">(${l.note})</span>` : ""}</td>
+        <td class="num">$${l.monthly.toFixed(2)}</td>
+      </tr>`).join("");
+    const stackRows = FIXED_COSTS.founder_tools.map(s => `
+      <tr>
+        <td><strong>${s.stack}</strong> stack${s.cursor ? ` (+ Cursor $${s.cursor})` : ""}${s.buffer ? ` (+ buffer $${s.buffer})` : ""}</td>
+        <td class="num">$${s.monthly.toFixed(2)} · ${FIXED_COSTS.breakeven_subs[s.stack.toLowerCase()]} subs</td>
+      </tr>`).join("");
+    root.innerHTML = `
+      <div class="founder-cost-wrap">
+        <table>
+          <thead><tr><th>Fixed line item</th><th>$/mo</th></tr></thead>
+          <tbody>${rows}
+            <tr class="subtotal"><td>Infra subtotal</td><td class="num">$${infraSubtotal.toFixed(2)}</td></tr>
+            ${stackRows}
+          </tbody>
+        </table>
+        <div class="cost-note">Source: <code>docs/JOE_OPS_COSTS.md</code> (PBJ repo). Variable: Gemini overage, Claude, Teller prod — see panels below.</div>
+      </div>`;
   }
 
   function renderBreakevenPanel() {
@@ -5056,6 +5178,7 @@ Generated ${new Date().toISOString()}.
     // Synchronous renders first — no network, instant paint.
     renderAppVersions();
     renderQuickLinks();
+    renderFounderCostTable();
 
     // Network-bound renders deferred slightly so login flow doesn't
     // fight for the wire on first load.
