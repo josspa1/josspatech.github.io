@@ -644,35 +644,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 15% 110%,rgba(46,111,163,0.2) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% -5%,rgba(240,192,64,0.06) 0%,transparent 55%);pointer-events:none;}
 .hero-inner{position:relative;z-index:1;max-width:680px;margin:0 auto;text-align:center;}
 .hero-text{text-align:center;}
-.hero-mascot{flex-shrink:0;animation:idle 2.5s ease-in-out infinite;filter:drop-shadow(0 12px 28px rgba(12,51,88,0.28)) drop-shadow(0 4px 10px rgba(0,0,0,0.14));}
-@keyframes idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@media(max-width:768px){.hero-inner{flex-direction:column;}.hero-mascot{order:-1;}.hero-mascot svg{width:120px;height:165px;}.pro-guide{display:none !important;}}
-
-/* ══ THE PRO — SCROLL GUIDE ═════════════════════════════ */
-.pro-guide{
-  position:absolute;pointer-events:none;z-index:10;
-  opacity:0;transition:opacity .6s var(--ease),transform .6s var(--ease);
-}
-.pro-guide.from-left{left:-60px;transform:translateX(-30px);}
-.pro-guide.from-right{right:-60px;transform:translateX(30px);}
-.pro-guide.from-left.visible{opacity:1;transform:translateX(0);}
-.pro-guide.from-right.visible{opacity:1;transform:translateX(0);}
-.pro-guide svg{filter:drop-shadow(0 4px 12px rgba(0,0,0,0.12));}
-.pro-guide .pro-speech{
-  position:absolute;background:#fff;color:var(--navy-dk);
-  font-size:11px;font-weight:700;padding:6px 12px;border-radius:10px;
-  white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.1);
-  line-height:1.3;
-}
-.pro-guide.from-left .pro-speech{left:65px;top:8px;}
-.pro-guide.from-right .pro-speech{right:65px;top:8px;}
-.pro-guide .pro-speech::after{
-  content:'';position:absolute;top:50%;width:0;height:0;
-  border:6px solid transparent;margin-top:-6px;
-}
-.pro-guide.from-left .pro-speech::after{left:-10px;border-right-color:#fff;}
-.pro-guide.from-right .pro-speech::after{right:-10px;border-left-color:#fff;}
-
 .hero-bc{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:28px;font-size:12px;color:rgba(255,255,255,0.3);}
 .hero-bc a{color:rgba(255,255,255,0.3);text-decoration:none;transition:color .15s;}
 .hero-bc a:hover{color:rgba(255,255,255,0.6);}
@@ -865,13 +836,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .fl-v11{background:rgba(39,174,96,0.09);color:#1e8449;border:1px solid rgba(39,174,96,0.2);}
 .fl-v2{background:rgba(142,68,173,0.09);color:#7d3c98;border:1px solid rgba(142,68,173,0.2);}
 .pfoot{font-size:12px;color:var(--slate-lt);text-align:center;padding-top:14px;}
-.plan-best-mascot{text-align:center;margin-top:16px;overflow:visible;padding:0 10px;}
-.plan-best-mascot svg{animation:idle 2.5s ease-in-out infinite;filter:drop-shadow(0 10px 22px rgba(12,51,88,0.22)) drop-shadow(0 3px 8px rgba(0,0,0,0.13));overflow:visible;max-width:100%;height:auto;}
-.mascot-speech{display:inline-block;background:#fff;border:1.5px solid rgba(26,79,122,0.14);border-radius:12px;padding:9px 15px;font-size:12px;font-weight:700;color:var(--navy-dk);margin-bottom:12px;position:relative;box-shadow:0 2px 10px rgba(12,51,88,0.1);font-style:italic;}
-.mascot-speech::after{content:'';position:absolute;bottom:-9px;left:50%;transform:translateX(-50%);border-left:8px solid transparent;border-right:8px solid transparent;border-top:9px solid rgba(26,79,122,0.14);}
-.mascot-speech::before{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);border-left:7px solid transparent;border-right:7px solid transparent;border-top:7px solid #fff;z-index:1;}
-.mascot-wave-hand{transform-box:fill-box;transform-origin:50% 100%;animation:waveArm 1.4s ease-in-out infinite;}
-@keyframes waveArm{0%,100%{transform:rotate(0deg);}25%{transform:rotate(-18deg);}55%{transform:rotate(12deg);}78%{transform:rotate(-10deg);}}
 .launch-cta{margin-bottom:36px;}
 .launch-cta-inner{background:var(--navy-dk);border-radius:18px;padding:36px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(12,51,88,0.12),0 16px 48px rgba(12,51,88,0.08);}
 .launch-cta-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#fff;margin-bottom:4px;}
@@ -1537,33 +1501,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </div>
 
 <section class="sec" id="showcase" style="background:var(--bg);position:relative;overflow:hidden;">
-  <!-- The Pro — features guide -->
-  <div class="pro-guide from-left" data-pro="showcase">
-    <div class="pro-speech">Check these out!</div>
-    <svg width="60" height="82" viewBox="0 0 160 220">
-      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
-      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
-      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <!-- Right arm pointing right -->
-      <path d="M 110 115 Q 135 105 148 95" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="150" cy="93" r="7" fill="#F5D0B0"/>
-      <!-- Left arm relaxed -->
-      <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
-      <!-- Head -->
-      <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
-      <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
-      <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
-      <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-      <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-      <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
-      <circle cx="65" cy="67" r="5" fill="#fff"/><circle cx="67" cy="68" r="3.5" fill="#1A4F7A"/><circle cx="68.5" cy="66.5" r="1.5" fill="#fff"/>
-      <circle cx="95" cy="67" r="5" fill="#fff"/><circle cx="93" cy="68" r="3.5" fill="#1A4F7A"/><circle cx="91.5" cy="66.5" r="1.5" fill="#fff"/>
-      <path d="M 70 84 Q 80 90 90 84" stroke="#C4856A" stroke-width="2" fill="none" stroke-linecap="round"/>
-    </svg>
-  </div>
   <div class="sec-in">
     <div class="rv">
       <span class="sec-ey">Features</span>
