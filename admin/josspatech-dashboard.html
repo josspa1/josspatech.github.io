@@ -4592,7 +4592,7 @@ Generated ${new Date().toISOString()}.
         s = s.slice(eq + 1).trim();
       }
     }
-    if ((s.startsWith(""") && s.endsWith(""")) || (s.startsWith("'") && s.endsWith("'"))) {
+    if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
       s = s.slice(1, -1).trim();
     }
     return s;
