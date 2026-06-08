@@ -802,6 +802,84 @@
     .cron-name { font-weight: 700; color: var(--primary); flex: 1; }
     .cron-last { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
 
+    /* ─── Worker Monitoring (PBJ · HHH · CVC) ───────────────── */
+    .wm-summary-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .wm-summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    .wm-summary-card.green  { border-left: 4px solid var(--success); }
+    .wm-summary-card.yellow { border-left: 4px solid var(--warning); }
+    .wm-summary-card.red    { border-left: 4px solid var(--danger); }
+    .wm-summary-card.unknown{ border-left: 4px solid var(--text-muted); }
+    .wm-app-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; color: var(--text-muted); }
+    .wm-app-title { font-weight: 700; color: var(--primary); font-size: 14px; margin: 2px 0 8px; }
+    .wm-stat-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+    .wm-stat-row strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .wm-combined {
+      background: var(--primary-soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      display: flex; flex-wrap: wrap; gap: 16px; align-items: baseline;
+      font-size: 13px;
+    }
+    .wm-combined strong { color: var(--primary); font-size: 18px; font-variant-numeric: tabular-nums; }
+    .wm-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .wm-tab {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .wm-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .wm-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .wm-detail {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    .wm-detail-head {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start;
+      gap: 12px; margin-bottom: 14px;
+    }
+    .wm-status-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+      padding: 4px 10px; border-radius: 999px;
+    }
+    .wm-status-pill.green  { background: rgba(39,174,96,0.12); color: var(--success); }
+    .wm-status-pill.yellow { background: rgba(230,126,34,0.12); color: var(--warning); }
+    .wm-status-pill.red    { background: rgba(192,57,43,0.10); color: var(--danger); }
+    .wm-status-pill.unknown{ background: var(--surface-alt); color: var(--text-muted); }
+    .wm-status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+    .wm-meter {
+      background: rgba(0,0,0,0.08); border-radius: 8px; height: 12px; overflow: hidden; margin: 8px 0;
+    }
+    .wm-meter-fill { height: 100%; transition: width 0.3s; }
+    .wm-url-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; font-size: 12px; }
+    .wm-url-row input {
+      flex: 1; min-width: 200px; padding: 8px 10px; border: 1px solid var(--border);
+      border-radius: 6px; font-family: var(--mono); font-size: 11px;
+    }
+    .wm-updated { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 12px; }
+
     /* ─── Quarantine Watch ───────────────────────────────────── */
     /* Section heading styled by the unified rule above. */
     .qw-card {
@@ -1317,6 +1395,7 @@
       <a class="sn-chip" href="#quickActions">Quick Actions</a>
       <a class="sn-chip" href="#quicklinks">Quick Links</a>
       <a class="sn-chip" href="#services">Services &amp; Status</a>
+      <a class="sn-chip" href="#workerMonitoring">Worker Monitoring</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
       <a class="sn-chip" href="#founderBreakeven">Founder Economics</a>
       <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
@@ -1403,6 +1482,27 @@
       <!-- Cards built from the SERVICES array in JS so adding a new
            service is a one-line change instead of an HTML edit. -->
       <div id="servicesGrid"></div>
+    </section>
+
+    <!-- ─── Worker Monitoring — PBJ · HHH · CVC ───────────────
+         Per-app Cloudflare Worker health + AI usage/cost.
+         Polls each worker separately; keys stored per-browser. -->
+    <section id="workerMonitoring">
+      <h2>Worker Monitoring — PBJ · HHH · CVC</h2>
+      <p class="section-explainer">
+        Live status for each app's dedicated Cloudflare Worker. <strong>Pocket Budget Journal</strong>
+        tracks OCR + Gemini via <code>/ocr/quota/stats</code>; <strong>Handy Horology Helper</strong> and
+        <strong>Curator's Vault</strong> track Gemini + Anthropic via <code>/ops/stats</code>.
+        <strong style="color: var(--success);">Green</strong> = worker healthy and Gemini configured.
+        <strong style="color: var(--warning);">Yellow</strong> = worker up but Gemini key missing or quota ≥75%.
+        <strong style="color: var(--danger);">Red</strong> = worker unreachable, auth failed, or circuit breaker armed.
+        Shared keys are prompted on first smoke test and saved in this browser only — never in git.
+        Worker URLs can be overridden below each tab if you redeploy to a custom domain.
+      </p>
+      <div id="workerMonitoringCombined"></div>
+      <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>
+      <div id="workerMonitoringTabs" class="wm-tabs"></div>
+      <div id="workerMonitoringGrid">Loading…</div>
     </section>
 
     <!-- ─── Cron Health Panel ─────────────────────────────────
@@ -1511,9 +1611,10 @@
          counters). Tunable from wrangler.toml — see §6 of
          PBJ_OCR_QUOTA_DESIGN.md. -->
     <section id="ocrQuotaPanel">
-      <h2>OCR Quota &amp; Cost</h2>
+      <h2>PBJ — OCR Quota &amp; Cost (detail)</h2>
       <p class="section-explainer">
-        Live Gemini / OCR quota for alert (b) and (c) in <strong>Founder Economics</strong> above.
+        Detailed PBJ-only OCR breakdown. See <strong>Worker Monitoring</strong> above for a
+        cross-app summary. Live Gemini / OCR quota for alert (b) and (c) in
         Real-time snapshot of today's cloud OCR usage straight from the Worker's KV
         counters. The progress bar tracks the GLOBAL daily call total against the
         circuit-breaker limit set in <code>wrangler.toml</code>. <strong style="color: var(--success);">Green</strong>
@@ -2714,6 +2815,8 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       updateOpsAlertBanner().catch(() => {});
       renderFounderCostTable();
       renderBreakevenPanel();
+      loadWorkerMonitoring();
+      loadOcrQuotaPanel();
 
       document.getElementById("lastRefresh").textContent =
         `updated ${new Date().toLocaleTimeString()}`;
@@ -3644,37 +3747,41 @@ Generated ${new Date().toISOString()}.
   }
 
   async function qaTestIdentify(category, description) {
-    qaLog(`Testing /identify/${category} with description: "${description}"...`);
-    const key = getPbjKey();
-    if (!key) { qaLog("Aborted — no PBJ_SHARED_KEY supplied.", "err"); return; }
+    const app = HHH_IDENTIFY_CATEGORIES.includes(category)
+      ? WORKER_APPS.find(a => a.id === "hhh")
+      : WORKER_APPS.find(a => a.id === "cvc");
+    if (!app) { qaLog(`Unknown identify category: ${category}`, "err"); return; }
+    qaLog(`Testing ${app.short} /identify/${category} with description: "${description}"...`);
+    const key = app.id === "pbj" ? getPbjKey() : wmGetKey(app, true);
+    if (!key) { qaLog(`Aborted — no ${app.secretName} supplied.`, "err"); return; }
+    const base = wmGetUrl(app);
     try {
       const t0 = performance.now();
-      const r = await fetch(WORKER_BASE + `/identify/${category}`, {
+      const r = await fetch(base + `/identify/${category}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "X-PBJ-Key": key },
+        headers: { "Content-Type": "application/json", [app.authHeader]: key },
         body: JSON.stringify({ description }),
         signal: AbortSignal.timeout(45000),
       });
       const ms = (performance.now() - t0).toFixed(0);
       if (r.status === 404) {
-        qaLog(`/identify/${category} returned 404 (${ms}ms) — endpoint not deployed yet. Run "npm run deploy" from C:\\PBJ\\cloudflare-worker`, "err");
+        qaLog(`${app.short} /identify/${category} returned 404 (${ms}ms) — deploy ${app.short} worker first.`, "err");
         return;
       }
       if (!r.ok) {
-        qaLog(`/identify/${category} returned HTTP ${r.status} (${ms}ms)`, "err");
+        qaLog(`${app.short} /identify/${category} returned HTTP ${r.status} (${ms}ms)`, "err");
         return;
       }
       const j = await r.json();
-      // Worker returns confidence as a string label ("high"|"medium"|"low"),
-      // not a 0-1 number. Display whichever shape it actually is.
       const confDisplay = (typeof j.confidence === "number")
         ? (j.confidence * 100).toFixed(0) + "%"
         : (j.confidence || "?");
       const summary = j.success
         ? `success — brand=${j.brand || "?"}, model=${j.model || "?"}, confidence=${confDisplay}`
         : `success=false (${j.error || "model returned no usable identification"})`;
-      qaLog(`/identify/${category} responded in ${ms}ms — ${summary}`, "ok");
-    } catch (e) { qaLog(`/identify/${category} failed: ${e.message}`, "err"); }
+      qaLog(`${app.short} /identify/${category} responded in ${ms}ms — ${summary}`, "ok");
+      loadWorkerMonitoring();
+    } catch (e) { qaLog(`${app.short} /identify/${category} failed: ${e.message}`, "err"); }
   }
 
   async function qaSampleVision() {
@@ -4417,6 +4524,316 @@ Generated ${new Date().toISOString()}.
      ──────────────────────────────────────────────────────────── */
   const WORKER_BASE = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
 
+  /* ─── Per-app Worker Monitoring (PBJ · HHH · CVC) ─────────── */
+  const WORKER_APPS = [
+    {
+      id: "pbj",
+      short: "PBJ",
+      name: "Pocket Budget Journal",
+      defaultUrl: WORKER_BASE,
+      urlKey: "pbj_worker_url",
+      keyKey: "pbj_shared_key",
+      secretName: "PBJ_SHARED_KEY",
+      authHeader: "X-PBJ-Key",
+      statsKind: "ocr",
+    },
+    {
+      id: "hhh",
+      short: "HHH",
+      name: "Handy Horology Helper",
+      defaultUrl: "https://handyhorology-worker.morning-star-b5e0.workers.dev",
+      urlKey: "hhh_worker_url",
+      keyKey: "hhh_shared_key",
+      secretName: "HHH_SHARED_KEY",
+      authHeader: "X-HHH-Key",
+      statsKind: "ops",
+    },
+    {
+      id: "cvc",
+      short: "CVC",
+      name: "Curator's Vault",
+      defaultUrl: "https://cvc-worker.morning-star-b5e0.workers.dev",
+      urlKey: "cvc_worker_url",
+      keyKey: "cvc_shared_key",
+      secretName: "CVC_SHARED_KEY",
+      authHeader: "X-CVC-Key",
+      statsKind: "ops",
+    },
+  ];
+  const HHH_IDENTIFY_CATEGORIES = ["watch", "clock"];
+  let wmActiveTab = localStorage.getItem("wm_active_tab") || "pbj";
+
+  function wmGetUrl(app) {
+    return (localStorage.getItem(app.urlKey) || app.defaultUrl).replace(/\/$/, "");
+  }
+
+  function wmSaveUrl(appId) {
+    const app = WORKER_APPS.find(a => a.id === appId);
+    if (!app) return;
+    const input = document.getElementById(`wm-url-${appId}`);
+    const val = (input?.value || "").trim().replace(/\/$/, "");
+    if (!val) {
+      localStorage.removeItem(app.urlKey);
+      qaLog(`${app.short} worker URL reset to default.`, "ok");
+    } else {
+      localStorage.setItem(app.urlKey, val);
+      qaLog(`${app.short} worker URL saved: ${val}`, "ok");
+    }
+    loadWorkerMonitoring();
+  }
+
+  function wmGetKey(app, promptIfMissing) {
+    let key = localStorage.getItem(app.keyKey);
+    if (key || !promptIfMissing) return key || "";
+    const entered = prompt(
+      `Enter ${app.secretName} for ${app.name}.\n\n` +
+      `Set via wrangler secret put ${app.secretName} on the ${app.short} worker.\n` +
+      `Stored only in this browser — never sent to GitHub.\n\nCancel to skip.`,
+    );
+    if (!entered) return "";
+    const trimmed = String(entered).trim();
+    if (trimmed.length < 8) {
+      alert("That doesn't look long enough. Paste the full shared key.");
+      return "";
+    }
+    localStorage.setItem(app.keyKey, trimmed);
+    return trimmed;
+  }
+
+  function wmClearKey(appId) {
+    const app = WORKER_APPS.find(a => a.id === appId);
+    if (!app) return;
+    if (!confirm(`Forget ${app.secretName} for ${app.name} in this browser?`)) return;
+    localStorage.removeItem(app.keyKey);
+    qaLog(`${app.short} key cleared. Next stats fetch will re-prompt.`, "ok");
+    loadWorkerMonitoring();
+  }
+
+  function wmBarColor(pct, breaker) {
+    if (breaker || pct >= 90) return "var(--danger)";
+    if (pct >= 75) return "var(--warning)";
+    return "var(--success)";
+  }
+
+  function wmCardState(health, metrics) {
+    if (!health.ok) return "red";
+    if (health.gemini_configured === false) return "yellow";
+    if (metrics?.circuitBreaker) return "red";
+    const pct = Math.max(metrics?.geminiPct || 0, metrics?.quotaPct || 0);
+    if (pct >= 90) return "red";
+    if (pct >= 75) return "yellow";
+    return "green";
+  }
+
+  async function wmFetchHealth(app) {
+    const url = wmGetUrl(app);
+    try {
+      const r = await fetch(url + "/", { cache: "no-store", signal: AbortSignal.timeout(8000) });
+      if (!r.ok) return { state: "red", ok: false, httpStatus: r.status, url };
+      const j = await r.json();
+      const geminiOk = j.gemini_configured !== false;
+      return {
+        state: j.ok ? (geminiOk ? "green" : "yellow") : "red",
+        ok: j.ok === true,
+        service: j.service || app.short,
+        gemini_configured: j.gemini_configured,
+        url,
+      };
+    } catch {
+      return { state: "red", ok: false, error: "network", url };
+    }
+  }
+
+  async function wmFetchStats(app) {
+    const key = wmGetKey(app, false);
+    if (!key) return { error: "no_key" };
+    const url = wmGetUrl(app);
+    const path = app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats";
+    try {
+      const r = await fetch(url + path, {
+        headers: { [app.authHeader]: key },
+        signal: AbortSignal.timeout(8000),
+      });
+      if (r.status === 401) return { error: "auth", status: 401 };
+      if (!r.ok) return { error: "http", status: r.status };
+      return { data: await r.json() };
+    } catch {
+      return { error: "network" };
+    }
+  }
+
+  function wmNormalizeMetrics(app, statsData) {
+    if (!statsData) return null;
+    if (app.statsKind === "ocr") {
+      const s = statsData;
+      const geminiCap = s.freeTier?.geminiDaily || 1500;
+      const geminiPct = geminiCap > 0 ? (s.today.gemini / geminiCap) * 100 : 0;
+      const globalCap = s.caps?.globalDailyLimit || 1800;
+      const quotaPct = globalCap > 0 ? (s.today.total / globalCap) * 100 : 0;
+      return {
+        geminiToday: s.today.gemini,
+        geminiCap,
+        geminiPct,
+        anthropicToday: null,
+        costToday: Number(s.today.estimatedCostUsd || 0),
+        costMtd: Number(s.month_to_date?.estimatedCostUsd || 0),
+        circuitBreaker: s.today.circuitBreakerArmed,
+        quotaPct,
+        quotaLabel: "Global OCR daily",
+        quotaUsed: s.today.total,
+        quotaCap: globalCap,
+        spaceToday: s.today.space,
+      };
+    }
+    const s = statsData;
+    const geminiCap = s.caps?.geminiDaily || 1500;
+    const geminiPct = geminiCap > 0 ? (s.today.gemini / geminiCap) * 100 : 0;
+    const globalCap = s.caps?.globalDailyLimit || 500;
+    const quotaPct = globalCap > 0 ? (s.today.total / globalCap) * 100 : 0;
+    return {
+      geminiToday: s.today.gemini,
+      geminiCap,
+      geminiPct,
+      anthropicToday: s.today.anthropic,
+      anthropicCap: s.caps?.anthropicDaily || 5000,
+      costToday: Number(s.today.estimatedCostUsd || 0),
+      costMtd: Number(s.month_to_date?.estimatedCostUsd || 0),
+      circuitBreaker: s.today.circuitBreakerArmed,
+      quotaPct,
+      quotaLabel: "Global AI daily",
+      quotaUsed: s.today.total,
+      quotaCap: globalCap,
+    };
+  }
+
+  function wmStatusLabel(state) {
+    if (state === "green") return "Healthy";
+    if (state === "yellow") return "Attention";
+    if (state === "red") return "Problem";
+    return "Unknown";
+  }
+
+  function wmRenderDetailPanel(result) {
+    const { app, health, stats, metrics } = result;
+    const cardState = wmCardState(health, metrics);
+    const fetchedAt = new Date().toLocaleTimeString();
+    const url = wmGetUrl(app);
+    const keySet = Boolean(wmGetKey(app, false));
+
+    let statsBlock = "";
+    if (!keySet) {
+      statsBlock = `<div class="cron-card unknown"><div><div class="cron-name">${app.authHeader} not set</div><div class="cron-last">Click "Set ${app.short} key" below or run a smoke test — you'll be prompted once.</div></div></div>`;
+    } else if (stats.error === "auth") {
+      statsBlock = `<div class="cron-card red"><div><div class="cron-name">Auth failed (401)</div><div class="cron-last">Key in this browser doesn't match ${app.secretName} on the worker.</div></div></div>`;
+    } else if (stats.error) {
+      statsBlock = `<div class="cron-card red"><div><div class="cron-name">Stats unavailable (${stats.error}${stats.status ? ` HTTP ${stats.status}` : ""})</div><div class="cron-last">Check worker deploy and ${app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats"} route.</div></div></div>`;
+    } else if (metrics) {
+      const barColor = wmBarColor(Math.max(metrics.geminiPct, metrics.quotaPct), metrics.circuitBreaker);
+      statsBlock = `
+        <div style="display:grid;gap:14px;">
+          <div>
+            <strong>${metrics.quotaLabel}</strong>
+            ${metrics.circuitBreaker ? `<span style="color:var(--danger);font-weight:700;margin-left:8px;">⚠ circuit breaker armed</span>` : ""}
+            <div class="wm-meter"><div class="wm-meter-fill" style="width:${Math.min(100, metrics.quotaPct).toFixed(1)}%;background:${barColor};"></div></div>
+            <div style="font-size:12px;color:var(--text-dim);">${metrics.quotaUsed.toLocaleString()} / ${metrics.quotaCap.toLocaleString()} (${metrics.quotaPct.toFixed(0)}%)</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
+            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free</span></div></div>
+            ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div></div>` : ""}
+            ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div></div>` : ""}
+            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div></div>
+            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div><div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}</div></div>
+          </div>
+          ${metrics.geminiToday === 0 && app.statsKind === "ops" ? `<div style="font-size:12px;color:var(--text-dim);">KV tracking active — counters increment on the first Gemini or Anthropic call through this worker.</div>` : ""}
+        </div>`;
+    }
+
+    return `
+      <div class="wm-detail">
+        <div class="wm-detail-head">
+          <div>
+            <div class="wm-app-name">${app.short}</div>
+            <div style="font-size:18px;font-weight:700;color:var(--primary);">${app.name}</div>
+          </div>
+          <span class="wm-status-pill ${cardState}"><span class="wm-status-dot"></span>${wmStatusLabel(cardState)}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:13px;margin-bottom:14px;">
+          <div><span style="color:var(--text-muted);">Worker</span><br><strong>${health.ok ? "OK" : "Down / error"}</strong></div>
+          <div><span style="color:var(--text-muted);">Gemini key</span><br><strong>${health.gemini_configured === false ? "Not configured" : health.gemini_configured === true ? "Configured" : "—"}</strong></div>
+          <div><span style="color:var(--text-muted);">Service</span><br><strong style="font-family:var(--mono);font-size:12px;">${health.service || "—"}</strong></div>
+          <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a></div>
+        </div>
+        ${statsBlock}
+        <div class="wm-url-row">
+          <label style="color:var(--text-muted);">Worker URL override:</label>
+          <input id="wm-url-${app.id}" type="url" value="${url}" placeholder="${app.defaultUrl}">
+          <button class="m-btn" type="button" onclick="wmSaveUrl('${app.id}')">Save URL</button>
+          <button class="m-btn" type="button" onclick="wmGetKey(WORKER_APPS.find(a=>a.id==='${app.id}'),true);loadWorkerMonitoring();">Set ${app.short} key</button>
+          <button class="m-btn" type="button" onclick="wmClearKey('${app.id}')">Clear key</button>
+        </div>
+        <div class="wm-updated">Last updated ${fetchedAt}</div>
+      </div>`;
+  }
+
+  function wmSelectTab(id) {
+    wmActiveTab = id;
+    localStorage.setItem("wm_active_tab", id);
+    loadWorkerMonitoring();
+  }
+
+  async function loadWorkerMonitoring() {
+    const combinedEl = document.getElementById("workerMonitoringCombined");
+    const summaryEl = document.getElementById("workerMonitoringSummary");
+    const tabsEl = document.getElementById("workerMonitoringTabs");
+    const gridEl = document.getElementById("workerMonitoringGrid");
+    if (!gridEl) return;
+
+    const results = await Promise.all(WORKER_APPS.map(async app => {
+      const [health, stats] = await Promise.all([wmFetchHealth(app), wmFetchStats(app)]);
+      const metrics = stats.data ? wmNormalizeMetrics(app, stats.data) : null;
+      return { app, health, stats, metrics };
+    }));
+
+    const combinedToday = results.reduce((s, r) => s + (r.metrics?.costToday || 0), 0);
+    const combinedMtd = results.reduce((s, r) => s + (r.metrics?.costMtd || 0), 0);
+    const now = new Date().toLocaleTimeString();
+
+    if (combinedEl) {
+      combinedEl.innerHTML = `
+        <div class="wm-combined">
+          <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
+          <span><strong>Combined MTD:</strong> $${combinedMtd.toFixed(2)}</span>
+          <span style="color:var(--text-muted);">All three workers · refreshed ${now}</span>
+        </div>`;
+    }
+
+    if (summaryEl) {
+      summaryEl.innerHTML = results.map(r => {
+        const state = wmCardState(r.health, r.metrics);
+        const cost = r.metrics ? `$${r.metrics.costToday.toFixed(4)}` : (r.stats.error === "no_key" ? "key needed" : "—");
+        const gemini = r.metrics ? `${r.metrics.geminiToday.toLocaleString()} Gemini` : "—";
+        return `
+          <div class="wm-summary-card ${state}" role="button" tabindex="0" onclick="wmSelectTab('${r.app.id}')" onkeydown="if(event.key==='Enter')wmSelectTab('${r.app.id}')">
+            <div class="wm-app-name">${r.app.short}</div>
+            <div class="wm-app-title">${r.app.name}</div>
+            <div class="wm-stat-row"><span>Status</span><strong>${wmStatusLabel(state)}</strong></div>
+            <div class="wm-stat-row"><span>Today</span><strong>${gemini}</strong></div>
+            <div class="wm-stat-row"><span>Est. cost</span><strong>${cost}</strong></div>
+            <div class="wm-stat-row"><span>Updated</span><strong>${now}</strong></div>
+          </div>`;
+      }).join("");
+    }
+
+    if (tabsEl) {
+      tabsEl.innerHTML = WORKER_APPS.map(app =>
+        `<button type="button" class="wm-tab ${app.id === wmActiveTab ? "active" : ""}" onclick="wmSelectTab('${app.id}')">${app.short} · ${app.name}</button>`,
+      ).join("");
+    }
+
+    const active = results.find(r => r.app.id === wmActiveTab) || results[0];
+    gridEl.innerHTML = wmRenderDetailPanel(active);
+  }
+
   /* ─── Breakeven — synced with PBJ docs/JOE_OPS_COSTS.md ─── */
   const FIXED_COSTS = {
     net_per_monthly_sub: 8.49,
@@ -4606,26 +5023,62 @@ Generated ${new Date().toISOString()}.
           const geminiCap = stats.freeTier?.geminiDaily || 1500;
           const geminiPct = geminiCap > 0 ? (stats.today.gemini / geminiCap) * 100 : 0;
           if (geminiPct >= 80) {
-            issues.push(`Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
+            issues.push(`PBJ Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
           }
           if (stats.today.circuitBreakerArmed) {
-            issues.push("OCR circuit breaker ARMED — free users denied cloud OCR");
+            issues.push("PBJ OCR circuit breaker ARMED — free users denied cloud OCR");
           }
         } else {
-          issues.push(`Worker OCR stats unreachable (HTTP ${r.status})`);
+          issues.push(`PBJ Worker OCR stats unreachable (HTTP ${r.status})`);
         }
       } catch {
-        issues.push("Worker OCR stats request failed — check Worker deploy");
+        issues.push("PBJ Worker OCR stats request failed — check Worker deploy");
       }
     } else {
-      issues.push("X-PBJ-Key not set — run a smoke test to store the Worker key");
+      issues.push("X-PBJ-Key not set — run a PBJ smoke test to store the Worker key");
+    }
+
+    for (const app of WORKER_APPS.filter(a => a.statsKind === "ops")) {
+      const appKey = localStorage.getItem(app.keyKey) || "";
+      const base = wmGetUrl(app);
+      try {
+        const hr = await fetch(base + "/", { cache: "no-store", signal: AbortSignal.timeout(6000) });
+        if (!hr.ok) {
+          issues.push(`${app.short} worker health failed (HTTP ${hr.status})`);
+          continue;
+        }
+        const hj = await hr.json();
+        if (hj.gemini_configured === false) {
+          issues.push(`${app.short} (${app.name}) — Gemini API key not configured on worker`);
+        }
+      } catch {
+        issues.push(`${app.short} worker unreachable — ${base}`);
+      }
+      if (!appKey) continue;
+      try {
+        const sr = await fetch(base + "/ops/stats", {
+          headers: { [app.authHeader]: appKey },
+          signal: AbortSignal.timeout(8000),
+        });
+        if (sr.ok) {
+          const stats = await sr.json();
+          const geminiCap = stats.caps?.geminiDaily || 1500;
+          const geminiPct = geminiCap > 0 ? (stats.today.gemini / geminiCap) * 100 : 0;
+          if (geminiPct >= 80) {
+            issues.push(`${app.short} Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
+          }
+          if (stats.today.circuitBreakerArmed) {
+            issues.push(`${app.short} AI circuit breaker ARMED`);
+          }
+        }
+      } catch { /* stats optional for banner */ }
     }
 
     try {
       const r = await fetch(`${WORKER_BASE}/`, { cache: "no-store", signal: AbortSignal.timeout(6000) });
-      if (!r.ok) issues.push(`Worker health ping failed (HTTP ${r.status})`);
+      if (!r.ok) issues.push(`PBJ Worker health ping failed (HTTP ${r.status})`);
     } catch {
-      issues.push("Worker health ping failed — pbj-import-worker may be down");
+      issues.push("PBJ Worker health ping failed — pbj-import-worker may be down");
     }
 
     try {
@@ -5187,6 +5640,7 @@ Generated ${new Date().toISOString()}.
       loadCronHealth();
       loadQuarantineWatch();
       loadRecentCommits();
+      loadWorkerMonitoring();
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
       loadOpenCellIdPanel();
