@@ -22,5 +22,5 @@ edge-tts --voice en-US-AndrewNeural --text "Premium unlocks the debt payoff engi
 
 edge-tts --voice en-US-AndrewNeural --text "Premium includes the AI Financial Coach — plain-English insights from aggregated summaries, not raw transaction dumps. Opt in when you want it." --write-media audio/slide-4.mp3
 
-edge-tts --voice en-US-AndrewNeural --text "Start free with no expiration, try Premium for 21 days with no card, or subscribe at nine ninety-nine a month or seventy-four ninety-nine a year. Thirty-six Premium features including household WiFi sync." --write-media audio/slide-5.mp3
+edge-tts --voice en-US-AndrewNeural --text "Try Premium free for 21 days with no card, then subscribe at nine ninety-nine a month or seventy-four ninety-nine a year. Thirty-six Premium features including household WiFi sync." --write-media audio/slide-5.mp3
 ```

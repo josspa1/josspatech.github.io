@@ -260,6 +260,11 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .product-features li{
   display:flex;align-items:flex-start;gap:9px;
   font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;
+  min-width:0;
+}
+.product-features li > :not(.pf-check){
+  flex:1;min-width:0;
+  overflow-wrap:break-word;
 }
 .pf-check{
   width:17px;height:17px;border-radius:50%;flex-shrink:0;
@@ -1025,8 +1030,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       "offers": [
         {
           "@type": "Offer",
-          "name": "Free Plan",
-          "description": "Core budgeting — no expiration",
+          "name": "21-Day Premium Trial",
+          "description": "Full Premium access for 21 days — no card required; bank sync excluded",
           "priceCurrency": "USD",
           "price": "0"
         },
@@ -1178,21 +1183,21 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="product-name">Pocket<span>BudJet</span>™</div>
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
         <ul class="product-features">
-          <li><div class="pf-check"></div><strong>Free:</strong> budgets, goals, on-device receipt scan, bank file import (CSV, OFX, QFX, QIF, XLSX), and core dashboards</li>
-          <li><div class="pf-check"></div><strong>21-day trial:</strong> try all Premium features free &mdash; no card required; bank sync excluded during trial</li>
-          <li><div class="pf-check"></div><strong>Premium:</strong> AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</li>
+          <li><div class="pf-check"></div><strong>21-day Premium trial</strong> &mdash; full Premium access, no card required (bank sync excluded during trial)</li>
+          <li><div class="pf-check"></div><strong>Then subscribe</strong> at $9.99/mo or $74.99/yr &mdash; or lose access when the trial ends</li>
+          <li><div class="pf-check"></div><strong>Premium includes:</strong> budgets, goals, AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</li>
           <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info; data stays on your phone by default</li>
           <li><div class="pf-check"></div>Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/import/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></li>
           <li><div class="pf-check"></div>Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
-          <li><div class="pf-check"></div>Optional bank sync via Teller for <strong>paid Premium</strong> subscribers who want hands-off automation</li>
-          <li><div class="pf-check"></div>43 currencies &middot; $9.99/mo or $74.99/yr &middot; cancel anytime &middot; no contract</li>
+          <li><div class="pf-check"></div>Optional bank sync via Teller &mdash; Premium subscribers only (not included in trial)</li>
+          <li><div class="pf-check"></div>43 currencies &middot; cancel anytime &middot; no contract</li>
         </ul>
         <div class="product-cta">
           See PocketBudJet
           <span class="product-cta-arrow">→</span>
         </div>
         <div class="product-platforms">
-          <div class="platform-pill free">Free + 21-day trial</div>
+          <div class="platform-pill free">21-day trial</div>
           <div class="platform-pill">iOS</div>
           <div class="platform-pill">Android</div>
         </div>
@@ -1294,7 +1299,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           </svg>
         </div>
         <div class="principle-title">Honest Pricing</div>
-        <p class="principle-body">You see the price, you know what you get. Free tier with the essentials. Upgrade to Premium when you want more &mdash; no bait-and-switch, no surprise charges, no contract. Good software. Fair price. That's the whole pitch.</p>
+        <p class="principle-body">You see the price, you know what you get. Try before you subscribe &mdash; no bait-and-switch, no surprise charges, no contract. Good software. Fair price. That's the whole pitch.</p>
       </div>
 
       <div class="principle rv d3">
@@ -1367,9 +1372,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it all private.</em></h1>
       <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p class="hero-sub">Start on the free plan &mdash; no expiration. Try Premium for 21 days (no card required), or subscribe when you&rsquo;re ready. No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Upgrade anytime. Cancel anytime.</strong></p>
+      <p class="hero-sub">Start with a <strong>21-day Premium trial</strong> &mdash; no card required, bank sync excluded. Then subscribe at $9.99/mo or $74.99/yr, or lose access. No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Cancel anytime.</strong></p>
       <div class="hero-acts">
-        <a href="#download" class="btn-primary">Start Free &#8594;</a>
+        <a href="#download" class="btn-primary">Start 21-Day Trial &#8594;</a>
         <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Guides</a>
         <a href="#pricing" class="btn-ghost">See pricing</a>
       </div>
@@ -1493,11 +1498,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 })();
 </script>
 <div class="pstrip">
-  <div class="psi"><div class="psd"></div>Free plan &mdash; no expiration &middot; 21-day Premium trial</div>
+  <div class="psi"><div class="psd"></div>21-day Premium trial &middot; no card required</div>
   <div class="psi"><div class="psd"></div>You choose where your data lives</div>
   <div class="psi"><div class="psd"></div>Cancel anytime &middot; No account required</div>
   <div class="psi"><div class="psd"></div>No ads &middot; No data sold &middot; Ever</div>
-  <div class="psi"><div class="psd"></div>iOS &amp; Android &middot; Free &mdash; or $9.99/mo &middot; $74.99/yr</div>
+  <div class="psi"><div class="psd"></div>iOS &amp; Android &middot; $9.99/mo &middot; $74.99/yr after trial</div>
 </div>
 
 <section class="sec" id="showcase" style="background:var(--bg);position:relative;overflow:hidden;">
@@ -1522,7 +1527,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             <h3 class="sh-hl">Every paycheck.<br><em>Every bill.</em><br>One <span class="gu">clear picture.</span></h3>
             <p class="sh-desc" id="shdesc">Income, spending, budget, net worth, and an AI coach that explains it all in plain English &mdash; see it in one place. Know exactly what you can spend today, what your finances look like 90 days out, and manage it all from your PC too.</p>
             <div class="sh-ctas">
-              <a href="#download" class="sh-btn">Start Free &#8594;</a>
+              <a href="#download" class="sh-btn">Start 21-Day Trial &#8594;</a>
               <a href="#pricing" class="sh-lnk">See pricing</a>
             </div>
             <div class="sh-trust">
@@ -1638,7 +1643,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
             </div>
           </div>
           <div class="sh-pricing">
-            <div class="sh-pc"><div class="sh-pamt">$0</div><div class="sh-pper">no expiration</div><div class="sh-plbl">Free Plan</div><div class="sh-ptag">Core budgeting &mdash; no expiration</div></div>
             <div class="sh-pc feat"><div class="sh-pamt">21 days</div><div class="sh-pper">no card required</div><div class="sh-plbl">Premium Trial</div><div class="sh-ptag gld">All Premium except bank sync</div></div>
             <div class="sh-pc"><div class="sh-pamt">$9.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
             <div class="sh-pc feat"><div class="sh-pamt">$74.99</div><div class="sh-pper">per year &middot; $6.25/mo</div><div class="sh-plbl">Premium Annual</div><div class="sh-ptag gld">Save 37% vs monthly</div></div>
@@ -1678,17 +1682,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div>
         <span class="sec-ey">How We Compare</span>
         <h2 class="sec-ti">More features. Lower price.<br><em>Your data stays yours.</em></h2>
-        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and require you to hand over bank credentials just to get started. PocketBudJet starts at $74.99/year, never requires an account, and lets you connect a bank only if you want to &mdash; start on the free plan and upgrade when you're ready.</p>
+        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and require you to hand over bank credentials just to get started. PocketBudJet starts at $74.99/year, never requires an account, and lets you connect a bank only if you want to &mdash; try free for 21 days, then subscribe when you&rsquo;re ready.</p>
       </div>
       <div>
         <table class="ctbl">
           <thead><tr><th>Feature</th><th>Others</th><th>PocketBudJet</th></tr></thead>
           <tbody>
-            <tr><td>Free plan with all essentials</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
+            <tr><td>21-day Premium trial (no card)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>You choose where data lives</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>Bank connection optional &mdash; never required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
-            <tr><td>21-day Premium trial (no card)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>AI Financial Coach (Premium)</td><td class="nt">Add-on / none</td><td class="ck">&#10003;</td></tr>
             <tr><td>PC Web Dashboard (WiFi, Premium)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>Automatic bank sync (paid Premium only)</td><td class="nt">Required at signup</td><td class="ck">Optional</td></tr>
@@ -1706,28 +1709,24 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="sec-in">
     <div class="pricing-hd rv">
       <h2 class="pricing-h">One app. Every tool<br>your budget needs.</h2>
-      <p class="pricing-su">Start on the free plan &mdash; no expiration. Try Premium free for 21 days, or subscribe when you're ready. Premium unlocks debt payoff, cloud-assisted scanning, AI coaching, PC dashboard, and 36+ power tools. Cancel anytime. No contract.</p>
+      <p class="pricing-su">Try Premium free for 21 days (no card required, bank sync excluded). Then subscribe at $9.99/mo or $74.99/yr &mdash; or lose access. Premium unlocks debt payoff, cloud-assisted scanning, AI coaching, PC dashboard, and 36+ power tools. Cancel anytime. No contract.</p>
     </div>
-    <div class="trial-strip rv"><strong>21-day Premium trial</strong> &mdash; genuinely free, no card required. Includes all Premium features except automatic bank sync (Teller). Bank sync unlocks with an active paid subscription.</div>
+    <div class="trial-strip rv"><strong>21-day Premium trial</strong> &mdash; full Premium access, no card required. Includes all Premium features except automatic bank sync (Teller). Bank sync unlocks with an active paid subscription.</div>
     <div class="plan-grid rv d1">
       <div class="plan free-start">
         <div class="plan-badge-start">Start here</div>
-        <div class="plan-lbl">Free Plan</div>
-        <div class="plan-pr">$0</div>
-        <div class="plan-per">no expiration &middot; no card required</div>
+        <div class="plan-lbl">Premium Trial</div>
+        <div class="plan-pr">21 days</div>
+        <div class="plan-per">no card required &middot; bank sync excluded</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Core budgeting &mdash; no expiration</div>
+        <div class="plan-inc">Full Premium access during trial</div>
         <ul class="plan-fl">
-          <li>Unlimited transaction entry</li>
-          <li>Bank file import (CSV, OFX, QFX, QIF, XLSX)</li>
-          <li>Basic receipt scanning (on-device)</li>
-          <li>Budget categories &amp; limits</li>
-          <li>Dashboard &amp; spending donut drill-down</li>
-          <li>Savings goals &amp; budgeting templates</li>
-          <li>43 currencies, dark mode, Face ID / PIN lock</li>
-          <li>Basic export (CSV, JSON)</li>
+          <li>All Premium features for 21 days</li>
+          <li>AI Coach, debt payoff, cloud scanning, exports</li>
+          <li>PC dashboard &amp; household sync</li>
+          <li>Automatic bank sync excluded during trial</li>
+          <li>Subscribe before trial ends to keep access</li>
         </ul>
-        <p class="plan-desc" style="margin-top:12px;font-size:12px;color:var(--slate);">Includes a 21-day Premium trial in the app.</p>
       </div>
       <div class="plan">
         <div class="plan-lbl">Premium Monthly</div>
@@ -1736,7 +1735,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="plan-div"></div>
         <div class="plan-inc">All Premium features</div>
         <ul class="plan-fl">
-          <li>Everything in Free, plus:</li>
+          <li>Everything in Premium:</li>
           <li>AI Financial Coach &amp; weekly recap</li>
           <li>Cloud-assisted receipt &amp; pay stub scanning</li>
           <li>Debt payoff engine + what-if scenarios</li>
@@ -1765,7 +1764,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
         <p class="plan-desc" style="margin-top:10px;">All 36 Premium features. One price. One year. Cancel anytime.</p>
       </div>
-      <!-- 2026-06-05 — Pricing lock-in: Free + 21-day Premium trial + $9.99/mo + $74.99/yr.
+      <!-- 2026-06-08 — Pricing: 21-day Premium trial + $9.99/mo + $74.99/yr.
            Bank sync (Teller) is paid Premium only — excluded during trial. -->
       <div class="plan plan-future">
         <div class="plan-future-badge">Coming Soon</div>
@@ -1782,16 +1781,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
     </div>
     <div class="ftable-legend rv d2">
-      <span><span class="lg-dot"></span> Included in Free</span>
-      <span><span class="lg-dot pm"></span> Premium (trial + paid)</span>
+      <span><span class="lg-dot"></span> Included in trial</span>
+      <span><span class="lg-dot pm"></span> Paid Premium only</span>
       <span>Trial = Premium except bank sync</span>
     </div>
     <div class="tog-wrap rv d2">
-      <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9660;</span><span id="fttext">See full Free vs Premium feature list</span></button>
+      <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9660;</span><span id="fttext">See full trial vs paid feature list</span></button>
     </div>
     <div class="ftable-wrap rv d3" id="ftable">
       <table class="ftable">
-        <thead><tr><th>Feature</th><th>Free</th><th>Premium</th></tr></thead>
+        <thead><tr><th>Feature</th><th>Trial</th><th>Paid</th></tr></thead>
         <tbody>
           <tr class="sr"><td colspan="3">Budgeting &amp; Tracking</td></tr>
           <tr><td>Unlimited transaction entry</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
@@ -1900,7 +1899,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="sec-in">
     <div class="rv" style="text-align:center;">
       <span class="sec-ey">Get Started</span>
-      <h2 class="sec-ti" style="text-align:center;">Take control of your money.<br><em>Free to start. Cancel anytime.</em></h2>
+      <h2 class="sec-ti" style="text-align:center;">Take control of your money.<br><em>21-day trial. Cancel anytime.</em></h2>
       <p class="sec-su" style="text-align:center;margin:0 auto 20px;">Set up in minutes. See where your money goes. Keep it all on your phone.</p>
     </div>
     <div class="launch-cta rv d1">
@@ -2674,7 +2673,7 @@ function toggleFT(b) {
   var chev = document.getElementById('ftchev');
   var txt  = document.getElementById('fttext');
   if (chev) chev.textContent = o ? '▲' : '▼';
-  if (txt)  txt.textContent  = o ? 'Hide feature list' : 'See full Free vs Premium feature list';
+  if (txt)  txt.textContent  = o ? 'Hide feature list' : 'See full trial vs paid feature list';
 }
 
 /* ── PBJ: Feature showcase rotation ── */

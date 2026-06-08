@@ -45,8 +45,8 @@
 
 ### Shot 6 (0:52 - 0:60)
 **Visual:** Phone screen — Dashboard shows debt-free date countdown, updated strategy, growth chart. Josspa gives a knowing nod or thumbs up. Download prompt or Josspa waving goodbye to red "Debt" card.
-**Audio/VO:** "Stop wondering. Start knowing. Download PocketBudJet free. See your path to freedom."
-**Text overlay:** "Download Free • 21-Day Trial • See Your Freedom Date" → "PocketBudJet"
+**Audio/VO:** "Stop wondering. Start knowing. Download PocketBudJet and start your 21-day Premium trial. See your path to freedom."
+**Text overlay:** "21-Day Premium Trial • See Your Freedom Date" → "PocketBudJet"
 
 ---
 

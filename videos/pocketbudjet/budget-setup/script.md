@@ -60,7 +60,7 @@
 ### Shot 8 (0:82 - 0:90)
 **Visual:** Phone screen — AI Coach notification pops up: "Good start! You're on pace for a $600 monthly surplus." Josspa mascot gives encouragement gesture. Download button appears.
 **Audio/VO:** "Your AI Coach is already analyzing your spending. Set it up once, and it learns your patterns. Now start budgeting."
-**Text overlay:** "AI Coach Active" → "Download PocketBudJet Free"
+**Text overlay:** "AI Coach Active" → "21-Day Premium Trial"
 
 ---
 

@@ -54,7 +54,7 @@
 
 Josspa mascot points to callouts or gives a confident nod.
 **Audio/VO:** "Same features. Lower price. Your data stays yours. That's PocketBudJet."
-**Text overlay:** "Same Features • Lower Price • Your Data Yours" → "Download Free • josspatech.com"
+**Text overlay:** "Same Features • Lower Price • Your Data Yours" → "21-Day Trial • josspatech.com"
 
 ---
 
