@@ -38,7 +38,7 @@
 
 ### Shot 5 (0:40 - 0:50)
 **Visual:** Phone screen — Family icons sync over WiFi icon, budget dashboard splits household view. Price card appears: "$9.99/month" with checkmarks for 36 Premium features.
-**Audio/VO:** "Start free forever, try Premium for 21 days with no card, or subscribe at $9.99/month or $74.99/year. Thirty-six Premium features including household WiFi sync."
+**Audio/VO:** "Start free with no expiration, try Premium for 21 days with no card, or subscribe at $9.99/month or $74.99/year. Thirty-six Premium features including household WiFi sync."
 **Text overlay:** "Household Sync Included" → "Only $9.99/month" → "36 Premium Features"
 
 ---

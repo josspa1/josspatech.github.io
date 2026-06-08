@@ -18,5 +18,5 @@ edge-tts --voice en-US-AndrewNeural --text "Share from your bank app, import CSV
 
 edge-tts --voice en-US-AndrewNeural --text "Your data lives in the app's private storage on your device. Backups and cloud sync are optional — you pick the provider, and the payload is AES-256 encrypted with a key only you know. No ads. No data selling. Ever." --write-media audio/slide-3.mp3
 
-edge-tts --voice en-US-AndrewNeural --text "Export in six formats with Premium. Free forever for core budgeting, 21-day Premium trial with no card, or subscribe at nine ninety-nine a month or seventy-four ninety-nine a year. Your data stays yours." --write-media audio/slide-4.mp3
+edge-tts --voice en-US-AndrewNeural --text "Export in six formats with Premium. Free with no expiration for core budgeting, 21-day Premium trial with no card, or subscribe at nine ninety-nine a month or seventy-four ninety-nine a year. Your data stays yours." --write-media audio/slide-4.mp3
 ```
