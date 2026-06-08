@@ -480,6 +480,58 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(212,168,83,0.7);
 }
 
+/* How-to video card grid (PBJ how-to/ pattern; Coming soon = non-link) */
+.vcard-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1.25rem;margin-top:1.5rem;
+}
+.vcard{
+  background:var(--white);border-radius:14px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,0.06);
+  border:1px solid rgba(26,79,122,0.08);
+  display:flex;flex-direction:column;position:relative;
+}
+.vcard-soon{
+  cursor:default;opacity:0.92;
+  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+}
+.vcard-soon:hover{transform:none;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
+.vcard-badge{
+  position:absolute;top:12px;right:12px;
+  font-size:0.65rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:0.06em;padding:0.2rem 0.55rem;border-radius:4px;
+}
+.vcard-badge.soon{background:rgba(90,122,154,0.12);color:var(--slate);border:1px solid rgba(90,122,154,0.2);}
+.vcard-icon{padding:1.6rem 1.25rem 0.6rem;font-size:2.25rem;text-align:center;}
+.vcard-body{padding:0 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column;}
+.vcard-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.3rem;color:var(--navy);}
+.vcard-body p{color:var(--slate);font-size:0.9rem;flex:1;line-height:1.5;}
+.vcard-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid #eee;
+  font-size:0.78rem;
+}
+.vcard-type{color:var(--navy-md);font-weight:600;}
+.vcard-time{color:var(--slate-lt);}
+.vcard-cat{grid-column:1/-1;font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--navy);padding:0.6rem 0 0.15rem;border-bottom:3px solid var(--gold);margin-top:0.35rem;}
+.vcard-cat:first-child{margin-top:0;}
+.ht-video-sec .vcard-body h3{color:#fff;}
+.ht-video-sec .vcard-body p{color:rgba(255,255,255,0.55);}
+.ht-video-sec .vcard-meta{border-top-color:rgba(255,255,255,0.08);}
+.ht-video-sec .vcard-type{color:#c8aa6e;}
+.ht-video-sec .vcard-time{color:rgba(255,255,255,0.35);}
+.ht-video-sec .vcard-cat{color:#fff;border-bottom-color:#c8aa6e;}
+.ht-video-sec .vcard{background:rgba(255,255,255,0.04);border-color:rgba(200,170,110,0.12);}
+.ht-video-sec .vcard-badge.soon{background:rgba(200,170,110,0.1);color:#c8aa6e;border-color:rgba(200,170,110,0.22);}
+.cv-video-sec .vcard-body h3{color:#fff;}
+.cv-video-sec .vcard-body p{color:rgba(255,255,255,0.55);}
+.cv-video-sec .vcard-meta{border-top-color:rgba(255,255,255,0.08);}
+.cv-video-sec .vcard-type{color:#D4A853;}
+.cv-video-sec .vcard-time{color:rgba(255,255,255,0.35);}
+.cv-video-sec .vcard-cat{color:#fff;border-bottom-color:#D4A853;}
+.cv-video-sec .vcard{background:rgba(255,255,255,0.04);border-color:rgba(212,168,83,0.12);}
+.cv-video-sec .vcard-badge.soon{background:rgba(212,168,83,0.1);color:#D4A853;border-color:rgba(212,168,83,0.22);}
+
 /* ══ QUOTE BAR ═══════════════════════════════════════════ */
 .quote-bar{
   background:var(--navy-dk);padding:64px 48px;text-align:center;
@@ -2354,6 +2406,252 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
+<section class="sec ht-video-sec" id="hhh-videos" style="background:#0d1a28;">
+  <div class="sec-in">
+    <div class="rv" style="text-align:center;margin-bottom:8px;">
+      <span class="sec-ey" style="color:#c8aa6e;">Video walkthroughs</span>
+      <h2 class="sec-ti" style="color:#fff;">How-to guides.<br><em style="color:#c8aa6e;">Filming next.</em></h2>
+      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:620px;text-align:center;">Same slide-based format as PocketBudJet &mdash; real screens, gold tap targets, narration. Cards below are placeholders until Joe films; see <code>SESSION_NOTES.md</code> Video production brief for shot lists.</p>
+      <p class="sec-su" style="color:rgba(255,255,255,0.35);margin:8px auto 0;max-width:560px;text-align:center;font-size:13px;">PBJ help center: <a href="how-to/" style="color:#c8aa6e;font-weight:600;">josspatech.com/how-to</a></p>
+    </div>
+    <div class="vcard-grid rv d1">
+      <div class="vcard-cat">Getting Started</div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128241;</div><div class="vcard-body"><h3>60-Second App Overview</h3><p>Identify, My Museum, Clockworks, eBay alerts, Web Companion, and 14-day trial &mdash; the highlight reel for internal testers.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#129514;</div><div class="vcard-body"><h3>Internal Testing: Install &amp; Feedback</h3><p>Google Play internal opt-in, v1.0.12 (build 13), beta feedback form, and what &ldquo;not public on Play&rdquo; means.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~2 min</span></div></div></div>
+      <div class="vcard-cat">Core Features</div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127963;</div><div class="vcard-body"><h3>My Museum: Collection Hub</h3><p>Value hero, Collection / Wish List / For Sale segments, profit &amp; loss per piece, and insurance-ready export.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128247;</div><div class="vcard-body"><h3>AI Visual Identification</h3><p>Camera viewfinder, guided angles, confidence scoring, brand/model/era, and estimated market value.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#9201;</div><div class="vcard-body"><h3>Clockworks Parts Wizard</h3><p>Symptom grid to parts list with SKUs &mdash; HHH routes you to Clockworks.com; it is not the store.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128276;</div><div class="vcard-body"><h3>eBay Hunt Alerts</h3><p>Wish-list rules, alert rows, affiliate search &mdash; no in-app sold comps or checkout.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128187;</div><div class="vcard-body"><h3>Web Companion on Your LAN</h3><p>Tools &rarr; Web Companion, QR pairing, PC browser on same WiFi (port 8771) &mdash; not josspatech.com/hhh/.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127760;</div><div class="vcard-body"><h3>Seven Languages</h3><p>Full UI in English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, Italiano &mdash; Settings path walkthrough.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="hhh-features" style="background:#0d1a28;padding:80px 24px;">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;">
+    <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Core Features</span>
+    <h2 class="section-title rv" style="color:#fff;">Identify. Collect.<br><em style="color:#c8aa6e;">Know what it&rsquo;s worth.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Visual Identification</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any watch or clock and know what it is in seconds &mdash; brand, model, era, and what it's worth. Web-verified against authoritative horological sources so you can buy with confidence.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128269;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Type what you know &mdash; a serial number, case back markings, or just "gold Omega from the 1960s" &mdash; and get the right answer fast.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Pricing</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know what a piece is worth before you buy, sell, or insure it. Pricing adjusted for condition so you negotiate from a position of knowledge.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128190;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Manager</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every piece you own, in one place &mdash; photos, condition, provenance, service history, and what you paid. Generate insurance-ready reports when you need them.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128295;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Clockworks Parts Wizard</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Pick a clock symptom, get parts suggestions and how-to guides, then buy on Clockworks.com. Movement-aware search from your identification results &mdash; HHH is not the store.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9201;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Watches &amp; Clocks</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Full support for wristwatches, pocket watches, wall clocks, grandfather clocks, cuckoo clocks, mantle clocks, and more &mdash; with type-specific metadata, winding reminders, and clock-aware maintenance tracking.</p>
+      </div>
+    </div>
+
+    <!-- Financial Tools -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Financial Tools</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128200;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Profit &amp; Loss Dashboard</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See exactly where you stand &mdash; what you've spent, what it's worth now, and where the profit is. Every cost counted, every gain tracked, per piece and across your whole collection.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(255,152,0,0.06);border:1px solid rgba(255,152,0,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128178;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Budget Tracker</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know exactly how much you can spend on your next piece. One number that factors in your budget, what you've sold, and what's left in the period &mdash; so you never overshoot.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(0,137,123,0.06);border:1px solid rgba(0,137,123,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cost of Ownership</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Find out what each piece really costs you per day &mdash; purchase, repairs, insurance, everything. See which watches earn their keep and which are quietly draining your wallet.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128184;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Price Alerts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your price, go about your day. When that grail watch drops below your target, you'll be the first to know.</p>
+      </div>
+    </div>
+
+    <!-- Collection Intelligence -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collection Intelligence</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(126,87,194,0.06);border:1px solid rgba(126,87,194,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128161;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Insights</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Discover patterns you'd never spot on your own &mdash; which dealers give you the best deals, where your collection is lopsided, and which pieces deserve more attention.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Analytics</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See your collection's total value at a glance, broken down by brand, type, and condition. Watch it grow over time like an investment portfolio.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128336;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Timeline</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Scroll through the story of your collection &mdash; every acquisition, sale, service, and milestone on a visual timeline. Watch your hobby grow.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Export &amp; Print</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Print professional reports from any list &mdash; pick your fields, choose portrait or landscape, and get a clean PDF. Export to CSV for your records or insurance-ready documentation for your agent.</p>
+      </div>
+    </div>
+
+    <!-- Trading & Marketplace -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Trading &amp; Marketplace</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128225;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Swap Meet Sharing</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a swap meet with no signal? Share watch details &mdash; including photos &mdash; with the collector next to you over Bluetooth. No internet, no accounts, just a quick PIN and the data is on their phone.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">For Sale List</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Ready to sell? List watches from your collection with an asking price and share them with buyers nearby. Keep your collection, wish list, and for-sale items organized in separate lists.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(92,107,192,0.06);border:1px solid rgba(92,107,192,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#129309;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collector's Network</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Remember who sold you that Seiko at the flea market. Track your contacts &mdash; dealers, watchmakers, collectors &mdash; and know who gives you the best deals.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128722;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Hunt Alerts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set max price and rules on your wish list; HHH checks when matching listings appear. Affiliate search opens active eBay listings &mdash; honest limits: no in-app sold comps or in-app checkout.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128270;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Flea Market Alerts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a local opportunity. Find nearby flea markets, estate sales, and antique shows with driving distance and dates so you can plan your weekends.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128736;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Service Tracker</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Log service history, wear, and insurance-ready reports per piece. Clock-specific metadata and maintenance tracking that wrist-only apps skip.</p>
+      </div>
+    </div>
+
+    <!-- Horology Tools -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Horology Tools</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9202;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Atomic Clock</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your watch to the second. Measure its accuracy against an atomic reference and track drift over time to know exactly how your movement performs.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#127769;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Moon Phase</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your moonphase complication perfectly every time. Animated display shows exactly where the moon is today and when the next phases arrive.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128260;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wear Tracker</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Log which watch you wear each day and see your rotation stats &mdash; most worn, longest neglected, and streaks. Make sure every piece in your collection gets the wrist time it deserves.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128203;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Warranty Tracker</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a warranty claim window again. Automatic alerts when warranties are expiring so you can get service covered while it's still free.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Photo Studio</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build a professional photo gallery for each piece with guided shot positions. Perfect photos for insurance claims, resale listings, or just showing off.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128196;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Watch Passport</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">A shareable digital identity card for any piece &mdash; photos, specs, service history, and provenance all in one place. Hand it to a buyer or show it at a meetup.</p>
+      </div>
+    </div>
+
+    <!-- Personal Growth & Community -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Personal Growth &amp; Community</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#127942;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">In-App Coach</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Level up from Novice to Grand Collector through 37 real challenges. Catalog, network, trade, and master your hobby &mdash; with celebrations at every milestone to keep you going.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Event Calendar</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Auctions, watch fairs, meetups, and your service due dates &mdash; all in one calendar with reminders. Never miss an event or a maintenance window.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9729;&#65039;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cloud Sync</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Add a watch on your phone, see it on your tablet. Your collection stays in sync across devices, protected with biometric security.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128101;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Community Feed</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Share wrist shots, discuss new finds, and connect with collectors who share your passion. A community built around the love of timepieces.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128187;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Web Companion</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Browse and manage your collection from any computer on your home network. In the app, open <strong>Tools → Web Companion</strong>, start the server on your phone, then scan the QR or paste the link on your PC. Live data from your phone — not a public website.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128190;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Backup &amp; Restore</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Your collection is too valuable to lose. Create full backups of every watch, service record, and expense &mdash; save them to your phone, share to your PC, or download via the Web Companion. Restore anytime with merge or full replace.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128241;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Keep track of every watch you're hunting for. Set priorities, share what you're looking for with other collectors, and check eBay prices with a single tap.</p>
+      </div>
+    <!-- Smart Experience -->
+    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Smart Experience</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128075;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Guided Onboarding</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Identify your first watch in under a minute. A 5-step welcome gets you up and running fast &mdash; no manuals, no confusion, just results from the start.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#127919;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Confidence Scores</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Every identification tells you how confident the AI is &mdash; in plain English. You'll know whether to trust the result or take a better photo and try again.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128161;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Prompts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Helpful nudges exactly when you need them &mdash; a service reminder, a price drop on your wish list, or a gentle push to fill in missing details. Like a knowledgeable friend looking over your shoulder.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Accessibility First</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Every collector deserves a great experience. Colorblind-friendly palettes (protanopia, deuteranopia, tritanopia), adjustable text scaling, high contrast mode, and comfortable touch targets throughout &mdash; all free, all opt-in.</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="hhh-showcase" style="background:var(--bg);">
   <div class="sec-in">
     <div class="rv">
@@ -2564,6 +2862,204 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <p class="app-shots-hint rv d1">Click any screenshot to view full size</p>
     <div class="rv d2" style="text-align:center;">
       <img class="app-feature-graphic shot-enlarge" src="assets/screenshots/cvc/feature-graphic-1024x500.png" alt="Curator's Vault feature graphic" loading="lazy" width="1024" height="500">
+    </div>
+  </div>
+</section>
+
+<section class="sec cv-video-sec" id="cvc-videos" style="background:#0a2430;">
+  <div class="sec-in">
+    <div class="rv" style="text-align:center;margin-bottom:8px;">
+      <span class="sec-ey" style="color:#D4A853;">Video walkthroughs</span>
+      <h2 class="sec-ti" style="color:#fff;">How-to guides.<br><em style="color:#D4A853;">Paused pre-ship.</em></h2>
+      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:620px;text-align:center;">Planned slide walkthroughs matching PocketBudJet format. Filming waits until <code>com.josspatech.cts</code> resumes toward public launch. Shot lists in <code>SESSION_NOTES.md</code>.</p>
+      <p class="sec-su" style="color:rgba(255,255,255,0.35);margin:8px auto 0;max-width:560px;text-align:center;font-size:13px;">PBJ reference: <a href="how-to/" style="color:#D4A853;font-weight:600;">josspatech.com/how-to</a></p>
+    </div>
+    <div class="vcard-grid rv d1">
+      <div class="vcard-cat">Getting Started</div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128241;</div><div class="vcard-body"><h3>60-Second App Overview</h3><p>Five categories, AI identify, collection vault, hunt alerts, grading guides, Web Companion, and planned 14-day trial.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127991;</div><div class="vcard-body"><h3>Five Collectible Categories</h3><p>Coins, trading cards, stamps, paper money, and lighters at setup &mdash; pens, knives, and watches belong in other JosspaTech apps.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard-cat">Core Features</div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128247;</div><div class="vcard-body"><h3>AI Identify &amp; Grading Guides</h3><p>Photograph an item, read confidence report, Sheldon / PSA&middot;BGS&middot;CGC / Scott / PMG guidance, optional cert lookup.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~2 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127963;</div><div class="vcard-body"><h3>Collection Manager &amp; Analytics</h3><p>Organize pieces, wish list, cost basis, portfolio value trends, and insurance-ready catalogs.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128269;</div><div class="vcard-body"><h3>Hunt Alerts &amp; eBay Price Checks</h3><p>Rules for items you want, Browse API price context, affiliate links &mdash; know worth before you buy or sell.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128187;</div><div class="vcard-body"><h3>Web Companion (LAN)</h3><p>Live collection on your PC browser over WiFi &mdash; phone is the server, not a public cloud account.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128225;</div><div class="vcard-body"><h3>Show-Floor Bluetooth Sharing</h3><p>Swap pieces at coin shows with no internet or accounts &mdash; peer sharing from the paused build.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
+      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128176;</div><div class="vcard-body"><h3>Planned Pricing: 14-Day Trial</h3><p>Paused pre-ship context, planned $9.99/mo &middot; $74.99/yr Pro, and what unlocks after trial.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="cvc-features" style="background:#0d1a28;padding:80px 24px;">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;">
+    <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Core Features</span>
+    <h2 class="section-title rv" style="color:#fff;">Identify. Organize.<br><em style="color:#D4A853;">Invest.</em></h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📸</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Visual Identification</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any US coin, bill, stamp, trading card, or lighter and get instant AI identification with series, era, rarity, and grading guidance. Verified against authoritative reference databases (PCGS, NGC, PSA, Scott catalog, and more).</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🔍</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Type what you know — year, mintmark, denomination, or design elements — and find the exact item in seconds. Powerful filters for type, condition, and rarity.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💰</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Real-Time Valuation</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know what each item is worth before you buy, sell, or insure. Pricing adjusted for condition and market trends so you always negotiate from a position of strength.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📋</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Manager</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every item you own, in one place — photos, condition notes, provenance, purchase history, and current value. Generate insurance-ready catalogs instantly.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🏆</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Grading &amp; Condition</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Understand grading standards across all five categories &mdash; Sheldon scale for coins, PSA/BGS/CGC for trading cards, Scott/PSE for stamps, and PMG for paper money. Confidently describe items for sale or insurance.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🌍</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Multi-Collection Support</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">US coins, paper money, stamps, trading cards, lighters, or a mix of everything &mdash; pick any combination of five categories at setup. Each with its own grading, metadata, and reference data.</p>
+      </div>
+    </div>
+
+    <!-- Investment Tools -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Investment Tools</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📊</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Portfolio Dashboard</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See your total collection value at a glance. Track growth over time, identify your most valuable items, and analyze performance across different categories.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(255,152,0,0.06);border:1px solid rgba(255,152,0,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💵</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cost Basis Tracking</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Track every purchase with cost, date, and seller. Know exactly what you paid and how much profit you've made on each item when it's time to sell.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(0,137,123,0.06);border:1px solid rgba(0,137,123,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📈</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Trends</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See which items are gaining or losing value in real time. Understand market demand, rarity premiums, and seasonal trends to make smarter buying and selling decisions.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">🎯</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List &amp; Targets</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build your want list with target prices. Get price drop alerts when items you're hunting reach your price target.</p>
+      </div>
+    </div>
+
+    <!-- Collection Intelligence -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collection Intelligence</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(126,87,194,0.06);border:1px solid rgba(126,87,194,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">💡</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Insights</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Discover patterns you'd never spot on your own — gaps in your collection, overweight categories, and which items deserve more attention or selling.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">📱</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Offline Access</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Your collection data is stored on your device, not in the cloud. Full access even when you're offline — at a show, at home, or anywhere you collect.</p>
+      </div>
+    </div>
+
+    <!-- Trading & Marketplace -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Trading &amp; Marketplace</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128225;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Show Floor Sharing</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a coin show with no signal? Share item details &mdash; including photos &mdash; with the collector next to you over Bluetooth. No internet, no accounts, just a quick PIN and the data is on their phone.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">For Sale List</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Ready to sell? List items from your collection with an asking price and share them with buyers nearby. Keep your collection, wish list, and for-sale items organized in separate lists.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(92,107,192,0.06);border:1px solid rgba(92,107,192,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#129309;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collector's Network</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Remember who sold you that Walking Liberty at the flea market. Track your contacts &mdash; dealers, appraisers, fellow collectors &mdash; and know who gives you the best deals.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128722;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Integration</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Check live eBay prices for items on your wish list or collection. See what similar items are selling for right now so you always know what yours are worth before you buy or sell.</p>
+      </div>
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128270;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Local Event Alerts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a local opportunity. Find nearby coin shows, card expos, estate sales, and antique fairs with driving distance and dates so you can plan your weekends.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9878;&#65039;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Trade Analyzer</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Thinking about a trade? Get an instant fairness verdict with estimated cash-to-boot so you never walk away from a bad deal &mdash; or miss a great one.</p>
+      </div>
+    </div>
+
+    <!-- Collector Tools -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collector Tools</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Photo Studio</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build a professional photo gallery for each item with guided shot positions tailored to each category. Perfect photos for insurance claims, resale listings, or just showing off your collection.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128196;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Digital Passport</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">A shareable digital identity card for any collectible &mdash; photos, specs, provenance, and condition all in one place. Hand it to a buyer or share it at a meetup.</p>
+      </div>
+      <div class="rv d3" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Event Calendar</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Coin shows, card expos, stamp exhibitions, estate sales, and your own reminders &mdash; all in one calendar so you never miss an event.</p>
+      </div>
+      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Export &amp; Print</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Print professional reports from any list &mdash; pick your fields, choose portrait or landscape, and get a clean PDF. Generate insurance-ready documentation with photos, values, and cert numbers.</p>
+      </div>
+    </div>
+
+    <!-- Companion & Languages -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Web Companion &amp; Languages</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128187;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Web Companion (LAN)</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Browse and manage your collection from any browser on your WiFi. Start the server on your phone, scan the QR or paste the magic link on your PC &mdash; live data from your device, not a public cloud account.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#127760;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">7 Languages</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, and Italiano across the collector workflow &mdash; same i18n pattern as PocketBudJet and Handy Horology Helper.</p>
+      </div>
+    </div>
+
+    <!-- Privacy & Accessibility -->
+    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Privacy &amp; Accessibility</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Your Data, Your Device</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Stored in the app&rsquo;s private storage on your device. No account required. Optional PocketBase cloud sync. <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" style="color:#D4A853;">Privacy policy</a> is live on josspatech.com.</p>
+      </div>
+      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Built for Everyone</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Colorblind-friendly palettes, adjustable text scaling (1.0x &ndash; 1.5x), and high contrast mode &mdash; all free, all opt-in. Your collection app should work for you, not the other way around.</p>
+      </div>
+    </div>
+
+    <!-- Curator's Vault Badge -->
+    <div class="rv" style="text-align:center;margin-top:64px;">
+      <div style="font-size:14px;color:rgba(255,255,255,0.45);font-style:italic;">Paused pre-ship &middot; coming soon &middot; not on Google Play yet</div>
+      <div style="font-size:28px;margin-top:16px;color:#D4A853;">★ ★ ★</div>
     </div>
   </div>
 </section>
