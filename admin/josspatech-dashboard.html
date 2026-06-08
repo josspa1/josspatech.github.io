@@ -3732,7 +3732,7 @@ Generated ${new Date().toISOString()}.
       "Cancel to abort."
     );
     if (!entered) return null;
-    const trimmed = String(entered).trim();
+    const trimmed = wmNormalizeSharedKey(entered);
     if (trimmed.length < 8) {
       alert("That doesn't look long enough. Try again or paste the full value.");
       return null;
@@ -4582,8 +4582,28 @@ Generated ${new Date().toISOString()}.
     loadWorkerMonitoring();
   }
 
+  function wmNormalizeSharedKey(raw) {
+    let s = String(raw ?? "").trim();
+    if (!s) return "";
+    const eq = s.indexOf("=");
+    if (eq > 0) {
+      const name = s.slice(0, eq).trim();
+      if (/^(EXPO_PUBLIC_(?:PBJ|HHH|CVC)_WORKER_KEY|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)$/i.test(name)) {
+        s = s.slice(eq + 1).trim();
+      }
+    }
+    if ((s.startsWith(""") && s.endsWith(""")) || (s.startsWith("'") && s.endsWith("'"))) {
+      s = s.slice(1, -1).trim();
+    }
+    return s;
+  }
+
   function wmGetKey(app, promptIfMissing) {
-    let key = localStorage.getItem(app.keyKey);
+    let key = wmNormalizeSharedKey(localStorage.getItem(app.keyKey));
+    if (key) {
+      const stored = localStorage.getItem(app.keyKey) || "";
+      if (stored !== key) localStorage.setItem(app.keyKey, key);
+    }
     if (key || !promptIfMissing) return key || "";
     const entered = prompt(
       `Enter ${app.secretName} for ${app.name}.\n\n` +
@@ -4591,7 +4611,7 @@ Generated ${new Date().toISOString()}.
       `Stored only in this browser — never sent to GitHub.\n\nCancel to skip.`,
     );
     if (!entered) return "";
-    const trimmed = String(entered).trim();
+    const trimmed = wmNormalizeSharedKey(entered);
     if (trimmed.length < 8) {
       alert("That doesn't look long enough. Paste the full shared key.");
       return "";
