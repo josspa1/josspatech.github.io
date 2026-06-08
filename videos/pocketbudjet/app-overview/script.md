@@ -45,7 +45,7 @@
 
 ### Shot 6 (0:50 - 0:60)
 **Visual:** App Store / Google Play download button appears. Logo at bottom with gold accent. Optional: Josspa thumbs up.
-**Audio/VO:** "Download PocketBudJet free. Free tier is yours to keep. Upgrade to Premium for nine ninety-nine a month when you want cloud-assisted scanning, AI coach, and backup."
+**Audio/VO:** "Download PocketBudJet free. The free plan is yours to keep — no expiration. Upgrade to Premium for nine ninety-nine a month when you want cloud-assisted scanning, AI coach, and backup."
 **Text overlay:** "Download Free • 21-Day Premium Trial" → "josspatech.com" or direct app store link
 
 ---
