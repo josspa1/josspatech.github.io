@@ -480,58 +480,6 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(212,168,83,0.7);
 }
 
-/* How-to video card grid (PBJ how-to/ pattern; Coming soon = non-link) */
-.vcard-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:1.25rem;margin-top:1.5rem;
-}
-.vcard{
-  background:var(--white);border-radius:14px;overflow:hidden;
-  box-shadow:0 2px 12px rgba(0,0,0,0.06);
-  border:1px solid rgba(26,79,122,0.08);
-  display:flex;flex-direction:column;position:relative;
-}
-.vcard-soon{
-  cursor:default;opacity:0.92;
-  box-shadow:0 2px 10px rgba(0,0,0,0.04);
-}
-.vcard-soon:hover{transform:none;box-shadow:0 2px 10px rgba(0,0,0,0.04);}
-.vcard-badge{
-  position:absolute;top:12px;right:12px;
-  font-size:0.65rem;font-weight:700;text-transform:uppercase;
-  letter-spacing:0.06em;padding:0.2rem 0.55rem;border-radius:4px;
-}
-.vcard-badge.soon{background:rgba(90,122,154,0.12);color:var(--slate);border:1px solid rgba(90,122,154,0.2);}
-.vcard-icon{padding:1.6rem 1.25rem 0.6rem;font-size:2.25rem;text-align:center;}
-.vcard-body{padding:0 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column;}
-.vcard-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.3rem;color:var(--navy);}
-.vcard-body p{color:var(--slate);font-size:0.9rem;flex:1;line-height:1.5;}
-.vcard-meta{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid #eee;
-  font-size:0.78rem;
-}
-.vcard-type{color:var(--navy-md);font-weight:600;}
-.vcard-time{color:var(--slate-lt);}
-.vcard-cat{grid-column:1/-1;font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--navy);padding:0.6rem 0 0.15rem;border-bottom:3px solid var(--gold);margin-top:0.35rem;}
-.vcard-cat:first-child{margin-top:0;}
-.ht-video-sec .vcard-body h3{color:#fff;}
-.ht-video-sec .vcard-body p{color:rgba(255,255,255,0.55);}
-.ht-video-sec .vcard-meta{border-top-color:rgba(255,255,255,0.08);}
-.ht-video-sec .vcard-type{color:#c8aa6e;}
-.ht-video-sec .vcard-time{color:rgba(255,255,255,0.35);}
-.ht-video-sec .vcard-cat{color:#fff;border-bottom-color:#c8aa6e;}
-.ht-video-sec .vcard{background:rgba(255,255,255,0.04);border-color:rgba(200,170,110,0.12);}
-.ht-video-sec .vcard-badge.soon{background:rgba(200,170,110,0.1);color:#c8aa6e;border-color:rgba(200,170,110,0.22);}
-.cv-video-sec .vcard-body h3{color:#fff;}
-.cv-video-sec .vcard-body p{color:rgba(255,255,255,0.55);}
-.cv-video-sec .vcard-meta{border-top-color:rgba(255,255,255,0.08);}
-.cv-video-sec .vcard-type{color:#D4A853;}
-.cv-video-sec .vcard-time{color:rgba(255,255,255,0.35);}
-.cv-video-sec .vcard-cat{color:#fff;border-bottom-color:#D4A853;}
-.cv-video-sec .vcard{background:rgba(255,255,255,0.04);border-color:rgba(212,168,83,0.12);}
-.cv-video-sec .vcard-badge.soon{background:rgba(212,168,83,0.1);color:#D4A853;border-color:rgba(212,168,83,0.22);}
-
 /* ══ QUOTE BAR ═══════════════════════════════════════════ */
 .quote-bar{
   background:var(--navy-dk);padding:64px 48px;text-align:center;
@@ -1261,14 +1209,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div role="button" tabindex="0" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="product-card rv d1">
         <div class="product-badge">
           <div class="product-badge-dot"></div>
-          Internal testing · build 236
+          Closed Beta
         </div>
         <div class="product-name">Pocket<span>BudJet</span>™</div>
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
         <ul class="product-features">
           <li><div class="pf-check"></div><strong>Free:</strong> budgets, goals, on-device receipt scan, bank file import (CSV, OFX, QFX, QIF, XLSX), and core dashboards</li>
           <li><div class="pf-check"></div><strong>21-day trial:</strong> try all Premium features free &mdash; no card required; bank sync excluded during trial</li>
-          <li><div class="pf-check"></div><strong>Premium:</strong> AI Coach (Today/Reports/Library/Ask), debt payoff, Web Companion on WiFi, 7 languages, and 36+ power tools</li>
+          <li><div class="pf-check"></div><strong>Premium:</strong> AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</li>
           <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info; data stays on your phone by default</li>
           <li><div class="pf-check"></div>Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/import/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></li>
           <li><div class="pf-check"></div>Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
@@ -1332,7 +1280,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li><div class="cvf-icon"></div>Find shows, expos &amp; fairs near you for all your collecting interests</li>
           <li><div class="cvf-icon"></div>Share with nearby collectors at shows &mdash; no internet needed</li>
           <li><div class="cvf-icon"></div>Reference databases &mdash; PCGS, NGC, PSA, Scott catalog &amp; more</li>
-          <li><div class="cvf-icon"></div>Planned: 14-day trial &middot; Pro $9.99/mo &middot; $74.99/yr</li>
           <li><div class="cvf-icon"></div>Works with PocketBudJet &amp; Handy Horology Helper</li>
         </ul>
         <div class="cvc-cta">
@@ -1453,10 +1400,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
-      <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing &middot; build 236 &middot; iOS &amp; Android</div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Budget Privately &middot; iOS &amp; Android</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it all private.</em></h1>
       <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p class="hero-sub">Start free forever, try Premium for 21 days (no card required), or subscribe when you&rsquo;re ready ($9.99/mo &middot; $74.99/yr). No account and no personal info required. <strong>Concierge home</strong> shows net, income &amp; spent, and Coach insights; <strong>Import</strong> uses a single Browse flow; <strong>Budget</strong> focuses on category envelopes; <strong>Coach</strong> has Today, Reports, Library &amp; Ask tabs; <strong>Web Companion</strong> on your WiFi; full UI in <strong>7 languages</strong>.</p>
+      <p class="hero-sub">Start free forever, try Premium for 21 days (no card required), or subscribe when you&rsquo;re ready. No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Upgrade anytime. Cancel anytime.</strong></p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Start Free &#8594;</a>
         <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Guides</a>
@@ -1470,13 +1417,13 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
          "trust me, it's good" with "look at it." -->
     <div class="pbj-hero-shots" aria-label="PocketBudJet screenshots">
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/pbj/02-import-center.png" alt="Import — Browse and share-from-bank" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/budget.png" alt="Budget overview screen" loading="lazy">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img class="shot-enlarge" src="assets/screenshots/pbj/01-home-dashboard.png" alt="Concierge home dashboard" loading="lazy" width="240" height="427">
+        <img src="assets/screenshots/dashboard.png" alt="Main dashboard with health score" loading="lazy">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/pbj/05-ai-coach.png" alt="Coach — Today, Reports, Library and Ask" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/ai-coach.png" alt="AI Coach insights" loading="lazy">
       </div>
     </div>
   </div>
@@ -1518,114 +1465,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 @media (max-width: 720px) {
   .pbj-shot-side { display: none; }
   .pbj-shot-center img { width: 280px; transform: none; }
-}
-
-/* App screenshot galleries (PBJ / HHH / CVC product pages) */
-.app-shots-sec { padding: 64px 24px; }
-.app-shots-grid {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  padding: 8px 4px 20px;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-}
-.app-shot-card {
-  flex: 0 0 200px;
-  scroll-snap-align: start;
-  text-align: center;
-}
-.app-shot-card img {
-  width: 200px;
-  height: auto;
-  border-radius: 20px;
-  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
-  border: 1px solid rgba(255,255,255,0.08);
-  cursor: zoom-in;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-.app-shot-card img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 20px 48px rgba(0,0,0,0.45);
-}
-.app-shot-card figcaption {
-  margin-top: 10px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgba(255,255,255,0.55);
-}
-.app-shots-hint {
-  text-align: center;
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  margin-top: 14px;
-  letter-spacing: 0.2px;
-}
-.pbj-shot img { cursor: zoom-in; }
-.shot-lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(4, 10, 18, 0.92);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-.shot-lightbox.open { display: flex; }
-.shot-lightbox-inner {
-  position: relative;
-  max-width: min(96vw, 520px);
-  max-height: 92vh;
-  text-align: center;
-}
-.shot-lightbox-img {
-  display: block;
-  max-width: 100%;
-  max-height: calc(92vh - 56px);
-  width: auto;
-  height: auto;
-  margin: 0 auto;
-  border-radius: 24px;
-  box-shadow: 0 28px 80px rgba(0,0,0,0.55);
-  border: 1px solid rgba(255,255,255,0.1);
-}
-.shot-lightbox-cap {
-  margin-top: 14px;
-  font-size: 14px;
-  color: rgba(255,255,255,0.72);
-  line-height: 1.5;
-}
-.shot-lightbox-close {
-  position: absolute;
-  top: -14px;
-  right: -14px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(12, 30, 50, 0.9);
-  color: #fff;
-  font-size: 22px;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-}
-.shot-lightbox-close:hover { background: rgba(26, 79, 122, 0.95); }
-.app-feature-graphic {
-  margin-top: 32px;
-  max-width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
-}
-@media (min-width: 900px) {
-  .app-shot-card { flex: 0 0 220px; }
-  .app-shot-card img { width: 220px; }
 }
 
 .pbj-sticky-bar {
@@ -1671,7 +1510,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 }
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="Get notified when PocketBudJet launches">
-  <span class="pbj-sticky-bar-text">PocketBudJet — internal testing (build 236) on iOS &amp; Android.</span>
+  <span class="pbj-sticky-bar-text">PocketBudJet — launching soon for iOS &amp; Android.</span>
   <a class="pbj-sticky-bar-cta" href="mailto:hello@josspatech.com?subject=Notify%20me%20when%20PocketBudJet%20launches&amp;body=Please%20let%20me%20know%20when%20PocketBudJet%20is%20available%20for%20download.">Notify me</a>
 </div>
 <script>
@@ -1694,33 +1533,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi"><div class="psd"></div>You choose where your data lives</div>
   <div class="psi"><div class="psd"></div>Cancel anytime &middot; No account required</div>
   <div class="psi"><div class="psd"></div>No ads &middot; No data sold &middot; Ever</div>
-  <div class="psi"><div class="psd"></div>7 Languages</div>
-  <div class="psi"><div class="psd"></div>Web Companion (WiFi)</div>
   <div class="psi"><div class="psd"></div>iOS &amp; Android &middot; Free &mdash; or $9.99/mo &middot; $74.99/yr</div>
 </div>
-
-<section class="sec app-shots-sec" id="pbj-screenshots" style="background:#0c1726;">
-  <div class="sec-in">
-    <div class="rv" style="text-align:center;margin-bottom:28px;">
-      <span class="sec-ey" style="color:var(--gold);">In the app</span>
-      <h2 class="sec-ti" style="color:#fff;">Seven screens.<br><em>One clear picture.</em></h2>
-      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:560px;">Fresh screenshots from the June 2026 asset pass — Concierge home, Import Browse, budget envelopes (no ATS hero), Coach tabs, shopping compare, 7 languages, and Web Companion.</p>
-    </div>
-    <div class="app-shots-grid rv d1">
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/01-home-dashboard.png" alt="Concierge home — net, income and spent" loading="lazy"><figcaption>Concierge home — net, income &amp; spent, Coach insight</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/02-import-center.png" alt="Import — Browse and supported formats" loading="lazy"><figcaption>Import — Browse + share-from-bank</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/03-budget-envelopes.png" alt="Budget — category envelopes" loading="lazy"><figcaption>Budget — category envelopes (no ATS hero)</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/04-shopping-intelligence.png" alt="Shopping Intelligence price compare" loading="lazy"><figcaption>Shopping Intelligence — store compare</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/05-ai-coach.png" alt="Coach — Today, Reports, Library, Ask" loading="lazy"><figcaption>Coach — Today / Reports / Library / Ask</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/06-goals-languages.png" alt="Savings goals and 7 languages" loading="lazy"><figcaption>Goals + 7 languages</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/pbj/07-web-companion.png" alt="Web Companion QR and PC dashboard" loading="lazy"><figcaption>Web Companion — QR + PC dashboard</figcaption></figure>
-    </div>
-    <p class="app-shots-hint rv d1">Click any screenshot to view full size</p>
-    <div class="rv d2" style="text-align:center;">
-      <img class="app-feature-graphic shot-enlarge" src="assets/screenshots/pbj/feature-graphic-1024x500.png" alt="PocketBudJet feature graphic" loading="lazy" width="1024" height="500">
-    </div>
-  </div>
-</section>
 
 <section class="sec" id="showcase" style="background:var(--bg);position:relative;overflow:hidden;">
   <!-- The Pro — features guide -->
@@ -1952,38 +1766,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <section class="pricing-sec" id="pricing" style="position:relative;overflow:hidden;">
-  <!-- The Pro — pricing guide (thinking) -->
-  <div class="pro-guide from-right" data-pro="pricing">
-    <div class="pro-speech">Take your time!</div>
-    <svg width="60" height="82" viewBox="0 0 160 220">
-      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
-      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
-      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <!-- Left arm — hand on chin -->
-      <path d="M 50 115 Q 42 100 55 88" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="57" cy="85" r="7" fill="#F5D0B0"/>
-      <!-- Right arm — crossed -->
-      <path d="M 110 115 Q 115 130 100 138" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="97" cy="140" r="7" fill="#F5D0B0"/>
-      <!-- Head — slight tilt -->
-      <g transform="rotate(5, 80, 66)">
-        <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
-        <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
-        <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
-        <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-        <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-        <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
-        <circle cx="65" cy="67" r="5" fill="#fff"/><circle cx="65" cy="66" r="3.5" fill="#1A4F7A"/><circle cx="63" cy="64" r="1.5" fill="#fff"/>
-        <circle cx="95" cy="67" r="5" fill="#fff"/><circle cx="93" cy="66" r="3.5" fill="#1A4F7A"/><circle cx="91" cy="64" r="1.5" fill="#fff"/>
-        <path d="M 72 84 Q 80 87 88 84" stroke="#C4856A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-      </g>
-      <!-- Thought dots -->
-      <circle cx="130" cy="55" r="3" fill="#1A4F7A" opacity="0.2"/>
-      <circle cx="138" cy="43" r="4" fill="#1A4F7A" opacity="0.15"/>
-    </svg>
-  </div>
   <div class="sec-in">
     <div class="pricing-hd rv">
       <h2 class="pricing-h">One app. Every tool<br>your budget needs.</h2>
@@ -2045,46 +1827,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="plan-srow"><span class="plan-slbl">Equivalent daily cost</span><span class="plan-sval">$0.21 / day</span></div>
         </div>
         <p class="plan-desc" style="margin-top:10px;">All 36 Premium features. One price. One year. Cancel anytime.</p>
-        <div class="plan-best-mascot">
-          <div class="mascot-speech">"This is the one I'd pick."</div>
-          <svg width="140" height="193" viewBox="0 0 160 220" style="overflow:visible;">
-            <ellipse cx="80" cy="212" rx="34" ry="6" fill="rgba(0,0,0,0.09)"/>
-            <!-- Legs -->
-            <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-            <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-            <ellipse cx="62" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
-            <ellipse cx="94" cy="200" rx="14" ry="7" fill="#1A1A2E"/>
-            <!-- Body -->
-            <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff" stroke="#E0E4EA" stroke-width="1"/>
-            <!-- Tie -->
-            <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
-            <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-            <!-- Left arm thumbs up -->
-            <path d="M 50 115 Q 35 105 30 85" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-            <circle cx="28" cy="80" r="8" fill="#F5D0B0"/>
-            <ellipse cx="28" cy="67" rx="4" ry="7" fill="#F5D0B0"/>
-            <path d="M 15 58 L 17 52 L 19 58 L 24 55 L 19 60 L 21 65 L 17 62 L 15 67 L 14 62 L 9 60 Z" fill="#F0C040" opacity="0.8"/>
-            <!-- Right arm — arm is static, only hand waves -->
-            <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-            <g class="mascot-wave-hand">
-              <circle cx="132" cy="77" r="8" fill="#F5D0B0"/>
-              <path d="M 128 70 Q 132 65 137 70" stroke="#F5D0B0" stroke-width="3" fill="none" stroke-linecap="round"/>
-            </g>
-            <!-- Head -->
-            <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
-            <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
-            <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
-            <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-            <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-            <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
-            <!-- Happy squint eyes -->
-            <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
-            <path d="M 65 83 Q 80 95 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-            <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
-            <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
-          </svg>
-        </div>
       </div>
       <!-- 2026-06-05 — Pricing lock-in: Free + 21-day Premium trial + $9.99/mo + $74.99/yr.
            Bank sync (Teller) is paid Premium only — excluded during trial. -->
@@ -2094,10 +1836,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="plan-future-desc">We're building more tools for the things you collect and care about. Premium members get first access as each app launches.</div>
         <div class="plan-div"></div>
         <ul class="plan-future-list">
-          <li>Handy Horology Helper &mdash; internal testing v1.0.12</li>
-          <li>Curator's Vault: Classics &mdash; coming soon ($9.99/mo &middot; $74.99/yr)</li>
+          <li>Handy Horology Helper &mdash; watch collection manager</li>
+          <li>Curator's Vault &mdash; collectibles tracker</li>
           <li>Cross-app data insights</li>
-          <li>Same Pro shelf across collector apps</li>
+          <li>Pricing details announced at launch</li>
         </ul>
         <p style="font-size:11px;color:var(--slate-lt);margin-top:18px;line-height:1.5;">Premium members get first access as each app launches.</p>
       </div>
@@ -2218,37 +1960,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <section class="links-sec" id="download" style="position:relative;overflow:hidden;">
-  <!-- The Pro — download guide (waving) -->
-  <div class="pro-guide from-left" data-pro="download">
-    <div class="pro-speech">See you in the app!</div>
-    <svg width="60" height="82" viewBox="0 0 160 220">
-      <path d="M 50 118 Q 50 100 80 98 Q 110 100 110 118 L 110 178 Q 110 182 105 182 L 55 182 Q 50 182 50 178 Z" fill="#fff"/>
-      <path d="M 78 108 L 80 108 L 82 108 L 84 155 L 80 160 L 76 155 Z" fill="#F0C040"/>
-      <path d="M 76 108 L 80 115 L 84 108 Z" fill="#D4A020"/>
-      <rect x="58" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <rect x="88" y="170" width="14" height="26" rx="7" fill="#2C3E50"/>
-      <!-- Left arm relaxed -->
-      <path d="M 50 115 Q 38 130 36 148" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="36" cy="151" r="7" fill="#F5D0B0"/>
-      <!-- Right arm waving -->
-      <path d="M 110 115 Q 125 100 130 80" stroke="#fff" stroke-width="11" stroke-linecap="round" fill="none"/>
-      <circle cx="132" cy="77" r="7" fill="#F5D0B0"/>
-      <path d="M 128 70 Q 132 66 136 70" stroke="#F5D0B0" stroke-width="3" fill="none"/>
-      <!-- Head -->
-      <circle cx="80" cy="66" r="38" fill="#F5D0B0"/>
-      <path d="M 42 56 Q 42 24 80 20 Q 118 24 118 56" fill="#2C3E50"/>
-      <path d="M 46 56 Q 46 30 80 26 Q 114 30 114 56" fill="#344D64"/>
-      <rect x="54" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-      <rect x="84" y="58" width="22" height="18" rx="4" fill="none" stroke="#1A4F7A" stroke-width="2"/>
-      <line x1="76" y1="66" x2="84" y2="66" stroke="#1A4F7A" stroke-width="1.5"/>
-      <!-- Happy squint eyes -->
-      <path d="M 58 68 Q 67 60 76 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M 86 68 Q 95 60 104 68" stroke="#1A4F7A" stroke-width="3" fill="none" stroke-linecap="round"/>
-      <path d="M 65 83 Q 80 95 95 83" stroke="#C4856A" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <ellipse cx="57" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
-      <ellipse cx="103" cy="78" rx="8" ry="5" fill="rgba(255,150,130,0.3)"/>
-    </svg>
-  </div>
   <div class="sec-in">
     <div class="rv" style="text-align:center;">
       <span class="sec-ey">Get Started</span>
@@ -2258,8 +1969,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="launch-cta rv d1">
       <div class="launch-cta-inner">
         <div class="launch-cta-text">
-          <div class="launch-cta-title">Internal testing &mdash; build 236</div>
-          <div class="launch-cta-sub">PocketBudJet is in <strong>internal testing</strong> on iOS (TestFlight) and Android (Google Play internal testing track). Source build 235; build 224 submitted to Play. Not a public App Store or Play listing yet.</div>
+          <div class="launch-cta-title">Closed beta &mdash; build 236</div>
+          <div class="launch-cta-sub">PocketBudJet is in friends-and-family testing on iOS (TestFlight) and Android (Google Play closed testing). Public App Store and Play listings are coming soon.</div>
         </div>
         <div class="launch-form" style="flex-direction:column;align-items:stretch;min-width:220px;">
           <a href="mailto:support@josspatech.com?subject=PocketBudJet%20Beta%20Access" class="launch-btn" style="text-align:center;text-decoration:none;display:block;">Request beta access</a>
@@ -2270,8 +1981,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     <div class="links-grid">
       <div class="lg rv d1">
         <h3>Download</h3>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">TestFlight &mdash; iOS</span><span class="li-no">Invite required &middot; iOS 16+ &middot; internal testing</span></div></div><span class="li-pt beta">Internal</span></a>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Google Play Internal Testing</span><span class="li-no">Android 9.0+ &middot; invite required &middot; not public on Play</span></div></div><span class="li-pt beta">Internal</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">TestFlight Beta &mdash; iOS</span><span class="li-no">Invite required &middot; iOS 16+</span></div></div><span class="li-pt beta">Closed Beta</span></a>
+        <a class="li" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" target="_blank" rel="noopener"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Google Play Closed Testing</span><span class="li-no">Android 9.0+ &middot; tester enrollment</span></div></div><span class="li-pt beta">Closed Beta</span></a>
         <div class="li ph"><div class="li-lft"><span class="li-ic">&#127822;</span><div><span class="li-ti">App Store &mdash; iOS</span><span class="li-no">Public release after beta</span></div></div><span class="li-pt soon">Coming Soon</span></div>
         <div class="li ph"><div class="li-lft"><span class="li-ic">&#129302;</span><div><span class="li-ti">Google Play &mdash; Android</span><span class="li-no">Public release after beta</span></div></div><span class="li-pt soon">Coming Soon</span></div>
       </div>
@@ -2283,7 +1994,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a class="li" href="docs/pocketbudjet/PocketBudJet_DataDeletion.html"><div class="li-lft"><span class="li-ic">&#128465;</span><div><span class="li-ti">Data Deletion</span><span class="li-no">Updated May 31, 2026</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="docs/pocketbudjet/HowWeMakeMoney.html"><div class="li-lft"><span class="li-ic">&#128181;</span><div><span class="li-ti">How We Make Money</span><span class="li-no">Subscriptions only — no ads, no data sales</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="docs/pocketbudjet/WhyLocalFirst.html"><div class="li-lft"><span class="li-ic">&#128241;</span><div><span class="li-ti">Why Local-First</span><span class="li-no">Your data lives on your phone</span></div></div><span class="li-ar">&#8594;</span></a>
-        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Tester Guide</span><span class="li-no">Internal testing install &amp; feedback</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="docs/pocketbudjet/PocketBudJet_TesterGuide.html"><div class="li-lft"><span class="li-ic">&#129514;</span><div><span class="li-ti">Tester Guide</span><span class="li-no">Closed beta install &amp; feedback</span></div></div><span class="li-ar">&#8594;</span></a>
       </div>
       <div class="lg rv d3">
         <h3>Support</h3>
@@ -2360,13 +2071,13 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
     <div class="pbj-hero-shots" aria-label="Handy Horology Helper screenshots">
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/hhh/02-ai-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/hhh/02-ai-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img class="shot-enlarge" src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection gallery" loading="lazy" width="240" height="427">
+        <img src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection gallery" loading="lazy" width="240" height="427">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/hhh/03-clockworks-wizard.png" alt="Clockworks parts wizard" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/hhh/03-clockworks-wizard.png" alt="Clockworks parts wizard" loading="lazy" width="220" height="391">
       </div>
     </div>
   </div>
@@ -2383,56 +2094,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>iOS &amp; Android</div>
 </div>
 
-<section class="sec app-shots-sec" id="hhh-screenshots" style="background:#0a1520;">
-  <div class="sec-in">
-    <div class="rv" style="text-align:center;margin-bottom:28px;">
-      <span class="sec-ey" style="color:#c8aa6e;">In the app</span>
-      <h2 class="sec-ti" style="color:#fff;">My Museum to Web Companion.<br><em style="color:#c8aa6e;">Seven screens.</em></h2>
-      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:560px;text-align:center;">Screenshots from v1.0.12 (build 13) internal testing — collection hub, AI identify, Clockworks wizard, eBay alerts, tools, LAN Web Companion, and 7 languages.</p>
-    </div>
-    <div class="app-shots-grid rv d1">
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection hub" loading="lazy"><figcaption>My Museum — value hero &amp; segments</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/02-ai-identify.png" alt="AI visual identification" loading="lazy"><figcaption>AI Identify — camera &amp; confidence</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/03-clockworks-wizard.png" alt="Clockworks parts wizard" loading="lazy"><figcaption>Clockworks Wizard — symptoms &amp; parts</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/04-ebay-alerts.png" alt="eBay hunt alerts" loading="lazy"><figcaption>eBay Hunt Alerts</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/05-pro-tools.png" alt="Collector tools hub" loading="lazy"><figcaption>Tools hub</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/06-web-companion.png" alt="Web Companion on LAN" loading="lazy"><figcaption>Web Companion — LAN, not josspatech.com/hhh/</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/hhh/07-languages.png" alt="Seven languages" loading="lazy"><figcaption>7 languages</figcaption></figure>
-    </div>
-    <p class="app-shots-hint rv d1">Click any screenshot to view full size</p>
-    <div class="rv d2" style="text-align:center;">
-      <img class="app-feature-graphic shot-enlarge" src="assets/screenshots/hhh/feature-graphic-1024x500.png" alt="Handy Horology Helper feature graphic" loading="lazy" width="1024" height="500">
-    </div>
-  </div>
-</section>
-
-<section class="sec ht-video-sec" id="hhh-videos" style="background:#0d1a28;">
-  <div class="sec-in">
-    <div class="rv" style="text-align:center;margin-bottom:8px;">
-      <span class="sec-ey" style="color:#c8aa6e;">Video walkthroughs</span>
-      <h2 class="sec-ti" style="color:#fff;">How-to guides.<br><em style="color:#c8aa6e;">Filming next.</em></h2>
-      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:620px;text-align:center;">Same slide-based format as PocketBudJet &mdash; real screens, gold tap targets, narration. Cards below are placeholders until Joe films; see <code>SESSION_NOTES.md</code> Video production brief for shot lists.</p>
-      <p class="sec-su" style="color:rgba(255,255,255,0.35);margin:8px auto 0;max-width:560px;text-align:center;font-size:13px;">PBJ help center: <a href="how-to/" style="color:#c8aa6e;font-weight:600;">josspatech.com/how-to</a></p>
-    </div>
-    <div class="vcard-grid rv d1">
-      <div class="vcard-cat">Getting Started</div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128241;</div><div class="vcard-body"><h3>60-Second App Overview</h3><p>Identify, My Museum, Clockworks, eBay alerts, Web Companion, and 14-day trial &mdash; the highlight reel for internal testers.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#129514;</div><div class="vcard-body"><h3>Internal Testing: Install &amp; Feedback</h3><p>Google Play internal opt-in, v1.0.12 (build 13), beta feedback form, and what &ldquo;not public on Play&rdquo; means.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~2 min</span></div></div></div>
-      <div class="vcard-cat">Core Features</div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127963;</div><div class="vcard-body"><h3>My Museum: Collection Hub</h3><p>Value hero, Collection / Wish List / For Sale segments, profit &amp; loss per piece, and insurance-ready export.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128247;</div><div class="vcard-body"><h3>AI Visual Identification</h3><p>Camera viewfinder, guided angles, confidence scoring, brand/model/era, and estimated market value.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#9201;</div><div class="vcard-body"><h3>Clockworks Parts Wizard</h3><p>Symptom grid to parts list with SKUs &mdash; HHH routes you to Clockworks.com; it is not the store.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128276;</div><div class="vcard-body"><h3>eBay Hunt Alerts</h3><p>Wish-list rules, alert rows, affiliate search &mdash; no in-app sold comps or checkout.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128187;</div><div class="vcard-body"><h3>Web Companion on Your LAN</h3><p>Tools &rarr; Web Companion, QR pairing, PC browser on same WiFi (port 8771) &mdash; not josspatech.com/hhh/.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127760;</div><div class="vcard-body"><h3>Seven Languages</h3><p>Full UI in English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, Italiano &mdash; Settings path walkthrough.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="hhh-features" style="background:#0d1a28;padding:80px 24px;">
+<section class="sec" style="background:#0d1a28;padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
     <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Core Features</span>
-    <h2 class="section-title rv" style="color:#fff;">Identify. Collect.<br><em style="color:#c8aa6e;">Know what it&rsquo;s worth.</em></h2>
+    <h2 class="section-title rv" style="color:#fff;">Identify. Collect.<br><em style="color:#c8aa6e;">Profit.</em></h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
       <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
@@ -2455,9 +2120,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every piece you own, in one place &mdash; photos, condition, provenance, service history, and what you paid. Generate insurance-ready reports when you need them.</p>
       </div>
       <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128295;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Clockworks Parts Wizard</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Pick a clock symptom, get parts suggestions and how-to guides, then buy on Clockworks.com. Movement-aware search from your identification results &mdash; HHH is not the store.</p>
+        <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Authenticity Check</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Don't get burned. Check any watch against the stolen registry and spot counterfeits before you hand over your money.</p>
       </div>
       <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#9201;</div>
@@ -2536,8 +2201,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128722;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Hunt Alerts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set max price and rules on your wish list; HHH checks when matching listings appear. Affiliate search opens active eBay listings &mdash; honest limits: no in-app sold comps or in-app checkout.</p>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Integration</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Check eBay prices for watches on your wish list. When you're ready to sell from your collection, list directly on eBay with all specs pre-filled.</p>
       </div>
       <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128270;</div>
@@ -2545,9 +2210,9 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a local opportunity. Find nearby flea markets, estate sales, and antique shows with driving distance and dates so you can plan your weekends.</p>
       </div>
       <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128736;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Service Tracker</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Log service history, wear, and insurance-ready reports per piece. Clock-specific metadata and maintenance tracking that wrist-only apps skip.</p>
+        <div style="font-size:28px;margin-bottom:12px;">&#10024;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Auto-Catalogue</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Buy a watch online and HHH offers to add it to your collection automatically. Works with major marketplaces &mdash; all detection happens on your device, never in the cloud.</p>
       </div>
     </div>
 
@@ -2652,92 +2317,37 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" id="hhh-showcase" style="background:var(--bg);">
-  <div class="sec-in">
-    <div class="rv">
-      <span class="sec-ey">Features</span>
-      <h2 class="sec-ti">Identify. Collect.<br><em>Know what it&rsquo;s worth.</em></h2>
-      <p class="sec-su">Key tools from v1.0.12 (build 13) internal testing &mdash; the way collectors actually use Handy Horology Helper.</p>
-    </div>
-    <div class="sstrip rv d1">
-      <div class="sc"><div class="sc-n">14</div><div class="sc-l">Day free Pro trial</div></div>
-      <div class="sc"><div class="sc-n">7</div><div class="sc-l">Languages in the app</div></div>
-      <div class="sc"><div class="sc-n">2</div><div class="sc-l">Types &mdash; watches &amp; clocks</div></div>
-      <div class="sc"><div class="sc-n">LAN</div><div class="sc-l">Web Companion on WiFi</div></div>
-    </div>
-    <div class="showcase rv d2">
-      <div class="sh-in" style="grid-template-columns:1fr 1fr;min-height:500px;">
-        <div class="shl">
-          <div class="shl-wm">HHH</div>
-          <div class="shl-in">
-            <div class="sh-badge"><div class="sh-bdot"></div>Handy Horology Helper&#x2122;</div>
-            <h3 class="sh-hl">Every piece.<br><em>Every detail.</em><br>One <span class="gu">clear collection.</span></h3>
-            <p class="sh-desc">AI identification with confidence scoring, My Museum segments, profit tracking, Clockworks parts wizard, and eBay hunt alerts. Internal testing on Google Play &mdash; not a public listing yet.</p>
-            <div class="sh-ctas">
-              <a href="#hhh-pricing" class="sh-btn">See pricing &#8594;</a>
-            </div>
-            <div class="sh-trust">
-              <div class="sh-ti"><div class="sh-tck"></div>AI identification &mdash; 14-day free trial, then Pro at $9.99/mo &middot; $74.99/yr</div>
-              <div class="sh-ti"><div class="sh-tck"></div>My Museum &mdash; collection, wish list &amp; for-sale segments</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Clockworks parts wizard &mdash; symptom to parts (HHH is not the store)</div>
-              <div class="sh-ti"><div class="sh-tck"></div>eBay hunt alerts &amp; affiliate search &mdash; no in-app sold comps or checkout</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Profit &amp; loss dashboard, budget tracker &amp; cost-of-ownership per piece</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Watches &amp; clocks &mdash; wrist, pocket, mantel, grandfather &amp; cuckoo</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Web Companion on your LAN &mdash; Tools &rarr; Web Companion, not josspatech.com/hhh/</div>
-              <div class="sh-ti"><div class="sh-tck"></div>7 languages, service tracker, photo studio &amp; insurance-ready export</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Swap-meet Bluetooth sharing &mdash; no internet or accounts required</div>
-            </div>
-          </div>
-        </div>
-        <div class="shr" style="display:flex;align-items:center;justify-content:center;padding:28px;background:#f7f9fc;">
-          <figure class="app-shot-card" style="flex:0 0 auto;">
-            <img class="shot-enlarge" src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection hub" loading="lazy" style="width:260px;border-radius:20px;">
-            <figcaption style="color:var(--slate);margin-top:12px;">My Museum &mdash; value hero &amp; segments</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- Pricing Section -->
-<section class="pricing-sec" id="hhh-pricing" style="background:#fff;">
-  <div class="sec-in">
-    <div class="pricing-hd rv">
-      <span class="sec-ey">Pricing</span>
-      <h2 class="pricing-h">14-Day Free Trial.<br><em>Then Pro.</em></h2>
-      <p class="pricing-su">Try full Pro access free for 14 days. After the trial, subscribe at <strong>$9.99/mo</strong> or <strong>$74.99/yr</strong> &mdash; cancel anytime. Same shelf as PocketBudJet. Internal testing v1.0.12 (build 13) &mdash; not a public Play listing.</p>
-    </div>
-    <div class="trial-strip rv"><strong>14-day free trial</strong> &mdash; full Pro features during trial. Subscription required after trial ends.</div>
-    <div class="plan-grid rv d1" style="grid-template-columns:1fr 1fr;max-width:720px;margin-left:auto;margin-right:auto;">
-      <div class="plan">
-        <div class="plan-lbl">Pro Monthly</div>
-        <div class="plan-pr">$9.99</div>
-        <div class="plan-per">per month &middot; cancel anytime</div>
-        <div class="plan-div"></div>
-        <div class="plan-inc">Includes</div>
-        <ul class="plan-fl">
-          <li>Unlimited AI identifications</li>
-          <li>eBay hunt alerts &amp; portfolio analytics</li>
-          <li>Cloud sync &amp; premium collector tools</li>
-        </ul>
+<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(200,170,110,0.08);">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Pricing</span>
+    <h2 class="section-title rv" style="color:#fff;font-size:28px;">14-Day Free Trial.<br><em style="color:#c8aa6e;">Then Pro.</em></h2>
+    <p class="rv" style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:24px;">Try full Pro access free for 14 days. After the trial, subscribe at <strong>$9.99/mo</strong> or <strong>$74.99/yr</strong> &mdash; cancel anytime. Same shelf as PocketBudJet.</p>
+    <div class="rv" style="background:rgba(200,170,110,0.08);border:1px solid rgba(200,170,110,0.25);border-radius:12px;padding:14px 22px;margin-bottom:32px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.55;"><strong style="color:#c8aa6e;">14-day free trial</strong> &mdash; full Pro features during trial. Subscription required after trial ends.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto;">
+      <div class="rv d1" style="background:rgba(200,170,110,0.06);border:1px solid rgba(200,170,110,0.18);border-radius:16px;padding:32px;text-align:left;">
+        <div style="color:#c8aa6e;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Monthly</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$9.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px;">per month &middot; cancel anytime</div>
+        <div style="border-top:1px solid rgba(200,170,110,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
+          Unlimited AI identifications<br>
+          eBay hunt alerts &amp; portfolio analytics<br>
+          Cloud sync &amp; premium tools
+        </div>
       </div>
-      <div class="plan best">
-        <div class="plan-badge">Best value</div>
-        <div class="plan-lbl">Pro Annual</div>
-        <div class="plan-pr">$74.99</div>
-        <div class="plan-per">per year &middot; $6.25/mo equivalent</div>
-        <div class="plan-tag">Save 37% vs monthly</div>
-        <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Pro Monthly, plus</div>
-        <ul class="plan-fl">
-          <li>Insurance reports &amp; full backup</li>
-          <li>Export &amp; print from any list</li>
-          <li>Priority support</li>
-        </ul>
+      <div class="rv d2" style="background:rgba(200,170,110,0.08);border:2px solid rgba(200,170,110,0.30);border-radius:16px;padding:32px;text-align:left;position:relative;">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#c8aa6e;color:#1a2a3a;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;">BEST VALUE</div>
+        <div style="color:#c8aa6e;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Annual</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$74.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:4px;">per year &middot; save 37% vs monthly</div>
+        <div style="color:#c8aa6e;font-size:12px;margin-bottom:20px;">$6.25 / month equivalent</div>
+        <div style="border-top:1px solid rgba(200,170,110,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
+          Everything in Pro Monthly<br>
+          Insurance reports &amp; full backup<br>
+          Priority support
+        </div>
       </div>
     </div>
-    <p class="pfoot rv">All purchases processed by Apple App Store or Google Play. JosspaTech does not store payment information.</p>
   </div>
 </section>
 
@@ -2823,13 +2433,13 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
     <div class="pbj-hero-shots" aria-label="Curator's Vault screenshots">
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/cvc/03-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/cvc/03-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img class="shot-enlarge" src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery" loading="lazy" width="240" height="427">
+        <img src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery" loading="lazy" width="240" height="427">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img class="shot-enlarge" src="assets/screenshots/cvc/04-analytics.png" alt="Collection analytics" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/cvc/04-analytics.png" alt="Collection analytics" loading="lazy" width="220" height="391">
       </div>
     </div>
   </div>
@@ -2843,53 +2453,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Coming Soon</div>
 </div>
 
-<section class="sec app-shots-sec" id="cvc-screenshots" style="background:#081f2c;">
-  <div class="sec-in">
-    <div class="rv" style="text-align:center;margin-bottom:28px;">
-      <span class="sec-ey" style="color:#D4A853;">Preview</span>
-      <h2 class="sec-ti" style="color:#fff;">Five categories.<br><em style="color:#D4A853;">Seven screens.</em></h2>
-      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:560px;text-align:center;">Marketing previews from the paused build — coins, cards, stamps, paper money, and lighters only (no pens, knives, or watches).</p>
-    </div>
-    <div class="app-shots-grid rv d1">
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/01-search-home.png" alt="Search and home" loading="lazy"><figcaption>Search &amp; home</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/02-collection.png" alt="Collection manager" loading="lazy"><figcaption>Collection manager</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/03-identify.png" alt="AI identification" loading="lazy"><figcaption>AI Identify</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/04-analytics.png" alt="Collection analytics" loading="lazy"><figcaption>Portfolio analytics</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/05-hunt-alerts.png" alt="Hunt alerts" loading="lazy"><figcaption>Hunt alerts</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/06-web-companion.png" alt="Web Companion preview" loading="lazy"><figcaption>Web Companion (LAN)</figcaption></figure>
-      <figure class="app-shot-card"><img class="shot-enlarge" src="assets/screenshots/cvc/07-languages.png" alt="Seven languages" loading="lazy"><figcaption>7 languages</figcaption></figure>
-    </div>
-    <p class="app-shots-hint rv d1">Click any screenshot to view full size</p>
-    <div class="rv d2" style="text-align:center;">
-      <img class="app-feature-graphic shot-enlarge" src="assets/screenshots/cvc/feature-graphic-1024x500.png" alt="Curator's Vault feature graphic" loading="lazy" width="1024" height="500">
-    </div>
-  </div>
-</section>
-
-<section class="sec cv-video-sec" id="cvc-videos" style="background:#0a2430;">
-  <div class="sec-in">
-    <div class="rv" style="text-align:center;margin-bottom:8px;">
-      <span class="sec-ey" style="color:#D4A853;">Video walkthroughs</span>
-      <h2 class="sec-ti" style="color:#fff;">How-to guides.<br><em style="color:#D4A853;">Paused pre-ship.</em></h2>
-      <p class="sec-su" style="color:rgba(255,255,255,0.5);margin:12px auto 0;max-width:620px;text-align:center;">Planned slide walkthroughs matching PocketBudJet format. Filming waits until <code>com.josspatech.cts</code> resumes toward public launch. Shot lists in <code>SESSION_NOTES.md</code>.</p>
-      <p class="sec-su" style="color:rgba(255,255,255,0.35);margin:8px auto 0;max-width:560px;text-align:center;font-size:13px;">PBJ reference: <a href="how-to/" style="color:#D4A853;font-weight:600;">josspatech.com/how-to</a></p>
-    </div>
-    <div class="vcard-grid rv d1">
-      <div class="vcard-cat">Getting Started</div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128241;</div><div class="vcard-body"><h3>60-Second App Overview</h3><p>Five categories, AI identify, collection vault, hunt alerts, grading guides, Web Companion, and planned 14-day trial.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127991;</div><div class="vcard-body"><h3>Five Collectible Categories</h3><p>Coins, trading cards, stamps, paper money, and lighters at setup &mdash; pens, knives, and watches belong in other JosspaTech apps.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard-cat">Core Features</div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128247;</div><div class="vcard-body"><h3>AI Identify &amp; Grading Guides</h3><p>Photograph an item, read confidence report, Sheldon / PSA&middot;BGS&middot;CGC / Scott / PMG guidance, optional cert lookup.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~2 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#127963;</div><div class="vcard-body"><h3>Collection Manager &amp; Analytics</h3><p>Organize pieces, wish list, cost basis, portfolio value trends, and insurance-ready catalogs.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128269;</div><div class="vcard-body"><h3>Hunt Alerts &amp; eBay Price Checks</h3><p>Rules for items you want, Browse API price context, affiliate links &mdash; know worth before you buy or sell.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128187;</div><div class="vcard-body"><h3>Web Companion (LAN)</h3><p>Live collection on your PC browser over WiFi &mdash; phone is the server, not a public cloud account.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1.5 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128225;</div><div class="vcard-body"><h3>Show-Floor Bluetooth Sharing</h3><p>Swap pieces at coin shows with no internet or accounts &mdash; peer sharing from the paused build.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
-      <div class="vcard vcard-soon"><span class="vcard-badge soon">Coming soon</span><div class="vcard-icon">&#128176;</div><div class="vcard-body"><h3>Planned Pricing: 14-Day Trial</h3><p>Paused pre-ship context, planned $9.99/mo &middot; $74.99/yr Pro, and what unlocks after trial.</p><div class="vcard-meta"><span class="vcard-type">&#9654; Walkthrough</span><span class="vcard-time">~1 min</span></div></div></div>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="cvc-features" style="background:#0d1a28;padding:80px 24px;">
+<section class="sec" style="background:#0d1a28;padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
     <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Core Features</span>
     <h2 class="section-title rv" style="color:#fff;">Identify. Organize.<br><em style="color:#D4A853;">Invest.</em></h2>
@@ -3026,28 +2590,13 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
     </div>
 
-    <!-- Companion & Languages -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Web Companion &amp; Languages</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128187;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Web Companion (LAN)</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Browse and manage your collection from any browser on your WiFi. Start the server on your phone, scan the QR or paste the magic link on your PC &mdash; live data from your device, not a public cloud account.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127760;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">7 Languages</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, and Italiano across the collector workflow &mdash; same i18n pattern as PocketBudJet and Handy Horology Helper.</p>
-      </div>
-    </div>
-
     <!-- Privacy & Accessibility -->
     <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Privacy &amp; Accessibility</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
         <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Your Data, Your Device</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Stored in the app&rsquo;s private storage on your device. No account required. Optional PocketBase cloud sync. <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" style="color:#D4A853;">Privacy policy</a> is live on josspatech.com.</p>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Stored in the app&rsquo;s private storage on your device. No account required. Backups and optional cloud sync are always AES-256 encrypted with a key only you know &mdash; your cloud provider can&rsquo;t read it.</p>
       </div>
       <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>
@@ -3064,93 +2613,27 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" id="cvc-showcase" style="background:var(--bg);">
-  <div class="sec-in">
-    <div class="rv">
-      <span class="sec-ey">Features</span>
-      <h2 class="sec-ti">Identify. Organize.<br><em>Invest with confidence.</em></h2>
-      <p class="sec-su">Five collectible categories from the paused pre-ship build &mdash; coins, trading cards, stamps, paper money, and lighters only.</p>
-    </div>
-    <div class="sstrip rv d1">
-      <div class="sc"><div class="sc-n">5</div><div class="sc-l">Collectible categories</div></div>
-      <div class="sc"><div class="sc-n">7</div><div class="sc-l">Languages in the app</div></div>
-      <div class="sc"><div class="sc-n">14</div><div class="sc-l">Day trial (planned)</div></div>
-      <div class="sc"><div class="sc-n">LAN</div><div class="sc-l">Web Companion on WiFi</div></div>
-    </div>
-    <div class="showcase rv d2">
-      <div class="sh-in" style="grid-template-columns:1fr 1fr;min-height:500px;">
-        <div class="shl">
-          <div class="shl-wm">CVC</div>
-          <div class="shl-in">
-            <div class="sh-badge"><div class="sh-bdot"></div>Curator&rsquo;s Vault: Classics&#x2122;</div>
-            <h3 class="sh-hl">Five categories.<br><em>One vault.</em><br>Track what <span class="gu">you collect.</span></h3>
-            <p class="sh-desc">Photograph, organize, and value US coins, trading cards, stamps, paper money, and lighters. Pens, knives, and watches belong in other JosspaTech apps. Development paused pre-ship &mdash; <code>com.josspatech.cts</code> Play listing not created.</p>
-            <div class="sh-ctas">
-              <a href="#cvc-pricing" class="sh-btn">Planned pricing &#8594;</a>
-              <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" class="sh-lnk">Privacy policy</a>
-            </div>
-            <div class="sh-trust">
-              <div class="sh-ti"><div class="sh-tck"></div>AI identification with grading guidance &mdash; Sheldon, PSA/BGS/CGC, Scott, PMG</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Five categories at setup &mdash; coins, cards, stamps, paper money &amp; lighters</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Collection manager, wish list, cost basis &amp; portfolio analytics</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Hunt alerts &amp; eBay price checks &mdash; know what items are worth before you buy or sell</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Web Companion on your LAN &mdash; live data from your phone, not a public cloud account</div>
-              <div class="sh-ti"><div class="sh-tck"></div>7 languages &mdash; English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, Italiano</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Show-floor Bluetooth sharing &mdash; no internet or accounts at coin shows</div>
-              <div class="sh-ti"><div class="sh-tck"></div>Planned: 14-day free trial, then Pro at $9.99/mo &middot; $74.99/yr</div>
-            </div>
-          </div>
-        </div>
-        <div class="shr" style="display:flex;align-items:center;justify-content:center;padding:28px;background:#f7f9fc;">
-          <figure class="app-shot-card" style="flex:0 0 auto;">
-            <img class="shot-enlarge" src="assets/screenshots/cvc/02-collection.png" alt="Collection manager" loading="lazy" style="width:260px;border-radius:20px;">
-            <figcaption style="color:var(--slate);margin-top:12px;">Collection manager &mdash; five categories</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-    <p class="rv" style="text-align:center;margin-top:24px;font-size:13px;color:var(--slate);font-style:italic;">Paused pre-ship &middot; coming soon &middot; not on Google Play yet</p>
-  </div>
-</section>
-
 <!-- CVC Pricing -->
-<section class="pricing-sec" id="cvc-pricing" style="background:#fff;">
-  <div class="sec-in">
-    <div class="pricing-hd rv">
-      <span class="sec-ey">Planned Pricing</span>
-      <h2 class="pricing-h">14-Day Free Trial.<br><em>Then Pro.</em></h2>
-      <p class="pricing-su">Curator&rsquo;s Vault: Classics is <strong>not on Google Play yet</strong> &mdash; development paused pre-ship per Joe (<code>com.josspatech.cts</code> listing not created). Planned model matches HHH: <strong>14-day free trial</strong>, then Pro at <strong>$9.99/mo &middot; $74.99/yr</strong>.</p>
-    </div>
-    <div class="trial-strip rv"><strong>14-day free trial</strong> (planned) &mdash; full Pro features during trial. Subscription required after trial ends.</div>
-    <div class="plan-grid rv d1" style="grid-template-columns:1fr 1fr;max-width:720px;margin-left:auto;margin-right:auto;">
-      <div class="plan">
-        <div class="plan-lbl">Pro Monthly</div>
-        <div class="plan-pr">$9.99</div>
-        <div class="plan-per">per month &middot; cancel anytime</div>
-        <div class="plan-div"></div>
-        <div class="plan-inc">Planned includes</div>
-        <ul class="plan-fl">
-          <li>Unlimited AI identifications</li>
-          <li>Portfolio analytics &amp; hunt alerts</li>
-          <li>Cloud sync &amp; premium tools</li>
-        </ul>
+<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(212,168,83,0.08);">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Planned Pricing</span>
+    <h2 class="section-title rv" style="color:#fff;font-size:28px;">14-Day Free Trial.<br><em style="color:#D4A853;">Then Pro.</em></h2>
+    <p class="rv" style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:24px;">Curator's Vault: Classics is <strong>not on Google Play yet</strong> &mdash; development paused pre-ship per Joe (<code>com.josspatech.cts</code> listing not created). Planned model matches HHH: <strong>14-day free trial</strong>, then Pro at <strong>$9.99/mo &middot; $74.99/yr</strong>.</p>
+    <div class="rv" style="background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.25);border-radius:12px;padding:14px 22px;margin-bottom:32px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.55;"><strong style="color:#D4A853;">14-day free trial</strong> (planned) &mdash; full Pro features during trial. Subscription required after trial ends.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto;">
+      <div class="rv d1" style="background:rgba(212,168,83,0.06);border:1px solid rgba(212,168,83,0.18);border-radius:16px;padding:32px;text-align:left;">
+        <div style="color:#D4A853;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Monthly</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$9.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:16px;">per month &middot; cancel anytime</div>
       </div>
-      <div class="plan best">
-        <div class="plan-badge">Best value</div>
-        <div class="plan-lbl">Pro Annual</div>
-        <div class="plan-pr">$74.99</div>
-        <div class="plan-per">per year &middot; $6.25/mo equivalent</div>
-        <div class="plan-tag">Save 37% vs monthly</div>
-        <div class="plan-div"></div>
-        <div class="plan-inc">Everything in Pro Monthly</div>
-        <ul class="plan-fl">
-          <li>Insurance-ready catalogs &amp; export</li>
-          <li>Full backup &amp; restore</li>
-          <li>Priority support</li>
-        </ul>
+      <div class="rv d2" style="background:rgba(212,168,83,0.08);border:2px solid rgba(212,168,83,0.30);border-radius:16px;padding:32px;text-align:left;position:relative;">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#D4A853;color:#0d2a38;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;">BEST VALUE</div>
+        <div style="color:#D4A853;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Annual</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$74.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:16px;">per year &middot; save 37% vs monthly</div>
       </div>
     </div>
-    <p class="pfoot rv"><a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html">Privacy Policy</a> &middot; Pricing subject to change before public launch</p>
+    <p class="rv" style="color:rgba(255,255,255,0.35);font-size:12px;margin-top:24px;"><a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" style="color:#D4A853;">Privacy Policy</a> · Pricing subject to change before public launch</p>
   </div>
 </section>
 
@@ -3201,8 +2684,6 @@ function showPage(id) {
   }
   // re-run reveal observers on the new page
   document.querySelectorAll('.rv:not(.on)').forEach(function(el) { rvObs.observe(el); });
-  // re-observe The Pro mascot guides on page switch
-  document.querySelectorAll('.pro-guide:not(.visible)').forEach(function(el) { proObs.observe(el); });
 }
 
 function navTo(section) {
@@ -3247,17 +2728,6 @@ var rvObs = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('on'); rvObs.unobserve(e.target); } });
 }, {threshold: 0.08});
 document.querySelectorAll('.rv').forEach(function(el) { rvObs.observe(el); });
-
-/* ── THE PRO: scroll-triggered guide ── */
-var proObs = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      proObs.unobserve(e.target);
-    }
-  });
-}, {threshold: 0.15});
-document.querySelectorAll('.pro-guide').forEach(function(el) { proObs.observe(el); });
 
 /* ── PBJ: Feature comparison toggle ── */
 function toggleFT(b) {
@@ -3310,43 +2780,6 @@ function toggleFT(b) {
   startR();
 })();
 
-/* ── Screenshot lightbox (PBJ / HHH / CVC galleries) ── */
-(function(){
-  var lb = document.getElementById('shotLightbox');
-  if (!lb) return;
-  var lbImg = lb.querySelector('.shot-lightbox-img');
-  var lbCap = lb.querySelector('.shot-lightbox-cap');
-  var lbClose = lb.querySelector('.shot-lightbox-close');
-
-  function openLightbox(src, alt, caption) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    lbCap.textContent = caption || alt || '';
-    lb.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    lbClose.focus();
-  }
-  function closeLightbox() {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-    lbImg.removeAttribute('src');
-  }
-
-  document.addEventListener('click', function(e) {
-    var img = e.target.closest('.shot-enlarge, .app-shot-card img, .pbj-shot img');
-    if (!img || !img.src) return;
-    e.preventDefault();
-    var fig = img.closest('figure');
-    var cap = fig ? (fig.querySelector('figcaption') || {}).textContent : '';
-    openLightbox(img.src, img.alt, cap);
-  });
-  lbClose.addEventListener('click', closeLightbox);
-  lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && lb.classList.contains('open')) closeLightbox();
-  });
-})();
-
 /* ── EMAIL: click-to-copy fallback ── */
 (function(){
   var toast = document.createElement('div');
@@ -3381,14 +2814,6 @@ function toggleFT(b) {
 })();
 
 </script>
-
-<div id="shotLightbox" class="shot-lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview">
-  <div class="shot-lightbox-inner">
-    <button type="button" class="shot-lightbox-close" aria-label="Close preview">&times;</button>
-    <img class="shot-lightbox-img" src="" alt="">
-    <p class="shot-lightbox-cap"></p>
-  </div>
-</div>
 
 <!-- ============================================================
      Session 64 — Site visit tracker (writes to PocketBase
