@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Curator's Vault: Classics by JosspaTech</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+:root{--emerald:#1B4D3E;--emerald-dark:#0F2E25;--emerald-mid:#2A6B57;--brass:#C17F4A;--slate:#5A7A6A;--light-slate:#8AA89A;--bg:#EDF4F1;--white:#FFFFFF;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:"Source Sans 3",sans-serif;background:var(--bg);color:#222;line-height:1.8;font-size:16px;}
+header{background:var(--emerald-dark);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--brass);}
+.hdr-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.hdr-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}
+.hdr-name span{color:var(--brass);}
+.hdr-back{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}
+.hdr-back:hover{color:var(--brass);}
+.doc-hero{background:var(--emerald-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(193,127,74,0.2);}
+.doc-type{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--brass);display:block;margin-bottom:10px;}
+.doc-hero h1{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}
+.doc-meta{font-size:15px;color:var(--light-slate);}
+.doc-meta span{margin-right:20px;}
+main{max-width:760px;margin:0 auto;padding:52px 24px 80px;}
+.summary-box{background:var(--emerald-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--brass);}
+.summary-box strong{color:var(--brass);}
+h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--emerald-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--emerald-mid);}
+p{font-size:17px;margin-bottom:14px;}
+ul{margin:6px 0 14px 22px;}
+li{font-size:17px;margin-bottom:6px;}
+footer{background:var(--emerald-dark);border-top:1px solid rgba(193,127,74,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+footer p{font-size:12px;color:var(--light-slate);}
+footer .fn{font-family:'Playfair Display',serif;font-size:15px;color:#fff;}
+footer .fn span{color:var(--brass);}
+@media(max-width:600px){header,footer{padding:0 20px;}.doc-hero{padding:36px 20px 28px;}main{padding:36px 20px 60px;}}
+</style>
+</head>
+<body>
+<header>
+  <a class="hdr-logo" href="/">
+    <span class="hdr-name">Josspa<span>Tech</span>™</span>
+  </a>
+  <a class="hdr-back" href="/">← JosspaTech</a>
+</header>
+
+<div class="doc-hero">
+  <span class="doc-type">Curator's Vault: Classics · Legal Document</span>
+  <h1>Privacy Policy</h1>
+  <div class="doc-meta">
+    <span>Effective Date: June 8, 2026</span>
+    <span>Developer: JosspaTech</span>
+    <span>Contact: <a href="mailto:support@josspatech.com" style="color:var(--brass)">support@josspatech.com</a></span>
+  </div>
+</div>
+
+<main>
+  <div class="summary-box">
+    <strong>The short version:</strong> Your collection lives on your device by default. We don't ask for your name, address, or payment details. Optional AI identification sends photos or descriptions you choose to a JosspaTech-operated Cloudflare Worker, which calls Google Gemini and Anthropic Claude — never with your identity attached. Optional cloud sync uses PocketBase only if you enable it. You control outbound data in Settings → Privacy.
+  </div>
+
+  <h2>1. Information We Collect</h2>
+  <p><strong>What we do NOT collect:</strong></p>
+  <ul>
+    <li>Your name, address, phone number, or email (unless you enter them in your own collection notes)</li>
+    <li>Social Security numbers or government IDs</li>
+    <li>Bank account numbers, routing numbers, or card numbers</li>
+    <li>Precise location data</li>
+    <li>Device contacts or contact lists</li>
+    <li>Biometric data (Face ID / fingerprint are verified by your phone's OS — CVC never receives the biometric)</li>
+  </ul>
+  <p><strong>What you enter into the app:</strong> Collectible items, photos, notes, prices, wish lists, and similar collection data are stored in CVC's private app storage on your device.</p>
+
+  <h2>2. How Your Data Is Stored</h2>
+  <p><strong>On your device.</strong> Your collection is kept in CVC's private app storage sandbox. Sensitive settings (PIN hash, biometric-lock flag, OAuth tokens if you create them) are stored in the iOS Keychain or Android Keystore via <code>expo-secure-store</code>.</p>
+  <p><strong>Optional cloud sync.</strong> If you enable PocketBase cloud sync, collection data you choose to sync is transmitted over TLS to <code>josspatech.pockethost.io</code>. This is off by default.</p>
+  <p><strong>On the network.</strong> All traffic to services listed below is over TLS.</p>
+
+  <h2>3. Camera and AI Identification</h2>
+  <p>Camera access is used to photograph collectibles for identification and your collection gallery. Photos are stored locally unless you enable cloud sync.</p>
+  <p><strong>AI identification (optional).</strong> When you use Identify or AI chat features, the photo or text description you submit is sent over TLS to a JosspaTech-operated Cloudflare Worker (<code>cvc-worker</code>). The Worker may forward content to:</p>
+  <ul>
+    <li><strong>Google Gemini API</strong> — for photo-based identification of coins, cards, stamps, currency, and lighters</li>
+    <li><strong>Anthropic Claude API</strong> — for description-only identification, AI chat advisor, and structured extraction</li>
+  </ul>
+  <p>The Worker authenticates your app with a shared key (<code>X-CVC-Key</code>) — not your name or account. Images and descriptions are processed in-flight; JosspaTech does not retain them after the structured response is returned. Google and Anthropic do not retain API inputs for training under their commercial API terms.</p>
+  <p>You can use CVC's core collection features without AI identification.</p>
+
+  <h2>4. eBay and Marketplace Search</h2>
+  <p>CVC may query eBay's public Browse API and affiliate links to show listings relevant to your search or wish list. Only search terms and item metadata you initiate are sent — not your full collection or identity.</p>
+
+  <h2>5. Certification Lookups (PSA / PCGS)</h2>
+  <p>When you verify a grading cert number, CVC sends only the cert number to PSA or PCGS public APIs over TLS. No other personal data is included.</p>
+
+  <h2>6. Web Companion</h2>
+  <p>The optional Web Companion runs a local web server on your home WiFi network so you can browse your collection from a PC browser. Data stays inside your LAN and is not sent to JosspaTech.</p>
+
+  <h2>7. Subscriptions and Payments</h2>
+  <p>Pro subscriptions are processed entirely by Apple App Store or Google Play Store. JosspaTech does not collect, store, or process payment card information. Subscription status may be verified through RevenueCat using an anonymous app user ID — not your name or email.</p>
+
+  <h2>8. Diagnostics</h2>
+  <p>CVC may collect anonymous crash diagnostics (stack traces, device model, OS version, app version) to fix bugs. Crash reports do <strong>not</strong> contain your collection photos or item details unless you explicitly include them in a feedback report.</p>
+
+  <h2>9. Children's Privacy</h2>
+  <p>Curator's Vault: Classics is not directed to children under 13. We do not knowingly collect personal information from children under 13. Contact <a href="mailto:support@josspatech.com">support@josspatech.com</a> if you believe a child has provided information through the app.</p>
+
+  <h2>10. Data Deletion</h2>
+  <p>Because your collection is stored on your device, you delete it by uninstalling the app. If you enabled PocketBase sync, contact us to request account deletion. JosspaTech does not retain a copy of your on-device collection.</p>
+
+  <p>We may update this Privacy Policy from time to time. We will update the effective date when we do. Continued use of the App after changes are posted constitutes acceptance of the revised policy.</p>
+
+  <h2>11. Contact</h2>
+  <p>Privacy questions: <strong><a href="mailto:privacy@josspatech.com">privacy@josspatech.com</a></strong></p>
+</main>
+
+<footer>
+  <span class="fn">Josspa<span>Tech</span>™</span>
+  <p>© 2026 JosspaTech. All rights reserved.</p>
+</footer>
+</body>
+</html>
