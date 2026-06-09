@@ -300,6 +300,7 @@
       line-height: 1.4;
     }
     .card.ok     { border-left: 4px solid var(--success); }
+    .card.info   { border-left: 4px solid var(--text-muted); background: var(--surface-alt); }
     .card.warn   { border-left: 4px solid var(--warning); background: var(--disclaimer); }
     .card.crit   { border-left: 4px solid var(--danger);  background: rgba(192, 57, 43, 0.04); }
 
@@ -422,26 +423,28 @@
       letter-spacing: 0.4px;
     }
 
-    /* ─── Ops info banner (amber — not an outage) ───────── */
+    /* ─── Ops info banner (gray — expected gaps, not outages) ─ */
     #opsInfoBanner {
       max-width: 1400px;
       margin: 0 auto;
       padding: 12px 20px;
-      background: var(--accent-soft);
-      color: var(--disclaimer-txt);
-      border-bottom: 3px solid var(--accent);
+      background: var(--surface-alt);
+      color: var(--text-dim);
+      border-bottom: 2px solid var(--border);
       font-size: 13px;
       font-weight: 500;
       line-height: 1.5;
     }
     #opsInfoBanner ul {
       margin: 6px 0 0 18px;
-      font-weight: 500;
+      font-weight: 400;
     }
     #opsInfoBanner .ops-info-title {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
     /* ─── Breakeven card ─────────────────────────────── */
@@ -1483,7 +1486,7 @@
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
-    <!-- Red banner: Gemini ≥80%, circuit breaker, worker down. Amber below: cron / manual balance. -->
+    <!-- Red banner: worker down, Gemini ≥80%, circuit breaker. Gray below: pb_hooks / keys / balance log. -->
     <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
     <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
     <!-- ─── Week-over-week insights banner ─────────────────
@@ -4476,6 +4479,7 @@ Generated ${new Date().toISOString()}.
     const authHdr = token ? { Authorization: `Bearer ${token}` } : {};
     let rows = [];
     let collectionMissing = false;
+    let fetchNote = "";
     try {
       const r = await fetch("https://josspatech.pockethost.io/api/collections/_cron_heartbeat/records?perPage=50&sort=-last_run", {
         headers: authHdr,
@@ -4483,42 +4487,59 @@ Generated ${new Date().toISOString()}.
       });
       if (r.status === 404) {
         collectionMissing = true;
+      } else if (r.status === 429) {
+        fetchNote = "PocketBase rate-limited this poll — try again in ~15 min. Not an outage.";
+      } else if (r.status === 401 || r.status === 403) {
+        fetchNote = "Sign in to the dashboard to read _cron_heartbeat (PocketBase is up).";
       } else if (!r.ok) {
-        // Likely 401/403 — user not logged in OR collection access-rules need ADMIN
-        rows = [];
+        fetchNote = `Could not read heartbeat (HTTP ${r.status}) — not necessarily a PocketBase outage.`;
       } else {
         const j = await r.json();
         rows = j.items || [];
       }
-    } catch { /* network error → empty */ }
+    } catch {
+      fetchNote = "Network timeout reading cron heartbeat — check PocketBase /api/health separately.";
+    }
 
-    if (collectionMissing) {
+    if (fetchNote) {
       root.innerHTML = `
         <div class="cron-card unknown">
           <div>
-            <div class="cron-name">Collection <code>_cron_heartbeat</code> not created yet</div>
-            <div class="cron-last">In PocketBase admin: New collection → name <code>_cron_heartbeat</code> → fields: <code>name</code> (text, unique) + <code>last_run</code> (date). The aggregation hook will start writing on its next run.</div>
+            <div class="cron-name">${fetchNote}</div>
+            <div class="cron-last">Cron Health is PBJ flywheel housekeeping only — HHH/CVC workers are unaffected.</div>
           </div>
         </div>`;
       return;
     }
 
-    // Build cards: one per tracked cron name, plus "ad-hoc" rows for any
-    // unrecognized name found in the heartbeat collection.
+    if (collectionMissing) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name"><code>_cron_heartbeat</code> not created yet — expected while <code>pb_hooks</code> isn't deployed</div>
+            <div class="cron-last">When ready: PocketBase admin → New collection → <code>_cron_heartbeat</code> with <code>name</code> (text) + <code>last_run</code> (date). Upload aggregation hooks to PocketHost.</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const hooksNotDeployed = rows.length === 0;
     const byName = Object.fromEntries(rows.map(r => [r.name, r]));
     const cards = CRON_HEARTBEATS_TO_TRACK.map(c => {
       const row = byName[c.name];
       const lastRun = row?.last_run ? new Date(row.last_run) : null;
       const minutes = lastRun ? (Date.now() - lastRun.getTime()) / 60000 : null;
       const expectedHourly = c.name === "aggregate_submissions" || c.name === "anomaly_detection";
-      const state = cronStateFromAge(minutes, expectedHourly);
-      const stateLabel = state === "green" ? "Healthy"
-                       : state === "yellow" ? "Possibly stale"
-                       : state === "red" ? "Stalled"
-                       : "No heartbeat yet";
+      const state = lastRun ? cronStateFromAge(minutes, expectedHourly) : "unknown";
+      const stateLabel = !lastRun
+        ? (hooksNotDeployed ? "Not configured yet (pb_hooks not deployed)" : "No heartbeat yet")
+        : state === "green" ? "Healthy"
+        : state === "yellow" ? "Possibly stale"
+        : state === "red" ? "Stalled — investigate"
+        : "Unknown";
       const timeStr = lastRun
         ? `Last: ${lastRun.toLocaleString()} (${minutes < 60 ? `${minutes.toFixed(0)} min` : `${(minutes/60).toFixed(1)} hr`} ago) — ${stateLabel}`
-        : `Never — ${stateLabel}`;
+        : `${stateLabel}`;
       return `
         <div class="cron-card ${state}" style="margin-bottom: 10px;">
           <div>
@@ -5354,7 +5375,7 @@ Generated ${new Date().toISOString()}.
             </tr>
           </tbody>
         </table>`;
-      note = "PocketBase cron heartbeat (PBJ flywheel) is separate from Worker quota emails — see collapsible explainer above.";
+      note = "PocketBase cron heartbeat (PBJ flywheel only) shows in the <strong>gray info banner</strong> when pb_hooks isn't deployed — not the red ops alert. Worker quota emails are separate; see collapsible explainer above.";
     }
 
     panelEl.innerHTML = tableHtml + `<div class="tb-note">${note}</div>`;
@@ -5638,7 +5659,7 @@ Generated ${new Date().toISOString()}.
         issues.push("PBJ Worker OCR stats request failed — check Worker deploy");
       }
     } else {
-      issues.push("X-PBJ-Key not set — run a PBJ smoke test to store the Worker key");
+      infoIssues.push("PBJ Worker stats — X-PBJ-Key not set in this browser (run a PBJ smoke test once; worker may still be healthy).");
     }
 
     for (const app of WORKER_APPS.filter(a => a.statsKind === "ops")) {
@@ -5652,7 +5673,7 @@ Generated ${new Date().toISOString()}.
         }
         const hj = await hr.json();
         if (hj.gemini_configured === false) {
-          issues.push(`${app.short} (${app.name}) — Gemini API key not configured on worker`);
+          infoIssues.push(`${app.short} (${app.name}) — Gemini API key not set on worker yet (identify may fall back to Anthropic).`);
         }
       } catch {
         issues.push(`${app.short} worker unreachable — ${base}`);
@@ -5976,11 +5997,13 @@ Generated ${new Date().toISOString()}.
           return { state: stateFromPercent(q.used / q.limit), used: q.used, limit: q.limit, unit: "MB" };
         }
         try {
-          const r = await fetch("https://josspatech.pockethost.io/api/health", { cache: "no-store", signal: AbortSignal.timeout(5000) });
-          if (!r.ok) return { state: "red" };
+          const r = await fetch("https://josspatech.pockethost.io/api/health", { cache: "no-store", signal: AbortSignal.timeout(8000) });
+          if (!r.ok) return { state: r.status === 429 ? "yellow" : "red" };
           const j = await r.json();
           return { state: j.code === 200 ? "green" : "yellow" };
-        } catch { return { state: "red" }; }
+        } catch {
+          return { state: "yellow" }; // slow/timeout — not proven down
+        }
       },
       links: [
         { label: "PocketBase admin",   url: "https://josspatech.pockethost.io/_/", primary: true },
