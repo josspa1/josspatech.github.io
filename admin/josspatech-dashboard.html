@@ -1498,7 +1498,27 @@
         <strong style="color: var(--danger);">Red</strong> = worker unreachable, auth failed, or circuit breaker armed.
         Shared keys are prompted on first smoke test and saved in this browser only — never in git.
         Worker URLs can be overridden below each tab if you redeploy to a custom domain.
+        Click a summary card (or tab) for the full breakdown — usage vs limits, cost, and circuit-breaker status.
       </p>
+      <details style="margin: 0 0 14px; font-size: 13px; color: var(--text-dim);">
+        <summary style="cursor: pointer; font-weight: 600; color: var(--text);">Daily limits reference (what the numbers mean)</summary>
+        <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 12px;">
+          <thead>
+            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+              <th style="padding: 6px 8px;">App</th>
+              <th style="padding: 6px 8px;">What we count</th>
+              <th style="padding: 6px 8px;">Free-tier ceiling</th>
+              <th style="padding: 6px 8px;">Circuit breaker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 6px 8px;"><strong>PBJ</strong></td><td style="padding: 6px 8px;">OCR.Space + Gemini calls</td><td style="padding: 6px 8px;">500 OCR.Space + 1,500 Gemini / day</td><td style="padding: 6px 8px;">1,800 total OCR calls / day — blocks <em>free</em> users only</td></tr>
+            <tr><td style="padding: 6px 8px;"><strong>HHH</strong></td><td style="padding: 6px 8px;">Gemini + Anthropic identify / ask</td><td style="padding: 6px 8px;">1,500 Gemini + 5,000 Anthropic / day</td><td style="padding: 6px 8px;">500 total AI calls / day (monitoring flag)</td></tr>
+            <tr><td style="padding: 6px 8px;"><strong>CVC</strong></td><td style="padding: 6px 8px;">Gemini + Anthropic identify / ask</td><td style="padding: 6px 8px;">1,500 Gemini + 5,000 Anthropic / day</td><td style="padding: 6px 8px;">500 total AI calls / day (monitoring flag)</td></tr>
+          </tbody>
+        </table>
+        <p style="margin: 10px 0 0;">Bars turn yellow at 75% and red at 90%. PBJ's circuit breaker actually stops free-tier cloud OCR; HHH/CVC breakers are alerts only until we wire enforcement. Per-user PBJ caps: 15 free / 200 trial / 500 active scans per month, max 50/day per device.</p>
+      </details>
       <div id="workerMonitoringCombined"></div>
       <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>
       <div id="workerMonitoringTabs" class="wm-tabs"></div>
@@ -4880,13 +4900,19 @@ Generated ${new Date().toISOString()}.
       summaryEl.innerHTML = results.map(r => {
         const state = wmCardState(r.health, r.metrics);
         const cost = r.metrics ? `$${r.metrics.costToday.toFixed(4)}` : (r.stats.error === "no_key" ? "key needed" : "—");
-        const gemini = r.metrics ? `${r.metrics.geminiToday.toLocaleString()} Gemini` : "—";
+        const gemini = r.metrics
+          ? `${r.metrics.geminiToday.toLocaleString()} / ${r.metrics.geminiCap.toLocaleString()} Gemini`
+          : "—";
+        const quota = r.metrics
+          ? `${r.metrics.quotaUsed.toLocaleString()} / ${r.metrics.quotaCap.toLocaleString()} ${r.metrics.quotaLabel}`
+          : "—";
         return `
           <div class="wm-summary-card ${state}" role="button" tabindex="0" onclick="wmSelectTab('${r.app.id}')" onkeydown="if(event.key==='Enter')wmSelectTab('${r.app.id}')">
             <div class="wm-app-name">${r.app.short}</div>
             <div class="wm-app-title">${r.app.name}</div>
             <div class="wm-stat-row"><span>Status</span><strong>${wmStatusLabel(state)}</strong></div>
-            <div class="wm-stat-row"><span>Today</span><strong>${gemini}</strong></div>
+            <div class="wm-stat-row"><span>Gemini today</span><strong>${gemini}</strong></div>
+            <div class="wm-stat-row"><span>Daily total</span><strong>${quota}</strong></div>
             <div class="wm-stat-row"><span>Est. cost</span><strong>${cost}</strong></div>
             <div class="wm-stat-row"><span>Updated</span><strong>${now}</strong></div>
           </div>`;
