@@ -5731,6 +5731,8 @@ Generated ${new Date().toISOString()}.
         }
       } else if (r.status === 401 || r.status === 403) {
         infoIssues.push("PocketBase cron heartbeat — sign in again to read _cron_heartbeat (not a PocketBase outage).");
+      } else if (r.status === 404) {
+        infoIssues.push("PocketBase aggregation cron — _cron_heartbeat not set up yet (pb_hooks not deployed). Expected; HHH/CVC unaffected.");
       }
     } catch {
       infoIssues.push("PocketBase cron heartbeat — could not poll (network or rate limit). Check /api/health or Cron Health panel.");
@@ -5754,7 +5756,7 @@ Generated ${new Date().toISOString()}.
         infoBanner.innerHTML = "";
       } else {
         infoBanner.innerHTML =
-          `<div class="ops-info-title">ℹ Ops note — housekeeping (not an outage)</div>` +
+          `<div class="ops-info-title">ℹ Expected gaps — not an outage</div>` +
           `<ul>${infoIssues.map(i => `<li>${i}</li>`).join("")}</ul>`;
         infoBanner.style.display = "block";
       }
