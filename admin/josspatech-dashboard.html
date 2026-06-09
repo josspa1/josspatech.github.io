@@ -5323,6 +5323,14 @@ Generated ${new Date().toISOString()}.
               <td class="num">—</td>
               <td>${tbLiveCell("global", live.globalUsed, live.globalCap, live.globalPct)}</td>
             </tr>
+            <tr>
+              <td><strong>eBay Browse</strong> (worker <code>search_by_image</code>)</td>
+              <td class="num">5,000/day per Production keyset (eBay)</td>
+              <td>Worker cap 3,500/day default (2,500 HHH + 1,500 CVC if one shared key)</td>
+              <td>100% worker cap &rarr; 429; identify continues without eBay</td>
+              <td class="num">&mdash;</td>
+              <td><span class="tb-live">Worker tab <code>ebay.today</code></span></td>
+            </tr>
           </tbody>
         </table>`;
       note = `${appLabel} caps in <code>${appLabel === "HHH" ? "HandyHorology" : "CVC"}/cloudflare-worker/wrangler.toml</code>. Separate Gemini API key per app (see CLOUD_KEYS.md).`;
