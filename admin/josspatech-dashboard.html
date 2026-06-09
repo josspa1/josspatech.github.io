@@ -422,6 +422,28 @@
       letter-spacing: 0.4px;
     }
 
+    /* ─── Ops info banner (amber — not an outage) ───────── */
+    #opsInfoBanner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      background: var(--accent-soft);
+      color: var(--disclaimer-txt);
+      border-bottom: 3px solid var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    #opsInfoBanner ul {
+      margin: 6px 0 0 18px;
+      font-weight: 500;
+    }
+    #opsInfoBanner .ops-info-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
     /* ─── Breakeven card ─────────────────────────────── */
     .be-grid {
       display: grid;
@@ -1461,8 +1483,9 @@
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
-    <!-- Red banner when Gemini ≥80%, circuit breaker, worker/cron fail -->
+    <!-- Red banner: Gemini ≥80%, circuit breaker, worker down. Amber below: cron / manual balance. -->
     <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
     <!-- ─── Week-over-week insights banner ─────────────────
          Auto-populated on refresh. Hidden unless something's off. -->
     <div id="wowBanner" style="display:none"></div>
@@ -1707,7 +1730,11 @@
             <br><br>
             <strong>Gray or missing heartbeat?</strong> The <code>pb_hooks</code> folder in the PBJ repo
             is <em>not deployed</em> to PocketHost yet — the heartbeat collection may not exist until
-            hooks are uploaded. That's informational, not blocking HHH/CVC launches.
+            hooks are uploaded. The dashboard shows this in the <strong>gray info banner</strong> at the
+            top (not the red ops alert). HHH/CVC workers and identification are unaffected.
+            <br><br>
+            <strong>Red ops alert</strong> only fires for real outages (worker down), Gemini ≥80%,
+            or an armed circuit breaker — not for missing pb_hooks.
             <br><br>
             <strong>Separate from this:</strong> the PBJ Cloudflare Worker's hourly cron sends
             <em>quota alert emails</em> (Gemini 80%, circuit breaker) — that runs on Workers, not PocketBase.
@@ -2480,16 +2507,16 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
         .map(r => r.processed_at)
         .sort().pop();
       const lastProcAgeH = lastProcessed ? (Date.now() - Date.parse(lastProcessed)) / 3600000 : null;
-      const lastProcState = lastProcAgeH == null ? "warn"
+      const lastProcState = lastProcessed == null ? "info"
                           : lastProcAgeH > 2 ? "warn"
                           : "ok";
       parts.push(card(
         "Last aggregation",
         "When the server-side cron last processed the queues.",
-        lastProcessed ? relTime(lastProcessed) : "never",
+        lastProcessed ? relTime(lastProcessed) : "not yet",
         lastProcessed
           ? `Runs hourly. Under 2h = healthy.`
-          : `pb_hooks not deployed yet — the aggregation.pb.js cron isn't running.`,
+          : `Expected while pb_hooks isn't deployed — not a worker outage.`,
         lastProcState
       ));
       paint();
@@ -5553,15 +5580,39 @@ Generated ${new Date().toISOString()}.
     }
   }
 
-  /* ─── Proactive ops alerts (red banner when logged in) ─── */
+  /* ─── Proactive ops alerts (red = outage/quota; amber = housekeeping) ─── */
+  function opsAnthropicInfoLines() {
+    const h = antGetHistory();
+    if (h.length === 0) {
+      return ["Anthropic Claude — no balance logged yet. The API is not down; tap Record balance in the Anthropic service card after checking platform.claude.com billing."];
+    }
+    const last = h[h.length - 1];
+    const ageDays = (Date.now() - new Date(last.at)) / 86400000;
+    const lines = [];
+    if (ageDays > 14) {
+      lines.push(
+        `Anthropic Claude — last balance log is ${Math.floor(ageDays)} days old ($${last.amount.toFixed(2)}). Service is not down — record current credits from the billing page.`,
+      );
+    }
+    if (last.amount < 5) {
+      lines.push(`Anthropic Claude — logged balance is low ($${last.amount.toFixed(2)}). Top up credits before HHH/CVC identify calls fail with 402.`);
+    } else if (last.amount < 10 && ageDays <= 14) {
+      lines.push(`Anthropic Claude — logged balance is getting low ($${last.amount.toFixed(2)}). Plan a top-up soon.`);
+    }
+    return lines;
+  }
+
   async function updateOpsAlertBanner() {
     const banner = document.getElementById("opsAlertBanner");
+    const infoBanner = document.getElementById("opsInfoBanner");
     if (!banner || !token) {
       if (banner) banner.style.display = "none";
+      if (infoBanner) infoBanner.style.display = "none";
       return;
     }
 
     const issues = [];
+    const infoIssues = [];
     const key = localStorage.getItem("pbj_shared_key") || "";
 
     if (key) {
@@ -5640,32 +5691,53 @@ Generated ${new Date().toISOString()}.
         encodeURIComponent('name="aggregate_submissions"'),
         { headers: authHdr, signal: AbortSignal.timeout(8000) },
       );
-      if (r.ok) {
+      if (r.status === 429) {
+        infoIssues.push("PocketBase rate-limited this tab's poll — cron status unknown right now. PocketBase is up; wait ~15 min or use Cron Health panel.");
+      } else if (r.ok) {
         const j = await r.json();
         const lastRun = j.items?.[0]?.last_run;
         if (lastRun) {
           const minutes = (Date.now() - new Date(lastRun).getTime()) / 60000;
           if (minutes > 180) {
-            issues.push(`PocketBase aggregation cron stale (${Math.round(minutes)} min since last run)`);
+            infoIssues.push(
+              `PocketBase aggregation cron last ran ${Math.round(minutes)} min ago — PBJ crowd-data flywheel only; HHH/CVC unaffected. See Cron Health panel if you care about merchant consensus.`,
+            );
           }
         } else {
-          issues.push("PocketBase aggregation cron — no heartbeat recorded yet");
+          infoIssues.push(
+            "PocketBase aggregation cron — no heartbeat yet (pb_hooks may not be deployed). PBJ flywheel only; not a site outage.",
+          );
         }
+      } else if (r.status === 401 || r.status === 403) {
+        infoIssues.push("PocketBase cron heartbeat — sign in again to read _cron_heartbeat (not a PocketBase outage).");
       }
     } catch {
-      issues.push("PocketBase cron heartbeat check failed");
+      infoIssues.push("PocketBase cron heartbeat — could not poll (network or rate limit). Check /api/health or Cron Health panel.");
     }
+
+    infoIssues.push(...opsAnthropicInfoLines());
 
     if (issues.length === 0) {
       banner.style.display = "none";
       banner.innerHTML = "";
-      return;
+    } else {
+      banner.innerHTML =
+        `<div class="ops-alert-title">⚠ Ops alert — action needed</div>` +
+        `<ul>${issues.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      banner.style.display = "block";
     }
 
-    banner.innerHTML =
-      `<div class="ops-alert-title">⚠ Ops alert — action needed</div>` +
-      `<ul>${issues.map(i => `<li>${i}</li>`).join("")}</ul>`;
-    banner.style.display = "block";
+    if (infoBanner) {
+      if (infoIssues.length === 0) {
+        infoBanner.style.display = "none";
+        infoBanner.innerHTML = "";
+      } else {
+        infoBanner.innerHTML =
+          `<div class="ops-info-title">ℹ Ops note — housekeeping (not an outage)</div>` +
+          `<ul>${infoIssues.map(i => `<li>${i}</li>`).join("")}</ul>`;
+        infoBanner.style.display = "block";
+      }
+    }
   }
 
   // Cache the most recent /health/quotas response so individual probes
@@ -5790,7 +5862,7 @@ Generated ${new Date().toISOString()}.
     if (h.length === 0) {
       return `
         <div class="ant-tracker">
-          <div class="ant-empty">No balance recorded yet. After you check the billing page, tap below to log it.</div>
+          <div class="ant-empty">No balance recorded yet — Anthropic API is not down. After you check the billing page, tap below to log what you see (manual tracker; stale by design until you record again).</div>
           <div class="ant-actions">
             <button class="ant-btn primary" onclick="antLogBalance()">Record balance</button>
             <a class="ant-btn" href="https://platform.claude.com/settings/billing" target="_blank" rel="noopener noreferrer">Open billing ↗</a>
