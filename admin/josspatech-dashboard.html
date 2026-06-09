@@ -879,6 +879,89 @@
       border-radius: 6px; font-family: var(--mono); font-size: 11px;
     }
     .wm-updated { font-size: 11px; color: var(--text-muted); text-align: right; margin-top: 12px; }
+    .wm-threshold-legend {
+      font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.5;
+    }
+    .wm-threshold-legend .watch { color: var(--warning); font-weight: 600; }
+    .wm-threshold-legend .alert { color: var(--danger); font-weight: 600; }
+    .wm-threshold-legend .stop { color: var(--danger); font-weight: 700; }
+
+    /* ─── Thresholds & Baselines ─────────────────────────────── */
+    .tb-legend-row {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
+    }
+    .tb-legend-pill {
+      font-size: 12px; padding: 8px 12px; border-radius: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      flex: 1; min-width: 200px;
+    }
+    .tb-legend-pill strong { display: block; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.4px; color: var(--text-muted); margin-bottom: 4px; }
+    .tb-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .tb-tab {
+      padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--surface); color: var(--text-dim); font-size: 12px;
+      font-weight: 600; cursor: pointer;
+    }
+    .tb-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .tb-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .tb-panel {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      box-shadow: 0 1px 2px rgba(26, 79, 122, 0.04);
+    }
+    .tb-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .tb-panel th, .tb-panel td {
+      padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .tb-panel th {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px;
+      color: var(--text-muted); background: var(--surface-alt); font-weight: 700;
+    }
+    .tb-panel tr:last-child td { border-bottom: 0; }
+    .tb-panel td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .tb-live {
+      font-family: var(--mono); font-size: 12px; font-weight: 600;
+      color: var(--primary);
+    }
+    .tb-live.warn { color: var(--warning); }
+    .tb-live.crit { color: var(--danger); }
+    .tb-note {
+      font-size: 12px; color: var(--text-dim); padding: 12px 14px;
+      border-top: 1px dashed var(--border); line-height: 1.55;
+    }
+    .tb-scenario-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px; margin-top: 16px;
+    }
+    .tb-scenario-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .tb-scenario-card .tb-sc-label {
+      font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px;
+      color: var(--text-muted); font-weight: 600;
+    }
+    .tb-scenario-card .tb-sc-value {
+      font-size: 20px; font-weight: 700; color: var(--primary);
+      margin: 4px 0; font-variant-numeric: tabular-nums;
+    }
+    .tb-scenario-card .tb-sc-sub { font-size: 12px; color: var(--text-dim); line-height: 1.45; }
+    .tb-collapse {
+      margin-top: 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .tb-collapse summary {
+      cursor: pointer; padding: 14px 18px; font-weight: 700;
+      color: var(--primary); list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .tb-collapse summary::-webkit-details-marker { display: none; }
+    .tb-collapse summary::after { content: "▸"; color: var(--text-muted); font-size: 14px; }
+    .tb-collapse[open] summary::after { content: "▾"; }
+    .tb-collapse .tb-collapse-body { padding: 0 18px 18px; }
+    .founder-collapse summary { font-size: 15px; }
 
     /* ─── Quarantine Watch ───────────────────────────────────── */
     /* Section heading styled by the unified rule above. */
@@ -1396,6 +1479,7 @@
       <a class="sn-chip" href="#quicklinks">Quick Links</a>
       <a class="sn-chip" href="#services">Services &amp; Status</a>
       <a class="sn-chip" href="#workerMonitoring">Worker Monitoring</a>
+      <a class="sn-chip" href="#thresholdsBaselines">Thresholds</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
       <a class="sn-chip" href="#founderBreakeven">Founder Economics</a>
       <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
@@ -1523,6 +1607,113 @@
       <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>
       <div id="workerMonitoringTabs" class="wm-tabs"></div>
       <div id="workerMonitoringGrid">Loading…</div>
+      <p class="wm-threshold-legend" style="margin-top:14px;">
+        <span class="watch">Yellow (75%)</span> = worth watching &nbsp;·&nbsp;
+        <span class="alert">Red banner (80% Gemini)</span> = email alert fires &nbsp;·&nbsp;
+        <span class="stop">Hard stop (100%)</span> = circuit breaker — free users blocked (premium/trial keep working on PBJ)
+      </p>
+    </section>
+
+    <!-- ─── Thresholds & Baselines ────────────────────────────
+         Joe-friendly reference: free tiers, warnings, hard stops,
+         per-user caps, and when to upgrade. Live usage synced from
+         Worker Monitoring polls. -->
+    <section id="thresholdsBaselines">
+      <h2>Thresholds &amp; Baselines</h2>
+      <p class="section-explainer">
+        <strong>What this is:</strong> A plain-language cheat sheet for every limit on this dashboard —
+        what's free, when you'll see yellow or red, what actually stops the app, and what it costs if you
+        go over. Numbers come from deployed Worker settings (<code>wrangler.toml</code>) and vendor free tiers.
+        <strong>Live today</strong> columns update when Worker Monitoring refreshes.
+        <br><br>
+        <strong>Net per sub:</strong> $8.49/mo after Apple's/Google's 15% cut on a $9.99 shelf price.
+      </p>
+      <div class="tb-legend-row">
+        <div class="tb-legend-pill">
+          <strong>Watch (yellow)</strong>
+          Meter hits 75% of daily cap — no outage yet; check usage.
+        </div>
+        <div class="tb-legend-pill">
+          <strong>Alert (red banner + email)</strong>
+          Gemini ≥80% of free tier (1,200/1,500 calls). Hourly Worker cron emails
+          <code>support@josspatech.com</code>.
+        </div>
+        <div class="tb-legend-pill">
+          <strong>Hard stop (circuit breaker)</strong>
+          100% of global daily limit — PBJ denies <em>free</em> cloud OCR; HHH/CVC deny when global AI cap hit.
+          Premium/trial PBJ users keep working.
+        </div>
+      </div>
+      <div id="thresholdsTabs" class="tb-tabs"></div>
+      <div id="thresholdsPanel" class="tb-panel">Loading…</div>
+      <h3 style="margin:20px 0 10px;font-size:14px;color:var(--primary);">How many paying users before you raise limits?</h3>
+      <p class="section-explainer" style="margin-bottom:12px;">
+        Rough planning scenarios — assumes most users scan a few receipts or identify a few items per month,
+        not hundreds per day. If the red banner or circuit breaker fires while you're still under ~50 subs,
+        something is misconfigured or being abused — investigate before paying for API upgrades.
+      </p>
+      <div id="thresholdsScenarios" class="tb-scenario-grid"></div>
+      <details class="tb-collapse">
+        <summary>Founder economics — fixed costs, breakeven &amp; when to upgrade APIs</summary>
+        <div class="tb-collapse-body">
+          <p class="section-explainer" style="margin-top:0;">
+            <strong>Fixed monthly burn</strong> (shared across PBJ, HHH, CVC — don't double-count Apple/Google):
+            <strong>Lean ~$16/mo</strong> (domains + store accounts + PocketHost, no Cursor) →
+            <strong>2 paying subs</strong> breakeven.
+            <strong>Realistic ~$36/mo</strong> (+ Cursor ~$20) → <strong>5 subs</strong>.
+            <strong>Comfort ~$51/mo</strong> (+ buffer) → <strong>6 subs</strong>.
+            Full line items in <code>docs/JOE_OPS_COSTS.md</code> (PBJ repo) and the
+            <a href="#founderBreakeven">Founder Economics</a> section below.
+          </p>
+          <div class="tb-panel" style="margin-bottom:12px;">
+            <table>
+              <thead>
+                <tr><th>Trigger</th><th>What to do</th><th>Rough cost to cover</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gemini over free tier (~1,500 calls/day per project)</td>
+                  <td>Enable billing in Google AI Studio or raise <code>OCR_GLOBAL_DAILY_LIMIT</code> / split Gemini projects per app</td>
+                  <td class="num">~$0.001/call · ~$30/mo overage ≈ +4 subs</td>
+                </tr>
+                <tr>
+                  <td>OCR.Space rate limits</td>
+                  <td>Upgrade to PRO plan</td>
+                  <td class="num">$30/mo ≈ +4 subs</td>
+                </tr>
+                <tr>
+                  <td>Teller bank sync in production</td>
+                  <td>Flip <code>TELLER_ENV</code> to production when users connect real banks</td>
+                  <td class="num">~$2/active bank connection/mo</td>
+                </tr>
+                <tr>
+                  <td>RevenueCat platform fee</td>
+                  <td>Automatic after ~$10K monthly tracked revenue</td>
+                  <td class="num">1% of MTR</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+      <details class="tb-collapse" style="margin-top:12px;">
+        <summary>PocketBase cron heartbeat — PBJ flywheel only (not urgent for HHH/CVC)</summary>
+        <div class="tb-collapse-body">
+          <p class="section-explainer" style="margin-top:0;">
+            The <strong>Cron Health</strong> card below checks whether PocketBase's hourly
+            <em>aggregation</em> task is running. That task drains merchant / paycheck / bill
+            submission queues into the crowd library — it matters for <strong>Pocket Budget Journal's
+            flywheel</strong>, not for Handy Horology or Curator's Vault identification.
+            <br><br>
+            <strong>Gray or missing heartbeat?</strong> The <code>pb_hooks</code> folder in the PBJ repo
+            is <em>not deployed</em> to PocketHost yet — the heartbeat collection may not exist until
+            hooks are uploaded. That's informational, not blocking HHH/CVC launches.
+            <br><br>
+            <strong>Separate from this:</strong> the PBJ Cloudflare Worker's hourly cron sends
+            <em>quota alert emails</em> (Gemini 80%, circuit breaker) — that runs on Workers, not PocketBase.
+          </p>
+        </div>
+      </details>
     </section>
 
     <!-- ─── Cron Health Panel ─────────────────────────────────
@@ -1546,6 +1737,12 @@
         collection doesn't exist yet — create <code>_cron_heartbeat</code> in PocketBase admin
         with fields <code>name</code> (text) and <code>last_run</code> (date), and the
         aggregation hook will start writing to it on the next run.
+        <br><br>
+        <strong>PBJ only — not blocking HHH/CVC.</strong> This cron powers the crowd merchant
+        library for Pocket Budget Journal. The <code>pb_hooks</code> scripts in the PBJ repo are
+        not deployed to PocketHost yet, so gray/missing here is expected and not urgent.
+        Quota alert emails come from the Cloudflare Worker cron instead (see
+        <a href="#thresholdsBaselines">Thresholds &amp; Baselines</a>).
       </p>
       <div id="cronHealthGrid"></div>
     </section>
@@ -1555,7 +1752,9 @@
          Synced with PBJ docs/JOE_OPS_COSTS.md. OCR Quota panel
          below is the live Gemini / circuit-breaker monitor. -->
     <section id="founderBreakeven">
-      <h2>Founder Economics &amp; Breakeven</h2>
+      <details class="tb-collapse founder-collapse" open>
+        <summary>Founder Economics &amp; Breakeven — expand for full detail</summary>
+        <div class="tb-collapse-body">
       <p class="section-explainer">
         <strong>What this is:</strong> Your fixed monthly burn as a solo founder — domains, store
         accounts, PocketHost, and optional tools — plus how many paying PocketBudJet subscribers
@@ -1623,6 +1822,8 @@
         <div id="breakevenStatus" style="font-size: 13px; flex: 1; min-width: 200px;"></div>
       </div>
       <p id="revenueCatHint" class="section-explainer" style="margin-top: 12px; margin-bottom: 0;"></p>
+        </div>
+      </details>
     </section>
 
     <!-- ─── OCR Quota & Cost Panel ──────────────────────────
@@ -4822,10 +5023,11 @@ Generated ${new Date().toISOString()}.
             <strong>${metrics.quotaLabel}</strong>
             ${metrics.circuitBreaker ? `<span style="color:var(--danger);font-weight:700;margin-left:8px;">⚠ circuit breaker armed</span>` : ""}
             <div class="wm-meter"><div class="wm-meter-fill" style="width:${Math.min(100, metrics.quotaPct).toFixed(1)}%;background:${barColor};"></div></div>
-            <div style="font-size:12px;color:var(--text-dim);">${metrics.quotaUsed.toLocaleString()} / ${metrics.quotaCap.toLocaleString()} (${metrics.quotaPct.toFixed(0)}%)</div>
+            <div style="font-size:12px;color:var(--text-dim);">${metrics.quotaUsed.toLocaleString()} / ${metrics.quotaCap.toLocaleString()} (${metrics.quotaPct.toFixed(0)}%) — watch 75% · stop 100%</div>
+            <div class="wm-threshold-legend">Gemini free tier: alert at 80% (${Math.round(metrics.geminiCap * 0.8).toLocaleString()} / ${metrics.geminiCap.toLocaleString()}/day)</div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free</span></div></div>
+            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free/day</span></div></div>
             ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div></div>` : ""}
             ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div></div>` : ""}
             <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div></div>
@@ -4927,6 +5129,261 @@ Generated ${new Date().toISOString()}.
 
     const active = results.find(r => r.app.id === wmActiveTab) || results[0];
     gridEl.innerHTML = wmRenderDetailPanel(active);
+    updateThresholdsLiveUsage(results);
+  }
+
+  /* ─── Thresholds & Baselines — Joe ops reference tables ─── */
+  const TB_TABS = [
+    { id: "pbj", label: "PBJ", title: "Pocket Budget Journal" },
+    { id: "hhh", label: "HHH", title: "Handy Horology Helper" },
+    { id: "cvc", label: "CVC", title: "Curator's Vault" },
+    { id: "shared", label: "Shared", title: "All apps / infra" },
+  ];
+  const TB_SCENARIOS = [
+    { subs: 10, mrr: 84.9, note: "Covers realistic fixed costs (~5 subs). Daily API use stays tiny — hundreds of calls/day headroom." },
+    { subs: 50, mrr: 424.5, note: "Comfortable margin. If 10 active users scan 5 receipts/day ≈ 50 calls — still under Gemini free tier." },
+    { subs: 100, mrr: 849, note: "Strong buffer. Good time to split Gemini into per-app Google AI Studio projects for billing clarity." },
+    { subs: 500, mrr: 4245, note: "Scale territory — budget for paid Gemini, OCR.Space PRO, Teller prod (~$2/bank/mo), and RevenueCat 1% if MTR > $10K." },
+  ];
+  let tbActiveTab = localStorage.getItem("tb_active_tab") || "pbj";
+  let tbLiveUsage = {};
+
+  function tbSelectTab(id) {
+    tbActiveTab = id;
+    localStorage.setItem("tb_active_tab", id);
+    renderThresholdsBaselines();
+  }
+
+  function tbLiveCell(serviceKey, used, cap, pct) {
+    if (used == null) return '<span class="tb-live">—</span>';
+    const cls = pct >= 100 ? "crit" : pct >= 75 ? "warn" : "";
+    return `<span class="tb-live ${cls}">${Number(used).toLocaleString()} / ${Number(cap).toLocaleString()}</span>`;
+  }
+
+  function renderThresholdsBaselines() {
+    const tabsEl = document.getElementById("thresholdsTabs");
+    const panelEl = document.getElementById("thresholdsPanel");
+    const scenEl = document.getElementById("thresholdsScenarios");
+    if (!panelEl) return;
+
+    if (tabsEl) {
+      tabsEl.innerHTML = TB_TABS.map(t =>
+        `<button type="button" class="tb-tab ${t.id === tbActiveTab ? "active" : ""}" onclick="tbSelectTab('${t.id}')">${t.label} · ${t.title}</button>`,
+      ).join("");
+    }
+
+    if (scenEl) {
+      scenEl.innerHTML = TB_SCENARIOS.map(s => `
+        <div class="tb-scenario-card">
+          <div class="tb-sc-label">${s.subs} paying subs @ $9.99</div>
+          <div class="tb-sc-value">~$${s.mrr.toLocaleString("en-US", { maximumFractionDigits: 0 })}/mo net</div>
+          <div class="tb-sc-sub">${s.note}</div>
+        </div>`).join("");
+    }
+
+    const live = tbLiveUsage[tbActiveTab] || {};
+    let tableHtml = "";
+    let note = "";
+
+    if (tbActiveTab === "pbj") {
+      tableHtml = `
+        <table>
+          <thead><tr>
+            <th>Service / limit</th><th>Free tier</th><th>Yellow warning</th><th>Hard stop</th><th>Cost if exceeded</th><th>Live today</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Gemini</strong> (receipt/bank vision)</td>
+              <td class="num">1,500 calls/day</td>
+              <td>80% → red banner + email (${live.geminiWarn || "1,200"})</td>
+              <td>Vendor billing overage (no app block by itself)</td>
+              <td class="num">~$0.001/call</td>
+              <td>${tbLiveCell("gemini", live.geminiUsed, live.geminiCap, live.geminiPct)}</td>
+            </tr>
+            <tr>
+              <td><strong>OCR.Space</strong> (receipt OCR layer)</td>
+              <td class="num">500 calls/day</td>
+              <td>Tracked for cost estimate only</td>
+              <td>Rate limit from vendor</td>
+              <td class="num">~$0.0002/call or $30/mo PRO</td>
+              <td>${tbLiveCell("space", live.spaceUsed, live.spaceCap, live.spacePct)}</td>
+            </tr>
+            <tr>
+              <td><strong>Global OCR</strong> (circuit breaker)</td>
+              <td class="num">1,800 calls/day total</td>
+              <td>75% meter yellow (${live.globalWarn || "1,350"})</td>
+              <td>100% — <em>free</em> users denied cloud OCR</td>
+              <td class="num">—</td>
+              <td>${tbLiveCell("global", live.globalUsed, live.globalCap, live.globalPct)}</td>
+            </tr>
+            <tr>
+              <td>Per-user <strong>free</strong> tier</td>
+              <td class="num">15 scans/month · 50/day max</td>
+              <td>—</td>
+              <td>User sees "limit reached"</td>
+              <td class="num">—</td>
+              <td><span class="tb-live">per device</span></td>
+            </tr>
+            <tr>
+              <td>Per-user <strong>trial</strong></td>
+              <td class="num">200 scans/month</td>
+              <td>—</td>
+              <td>User limit reached</td>
+              <td class="num">—</td>
+              <td><span class="tb-live">per device</span></td>
+            </tr>
+            <tr>
+              <td>Per-user <strong>premium</strong> (active sub)</td>
+              <td class="num">500 scans/month</td>
+              <td>—</td>
+              <td>User limit reached</td>
+              <td class="num">—</td>
+              <td><span class="tb-live">per device</span></td>
+            </tr>
+          </tbody>
+        </table>`;
+      note = "Adjust caps in PBJ <code>cloudflare-worker/wrangler.toml</code> → <code>wrangler deploy</code>. No app rebuild.";
+    } else if (tbActiveTab === "hhh" || tbActiveTab === "cvc") {
+      const appLabel = tbActiveTab === "hhh" ? "HHH" : "CVC";
+      tableHtml = `
+        <table>
+          <thead><tr>
+            <th>Service / limit</th><th>Free tier</th><th>Yellow warning</th><th>Hard stop</th><th>Cost if exceeded</th><th>Live today</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Gemini</strong> (photo identify)</td>
+              <td class="num">1,500 calls/day</td>
+              <td>80% → red banner + email</td>
+              <td>Vendor billing overage</td>
+              <td class="num">~$0.001/call</td>
+              <td>${tbLiveCell("gemini", live.geminiUsed, live.geminiCap, live.geminiPct)}</td>
+            </tr>
+            <tr>
+              <td><strong>Anthropic</strong> (Claude /ask, text identify)</td>
+              <td class="num">5,000 calls/day tracked</td>
+              <td>Low balance on billing page</td>
+              <td>API returns error when credits exhausted</td>
+              <td class="num">~$0.004/call (Haiku)</td>
+              <td>${tbLiveCell("anthropic", live.anthropicUsed, live.anthropicCap, live.anthropicPct)}</td>
+            </tr>
+            <tr>
+              <td><strong>Global AI</strong> (circuit breaker)</td>
+              <td class="num">500 calls/day total</td>
+              <td>75% meter yellow</td>
+              <td>100% — circuit breaker armed</td>
+              <td class="num">—</td>
+              <td>${tbLiveCell("global", live.globalUsed, live.globalCap, live.globalPct)}</td>
+            </tr>
+          </tbody>
+        </table>`;
+      note = `${appLabel} caps in <code>${appLabel === "HHH" ? "HandyHorology" : "CVC"}/cloudflare-worker/wrangler.toml</code>. Separate Gemini API key per app (see CLOUD_KEYS.md).`;
+    } else {
+      tableHtml = `
+        <table>
+          <thead><tr>
+            <th>Service</th><th>Free / fixed</th><th>Yellow warning</th><th>Hard stop</th><th>Cost if exceeded</th><th>Live today</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>PocketHost / PocketBase</strong></td>
+              <td class="num">$5/mo fixed</td>
+              <td>—</td>
+              <td>Plan limits on storage/CPU</td>
+              <td class="num">Upgrade tier</td>
+              <td><span class="tb-live">fixed</span></td>
+            </tr>
+            <tr>
+              <td><strong>Cloudflare Workers</strong> (3 workers)</td>
+              <td class="num">100,000 req/day free</td>
+              <td>—</td>
+              <td>429 rate limit</td>
+              <td class="num">$5/mo paid tier</td>
+              <td><span class="tb-live">—</span></td>
+            </tr>
+            <tr>
+              <td><strong>OpenCellID</strong> (PBJ geolocation)</td>
+              <td class="num">1,000 lookups/day</td>
+              <td>80% red in panel</td>
+              <td>100% — lookups refused</td>
+              <td class="num">Paid tier if needed</td>
+              <td>${tbLiveCell("opencellid", live.opencellidUsed, live.opencellidCap, live.opencellidPct)}</td>
+            </tr>
+            <tr>
+              <td><strong>Teller</strong> (PBJ bank sync)</td>
+              <td class="num">$0 sandbox/dev</td>
+              <td>Active enrollments rising</td>
+              <td>—</td>
+              <td class="num">~$2/active bank/mo in production</td>
+              <td>${live.tellerEnrollments != null ? `<span class="tb-live">${live.tellerEnrollments} active</span>` : "<span class=\"tb-live\">sandbox</span>"}</td>
+            </tr>
+            <tr>
+              <td><strong>Store + domains</strong></td>
+              <td class="num">~$16 lean / ~$36 realistic/mo</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="num">See Founder Economics</td>
+              <td><span class="tb-live">—</span></td>
+            </tr>
+          </tbody>
+        </table>`;
+      note = "PocketBase cron heartbeat (PBJ flywheel) is separate from Worker quota emails — see collapsible explainer above.";
+    }
+
+    panelEl.innerHTML = tableHtml + `<div class="tb-note">${note}</div>`;
+  }
+
+  function updateThresholdsLiveUsage(wmResults) {
+    if (!wmResults) return;
+    tbLiveUsage = { pbj: {}, hhh: {}, cvc: {}, shared: {} };
+
+    for (const r of wmResults) {
+      const m = r.metrics;
+      if (!m) continue;
+      const bucket = r.app.id;
+      tbLiveUsage[bucket] = {
+        geminiUsed: m.geminiToday,
+        geminiCap: m.geminiCap,
+        geminiPct: m.geminiPct,
+        geminiWarn: Math.round(m.geminiCap * 0.8),
+        globalUsed: m.quotaUsed,
+        globalCap: m.quotaCap,
+        globalPct: m.quotaPct,
+        globalWarn: Math.round(m.quotaCap * 0.75),
+        spaceUsed: m.spaceToday,
+        spaceCap: 500,
+        spacePct: m.spaceToday != null ? (m.spaceToday / 500) * 100 : null,
+        anthropicUsed: m.anthropicToday,
+        anthropicCap: m.anthropicCap,
+        anthropicPct: m.anthropicToday != null && m.anthropicCap
+          ? (m.anthropicToday / m.anthropicCap) * 100 : null,
+      };
+    }
+
+    renderThresholdsBaselines();
+  }
+
+  async function loadThresholdsSharedStats() {
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) return;
+    tbLiveUsage.shared = tbLiveUsage.shared || {};
+    try {
+      const [ocR, telR] = await Promise.all([
+        fetch(`${WORKER_BASE}/opencellid/stats`, { headers: { "X-PBJ-Key": key }, signal: AbortSignal.timeout(8000) }),
+        fetch(`${WORKER_BASE}/teller/stats`, { headers: { "X-PBJ-Key": key }, signal: AbortSignal.timeout(8000) }),
+      ]);
+      if (ocR.ok) {
+        const oc = await ocR.json();
+        tbLiveUsage.shared.opencellidUsed = oc.used_today;
+        tbLiveUsage.shared.opencellidCap = oc.cap || 1000;
+        tbLiveUsage.shared.opencellidPct = Number(oc.pct_used) || 0;
+      }
+      if (telR.ok) {
+        const tel = await telR.json();
+        tbLiveUsage.shared.tellerEnrollments = tel.active_enrollments;
+      }
+      renderThresholdsBaselines();
+    } catch { /* optional */ }
   }
 
   /* ─── Breakeven — synced with PBJ docs/JOE_OPS_COSTS.md ─── */
@@ -5727,6 +6184,7 @@ Generated ${new Date().toISOString()}.
     renderAppVersions();
     renderQuickLinks();
     renderFounderCostTable();
+    renderThresholdsBaselines();
 
     // Network-bound renders deferred slightly so login flow doesn't
     // fight for the wire on first load.
@@ -5739,6 +6197,7 @@ Generated ${new Date().toISOString()}.
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
       loadOpenCellIdPanel();
+      loadThresholdsSharedStats();
       renderBreakevenPanel();
       loadRevenueFromWorker();
       updateOpsAlertBanner().catch(() => {});
