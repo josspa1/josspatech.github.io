@@ -3723,7 +3723,12 @@ Generated ${new Date().toISOString()}.
   // Quick Actions, then run any smoke test to be re-prompted.
   const PBJ_KEY_STORAGE = "pbj_shared_key";
   function getPbjKey() {
-    let key = localStorage.getItem(PBJ_KEY_STORAGE);
+    const raw = localStorage.getItem(PBJ_KEY_STORAGE);
+    const key = wmNormalizeSharedKey(raw);
+    if (raw != null && raw !== key) {
+      if (key) localStorage.setItem(PBJ_KEY_STORAGE, key);
+      else localStorage.removeItem(PBJ_KEY_STORAGE);
+    }
     if (key) return key;
     const entered = prompt(
       "Enter PBJ_SHARED_KEY (the Worker shared secret).\n\n" +
@@ -4585,11 +4590,17 @@ Generated ${new Date().toISOString()}.
   function wmNormalizeSharedKey(raw) {
     let s = String(raw ?? "").trim();
     if (!s) return "";
+    const nl = s.search(/[\r\n]/);
+    if (nl >= 0) s = s.slice(0, nl).trim();
+    if (/^export\s+/i.test(s)) s = s.replace(/^export\s+/i, "").trim();
     const eq = s.indexOf("=");
     if (eq > 0) {
       const name = s.slice(0, eq).trim();
-      if (/^(EXPO_PUBLIC_(?:PBJ|HHH|CVC)_WORKER_KEY|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)$/i.test(name)) {
-        s = s.slice(eq + 1).trim();
+      const val = s.slice(eq + 1).trim();
+      if (/^(EXPO_PUBLIC_(?:PBJ|HHH|CVC)_WORKER_(?:KEY|URL)|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)$/i.test(name)) {
+        s = val;
+      } else if (/(?:SHARED_KEY|WORKER_KEY)$/i.test(name) && /^[a-f0-9]{32,128}$/i.test(val)) {
+        s = val;
       }
     }
     if ((s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))) {
@@ -4598,12 +4609,40 @@ Generated ${new Date().toISOString()}.
     return s;
   }
 
-  function wmGetKey(app, promptIfMissing) {
+  const WM_LEGACY_KEY_ALIASES = {
+    pbj: ["PBJ_SHARED_KEY", "EXPO_PUBLIC_PBJ_WORKER_KEY"],
+    hhh: ["HHH_SHARED_KEY", "EXPO_PUBLIC_HHH_WORKER_KEY"],
+    cvc: ["CVC_SHARED_KEY", "EXPO_PUBLIC_CVC_WORKER_KEY"],
+  };
+
+  function wmHealStoredWorkerKey(app) {
     let key = wmNormalizeSharedKey(localStorage.getItem(app.keyKey));
-    if (key) {
-      const stored = localStorage.getItem(app.keyKey) || "";
-      if (stored !== key) localStorage.setItem(app.keyKey, key);
+    const legacy = WM_LEGACY_KEY_ALIASES[app.id] || [];
+    if (!key) {
+      for (const alias of legacy) {
+        const fromLegacy = wmNormalizeSharedKey(localStorage.getItem(alias));
+        if (fromLegacy) {
+          key = fromLegacy;
+          break;
+        }
+      }
     }
+    const raw = localStorage.getItem(app.keyKey);
+    if (key) {
+      if (raw !== key) localStorage.setItem(app.keyKey, key);
+      for (const alias of legacy) localStorage.removeItem(alias);
+      return key;
+    }
+    if (raw != null && raw !== "") localStorage.removeItem(app.keyKey);
+    for (const alias of legacy) {
+      const lr = localStorage.getItem(alias);
+      if (lr != null && lr !== "") localStorage.removeItem(alias);
+    }
+    return "";
+  }
+
+  function wmGetKey(app, promptIfMissing) {
+    let key = wmHealStoredWorkerKey(app);
     if (key || !promptIfMissing) return key || "";
     const entered = prompt(
       `Enter ${app.secretName} for ${app.name}.\n\n` +
@@ -4665,11 +4704,9 @@ Generated ${new Date().toISOString()}.
   }
 
   async function wmFetchStats(app) {
-    const key = wmGetKey(app, false);
-    if (!key) return { error: "no_key" };
     const url = wmGetUrl(app);
     const path = app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats";
-    try {
+    const fetchOnce = async (key) => {
       const r = await fetch(url + path, {
         headers: { [app.authHeader]: key },
         signal: AbortSignal.timeout(8000),
@@ -4677,6 +4714,16 @@ Generated ${new Date().toISOString()}.
       if (r.status === 401) return { error: "auth", status: 401 };
       if (!r.ok) return { error: "http", status: r.status };
       return { data: await r.json() };
+    };
+    let key = wmGetKey(app, false);
+    if (!key) return { error: "no_key" };
+    try {
+      let result = await fetchOnce(key);
+      if (result.error === "auth") {
+        const healed = wmHealStoredWorkerKey(app);
+        if (healed && healed !== key) result = await fetchOnce(healed);
+      }
+      return result;
     } catch {
       return { error: "network" };
     }
@@ -4807,6 +4854,8 @@ Generated ${new Date().toISOString()}.
     const tabsEl = document.getElementById("workerMonitoringTabs");
     const gridEl = document.getElementById("workerMonitoringGrid");
     if (!gridEl) return;
+
+    for (const app of WORKER_APPS) wmHealStoredWorkerKey(app);
 
     const results = await Promise.all(WORKER_APPS.map(async app => {
       const [health, stats] = await Promise.all([wmFetchHealth(app), wmFetchStats(app)]);
@@ -5059,7 +5108,7 @@ Generated ${new Date().toISOString()}.
     }
 
     for (const app of WORKER_APPS.filter(a => a.statsKind === "ops")) {
-      const appKey = localStorage.getItem(app.keyKey) || "";
+      const appKey = wmGetKey(app, false);
       const base = wmGetUrl(app);
       try {
         const hr = await fetch(base + "/", { cache: "no-store", signal: AbortSignal.timeout(6000) });
