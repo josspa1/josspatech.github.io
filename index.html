@@ -260,9 +260,8 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .product-features li{
   display:flex;align-items:flex-start;gap:9px;
   font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;
-  min-width:0;
 }
-.product-features li > :not(.pf-check){
+.product-features .pf-text{
   flex:1;min-width:0;
   overflow-wrap:break-word;
 }
@@ -1183,14 +1182,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <div class="product-name">Pocket<span>BudJet</span>™</div>
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
         <ul class="product-features">
-          <li><div class="pf-check"></div><strong>21-day Premium trial</strong> &mdash; full Premium access, no card required (bank sync excluded during trial)</li>
-          <li><div class="pf-check"></div><strong>Then subscribe</strong> at $9.99/mo or $74.99/yr &mdash; or lose access when the trial ends</li>
-          <li><div class="pf-check"></div><strong>Premium includes:</strong> budgets, goals, AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</li>
-          <li><div class="pf-check"></div>Private by design &mdash; no account, no personal info; data stays on your phone by default</li>
-          <li><div class="pf-check"></div>Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/import/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></li>
-          <li><div class="pf-check"></div>Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></li>
-          <li><div class="pf-check"></div>Optional bank sync via Teller &mdash; Premium subscribers only (not included in trial)</li>
-          <li><div class="pf-check"></div>43 currencies &middot; cancel anytime &middot; no contract</li>
+          <li><div class="pf-check"></div><span class="pf-text"><strong>21-day Premium trial</strong> &mdash; full Premium access, no card required (bank sync excluded during trial)</span></li>
+          <li><div class="pf-check"></div><span class="pf-text"><strong>Then subscribe</strong> at $9.99/mo or $74.99/yr &mdash; or lose access when the trial ends</span></li>
+          <li><div class="pf-check"></div><span class="pf-text"><strong>Premium includes:</strong> budgets, goals, AI Coach, debt payoff engine, cloud-assisted scanning, PC dashboard, pro exports, and 36+ power tools</span></li>
+          <li><div class="pf-check"></div><span class="pf-text">Private by design &mdash; no account, no personal info; data stays on your phone by default</span></li>
+          <li><div class="pf-check"></div><span class="pf-text">Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/import/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></span></li>
+          <li><div class="pf-check"></div><span class="pf-text">Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></span></li>
+          <li><div class="pf-check"></div><span class="pf-text">Optional bank sync via Teller &mdash; Premium subscribers only (not included in trial)</span></li>
+          <li><div class="pf-check"></div><span class="pf-text">43 currencies &middot; cancel anytime &middot; no contract</span></li>
         </ul>
         <div class="product-cta">
           See PocketBudJet
