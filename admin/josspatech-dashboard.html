@@ -527,8 +527,23 @@
       font-variant-numeric: tabular-nums;
       color: var(--text);
     }
+    .sub-users-metric .hint {
+      font-size: 11px;
+      color: var(--text-dim);
+      line-height: 1.35;
+      margin-top: 3px;
+    }
     .sub-users-metric.paying .val { color: var(--success); }
     .sub-users-metric.trial .val { color: var(--primary); }
+    .sub-users-source-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.35px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 12px 0 6px;
+    }
     .sub-users-foot {
       margin-top: 10px;
       font-size: 12px;
@@ -1834,17 +1849,20 @@
     <section id="subscriptionUsers">
       <h2>Users by App — Trial vs Paying</h2>
       <p class="section-explainer">
-        <strong>What this is:</strong> Per-app install funnel as users adopt PBJ, HHH, and CVC.
-        <strong>Paying</strong> and <strong>Active trials</strong> come from RevenueCat when each
-        app's project id is wired on the PBJ Worker (<code>REVENUECAT_PROJECT_ID</code>,
-        <code>REVENUECAT_PROJECT_ID_HHH</code>, <code>REVENUECAT_PROJECT_ID_CVC</code>).
-        <strong>App heartbeats</strong> are anonymous tier snapshots (trial / paying / free /
-        expired) reported on launch — one row per device, counted if seen in the last 30 days.
-        PBJ ships this heartbeat today; wire the same pattern in HHH/CVC when those builds go out.
+        <strong>Two data sources per app — read them separately:</strong>
         <br><br>
-        RevenueCat is the source of truth for <em>paying</em> once store purchases flow through RC.
-        Heartbeats fill the gap for local-only trial state before RC is fully wired, and show
-        free/expired installs RC does not track.
+        <strong>RevenueCat (store truth)</strong> — live from Apple/Google via RevenueCat.
+        <em>Paying</em> = active paid subscriptions right now.
+        <em>Active trials</em> = store free trials in progress (card on file, not charged yet).
+        <strong>—</strong> means that app's RC project id is not on the Worker yet.
+        <br><br>
+        <strong>App heartbeats (install truth)</strong> — each app reports anonymous tier on open
+        (no email, one row per device). Counted only if seen in the last <strong>30 days</strong>.
+        <em>Free</em> = using the app without Pro. <em>Expired trial</em> = trial ended, not paying.
+        PBJ sends heartbeats today; HHH/CVC when those builds ship.
+        <br><br>
+        <strong>Zero is normal</strong> at pre-launch. RC zeros with no subscribers; heartbeat zeros
+        until users open the app after a build with heartbeat code.
       </p>
       <div class="m-row" style="margin-bottom: 10px;">
         <button class="m-btn" onclick="loadSubscriptionUsers()">Refresh user counts</button>
@@ -5663,33 +5681,43 @@ Generated ${new Date().toISOString()}.
     return `
       <div class="sub-users-card">
         <h3>${row.display_name || row.app}</h3>
+        <div class="sub-users-source-tag">RevenueCat — store subscriptions</div>
         <div class="sub-users-metrics">
           <div class="sub-users-metric paying">
-            <div class="lbl">Paying (RevenueCat)</div>
+            <div class="lbl">Paying subscribers</div>
             <div class="val">${rcPaying}</div>
+            <div class="hint">Active paid subs in App Store / Play right now. Billing truth for MRR.</div>
           </div>
           <div class="sub-users-metric trial">
-            <div class="lbl">Active trials (RC)</div>
+            <div class="lbl">Store trials in progress</div>
             <div class="val">${rcTrials}</div>
-          </div>
-          <div class="sub-users-metric">
-            <div class="lbl">Trial (heartbeat)</div>
-            <div class="val">${hb.trial ?? 0}</div>
-          </div>
-          <div class="sub-users-metric paying">
-            <div class="lbl">Paying (heartbeat)</div>
-            <div class="val">${hb.active ?? 0}</div>
-          </div>
-          <div class="sub-users-metric">
-            <div class="lbl">Free</div>
-            <div class="val">${hb.free ?? 0}</div>
-          </div>
-          <div class="sub-users-metric">
-            <div class="lbl">Expired trial</div>
-            <div class="val">${hb.expired ?? 0}</div>
+            <div class="hint">Free intro period started via store; card on file, not charged yet.</div>
           </div>
         </div>
-        <div class="sub-users-foot">${rcNote}<br>${hbNote}</div>
+        <div class="sub-users-source-tag">App heartbeats — installs (30 days)</div>
+        <div class="sub-users-metrics">
+          <div class="sub-users-metric trial">
+            <div class="lbl">In trial (app)</div>
+            <div class="val">${hb.trial ?? 0}</div>
+            <div class="hint">Devices the app reports as in a trial window. May differ from RC until store trials ship.</div>
+          </div>
+          <div class="sub-users-metric paying">
+            <div class="lbl">Pro / paying (app)</div>
+            <div class="val">${hb.active ?? 0}</div>
+            <div class="hint">Devices the app reports as entitled to Pro features.</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Free tier</div>
+            <div class="val">${hb.free ?? 0}</div>
+            <div class="hint">Installed and using the app without Pro — no card required.</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Trial ended, not paying</div>
+            <div class="val">${hb.expired ?? 0}</div>
+            <div class="hint">Trial over, still opening the app, has not subscribed.</div>
+          </div>
+        </div>
+        <div class="sub-users-foot"><strong>RC:</strong> ${rcNote}<br><strong>Heartbeats:</strong> ${hbNote}</div>
       </div>`;
   }
 
@@ -5724,11 +5752,13 @@ Generated ${new Date().toISOString()}.
       grid.innerHTML = `
         <div class="sub-users-grid">${apps.map(renderSubscriptionUsersCard).join("")}</div>
         <div class="sub-users-totals">
-          <strong>All apps (30-day heartbeats):</strong>
-          ${totals.trial ?? 0} trial · ${totals.active ?? 0} paying · ${totals.free ?? 0} free · ${totals.expired ?? 0} expired
-          (${totals.total_devices ?? 0} devices)
-          ${totals.paying_revenuecat != null ? ` · RevenueCat paying total: ${totals.paying_revenuecat}` : ""}
-          ${totals.trials_revenuecat != null ? ` · RC active trials total: ${totals.trials_revenuecat}` : ""}
+          <strong>Totals across PBJ + HHH + CVC</strong><br>
+          <span style="color:var(--text-dim);font-size:12px;">
+            Heartbeats (unique devices, last 30 days):
+            ${totals.trial ?? 0} in trial · ${totals.active ?? 0} Pro · ${totals.free ?? 0} free · ${totals.expired ?? 0} trial ended
+            (${totals.total_devices ?? 0} devices reported at least once)
+            ${totals.paying_revenuecat != null ? `<br>RevenueCat (all wired projects): ${totals.paying_revenuecat} paying · ${totals.trials_revenuecat ?? 0} store trials` : ""}
+          </span>
         </div>`;
       if (hint) {
         hint.textContent = `Updated ${new Date(j.generated_at || Date.now()).toLocaleString()}`;
