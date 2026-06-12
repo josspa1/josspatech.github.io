@@ -490,6 +490,59 @@
       border-radius: 10px;
       border: 1px solid var(--border);
     }
+
+    /* ─── Users by app (trial vs paying) ───────────── */
+    .sub-users-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .sub-users-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .sub-users-card h3 {
+      font-size: 15px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    .sub-users-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+    }
+    .sub-users-metric .lbl {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.35px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .sub-users-metric .val {
+      font-size: 20px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--text);
+    }
+    .sub-users-metric.paying .val { color: var(--success); }
+    .sub-users-metric.trial .val { color: var(--primary); }
+    .sub-users-foot {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+    .sub-users-totals {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: var(--primary-soft);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text);
+    }
     .be-manual label {
       font-size: 12px;
       font-weight: 600;
@@ -1775,6 +1828,29 @@
         <a href="#thresholdsBaselines">Thresholds &amp; Baselines</a>).
       </p>
       <div id="cronHealthGrid"></div>
+    </section>
+
+    <!-- ─── Users by app — trial vs paying ─────────────────── -->
+    <section id="subscriptionUsers">
+      <h2>Users by App — Trial vs Paying</h2>
+      <p class="section-explainer">
+        <strong>What this is:</strong> Per-app install funnel as users adopt PBJ, HHH, and CVC.
+        <strong>Paying</strong> and <strong>Active trials</strong> come from RevenueCat when each
+        app's project id is wired on the PBJ Worker (<code>REVENUECAT_PROJECT_ID</code>,
+        <code>REVENUECAT_PROJECT_ID_HHH</code>, <code>REVENUECAT_PROJECT_ID_CVC</code>).
+        <strong>App heartbeats</strong> are anonymous tier snapshots (trial / paying / free /
+        expired) reported on launch — one row per device, counted if seen in the last 30 days.
+        PBJ ships this heartbeat today; wire the same pattern in HHH/CVC when those builds go out.
+        <br><br>
+        RevenueCat is the source of truth for <em>paying</em> once store purchases flow through RC.
+        Heartbeats fill the gap for local-only trial state before RC is fully wired, and show
+        free/expired installs RC does not track.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadSubscriptionUsers()">Refresh user counts</button>
+        <span id="subscriptionUsersHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="subscriptionUsersGrid">Loading…</div>
     </section>
 
     <!-- ─── Founder economics & breakeven ─────────────────────
@@ -5570,6 +5646,99 @@ Generated ${new Date().toISOString()}.
     }
   }
 
+  function renderSubscriptionUsersCard(row) {
+    const hb = row.heartbeats || {};
+    const rc = row.revenuecat || {};
+    const rcPaying = rc.paying_subscribers != null ? rc.paying_subscribers : "—";
+    const rcTrials = rc.active_trials != null ? rc.active_trials : "—";
+    const rcNote = rc.error
+      ? `RevenueCat: ${rc.error}`
+      : rc.configured
+        ? (rc.project_id ? "RevenueCat project wired" : "RC key set — add project id for this app")
+        : (rc.hint || "RevenueCat not configured on Worker");
+    const hbNote = hb.source === "unavailable"
+      ? (hb.hint || "Heartbeats unavailable")
+      : `${hb.total_devices ?? 0} devices with heartbeat in last ${hb.active_window_days ?? 30} days`;
+
+    return `
+      <div class="sub-users-card">
+        <h3>${row.display_name || row.app}</h3>
+        <div class="sub-users-metrics">
+          <div class="sub-users-metric paying">
+            <div class="lbl">Paying (RevenueCat)</div>
+            <div class="val">${rcPaying}</div>
+          </div>
+          <div class="sub-users-metric trial">
+            <div class="lbl">Active trials (RC)</div>
+            <div class="val">${rcTrials}</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Trial (heartbeat)</div>
+            <div class="val">${hb.trial ?? 0}</div>
+          </div>
+          <div class="sub-users-metric paying">
+            <div class="lbl">Paying (heartbeat)</div>
+            <div class="val">${hb.active ?? 0}</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Free</div>
+            <div class="val">${hb.free ?? 0}</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Expired trial</div>
+            <div class="val">${hb.expired ?? 0}</div>
+          </div>
+        </div>
+        <div class="sub-users-foot">${rcNote}<br>${hbNote}</div>
+      </div>`;
+  }
+
+  async function loadSubscriptionUsers() {
+    const grid = document.getElementById("subscriptionUsersGrid");
+    const hint = document.getElementById("subscriptionUsersHint");
+    if (!grid) return;
+
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      grid.innerHTML = `<p class="section-explainer">Enter your PBJ Worker key (smoke test or Worker Monitoring) so this panel can call <code>/ops/subscriptions</code>.</p>`;
+      if (hint) hint.textContent = "Needs X-PBJ-Key in this browser.";
+      return;
+    }
+
+    grid.innerHTML = "Loading…";
+    if (hint) hint.textContent = "";
+
+    try {
+      const r = await fetch(`${WORKER_BASE}/ops/subscriptions`, {
+        headers: { "X-PBJ-Key": key },
+        signal: AbortSignal.timeout(12000),
+      });
+      if (!r.ok) {
+        grid.innerHTML = `<p class="section-explainer" style="color:var(--danger);">HTTP ${r.status} — deploy the PBJ Worker with <code>/ops/subscriptions</code> and retry.</p>`;
+        if (hint) hint.textContent = `Failed ${new Date().toLocaleTimeString()}`;
+        return;
+      }
+      const j = await r.json();
+      const apps = Array.isArray(j.apps) ? j.apps : [];
+      const totals = j.totals || {};
+      grid.innerHTML = `
+        <div class="sub-users-grid">${apps.map(renderSubscriptionUsersCard).join("")}</div>
+        <div class="sub-users-totals">
+          <strong>All apps (30-day heartbeats):</strong>
+          ${totals.trial ?? 0} trial · ${totals.active ?? 0} paying · ${totals.free ?? 0} free · ${totals.expired ?? 0} expired
+          (${totals.total_devices ?? 0} devices)
+          ${totals.paying_revenuecat != null ? ` · RevenueCat paying total: ${totals.paying_revenuecat}` : ""}
+          ${totals.trials_revenuecat != null ? ` · RC active trials total: ${totals.trials_revenuecat}` : ""}
+        </div>`;
+      if (hint) {
+        hint.textContent = `Updated ${new Date(j.generated_at || Date.now()).toLocaleString()}`;
+      }
+    } catch (e) {
+      grid.innerHTML = `<p class="section-explainer" style="color:var(--danger);">Network error — ${String(e).slice(0, 120)}</p>`;
+      if (hint) hint.textContent = "Refresh failed";
+    }
+  }
+
   async function loadRevenueFromWorker() {
     const hint = document.getElementById("revenueCatHint");
     if (!hint) return;
@@ -6305,6 +6474,7 @@ Generated ${new Date().toISOString()}.
       loadThresholdsSharedStats();
       renderBreakevenPanel();
       loadRevenueFromWorker();
+      loadSubscriptionUsers();
       updateOpsAlertBanner().catch(() => {});
     }, 600);
   });
