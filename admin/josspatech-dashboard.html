@@ -256,6 +256,50 @@
       border-radius: 3px;
     }
     .section-header:first-child { margin-top: 0; }
+    .section-header-sub {
+      grid-column: 1 / -1;
+      margin: -6px 0 10px;
+      font-size: 13px;
+    }
+
+    .dash-legend {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px 8px;
+    }
+    .dash-legend details {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .dash-legend summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .dash-legend ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+      line-height: 1.5;
+    }
+    .dash-legend li { margin-bottom: 6px; }
+
+    .metric-hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-top: 4px;
+      max-width: 28em;
+    }
+    .svc-status-meaning {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.35;
+    }
 
     .card {
       background: var(--surface);
@@ -421,6 +465,72 @@
       font-size: 15px;
       text-transform: uppercase;
       letter-spacing: 0.4px;
+    }
+    #opsBuyBar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 20px 14px;
+      background: rgba(240, 192, 64, 0.18);
+      border-bottom: 2px solid var(--accent);
+      display: none;
+    }
+    #opsBuyBar .ops-buy-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    #opsBuyBar .ops-buy-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    #opsBuyBar .ops-buy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(26, 79, 122, 0.2);
+    }
+    #opsBuyBar .ops-buy-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+    #opsBuyBar .ops-buy-btn.secondary {
+      background: var(--surface);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      box-shadow: none;
+    }
+    .svc-buy-row {
+      margin-top: 10px;
+    }
+    .svc-buy-row a {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    .svc-buy-row a:hover { background: var(--primary-dark); }
+    .svc-card.crit .svc-buy-row a,
+    .svc-card.warn .svc-buy-row a {
+      background: var(--danger);
+    }
+    .svc-card.crit .svc-buy-row a:hover,
+    .svc-card.warn .svc-buy-row a:hover {
+      background: #8E1A0E;
     }
 
     /* ─── Ops info banner (gray — expected gaps, not outages) ─ */
@@ -1252,6 +1362,181 @@
       line-height: 1.5;
     }
     .svc-quota strong { color: var(--text-dim); }
+    .svc-upgrade {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: var(--primary-soft);
+      border-radius: 8px;
+      line-height: 1.45;
+    }
+    .svc-upgrade strong { color: var(--primary); }
+    .svc-upgrade a { color: var(--primary); font-weight: 600; }
+    .svc-upgrade ol {
+      margin: 6px 0 0;
+      padding-left: 18px;
+    }
+    .svc-upgrade li { margin-bottom: 4px; }
+
+    .upgrade-playbook-wrap {
+      overflow-x: auto;
+    }
+    .upgrade-playbook-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .upgrade-playbook-wrap th,
+    .upgrade-playbook-wrap td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+    .upgrade-playbook-wrap th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+      background: var(--surface-alt);
+    }
+    .upgrade-playbook-wrap td ul {
+      margin: 4px 0 0;
+      padding-left: 18px;
+      line-height: 1.4;
+    }
+    .upgrade-playbook-wrap .up-links a {
+      display: inline-block;
+      margin: 2px 8px 2px 0;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    .panel-upgrade-box {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: var(--primary-soft);
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--text-dim);
+    }
+    .panel-upgrade-box strong { color: var(--primary); }
+    .panel-upgrade-box a { color: var(--primary); font-weight: 600; }
+
+    .capacity-bottleneck-banner {
+      margin-bottom: 16px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--danger);
+      background: rgba(220, 53, 69, 0.08);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .capacity-bottleneck-banner.warn {
+      border-color: var(--warning);
+      background: rgba(255, 193, 7, 0.08);
+    }
+    .capacity-bottleneck-banner ul { margin: 8px 0 0; padding-left: 18px; }
+    .capacity-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .cap-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: var(--surface);
+    }
+    .cap-card h3 { margin: 0 0 4px; font-size: 15px; }
+    .cap-card .cap-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .cap-card .cap-usage {
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 8px 10px;
+      background: var(--surface-alt);
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .cap-card .cap-bn {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      border-left: 3px solid var(--warning);
+      background: var(--surface-alt);
+    }
+    .cap-card .cap-bn.critical { border-left-color: var(--danger); }
+    .cap-field-row {
+      display: grid;
+      grid-template-columns: 1fr 72px;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .cap-field-row label { color: var(--text-dim); }
+    .cap-field-row input[type="number"] {
+      width: 100%;
+      padding: 4px 6px;
+      font-family: var(--mono);
+      font-size: 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface-alt);
+      color: var(--text);
+    }
+    .cap-preset-row, .cap-action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0;
+    }
+    .cap-preset-row .m-btn, .cap-action-row .m-btn { font-size: 11px; padding: 5px 10px; }
+    .cap-preset-row .m-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .cap-vendor-chk {
+      font-size: 12px;
+      margin: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .vendor-only-wrap {
+      overflow-x: auto;
+      margin-top: 8px;
+    }
+    .vendor-only-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .vendor-only-wrap th, .vendor-only-wrap td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+    .vendor-only-wrap th {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--surface-alt);
+    }
+    .vendor-only-wrap .remember {
+      color: var(--warning);
+      font-weight: 600;
+    }
+
     /* "used / limit" meter — appears next to the status light when a
        probe returns numeric usage data. <60% green, 60–85% yellow,
        >85% red. Numeric, monospace, easy to scan at a glance. */
@@ -1556,10 +1841,30 @@
     </header>
     <!-- Red banner: worker down, Gemini ≥80%, circuit breaker. Gray below: pb_hooks / keys / balance log. -->
     <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsBuyBar" role="region" aria-label="Quick upgrade actions">
+      <div class="ops-buy-title">Fix it now — open billing / upgrade</div>
+      <div id="opsBuyBtns" class="ops-buy-btns"></div>
+    </div>
     <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
     <!-- ─── Week-over-week insights banner ─────────────────
          Auto-populated on refresh. Hidden unless something's off. -->
     <div id="wowBanner" style="display:none"></div>
+
+    <div class="dash-legend">
+      <details>
+        <summary>How to read this dashboard — colors, dots, and data sources</summary>
+        <ul>
+          <li><strong>Card left border</strong> — green = healthy, yellow = watch, red = action needed, gray = informational or not configured yet.</li>
+          <li><strong>Service status dot</strong> — Online = probe succeeded; Degraded = slow or partial; Down = unreachable or error; Manual check = no auto-probe (open the vendor dashboard).</li>
+          <li><strong>Usage meters</strong> (services + workers) — yellow at 75% of daily cap, red at 90%. PBJ circuit breaker at 100% blocks <em>free</em> cloud OCR only.</li>
+          <li><strong>Red ops banner</strong> (top) — worker down, Gemini ≥80%, or circuit breaker armed. Gray info banner = housekeeping (missing pb_hooks, stale balance log).</li>
+          <li><strong>Live PocketBase grid</strong> (top of page) — crowd-data counts from josspatech.pockethost.io. Refreshes on the interval in the header.</li>
+          <li><strong>Worker panels</strong> — PBJ/HHH/CVC Cloudflare Workers; need <code>X-PBJ-Key</code> (etc.) in this browser from smoke test or login flow.</li>
+          <li><strong>RevenueCat vs heartbeats</strong> — RC = store billing truth; heartbeats = anonymous install/tier signals from the app (30-day window).</li>
+          <li><strong>— (dash)</strong> — no data yet, not wired, or metric unavailable — usually normal pre-launch.</li>
+        </ul>
+      </details>
+    </div>
 
     <main id="grid"></main>
 
@@ -1574,7 +1879,10 @@
       <a class="sn-chip" href="#services">Services &amp; Status</a>
       <a class="sn-chip" href="#workerMonitoring">Worker Monitoring</a>
       <a class="sn-chip" href="#thresholdsBaselines">Thresholds</a>
+      <a class="sn-chip" href="#upgradePlaybook">Upgrade playbook</a>
+      <a class="sn-chip" href="#capacityControl">Capacity Control</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
+      <a class="sn-chip" href="#subscriptionUsers">Users by App</a>
       <a class="sn-chip" href="#founderBreakeven">Founder Economics</a>
       <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
       <a class="sn-chip" href="#tellerStatusPanel">Teller</a>
@@ -1639,6 +1947,11 @@
          capacity data, just one-click access. -->
     <section id="quicklinks">
       <h2>Quick Links</h2>
+      <p class="section-explainer">
+        Bookmarks only — no status probes. Use <strong>External Services &amp; Status</strong> for green/red health
+        and usage meters; use <strong>Worker Monitoring</strong> for per-app AI/OCR quotas.
+        Grouped by vendor so you can jump to App Store Connect, RevenueCat, Cloudflare, PocketBase admin, etc.
+      </p>
       <div id="quickLinksGrid"></div>
     </section>
 
@@ -1652,6 +1965,16 @@
          ──────────────────────────────────────────────────────── -->
     <section id="services">
       <h2>External Services &amp; Status</h2>
+      <p class="section-explainer">
+        One card per vendor the apps depend on. <strong>Status dot:</strong>
+        <span style="color:var(--success);">Online</span> = last probe OK;
+        <span style="color:var(--warning);">Degraded</span> = slow, rate-limited, or partial;
+        <span style="color:var(--danger);">Down</span> = failed probe;
+        <span style="color:var(--text-muted);">Manual check</span> = no browser probe (click through to the dashboard).
+        When a <strong>usage meter</strong> shows (e.g. Gemini req/day), yellow = 75%+ of cap, red = 90%+.
+        Tier badge: <code>free</code> / <code>paid</code> / <code>todo</code> = billing model for that vendor today.
+        Anthropic balance is logged manually in its card — not polled from an API.
+      </p>
       <div class="m-row" style="margin-bottom: 12px;">
         <button class="m-btn" onclick="refreshServiceStatus()">Refresh status checks</button>
         <span id="svcLastChecked" style="color: var(--text-dim); font-size: 12px;"></span>
@@ -1814,6 +2137,40 @@
       </details>
     </section>
 
+    <!-- ─── Upgrade playbook — where to go when you need more ─ -->
+    <section id="upgradePlaybook">
+      <h2>Need more quota? Upgrade playbook</h2>
+      <p class="section-explainer">
+        When a meter turns yellow or red, a <strong>gold bar appears under the red ops banner</strong>
+        with one-click billing links — use that first in production.
+        This table is the full reference: <strong>what triggered it</strong>, <strong>steps</strong>, and
+        <strong>buy / fix links</strong> for every vendor.
+        Self-hosted limits in <code>wrangler.toml</code> can be raised for free; vendor free tiers need billing or a paid plan.
+      </p>
+      <div id="upgradePlaybookGrid" class="upgrade-playbook-wrap">Loading…</div>
+    </section>
+
+    <!-- ─── Capacity Control — raise app caps without redeploy ─ -->
+    <section id="capacityControl">
+      <h2>Capacity Control — app caps vs vendor billing</h2>
+      <p class="section-explainer">
+        <strong>Problem this solves:</strong> you enable Gemini billing or buy OCR.Space PRO, vendor meters look fine,
+        but users still fail because <strong>app caps in the Worker</strong> were never raised.
+        Use this section to raise enforcement limits in seconds (KV overrides — no <code>wrangler deploy</code>).
+        After buying vendor capacity, either check the billing box + <strong>Match caps to vendor billing</strong>,
+        or apply a <strong>Growing</strong> / <strong>Scale</strong> preset.
+        Red bottleneck lines here also feed the ops alert banner when keys are set.
+      </p>
+      <div id="capacityBottleneckBanner" style="display:none;"></div>
+      <div id="capacityControlGrid" class="capacity-grid">Loading capacity config…</div>
+      <h3 style="margin-top:8px;font-size:14px;">Vendor-only — no dashboard cap link</h3>
+      <p class="section-explainer" style="margin-top:4px;">
+        These services are billed or limited at the vendor only. Buying more does <em>not</em> auto-raise any Worker cap.
+        Use the reminder column after you upgrade.
+      </p>
+      <div id="vendorOnlyCapGrid" class="vendor-only-wrap"></div>
+    </section>
+
     <!-- ─── Cron Health Panel ─────────────────────────────────
          Verifies the hourly aggregation cron in PocketBase is
          actually firing. Reads a heartbeat record that the
@@ -1959,7 +2316,8 @@
       <h2>PBJ — OCR Quota &amp; Cost (detail)</h2>
       <p class="section-explainer">
         Detailed PBJ-only OCR breakdown. See <strong>Worker Monitoring</strong> above for a
-        cross-app summary. Live Gemini / OCR quota for alert (b) and (c) in
+        cross-app summary. Live Gemini / OCR quota for founder alerts (b) and (c) in
+        <strong>Founder Economics</strong>.
         Real-time snapshot of today's cloud OCR usage straight from the Worker's KV
         counters. The progress bar tracks the GLOBAL daily call total against the
         circuit-breaker limit set in <code>wrangler.toml</code>. <strong style="color: var(--success);">Green</strong>
@@ -2488,6 +2846,14 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
     }
   }
 
+  // ─── Section headers in the live PocketBase grid ───────
+  function sectionHeader(title, explainer) {
+    const sub = explainer
+      ? `<p class="section-header-sub section-explainer">${explainer}</p>`
+      : "";
+    return `<div class="section-header">${title}</div>${sub}`;
+  }
+
   // ─── Card rendering ────────────────────────────────────
   // card(label, description, value, sub, state)
   //   label       — short title (e.g. "Merchant queue")
@@ -2559,7 +2925,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
 
     try {
       // === SECTION: FLYWHEEL HEALTH ===
-      parts.push(`<div class="section-header">Flywheel Health</div>`);
+      parts.push(sectionHeader(
+        "Flywheel Health",
+        "PBJ crowd-data ingestion. Each card's big number is <strong>unprocessed queue depth</strong> or <strong>last cron run</strong>. Queues should drain hourly when PocketBase <code>pb_hooks</code> run. Rising queues with a stale &ldquo;Last aggregation&rdquo; = cron stalled — see Cron Health below (PBJ only)."
+      ));
 
       const [
         merchUnprocessed, merchTotal,
@@ -2619,7 +2988,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: CANONICAL LIBRARY ===
-      parts.push(`<div class="section-header">Canonical Library · shared across PBJ/HHH/CVC</div>`);
+      parts.push(sectionHeader(
+        "Canonical Library · shared across PBJ/HHH/CVC",
+        "Consensus entities every app reads. Merchants/employers/payees grow as scans aggregate; alias votes show pending community proposals vs approved links. Steady approved growth = healthy flywheel."
+      ));
       const [merchants, employers, payees, aliasesP, aliasesA, aliasesR] = await Promise.all([
         pbCount("shared_entity_library", "entity_type = 'merchant'"),
         pbCount("shared_entity_library", "entity_type = 'employer'"),
@@ -2656,7 +3028,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: DATA POOLS ===
-      parts.push(`<div class="section-header">Aggregate Data Pools · powered by user scans</div>`);
+      parts.push(sectionHeader(
+        "Aggregate Data Pools · powered by user scans",
+        "Derived tables the apps query for insights (categories, benchmarks, OCR corrections). Counts climb with usage — flat lines over weeks may mean low traffic or stalled aggregation upstream."
+      ));
       const [merchDat, priceTrnd, spendBench, storeIntel, recur, household, docs, subs] = await Promise.all([
         pbCount("pbj_merchant_data", ""),
         pbCount("pbj_price_trends", ""),
@@ -2718,7 +3093,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: PER-APP ACTIVITY (LAST 24H) ===
-      parts.push(`<div class="section-header">Per-App Activity · last 24 hours</div>`);
+      parts.push(sectionHeader(
+        "Per-App Activity · last 24 hours",
+        "Write volume per app since midnight UTC (PocketBase <code>created</code> filter). Best proxy for &ldquo;are people using the apps today?&rdquo; — not the same as install count or paying subs."
+      ));
 
       // Compute the ISO cutoff for "last 24h"
       const dayAgo = new Date(Date.now() - 24 * 3600 * 1000)
@@ -2764,7 +3142,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: CROSS-APP ===
-      parts.push(`<div class="section-header">Cross-App Integration · HHH + CVC</div>`);
+      parts.push(sectionHeader(
+        "Cross-App Integration · HHH + CVC",
+        "How the three apps share value: collection snapshots, market-intel crawls, and user-linked purchases. Purchase links = a PBJ expense explicitly tied to an HHH watch or CVC item."
+      ));
       const [hhhVal, cvcVal, hhhMkt, cvcMkt, links] = await Promise.all([
         pbCount("hhh_collection_values",    ""),
         pbCount("cvc_collection_values",    ""),
@@ -2805,7 +3186,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: CRASH REPORTS (app stability) ===
-      parts.push(`<div class="section-header">App Stability · crash reports</div>`);
+      parts.push(sectionHeader(
+        "App Stability · crash reports",
+        "Client-side errors reported to PocketBase <code>_crash_reports</code>. Zero is normal. Spikes after a release → check the list below for platform, screen, and error name."
+      ));
       const [crashAll, crash24h, crash7d] = await Promise.all([
         pbCount("_crash_reports", ""),
         pbCount("_crash_reports", dayAgoFilter),
@@ -2865,7 +3249,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: QUALITY & SECURITY ===
-      parts.push(`<div class="section-header">Quality &amp; Security</div>`);
+      parts.push(sectionHeader(
+        "Quality &amp; Security",
+        "Anomaly hook flags suspicious crowd patterns; quarantine holds submissions that matched PII regex before they enter consensus. Open anomalies need review; quarantine should stay near zero."
+      ));
       const [anomalyUnresolved, anomalyTotal, quarantineCount] = await Promise.all([
         pbCount("_anomaly_log",            "resolved = false"),
         pbCount("_anomaly_log",            ""),
@@ -2943,7 +3330,10 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       paint();
 
       // === SECTION: QUOTAS & THRESHOLDS ===
-      parts.push(`<div class="section-header">Quotas &amp; Thresholds</div>`);
+      parts.push(sectionHeader(
+        "Quotas &amp; Thresholds",
+        "Storage and vendor capacity signals. Record-count estimate is a rough proxy; backup size is better when available. &ldquo;check manually&rdquo; = no API — open the vendor dashboard. Live OCR/Gemini bars are in Worker Monitoring and OCR Quota panels."
+      ));
 
       // Sum record counts across all known PBJ/shared collections so we can
       // estimate storage consumption vs. PocketHost's 1 GB free-tier cap.
@@ -4282,16 +4672,19 @@ Generated ${new Date().toISOString()}.
             <div>
               <div style="${muted}">Active enrollments</div>
               <div style="${num}">${stats.active.toLocaleString()}</div>
+              <div class="metric-hint">Users with a live bank link — counted on exchange, decremented on disconnect.</div>
             </div>
             <div>
               <div style="${muted}">Rate per connection</div>
               <div style="${num}">$${Number(stats.costPerConnectionUsd).toFixed(2)}/mo</div>
+              <div class="metric-hint">From <code>TELLER_COST_PER_CONNECTION_USD</code> in wrangler.toml.</div>
             </div>
             <div>
               <div style="${muted}">Estimated monthly cost</div>
               <div style="${num}; color: ${stats.estimatedMonthlyCostUsd > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">
                 $${Number(stats.estimatedMonthlyCostUsd).toFixed(2)}
               </div>
+              <div class="metric-hint">$0 in sandbox/dev — real only when <code>TELLER_ENV=production</code>.</div>
             </div>
           </div>
         </div>
@@ -4305,14 +4698,17 @@ Generated ${new Date().toISOString()}.
             <div>
               <div style="${muted}">Last webhook</div>
               <div style="${num}">${ago(stats.lastWebhook)}</div>
+              <div class="metric-hint">Last POST to <code>/teller/webhook</code> — stale with active enrollments = investigate.</div>
             </div>
             <div>
               <div style="${muted}">Webhooks today</div>
               <div style="${num}">${stats.today.webhooks.toLocaleString()}</div>
+              <div class="metric-hint">Transaction/sync events received today (UTC).</div>
             </div>
             <div>
               <div style="${muted}">Webhooks MTD</div>
               <div style="${num}">${stats.month_to_date.webhooks.toLocaleString()}</div>
+              <div class="metric-hint">Month-to-date webhook volume.</div>
             </div>
           </div>
           <div style="${muted}; margin-top: 10px;">
@@ -4321,6 +4717,10 @@ Generated ${new Date().toISOString()}.
         </div>
 
         ${notesHtml}
+
+        ${panelUpgradeBox(["teller"], stats.environment === "production"
+          ? `~$${Number(stats.estimatedMonthlyCostUsd).toFixed(2)}/mo at ${stats.active} active enrollments.`
+          : "Sandbox/dev is $0 — switch TELLER_ENV to production in wrangler.toml when users connect real banks.")}
 
         <div style="${muted}; text-align: right;">Data fetched ${new Date().toLocaleTimeString()}</div>
       </div>
@@ -4404,14 +4804,17 @@ Generated ${new Date().toISOString()}.
             <div>
               <div style="${muted}">OCR.Space overage</div>
               <div style="${num}">${stats.today.overageSpace.toLocaleString()} calls</div>
+              <div class="metric-hint">Calls beyond ${stats.freeTier.spaceDaily.toLocaleString()}/day free tier.</div>
             </div>
             <div>
               <div style="${muted}">Gemini overage</div>
               <div style="${num}">${stats.today.overageGemini.toLocaleString()} calls</div>
+              <div class="metric-hint">Calls beyond ${stats.freeTier.geminiDaily.toLocaleString()}/day free tier.</div>
             </div>
             <div>
               <div style="${muted}">Estimated cost today</div>
               <div style="${num}; color: ${costToday > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">$${costToday.toFixed(4)}</div>
+              <div class="metric-hint">Overage × per-call rates in wrangler.toml — $0 under free caps.</div>
             </div>
           </div>
         </div>
@@ -4422,18 +4825,22 @@ Generated ${new Date().toISOString()}.
             <div>
               <div style="${muted}">Total calls</div>
               <div style="${num}">${stats.month_to_date.total.toLocaleString()}</div>
+              <div class="metric-hint">All cloud OCR + vision calls this calendar month.</div>
             </div>
             <div>
               <div style="${muted}">OCR.Space</div>
               <div style="${num}">${stats.month_to_date.space.toLocaleString()}</div>
+              <div class="metric-hint">OCR.Space leg only (stage-2 fallback).</div>
             </div>
             <div>
               <div style="${muted}">Gemini</div>
               <div style="${num}">${stats.month_to_date.gemini.toLocaleString()}</div>
+              <div class="metric-hint">Gemini vision/parser leg.</div>
             </div>
             <div>
               <div style="${muted}">Estimated cost MTD</div>
               <div style="${num}; color: ${costMtd > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">$${costMtd.toFixed(2)}</div>
+              <div class="metric-hint">Running overage bill estimate — compare to Google/OCR invoices.</div>
             </div>
           </div>
         </div>
@@ -4456,6 +4863,8 @@ Generated ${new Date().toISOString()}.
             and run <code>wrangler deploy</code>. No app rebuild required.
           </div>
         </details>
+
+        ${(usedPct >= 75 || cb) ? panelUpgradeBox(["gemini", "ocr_space", "wrangler"], cb ? "Circuit breaker armed — free users blocked from cloud OCR until UTC reset or you raise limits." : "") : ""}
 
         <div style="${muted}; text-align: right;">Data fetched ${new Date().toLocaleTimeString()}</div>
       </div>
@@ -4548,6 +4957,7 @@ Generated ${new Date().toISOString()}.
             ${used.toLocaleString()} <span style="${muted}; font-weight: 400; font-size: 16px;">/ ${cap.toLocaleString()}</span>
           </div>
           <div style="${muted}; margin-top: 4px;">${pct}% used &mdash; ${remaining.toLocaleString()} remaining</div>
+          <div class="metric-hint">Uncached tower lookups only — repeats hit 7-day KV cache.</div>
           <div style="margin-top: 12px; background: #f3f4f6; border-radius: 6px; height: 10px; overflow: hidden;">
             <div style="background: ${color}; height: 100%; width: ${Math.min(pct, 100)}%;"></div>
           </div>
@@ -4558,6 +4968,7 @@ Generated ${new Date().toISOString()}.
           ${historyHtml}
         </div>
       </div>
+      ${pct >= 50 ? panelUpgradeBox(["opencellid", "wrangler"], pct >= 80 ? "At 100% the Worker refuses new lookups — GPS/IP fallback only." : "") : ""}
       <div style="${muted}; text-align: right; margin-top: 8px;">
         Data fetched ${new Date().toLocaleTimeString()} &middot;
         <a href="https://my.opencellid.org/dashboard" target="_blank" rel="noopener">OpenCellID Dashboard &rarr;</a>
@@ -4892,6 +5303,580 @@ Generated ${new Date().toISOString()}.
      ──────────────────────────────────────────────────────────── */
   const WORKER_BASE = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
 
+  /** One-click vendor pages when quota is tight or something is red. */
+  const VENDOR_BUY = {
+    gemini: {
+      key: "gemini",
+      label: "Enable Gemini billing",
+      url: "https://console.cloud.google.com/billing",
+      hint: "Link a billing account in Google Cloud — free tier becomes pay-as-you-go for calls over 1,500/day.",
+    },
+    gemini_usage: {
+      key: "gemini_usage",
+      label: "Gemini usage dashboard",
+      url: "https://aistudio.google.com/app/usage",
+      hint: "See today's call count before you buy.",
+    },
+    anthropic: {
+      key: "anthropic",
+      label: "Top up Claude credits",
+      url: "https://platform.claude.com/settings/billing",
+      hint: "Pre-paid credits — HHH/CVC identify stops with 402 when empty.",
+    },
+    ocr_space: {
+      key: "ocr_space",
+      label: "Upgrade OCR.Space to PRO ($30/mo)",
+      url: "https://ocr.space/ocrapi#price",
+      hint: "300K calls/month + 5MB uploads vs 25K/mo free.",
+    },
+    cloudflare: {
+      key: "cloudflare",
+      label: "Cloudflare Workers paid ($5/mo)",
+      url: "https://dash.cloudflare.com/",
+      hint: "Workers & Pages → change plan if you hit 100K req/day.",
+    },
+    pockethost: {
+      key: "pockethost",
+      label: "Upgrade PocketHost plan",
+      url: "https://pockethost.io/dashboard",
+      hint: "More DB storage / CPU if crowd data grows past fair-use.",
+    },
+    opencellid: {
+      key: "opencellid",
+      label: "OpenCellID paid plan",
+      url: "https://opencellid.org/#download",
+      hint: "Raise daily lookup cap above 1,000/day.",
+    },
+    teller: {
+      key: "teller",
+      label: "Teller pricing (production)",
+      url: "https://teller.io/pricing",
+      hint: "~$2/active bank connection/mo when TELLER_ENV=production.",
+    },
+    revenuecat: {
+      key: "revenuecat",
+      label: "RevenueCat pricing",
+      url: "https://www.revenuecat.com/pricing/",
+      hint: "Free until ~$10K MTR; then 1% of tracked revenue.",
+    },
+    expo: {
+      key: "expo",
+      label: "Expo EAS billing",
+      url: "https://expo.dev/accounts/josspatech/settings/billing",
+      hint: "More than 30 iOS cloud builds/month.",
+    },
+    capacity: {
+      key: "capacity",
+      label: "Raise app caps (dashboard)",
+      url: "#capacityControl",
+      hint: "KV overrides via /ops/caps — no redeploy. Do this after enabling vendor billing.",
+      internal: true,
+    },
+    wrangler: {
+      key: "wrangler",
+      label: "Raise caps in wrangler.toml",
+      url: "#thresholdsBaselines",
+      hint: "Defaults for new deploys — live caps are in Capacity Control.",
+      internal: true,
+    },
+  };
+
+  /** Vendor purchases with no /ops/caps — remind to raise app caps manually where applicable. */
+  const VENDOR_ONLY_CAP_REMINDERS = [
+    {
+      service: "Anthropic Claude credits",
+      buy: "anthropic",
+      controllable: "HHH + CVC global AI cap (this dashboard)",
+      remember: "After topping up credits, raise Global AI daily limit for HHH/CVC here if identify volume is high.",
+    },
+    {
+      service: "Gemini billing (Google Cloud)",
+      buy: "gemini",
+      controllable: "PBJ global OCR + HHH/CVC global AI",
+      remember: "Enable billing in GCP, then check billing box + Match caps (PBJ) or Growing preset (all apps).",
+    },
+    {
+      service: "OCR.Space PRO",
+      buy: "ocr_space",
+      controllable: "PBJ global OCR cap",
+      remember: "After PRO upgrade, check OCR.Space PRO + Match caps on the PBJ card.",
+    },
+    {
+      service: "OpenCellID paid plan",
+      buy: "opencellid",
+      controllable: "PBJ OpenCellID daily cap",
+      remember: "Raise OpenCellID daily cap on the PBJ card after vendor plan upgrade.",
+    },
+    {
+      service: "Cloudflare Workers plan",
+      buy: "cloudflare",
+      controllable: "None (platform req/day)",
+      remember: "No app cap to raise — upgrades Workers platform limits only.",
+    },
+    {
+      service: "Teller bank connections",
+      buy: "teller",
+      controllable: "None",
+      remember: "Per-connection billing only — no Worker OCR/AI cap.",
+    },
+    {
+      service: "RevenueCat MTR",
+      buy: "revenuecat",
+      controllable: "None",
+      remember: "Platform fee — does not affect API quotas.",
+    },
+    {
+      service: "Expo EAS builds",
+      buy: "expo",
+      controllable: "None",
+      remember: "Build minutes only — unrelated to runtime API caps.",
+    },
+    {
+      service: "PocketHost / PocketBase",
+      buy: "pockethost",
+      controllable: "None",
+      remember: "DB storage/CPU — crowd-data flywheel only, not OCR/AI caps.",
+    },
+    {
+      service: "eBay Browse API",
+      buy: null,
+      controllable: "None (CVC)",
+      remember: "Optional keys on CVC worker — no dashboard cap control yet.",
+    },
+  ];
+
+  const UPGRADE_PLAYBOOK = [
+    {
+      service: "Gemini Flash",
+      trigger: "Red banner ≥80% (1,200/1,500/day) or overage $ on OCR panel",
+      steps: ["Enable billing in Google Cloud", "Optional: separate API key per app (CLOUD_KEYS.md)", "Or raise OCR_GLOBAL_DAILY_LIMIT in wrangler.toml if only the circuit breaker is the issue"],
+      buy: ["gemini", "gemini_usage"],
+    },
+    {
+      service: "Anthropic Claude",
+      trigger: "Low balance log, 402 errors on identify, or red Anthropic card",
+      steps: ["Open billing → Add credits", "Record new balance in the Anthropic service card on this dashboard"],
+      buy: ["anthropic"],
+    },
+    {
+      service: "OCR.Space",
+      trigger: "Rate limits on receipt scan or OCR panel shows Space overage",
+      steps: ["Upgrade to PRO on ocr.space", "Update OCR_SPACE_API_KEY worker secret if key changes"],
+      buy: ["ocr_space"],
+    },
+    {
+      service: "PBJ circuit breaker",
+      trigger: "Red banner: circuit breaker ARMED — free users blocked",
+      steps: ["Raise Global daily OCR in Capacity Control (Growing preset)", "Or enable Gemini billing + Match caps to vendor billing", "Premium/trial users keep working until global cap hits"],
+      buy: ["capacity", "gemini"],
+    },
+    {
+      service: "Cloudflare Workers",
+      trigger: "429 rate limits or worker health red",
+      steps: ["Cloudflare dashboard → Workers & Pages → upgrade to Paid ($5/mo)"],
+      buy: ["cloudflare"],
+    },
+    {
+      service: "PocketHost / PocketBase",
+      trigger: "DB backup size growing or PocketHost warns on fair-use",
+      steps: ["PocketHost dashboard → upgrade tier or migrate per HETZNER_MIGRATION_RUNBOOK"],
+      buy: ["pockethost"],
+    },
+    {
+      service: "OpenCellID",
+      trigger: "OpenCellID panel ≥80% (800/1,000/day)",
+      steps: ["Upgrade plan on OpenCellID", "Or raise OPENCELLID_DAILY_CAP in wrangler.toml temporarily"],
+      buy: ["opencellid", "wrangler"],
+    },
+    {
+      service: "Teller bank sync",
+      trigger: "Real users connecting banks (production enrollments)",
+      steps: ["Set TELLER_ENV=production in wrangler.toml", "Budget ~$2/active enrollment/mo"],
+      buy: ["teller"],
+    },
+    {
+      service: "RevenueCat",
+      trigger: "Monthly tracked revenue passes ~$10K",
+      steps: ["Automatic platform fee — review pricing page; no action until MTR threshold"],
+      buy: ["revenuecat"],
+    },
+    {
+      service: "Expo EAS",
+      trigger: "Out of free 30 cloud builds/month",
+      steps: ["Expo dashboard → Billing → upgrade build tier"],
+      buy: ["expo"],
+    },
+  ];
+
+  function vendorBuyLinkHtml(v, asButton) {
+    if (!v) return "";
+    const cls = asButton ? "ops-buy-btn" : "";
+    const target = v.internal ? "" : ' target="_blank" rel="noopener noreferrer"';
+    return `<a class="${cls}" href="${v.url}"${target} title="${v.hint || ""}">${v.label} ↗</a>`;
+  }
+
+  function vendorBuyKeysFromIssues(issues) {
+    const keys = [];
+    const seen = new Set();
+    const add = (k) => { if (k && !seen.has(k)) { seen.add(k); keys.push(k); } };
+    for (const raw of issues) {
+      const i = String(raw).toLowerCase();
+      if (i.includes("gemini")) add("gemini");
+      if (i.includes("circuit breaker") || i.includes("ocr circuit") || i.includes("billing is marked on") || i.includes("capacity —")) {
+        add("gemini");
+        add("ocr_space");
+        add("capacity");
+      }
+      if (i.includes("anthropic") || i.includes("claude") || i.includes("balance")) add("anthropic");
+      if (i.includes("worker unreachable") || i.includes("worker health failed") || i.includes("health ping failed")) add("cloudflare");
+      if (i.includes("ocr stats")) add("cloudflare");
+    }
+    if (keys.length === 0 && issues.length > 0) add("gemini");
+    return keys;
+  }
+
+  function renderOpsBuyBar(issues) {
+    const bar = document.getElementById("opsBuyBar");
+    const btns = document.getElementById("opsBuyBtns");
+    if (!bar || !btns) return;
+    if (!issues || issues.length === 0) {
+      bar.style.display = "none";
+      btns.innerHTML = "";
+      return;
+    }
+    const keys = vendorBuyKeysFromIssues(issues);
+    btns.innerHTML = keys.map(k => vendorBuyLinkHtml(VENDOR_BUY[k], true)).join("") +
+      `<a class="ops-buy-btn secondary" href="#capacityControl">Raise app caps ↓</a>` +
+      `<a class="ops-buy-btn secondary" href="#upgradePlaybook">Upgrade playbook ↓</a>`;
+    bar.style.display = "block";
+  }
+
+  function panelUpgradeBox(buyKeys, extraNote) {
+    if (!buyKeys || !buyKeys.length) return "";
+    const links = buyKeys.map(k => vendorBuyLinkHtml(VENDOR_BUY[k], false)).join(" · ");
+    return `<div class="panel-upgrade-box"><strong>Need more capacity?</strong> ${links}${extraNote ? `<br>${extraNote}` : ""}</div>`;
+  }
+
+  function renderUpgradePlaybook() {
+    const root = document.getElementById("upgradePlaybookGrid");
+    if (!root) return;
+    root.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>When it goes red</th>
+            <th>What to do</th>
+            <th>Buy / fix (one click)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${UPGRADE_PLAYBOOK.map(row => `
+            <tr>
+              <td><strong>${row.service}</strong></td>
+              <td>${row.trigger}</td>
+              <td><ul>${row.steps.map(s => `<li>${s}</li>`).join("")}</ul></td>
+              <td class="up-links">${row.buy.map(k => vendorBuyLinkHtml(VENDOR_BUY[k], false)).join("<br>")}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>`;
+  }
+
+  function renderVendorOnlyCapReminders() {
+    const root = document.getElementById("vendorOnlyCapGrid");
+    if (!root) return;
+    root.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Vendor / service</th>
+            <th>Buy link</th>
+            <th>App cap you can raise here</th>
+            <th>After you buy — remember</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${VENDOR_ONLY_CAP_REMINDERS.map(row => `
+            <tr>
+              <td><strong>${row.service}</strong></td>
+              <td>${row.buy ? vendorBuyLinkHtml(VENDOR_BUY[row.buy], false) : "—"}</td>
+              <td>${row.controllable}</td>
+              <td class="remember">${row.remember}</td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>`;
+  }
+
+  let capacityCache = { pbj: null, hhh: null, cvc: null };
+
+  async function capFetch(app) {
+    const key = wmGetKey(app, false);
+    const base = wmGetUrl(app);
+    if (!key) return { error: "no_key", message: `${app.authHeader} not set — run a ${app.short} smoke test once.` };
+    try {
+      const r = await fetch(`${base}/ops/caps`, {
+        headers: { [app.authHeader]: key },
+        signal: AbortSignal.timeout(10000),
+      });
+      if (r.status === 404) {
+        return { error: "not_deployed", message: `${app.short} /ops/caps not deployed yet — run wrangler deploy.` };
+      }
+      if (!r.ok) {
+        const t = await r.text();
+        return { error: "http", message: `HTTP ${r.status}: ${t.slice(0, 120)}` };
+      }
+      return await r.json();
+    } catch (e) {
+      return { error: "network", message: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  async function capPut(app, body) {
+    const key = wmGetKey(app, true);
+    const base = wmGetUrl(app);
+    const r = await fetch(`${base}/ops/caps`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", [app.authHeader]: key },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(12000),
+    });
+    if (!r.ok) {
+      const t = await r.text();
+      throw new Error(`HTTP ${r.status}: ${t.slice(0, 200)}`);
+    }
+    return r.json();
+  }
+
+  function capBnHtml(bn) {
+    const cls = bn.severity === "critical" ? "critical" : "";
+    return `<div class="cap-bn ${cls}"><strong>${bn.message}</strong><br><span style="color:var(--text-muted)">Fix: ${bn.fix}</span></div>`;
+  }
+
+  function capField(id, label, value, def) {
+    return `<div class="cap-field-row">
+      <label for="${id}">${label} <span style="color:var(--text-muted)">(default ${def})</span></label>
+      <input type="number" id="${id}" min="1" value="${value}">
+    </div>`;
+  }
+
+  function renderPbjCapCard(app, data) {
+    if (data.error) {
+      return `<div class="cap-card"><h3>${app.short} — ${app.name}</h3><p style="color:var(--warning);font-size:12px;">${data.message}</p></div>`;
+    }
+    const eff = data.effective || {};
+    const def = data.defaults || {};
+    const usage = data.usage || {};
+    const preset = data.preset || "prelaunch";
+    const vb = data.vendorBilling || {};
+    const bns = (data.bottlenecks || []).map(capBnHtml).join("");
+    return `<div class="cap-card" id="cap-card-pbj">
+      <h3>${app.short} — OCR &amp; OpenCellID caps</h3>
+      <div class="cap-meta">Preset: <strong>${preset}</strong>${data.overrides?.updatedAt ? ` · updated ${new Date(data.overrides.updatedAt).toLocaleString()}` : ""}</div>
+      <div class="cap-usage">
+        Global OCR today: <strong>${usage.globalOcrToday ?? "—"}</strong> / ${eff.globalDailyLimit ?? "—"}
+        (${(usage.appGlobalPct ?? 0).toFixed(0)}%)
+        · Gemini vendor ${(usage.vendorGeminiPct ?? 0).toFixed(0)}%
+        · Space ${(usage.vendorSpacePct ?? 0).toFixed(0)}%
+        ${usage.circuitBreakerArmed ? " · <span style='color:var(--danger)'>CIRCUIT BREAKER</span>" : ""}
+      </div>
+      ${bns}
+      <div class="cap-preset-row">
+        ${["prelaunch", "growing", "scale"].map(p =>
+          `<button type="button" class="m-btn${preset === p ? " active" : ""}" onclick="capApplyPreset('pbj','${p}')">${p}</button>`
+        ).join("")}
+      </div>
+      ${capField("cap-pbj-free", "Monthly free", eff.monthlyFree, def.monthlyFree)}
+      ${capField("cap-pbj-trial", "Monthly trial", eff.monthlyTrial, def.monthlyTrial)}
+      ${capField("cap-pbj-active", "Monthly pro", eff.monthlyActive, def.monthlyActive)}
+      ${capField("cap-pbj-daily", "Daily ceiling / user", eff.dailyCeiling, def.dailyCeiling)}
+      ${capField("cap-pbj-global", "Global daily OCR", eff.globalDailyLimit, def.globalDailyLimit)}
+      ${capField("cap-pbj-oci", "OpenCellID daily", eff.opencellidDailyCap, def.opencellidDailyCap)}
+      <label class="cap-vendor-chk"><input type="checkbox" id="cap-pbj-vb-gemini" ${vb.gemini ? "checked" : ""}> Gemini billing enabled</label>
+      <label class="cap-vendor-chk"><input type="checkbox" id="cap-pbj-vb-space" ${vb.ocr_space ? "checked" : ""}> OCR.Space PRO</label>
+      <div class="cap-action-row">
+        <button type="button" class="m-btn accent" onclick="capSaveCustom('pbj')">Save caps</button>
+        <button type="button" class="m-btn" onclick="capMatchVendor('pbj')">Match caps to vendor billing</button>
+        <button type="button" class="m-btn" onclick="loadCapacityControl()">Refresh</button>
+      </div>
+    </div>`;
+  }
+
+  function renderAiCapCard(app, data) {
+    if (data.error) {
+      return `<div class="cap-card"><h3>${app.short} — ${app.name}</h3><p style="color:var(--warning);font-size:12px;">${data.message}</p></div>`;
+    }
+    const eff = data.effective || {};
+    const def = data.defaults || {};
+    const usage = data.usage || {};
+    const preset = data.preset || "prelaunch";
+    const vb = data.vendorBilling || {};
+    const bns = (data.bottlenecks || []).map(capBnHtml).join("");
+    return `<div class="cap-card" id="cap-card-${app.id}">
+      <h3>${app.short} — Global AI cap</h3>
+      <div class="cap-meta">Preset: <strong>${preset}</strong>${data.overrides?.updatedAt ? ` · updated ${new Date(data.overrides.updatedAt).toLocaleString()}` : ""}</div>
+      <div class="cap-usage">
+        Global AI today: <strong>${usage.globalAiToday ?? "—"}</strong> / ${eff.globalDailyLimit ?? "—"}
+        (${(usage.appGlobalPct ?? 0).toFixed(0)}%)
+        · Gemini vendor ${(usage.vendorGeminiPct ?? 0).toFixed(0)}%
+        ${usage.circuitBreakerArmed ? " · <span style='color:var(--danger)'>CIRCUIT BREAKER</span>" : ""}
+      </div>
+      ${bns}
+      <div class="cap-preset-row">
+        ${["prelaunch", "growing", "scale"].map(p =>
+          `<button type="button" class="m-btn${preset === p ? " active" : ""}" onclick="capApplyPreset('${app.id}','${p}')">${p}</button>`
+        ).join("")}
+      </div>
+      ${capField(`cap-${app.id}-global`, "Global daily AI", eff.globalDailyLimit, def.globalDailyLimit)}
+      <label class="cap-vendor-chk"><input type="checkbox" id="cap-${app.id}-vb-gemini" ${vb.gemini ? "checked" : ""}> Gemini billing enabled</label>
+      <label class="cap-vendor-chk"><input type="checkbox" id="cap-${app.id}-vb-anthropic" ${vb.anthropic ? "checked" : ""}> Anthropic credits topped up</label>
+      <div class="cap-action-row">
+        <button type="button" class="m-btn accent" onclick="capSaveCustom('${app.id}')">Save cap</button>
+        <button type="button" class="m-btn" onclick="capMatchVendor('${app.id}')">Match caps to vendor billing</button>
+        <button type="button" class="m-btn" onclick="loadCapacityControl()">Refresh</button>
+      </div>
+    </div>`;
+  }
+
+  function renderCapacityBottleneckBanner() {
+    const banner = document.getElementById("capacityBottleneckBanner");
+    if (!banner) return;
+    const all = [];
+    for (const id of ["pbj", "hhh", "cvc"]) {
+      const d = capacityCache[id];
+      if (!d || d.error || !d.bottlenecks) continue;
+      for (const bn of d.bottlenecks) {
+        if (bn.severity === "critical" || bn.severity === "warning") {
+          all.push({ app: id.toUpperCase(), ...bn });
+        }
+      }
+    }
+    if (all.length === 0) {
+      banner.style.display = "none";
+      banner.innerHTML = "";
+      return;
+    }
+    const hasCritical = all.some(b => b.severity === "critical");
+    banner.className = hasCritical ? "capacity-bottleneck-banner" : "capacity-bottleneck-banner warn";
+    banner.innerHTML =
+      `<strong>${hasCritical ? "App cap bottleneck — users may be failing now" : "Capacity warning — vendor may look fine, app cap may not"}</strong>` +
+      `<ul>${all.map(b => `<li><strong>${b.app}:</strong> ${b.message} — ${b.fix}</li>`).join("")}</ul>`;
+    banner.style.display = "block";
+  }
+
+  async function loadCapacityControl() {
+    const grid = document.getElementById("capacityControlGrid");
+    if (!grid) return;
+    grid.innerHTML = '<div style="color:var(--text-muted);font-size:13px;">Loading…</div>';
+    const results = await Promise.all(WORKER_APPS.map(app => capFetch(app)));
+    WORKER_APPS.forEach((app, i) => { capacityCache[app.id] = results[i]; });
+    grid.innerHTML = WORKER_APPS.map((app, i) =>
+      app.id === "pbj" ? renderPbjCapCard(app, results[i]) : renderAiCapCard(app, results[i])
+    ).join("");
+    renderCapacityBottleneckBanner();
+    renderVendorOnlyCapReminders();
+  }
+
+  async function capApplyPreset(appId, preset) {
+    const app = WORKER_APPS.find(a => a.id === appId);
+    if (!app) return;
+    try {
+      const data = await capPut(app, { preset });
+      capacityCache[appId] = data;
+      qaLog(`${app.short} caps → preset "${preset}" applied.`, "ok");
+      await loadCapacityControl();
+      updateOpsAlertBanner().catch(() => {});
+    } catch (e) {
+      qaLog(`${app.short} cap preset failed: ${e.message}`, "err");
+    }
+  }
+
+  async function capMatchVendor(appId) {
+    const app = WORKER_APPS.find(a => a.id === appId);
+    if (!app) return;
+    const body = { matchVendorBilling: true };
+    if (appId === "pbj") {
+      body.vendorBilling = {
+        gemini: document.getElementById("cap-pbj-vb-gemini")?.checked ?? false,
+        ocr_space: document.getElementById("cap-pbj-vb-space")?.checked ?? false,
+      };
+    } else {
+      body.vendorBilling = {
+        gemini: document.getElementById(`cap-${appId}-vb-gemini`)?.checked ?? false,
+        anthropic: document.getElementById(`cap-${appId}-vb-anthropic`)?.checked ?? false,
+      };
+    }
+    try {
+      const data = await capPut(app, body);
+      capacityCache[appId] = data;
+      qaLog(`${app.short} caps matched to vendor billing flags.`, "ok");
+      await loadCapacityControl();
+      updateOpsAlertBanner().catch(() => {});
+    } catch (e) {
+      qaLog(`${app.short} match vendor failed: ${e.message}`, "err");
+    }
+  }
+
+  async function capSaveCustom(appId) {
+    const app = WORKER_APPS.find(a => a.id === appId);
+    if (!app) return;
+    const body = { overrides: {}, vendorBilling: {} };
+    if (appId === "pbj") {
+      const fields = [
+        ["monthlyFree", "cap-pbj-free"],
+        ["monthlyTrial", "cap-pbj-trial"],
+        ["monthlyActive", "cap-pbj-active"],
+        ["dailyCeiling", "cap-pbj-daily"],
+        ["globalDailyLimit", "cap-pbj-global"],
+        ["opencellidDailyCap", "cap-pbj-oci"],
+      ];
+      for (const [k, elId] of fields) {
+        const n = parseInt(document.getElementById(elId)?.value ?? "", 10);
+        if (Number.isFinite(n) && n > 0) body.overrides[k] = n;
+      }
+      body.vendorBilling = {
+        gemini: document.getElementById("cap-pbj-vb-gemini")?.checked ?? false,
+        ocr_space: document.getElementById("cap-pbj-vb-space")?.checked ?? false,
+      };
+    } else {
+      const n = parseInt(document.getElementById(`cap-${appId}-global`)?.value ?? "", 10);
+      if (Number.isFinite(n) && n > 0) body.overrides.globalDailyLimit = n;
+      body.vendorBilling = {
+        gemini: document.getElementById(`cap-${appId}-vb-gemini`)?.checked ?? false,
+        anthropic: document.getElementById(`cap-${appId}-vb-anthropic`)?.checked ?? false,
+      };
+    }
+    try {
+      const data = await capPut(app, body);
+      capacityCache[appId] = data;
+      qaLog(`${app.short} custom caps saved.`, "ok");
+      await loadCapacityControl();
+      updateOpsAlertBanner().catch(() => {});
+    } catch (e) {
+      qaLog(`${app.short} save caps failed: ${e.message}`, "err");
+    }
+  }
+
+  function capacityIssuesFromCache() {
+    const issues = [];
+    for (const app of WORKER_APPS) {
+      const d = capacityCache[app.id];
+      if (!d || d.error || !d.bottlenecks) continue;
+      for (const bn of d.bottlenecks) {
+        if (bn.severity !== "critical" && bn.severity !== "warning") continue;
+        if (bn.code === "billing_on_caps_not_raised") {
+          issues.push(`${app.short} — ${bn.message}`);
+        } else if (bn.code === "circuit_breaker_armed") {
+          issues.push(`${app.short} — ${bn.message}`);
+        } else if (bn.code === "global_cap_high" || bn.code === "vendor_headroom_app_low") {
+          issues.push(`${app.short} capacity — ${bn.message}`);
+        }
+      }
+    }
+    return issues;
+  }
+
   /* ─── Per-app Worker Monitoring (PBJ · HHH · CVC) ─────────── */
   const WORKER_APPS = [
     {
@@ -5169,15 +6154,22 @@ Generated ${new Date().toISOString()}.
             <div class="wm-threshold-legend">Gemini free tier: alert at 80% (${Math.round(metrics.geminiCap * 0.8).toLocaleString()} / ${metrics.geminiCap.toLocaleString()}/day)</div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free/day</span></div></div>
-            ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div></div>` : ""}
-            ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div></div>` : ""}
-            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div></div>
-            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div><div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}</div></div>
+            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free/day</span></div><div class="metric-hint">Google AI Studio free tier; email alert at 80%.</div></div>
+            ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div><div class="metric-hint">Identify/ask calls — billed from pre-paid credits.</div></div>` : ""}
+            ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div><div class="metric-hint">Cloud OCR fallback when on-device OCR is thin.</div></div>` : ""}
+            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div><div class="metric-hint">Non-zero only after free-tier daily caps exceeded.</div></div>
+            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div><div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}</div><div class="metric-hint">Month-to-date overage estimate from KV counters.</div></div>
           </div>
           ${metrics.geminiToday === 0 && app.statsKind === "ops" ? `<div style="font-size:12px;color:var(--text-dim);">KV tracking active — counters increment on the first Gemini or Anthropic call through this worker.</div>` : ""}
         </div>`;
     }
+
+    const wmUpgrade = (metrics && (metrics.quotaPct >= 75 || metrics.geminiPct >= 75 || metrics.circuitBreaker))
+      ? panelUpgradeBox(
+          app.statsKind === "ocr" ? ["gemini", "ocr_space", "wrangler"] : ["gemini", "anthropic", "wrangler"],
+          metrics.circuitBreaker ? "Circuit breaker armed on this worker." : "",
+        )
+      : "";
 
     return `
       <div class="wm-detail">
@@ -5189,12 +6181,13 @@ Generated ${new Date().toISOString()}.
           <span class="wm-status-pill ${cardState}"><span class="wm-status-dot"></span>${wmStatusLabel(cardState)}</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:13px;margin-bottom:14px;">
-          <div><span style="color:var(--text-muted);">Worker</span><br><strong>${health.ok ? "OK" : "Down / error"}</strong></div>
-          <div><span style="color:var(--text-muted);">Gemini key</span><br><strong>${health.gemini_configured === false ? "Not configured" : health.gemini_configured === true ? "Configured" : "—"}</strong></div>
-          <div><span style="color:var(--text-muted);">Service</span><br><strong style="font-family:var(--mono);font-size:12px;">${health.service || "—"}</strong></div>
-          <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a></div>
+          <div><span style="color:var(--text-muted);">Worker</span><br><strong>${health.ok ? "OK" : "Down / error"}</strong><div class="metric-hint">GET / returns JSON — false = DNS, deploy, or Worker error.</div></div>
+          <div><span style="color:var(--text-muted);">Gemini key</span><br><strong>${health.gemini_configured === false ? "Not configured" : health.gemini_configured === true ? "Configured" : "—"}</strong><div class="metric-hint">Worker secret GEMINI_API_KEY — required for receipt/PDF vision.</div></div>
+          <div><span style="color:var(--text-muted);">Service</span><br><strong style="font-family:var(--mono);font-size:12px;">${health.service || "—"}</strong><div class="metric-hint">Worker self-identifies in health JSON.</div></div>
+          <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a><div class="metric-hint">Public ping — no API key needed.</div></div>
         </div>
         ${statsBlock}
+        ${wmUpgrade}
         <div class="wm-url-row">
           <label style="color:var(--text-muted);">Worker URL override:</label>
           <input id="wm-url-${app.id}" type="url" value="${url}" placeholder="${app.defaultUrl}">
@@ -5235,7 +6228,9 @@ Generated ${new Date().toISOString()}.
       combinedEl.innerHTML = `
         <div class="wm-combined">
           <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
+          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Sum of estimated overage across PBJ + HHH + CVC workers.</span>
           <span><strong>Combined MTD:</strong> $${combinedMtd.toFixed(2)}</span>
+          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Calendar month; $0 while under free tiers.</span>
           <span style="color:var(--text-muted);">All three workers · refreshed ${now}</span>
         </div>`;
     }
@@ -5257,6 +6252,7 @@ Generated ${new Date().toISOString()}.
             <div class="wm-stat-row"><span>Status</span><strong>${wmStatusLabel(state)}</strong></div>
             <div class="wm-stat-row"><span>Gemini today</span><strong>${gemini}</strong></div>
             <div class="wm-stat-row"><span>Daily total</span><strong>${quota}</strong></div>
+            <div class="metric-hint" style="margin-top:6px;">Status = worker + keys + quota %. Daily total = circuit-breaker counter.</div>
             <div class="wm-stat-row"><span>Est. cost</span><strong>${cost}</strong></div>
             <div class="wm-stat-row"><span>Updated</span><strong>${now}</strong></div>
           </div>`;
@@ -5947,14 +6943,29 @@ Generated ${new Date().toISOString()}.
 
     infoIssues.push(...opsAnthropicInfoLines());
 
+    await Promise.all(WORKER_APPS.map(async (app) => {
+      const appKey = wmGetKey(app, false);
+      if (!appKey) return;
+      const data = await capFetch(app);
+      capacityCache[app.id] = data;
+    }));
+    const capIssues = capacityIssuesFromCache();
+    for (const ci of capIssues) {
+      if (!issues.some(x => x.includes(ci.slice(0, 20)))) issues.push(ci);
+    }
+    renderCapacityBottleneckBanner();
+
     if (issues.length === 0) {
       banner.style.display = "none";
       banner.innerHTML = "";
+      const infoBuy = infoIssues.filter(i => /anthropic|claude|balance|gemini/i.test(i));
+      renderOpsBuyBar(infoBuy);
     } else {
       banner.innerHTML =
         `<div class="ops-alert-title">⚠ Ops alert — action needed</div>` +
         `<ul>${issues.map(i => `<li>${i}</li>`).join("")}</ul>`;
       banner.style.display = "block";
+      renderOpsBuyBar(issues);
     }
 
     if (infoBanner) {
@@ -6189,6 +7200,7 @@ Generated ${new Date().toISOString()}.
           return { state: j.ok ? "green" : "yellow" };
         } catch { return { state: "red" }; }
       },
+      buy: "cloudflare",
       links: [
         { label: "Health endpoint",   url: "https://pbj-import-worker.morning-star-b5e0.workers.dev/", primary: true },
         { label: "Cloudflare dash",   url: "https://dash.cloudflare.com/" },
@@ -6200,6 +7212,7 @@ Generated ${new Date().toISOString()}.
       tier: "paid",
       desc: "Crowd-data backend. Shared by PBJ + HHH + CVC. FTPS quirk: use curl, not WinSCP (Session 68 notes).",
       quota: "PocketHost smart tier: 5GB DB. Migration runbook in ClaudeFiles/HETZNER_MIGRATION_RUNBOOK.md.",
+      buy: "pockethost",
       probe: async () => {
         const q = quotaCache?.pocketbase_db;
         if (q && typeof q.used === "number" && typeof q.limit === "number") {
@@ -6225,6 +7238,7 @@ Generated ${new Date().toISOString()}.
       tier: "free",
       desc: "Vision parser for receipts (/vision/receipt) and bank statements (/vision/pdf). Worker secret: GEMINI_API_KEY.",
       quota: "Free: 1,500 req/day. Paid: ~$0.0002 per receipt-vision call → ~$450/mo at 75K calls/day.",
+      buy: "gemini",
       probe: quotaProbe("gemini"),
       links: [
         { label: "Usage dashboard",    url: "https://aistudio.google.com/app/usage", primary: true },
@@ -6246,6 +7260,7 @@ Generated ${new Date().toISOString()}.
       // and surfaces stale or low balances back into the card's status light.
       extra: () => antRenderTracker(),
       stateOverride: () => antDeriveState(),
+      buy: "anthropic",
       links: [
         { label: "Buy credits / billing", url: "https://platform.claude.com/settings/billing", primary: true },
         { label: "Usage",                 url: "https://platform.claude.com/settings/usage" },
@@ -6257,6 +7272,7 @@ Generated ${new Date().toISOString()}.
       tier: "free",
       desc: "Stage 2 OCR cloud fallback when on-device OCR returns thin results. Used by receipt scan and PDF import.",
       quota: "Free: 25K/month + 500/day per IP + 1MB. PRO ($30/mo): 300K + 5MB.",
+      buy: "ocr_space",
       probe: quotaProbe("ocr_space"),
       links: [
         { label: "Account dashboard",  url: "https://ocr.space/ocrapi", primary: true },
@@ -6269,6 +7285,7 @@ Generated ${new Date().toISOString()}.
       tier: "free",
       desc: "Subscription management. Anonymous app-user IDs, IAP receipt validation, churn analytics. Used by PBJ; HHH/CVC will adopt.",
       quota: "Free up to $10K MTR. Past that: 1% of MTR. At ~$30K MTR (3K subscribers × $9.99) → ~$200/mo.",
+      buy: "revenuecat",
       probe: quotaProbe("revenuecat_mtr"),
       links: [
         { label: "Dashboard",          url: "https://app.revenuecat.com/", primary: true },
@@ -6316,6 +7333,7 @@ Generated ${new Date().toISOString()}.
       tier: "free",
       desc: "iOS cloud builds + submission. (Android builds are local Gradle from C:\\PBJ\\android.)",
       quota: "Free: 30 builds/month. Paid tiers from $19/mo if needed.",
+      buy: "expo",
       probe: null,
       links: [
         { label: "Expo dashboard",     url: "https://expo.dev/", primary: true },
@@ -6361,10 +7379,46 @@ Generated ${new Date().toISOString()}.
     return `<span class="svc-light ${cls}"><span class="dot"></span>${labels[cls] || labels.unknown}</span>`;
   }
 
+  function svcStatusMeaning(state, result, service) {
+    const pct = (result && typeof result.used === "number" && typeof result.limit === "number" && result.limit > 0)
+      ? result.used / result.limit
+      : null;
+    if (pct != null && pct >= 0.9) {
+      const buy = service?.buy ? (Array.isArray(service.buy) ? service.buy[0] : service.buy) : null;
+      const link = buy && VENDOR_BUY[buy] ? ` Use the buy button below — ${VENDOR_BUY[buy].label}.` : " Use the buy button below.";
+      return `Usage at ${(pct * 100).toFixed(0)}% of tracked cap — near limit.${link}`;
+    }
+    if (pct != null && pct >= 0.75) {
+      return `Usage at ${(pct * 100).toFixed(0)}% of tracked cap — watch trend; buy link below if you're making money and need headroom.`;
+    }
+    if (state === "green") return "Last automatic check succeeded. Click a link below to confirm in the vendor UI.";
+    if (state === "yellow") return "Reachable but slow, rate-limited, or missing config — verify in vendor dashboard.";
+    if (state === "red") return "Probe failed — service may be down or keys misconfigured. Open dashboard link.";
+    if (state === "checking") return "Probe in flight…";
+    if (service && typeof service.stateOverride === "function") {
+      return "Status from manual balance log in this card — record credits after checking billing.";
+    }
+    if (!service?.probe) return "No browser probe — open the dashboard link to check health and quotas.";
+    return "Could not determine status — use dashboard link.";
+  }
+
   /** Format a numeric meter "used / limit unit · NN%" with the same
    *  green/yellow/red coloring as the status light. Only renders when
    *  the probe returned numeric usage data; status-only results show
    *  nothing here. */
+  function svcBuyRowHtml(s, cardState) {
+    if (!s.buy) return "";
+    const keys = Array.isArray(s.buy) ? s.buy : [s.buy];
+    const primary = VENDOR_BUY[keys[0]];
+    if (!primary) return "";
+    const tgt = primary.internal ? "" : ' target="_blank" rel="noopener noreferrer"';
+    const anchor = `<a href="${primary.url}"${tgt}>${primary.label} ↗</a>`;
+    if (cardState === "crit" || cardState === "warn" || cardState === "red") {
+      return `<div class="svc-buy-row">${anchor}</div>`;
+    }
+    return `<div class="svc-upgrade"><strong>Need more later?</strong> ${anchor}</div>`;
+  }
+
   function svcMeterHTML(result) {
     if (!result || typeof result.used !== "number" || typeof result.limit !== "number") return "";
     const pct = result.limit > 0 ? Math.min(1, result.used / result.limit) : 0;
@@ -6430,9 +7484,11 @@ Generated ${new Date().toISOString()}.
             ${tierBadge}
             ${meter}
           </div>
+          <div class="svc-status-meaning">${svcStatusMeaning(state, r, s)}</div>
           <div class="svc-desc">${s.desc}</div>
           <div class="svc-links">${links}</div>
           <div class="svc-quota"><strong>Limits:</strong> ${s.quota}</div>
+          ${svcBuyRowHtml(s, cardState)}
           ${extraHTML}
         </div>`;
     }).join("");
@@ -6489,6 +7545,8 @@ Generated ${new Date().toISOString()}.
     renderQuickLinks();
     renderFounderCostTable();
     renderThresholdsBaselines();
+    renderUpgradePlaybook();
+    renderVendorOnlyCapReminders();
 
     // Network-bound renders deferred slightly so login flow doesn't
     // fight for the wire on first load.
@@ -6498,6 +7556,7 @@ Generated ${new Date().toISOString()}.
       loadQuarantineWatch();
       loadRecentCommits();
       loadWorkerMonitoring();
+      loadCapacityControl();
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
       loadOpenCellIdPanel();
