@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PocketBudJet vs Competitors | JosspaTech</title>
+    <title>Why It's Different - PocketBudJet | JosspaTech</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,7 +76,7 @@
             justify-content: center; flex-wrap: wrap;
         }
 
-        /* Phone viewport for zoom */
+        /* Phone viewport (outer focus element) */
         .phone-viewport {
             flex-shrink: 0; overflow: hidden; border-radius: 40px;
         }
@@ -368,13 +368,13 @@
         <a href="/">Home</a><span class="sep">/</span>
         <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
         <a href="/how-to/">How To</a><span class="sep">/</span>
-        <span class="current">Why It Is Different</span>
+        <span class="current">Why It&rsquo;s Different</span>
     </div>
 
     <section class="hero">
         <div class="container">
             <h1>Why PocketBudJet Is Different</h1>
-            <p class="subheader">How PocketBudJet compares to the leading personal-finance apps — price, privacy, and features.</p>
+            <p class="subheader">Category-level comparison &mdash; no competitor logos. Lower price, more features, bank login optional, and your data stays on your phone by default.</p>
         </div>
     </section>
 
@@ -386,49 +386,49 @@
                 <div>
                     <div class="phone-viewport">
                         <div class="phone-frame">
-                            <div class="slideshow" id="slideshow">
+                        <div class="slideshow" id="slideshow">
                             <!-- Tap-to-start overlay (handles mobile autoplay policy) -->
                             <div class="tap-to-start" id="tapToStart">
                                 <div class="tap-to-start-icon">&#9654;</div>
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
-                            <div class="slide active" data-index="0" data-tap-hint="PocketBudJet vs. the popular budget apps &mdash; price, privacy, and features compared.">
-                                <img src="/assets/screenshots/dashboard.png" alt="PocketBudJet Dashboard" loading="lazy">
+                            <div class="slide active" data-index="0">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-settings-export.svg" alt="Comparison intro" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">SLIDE 1</span>
-                                    <div class="slide-title">The Question: How does PocketBudJet stack up?</div>
+                                    <div class="slide-title">How PocketBudJet compares to leading finance apps</div>
                                 </div>
                             </div>
-                            <div class="slide" data-index="1" data-tap-hint="PocketBudJet is among the most affordable budget apps at $9.99/month, and one of very few that never forces a bank login on you.">
-                                <img src="/assets/screenshots/budget.png" alt="Budget Comparison" loading="lazy">
+                            <div class="slide" data-index="1">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-import-csv.svg" alt="Price privacy features" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">SLIDE 2</span>
-                                    <div class="slide-title">Price & Privacy: Cheapest price. Best privacy. More features.</div>
+                                    <div class="slide-title">Price &bull; Privacy &bull; Features</div>
                                 </div>
                             </div>
-                            <div class="slide" data-index="2" data-tap-x="50" data-tap-y="55" data-tap-label="Household" data-tap-hint="Open <strong>Settings</strong> &rarr; <strong>Household Sync</strong>.">
-                                <img src="/assets/screenshots/scanner.png" alt="Unique Features" loading="lazy">
+                            <div class="slide" data-index="2">
+                                <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Rare features" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">SLIDE 3</span>
-                                    <div class="slide-title">Unique Features: Things only PocketBudJet does</div>
+                                    <div class="slide-title">WiFi scanner &bull; Offline &bull; Household sync included</div>
                                 </div>
                             </div>
-                            <div class="slide" data-index="3" data-tap-hint="Most popular budget apps run $80–$180/year. PocketBudJet Premium is $74.99/year &mdash; with more features and better privacy.">
-                                <img src="/assets/screenshots/transactions.png" alt="Annual Savings" loading="lazy">
+                            <div class="slide" data-index="3">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-settings-export.svg" alt="Annual cost" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">SLIDE 4</span>
-                                    <div class="slide-title">Annual Savings: Save $25 to $65 every year</div>
+                                    <div class="slide-title">Save $25&ndash;$65 per year vs category average</div>
                                 </div>
                             </div>
-                            <div class="slide" data-index="4" data-tap-x="85" data-tap-y="12" data-tap-label="Save" data-tap-hint="Tap <strong>Save</strong> (top right) when the form looks right.">
-                                <img src="/assets/screenshots/privacy.png" alt="The Verdict" loading="lazy">
+                            <div class="slide" data-index="4">
+                                <img src="/assets/illustrations-pocketbudjet/pbj-settings-export.svg" alt="Verdict" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">SLIDE 5</span>
-                                    <div class="slide-title">The Verdict: Same features. Half the price. Your data stays yours.</div>
+                                    <div class="slide-title">Same features &bull; Lower price &bull; Your data stays yours</div>
                                 </div>
                             </div>
                         </div>
-                        </div>
+                    </div>
                     </div>
                     <div class="progress-dots" id="dots"></div>
                     <div class="playback-controls">
@@ -440,32 +440,32 @@
                 <div class="narration-panel" id="narrationPanel">
                     <div class="narration-card" data-index="0">
                         <span class="narration-step-badge">Slide 1 of 5</span>
-                        <h3>The Question</h3>
-                        <p>PocketBudJet vs. the popular budget apps — price, privacy, and features compared.</p>
+                        <h3>The Comparison</h3>
+                        <p>Here&rsquo;s how PocketBudJet compares to the leading personal-finance apps &mdash; by category, not brand logos.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="1">
                         <span class="narration-step-badge">Slide 2 of 5</span>
-                        <h3>Price & Privacy</h3>
-                        <p>PocketBudJet is among the most affordable budget apps at $9.99/month, and one of very few that never forces a bank login on you.</p>
+                        <h3>Price, Privacy, Features</h3>
+                        <p>Price: lower than the category average. Privacy: bank login is optional. Features: more than most established apps in this category.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="2">
                         <span class="narration-step-badge">Slide 3 of 5</span>
-                        <h3>Unique Features</h3>
-                        <p>WiFi document scanner, household sync at no extra cost, fully offline — features no competitor matches.</p>
+                        <h3>Rare in This Category</h3>
+                        <p>WiFi scanner. Household sync included with Premium. Works offline. All three are rare in this category.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="3">
                         <span class="narration-step-badge">Slide 4 of 5</span>
-                        <h3>Annual Savings</h3>
-                        <p>Most popular budget apps run $80–$180/year. PocketBudJet Premium is $74.99/year — with more features and better privacy.</p>
+                        <h3>Annual Cost</h3>
+                        <p>You&rsquo;ll save twenty-five to sixty-five dollars a year, with more features, and your privacy stays yours.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="4">
                         <span class="narration-step-badge">Slide 5 of 5</span>
                         <h3>The Verdict</h3>
-                        <p>That&rsquo;s the bottom line. More features, lower price, bank login optional &mdash; never required &mdash; and you choose where your data lives. That&rsquo;s PocketBudJet.</p>
+                        <p>Same features. Lower price. Your data stays yours. That&rsquo;s PocketBudJet. Start a 21-day Premium trial at josspatech.com.</p>
                         <div class="narration-timer"></div>
                     </div>
                 </div>
@@ -475,41 +475,41 @@
 
     <section class="steps-section">
         <div class="container">
-            <h2>Why PocketBudJet Wins</h2>
+            <h2>What Sets PocketBudJet Apart</h2>
             <div class="timeline">
                 <div class="timeline-step">
                     <div class="timeline-marker">1</div>
                     <div class="timeline-content">
                         <h3>Lower Price</h3>
-                        <p>$9.99/month — typically lower than the popular alternatives</p>
+                        <p>$9.99/mo or $74.99/yr &mdash; below the $14&ndash;$18/mo category average</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">2</div>
                     <div class="timeline-content">
-                        <h3>Better Privacy</h3>
-                        <p>Bank login optional, no shared cloud database, no account required</p>
+                        <h3>Bank Login Optional</h3>
+                        <p>Import yourself on day one; Teller sync is paid Premium only</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">3</div>
                     <div class="timeline-content">
                         <h3>More Features</h3>
-                        <p>34+ features including WiFi scanner and offline mode</p>
+                        <p>36+ Premium tools including shopping intelligence and Web Companion</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">4</div>
                     <div class="timeline-content">
-                        <h3>No Hidden Fees</h3>
-                        <p>Household sync included, not a paid add-on</p>
+                        <h3>Offline-First</h3>
+                        <p>WiFi household sync &mdash; no internet required for partner sharing</p>
                     </div>
                 </div>
                 <div class="timeline-step">
                     <div class="timeline-marker">5</div>
                     <div class="timeline-content">
-                        <h3>Your Data, Your Way</h3>
-                        <p>Export in 6 formats, take it anywhere</p>
+                        <h3>Your Data Stays Yours</h3>
+                        <p>Local by default, optional encrypted cloud &mdash; no ads, no data sales</p>
                     </div>
                 </div>
             </div>
@@ -518,8 +518,8 @@
 
     <section class="cta-section">
         <div class="container">
-            <h2>Ready to switch to a better budget?</h2>
-            <a href="#" class="download-button">Download PocketBudJet</a>
+            <h2>Same features. Lower price. Your data stays yours.</h2>
+            <a href="/#download" class="download-button">Start 21-Day Trial</a>
         </div>
     </section>
 
@@ -544,7 +544,7 @@
         let voiceEnabled = true;
         let advanceTimeout = null;
 
-        // MP3 audio paths (pre-generated via edge-tts)
+        // MP3 audio paths (pre-generated via edge-tts, en-US-AndrewNeural)
         const audioPaths = [
             'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3', 'audio/slide-4.mp3'
         ];
@@ -749,4 +749,9 @@
 
         goTo(0);
 
-    }      
+    })();
+    </script>
+<link rel="stylesheet" href="/videos/shared/walkthrough.css">
+<script src="/videos/shared/walkthrough.js" defer></script>
+</body>
+</html>
