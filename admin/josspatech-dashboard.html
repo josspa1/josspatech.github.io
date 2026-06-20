@@ -1883,6 +1883,7 @@
       <a class="sn-chip" href="#capacityControl">Capacity Control</a>
       <a class="sn-chip" href="#cronHealth">Cron Health</a>
       <a class="sn-chip" href="#subscriptionUsers">Users by App</a>
+      <a class="sn-chip" href="#commercialProof">Commercial proof</a>
       <a class="sn-chip" href="#founderBreakeven">Founder Economics</a>
       <a class="sn-chip" href="#ocrQuotaPanel">OCR Quota</a>
       <a class="sn-chip" href="#tellerStatusPanel">Teller</a>
@@ -2232,6 +2233,20 @@
          Fixed-cost stacks, paying-sub comparison, alert playbook.
          Synced with PBJ docs/JOE_OPS_COSTS.md. OCR Quota panel
          below is the live Gemini / circuit-breaker monitor. -->
+
+    <section id="commercialProof">
+      <h2>PBJ — Commercial proof (90-day cohort)</h2>
+      <p class="section-explainer">
+        Anonymous funnel counts from the app via <code>POST /ops/commercial-proof/events</code>,
+        aggregated on the Worker KV. Rates are cohort ratios (not store billing).
+        Refresh after closed-testing builds ship.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadCommercialProofFromWorker()">Refresh commercial proof</button>
+        <span id="commercialProofHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="commercialProofGrid">Loading…</div>
+    </section>
     <section id="founderBreakeven">
       <details class="tb-collapse founder-collapse" open>
         <summary>Founder Economics &amp; Breakeven — expand for full detail</summary>
@@ -4329,12 +4344,12 @@ Generated ${new Date().toISOString()}.
   const APP_VERSIONS = [
     {
       app: "PocketBudJet (PBJ)",
-      ios:    { version: "1.0.0", build: "257", status: "testflight" },
-      android:{ version: "1.0.0", build: "257", status: "testflight" },
-      lastSubmitted: "2026-06-10",
+      ios:    { version: "1.0.0", build: "271", status: "testflight" },
+      android:{ version: "1.0.0", build: "271", status: "testflight" },
+      lastSubmitted: "2026-06-20",
       bundleId: "com.josspatech.pocketbudjet",
       appStoreId: "6761077263",
-      notes: "Build 257 — closed testing (alpha), 21-day trial, shopping intelligence, Web Companion, SCHEMA v78+"
+      notes: "Build 271 — closed testing (alpha), 21-day trial, shopping intelligence, Web Companion, SCHEMA v78+"
     },
     {
       app: "Handy Horology Helper (HHH)",
@@ -6765,6 +6780,62 @@ Generated ${new Date().toISOString()}.
     }
   }
 
+
+  function pctRate(r) {
+    if (r == null || Number.isNaN(r)) return "—";
+    return (r * 100).toFixed(1) + "%";
+  }
+
+  async function loadCommercialProofFromWorker() {
+    const grid = document.getElementById("commercialProofGrid");
+    const hint = document.getElementById("commercialProofHint");
+    if (!grid) return;
+    const app = WORKER_APPS.find(a => a.id === "pbj") || WORKER_APPS[0];
+    const key = wmGetKey(app, false);
+    const base = wmGetUrl(app);
+    if (!key) {
+      if (hint) hint.textContent = "Set X-PBJ-Key (run PBJ smoke test once).";
+      grid.innerHTML = "<p style=\"color:var(--warning);font-size:12px;\">Worker key not in browser.</p>";
+      return;
+    }
+    grid.textContent = "Loading…";
+    try {
+      const r = await fetch(`${base}/ops/commercial-proof`, {
+        headers: { [app.authHeader]: key },
+        signal: AbortSignal.timeout(12000),
+      });
+      if (r.status === 404) {
+        grid.innerHTML = "<p style=\"color:var(--warning);\">/ops/commercial-proof not deployed — run wrangler deploy on PBJ worker.</p>";
+        return;
+      }
+      if (!r.ok) {
+        grid.innerHTML = `<p style=\"color:var(--danger);\">HTTP ${r.status}</p>`;
+        return;
+      }
+      const j = await r.json();
+      const c = j.counts || {};
+      const rates = j.rates || {};
+      if (hint) {
+        hint.textContent = j.generated_at
+          ? `Updated ${new Date(j.generated_at).toLocaleString()} · ${j.unique_devices ?? c.unique_devices ?? 0} devices (90d window)`
+          : "";
+      }
+      grid.innerHTML = `<table><thead><tr><th>Metric</th><th>Count</th></tr></thead><tbody>
+        <tr><td>Import success</td><td><strong>${c.import_success ?? 0}</strong></td></tr>
+        <tr><td>Post-import home view</td><td><strong>${c.post_import_home_view ?? 0}</strong></td></tr>
+        <tr><td>Activation complete</td><td><strong>${c.activation_complete ?? 0}</strong></td></tr>
+        <tr><td>Trial start</td><td><strong>${c.trial_start ?? 0}</strong></td></tr>
+        <tr><td>Trial convert</td><td><strong>${c.trial_convert ?? 0}</strong></td></tr>
+        <tr><td>Subscribe success</td><td><strong>${c.subscribe_success ?? 0}</strong></td></tr>
+        <tr><td>Unique devices</td><td><strong>${c.unique_devices ?? 0}</strong></td></tr>
+      </tbody></table>
+      <p style=\"margin-top:10px;font-size:12px;color:var(--text-muted);\">
+        Import→home ${pctRate(rates.import_to_home)} · trial→paid ${pctRate(rates.trial_to_paid)} · subscribe start→success ${pctRate(rates.subscribe_start_to_success)}
+      </p>`;
+    } catch (e) {
+      grid.innerHTML = `<p style=\"color:var(--danger);\">${e instanceof Error ? e.message : String(e)}</p>`;
+    }
+  }
   async function loadRevenueFromWorker() {
     const hint = document.getElementById("revenueCatHint");
     if (!hint) return;
@@ -7562,6 +7633,7 @@ Generated ${new Date().toISOString()}.
       loadOpenCellIdPanel();
       loadThresholdsSharedStats();
       renderBreakevenPanel();
+      loadCommercialProofFromWorker();
       loadRevenueFromWorker();
       loadSubscriptionUsers();
       updateOpsAlertBanner().catch(() => {});
