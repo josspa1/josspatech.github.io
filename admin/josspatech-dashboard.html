@@ -2234,6 +2234,22 @@
          Synced with PBJ docs/JOE_OPS_COSTS.md. OCR Quota panel
          below is the live Gemini / circuit-breaker monitor. -->
 
+    <section id="runtimeTruthGate">
+      <h2>PBJ — Runtime gate</h2>
+      <p class="section-explainer">
+        Weekly crash-free + cold-start P95 from
+        <code>docs/runtime-truth-data.json</code> in the PBJ repo (Firebase Console manual or BigQuery).
+        Gates: crash-free ≥ 99%, cold-start P95 ≤ 2.5s. Pair with
+        <a href="https://github.com/josspa1/PocketBudJet/blob/master/docs/RUNTIME_TRUTH.md" target="_blank" rel="noopener noreferrer">RUNTIME_TRUTH.md</a>
+        before cutting a build.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadRuntimeTruthFromGithub()">Refresh runtime gate</button>
+        <span id="runtimeTruthHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="runtimeTruthGrid">Loading…</div>
+    </section>
+
     <section id="commercialProof">
       <h2>PBJ — Commercial proof (90-day cohort)</h2>
       <p class="section-explainer">
@@ -6786,6 +6802,93 @@ Generated ${new Date().toISOString()}.
     return (r * 100).toFixed(1) + "%";
   }
 
+  const RUNTIME_TRUTH_JSON_URL =
+    "https://raw.githubusercontent.com/josspa1/PocketBudJet/master/docs/runtime-truth-data.json";
+  const RUNTIME_TRUTH_DOC_URL =
+    "https://github.com/josspa1/PocketBudJet/blob/master/docs/RUNTIME_TRUTH.md";
+  const FIREBASE_PBJ_CONSOLE =
+    "https://console.firebase.google.com/project/pocketbudjet-b70f3";
+  const RUNTIME_CRASH_FREE_GATE = 99;
+  const RUNTIME_P95_GATE_MS = 2500;
+
+  function runtimeFmtMs(ms) {
+    if (ms == null || Number.isNaN(ms)) return "—";
+    if (ms >= 1000) return (ms / 1000).toFixed(1) + "s";
+    return Math.round(ms) + "ms";
+  }
+
+  function runtimeGateBadge(pass) {
+    if (pass === true) return '<span style="color:var(--success);font-weight:700;">PASS</span>';
+    if (pass === false) return '<span style="color:var(--danger);font-weight:700;">FAIL</span>';
+    return '<span style="color:var(--text-muted);">—</span>';
+  }
+
+  async function loadRuntimeTruthFromGithub() {
+    const grid = document.getElementById("runtimeTruthGrid");
+    const hint = document.getElementById("runtimeTruthHint");
+    if (!grid) return;
+    grid.textContent = "Loading…";
+    try {
+      const r = await fetch(RUNTIME_TRUTH_JSON_URL, {
+        signal: AbortSignal.timeout(12000),
+        headers: { Accept: "application/json" },
+      });
+      if (!r.ok) {
+        grid.innerHTML = `<p style="color:var(--danger);">HTTP ${r.status} — JSON not reachable.</p>`;
+        if (hint) hint.textContent = "";
+        return;
+      }
+      const j = await r.json();
+      const build = j.metricsBuild ?? "—";
+      const crashFree = j.crashFreeSessionsPct;
+      const p95 = j.coldStartP95Ms;
+      const crashPass = crashFree == null ? null : crashFree >= RUNTIME_CRASH_FREE_GATE;
+      const p95Pass = p95 == null ? null : p95 <= RUNTIME_P95_GATE_MS;
+      const gatePass = crashPass === null || p95Pass === null ? null : crashPass && p95Pass;
+      if (hint) {
+        const windowTxt = j.dateRangeStart && j.dateRangeEnd
+          ? `${j.dateRangeStart} → ${j.dateRangeEnd}`
+          : "";
+        hint.textContent = [windowTxt, j.dataSource].filter(Boolean).join(" · ");
+      }
+      grid.innerHTML = `<div class="be-grid">
+        <div class="be-card">
+          <div class="be-label">Metrics build</div>
+          <div class="be-value">${build}</div>
+          <div class="be-sub">Source JSON build number</div>
+        </div>
+        <div class="be-card">
+          <div class="be-label">Crash-free (≥ ${RUNTIME_CRASH_FREE_GATE}%)</div>
+          <div class="be-value" style="color:${crashPass === false ? "var(--danger)" : crashPass ? "var(--success)" : "var(--primary)"};">
+            ${crashFree == null ? "—" : crashFree.toFixed(1) + "%"}
+          </div>
+          <div class="be-sub">${runtimeGateBadge(crashPass)} vs gate</div>
+        </div>
+        <div class="be-card">
+          <div class="be-label">Cold start P95 (≤ ${runtimeFmtMs(RUNTIME_P95_GATE_MS)})</div>
+          <div class="be-value" style="color:${p95Pass === false ? "var(--danger)" : p95Pass ? "var(--success)" : "var(--primary)"};">
+            ${runtimeFmtMs(p95)}
+          </div>
+          <div class="be-sub">${runtimeGateBadge(p95Pass)} vs gate</div>
+        </div>
+        <div class="be-card">
+          <div class="be-label">Ship gate</div>
+          <div class="be-value">${runtimeGateBadge(gatePass)}</div>
+          <div class="be-sub">Both metrics must pass</div>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+        <a href="${RUNTIME_TRUTH_DOC_URL}" target="_blank" rel="noopener noreferrer">RUNTIME_TRUTH.md</a>
+        · <a href="${FIREBASE_PBJ_CONSOLE}/crashlytics" target="_blank" rel="noopener noreferrer">Firebase Crashlytics</a>
+        · <a href="${FIREBASE_PBJ_CONSOLE}/performance" target="_blank" rel="noopener noreferrer">Firebase Performance</a>
+        ${j.notes ? `<br><span style="font-style:italic;">${j.notes}</span>` : ""}
+      </p>`;
+    } catch (e) {
+      grid.innerHTML = `<p style="color:var(--danger);">${e instanceof Error ? e.message : String(e)}</p>`;
+      if (hint) hint.textContent = "";
+    }
+  }
+
   async function loadCommercialProofFromWorker() {
     const grid = document.getElementById("commercialProofGrid");
     const hint = document.getElementById("commercialProofHint");
@@ -7634,6 +7737,7 @@ Generated ${new Date().toISOString()}.
       loadThresholdsSharedStats();
       renderBreakevenPanel();
       loadCommercialProofFromWorker();
+      loadRuntimeTruthFromGithub();
       loadRevenueFromWorker();
       loadSubscriptionUsers();
       updateOpsAlertBanner().catch(() => {});
