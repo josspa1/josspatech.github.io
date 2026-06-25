@@ -759,26 +759,59 @@
  });
 
  function stopAudio() {
- if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
+ if (audioElement) {
+ audioElement.onended = null;
+ audioElement.onerror = null;
+ audioElement.pause();
+ audioElement.currentTime = 0;
+ audioElement.removeAttribute('src');
+ audioElement.load();
+ audioElement = null;
+ }
  clearTimeout(advanceTimeout);
+ advanceTimeout = null;
+ }
+
+ function stopAllAudio() {
+ playing = false;
+ clearInterval(timer);
+ timer = null;
+ stopAudio();
+ document.querySelectorAll('audio').forEach(function(a) {
+ a.onended = null;
+ a.onerror = null;
+ a.loop = false;
+ a.pause();
+ a.currentTime = 0;
+ a.removeAttribute('src');
+ a.load();
+ });
+ if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
  }
 
  function playSlideAudio(index) {
  stopAudio();
- if (!voiceEnabled) return;
+ if (!voiceEnabled || !playing) return;
  const src = audioPaths[index];
  if (!src) return;
  audioElement = new Audio(src);
+ audioElement.loop = false;
  audioElement.volume = 1.0;
  audioElement.onended = () => {
- if (playing && voiceEnabled) {
+ if (!playing || !voiceEnabled) return;
  advanceTimeout = setTimeout(() => {
+ if (!playing || !voiceEnabled) return;
  if (current < slides.length - 1) { next(); }
  else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
  }, 1200);
- }
  };
- audioElement.onerror = () => { if (playing) advanceTimeout = setTimeout(() => { if (current < slides.length - 1) next(); }, SLIDE_DURATION); };
+ audioElement.onerror = () => {
+ if (!playing) return;
+ advanceTimeout = setTimeout(() => {
+ if (!playing) return;
+ if (current < slides.length - 1) next();
+ }, SLIDE_DURATION);
+ };
  const _p = audioElement.play();
  if (_p !== undefined) {
      _p.then(() => {
@@ -795,6 +828,7 @@
              speedLabel.textContent = 'Tap to play';
          } else if (playing) {
              advanceTimeout = setTimeout(() => {
+                 if (!playing) return;
                  if (current < slides.length - 1) next();
              }, SLIDE_DURATION);
          }
@@ -894,6 +928,13 @@
             audioUnlocked = true;
             if (tapToStart) tapToStart.classList.add('hidden');
         }
+
+ if (window.PBJWalkthrough && window.PBJWalkthrough.registerTeardown) {
+ window.PBJWalkthrough.registerTeardown(stopAllAudio);
+ } else {
+ window.__pbjTeardownQueue = window.__pbjTeardownQueue || [];
+ window.__pbjTeardownQueue.push(stopAllAudio);
+ }
 
  goTo(0);
  })();
