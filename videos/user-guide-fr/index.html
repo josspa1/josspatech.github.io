@@ -502,6 +502,10 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Help">
 
  </div>
+ <div class="tap-to-start" id="tapToStart">
+ <div class="tap-to-start-icon">&#9654;</div>
+ <div class="tap-to-start-label">Appuyez pour lire</div>
+ </div>
  </div>
  </div>
  </div>
@@ -1035,13 +1039,11 @@ let audioUnlocked = false;
                     audioUnlocked = true;
                     tapToStart.classList.add('hidden');
                     playPauseBtn.innerHTML = '&#10074;&#10074;';
-                    speedLabel.textContent = 'Lecture automatique';
                 }
             }).catch(() => {
                 if (!audioUnlocked) {
                     isPlaying = false;
                     playPauseBtn.innerHTML = '&#9654;';
-                    speedLabel.textContent = 'Appuyez pour lire';
                 } else if (isPlaying) {
                     advanceTimeout = setTimeout(() => {
                         if (currentSlide < slides.length - 1) nextSlide();
@@ -1114,7 +1116,6 @@ let audioUnlocked = false;
             tapToStart.classList.add('hidden');
             isPlaying = true;
             playPauseBtn.innerHTML = '&#10074;&#10074;';
-            speedLabel.textContent = 'Lecture automatique';
             playSlideAudio(currentSlide);
         }
         tapToStart.addEventListener('click', startPlayback);
