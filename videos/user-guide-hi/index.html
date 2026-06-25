@@ -979,16 +979,16 @@ let audioUnlocked = false;
  const SLIDE_DURATION = 8000;
  let audioElement = null, voiceEnabled = true, advanceTimeout = null;
 
- // MP3 audio: EN narration reused until HI re-voice (edge-tts hi-IN-*) ships
+ // MP3 audio paths (pre-generated via edge-tts, hi-IN-SwaraNeural)
  const audioPaths = [
- '/videos/user-guide/audio/slide-0.mp3', '/videos/user-guide/audio/slide-1.mp3', '/videos/user-guide/audio/slide-2.mp3', '/videos/user-guide/audio/slide-3.mp3',
- '/videos/user-guide/audio/slide-4.mp3', '/videos/user-guide/audio/slide-5.mp3', '/videos/user-guide/audio/slide-6.mp3', '/videos/user-guide/audio/slide-7.mp3',
- '/videos/user-guide/audio/slide-8.mp3', '/videos/user-guide/audio/slide-9.mp3', '/videos/user-guide/audio/slide-10.mp3', '/videos/user-guide/audio/slide-11.mp3',
- '/videos/user-guide/audio/slide-12.mp3', '/videos/user-guide/audio/slide-13.mp3', '/videos/user-guide/audio/slide-14.mp3', '/videos/user-guide/audio/slide-15.mp3',
- '/videos/user-guide/audio/slide-16.mp3', '/videos/user-guide/audio/slide-17.mp3', '/videos/user-guide/audio/slide-18.mp3', '/videos/user-guide/audio/slide-19.mp3',
- '/videos/user-guide/audio/slide-20.mp3', '/videos/user-guide/audio/slide-21.mp3', '/videos/user-guide/audio/slide-22.mp3', '/videos/user-guide/audio/slide-23.mp3',
- '/videos/user-guide/audio/slide-24.mp3', '/videos/user-guide/audio/slide-25.mp3',
- '/videos/user-guide/audio/slide-26.mp3', '/videos/user-guide/audio/slide-27.mp3'
+ 'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+ 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
+ 'audio/slide-8.mp3', 'audio/slide-9.mp3', 'audio/slide-10.mp3', 'audio/slide-11.mp3',
+ 'audio/slide-12.mp3', 'audio/slide-13.mp3', 'audio/slide-14.mp3', 'audio/slide-15.mp3',
+ 'audio/slide-16.mp3', 'audio/slide-17.mp3', 'audio/slide-18.mp3', 'audio/slide-19.mp3',
+ 'audio/slide-20.mp3', 'audio/slide-21.mp3', 'audio/slide-22.mp3', 'audio/slide-23.mp3',
+ 'audio/slide-24.mp3', 'audio/slide-25.mp3',
+ 'audio/slide-26.mp3', 'audio/slide-27.mp3'
  ];
  for (let i = 0; i < 28; i++) {
  const origins = [[50,25],[50,40],[50,35],[50,50],[50,55],[50,45],[50,30],[50,60],[50,38],[50,42]];
