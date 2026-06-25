@@ -16,6 +16,8 @@ LOCALES = {
     "it": ("user-guide-it", "it-IT-ElsaNeural"),
     "hi": ("user-guide-hi", "hi-IN-SwaraNeural"),
     "de": ("user-guide-de", "de-DE-ConradNeural"),
+    "es": ("user-guide-es", "es-US-AlonsoNeural"),
+    "zh": ("user-guide-zh", "zh-CN-YunyangNeural"),
 }
 
 
@@ -63,7 +65,7 @@ def generate_one(text: str, voice: str, out_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate user-guide locale MP3s via edge-tts")
-    parser.add_argument("locale", choices=sorted(LOCALES.keys()), help="Locale code (fr, pt, it, hi, de)")
+    parser.add_argument("locale", choices=sorted(LOCALES.keys()), help="Locale code (fr, pt, it, hi, de, es, zh)")
     parser.add_argument("--force", action="store_true", help="Regenerate even if file exists")
     args = parser.parse_args()
 
