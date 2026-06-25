@@ -92,6 +92,24 @@
         .play-pause-btn:hover { background: var(--navy-medium); transform: scale(1.05); }
         .speed-label { color: var(--slate); font-size: 0.85rem; font-weight: 500; }
 
+        .tap-to-start {
+            position: absolute; inset: 0; z-index: 20;
+            background: rgba(10, 26, 57, 0.72);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            cursor: pointer; transition: opacity 0.3s;
+        }
+        .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+        .tap-to-start-icon {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: var(--gold); color: var(--navy-dark);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 0.6rem;
+        }
+        .tap-to-start-label {
+            font-size: 0.9rem; font-weight: 700; color: white;
+        }
+
         /* Steps */
         .steps-section { background-color: var(--white); padding: 4rem 2rem; }
         .steps-section .container { max-width: 1100px; margin: 0 auto; }
@@ -153,6 +171,10 @@
                 <div class="phone-viewport">
                     <div class="phone-frame">
                         <div class="slideshow" id="slideshow">
+                            <div class="tap-to-start" id="tapToStart">
+                                <div class="tap-to-start-icon">&#9654;</div>
+                                <div class="tap-to-start-label">Tap to play</div>
+                            </div>
 
                             <!-- Slide 0: title card -->
                             <div class="slide active" data-index="0">
@@ -173,9 +195,8 @@
                             </div>
 
                             <!-- Slide 2: tap the share icon -->
-                            <div class="slide" data-index="2" data-tap-label="Share" data-tap-hint="Tap the <strong>Share icon</strong> (square with arrow up) next to the statement PDF.">
+                            <div class="slide" data-index="2" data-tap-x="88" data-tap-y="33" data-tap-label="Share" data-tap-hint="Tap the <strong>Share icon</strong> (square with arrow up) next to the statement PDF.">
                                 <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Tap the share icon next to the statement">
-                                <div class="tap-indicator" style="left:88%;top:33%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 2</span>
                                     <div class="slide-title">Tap the Share icon on the statement</div>
@@ -192,9 +213,8 @@
                             </div>
 
                             <!-- Slide 4: tap PBJ in share sheet -->
-                            <div class="slide" data-index="4" data-tap-label="PocketBudJet" data-tap-hint="On the share sheet, tap the <strong>PocketBudJet</strong> icon. Scroll right or tap More if you don&rsquo;t see it yet.">
+                            <div class="slide" data-index="4" data-tap-x="53" data-tap-y="68" data-tap-label="PocketBudJet" data-tap-hint="On the share sheet, tap the <strong>PocketBudJet</strong> icon. Scroll right or tap More if you don&rsquo;t see it yet.">
                                 <img src="/assets/illustrations-pocketbudjet/share-sheet-pbj.svg" alt="Tap PocketBudJet in share sheet">
-                                <div class="tap-indicator" style="left:53%;top:68%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 4</span>
                                     <div class="slide-title">Tap the PocketBudJet icon</div>
@@ -202,8 +222,8 @@
                             </div>
 
                             <!-- Slide 5: PBJ opens straight to Import -->
-                            <div class="slide" data-index="5" data-tap-x="50" data-tap-y="88" data-tap-label="Import" data-tap-hint="Tap <strong>Import receipts</strong> from the + menu or Import Center.">
-                                <img src="/assets/illustrations-pocketbudjet/pbj-import-receiving.svg" alt="PocketBudJet opens to Import screen with the statement loaded">
+                            <div class="slide" data-index="5" data-tap-x="50" data-tap-y="88" data-tap-label="Import" data-tap-hint="PocketBudJet opens straight to Import with your statement loaded.">
+                                <img src="/assets/screenshots/import.png" alt="PocketBudJet Import screen with statement loaded" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">PocketBudJet opens straight to Import</div>
@@ -211,9 +231,8 @@
                             </div>
 
                             <!-- Slide 6: review then confirm -->
-                            <div class="slide" data-index="6" data-tap-label="Confirm" data-tap-hint="Review each parsed row, fix any flagged items, then tap <strong>Confirm</strong> at the bottom.">
-                                <img src="/assets/illustrations-pocketbudjet/pbj-import-receiving.svg" alt="Review parsed transactions and tap Confirm">
-                                <div class="tap-indicator" style="left:50%;top:91%"><div class="tap-ring"></div><div class="tap-ring-outer"></div><span class="tap-finger">&#9757;</span></div>
+                            <div class="slide" data-index="6" data-tap-x="50" data-tap-y="91" data-tap-label="Confirm" data-tap-hint="Review each parsed row, fix any flagged items, then tap <strong>Confirm</strong> at the bottom.">
+                                <img src="/assets/screenshots/import.png" alt="Review parsed transactions and tap Confirm" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">Review the draft, tap Confirm</div>
@@ -455,8 +474,30 @@ playPauseBtn.addEventListener('click', () => {
     }
 });
 
-// Kick off
-playSlide();
+const tapToStart = document.getElementById('tapToStart');
+let audioUnlocked = false;
+
+function startPlayback() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    if (tapToStart) tapToStart.classList.add('hidden');
+    isPaused = false;
+    playPauseBtn.innerHTML = '&#10074;&#10074;';
+    speedLabel.textContent = 'Auto-playing';
+    playSlide();
+}
+if (tapToStart) tapToStart.addEventListener('click', startPlayback);
+if (!navigator.maxTouchPoints) {
+    audioUnlocked = true;
+    if (tapToStart) tapToStart.classList.add('hidden');
+} else {
+    isPaused = true;
+    playPauseBtn.innerHTML = '&#9654;';
+    speedLabel.textContent = 'Tap to play';
+}
+
+// Kick off (desktop autoplays; mobile waits for tap overlay)
+if (audioUnlocked) playSlide();
 </script>
 
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
