@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketBudJet FAQ | JosspaTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        body { font-family: 'Source Sans 3', sans-serif; color: var(--navy); background: var(--white); line-height: 1.6; }
+        nav { position: sticky; top: 0; z-index: 1000; background: var(--navy); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        nav .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+        nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; }
+        nav .nav-links a:hover { color: var(--gold); }
+        .breadcrumbs { max-width: 900px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.9rem; color: var(--slate); }
+        .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+        .breadcrumbs a:hover { text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 2.5rem 2rem; text-align: center; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.75rem; }
+        .hero p { max-width: 640px; margin: 0 auto; font-size: 1.1rem; opacity: 0.95; }
+        .faq-section { padding: 3rem 2rem 4rem; background: var(--background); }
+        .faq-section .container { max-width: 900px; margin: 0 auto; }
+        .faq-item { background: var(--white); border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 1rem; border-left: 5px solid var(--gold); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+        .faq-item h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 0.6rem; }
+        .faq-item p { color: var(--slate); font-size: 0.98rem; }
+        .faq-item a { color: var(--navy-medium); font-weight: 600; }
+        footer { background: var(--navy-dark); color: rgba(255,255,255,0.8); text-align: center; padding: 1.5rem; font-size: 0.9rem; }
+        footer a { color: var(--gold); text-decoration: none; }
+    </style>
+</head>
+<body>
+<nav>
+    <div class="container">
+        <a href="/" class="logo">JosspaTech</a>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#pbj">PocketBudJet</a></li>
+            <li><a href="/how-to/">How To</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="breadcrumbs">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+    <a href="/how-to/">How To</a><span class="sep">/</span>
+    <span class="current">FAQ</span>
+</div>
+
+<section class="hero">
+    <h1>PocketBudJet FAQ</h1>
+    <p>Quick answers on trial, import, bank sync, Premium pricing, and privacy. For step-by-step help, see our <a href="/how-to/" style="color:var(--gold);font-weight:600">walkthrough videos</a>.</p>
+</section>
+
+<section class="faq-section">
+    <div class="container">
+
+        <article class="faq-item">
+            <h2>What does the 21-day trial include?</h2>
+            <p>Full Premium features except automatic bank sync. You get import (CSV, OFX, QFX, QIF, XLSX, PDF), receipt scan, budgets, debt planner, AI coach, exports, and more — no credit card required. After 21 days, subscribe at $9.99/mo or $74.99/yr to keep access.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Can I import bank data without connecting my bank?</h2>
+            <p>Yes — and it works worldwide. Download a statement or export a CSV from your bank, or use the <a href="/videos/pocketbudjet/share-statements/">Share to PocketBudJet</a> trick from your bank app. See <a href="/videos/import/">Import Bank Data</a> for the full walkthrough. No bank login required.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Is bank sync available in Europe or outside the US?</h2>
+            <p>No. Automatic bank sync (Teller) supports <strong>US institutions only</strong>. EU and international users should use import — same powerful categorization, no ongoing connection fees. We market bank sync honestly as US-only; import is the global path.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>When does bank sync unlock, and what does it cost?</h2>
+            <p>Bank sync requires a <strong>paid Premium subscription</strong> — it is not included in the 21-day trial. Premium includes two linked banks; each additional bank is $3.99/month. If your subscription lapses, bank connections disconnect automatically. Details: <a href="/videos/pocketbudjet/connect-bank/">Connect Bank walkthrough</a> and <a href="/docs/pocketbudjet/HowWeMakeMoney.html">How We Make Money</a>.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Why isn&rsquo;t bank sync free like some competitors?</h2>
+            <p>Teller charges per connected account. We pass through those costs transparently instead of selling your data or showing ads. Import stays free on trial and Premium — you choose sync only if the convenience is worth it. That keeps reviews fair: you know before you subscribe.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Where is my financial data stored?</h2>
+            <p>On your device in PocketBudJet&rsquo;s private storage. We never store bank usernames or passwords. Optional cloud backup uses AES-256 encryption with a key only you know. Read <a href="/docs/pocketbudjet/PocketBudJet_PrivacyPolicy.html">Privacy Policy</a> and <a href="/docs/pocketbudjet/WhyLocalFirst.html">Why Local First</a>.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>What&rsquo;s the fastest way to import a PDF statement?</h2>
+            <p>Open your bank app, find the statement, tap Share, pick PocketBudJet — six taps total. Parsed and ready to confirm in Import. Walkthrough: <a href="/videos/pocketbudjet/share-statements/">Share Bank Statements</a>.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Is there a permanent free tier?</h2>
+            <p>No. PocketBudJet is trial-first: 21 days of Premium (minus bank sync), then subscribe or lose access. No ads, no data sales — your subscription funds development.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Which languages does PocketBudJet support?</h2>
+            <p>The app UI supports English, Spanish, German, French, Portuguese, Chinese, Italian, and Hindi (scaffold). Full narrated user guides on this site: EN, ES, DE, ZH, FR, PT, and IT. Topic walkthroughs are English-only today.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>How do I cancel or manage my subscription?</h2>
+            <p>Subscriptions are managed through Apple App Store or Google Play — same as any app. Cancel anytime; Premium stays active until the period ends. Bank sync disconnects if you do not renew.</p>
+        </article>
+
+        <article class="faq-item">
+            <h2>Still stuck?</h2>
+            <p>Email <a href="mailto:support@josspatech.com">support@josspatech.com</a> (usually within 24 hours) or browse <a href="/how-to/">all walkthroughs</a>. Beta feedback: <a href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener">feedback form</a>.</p>
+        </article>
+
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 JosspaTech LLC &mdash; <a href="/">josspatech.com</a> | <a href="/how-to/">Help Center</a></p>
+</footer>
+</body>
+</html>
