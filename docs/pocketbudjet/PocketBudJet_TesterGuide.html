@@ -26,6 +26,11 @@ header{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align
 main{max-width:760px;margin:0 auto;padding:52px 24px 80px;}
 .summary-box{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--gold);}
 .summary-box strong{color:var(--gold);}
+.start-here{background:#fff;border:2px solid var(--gold);border-radius:8px;padding:20px 22px;margin-bottom:28px;font-size:16px;line-height:1.65;}
+.start-here h2{font-family:'Playfair Display',serif;font-size:20px;color:var(--navy-dark);font-weight:700;margin:0 0 12px;padding:0;border:none;}
+.start-here ol{margin:0 0 0 22px;padding:0;}
+.start-here li{margin-bottom:8px;font-size:16px;}
+.start-here .build-tag{display:inline-block;background:var(--gold);color:var(--navy-dark);font-weight:700;font-size:13px;padding:2px 10px;border-radius:4px;margin-bottom:10px;}
 h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}
 h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);font-weight:700;margin:22px 0 6px;}
 p{font-size:17px;margin-bottom:14px;}
@@ -64,21 +69,32 @@ footer p{font-size:12px;color:var(--light-slate);}
   <span class="doc-type">PocketBudJet · Beta Tester Guide</span>
   <h1>Welcome, tester.</h1>
   <div class="doc-meta">
-    <span>Build 105+</span>
-    <span>Updated: April 29, 2026</span>
+    <span>Closed testing: build 299</span>
+    <span>Updated: June 25, 2026</span>
     <span>Feedback: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
 </div>
 
 <main>
+  <div class="start-here">
+    <span class="build-tag">Start here — build 299</span>
+    <h2>Android closed testers</h2>
+    <ol>
+      <li><strong>Opt in + install from Play only:</strong> <a href="https://play.google.com/apps/testing/com.josspatech.pocketbudjet">Closed testing link</a> → Become a tester → Install / Update. Do not sideload. If install fails: uninstall PocketBudJet first, then install from Play again.</li>
+      <li><strong>Verify build before testing:</strong> Settings → scroll to <strong>About</strong> → check the version row. Must show <strong>build 299</strong> (e.g. v1.0.0 · build 299). If you see 284 or older: uninstall → Play Store → Update. Do not test until 299.</li>
+      <li><strong>Simulate Premium</strong> (bank sync testing): Settings → tap the version row <strong>7 times</strong> → scroll to red <strong>Developer tools</strong> → <strong>Simulate Premium</strong>. OFF = trial (import only). ON = paid sim (bank sync). If already ON during trial, toggle OFF then ON.</li>
+      <li><strong>Teller sandbox login</strong> (Connect a Bank screen): User ID <code>username</code>, Password <code>password</code> — not <code>test</code>/<code>test</code>. Never use your real bank password. <a href="https://teller.io/docs/guides/sandbox">Teller sandbox guide</a></li>
+    </ol>
+  </div>
+
   <div class="summary-box">
-    <strong>The deal:</strong> You're getting an early build of PocketBudJet — a personal-finance app that runs on your device and never asks for your bank credentials. We need real-life use to surface the rough edges. The list below tells you what to try, what to ignore, and how to send feedback.
+    <strong>The deal:</strong> You're getting an early build of PocketBudJet — a personal-finance app that runs on your device. We need real-life use to surface the rough edges. Follow the steps above first, then use the sections below for what to try and how to send feedback.
   </div>
 
   <h2>1. Install</h2>
   <p><strong>iPhone:</strong> Tap the TestFlight invite from your inbox. If TestFlight isn't installed yet, the App Store will prompt you. Accept and tap "Install" inside TestFlight.</p>
-  <p><strong>Android:</strong> Tap the Internal-Testing invite from Google Play. The Play Store opens straight to PocketBudJet — tap "Install."</p>
-  <p>Updates land automatically. If you ever feel like you're seeing yesterday's app, force-quit and reopen.</p>
+  <p><strong>Android (closed testing):</strong> Use the <a href="https://play.google.com/apps/testing/com.josspatech.pocketbudjet">closed opt-in link</a> → Become a tester → Install from Google Play. Install from Play only — not sideload. If install fails, uninstall first, then try again.</p>
+  <p>Updates land automatically. Always confirm <strong>build 299</strong> in Settings → About before testing (see Start here above).</p>
 
   <h2>2. Your first ten minutes</h2>
   <p>Goal: get the app to the point where it has enough of your data to feel useful.</p>
@@ -169,9 +185,10 @@ footer p{font-size:12px;color:var(--light-slate);}
 
   <h2>5. What we're NOT testing in this round</h2>
   <ul>
-    <li><strong>Automatic bank sync (Teller).</strong> Requires an active paid Premium subscription — not available during the 21-day trial. Manual entry, statement import (CSV/PDF/share), receipts, and email forwarding work on every plan.</li>
+    <li><strong>Automatic bank sync (Teller) without Simulate Premium.</strong> Bank sync requires paid Premium — not the 21-day trial. Closed testers: enable <strong>Simulate Premium</strong> (7-tap unlock in Settings) to test sandbox bank connect. Manual entry, statement import (CSV/PDF/share), receipts, and email forwarding work on every plan without it.</li>
+    <li><strong>Real bank passwords in sandbox.</strong> Teller Sandbox uses test credentials only (<code>username</code> / <code>password</code>). Never enter your real bank login.</li>
     <li><strong>Credit-score tracking.</strong> Coming in a later version.</li>
-    <li><strong>Pricing / subscription billing.</strong> Pro features are unlocked for testers.</li>
+    <li><strong>Real subscription billing.</strong> IAP is off in closed builds — Simulate Premium unlocks features locally.</li>
   </ul>
 
   <h2>6. Sending feedback</h2>
@@ -204,7 +221,7 @@ footer p{font-size:12px;color:var(--light-slate);}
 </main>
 <footer>
   <span style="font-family:'Playfair Display',serif;font-size:15px;color:#fff;">Josspa<span style="color:#F0C040;">Tech</span>™</span>
-  <p>© 2026 JosspaTech LLC · 2389 Main St STE 100, Glastonbury, CT 06033, USA<br><a href="mailto:support@josspatech.com" style="color:#8AAABB;">support@josspatech.com</a></p>
+  <p>© 2026 JosspaTech. All Rights Reserved.</p>
   <a href="/#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
 </footer>
 </body>
