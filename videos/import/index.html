@@ -118,9 +118,13 @@
  text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
  }
  .video-wrapper {
- display: flex; gap: 3rem; align-items: flex-start; justify-content: center; flex-wrap: wrap;
+ display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
+ flex-wrap: nowrap; width: 100%;
  }
- .phone-column { flex-shrink: 0; }
+ .phone-column {
+ flex-shrink: 0; width: 320px; max-width: 100%;
+ display: flex; flex-direction: column; align-items: center;
+ }
 
  /* Phone viewport for zoom */
  .phone-viewport {
@@ -247,10 +251,10 @@
         }
  .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
 
- /* Chapter navigation — full width below phone + transcript */
+ /* Chapter navigation — under phone column only */
  .chapter-nav {
  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
- margin-top: 1.5rem; padding: 0 1rem; width: 100%;
+ margin-top: 1.5rem; padding: 0; width: 100%; max-width: 320px;
  }
  .chapter-btn {
  background: var(--navy); color: white; border: 2px solid var(--navy);
@@ -263,9 +267,14 @@
 
  /* Scrolling narration transcript beside phone */
  .narration-panel {
- max-width: 420px; flex: 1; min-width: 280px;
+ flex: 1; min-width: 280px; min-height: 0;
  max-height: 580px; overflow-y: auto; scroll-behavior: smooth;
- padding-right: 0.35rem;
+ padding-right: 0.35rem; align-self: stretch;
+ }
+ .narration-panel-heading {
+ font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+ border-bottom: 2px solid var(--gold);
  }
  .narration-panel::-webkit-scrollbar { width: 6px; }
  .narration-panel::-webkit-scrollbar-thumb {
@@ -380,11 +389,11 @@
  .hero h1 { font-size: 2rem; }
  .ba-wrapper { flex-direction: column; align-items: center; }
  .ba-arrow { transform: rotate(90deg); }
- .video-wrapper { flex-direction: column; align-items: center; }
- .phone-column { width: 100%; display: flex; flex-direction: column; align-items: center; }
- .narration-panel { max-width: 100%; max-height: 320px; width: 100%; }
+ .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+ .phone-column { width: 100%; max-width: 320px; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
  .phone-frame { width: 260px; }
- .chapter-nav { gap: 0.5rem; }
+ .chapter-nav { max-width: 100%; gap: 0.5rem; }
  .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
  }
  @media (max-width: 480px) {
@@ -581,6 +590,7 @@
  </div>
  </div>
  <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript — read along as you watch</p>
  <!-- Slide 0: Download from Bank -->
  <div class="narration-card active" data-index="0" onclick="goTo(0)">
  <span class="narration-step-badge">Slide 1</span>
@@ -650,6 +660,7 @@
  <h3>Import Early, Import Often</h3>
  <p>The more data you give PocketBudJet, the smarter it gets. Import via <strong>Share</strong> from your bank app, or CSV, OFX, QFX, QIF, XLSX, and PDF from file with Premium. US bank sync via Teller is optional with paid Premium after the 21-day trial. Your data stays on your device.</p>
  <div class="narration-timer"></div>
+ </div>
  </div>
  </div>
  </div>
@@ -822,7 +833,7 @@
  timerBar.style.width = '100%';
  });
  if (narrationPanel && cards[current]) {
- cards[current].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+ cards[current].scrollIntoView({ behavior: 'smooth', block: 'center' });
  }
  if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
  else if (playing) speedLabel.textContent = 'Auto-playing';
