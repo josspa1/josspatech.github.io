@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 760" width="400" height="760" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+  <!-- Phone frame -->
+  <rect x="0" y="0" width="400" height="760" rx="32" fill="#202124"/>
+  <rect x="8" y="8" width="384" height="744" rx="26" fill="#f5f7fa"/>
+
+  <!-- Status bar -->
+  <rect x="8" y="8" width="384" height="28" fill="#f5f7fa"/>
+  <text x="24" y="26" font-size="12" font-weight="600" fill="#202124">9:41</text>
+  <circle cx="370" cy="22" r="4" fill="#202124"/>
+  <rect x="350" y="18" width="14" height="8" rx="1" fill="none" stroke="#202124" stroke-width="1"/>
+  <rect x="352" y="20" width="9" height="4" fill="#202124"/>
+
+  <!-- Bank app top bar -->
+  <rect x="8" y="36" width="384" height="56" fill="#1a7f5a"/>
+  <text x="24" y="72" font-size="22" font-weight="500" fill="#ffffff">ê</text>
+  <text x="60" y="72" font-size="17" font-weight="600" fill="#ffffff">Statements</text>
+
+  <!-- Account header -->
+  <rect x="8" y="92" width="384" height="80" fill="#ffffff"/>
+  <text x="24" y="120" font-size="14" fill="#5f6368">Checking ∑ """"4821</text>
+  <text x="24" y="148" font-size="22" font-weight="700" fill="#202124">$3,247.18</text>
+  <text x="24" y="166" font-size="11" fill="#5f6368">Available balance</text>
+
+  <!-- Tip banner -->
+  <rect x="8" y="172" width="384" height="44" fill="#fff8e6"/>
+  <text x="24" y="198" font-size="12" font-weight="600" fill="#b8860b">Grab at least 3 months of history</text>
+
+  <!-- Section label -->
+  <rect x="8" y="216" width="384" height="34" fill="#f5f7fa"/>
+  <text x="24" y="238" font-size="12" font-weight="600" fill="#5f6368" letter-spacing="0.5">RECENT STATEMENTS</text>
+
+  <!-- Statement row 1  selected -->
+  <rect x="8" y="250" width="384" height="76" fill="#eef5f1"/>
+  <rect x="8" y="250" width="4" height="76" fill="#1a7f5a"/>
+  <circle cx="36" cy="288" r="12" fill="#1a7f5a"/>
+  <path d="M30 288 L34 292 L42 282" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="56" y="266" width="44" height="44" rx="6" fill="#fce8e8"/>
+  <text x="70" y="292" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="112" y="282" font-size="15" font-weight="600" fill="#202124">April 2026 Statement</text>
+  <text x="112" y="302" font-size="13" fill="#5f6368">Mar 25  Apr 24, 2026</text>
+  <text x="112" y="318" font-size="12" fill="#5f6368">31 transactions</text>
+
+  <!-- Statement row 2  selected -->
+  <rect x="8" y="326" width="384" height="76" fill="#eef5f1"/>
+  <line x1="24" y1="326" x2="376" y2="326" stroke="#d4e8dc"/>
+  <circle cx="36" cy="364" r="12" fill="#1a7f5a"/>
+  <path d="M30 364 L34 368 L42 358" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="56" y="342" width="44" height="44" rx="6" fill="#fce8e8"/>
+  <text x="70" y="368" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="112" y="358" font-size="14" font-weight="500" fill="#202124">March 2026 Statement</text>
+  <text x="112" y="378" font-size="12" fill="#5f6368">Feb 25  Mar 24, 2026</text>
+
+  <!-- Statement row 3  selected -->
+  <rect x="8" y="402" width="384" height="76" fill="#eef5f1"/>
+  <line x1="24" y1="402" x2="376" y2="402" stroke="#d4e8dc"/>
+  <circle cx="36" cy="440" r="12" fill="#1a7f5a"/>
+  <path d="M30 440 L34 444 L42 434" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="56" y="418" width="44" height="44" rx="6" fill="#fce8e8"/>
+  <text x="70" y="444" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="112" y="434" font-size="14" font-weight="500" fill="#202124">February 2026 Statement</text>
+  <text x="112" y="454" font-size="12" fill="#5f6368">Jan 25  Feb 24, 2026</text>
+
+  <!-- Statement row 4  unselected -->
+  <rect x="8" y="478" width="384" height="76" fill="#ffffff"/>
+  <line x1="24" y1="478" x2="376" y2="478" stroke="#e8eaed"/>
+  <circle cx="36" cy="516" r="12" fill="none" stroke="#bdc1c6" stroke-width="2"/>
+  <rect x="56" y="494" width="44" height="44" rx="6" fill="#fce8e8"/>
+  <text x="70" y="520" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="112" y="510" font-size="14" font-weight="500" fill="#202124">January 2026 Statement</text>
+  <text x="112" y="530" font-size="12" fill="#5f6368">Dec 25  Jan 24, 2026</text>
+
+  <!-- Statement row 5  unselected -->
+  <rect x="8" y="554" width="384" height="76" fill="#ffffff"/>
+  <line x1="24" y1="554" x2="376" y2="554" stroke="#e8eaed"/>
+  <circle cx="36" cy="592" r="12" fill="none" stroke="#bdc1c6" stroke-width="2"/>
+  <rect x="56" y="570" width="44" height="44" rx="6" fill="#fce8e8"/>
+  <text x="70" y="596" font-size="11" font-weight="700" fill="#c5302d">PDF</text>
+  <text x="112" y="586" font-size="14" font-weight="500" fill="#202124">December 2025 Statement</text>
+  <text x="112" y="606" font-size="12" fill="#5f6368">Nov 25  Dec 24, 2025</text>
+
+  <!-- Selection count footer -->
+  <rect x="8" y="700" width="384" height="52" fill="#1a7f5a"/>
+  <text x="200" y="724" font-size="13" font-weight="600" fill="#ffffff" text-anchor="middle">3 statements selected</text>
+  <text x="200" y="742" font-size="10" fill="#b8dfd0" text-anchor="middle">Open each one and Share í PocketBudJet</text>
+</svg>
