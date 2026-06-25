@@ -209,3 +209,56 @@
         init();
     }
 })();
+
+/**
+ * Shared audio teardown — stops MP3 narration when the tab closes, navigates
+ * away, or is hidden. Pages register slide-specific cleanup via registerTeardown.
+ */
+(function () {
+    var teardownFns = [];
+    var listenersInstalled = false;
+
+    function stopAllAudio() {
+        teardownFns.forEach(function (fn) {
+            try { fn(); } catch (e) { /* ignore */ }
+        });
+        document.querySelectorAll('audio').forEach(function (a) {
+            a.onended = null;
+            a.onerror = null;
+            a.loop = false;
+            a.pause();
+            a.currentTime = 0;
+            a.removeAttribute('src');
+            if (a.load) a.load();
+        });
+        if (window.speechSynthesis) {
+            try { window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
+        }
+    }
+
+    function installListeners() {
+        if (listenersInstalled) return;
+        listenersInstalled = true;
+        window.addEventListener('pagehide', stopAllAudio);
+        window.addEventListener('beforeunload', stopAllAudio);
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) stopAllAudio();
+        });
+    }
+
+    window.PBJWalkthrough = window.PBJWalkthrough || {};
+    window.PBJWalkthrough.registerTeardown = function (fn) {
+        if (typeof fn === 'function') teardownFns.push(fn);
+    };
+    window.PBJWalkthrough.stopAllAudio = stopAllAudio;
+
+    installListeners();
+
+    var queue = window.__pbjTeardownQueue;
+    if (queue && queue.length) {
+        queue.forEach(function (fn) {
+            window.PBJWalkthrough.registerTeardown(fn);
+        });
+        window.__pbjTeardownQueue = [];
+    }
+})();
