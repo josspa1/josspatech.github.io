@@ -208,6 +208,19 @@
  color: var(--navy-medium); font-weight: 600; text-decoration: underline;
  }
 
+ /* Chapter navigation — under phone column only */
+ .chapter-nav {
+ display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+ margin-top: 1.5rem; padding: 0; width: 100%; max-width: 320px;
+ }
+ .chapter-btn {
+ background: var(--navy); color: white; border: 2px solid var(--navy);
+ padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer;
+ font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease;
+ }
+ .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
+ .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
+
  /* Playback controls */
  .playback-controls {
  display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;
@@ -294,6 +307,8 @@
  .phone-column { width: 100%; max-width: 320px; }
  .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
  .phone-frame { width: 260px; }
+ .chapter-nav { max-width: 100%; gap: 0.5rem; }
+ .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
@@ -304,6 +319,8 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
  .phone-frame { width: 230px; }
  .video-section { padding: 2.5rem 1rem; }
+ .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
+ .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  .transcript-body { font-size: 0.95rem; }
  }
  </style>
@@ -443,6 +460,36 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause walkthrough">&#10074;&#10074;</button>
  <span class="speed-label" id="speedLabel">Auto-playing</span>
  </div>
+ <div class="chapter-nav" id="chapterNav">
+ <button class="chapter-btn active" data-slide="0">Getting Started</button>
+ <button class="chapter-btn" data-slide="1">Income</button>
+ <button class="chapter-btn" data-slide="2">Template</button>
+ <button class="chapter-btn" data-slide="3">Categories</button>
+ <button class="chapter-btn" data-slide="4">Accounts</button>
+ <button class="chapter-btn" data-slide="5">First Entry</button>
+ <button class="chapter-btn" data-slide="6">Dashboard</button>
+ <button class="chapter-btn" data-slide="7">Transactions</button>
+ <button class="chapter-btn" data-slide="8">Importing</button>
+ <button class="chapter-btn" data-slide="9">Scanning</button>
+ <button class="chapter-btn" data-slide="10">Budgets</button>
+ <button class="chapter-btn" data-slide="11">Bills</button>
+ <button class="chapter-btn" data-slide="12">Savings</button>
+ <button class="chapter-btn" data-slide="13">Debt</button>
+ <button class="chapter-btn" data-slide="14">Investments</button>
+ <button class="chapter-btn" data-slide="15">Reports</button>
+ <button class="chapter-btn" data-slide="16">AI Coach</button>
+ <button class="chapter-btn" data-slide="17">AI Assistant</button>
+ <button class="chapter-btn" data-slide="18">Search</button>
+ <button class="chapter-btn" data-slide="19">Export</button>
+ <button class="chapter-btn" data-slide="20">PC Dashboard</button>
+ <button class="chapter-btn" data-slide="21">Household</button>
+ <button class="chapter-btn" data-slide="22">Rules</button>
+ <button class="chapter-btn" data-slide="23">Accessibility</button>
+ <button class="chapter-btn" data-slide="24">Mindful</button>
+ <button class="chapter-btn" data-slide="25">Pricing</button>
+ <button class="chapter-btn" data-slide="26">Privacy</button>
+ <button class="chapter-btn" data-slide="27">Help</button>
+ </div>
  </div>
 
  <div class="narration-panel" id="narrationPanel">
@@ -473,6 +520,7 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  const tapToStart = document.getElementById('tapToStart');
  const narrationPanel = document.getElementById('narrationPanel');
  const transcriptBody = document.getElementById('transcriptBody');
+ const chapterBtns = document.querySelectorAll('.chapter-btn');
 
  const NARRATION = [
  "Download PocketBudJet from the App Store or Google Play. Open the app and start your 21-day Premium trial — no card required. Tap the Plan tab at the bottom — the calendar icon — to launch the setup wizard.",
@@ -731,12 +779,13 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  function goTo(index) {
  slides[current].classList.remove('active');
  dotsContainer.children[current].classList.remove('active');
+ if (chapterBtns[current]) chapterBtns[current].classList.remove('active');
 
  current = index;
  slides[current].classList.add('active');
  dotsContainer.children[current].classList.add('active');
+ if (chapterBtns[current]) chapterBtns[current].classList.add('active');
 
- var spans = slideSentences[current];
  setActiveSentence(current, 0);
 
  if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
@@ -760,6 +809,13 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
  }, SLIDE_DURATION);
  }
+
+ chapterBtns.forEach(function(btn) {
+ btn.addEventListener('click', function() {
+ var idx = parseInt(btn.getAttribute('data-slide'), 10);
+ if (!isNaN(idx)) goTo(idx);
+ });
+ });
 
  playPauseBtn.addEventListener('click', function() {
  if (!audioUnlocked) { startPlayback(); return; }
