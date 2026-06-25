@@ -78,7 +78,8 @@
         finger.innerHTML = '&#9757;';
         ind.appendChild(finger);
 
-        if (label) {
+        // PNG screenshots already show UI labels — skip the floating pill on phone PNGs.
+        if (label && !slideUsesPng(slide)) {
             var lbl = document.createElement('span');
             lbl.className = 'tap-label';
             lbl.textContent = label;
