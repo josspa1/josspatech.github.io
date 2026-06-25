@@ -72,12 +72,6 @@
  font-size: 1.25rem; font-weight: 300; max-width: 700px;
  margin: 0 auto; color: rgba(255,255,255,0.95);
  }
- .locale-audio-notice {
- max-width: 1200px; margin: 0 auto; padding: 0.85rem 2rem;
- background: #fff8e6; border-bottom: 2px solid var(--gold);
- color: var(--navy-dark); font-size: 0.95rem; font-weight: 600; text-align: center;
- }
-
  /* Video Section */
  .video-section { background-color: var(--background); padding: 4rem 2rem; }
  .video-section .container { max-width: 1200px; margin: 0 auto; }
@@ -402,8 +396,6 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <p class="subheader">Cada tela. Cada função. Cada configuração. Um tour visual de tudo o que o PocketBudJet pode fazer pelas suas finanças — para comunidades lusófonas nos Estados Unidos.</p>
  </div>
  </div>
-
- <div class="locale-audio-notice" role="status">Narração em inglês — texto em português abaixo. Re-voz pt-BR em andamento.</div>
 
  <div class="video-section">
  <div class="container">
@@ -986,16 +978,16 @@ let audioUnlocked = false;
  const SLIDE_DURATION = 8000;
  let audioElement = null, voiceEnabled = true, advanceTimeout = null;
 
- // MP3 EN reutilizado até re-voice pt-BR (edge-tts) (edge-tts fr-FR-*) ships
+ // MP3 audio paths (pre-generated via edge-tts, pt-BR-FranciscaNeural)
  const audioPaths = [
- '/videos/user-guide/audio/slide-0.mp3', '/videos/user-guide/audio/slide-1.mp3', '/videos/user-guide/audio/slide-2.mp3', '/videos/user-guide/audio/slide-3.mp3',
- '/videos/user-guide/audio/slide-4.mp3', '/videos/user-guide/audio/slide-5.mp3', '/videos/user-guide/audio/slide-6.mp3', '/videos/user-guide/audio/slide-7.mp3',
- '/videos/user-guide/audio/slide-8.mp3', '/videos/user-guide/audio/slide-9.mp3', '/videos/user-guide/audio/slide-10.mp3', '/videos/user-guide/audio/slide-11.mp3',
- '/videos/user-guide/audio/slide-12.mp3', '/videos/user-guide/audio/slide-13.mp3', '/videos/user-guide/audio/slide-14.mp3', '/videos/user-guide/audio/slide-15.mp3',
- '/videos/user-guide/audio/slide-16.mp3', '/videos/user-guide/audio/slide-17.mp3', '/videos/user-guide/audio/slide-18.mp3', '/videos/user-guide/audio/slide-19.mp3',
- '/videos/user-guide/audio/slide-20.mp3', '/videos/user-guide/audio/slide-21.mp3', '/videos/user-guide/audio/slide-22.mp3', '/videos/user-guide/audio/slide-23.mp3',
- '/videos/user-guide/audio/slide-24.mp3', '/videos/user-guide/audio/slide-25.mp3',
- '/videos/user-guide/audio/slide-26.mp3', '/videos/user-guide/audio/slide-27.mp3'
+ 'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+ 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
+ 'audio/slide-8.mp3', 'audio/slide-9.mp3', 'audio/slide-10.mp3', 'audio/slide-11.mp3',
+ 'audio/slide-12.mp3', 'audio/slide-13.mp3', 'audio/slide-14.mp3', 'audio/slide-15.mp3',
+ 'audio/slide-16.mp3', 'audio/slide-17.mp3', 'audio/slide-18.mp3', 'audio/slide-19.mp3',
+ 'audio/slide-20.mp3', 'audio/slide-21.mp3', 'audio/slide-22.mp3', 'audio/slide-23.mp3',
+ 'audio/slide-24.mp3', 'audio/slide-25.mp3',
+ 'audio/slide-26.mp3', 'audio/slide-27.mp3'
  ];
  for (let i = 0; i < 28; i++) {
  const origins = [[50,25],[50,40],[50,35],[50,50],[50,55],[50,45],[50,30],[50,60],[50,38],[50,42]];
@@ -1006,8 +998,8 @@ let audioUnlocked = false;
  const voiceBtn = document.createElement('button');
  voiceBtn.className = 'voice-btn';
  voiceBtn.innerHTML = '&#128264;';
- voiceBtn.title = 'Activer/désactiver la narration vocale';
- voiceBtn.setAttribute('aria-label', 'Activer/désactiver la narration vocale');
+ voiceBtn.title = 'Ativar/desativar narração por voz';
+ voiceBtn.setAttribute('aria-label', 'Ativar/desativar narração por voz');
  document.querySelector('.playback-controls').appendChild(voiceBtn);
 
  voiceBtn.addEventListener('click', () => {
