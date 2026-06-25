@@ -36,13 +36,15 @@
     }
 
     function narrationFor(index) {
-        return document.querySelector('.narration-card[data-index="' + index + '"]');
+        return document.querySelector('.transcript-para[data-slide="' + index + '"]') ||
+            document.querySelector('.transcript-para[data-index="' + index + '"]') ||
+            document.querySelector('.narration-card[data-index="' + index + '"]');
     }
 
     function inferTap(slide) {
         var title = slideTitle(slide);
         var card = narrationFor(slide.getAttribute('data-index'));
-        var text = card ? (card.querySelector('p') || {}).textContent || '' : '';
+        var text = card ? (card.textContent || '') : '';
         var blob = (title + ' ' + text).toLowerCase();
         if (SKIP_TAP.test(title) && blob.indexOf('tap') === -1) return null;
         for (var i = 0; i < TAP_RULES.length; i++) {
@@ -107,7 +109,7 @@
         if (hint) return hint;
         var card = narrationFor(slide.getAttribute('data-index'));
         if (!card) return '';
-        var p = card.querySelector('p');
+        var p = card.querySelector('p') || card;
         if (!p) return '';
         var text = p.textContent.trim();
         var parts = text.split(/(?<=[.!?])\s+/);
@@ -174,7 +176,8 @@
             var hint = hintFromNarration(slide);
             if (!hint) return;
             var card = narrationFor(index);
-            if (!card || card.querySelector('.narration-tap-hint')) return;
+            if (!card || card.classList.contains('transcript-para')) return;
+            if (card.querySelector('.narration-tap-hint')) return;
 
             var block = document.createElement('p');
             block.className = 'narration-tap-hint';
