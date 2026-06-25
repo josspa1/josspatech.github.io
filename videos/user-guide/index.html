@@ -84,8 +84,12 @@
  text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
  }
  .video-wrapper {
- display: flex; gap: 3rem; align-items: flex-start;
- justify-content: center; flex-wrap: wrap;
+ display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
+ flex-wrap: nowrap; width: 100%;
+ }
+ .phone-column {
+ flex-shrink: 0; width: 320px; max-width: 100%;
+ display: flex; flex-direction: column; align-items: center;
  }
 
  /* Phone viewport for zoom */
@@ -95,27 +99,26 @@
 
  /* Phone frame */
  .phone-frame {
- width: 320px; position: relative;
+ width: 300px; position: relative;
  border: 10px solid var(--navy-dark); border-radius: 40px;
- overflow: hidden; background: #000;
+ overflow: hidden; background: var(--background);
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
  aspect-ratio: 9 / 19.5;
-            max-height: 580px; }
- .phone-frame::before {
- content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
- width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
- z-index: 20;
+ max-height: 580px;
  }
+ .phone-frame::before { display: none; }
  .slideshow {
  width: 100%; height: 100%; position: relative; overflow: hidden;
  }
  .slide {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
- opacity: 0; transition: opacity 0.8s ease-in-out;
+ opacity: 0; z-index: 1; transition: opacity 0.8s ease-in-out;
+ pointer-events: none;
  }
- .slide.active { opacity: 1; }
+ .slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
  .slide img {
- width: 100%; height: 100%; object-fit: cover; object-position: top;
+ width: 100%; height: 100%; display: block;
+ object-fit: cover; object-position: top center;
  }
 
  /* Tap indicator — pulsing ring + finger icon */
@@ -171,43 +174,52 @@
  }
  .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
 
- /* Narration panel */
+ /* Scrolling narration transcript beside phone */
  .narration-panel {
- max-width: 450px; flex: 1; min-width: 300px; position: relative;
+ flex: 1; min-width: 280px; min-height: 0;
+ max-height: 580px; overflow-y: auto; scroll-behavior: smooth;
+ padding-right: 0.35rem; align-self: stretch;
+ }
+ .narration-panel-heading {
+ font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+ border-bottom: 2px solid var(--gold);
+ }
+ .narration-panel::-webkit-scrollbar { width: 6px; }
+ .narration-panel::-webkit-scrollbar-thumb {
+ background: rgba(26,79,122,0.25); border-radius: 3px;
  }
  .narration-card {
- background: var(--white); border-radius: 16px; padding: 2rem;
- box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
- margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
- transition: opacity 0.5s ease, transform 0.5s ease;
- position: absolute; top: 0; left: 0; width: 100%;
- pointer-events: none;
+ background: var(--background); border-radius: 16px; padding: 1.2rem 1.5rem;
+ margin-bottom: 0.6rem; border-left: 5px solid transparent;
+ opacity: 0.5; transform: scale(0.98); transition: all 0.35s ease;
+ cursor: pointer;
  }
  .narration-card.active {
- opacity: 1; transform: translateY(0);
- position: relative;
- pointer-events: auto;
+ opacity: 1; transform: scale(1); background: var(--white);
+ border-left-color: var(--gold);
+ box-shadow: 0 4px 16px rgba(0,0,0,0.06);
  }
  .narration-step-badge {
  display: inline-block; background: var(--navy); color: white;
- font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
- margin-bottom: 0.6rem;
+ font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px;
+ margin-bottom: 0.4rem;
  }
  .narration-card h3 {
- font-family: 'Playfair Display', serif; font-size: 1.3rem;
- font-weight: 700; color: var(--navy); margin-bottom: 0.8rem;
+ font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.3rem;
  }
- .narration-card p { color: var(--slate); font-size: 1rem; line-height: 1.7; }
+ .narration-card p { color: var(--slate); font-size: 0.9rem; line-height: 1.5; }
  .narration-timer {
  height: 3px; background: var(--gold); border-radius: 2px;
- margin-top: 1rem; width: 0%; transition: width linear;
+ margin-top: 0.6rem; width: 0%; transition: width linear;
  }
  .narration-card.active .narration-timer { width: 100%; }
 
- /* Chapter navigation */
+ /* Chapter navigation — under phone column only */
  .chapter-nav {
- display: flex; justify-content: center; gap: 0.8rem; margin-top: 2rem;
- flex-wrap: wrap; align-items: center;
+ display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+ margin-top: 1.5rem; padding: 0; width: 100%; max-width: 320px;
  }
  .chapter-btn {
  background: var(--navy); color: white; border: 2px solid var(--navy);
@@ -219,9 +231,10 @@
 
  /* Playback controls */
  .playback-controls {
- display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
+ display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;
  align-items: center;
  }
+ .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
  .play-pause-btn {
  background: var(--navy); color: white; border: none; border-radius: 50%;
  width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
@@ -239,7 +252,7 @@
  .voice-btn.muted { opacity: 0.5; }
         /* Tap-to-start overlay — shown on load, hidden after first user gesture */
         .tap-to-start {
-            position: absolute; inset: 0; z-index: 20;
+            position: absolute; inset: 0; z-index: 30;
             background: rgba(10, 26, 57, 0.72);
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
@@ -332,10 +345,11 @@
  nav .nav-links { gap: 1rem; font-size: 0.85rem; }
  .hero h1 { font-size: 2rem; }
  .hero .subheader { font-size: 1rem; }
- .video-wrapper { flex-direction: column; gap: 2rem; }
- .phone-frame { width: 280px; }
- .narration-panel { max-width: 100%; }
- .chapter-nav { gap: 0.6rem; margin-top: 1.5rem; }
+ .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+ .phone-column { width: 100%; max-width: 320px; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
+ .phone-frame { width: 260px; }
+ .chapter-nav { max-width: 100%; gap: 0.5rem; }
  .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
  .timeline::before { left: 25px; }
  .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
@@ -354,10 +368,10 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  .hero { padding: 2.5rem 1rem; }
  .hero h1 { font-size: 1.5rem; }
  .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
- .phone-frame { width: 240px; }
+ .phone-frame { width: 230px; }
  .video-section { padding: 2.5rem 1rem; }
- .chapter-nav { gap: 0.5rem; margin-top: 1.2rem; }
- .chapter-btn { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+ .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
+ .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  .steps-section { padding: 2.5rem 1rem; }
  .steps-section h2 { font-size: 1.5rem; }
  .timeline-step { padding-left: 70px !important; margin-bottom: 2rem; }
@@ -403,308 +417,107 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <h2>Watch the Full Walkthrough</h2>
  <p class="section-sub">PocketBudJet app screenshots with gold pulse tap guides and step-by-step narration. Some slides reuse the nearest feature screenshot until dedicated per-step captures ship.</p>
  <div class="video-wrapper">
- <div>
+ <div class="phone-column">
  <div class="phone-viewport">
  <div class="phone-frame">
- <div class="slideshow">
- <div class="slide active">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Welcome &amp; Onboarding">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="Dashboard">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="88">
- <img src="/assets/screenshots/transactions.png" alt="Transactions">
- </div>
- <div class="slide" data-tap-x="85" data-tap-y="8">
- <img src="/assets/screenshots/pbj/02-import-center.png" alt="Importing">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="55">
- <img src="/assets/screenshots/scanner.png" alt="Scanning">
- </div>
- <div class="slide" data-tap-x="85" data-tap-y="8">
- <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="Budgets">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="95">
- <img src="/assets/screenshots/bills-recurring/bills-calendar.png" alt="Bills &amp; Recurring">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/budget.png" alt="Savings &amp; Goals">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/debt.png" alt="Debt">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="45">
- <img src="/assets/screenshots/dashboard.png" alt="Investments">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/reports/reports.png" alt="Reports">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Coach">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Assistant">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="15">
- <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="Search">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="15">
- <img src="/assets/screenshots/privacy.png" alt="Export">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/07-web-companion.png" alt="PC Dashboard">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/02-import-center.png" alt="Import Flexibility">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="50">
- <img src="/assets/screenshots/household-sync/household-sync.png" alt="Household Sync">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/bills-recurring/bills-calendar.png" alt="Calendar View">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/transactions.png" alt="Rules">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Accessibility">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Mindful Features">
- </div>
- <div class="slide" data-tap-x="80" data-tap-y="45">
- <img src="/assets/screenshots/debt-freedom/what-if.png" alt="Retirement">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Voice Shortcuts">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Pricing">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/privacy.png" alt="Privacy &amp; Security">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/privacy.png" alt="Data &amp; Storage Management">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="75">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Help">
- </div>
+ <div class="slideshow" id="slideshow">
  <div class="tap-to-start" id="tapToStart">
  <div class="tap-to-start-icon">&#9654;</div>
  <div class="tap-to-start-label">Tap to play</div>
  </div>
+ <div class="slide active" data-index="0">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Welcome &amp; Onboarding" loading="eager">
+ </div>
+ <div class="slide" data-index="1">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="Dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="2" data-tap-x="50" data-tap-y="88" data-tap-label="Gold +">
+ <img src="/assets/screenshots/transactions.png" alt="Transactions" loading="lazy">
+ </div>
+ <div class="slide" data-index="3" data-tap-x="50" data-tap-y="28" data-tap-label="Share">
+ <img src="/assets/screenshots/pbj/02-import-center.png" alt="Importing" loading="lazy">
+ </div>
+ <div class="slide" data-index="4" data-tap-x="50" data-tap-y="22" data-tap-label="Receipt Scanner">
+ <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Scanning" loading="lazy">
+ </div>
+ <div class="slide" data-index="5" data-tap-x="50" data-tap-y="94" data-tap-label="Budget">
+ <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="Budgets" loading="lazy">
+ </div>
+ <div class="slide" data-index="6" data-tap-x="50" data-tap-y="45" data-tap-label="Calendar">
+ <img src="/assets/screenshots/bills-recurring/bills-calendar.png" alt="Bills &amp; Recurring" loading="lazy">
+ </div>
+ <div class="slide" data-index="7">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Savings &amp; Goals" loading="lazy">
+ </div>
+ <div class="slide" data-index="8">
+ <img src="/assets/screenshots/debt.png" alt="Debt" loading="lazy">
+ </div>
+ <div class="slide" data-index="9">
+ <img src="/assets/screenshots/connect-bank/bank-sync.png" alt="Investments" loading="lazy">
+ </div>
+ <div class="slide" data-index="10">
+ <img src="/assets/screenshots/reports/reports.png" alt="Reports" loading="lazy">
+ </div>
+ <div class="slide" data-index="11">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Coach" loading="lazy">
+ </div>
+ <div class="slide" data-index="12" data-tap-x="75" data-tap-y="18" data-tap-label="Ask">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Assistant" loading="lazy">
+ </div>
+ <div class="slide" data-index="13" data-tap-x="82" data-tap-y="9" data-tap-label="Search">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="Search" loading="lazy">
+ </div>
+ <div class="slide" data-index="14" data-tap-x="88" data-tap-y="7" data-tap-label="Settings">
+ <img src="/assets/screenshots/privacy.png" alt="Export" loading="lazy">
+ </div>
+ <div class="slide" data-index="15" data-tap-x="50" data-tap-y="48" data-tap-label="QR code">
+ <img src="/assets/screenshots/pbj/07-web-companion.png" alt="PC Dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="16" data-tap-x="50" data-tap-y="28" data-tap-label="Import">
+ <img src="/assets/screenshots/pbj/02-import-center.png" alt="Import Flexibility" loading="lazy">
+ </div>
+ <div class="slide" data-index="17" data-tap-x="50" data-tap-y="78" data-tap-label="Household">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Household Sync" loading="lazy">
+ </div>
+ <div class="slide" data-index="18" data-tap-x="50" data-tap-y="45" data-tap-label="Calendar">
+ <img src="/assets/screenshots/bills-recurring/bills-calendar.png" alt="Calendar View" loading="lazy">
+ </div>
+ <div class="slide" data-index="19" data-tap-x="50" data-tap-y="35" data-tap-label="Filter">
+ <img src="/assets/screenshots/transactions.png" alt="Rules" loading="lazy">
+ </div>
+ <div class="slide" data-index="20" data-tap-x="88" data-tap-y="7" data-tap-label="Settings">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Accessibility" loading="lazy">
+ </div>
+ <div class="slide" data-index="21">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Mindful Features" loading="lazy">
+ </div>
+ <div class="slide" data-index="22">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Retirement" loading="lazy">
+ </div>
+ <div class="slide" data-index="23">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Voice Shortcuts" loading="lazy">
+ </div>
+ <div class="slide" data-index="24">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Pricing" loading="lazy">
+ </div>
+ <div class="slide" data-index="25">
+ <img src="/assets/screenshots/privacy.png" alt="Privacy &amp; Security" loading="lazy">
+ </div>
+ <div class="slide" data-index="26" data-tap-x="50" data-tap-y="38" data-tap-label="Cloud">
+ <img src="/assets/screenshots/pbj/02-import-center.png" alt="Data &amp; Storage Management" loading="lazy">
+ </div>
+ <div class="slide" data-index="27" data-tap-x="50" data-tap-y="75" data-tap-label="Help">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Help" loading="lazy">
  </div>
  </div>
  </div>
- <div class="progress-dots">
- <span class="dot active" data-slide="0"></span>
- <span class="dot" data-slide="1"></span>
- <span class="dot" data-slide="2"></span>
- <span class="dot" data-slide="3"></span>
- <span class="dot" data-slide="4"></span>
- <span class="dot" data-slide="5"></span>
- <span class="dot" data-slide="6"></span>
- <span class="dot" data-slide="7"></span>
- <span class="dot" data-slide="8"></span>
- <span class="dot" data-slide="9"></span>
- <span class="dot" data-slide="10"></span>
- <span class="dot" data-slide="11"></span>
- <span class="dot" data-slide="12"></span>
- <span class="dot" data-slide="13"></span>
- <span class="dot" data-slide="14"></span>
- <span class="dot" data-slide="15"></span>
- <span class="dot" data-slide="16"></span>
- <span class="dot" data-slide="17"></span>
- <span class="dot" data-slide="18"></span>
- <span class="dot" data-slide="19"></span>
- <span class="dot" data-slide="20"></span>
- <span class="dot" data-slide="21"></span>
- <span class="dot" data-slide="22"></span>
- <span class="dot" data-slide="23"></span>
- <span class="dot" data-slide="24"></span>
- <span class="dot" data-slide="25"></span>
- <span class="dot" data-slide="26"></span>
- <span class="dot" data-slide="27"></span>
  </div>
+ <div class="progress-dots" id="dots"></div>
  <div class="playback-controls">
- <button class="play-pause-btn" id="playPauseBtn" title="Play/Pause">▶</button>
+ <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause walkthrough">&#10074;&#10074;</button>
+ <span class="speed-label" id="speedLabel">Auto-playing</span>
  </div>
- </div>
-
- <div class="narration-panel">
- <div class="narration-card active">
- <span class="narration-step-badge">Slide 1 of 28</span>
- <h3>Welcome & Onboarding</h3>
- <p>Download PocketBudJet, run the setup wizard, create your first account, and start your 21-day Premium trial — no card required. After the trial, subscribe monthly or annually to keep access. The wizard walks you through your name, currency, accounts, income (gross pay and take-home), bills, goals, and budgeting style — everything the app needs to get smart from day one.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 2 of 28</span>
- <h3>Your Dashboard</h3>
- <p>Income, spending, and net cards at the top. Spending pace indicator shows if you're on track. Widgets for quick actions. Anomaly alerts flag unusual transactions. The spending pace indicator compares where you are vs. where you should be this far into the month.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 3 of 28</span>
- <h3>Adding Transactions</h3>
- <p>Tap +, enter amount, pick category, done. Split transactions across categories. Add attachments like receipt photos. Use presets for recurring entries. One tip: spell merchant names the same way every time — 'Daily Grind' not 'DAILY GRIND' or 'Daily Grind Coffee' — so they group correctly in reports.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 4 of 28</span>
- <h3>Importing Data</h3>
- <p>Two ways in — no bank login required. <strong>Fastest:</strong> tap <strong>Share</strong> on a statement in your bank app and pick PocketBudJet (PDF import is Premium, included in the 21-day trial). <strong>Or</strong> export CSV, OFX, QFX, QIF, XLSX, or PDF to your phone and tap Import from file. Smart Mapper auto-detects columns; duplicate detection prevents double-counting. Grab at least three months of history for smarter AI and reports. US bank sync via Teller is separate — paid Premium after trial. See <a href="/videos/pocketbudjet/share-statements/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">Share Statements</a> and our <a href="/videos/import/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">Import Bank Data video</a>.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 5 of 28</span>
- <h3>Scanning Documents</h3>
- <p>Scan receipts with your camera. OCR reads merchant, amount, and date. WiFi scanner support connects to your home ADF scanner for batch processing. Even reads handwriting. As of launch, PocketBudJet is the only budgeting app we know of with WiFi scanner support. Feed a stack of receipts into your scanner's tray and walk away.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 6 of 28</span>
- <h3>Managing Budgets</h3>
- <p>Five budget templates or build your own. Category limits with color-coded progress bars. Rollover unused budget. Health overlay shows your overall position. Variance reports compare planned vs. actual.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 7 of 28</span>
- <h3>Bills & Recurring Transactions</h3>
- <p>Visual bill calendar with due dates. Green dots mark paydays. Set up recurring income and expenses. Smart prediction estimates upcoming bills based on patterns.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 8 of 28</span>
- <h3>Savings & Goals</h3>
- <p>Set savings goals with target dates. Create sinking funds for planned expenses. Purchase wishlist with a 30-day cool-off period to curb impulse spending. What-if calculator shows trade-offs. The 30-day cool-off is a nudge — add something you want to buy, and PBJ waits 30 days before counting it. You'd be surprised how many 'must-haves' don't survive the wait.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 9 of 28</span>
- <h3>Crushing Debt</h3>
- <p>Track all debts in one place. Choose avalanche (highest interest first) or snowball (smallest balance first). See your debt-free date. What-if scenarios show how extra payments accelerate payoff. Knowing your exact debt-free date changes everything. It turns an overwhelming pile of debt into a countdown.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 10 of 28</span>
- <h3>Investments & Net Worth</h3>
- <p>Track stocks, crypto (19 coins supported), and real estate values via Zillow estimates. Monitor your credit score. See insurance policies alongside assets for a complete net worth picture.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 11 of 28</span>
- <h3>Reports & Analytics</h3>
- <p>Over 10 report types: spending by category, income vs. expense, year-over-year comparisons, anomaly dashboard, net worth trend, and custom reports you design yourself.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 12 of 28</span>
- <h3>AI Financial Coach</h3>
- <p>Personalized insights based on your spending patterns. Opt-in only. Spots trends you'd miss, warns about unusual activity, and sends a weekly financial recap. The more data you give it, the smarter it gets. Import a few months of history and the AI has real patterns to work with.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 13 of 28</span>
- <h3>AI Assistant</h3>
- <p>Ask questions about your money in plain English. 'How much did I spend on dining last month?' or 'Am I over budget?' Eleven query types, all processed on your device.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 14 of 28</span>
- <h3>Find Any Feature Instantly</h3>
- <p>PocketBudJet has dozens of features — you won't stumble across all of them. Search for transactions by amount or merchant. Search for features: try 'mileage' for the mileage tracker, 'voice' for voice shortcuts, 'retirement' for the planner, or 'colorblind' for accessibility options. If you're ever wondering whether PBJ can do something, just search for it. This is how you'll find features like mileage tracking, transaction rules, the retirement planner, and accessibility options that you might not find just by tapping around.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 15 of 28</span>
- <h3>Export & Sharing</h3>
- <p>Export in six formats: CSV, XLSX, OFX, PDF, JSON, and encrypted backup. Generate an accountant-ready report. Run a LAN server to transfer files to your computer.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 16 of 28</span>
- <h3>PC Web Dashboard</h3>
- <p>Access PocketBudJet from any browser on your local network. Scan the QR code to pair. Five tabs: Dashboard, Transactions, Budgets, Reports, Settings. Full create/edit/delete. Real-time sync with your phone. Great for importing bank files you downloaded on your computer — drag and drop right into the browser.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 17 of 28</span>
- <h3>Import Flexibility</h3>
- <p>Import from CSV, OFX, QIF, and PDF bank statements. Scan paper receipts with your camera. Forward e-receipts from email. Drag-and-drop files into the PC dashboard. Every import auto-categorizes based on your rules.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 18 of 28</span>
- <h3>Household Sync</h3>
- <p>Sync with family members over WiFi or Bluetooth — no internet needed. Pair with a QR code. Joint budgets with individual spending visibility. Automatic conflict resolution for simultaneous edits.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 19 of 28</span>
- <h3>Calendar View</h3>
- <p>Monthly calendar showing transaction dots on each day. Bill due dates and payday markers. Color-coded by category. Tap any day to see that day's transactions.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 20 of 28</span>
- <h3>Bookmarks & Rules</h3>
- <p>Bookmark important transactions for quick access. Create auto-categorization rules by merchant name. Bulk edit multiple transactions at once. Manage category labels. Rules are a time-saver. Set one for 'Daily Grind → Coffee' and every future Daily Grind transaction categorizes itself.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 21 of 28</span>
- <h3>Accessibility</h3>
- <p>Dark mode, high contrast mode, and colorblind-friendly palettes. App lock with biometrics. Large text support. Full screen reader compatibility.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 22 of 28</span>
- <h3>Mindful Features</h3>
- <p>Mindful Budget View strips away numbers and shows simple progress rings. Time Cost Mode converts prices to hours of work. PBJ Stars gamify saving. Wellness check-ins track financial stress. Time Cost Mode is eye-opening. It converts every purchase into hours of your life. A $50 dinner becomes '2.5 hours of work.' It changes how you think about spending.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 23 of 28</span>
- <h3>Retirement Planning</h3>
- <p>Track progress against Fidelity savings milestones. FIRE calculator for early retirement. Safe withdrawal rate projections. Retirement income estimator based on current savings rate.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 24 of 28</span>
- <h3>Voice Shortcuts</h3>
- <p>Works with Siri and Google Assistant. Six built-in shortcuts: add transaction, check balance, budget status, and more. Create custom voice shortcuts for your most common actions.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 25 of 28</span>
- <h3>Pricing</h3>
- <p>Start with a 21-day Premium trial — full access, no card required. After the trial, subscribe monthly or annually to keep access. Cancel anytime. No ads, no data selling — your subscription is our only revenue.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 26 of 28</span>
- <h3>Privacy & Security</h3>
- <p>Your data lives in PocketBudJet's private app storage on your device. No bank login credentials ever stored. Backups and cloud sync are opt-in &mdash; AES-256 encrypted with a key only you know. App lock with PIN or biometrics available.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 27 of 28</span>
- <h3>Data &amp; Storage Management</h3>
- <p>Set how far back your backup keeps full transaction details, how many months of transactions stay on your phone for instant offline access, and how receipt images are tiered between device and backup. Tap Review and Free Up Space to preview exactly what would be removed before anything happens. Annual summaries are locked in permanently — your year-by-year totals are never deleted.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 28 of 28</span>
- <h3>Need Help?</h3>
- <p>Email support@josspatech.com — we typically respond within 24 hours. Use the in-app feedback form for bug reports and feature requests. Visit <a href="/how-to/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">josspatech.com/how-to</a> for video guides on importing data, setting budgets, debt payoff, receipt scanning, and more.</p>
- <div class="narration-timer"></div>
- </div>
- </div>
-
- <div class="chapter-nav">
+ <div class="chapter-nav" id="chapterNav">
  <button class="chapter-btn active" data-slide="0">Getting Started</button>
  <button class="chapter-btn" data-slide="1">Dashboard</button>
  <button class="chapter-btn" data-slide="2">Transactions</button>
@@ -733,6 +546,179 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <button class="chapter-btn" data-slide="25">Privacy</button>
  <button class="chapter-btn" data-slide="26">Data</button>
  <button class="chapter-btn" data-slide="27">Help</button>
+ </div>
+ </div>
+
+ <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript — read along as you watch</p>
+ <div class="narration-card active" data-index="0">
+ <span class="narration-step-badge">Slide 1 of 28</span>
+ <h3>Welcome & Onboarding</h3>
+ <p>Download PocketBudJet, run the setup wizard, create your first account, and start your 21-day Premium trial — no card required. After the trial, subscribe monthly or annually to keep access. The wizard walks you through your name, currency, accounts, income (gross pay and take-home), bills, goals, and budgeting style — everything the app needs to get smart from day one.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="1">
+ <span class="narration-step-badge">Slide 2 of 28</span>
+ <h3>Your Dashboard</h3>
+ <p>Income, spending, and net cards at the top. Spending pace indicator shows if you're on track. Widgets for quick actions. Anomaly alerts flag unusual transactions. The spending pace indicator compares where you are vs. where you should be this far into the month.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="2">
+ <span class="narration-step-badge">Slide 3 of 28</span>
+ <h3>Adding Transactions</h3>
+ <p>Tap +, enter amount, pick category, done. Split transactions across categories. Add attachments like receipt photos. Use presets for recurring entries. One tip: spell merchant names the same way every time — 'Daily Grind' not 'DAILY GRIND' or 'Daily Grind Coffee' — so they group correctly in reports.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="3">
+ <span class="narration-step-badge">Slide 4 of 28</span>
+ <h3>Importing Data</h3>
+ <p>Two ways in — no bank login required. <strong>Fastest:</strong> tap <strong>Share</strong> on a statement in your bank app and pick PocketBudJet (PDF import is Premium, included in the 21-day trial). <strong>Or</strong> export CSV, OFX, QFX, QIF, XLSX, or PDF to your phone and tap Import from file. Smart Mapper auto-detects columns; duplicate detection prevents double-counting. Grab at least three months of history for smarter AI and reports. US bank sync via Teller is separate — paid Premium after trial. See <a href="/videos/pocketbudjet/share-statements/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">Share Statements</a> and our <a href="/videos/import/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">Import Bank Data video</a>.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="4">
+ <span class="narration-step-badge">Slide 5 of 28</span>
+ <h3>Scanning Documents</h3>
+ <p>Scan receipts with your camera. OCR reads merchant, amount, and date. WiFi scanner support connects to your home ADF scanner for batch processing. Even reads handwriting. As of launch, PocketBudJet is the only budgeting app we know of with WiFi scanner support. Feed a stack of receipts into your scanner's tray and walk away.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="5">
+ <span class="narration-step-badge">Slide 6 of 28</span>
+ <h3>Managing Budgets</h3>
+ <p>Five budget templates or build your own. Category limits with color-coded progress bars. Rollover unused budget. Health overlay shows your overall position. Variance reports compare planned vs. actual.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="6">
+ <span class="narration-step-badge">Slide 7 of 28</span>
+ <h3>Bills & Recurring Transactions</h3>
+ <p>Visual bill calendar with due dates. Green dots mark paydays. Set up recurring income and expenses. Smart prediction estimates upcoming bills based on patterns.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="7">
+ <span class="narration-step-badge">Slide 8 of 28</span>
+ <h3>Savings & Goals</h3>
+ <p>Set savings goals with target dates. Create sinking funds for planned expenses. Purchase wishlist with a 30-day cool-off period to curb impulse spending. What-if calculator shows trade-offs. The 30-day cool-off is a nudge — add something you want to buy, and PBJ waits 30 days before counting it. You'd be surprised how many 'must-haves' don't survive the wait.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="8">
+ <span class="narration-step-badge">Slide 9 of 28</span>
+ <h3>Crushing Debt</h3>
+ <p>Track all debts in one place. Choose avalanche (highest interest first) or snowball (smallest balance first). See your debt-free date. What-if scenarios show how extra payments accelerate payoff. Knowing your exact debt-free date changes everything. It turns an overwhelming pile of debt into a countdown.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="9">
+ <span class="narration-step-badge">Slide 10 of 28</span>
+ <h3>Investments & Net Worth</h3>
+ <p>Track stocks, crypto (19 coins supported), and real estate values via Zillow estimates. Monitor your credit score. See insurance policies alongside assets for a complete net worth picture.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="10">
+ <span class="narration-step-badge">Slide 11 of 28</span>
+ <h3>Reports & Analytics</h3>
+ <p>Over 10 report types: spending by category, income vs. expense, year-over-year comparisons, anomaly dashboard, net worth trend, and custom reports you design yourself.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="11">
+ <span class="narration-step-badge">Slide 12 of 28</span>
+ <h3>AI Financial Coach</h3>
+ <p>Personalized insights based on your spending patterns. Opt-in only. Spots trends you'd miss, warns about unusual activity, and sends a weekly financial recap. The more data you give it, the smarter it gets. Import a few months of history and the AI has real patterns to work with.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="12">
+ <span class="narration-step-badge">Slide 13 of 28</span>
+ <h3>AI Assistant</h3>
+ <p>Ask questions about your money in plain English. 'How much did I spend on dining last month?' or 'Am I over budget?' Eleven query types, all processed on your device.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="13">
+ <span class="narration-step-badge">Slide 14 of 28</span>
+ <h3>Find Any Feature Instantly</h3>
+ <p>PocketBudJet has dozens of features — you won't stumble across all of them. Search for transactions by amount or merchant. Search for features: try 'mileage' for the mileage tracker, 'voice' for voice shortcuts, 'retirement' for the planner, or 'colorblind' for accessibility options. If you're ever wondering whether PBJ can do something, just search for it. This is how you'll find features like mileage tracking, transaction rules, the retirement planner, and accessibility options that you might not find just by tapping around.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="14">
+ <span class="narration-step-badge">Slide 15 of 28</span>
+ <h3>Export & Sharing</h3>
+ <p>Export in six formats: CSV, XLSX, OFX, PDF, JSON, and encrypted backup. Generate an accountant-ready report. Run a LAN server to transfer files to your computer.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="15">
+ <span class="narration-step-badge">Slide 16 of 28</span>
+ <h3>PC Web Dashboard</h3>
+ <p>Access PocketBudJet from any browser on your local network. Scan the QR code to pair. Five tabs: Dashboard, Transactions, Budgets, Reports, Settings. Full create/edit/delete. Real-time sync with your phone. Great for importing bank files you downloaded on your computer — drag and drop right into the browser.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="16">
+ <span class="narration-step-badge">Slide 17 of 28</span>
+ <h3>Import Flexibility</h3>
+ <p>Import from CSV, OFX, QIF, and PDF bank statements. Scan paper receipts with your camera. Forward e-receipts from email. Drag-and-drop files into the PC dashboard. Every import auto-categorizes based on your rules.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="17">
+ <span class="narration-step-badge">Slide 18 of 28</span>
+ <h3>Household Sync</h3>
+ <p>Sync with family members over WiFi or Bluetooth — no internet needed. Pair with a QR code. Joint budgets with individual spending visibility. Automatic conflict resolution for simultaneous edits.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="18">
+ <span class="narration-step-badge">Slide 19 of 28</span>
+ <h3>Calendar View</h3>
+ <p>Monthly calendar showing transaction dots on each day. Bill due dates and payday markers. Color-coded by category. Tap any day to see that day's transactions.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="19">
+ <span class="narration-step-badge">Slide 20 of 28</span>
+ <h3>Bookmarks & Rules</h3>
+ <p>Bookmark important transactions for quick access. Create auto-categorization rules by merchant name. Bulk edit multiple transactions at once. Manage category labels. Rules are a time-saver. Set one for 'Daily Grind → Coffee' and every future Daily Grind transaction categorizes itself.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="20">
+ <span class="narration-step-badge">Slide 21 of 28</span>
+ <h3>Accessibility</h3>
+ <p>Dark mode, high contrast mode, and colorblind-friendly palettes. App lock with biometrics. Large text support. Full screen reader compatibility.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="21">
+ <span class="narration-step-badge">Slide 22 of 28</span>
+ <h3>Mindful Features</h3>
+ <p>Mindful Budget View strips away numbers and shows simple progress rings. Time Cost Mode converts prices to hours of work. PBJ Stars gamify saving. Wellness check-ins track financial stress. Time Cost Mode is eye-opening. It converts every purchase into hours of your life. A $50 dinner becomes '2.5 hours of work.' It changes how you think about spending.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="22">
+ <span class="narration-step-badge">Slide 23 of 28</span>
+ <h3>Retirement Planning</h3>
+ <p>Track progress against Fidelity savings milestones. FIRE calculator for early retirement. Safe withdrawal rate projections. Retirement income estimator based on current savings rate.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="23">
+ <span class="narration-step-badge">Slide 24 of 28</span>
+ <h3>Voice Shortcuts</h3>
+ <p>Works with Siri and Google Assistant. Six built-in shortcuts: add transaction, check balance, budget status, and more. Create custom voice shortcuts for your most common actions.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="24">
+ <span class="narration-step-badge">Slide 25 of 28</span>
+ <h3>Pricing</h3>
+ <p>Start with a 21-day Premium trial — full access, no card required. After the trial, subscribe monthly or annually to keep access. Cancel anytime. No ads, no data selling — your subscription is our only revenue.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="25">
+ <span class="narration-step-badge">Slide 26 of 28</span>
+ <h3>Privacy & Security</h3>
+ <p>Your data lives in PocketBudJet's private app storage on your device. No bank login credentials ever stored. Backups and cloud sync are opt-in &mdash; AES-256 encrypted with a key only you know. App lock with PIN or biometrics available.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="26">
+ <span class="narration-step-badge">Slide 27 of 28</span>
+ <h3>Data &amp; Storage Management</h3>
+ <p>Set how far back your backup keeps full transaction details, how many months of transactions stay on your phone for instant offline access, and how receipt images are tiered between device and backup. Tap Review and Free Up Space to preview exactly what would be removed before anything happens. Annual summaries are locked in permanently — your year-by-year totals are never deleted.</p>
+ <div class="narration-timer"></div>
+ </div>
+ <div class="narration-card" data-index="27">
+ <span class="narration-step-badge">Slide 28 of 28</span>
+ <h3>Need Help?</h3>
+ <p>Email support@josspatech.com — we typically respond within 24 hours. Use the in-app feedback form for bug reports and feature requests. Visit <a href="/how-to/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">josspatech.com/how-to</a> for video guides on importing data, setting budgets, debt payoff, receipt scanning, and more.</p>
+ <div class="narration-timer"></div>
+ </div>
  </div>
  </div>
  </div>
@@ -954,20 +940,24 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  </footer>
 
  <script>
- const slides = document.querySelectorAll('.slide');
- const dots = document.querySelectorAll('.dot');
- const narrationCards = document.querySelectorAll('.narration-card');
- const playPauseBtn = document.getElementById('playPauseBtn');
- const chapterBtns = document.querySelectorAll('.chapter-btn');
-
- let currentSlide = 0;
- let isPlaying = true;
-let audioUnlocked = false;
- let slideTimer = null;
+ (function() {
  const SLIDE_DURATION = 8000;
- let audioElement = null, voiceEnabled = true, advanceTimeout = null;
+ const slides = document.querySelectorAll('.slide');
+ const cards = document.querySelectorAll('.narration-card');
+ const dotsContainer = document.getElementById('dots');
+ const playPauseBtn = document.getElementById('playPauseBtn');
+ const speedLabel = document.getElementById('speedLabel');
+ const tapToStart = document.getElementById('tapToStart');
+ const narrationPanel = document.getElementById('narrationPanel');
+ const chapterBtns = document.querySelectorAll('.chapter-btn');
+ let current = 0;
+ let playing = true;
+ let audioUnlocked = false;
+ let timer = null;
+ let audioElement = null;
+ let voiceEnabled = true;
+ let advanceTimeout = null;
 
- // MP3 audio paths (pre-generated via edge-tts, en-US-AndrewNeural)
  const audioPaths = [
  'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
  'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
@@ -975,15 +965,9 @@ let audioUnlocked = false;
  'audio/slide-12.mp3', 'audio/slide-13.mp3', 'audio/slide-14.mp3', 'audio/slide-15.mp3',
  'audio/slide-16.mp3', 'audio/slide-17.mp3', 'audio/slide-18.mp3', 'audio/slide-19.mp3',
  'audio/slide-20.mp3', 'audio/slide-21.mp3', 'audio/slide-22.mp3', 'audio/slide-23.mp3',
- 'audio/slide-24.mp3', 'audio/slide-25.mp3',
- 'audio/slide-26.mp3', 'audio/slide-27.mp3'
+ 'audio/slide-24.mp3', 'audio/slide-25.mp3', 'audio/slide-26.mp3', 'audio/slide-27.mp3'
  ];
- for (let i = 0; i < 28; i++) {
- const origins = [[50,25],[50,40],[50,35],[50,50],[50,55],[50,45],[50,30],[50,60],[50,38],[50,42]];
- const [ox,oy] = origins[i % 10];
- }
 
- // Voice toggle button
  const voiceBtn = document.createElement('button');
  voiceBtn.className = 'voice-btn';
  voiceBtn.innerHTML = '&#128264;';
@@ -995,127 +979,193 @@ let audioUnlocked = false;
  voiceEnabled = !voiceEnabled;
  voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
  voiceBtn.classList.toggle('muted', !voiceEnabled);
- if (!voiceEnabled) { stopAudio(); if (isPlaying) startAutoPlay(); }
- else { stopAutoPlay(); playSlideAudio(currentSlide); }
+ if (!voiceEnabled) { stopAudio(); if (playing) resetTimer(); }
+ else { clearInterval(timer); playSlideAudio(current); }
  });
 
  function stopAudio() {
- if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
+ if (audioElement) {
+ audioElement.pause();
+ audioElement.removeAttribute('src');
+ audioElement.load();
+ audioElement = null;
+ }
  clearTimeout(advanceTimeout);
+ }
+
+ function stopAllAudio() {
+ stopAudio();
+ clearInterval(timer);
+ timer = null;
  }
 
  function playSlideAudio(index) {
  stopAudio();
  if (!voiceEnabled) return;
- const src = audioPaths[index]; if (!src) return;
+ const src = audioPaths[index];
+ if (!src) return;
  audioElement = new Audio(src);
  audioElement.volume = 1.0;
  audioElement.onended = () => {
- if (isPlaying && voiceEnabled) {
+ if (!playing || !voiceEnabled) return;
  advanceTimeout = setTimeout(() => {
- if (currentSlide < slides.length - 1) nextSlide();
- else { isPlaying = false; playPauseBtn.textContent = '\u25B6'; }
+ if (!playing || !voiceEnabled) return;
+ if (current < slides.length - 1) next();
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
  }, 1200);
- }
  };
- audioElement.onerror = () => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); };
-
-        const _p = audioElement.play();
-        if (_p !== undefined) {
-            _p.then(() => {
-                if (!audioUnlocked) {
-                    audioUnlocked = true;
-                    tapToStart.classList.add('hidden');
-                    playPauseBtn.innerHTML = '&#10074;&#10074;';
-                }
-            }).catch(() => {
-                if (!audioUnlocked) {
-                    isPlaying = false;
-                    playPauseBtn.innerHTML = '&#9654;';
-                } else if (isPlaying) {
-                    advanceTimeout = setTimeout(() => {
-                        if (currentSlide < slides.length - 1) nextSlide();
-                    }, SLIDE_DURATION);
-                }
-            });
-        }
+ audioElement.onerror = () => {
+ if (!playing) return;
+ advanceTimeout = setTimeout(() => {
+ if (!playing) return;
+ if (current < slides.length - 1) next();
+ }, SLIDE_DURATION);
+ };
+ const _p = audioElement.play();
+ if (_p !== undefined) {
+ _p.then(() => {
+ if (!audioUnlocked) {
+ audioUnlocked = true;
+ tapToStart.classList.add('hidden');
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
+ }
+ }).catch(() => {
+ if (!audioUnlocked) {
+ playing = false;
+ playPauseBtn.innerHTML = '&#9654;';
+ speedLabel.textContent = 'Tap to play';
+ } else if (playing) {
+ advanceTimeout = setTimeout(() => {
+ if (!playing) return;
+ if (current < slides.length - 1) next();
+ }, SLIDE_DURATION);
+ }
+ });
+ }
  }
 
- function showSlide(index) {
- slides.forEach(slide => slide.classList.remove('active'));
- dots.forEach(dot => dot.classList.remove('active'));
- narrationCards.forEach(card => card.classList.remove('active'));
- chapterBtns.forEach(btn => btn.classList.remove('active'));
+ slides.forEach((_, i) => {
+ const dot = document.createElement('div');
+ dot.className = 'dot' + (i === 0 ? ' active' : '');
+ dot.addEventListener('click', () => goTo(i));
+ dotsContainer.appendChild(dot);
+ });
 
- if (slides[index]) slides[index].classList.add('active');
- if (dots[index]) dots[index].classList.add('active');
- if (narrationCards[index]) narrationCards[index].classList.add('active');
- if (chapterBtns[index]) chapterBtns[index].classList.add('active');
-
- currentSlide = index;
-
- if (voiceEnabled) { stopAutoPlay(); playSlideAudio(index); }
- else if (isPlaying) { startAutoPlay(); }
+ function goTo(index) {
+ slides[current].classList.remove('active');
+ cards[current].classList.remove('active');
+ dotsContainer.children[current].classList.remove('active');
+ if (chapterBtns[current]) chapterBtns[current].classList.remove('active');
+ const prevTimer = cards[current].querySelector('.narration-timer');
+ if (prevTimer) {
+ prevTimer.style.transition = 'none';
+ prevTimer.style.width = '0%';
  }
 
- function nextSlide() {
- if (currentSlide < slides.length - 1) { showSlide(currentSlide + 1); }
- else { isPlaying = false; playPauseBtn.textContent = '\u25B6'; stopAudio(); stopAutoPlay(); }
+ current = index;
+ slides[current].classList.add('active');
+ cards[current].classList.add('active');
+ dotsContainer.children[current].classList.add('active');
+ if (chapterBtns[current]) chapterBtns[current].classList.add('active');
+
+ const timerBar = cards[current].querySelector('.narration-timer');
+ if (timerBar) {
+ requestAnimationFrame(() => {
+ timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+ timerBar.style.width = '100%';
+ });
+ }
+ if (narrationPanel && cards[current]) {
+ cards[current].scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }
+ if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
+ else if (playing) speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
+ else if (playing) { resetTimer(); }
  }
 
- function startAutoPlay() {
- stopAutoPlay(); clearTimeout(advanceTimeout);
- slideTimer = setInterval(() => {
- if (currentSlide < slides.length - 1) nextSlide();
- else { clearInterval(slideTimer); slideTimer = null; isPlaying = false; playPauseBtn.textContent = '\u25B6'; }
+ function next() {
+ if (current < slides.length - 1) goTo(current + 1);
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; stopAudio(); clearInterval(timer); }
+ }
+
+ function resetTimer() {
+ clearInterval(timer);
+ clearTimeout(advanceTimeout);
+ timer = setInterval(() => {
+ if (current < slides.length - 1) next();
+ else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
  }, SLIDE_DURATION);
  }
 
- function stopAutoPlay() {
- if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
- }
+ cards.forEach((card, index) => {
+ card.addEventListener('click', () => goTo(index));
+ });
 
- function togglePlayPause() {
- isPlaying = !isPlaying;
- playPauseBtn.textContent = isPlaying ? '\u23F8' : '\u25B6';
- if (isPlaying) {
- if (voiceEnabled) { playSlideAudio(currentSlide); } else { startAutoPlay(); }
+ chapterBtns.forEach((btn) => {
+ btn.addEventListener('click', () => {
+ const idx = parseInt(btn.getAttribute('data-slide'), 10);
+ if (!isNaN(idx)) goTo(idx);
+ });
+ });
+
+ playPauseBtn.addEventListener('click', () => {
+ if (!audioUnlocked) { startPlayback(); return; }
+ playing = !playing;
+ if (playing) {
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) playSlideAudio(current);
+ else resetTimer();
+ const tb = cards[current].querySelector('.narration-timer');
+ if (tb) {
+ tb.style.transition = 'none';
+ tb.style.width = '0%';
+ requestAnimationFrame(() => {
+ tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+ tb.style.width = '100%';
+ });
+ }
  } else {
- stopAudio(); stopAutoPlay();  }
+ playPauseBtn.innerHTML = '&#9654;';
+ speedLabel.textContent = 'Paused';
+ stopAudio();
+ clearInterval(timer);
+ const tb = cards[current].querySelector('.narration-timer');
+ if (tb) {
+ const w = getComputedStyle(tb).width;
+ tb.style.transition = 'none';
+ tb.style.width = w;
+ }
+ }
+ });
+
+ function startPlayback() {
+ if (audioUnlocked) return;
+ audioUnlocked = true;
+ tapToStart.classList.add('hidden');
+ playing = true;
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
+ playSlideAudio(current);
+ }
+ tapToStart.addEventListener('click', startPlayback);
+
+ if (!navigator.maxTouchPoints) {
+ audioUnlocked = true;
+ if (tapToStart) tapToStart.classList.add('hidden');
  }
 
- // Dot click handlers
- dots.forEach((dot, index) => {
- dot.addEventListener('click', () => { stopAutoPlay(); showSlide(index); });
- });
+ if (window.PBJWalkthrough && window.PBJWalkthrough.registerTeardown) {
+ window.PBJWalkthrough.registerTeardown(stopAllAudio);
+ } else {
+ window.__pbjTeardownQueue = window.__pbjTeardownQueue || [];
+ window.__pbjTeardownQueue.push(stopAllAudio);
+ }
 
- // Chapter button click handlers
- chapterBtns.forEach((btn, index) => {
- btn.addEventListener('click', () => { stopAutoPlay(); showSlide(index); });
- });
-
- playPauseBtn.addEventListener('click', togglePlayPause);
-
- // Initialize
-        const tapToStart = document.getElementById('tapToStart');
-        function startPlayback() {
-            if (audioUnlocked) return;
-            audioUnlocked = true;
-            tapToStart.classList.add('hidden');
-            isPlaying = true;
-            playPauseBtn.innerHTML = '&#10074;&#10074;';
-            playSlideAudio(currentSlide);
-        }
-        tapToStart.addEventListener('click', startPlayback);
-
-        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
-        if (!navigator.maxTouchPoints) {
-            audioUnlocked = true;
-            if (tapToStart) tapToStart.classList.add('hidden');
-        }
-
- showSlide(0);
- if (!voiceEnabled) startAutoPlay();
+ goTo(0);
+ })();
  </script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
 <script src="/videos/shared/walkthrough.js" defer></script>
