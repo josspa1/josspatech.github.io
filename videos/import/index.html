@@ -130,22 +130,20 @@
  .phone-frame {
  width: 300px; position: relative;
  border: 10px solid var(--navy-dark); border-radius: 40px;
- overflow: hidden; background: #000;
+ overflow: hidden; background: var(--background);
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
  aspect-ratio: 9 / 19.5;
             max-height: 580px; }
- .phone-frame::before {
- content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
- width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
- z-index: 20;
- }
+ /* Skip fake notch — device PNGs include status bar; SVG mockups sit below safe area */
+ .phone-frame::before { display: none; }
  .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
  .slide {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
  opacity: 0; transition: opacity 0.8s ease-in-out;
  }
  .slide.active { opacity: 1; }
- .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+ .slide img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+ .slide img[src$=".svg"] { object-fit: contain; object-position: top center; background: var(--background); }
  .slide-overlay {
  position: absolute; bottom: 0; left: 0; right: 0;
  background: linear-gradient(transparent, rgba(0,0,0,0.85));
@@ -466,7 +464,7 @@
  <section class="walkthrough">
  <div class="container">
  <h2>How It Works</h2>
- <p class="section-sub">Two import paths — <strong>Share</strong> from your bank app (fastest) or <strong>import from file</strong> after export. Bank-side steps use SVG mockups (PARTIAL); PocketBudJet steps use real PNGs where captured.</p>
+ <p class="section-sub">Bank-side steps use SVG mockups with <code>object-fit: contain</code>; PocketBudJet steps use real PNG captures with measured gold pulses.</p>
  <div class="wt-wrapper">
  <div>
  <div class="phone-viewport">
@@ -477,25 +475,25 @@
                                 <div class="tap-to-start-icon">&#9654;</div>
                                 <div class="tap-to-start-label">Tap to play</div>
                             </div>
- <!-- Slide 0: Download from Bank -->
- <div class="slide active" data-index="0">
- <img src="/assets/illustrations-pocketbudjet/pbj-import-csv.svg" alt="Bank download" loading="lazy">
+ <!-- Slide 0: Download from Bank (bank-side mockup — not PBJ Import screen) -->
+ <div class="slide active" data-index="0" data-tap-x="50" data-tap-y="34" data-tap-label="Statements" data-tap-hint="In your bank app, open the account and tap <strong>Statements</strong> or <strong>Download Transactions</strong>.">
+ <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Bank app statements list" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">PARTIAL</span>
  <div class="slide-title">Download from Your Bank</div>
  </div>
  </div>
  <!-- Slide 1: File Format + Share -->
- <div class="slide" data-index="1" data-tap-hint="Fastest: in your bank app open the statement and tap <strong>Share → PocketBudJet</strong> — no folder needed. Or export <strong>CSV</strong> (best), <strong>OFX</strong>, or <strong>QFX</strong> and import from file. See <a href='/videos/pocketbudjet/share-statements/' style='color:#fff;font-weight:600'>Share statements</a>.">
- <img src="/assets/illustrations-pocketbudjet/pbj-import-csv.svg" alt="Share from bank app or import a file" loading="lazy">
+ <div class="slide" data-index="1" data-tap-x="88" data-tap-y="33" data-tap-label="Share" data-tap-hint="Fastest: in your bank app open the statement and tap <strong>Share → PocketBudJet</strong> — no folder needed. Or export <strong>CSV</strong> (best), <strong>OFX</strong>, or <strong>QFX</strong> and import from file. See <a href='/videos/pocketbudjet/share-statements/' style='color:#fff;font-weight:600'>Share statements</a>.">
+ <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Tap Share on the bank statement" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">PARTIAL</span>
  <div class="slide-title">Share is fastest — CSV best for files</div>
  </div>
  </div>
- <!-- Slide 2: Import History -->
- <div class="slide" data-index="2">
- <img src="/assets/illustrations-pocketbudjet/pbj-import-csv.svg" alt="History selection" loading="lazy">
+ <!-- Slide 2: Import History — multiple statement months visible -->
+ <div class="slide" data-index="2" data-tap-x="50" data-tap-y="42" data-tap-label="3+ months" data-tap-hint="Select <strong>at least three months</strong> of statements — six months or a year is better before you download or share.">
+ <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Pick several months of bank statements" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">PARTIAL</span>
  <div class="slide-title">Grab at Least 3 Months</div>
@@ -512,7 +510,7 @@
  </div>
  <!-- Slide 4: Confirm draft (placeholder PNG — capture pending) -->
  <div class="slide" data-index="4" data-tap-x="50" data-tap-y="91" data-tap-label="Confirm" data-tap-hint="Review parsed rows on the draft screen, then tap <strong>Confirm</strong> at the bottom. Or tap <strong>Or browse files</strong> first to pick CSV/OFX/PDF from your phone.">
- <img src="/assets/screenshots/pbj/02-import-center.png" alt="Review parsed transactions and tap Confirm (confirm screen capture pending)" loading="lazy">
+ <img src="/assets/screenshots/import.png" alt="Review parsed transactions and tap Confirm" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 5</span>
  <div class="slide-title">Tap Confirm when the draft looks right</div>
@@ -520,7 +518,7 @@
  </div>
  <!-- Slide 5: Camera receipt scan -->
  <div class="slide" data-index="5" data-tap-x="50" data-tap-y="22" data-tap-label="Receipt Scanner" data-tap-hint="From Transactions, tap <strong>+</strong>, then choose <strong>Receipt Scanner</strong>.">
- <img src="/assets/screenshots/scanner.png" alt="Smart Scanning — receipt camera" loading="lazy">
+ <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Smart Scanning — receipt camera" loading="lazy">
 
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 6</span>
@@ -545,8 +543,7 @@
  </div>
  <!-- Slide 8: Export & Backup -->
  <div class="slide" data-index="8" data-tap-x="90" data-tap-y="8" data-tap-label="Settings" data-tap-hint="Tap the <strong>gear icon</strong> (top-right), then <strong>Export</strong> for CSV, PDF, Excel, and backup formats.">
- <img src="/assets/illustrations-pocketbudjet/pbj-settings-export.svg" alt="Export from Settings" loading="lazy">
-
+ <img src="/assets/screenshots/privacy.png" alt="Settings — Import and Export" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">SLIDE 9</span>
  <div class="slide-title">Tap Settings → Export for six formats</div>
@@ -554,7 +551,7 @@
  </div>
  <!-- Slide 9: Summary -->
  <div class="slide" data-index="9">
- <img src="/assets/screenshots/dashboard.png" alt="Complete dashboard" loading="lazy">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="Complete dashboard" loading="lazy">
  <div class="slide-overlay">
  <span class="slide-step">DONE</span>
  <div class="slide-title">Import Early, Import Often</div>
