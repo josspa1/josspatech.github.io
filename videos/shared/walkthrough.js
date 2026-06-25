@@ -120,6 +120,12 @@
         return '';
     }
 
+    function slideUsesPng(slide) {
+        var img = slide.querySelector('img[src]');
+        if (!img) return false;
+        return /\.png(\?|$)/i.test(img.getAttribute('src') || '');
+    }
+
     function initSlides() {
         document.querySelectorAll('.slide').forEach(function (slide) {
             slide.querySelectorAll(':scope > .tap-ring-outer, :scope > .tap-finger, :scope > .tap-ring').forEach(function (el) {
@@ -131,6 +137,7 @@
             var label = slide.getAttribute('data-tap-label') || '';
 
             if (!x || !y) {
+                if (!slideUsesPng(slide)) return;
                 var inferred = inferTap(slide);
                 if (inferred) {
                     x = String(inferred.x);
