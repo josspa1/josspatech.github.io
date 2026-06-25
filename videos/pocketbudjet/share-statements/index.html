@@ -165,7 +165,7 @@
 <section class="video-section">
     <div class="container">
         <h2>From bank app to budget — under 10 seconds</h2>
-        <p class="section-sub">Real screens, gold pulse on where to tap, step-by-step narration.</p>
+        <p class="section-sub">Step-by-step narration with gold tap pulses on measured targets (bank/share-sheet steps use designed illustrations; PBJ steps use real screenshots).</p>
         <div class="video-wrapper">
             <div>
                 <div class="phone-viewport">
@@ -185,8 +185,8 @@
                                 </div>
                             </div>
 
-                            <!-- Slide 1: bank app statement view -->
-                            <div class="slide" data-index="1" data-tap-x="50" data-tap-y="62" data-tap-label="Statements" data-tap-hint="Open your bank app, pick the account, then tap <strong>Statements</strong> (sometimes under Documents or Activity).">
+                            <!-- Slide 1: bank app statement view (tap on April row per bank-app-statement.svg layout) -->
+                            <div class="slide" data-index="1" data-tap-x="50" data-tap-y="34" data-tap-label="Statement month" data-tap-hint="Open your bank app, pick the account, open <strong>Statements</strong>, then tap the month you want (e.g. April 2026).">
                                 <img src="/assets/illustrations-pocketbudjet/bank-app-statement.svg" alt="Bank app showing recent statements list" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 1</span>
@@ -203,8 +203,8 @@
                                 </div>
                             </div>
 
-                            <!-- Slide 3: share sheet appears -->
-                            <div class="slide" data-index="3" data-tap-x="88" data-tap-y="33" data-tap-label="Share" data-tap-hint="Tap the <strong>Share</strong> icon (square with arrow up).">
+                            <!-- Slide 3: share sheet appears (overview — no tap) -->
+                            <div class="slide" data-index="3">
                                 <img src="/assets/illustrations-pocketbudjet/share-sheet-pbj.svg" alt="Share sheet shows PocketBudJet">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 3</span>
@@ -221,18 +221,18 @@
                                 </div>
                             </div>
 
-                            <!-- Slide 5: PBJ opens straight to Import -->
-                            <div class="slide" data-index="5" data-tap-x="50" data-tap-y="72" data-tap-label="Import" data-tap-hint="PocketBudJet opens to Import with your statement loaded — wait for parsing to finish.">
-                                <img src="/assets/screenshots/pbj/02-import-center.png" alt="PocketBudJet Import screen with statement loaded" loading="lazy">
+                            <!-- Slide 5: PBJ opens straight to Import (tap on IMPORT banner per 02-import-center.png) -->
+                            <div class="slide" data-index="5" data-tap-x="50" data-tap-y="24" data-tap-label="Import screen" data-tap-hint="PocketBudJet opens here after you pick it on the share sheet — wait while it detects your bank and parses rows.">
+                                <img src="/assets/screenshots/pbj/02-import-center.png" alt="PocketBudJet Import hub after share (parsing runs on this screen)" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 5</span>
                                     <div class="slide-title">Wait for Import to parse your statement</div>
                                 </div>
                             </div>
 
-                            <!-- Slide 6: review then confirm -->
-                            <div class="slide" data-index="6" data-tap-x="50" data-tap-y="91" data-tap-label="Confirm" data-tap-hint="Review each parsed row, fix any flagged items, then tap <strong>Confirm</strong> at the bottom.">
-                                <img src="/assets/screenshots/pbj/02-import-center.png" alt="Review parsed transactions and tap Confirm" loading="lazy">
+                            <!-- Slide 6: review then confirm (needs Maestro capture of confirm/mapper screen — no matching PNG in repo yet) -->
+                            <div class="slide" data-index="6">
+                                <img src="/assets/screenshots/pbj/02-import-center.png" alt="Review parsed transactions and tap Confirm (placeholder — capture confirm screen)" loading="lazy">
                                 <div class="slide-overlay">
                                     <span class="slide-step">STEP 6</span>
                                     <div class="slide-title">Tap Confirm when the draft looks right</div>
