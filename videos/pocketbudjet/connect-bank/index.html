@@ -606,8 +606,11 @@
         let voiceEnabled = true;
         let advanceTimeout = null;
 
-        // MP3 audio paths (pre-generated via edge-tts)
-        const audioPaths = [];
+        // MP3 audio paths (pre-generated via edge-tts, en-US-AndrewNeural)
+        const audioPaths = [
+            'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
+            'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3'
+        ];
 
         // Voice toggle button
         const voiceBtn = document.createElement('button');
