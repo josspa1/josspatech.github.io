@@ -564,6 +564,7 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  let voiceEnabled = true;
  let advanceTimeout = null;
  let sentenceInterval = null;
+ let audioHighlightReady = false;
  let userScrolling = false;
  let scrollIdleTimer = null;
 
@@ -663,6 +664,16 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  timer = null;
  }
 
+ function resetSlideSentences(slideIdx) {
+ allSentences.forEach(function(span) {
+ span.classList.remove('active');
+ var s = parseInt(span.getAttribute('data-slide'), 10);
+ if (s < slideIdx) span.classList.add('past');
+ else span.classList.remove('past');
+ });
+ currentSentenceIdx = 0;
+ }
+
  function setActiveSentence(slideIdx, sentIdx) {
  allSentences.forEach(function(span) {
  span.classList.remove('active');
@@ -685,6 +696,17 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  }
  }
 
+ function syncSentenceToAudio(slideIdx) {
+ if (!audioElement || !audioElement.duration || !playing || !audioHighlightReady) return;
+ var spans = slideSentences[slideIdx];
+ if (!spans || !spans.length) return;
+ var idx = Math.min(
+ Math.floor(audioElement.currentTime / audioElement.duration * spans.length),
+ spans.length - 1
+ );
+ setActiveSentence(slideIdx, idx);
+ }
+
  function startSentenceSync(slideIdx, durationMs) {
  stopSentenceTimer();
  var spans = slideSentences[slideIdx];
@@ -703,10 +725,12 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
 
  function playSlideAudio(index) {
  stopAudio();
+ audioHighlightReady = false;
  if (!voiceEnabled) {
  startSentenceSync(index, SLIDE_DURATION);
  return;
  }
+ if (!playing) return;
  var src = audioPaths[index];
  if (!src) {
  startSentenceSync(index, SLIDE_DURATION);
@@ -714,17 +738,19 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  }
  audioElement = new Audio(src);
  audioElement.volume = 1.0;
- audioElement.addEventListener('loadedmetadata', function() {
- if (audioElement && audioElement.duration) {
- startSentenceSync(index, audioElement.duration * 1000);
+ function beginAudioHighlight() {
+ if (audioHighlightReady) return;
+ audioHighlightReady = true;
+ syncSentenceToAudio(index);
  }
- });
+ audioElement.addEventListener('playing', beginAudioHighlight);
  audioElement.addEventListener('timeupdate', function() {
- if (!audioElement || !audioElement.duration) return;
- var spans = slideSentences[index];
- if (!spans || !spans.length) return;
- var idx = Math.min(Math.floor(audioElement.currentTime / audioElement.duration * spans.length), spans.length - 1);
- setActiveSentence(index, idx);
+ if (!playing) return;
+ if (!audioHighlightReady && audioElement.currentTime > 0) {
+ audioHighlightReady = true;
+ }
+ if (!audioHighlightReady) return;
+ syncSentenceToAudio(index);
  });
  audioElement.onended = function() {
  if (!playing || !voiceEnabled) return;
@@ -786,7 +812,7 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  dotsContainer.children[current].classList.add('active');
  if (chapterBtns[current]) chapterBtns[current].classList.add('active');
 
- setActiveSentence(current, 0);
+ resetSlideSentences(current);
 
  if (playing && current === slides.length - 1) speedLabel.textContent = 'Last step';
  else if (playing) speedLabel.textContent = 'Auto-playing';
