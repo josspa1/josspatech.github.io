@@ -143,9 +143,11 @@
      animation: tap-ripple 1.8s ease-out infinite 0.2s;
  }
  .tap-finger {
-     position: absolute; bottom: -18px; right: -14px;
-     font-size: 22px;
+     position: absolute; top: 50%; left: 50%;
+     font-size: 22px; line-height: 1;
      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+     transform: translate(-42%, -78%) rotate(-15deg);
+     transform-origin: 50% 100%;
      animation: tap-bounce 1.8s ease-in-out infinite;
  }
  @keyframes tap-pulse {
@@ -159,9 +161,9 @@
      100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
  }
  @keyframes tap-bounce {
-     0%, 100% { transform: translateY(0) rotate(-15deg); }
-     40% { transform: translateY(-5px) rotate(-15deg); }
-     60% { transform: translateY(2px) rotate(-15deg); }
+     0%, 100% { transform: translate(-42%, -78%) rotate(-15deg); }
+     40% { transform: translate(-42%, -86%) rotate(-15deg); }
+     60% { transform: translate(-42%, -74%) rotate(-15deg); }
  }
 
  /* Progress dots */
@@ -389,25 +391,25 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <div class="slide" data-index="6" data-tap-none>
  <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Your dashboard" loading="lazy">
  </div>
- <div class="slide" data-index="7" data-tap-x="50" data-tap-y="90" data-tap-label="Gold +">
+ <div class="slide" data-index="7" data-tap-x="53" data-tap-y="92" data-tap-label="Gold +">
  <img src="/assets/screenshots/transactions.png" alt="Transactions" loading="lazy">
  </div>
- <div class="slide" data-index="8" data-tap-x="50" data-tap-y="28" data-tap-label="Share from bank">
+ <div class="slide" data-index="8" data-tap-x="50" data-tap-y="30" data-tap-label="Share from bank">
  <img src="/assets/screenshots/pbj/02-import-center.png" alt="Importing" loading="lazy">
  </div>
- <div class="slide" data-index="9" data-tap-x="50" data-tap-y="20" data-tap-label="Receipt Scanner">
+ <div class="slide" data-index="9" data-tap-none>
  <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Scanning" loading="lazy">
  </div>
- <div class="slide" data-index="10" data-tap-x="50" data-tap-y="32" data-tap-label="Category">
+ <div class="slide" data-index="10" data-tap-x="50" data-tap-y="38" data-tap-label="Category">
  <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="Budgets" loading="lazy">
  </div>
- <div class="slide" data-index="11" data-tap-x="50" data-tap-y="52" data-tap-label="Calendar">
+ <div class="slide" data-index="11" data-tap-x="50" data-tap-y="42" data-tap-label="Calendar">
  <img src="/assets/screenshots/bills-recurring/bills-calendar.png" alt="Bills &amp; Recurring" loading="lazy">
  </div>
  <div class="slide" data-index="12" data-tap-none>
  <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Savings &amp; Goals" loading="lazy">
  </div>
- <div class="slide" data-index="13" data-tap-x="50" data-tap-y="44" data-tap-label="Payoff method">
+ <div class="slide" data-index="13" data-tap-x="50" data-tap-y="40" data-tap-label="Payoff method">
  <img src="/assets/screenshots/debt.png" alt="Debt" loading="lazy">
  </div>
  <div class="slide" data-index="14">
@@ -419,7 +421,7 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <div class="slide" data-index="16" data-tap-none>
  <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Coach" loading="lazy">
  </div>
- <div class="slide" data-index="17" data-tap-x="84" data-tap-y="24" data-tap-label="Ask">
+ <div class="slide" data-index="17" data-tap-x="85" data-tap-y="24" data-tap-label="Ask">
  <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="AI Assistant" loading="lazy">
  </div>
  <div class="slide" data-index="18" data-tap-none>
@@ -428,13 +430,13 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <div class="slide" data-index="19" data-tap-none>
  <img src="/assets/screenshots/privacy.png" alt="Export" loading="lazy">
  </div>
- <div class="slide" data-index="20" data-tap-x="50" data-tap-y="29" data-tap-label="QR code">
+ <div class="slide" data-index="20" data-tap-none>
  <img src="/assets/screenshots/pbj/07-web-companion.png" alt="PC Dashboard" loading="lazy">
  </div>
  <div class="slide" data-index="21" data-tap-x="50" data-tap-y="73" data-tap-label="Household sync">
  <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Household Sync" loading="lazy">
  </div>
- <div class="slide" data-index="22" data-tap-x="50" data-tap-y="23" data-tap-label="Transaction">
+ <div class="slide" data-index="22" data-tap-x="50" data-tap-y="36" data-tap-label="Transaction">
  <img src="/assets/screenshots/transactions.png" alt="Rules" loading="lazy">
  </div>
  <div class="slide" data-index="23" data-tap-x="91" data-tap-y="8" data-tap-label="Settings">
