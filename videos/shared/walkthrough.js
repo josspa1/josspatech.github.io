@@ -134,6 +134,8 @@
                 el.remove();
             });
 
+            if (slide.hasAttribute('data-tap-none')) return;
+
             var x = slide.getAttribute('data-tap-x');
             var y = slide.getAttribute('data-tap-y');
             var label = slide.getAttribute('data-tap-label') || '';
