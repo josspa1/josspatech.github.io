@@ -29,7 +29,7 @@ const fast = args.includes('--fast');
 const portArg = args.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4174;
 
-const SLIDE_COUNT = preview ? 27 : 89;
+const SLIDE_COUNT = preview ? 27 : 28;
 const SLIDE_SEC = fast ? 2 : 8;
 
 function resolveFfmpeg() {
@@ -179,14 +179,16 @@ async function captureSlideScreenshots(page, shotDir, slideCount) {
   await page.evaluate(() => {
     const tap = document.getElementById('tapToStart');
     if (tap && !tap.classList.contains('hidden')) tap.click();
+    window.__pbjCaptureMode = true;
   });
-  await page.waitForTimeout(400);
+  await page.waitForTimeout(500);
 
   for (let i = 0; i < slideCount; i++) {
     await page.evaluate((idx) => {
-      if (typeof goTo === 'function') goTo(idx);
+      const dots = document.getElementById('dots');
+      if (dots && dots.children[idx]) dots.children[idx].click();
     }, i);
-    await page.waitForTimeout(350);
+    await page.waitForTimeout(450);
     const out = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
     await page.locator('.video-wrapper').screenshot({ path: out, type: 'png' });
     if ((i + 1) % 10 === 0 || i === slideCount - 1) {
