@@ -181,22 +181,26 @@ body.record-mode .walkthrough .section-sub {
 }
 
 .walkthrough-stage .phone-viewport {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 100%;
     overflow: hidden;
     border-radius: 40px;
 }
 
+/* Match import walkthrough: fixed 300px width, not height:100% stretch */
 .walkthrough-stage .phone-frame {
-    width: auto;
-    height: 100%;
-    max-height: 100%;
-    max-width: 100%;
-    aspect-ratio: 9 / 19.5;
+  width: 300px;
+  height: auto;
+  max-height: min(580px, 100%);
+  max-width: 100%;
+  flex-shrink: 0;
+  aspect-ratio: 9 / 19.5;
 }
 
 .walkthrough-stage .progress-dots {
