@@ -5,38 +5,26 @@
  */
 
 .walkthrough-stage {
-  --wt-stage-max: min(90vh, calc(100dvh - 5rem));
-  margin-top: 0.75rem;
-  min-height: 0;
-}
-
-body.record-mode .walkthrough-stage {
-  --wt-stage-max: min(90vh, calc(100dvh - 2rem));
+  width: 100%;
 }
 
 /* ---- Desktop: side-by-side ---- */
 @media (min-width: 1200px) {
-  .walkthrough-stage {
+  .walkthrough .video-wrapper {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
     max-height: none;
     overflow: visible;
   }
 
-  .walkthrough-stage .video-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: 2.5rem;
-    width: 100%;
-  }
-
-  .walkthrough-stage .phone-column {
+  .walkthrough .phone-column {
     flex-shrink: 0;
     width: 320px;
     max-width: none;
   }
 
-  .walkthrough-stage .narration-panel {
+  .walkthrough .narration-panel {
     flex: 1;
     min-width: 280px;
     min-height: 0;
@@ -49,104 +37,68 @@ body.record-mode .walkthrough-stage {
 
 /* ---- Letterbox fallback (<1200px) ---- */
 @media (max-width: 1199px) {
-  .walkthrough,
-  .video-section.walkthrough {
+  .walkthrough {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 
-  .walkthrough h2,
-  .video-section.walkthrough h2 {
+  .walkthrough h2 {
     margin-bottom: 0.35rem;
   }
 
-  .walkthrough .section-sub,
-  .video-section.walkthrough .section-sub {
+  .walkthrough .section-sub {
     margin-bottom: 1.25rem;
     font-size: 0.98rem;
   }
 
-  .walkthrough-stage {
-    height: var(--wt-stage-max);
-    max-height: var(--wt-stage-max);
-    overflow: hidden;
-  }
-
-  .walkthrough-stage .video-wrapper {
+  .walkthrough .video-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.65rem;
-    height: 100%;
+    max-height: 90vh;
     min-height: 0;
     width: 100%;
     overflow: hidden;
   }
 
-  .walkthrough-stage .phone-column {
-    flex: 1 1 auto;
-    min-height: 0;
+  .walkthrough .phone-column {
+    flex: 0 0 auto;
     width: 100%;
     max-width: 340px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
-  .walkthrough-stage .phone-viewport {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .walkthrough-stage .phone-frame {
+  .walkthrough .phone-frame {
     width: min(290px, 46vw);
-    height: auto;
-    max-height: min(46vh, 480px);
+    max-height: min(50vh, 520px);
   }
 
-  .walkthrough-stage .progress-dots {
-    flex-shrink: 0;
+  .walkthrough .progress-dots {
+    margin-top: 0.65rem;
+  }
+
+  .walkthrough .playback-controls {
     margin-top: 0.5rem;
   }
 
-  .walkthrough-stage .playback-controls {
-    flex-shrink: 0;
-    margin-top: 0.35rem;
-  }
-
-  /* Chapter pills under phone — horizontal scroll, don't push transcript off screen */
-  .walkthrough-stage .chapter-nav {
-    flex-shrink: 0;
-    margin-top: 0.5rem;
+  /* Chapter pills under phone — scroll if many, don't steal transcript space */
+  .walkthrough .chapter-nav {
+    margin-top: 0.65rem;
     max-width: 100%;
-    max-height: 9vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-  }
-
-  .walkthrough-stage .chapter-btn {
+    max-height: 10vh;
+    overflow-y: auto;
     flex-shrink: 0;
-    white-space: nowrap;
-    padding: 0.4rem 0.85rem;
-    font-size: 0.78rem;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Fixed-height transcript band; narration cards scroll inside */
-  .walkthrough-stage .narration-panel {
-    flex: 0 0 32vh;
+  /* Fixed-height transcript band; cards scroll inside */
+  .walkthrough .narration-panel {
+    flex: 1 1 auto;
     width: 100%;
     max-width: 100%;
-    min-height: 28vh;
-    max-height: 35vh;
+    min-height: 0;
     height: 32vh;
+    max-height: 35vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     align-self: stretch;
@@ -155,27 +107,31 @@ body.record-mode .walkthrough-stage {
 }
 
 @media (max-width: 480px) {
-  .walkthrough-stage .phone-frame {
+  .walkthrough .phone-frame {
     width: min(250px, 62vw);
-    max-height: min(42vh, 420px);
+    max-height: min(46vh, 440px);
   }
 
-  .walkthrough-stage .narration-panel {
-    flex-basis: 30vh;
+  .walkthrough .narration-panel {
     height: 30vh;
-    min-height: 28vh;
     max-height: 30vh;
   }
 
-  .walkthrough-stage .chapter-nav {
+  .walkthrough .chapter-nav {
     max-height: 8vh;
   }
 }
 
-/* Record mode: full viewport stage */
+/* Record mode: use full viewport for letterbox stage */
+body.record-mode .walkthrough-stage {
+  height: min(90vh, calc(100dvh - 2rem));
+  max-height: min(90vh, calc(100dvh - 2rem));
+}
+
 body.record-mode .walkthrough,
 body.record-mode .video-section.walkthrough {
   padding: 1.5rem 2rem;
+  min-height: 100vh;
 }
 
 body.record-mode .walkthrough h2,
@@ -185,7 +141,12 @@ body.record-mode .video-section.walkthrough .section-sub {
   display: none;
 }
 
-body.record-mode .walkthrough-stage {
-  height: var(--wt-stage-max);
-  max-height: var(--wt-stage-max);
+body.record-mode .walkthrough .video-wrapper {
+  max-height: calc(100vh - 3rem);
+}
+
+@media (min-width: 1200px) {
+  body.record-mode .walkthrough .video-wrapper {
+    max-height: calc(100vh - 3rem);
+  }
 }
