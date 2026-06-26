@@ -171,3 +171,10 @@ body.record-mode .walkthrough .video-wrapper {
     max-height: calc(100vh - 3rem);
   }
 }
+
+/* Full screenshot visible inside phone frame (no cover crop) */
+.walkthrough-stage .slide img {
+  object-fit: contain;
+  object-position: center center;
+  background: var(--background, #EDF2F7);
+}
