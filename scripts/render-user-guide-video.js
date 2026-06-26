@@ -29,7 +29,7 @@ const fast = args.includes('--fast');
 const portArg = args.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4174;
 
-const SLIDE_COUNT = preview ? 27 : 28;
+const SLIDE_COUNT = preview ? 27 : 89;
 const SLIDE_SEC = fast ? 2 : 8;
 
 function resolveFfmpeg() {
@@ -164,14 +164,16 @@ function buildVideoFromScreenshots(ffmpeg, shotDir, slideCount, slideSec, outPat
 }
 
 function muxVideoAudio(ffmpeg, videoPath, audioPath, outPath) {
+  const tmpOut = outPath + '.muxing.mp4';
   runFfmpeg(ffmpeg, [
     '-y', '-i', videoPath, '-i', audioPath,
-    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k',
     '-map', '0:v:0', '-map', '1:a:0',
-    '-shortest',
-    '-movflags', '+faststart',
-    outPath,
+    '-c:v', 'libx264', '-preset', 'fast', '-crf', '22',
+    '-c:a', 'aac', '-b:a', '128k',
+    '-pix_fmt', 'yuv420p', '-movflags', '+faststart',
+    tmpOut,
   ]);
+  fs.renameSync(tmpOut, outPath);
 }
 
 async function captureSlideScreenshots(page, shotDir, slideCount) {
