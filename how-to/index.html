@@ -167,6 +167,21 @@
         }
         .guide-card:hover .arrow { transform: translateX(4px); }
 
+        .mp4-guide-block {
+            max-width: 900px; margin: 0 auto 2rem;
+            background: var(--white); border-radius: 16px;
+            padding: 1.75rem 2rem;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+            border: 1px solid rgba(26,79,122,0.08);
+        }
+        .mp4-guide-block h3 { font-family: 'Playfair Display', serif; color: var(--navy); margin-bottom: 0.5rem; }
+        .mp4-hint { color: var(--slate); font-size: 0.95rem; margin-bottom: 1rem; }
+        .mp4-guide-player {
+            width: 100%; border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(12,51,88,0.12);
+            background: #0c1726;
+        }
+
         /* Footer */
         footer {
             background-color: var(--navy-dark); color: var(--white);
@@ -609,9 +624,18 @@
     <section class="section">
         <div class="container">
             <h2>User Manual</h2>
-            <p class="section-sub">Every screen, every feature, every setting ΓÇö 89 slides in 28 chapters covering everything PocketBudJet can do.</p>
+            <p class="section-sub">89 slides in 28 chapters — cold start through every major feature. Watch the narrated video or open the interactive manual.</p>
 
-            <a href="/videos/user-guide/" class="guide-card">
+            <div class="mp4-guide-block">
+                <h3>Watch the User Guide (~12 min)</h3>
+                <p class="mp4-hint">Full recorded walkthrough with English narration — cold start through every major feature.</p>
+                <video class="mp4-guide-player" controls preload="metadata" playsinline poster="/assets/screenshots/cold-start/splash.png">
+                    <source src="/videos/user-guide/pocketbudjet-user-guide.mp4" type="video/mp4">
+                    Your browser does not support HTML5 video. <a href="/videos/user-guide/pocketbudjet-user-guide.mp4">Download the MP4</a>.
+                </video>
+            </div>
+
+            <a href="/videos/user-guide/" class="guide-card" style="border: 2px solid var(--gold);">
                 <div class="guide-card-icon">&#128218;</div>
                 <div class="guide-card-body">
                     <h3>Open the Detailed User Manual</h3>
