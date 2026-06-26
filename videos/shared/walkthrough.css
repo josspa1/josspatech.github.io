@@ -195,9 +195,9 @@ body.record-mode .walkthrough .section-sub {
 
 /* Match import walkthrough: fixed 300px width, not height:100% stretch */
 .walkthrough-stage .phone-frame {
-  width: 300px;
+  width: 340px;
   height: auto;
-  max-height: min(580px, 100%);
+  max-height: min(640px, 100%);
   max-width: 100%;
   flex-shrink: 0;
   aspect-ratio: 9 / 19.5;

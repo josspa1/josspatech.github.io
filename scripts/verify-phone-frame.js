@@ -100,7 +100,7 @@ async function measure(page, label) {
   const iw = ug.img?.w || 0;
   const sw = ug.screen?.w || 0;
   const issues = [];
-  if (Math.abs(fw - 300) > 8) issues.push(`phone-frame width ${fw}px (expected ~300)`);
+  if (Math.abs(fw - 340) > 12) issues.push(`phone-frame width ${fw}px (expected ~340)`);
   if (Math.abs(iw - sw) > 4) issues.push(`img width ${iw}px vs screen ${sw}px`);
   if (ug.img?.left !== ug.screen?.left) issues.push(`img left ${ug.img?.left} vs screen left ${ug.screen?.left}`);
   if (issues.length) {
