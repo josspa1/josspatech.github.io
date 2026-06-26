@@ -72,7 +72,7 @@ SLIDES: list[dict] = [
     S("Wayfinding", "Header", "Landmark two: the header — Universal Search and the Coach button on every screen. Tap Next.",
       "/assets/screenshots/wayfinding/wayfinding-header.png", "OK", "Wayfinding — header search and Coach", (82, 7, "Search & Coach")),
     S("Wayfinding", "Drawer", "Landmark three: the drawer — swipe from the left for Settings, Help, and the full nav map. Tap Next.",
-      "/assets/screenshots/wayfinding/wayfinding-drawer.png", "OK", "Navigation drawer — capture pending", (12, 24, "Open menu")),
+      "/assets/screenshots/wayfinding/wayfinding-drawer.png", "OK", "Navigation drawer", (12, 24, "Open menu")),
     S("Wayfinding", "Toolbox", "Landmark four: the Toolbox — import, export, scanners, and utilities in one place. Tap Next.",
       IMPORT_CENTER, "OK", "Toolbox / Import Center", (72, 7, "Toolbox")),
     S("Wayfinding", "Quick-add", "Landmark five: the quick-add button logs a transaction, category, or goal depending on your tab. Tap Done to finish the tour.",
@@ -109,7 +109,7 @@ SLIDES: list[dict] = [
       HOME, "OK", "Home dashboard overview"),
     # ── Activity (28–32) ──
     S("Activity", "Open Activity", "Tap the Activity tab — wallet icon at bottom left — to see every transaction.",
-      HOME, "interim", "Tap Activity tab", (12, 94, "Activity")),
+      "/assets/screenshots/activity/activity-tab.png", "OK", "Tap Activity tab", (12, 94, "Activity")),
     S("Activity", "Transaction list", "Activity lists income and expenses grouped by date. Use search and filters to narrow by merchant, category, or amount.",
       "/assets/screenshots/activity/activity-transaction-list.png", "OK", "Activity — transaction list"),
     S("Activity", "Filters", "Tap the filter icon to stack date, category, and account filters. Running balances update per account as you scroll.",
@@ -251,7 +251,7 @@ SLIDES: list[dict] = [
       None, "missing", "Deduction Breakdown"),
     # ── Settings (92–97) ──
     S("Settings", "Open Settings", "Tap the gear icon for accounts, privacy, backups, data retention, and the setup wizard.",
-      HOME, "interim", "Open Settings", (91, 8, "Settings")),
+      "/assets/screenshots/settings/settings-open.png", "OK", "Open Settings", (91, 8, "Settings")),
     S("Settings", "Profile & accounts", "My Profile and Accounts manage display name, institutions, and account types.",
       "/assets/screenshots/settings/profile-accounts.png", "OK", "Profile and Accounts"),
     S("Settings", "Subscription", "Subscription shows trial days left, Premium features, and bank-sync add-ons.",
@@ -317,7 +317,7 @@ SLIDES: list[dict] = [
       None, "missing", "Encrypted cloud backup", (50, 60, "Cloud")),
     # ── Help (119) ──
     S("Help", "Help & support", "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature.",
-      "/assets/screenshots/settings/help-support.png", "OK", "Help and support"),
+      "/assets/screenshots/help/help-support.png", "OK", "Help and support"),
 ]
 
 # Chapter pills: (label, first slide index)

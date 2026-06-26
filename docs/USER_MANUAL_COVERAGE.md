@@ -10,8 +10,8 @@
 | Metric | Count |
 |--------|------:|
 | Slides with voice + narration | 120 |
-| PNG OK | 70 |
-| PNG interim (reuse / mockup) | 27 |
+| PNG OK | 72 |
+| PNG interim (reuse / mockup) | 25 |
 | PNG missing (placeholder) | 23 |
 
 ## Slide inventory
@@ -46,7 +46,7 @@
 | 25 | Wizard | Accessibility | Y | OK | Y |
 | 26 | Wizard | Done | Y | OK | Y |
 | 27 | Home | Dashboard | Y | OK | Y |
-| 28 | Activity | Open Activity | Y | interim | Y |
+| 28 | Activity | Open Activity | Y | OK | Y |
 | 29 | Activity | Transaction list | Y | OK | Y |
 | 30 | Activity | Filters | Y | missing | Y |
 | 31 | Activity | Transaction detail | Y | OK | Y |
@@ -110,7 +110,7 @@
 | 89 | Tax | Tax center | Y | OK | Y |
 | 90 | Tax | Mileage log | Y | OK | Y |
 | 91 | Tax | Deduction breakdown | Y | missing | Y |
-| 92 | Settings | Open Settings | Y | interim | Y |
+| 92 | Settings | Open Settings | Y | OK | Y |
 | 93 | Settings | Profile & accounts | Y | OK | Y |
 | 94 | Settings | Subscription | Y | missing | Y |
 | 95 | Settings | Privacy & backup | Y | OK | Y |
@@ -145,7 +145,6 @@
 - **Notifications — Notification opt-in** (no PNG)
 - **Wizard — Launch wizard** (interim reuse)
 - **Wizard — Goals** (interim reuse)
-- **Activity — Open Activity** (interim reuse)
 - **Activity — Filters** (no PNG)
 - **Activity — Approve imports** (no PNG)
 - **Budget — Open Budget** (interim reuse)
@@ -171,7 +170,6 @@
 - **Export — Formats** (no PNG)
 - **Export — Tax export** (no PNG)
 - **Tax — Deduction breakdown** (no PNG)
-- **Settings — Open Settings** (interim reuse)
 - **Settings — Subscription** (no PNG)
 - **Settings — Data management** (interim reuse)
 - **Connect Bank — Requirements** (no PNG)
