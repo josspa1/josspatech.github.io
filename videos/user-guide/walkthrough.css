@@ -49,16 +49,19 @@ body.record-mode .walkthrough-stage {
 
 /* ---- Letterbox fallback (<1200px) ---- */
 @media (max-width: 1199px) {
-  .walkthrough {
+  .walkthrough,
+  .video-section.walkthrough {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
 
-  .walkthrough h2 {
+  .walkthrough h2,
+  .video-section.walkthrough h2 {
     margin-bottom: 0.35rem;
   }
 
-  .walkthrough .section-sub {
+  .walkthrough .section-sub,
+  .video-section.walkthrough .section-sub {
     margin-bottom: 1.25rem;
     font-size: 0.98rem;
   }
@@ -170,12 +173,15 @@ body.record-mode .walkthrough-stage {
 }
 
 /* Record mode: full viewport stage */
-body.record-mode .walkthrough {
+body.record-mode .walkthrough,
+body.record-mode .video-section.walkthrough {
   padding: 1.5rem 2rem;
 }
 
 body.record-mode .walkthrough h2,
-body.record-mode .walkthrough .section-sub {
+body.record-mode .walkthrough .section-sub,
+body.record-mode .video-section.walkthrough h2,
+body.record-mode .video-section.walkthrough .section-sub {
   display: none;
 }
 

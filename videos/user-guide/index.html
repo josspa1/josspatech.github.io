@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
@@ -6,6 +6,7 @@
  <title>PocketBudJet Detailed User Guide | JosspaTech</title>
  <meta name="description" content="Full detailed user guide for PocketBudJet — 28 chapters with synced narration, gold tap pointers, and real app screenshots.">
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="walkthrough.css">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -306,23 +307,14 @@
  nav .nav-links { gap: 1rem; font-size: 0.85rem; }
  .hero h1 { font-size: 2rem; }
  .hero .subheader { font-size: 1rem; }
- .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
- .phone-column { width: 100%; max-width: 320px; }
- .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
- .phone-frame { width: 260px; }
- .chapter-nav { max-width: 100%; gap: 0.5rem; }
- .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
  nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
-nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
+ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  .hero { padding: 2.5rem 1rem; }
  .hero h1 { font-size: 1.5rem; }
  .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
- .phone-frame { width: 230px; }
- .video-section { padding: 2.5rem 1rem; }
- .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
  .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  .transcript-body { font-size: 0.95rem; }
  }
@@ -358,10 +350,11 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  </div>
  </div>
 
- <div class="video-section">
+ <section class="video-section walkthrough">
  <div class="container">
  <h2>Interactive User Guide</h2>
  <p class="section-sub">Real app screenshots with gold pulse tap guides and step-by-step narration. The opening chapters cover the setup wizard screen by screen.</p>
+ <div class="walkthrough-stage">
  <div class="video-wrapper">
  <div class="phone-column">
  <div class="phone-viewport">
@@ -500,6 +493,8 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  </div>
  </div>
  </div>
+ </div>
+ </section>
 
  <div class="cta-section">
  <div class="container">
