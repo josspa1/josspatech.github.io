@@ -142,7 +142,6 @@
             var label = slide.getAttribute('data-tap-label') || '';
 
             if (!x || !y) {
-                if (!slideUsesPng(slide)) return;
                 var inferred = inferTap(slide);
                 if (inferred) {
                     x = String(inferred.x);
@@ -151,6 +150,10 @@
                     slide.setAttribute('data-tap-x', x);
                     slide.setAttribute('data-tap-y', y);
                     if (label) slide.setAttribute('data-tap-label', label);
+                } else {
+                    x = '50';
+                    y = '45';
+                    if (!label) label = 'Here';
                 }
             }
 

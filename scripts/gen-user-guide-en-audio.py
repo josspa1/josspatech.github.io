@@ -40,10 +40,12 @@ def generate_one(text: str, out_path: Path) -> None:
     for attempt in range(5):
         try:
             subprocess.run(cmd, check=True, capture_output=True, text=True)
-            return
+            if out_path.exists() and out_path.stat().st_size > 5000:
+                return
+            last_err = "empty output file"
         except subprocess.CalledProcessError as exc:
             last_err = exc.stderr or exc.stdout or str(exc)
-            time.sleep(1.5 * (attempt + 1))
+        time.sleep(1.5 * (attempt + 1))
     raise SystemExit(f"edge-tts failed for {out_path.name}: {last_err}")
 
 
@@ -59,13 +61,13 @@ def main() -> None:
     print(f"Generating {len(texts)} slides -> {OUT_DIR} ({VOICE})")
     for i, text in enumerate(texts):
         out = OUT_DIR / f"slide-{i}.mp3"
-        if not args.force and out.exists() and out.stat().st_size > 10000:
+        if not args.force and out.exists() and out.stat().st_size > 5000:
             print(f"[{i + 1}/{len(texts)}] skip {out.name}")
             continue
         print(f"[{i + 1}/{len(texts)}] {out.name} ({len(text)} chars)")
         generate_one(text, out)
-        time.sleep(0.4)
-        if out.stat().st_size == 0:
+        time.sleep(0.5)
+        if not out.exists() or out.stat().st_size < 5000:
             raise SystemExit(f"Empty MP3: {out}")
 
     sizes = [f.stat().st_size for f in sorted(OUT_DIR.glob("slide-*.mp3"))]
