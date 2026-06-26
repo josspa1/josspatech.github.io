@@ -10,15 +10,14 @@ HTML = ROOT / "videos" / "user-guide" / "index.html"
 BANK = "/assets/screenshots/connect-bank/bank-sync.png"
 STEP9 = "/assets/screenshots/import/step-9-settings-export.png"
 
+HOME = "/assets/screenshots/import/step-10-home-dashboard.png"
+
 # index -> (action, ...)
 # action: 'none' | ('coords', x, y, label) | ('png', src) | ('both', src, x, y, label)
 FIXES: dict[int, tuple] = {
-    # Wayfinding — real home screen for visible chrome; tap-none when UI absent
-    10: ("both", BANK, 50, 94, "Tab bar"),
-    11: ("both", BANK, 88, 7, "Search & Coach"),
-    12: ("none",),
-    13: ("none",),
-    14: ("both", BANK, 88, 78, "Quick-add"),
+    # Home slides — real captures, not stale marketing mockup
+    26: ("png", HOME),
+    # Wayfinding 10-14 wired manually in index.html (distinct PNGs + RECORD_NOW gaps)
     # Terms disclaimer tab
     6: ("coords", 75, 35, "Disclaimer"),
     # Home / Activity / Budget tab taps on real app chrome
