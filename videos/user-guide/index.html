@@ -77,23 +77,53 @@
  body.record-mode nav, body.record-mode .breadcrumbs, body.record-mode .hero,
  body.record-mode .cta-section, body.record-mode footer { display: none !important; }
  body.record-mode .walkthrough { padding: 1.5rem 2rem; min-height: 100vh; background: var(--background); }
+ .video-wrapper {
+ display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
+ flex-wrap: nowrap; width: 100%;
+ }
+ .phone-column {
+ flex-shrink: 0; width: 320px; max-width: 100%;
+ display: flex; flex-direction: column; align-items: center;
+ }
+ .phone-viewport {
+ flex-shrink: 0; overflow: hidden; border-radius: 40px;
+ }
  .phone-frame {
  width: 300px; position: relative;
  border: 10px solid var(--navy-dark); border-radius: 40px;
  overflow: hidden; background: var(--background);
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
- aspect-ratio: 9 / 19.5;
+ aspect-ratio: 9 / 19.5; max-height: 580px;
  }
  .phone-frame::before { display: none; }
- .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
+ .phone-screen,
+ .slideshow {
+ width: 100%; height: 100%; position: relative; overflow: hidden;
+ border-radius: 30px;
+ }
  .slide {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
  opacity: 0; z-index: 1; transition: opacity 0.8s ease-in-out; pointer-events: none;
+ transform: none;
  }
  .slide.active { opacity: 1; z-index: 2; pointer-events: auto; }
  .slide img {
  width: 100%; height: 100%; display: block;
  object-fit: cover; object-position: top center;
+ transform: none;
+ }
+ .slide img[src$=".svg"] {
+ object-fit: contain; object-position: top center;
+ background: var(--background);
+ }
+ /* Match import sizing inside same-screen stage (no height:100% stretch) */
+ .walkthrough-stage .phone-viewport {
+ flex: 0 0 auto; width: auto; height: auto; max-height: 100%;
+ display: flex; align-items: center; justify-content: center;
+ }
+ .walkthrough-stage .phone-frame {
+ width: 300px; height: auto; max-height: min(580px, 100%);
+ flex-shrink: 0;
  }
  .tap-indicator {
  position: absolute; z-index: 15; pointer-events: none;
@@ -161,15 +191,21 @@
  border-bottom: 2px solid var(--gold);
  }
  .transcript-body { font-size: 1rem; line-height: 1.75; color: var(--slate); }
- .transcript-para { margin: 0 0 1.1rem 0; }
+ .transcript-para {
+ margin: 0 0 1.1rem 0; padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+ border-left: 3px solid transparent; border-radius: 4px;
+ transition: border-color 0.25s ease, background-color 0.25s ease;
+ }
  .transcript-para:last-child { margin-bottom: 0; }
+ .transcript-para.current {
+ border-left-color: var(--gold);
+ background: rgba(240, 192, 64, 0.08);
+ }
  .transcript-sentence {
- transition: background-color 0.2s ease, text-decoration-color 0.2s ease; border-radius: 2px;
+ transition: color 0.2s ease, font-weight 0.2s ease;
  }
  .transcript-sentence.active {
- background: rgba(240, 192, 64, 0.32);
- text-decoration: underline; text-decoration-color: var(--gold-dark);
- text-underline-offset: 3px; text-decoration-thickness: 2px; color: var(--navy);
+ color: var(--navy); font-weight: 600;
  }
  .transcript-sentence.past { color: var(--navy); }
  .transcript-body a { color: var(--navy-medium); font-weight: 600; text-decoration: underline; }
@@ -292,7 +328,7 @@
  <div class="phone-column">
  <div class="phone-viewport">
  <div class="phone-frame">
- <div class="slideshow" id="slideshow">
+ <div class="slideshow phone-screen" id="slideshow">
  <div class="tap-to-start" id="tapToStart">
  <div class="tap-to-start-icon">&#9654;</div>
  <div class="tap-to-start-label">Tap to play</div>
@@ -967,6 +1003,9 @@
  dotsContainer.children[current].classList.add('active');
  updateChapterActive(current);
  resetSlideSentences(current);
+ if (window.PBJWalkthrough && window.PBJWalkthrough.syncTranscriptSlide) {
+ window.PBJWalkthrough.syncTranscriptSlide(current);
+ }
  if (playing && current === LAST_SLIDE) speedLabel.textContent = 'Last step';
  else if (playing) speedLabel.textContent = 'Auto-playing';
  if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
@@ -1050,6 +1089,17 @@
  })();
  </script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+<style>
+/* After shared walkthrough.css — keep import-sized phone, not stage height stretch */
+.walkthrough-stage .phone-viewport {
+ flex: 0 0 auto; width: auto; height: auto; max-height: 100%;
+ display: flex; align-items: center; justify-content: center;
+}
+.walkthrough-stage .phone-frame {
+ width: 300px; height: auto; max-height: min(580px, 100%);
+ flex-shrink: 0;
+}
+</style>
 <script src="/videos/shared/walkthrough.js" defer></script>
 </body>
 </html>

@@ -37,8 +37,25 @@
 
     function narrationFor(index) {
         return document.querySelector('.transcript-para[data-slide="' + index + '"]') ||
-            document.querySelector('.transcript-para[data-index="' + index + '"]') ||
-            document.querySelector('.narration-card[data-index="' + index + '"]');
+            document.querySelector('.transcript-para[data-index="' + index + '"]');
+    }
+
+    function syncTranscriptSlide(index) {
+        var paras = document.querySelectorAll('.transcript-para');
+        if (!paras.length) return;
+        paras.forEach(function (p) {
+            var slide = parseInt(p.getAttribute('data-slide') || p.getAttribute('data-index'), 10);
+            p.classList.toggle('current', slide === index);
+        });
+        var active = narrationFor(String(index));
+        if (!active) return;
+        var panel = document.getElementById('narrationPanel');
+        if (!panel) return;
+        var panelRect = panel.getBoundingClientRect();
+        var elRect = active.getBoundingClientRect();
+        if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
+            active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 
     function inferTap(slide) {
@@ -210,7 +227,15 @@
         initSlides();
         initNarrationHints();
         initLegend();
+        var activeSlide = document.querySelector('.slide.active');
+        if (activeSlide) {
+            var idx = parseInt(activeSlide.getAttribute('data-index'), 10);
+            if (!isNaN(idx)) syncTranscriptSlide(idx);
+        }
     }
+
+    window.PBJWalkthrough = window.PBJWalkthrough || {};
+    window.PBJWalkthrough.syncTranscriptSlide = syncTranscriptSlide;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
