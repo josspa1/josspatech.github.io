@@ -150,18 +150,34 @@
  background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
  }
  .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
+ /* Scrolling narration transcript beside phone */
  .narration-panel {
  flex: 1; min-width: 280px; min-height: 0;
- max-height: 580px; overflow-y: auto;
- padding: 0.25rem 0.5rem 0.25rem 0; align-self: stretch;
+ max-height: 580px; overflow-y: auto; scroll-behavior: smooth;
+ padding: 1rem 1.25rem; align-self: stretch;
+ background: var(--white); border-radius: 16px;
+ box-shadow: 0 4px 20px rgba(12, 51, 88, 0.08);
+ }
+ .narration-panel-heading {
+ font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+ border-bottom: 2px solid var(--gold);
  }
  .narration-panel::-webkit-scrollbar { width: 6px; }
  .narration-panel::-webkit-scrollbar-thumb {
  background: rgba(26,79,122,0.25); border-radius: 3px;
  }
  .transcript-body { font-size: 1rem; line-height: 1.75; color: var(--slate); }
- .transcript-para { margin: 0 0 1.1rem 0; }
+ .transcript-para {
+ margin: 0 0 1.1rem 0; padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+ border-left: 3px solid transparent; border-radius: 4px;
+ transition: border-color 0.25s ease, background-color 0.25s ease;
+ }
  .transcript-para:last-child { margin-bottom: 0; }
+ .transcript-para.current {
+ border-left-color: var(--gold);
+ background: rgba(240, 192, 64, 0.08);
+ }
  .transcript-sentence {
  transition: background-color 0.2s ease, text-decoration-color 0.2s ease; border-radius: 2px;
  }
@@ -290,7 +306,7 @@
  <div class="video-section">
  <div class="container">
  <h2>Master Manual</h2>
- <p class="section-sub">89 slides with synced narration and gold tap guides — cold launch through every major feature. Use the 28 chapter pills to jump to Home, Activity, Budget, Goals, Coach, Import, Scan, Bills, Debt, Reports, Export, Settings, and more.</p>
+ <p class="section-sub">89 slides with synced narration and gold tap guides — cold launch through every major feature. Use the 28 chapter pills to jump, or read along in the scrolling transcript beside the phone.</p>
 
 
  <div class="video-wrapper">
@@ -616,6 +632,7 @@
  </div>
 
  <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript — read along as you watch</p>
  <div class="transcript-body" id="transcriptBody"></div>
  </div>
  </div>
@@ -749,6 +766,7 @@
  NARRATION.forEach(function(_, i) { audioPaths.push('audio/slide-' + i + '.mp3'); });
 
  const slideSentences = [];
+ const slideParas = [];
  let allSentences = [];
  let current = 0;
  let currentSentenceIdx = 0;
@@ -777,9 +795,11 @@
  appendSentenceSpan(para, part, slideIdx, si);
  });
  transcriptBody.appendChild(para);
+ slideParas[slideIdx] = para;
  slideSentences[slideIdx] = Array.from(para.querySelectorAll('.transcript-sentence'));
  allSentences = allSentences.concat(slideSentences[slideIdx]);
  });
+ updateTranscriptSlide(current);
  }
 
  function appendSentenceSpan(para, text, slideIdx, sentIdx) {
@@ -836,6 +856,16 @@
 
  function stopAllAudio() { stopAudio(); clearInterval(timer); timer = null; }
 
+ function updateTranscriptSlide(slideIdx) {
+ slideParas.forEach(function(p, i) {
+ if (p) p.classList.toggle('current', i === slideIdx);
+ });
+ var para = slideParas[slideIdx];
+ if (!userScrolling && narrationPanel && para) {
+ para.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+ }
+ }
+
  function resetSlideSentences(slideIdx) {
  allSentences.forEach(function(span) {
  span.classList.remove('active');
@@ -843,6 +873,7 @@
  if (s < slideIdx) span.classList.add('past'); else span.classList.remove('past');
  });
  currentSentenceIdx = 0;
+ updateTranscriptSlide(slideIdx);
  }
 
  function setActiveSentence(slideIdx, sentIdx) {
