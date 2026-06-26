@@ -10,9 +10,9 @@
 | Metric | Count |
 |--------|------:|
 | Slides with voice + narration | 120 |
-| PNG OK | 38 |
-| PNG interim (reuse / mockup) | 28 |
-| PNG missing (placeholder) | 54 |
+| PNG OK | 70 |
+| PNG interim (reuse / mockup) | 27 |
+| PNG missing (placeholder) | 23 |
 
 ## Slide inventory
 
@@ -30,7 +30,7 @@
 | 9 | Cold Start | First Home | Y | OK | Y |
 | 10 | Wayfinding | Tab bar | Y | OK | Y |
 | 11 | Wayfinding | Header | Y | OK | Y |
-| 12 | Wayfinding | Drawer | Y | missing | Y |
+| 12 | Wayfinding | Drawer | Y | OK | Y |
 | 13 | Wayfinding | Toolbox | Y | OK | Y |
 | 14 | Wayfinding | Quick-add | Y | OK | Y |
 | 15 | Trial | Subscription intro | Y | missing | Y |
@@ -47,25 +47,25 @@
 | 26 | Wizard | Done | Y | OK | Y |
 | 27 | Home | Dashboard | Y | OK | Y |
 | 28 | Activity | Open Activity | Y | interim | Y |
-| 29 | Activity | Transaction list | Y | missing | Y |
+| 29 | Activity | Transaction list | Y | OK | Y |
 | 30 | Activity | Filters | Y | missing | Y |
-| 31 | Activity | Transaction detail | Y | missing | Y |
+| 31 | Activity | Transaction detail | Y | OK | Y |
 | 32 | Activity | Approve imports | Y | missing | Y |
 | 33 | Budget | Open Budget | Y | interim | Y |
 | 34 | Budget | Envelopes | Y | OK | Y |
 | 35 | Budget | Edit category | Y | OK | Y |
 | 36 | Budget | Templates | Y | OK | Y |
-| 37 | Budget | Category manager | Y | missing | Y |
-| 38 | Budget | Spending plan | Y | missing | Y |
+| 37 | Budget | Category manager | Y | OK | Y |
+| 38 | Budget | Spending plan | Y | OK | Y |
 | 39 | Goals | Open Goals | Y | interim | Y |
 | 40 | Goals | Overview | Y | interim | Y |
 | 41 | Goals | New goal | Y | interim | Y |
 | 42 | Goals | Sinking funds | Y | interim | Y |
-| 43 | Goals | Purchase wishlist | Y | missing | Y |
+| 43 | Goals | Purchase wishlist | Y | OK | Y |
 | 44 | Coach | Open Coach | Y | interim | Y |
 | 45 | Coach | Today | Y | OK | Y |
 | 46 | Coach | Ask PBJ | Y | OK | Y |
-| 47 | Coach | Weekly recap | Y | missing | Y |
+| 47 | Coach | Weekly recap | Y | OK | Y |
 | 48 | Transactions | Manual entry intro | Y | interim | Y |
 | 49 | Transactions | Gold plus | Y | interim | Y |
 | 50 | Transactions | Amount | Y | interim | Y |
@@ -79,49 +79,49 @@
 | 58 | Import | Confirm draft | Y | OK | Y |
 | 59 | Import | History depth | Y | OK | Y |
 | 60 | Import | PDF receipts | Y | OK | Y |
-| 61 | Import | Import history | Y | missing | Y |
+| 61 | Import | Import history | Y | OK | Y |
 | 62 | Scan | Receipt scan | Y | OK | Y |
 | 63 | Scan | OCR save | Y | interim | Y |
 | 64 | Scan | WiFi ADF | Y | interim | Y |
 | 65 | Scan | Batch complete | Y | missing | Y |
 | 66 | Scan | Universal scan | Y | missing | Y |
-| 67 | Bills | Bills calendar | Y | missing | Y |
+| 67 | Bills | Bills calendar | Y | OK | Y |
 | 68 | Bills | Add or mark paid | Y | interim | Y |
-| 69 | Bills | Subscription tracker | Y | missing | Y |
+| 69 | Bills | Subscription tracker | Y | OK | Y |
 | 70 | Bills | Recurring hub | Y | missing | Y |
-| 71 | Income | Recurring income | Y | missing | Y |
+| 71 | Income | Recurring income | Y | OK | Y |
 | 72 | Income | Pay stub review | Y | missing | Y |
 | 73 | Income | Direct deposit advisor | Y | missing | Y |
-| 74 | Debt | Debt planner | Y | missing | Y |
-| 75 | Debt | Strategy | Y | missing | Y |
-| 76 | Debt | Loan calculator | Y | missing | Y |
-| 77 | Debt | Debt progress | Y | missing | Y |
-| 78 | Reports | Report hub | Y | interim | Y |
-| 79 | Reports | Spending trends | Y | missing | Y |
-| 80 | Reports | Category breakdown | Y | missing | Y |
-| 81 | Reports | Merchant analysis | Y | missing | Y |
-| 82 | Reports | Financial health | Y | missing | Y |
-| 83 | Reports | Custom reports | Y | missing | Y |
-| 84 | Net Worth | Net worth hub | Y | missing | Y |
-| 85 | Net Worth | Assets & investments | Y | missing | Y |
-| 86 | Export | Export hub | Y | missing | Y |
+| 74 | Debt | Debt planner | Y | OK | Y |
+| 75 | Debt | Strategy | Y | OK | Y |
+| 76 | Debt | Loan calculator | Y | OK | Y |
+| 77 | Debt | Debt progress | Y | OK | Y |
+| 78 | Reports | Report hub | Y | OK | Y |
+| 79 | Reports | Spending trends | Y | OK | Y |
+| 80 | Reports | Category breakdown | Y | OK | Y |
+| 81 | Reports | Merchant analysis | Y | OK | Y |
+| 82 | Reports | Financial health | Y | OK | Y |
+| 83 | Reports | Custom reports | Y | OK | Y |
+| 84 | Net Worth | Net worth hub | Y | OK | Y |
+| 85 | Net Worth | Assets & investments | Y | OK | Y |
+| 86 | Export | Export hub | Y | OK | Y |
 | 87 | Export | Formats | Y | missing | Y |
 | 88 | Export | Tax export | Y | missing | Y |
-| 89 | Tax | Tax center | Y | missing | Y |
-| 90 | Tax | Mileage log | Y | missing | Y |
+| 89 | Tax | Tax center | Y | OK | Y |
+| 90 | Tax | Mileage log | Y | OK | Y |
 | 91 | Tax | Deduction breakdown | Y | missing | Y |
 | 92 | Settings | Open Settings | Y | interim | Y |
-| 93 | Settings | Profile & accounts | Y | missing | Y |
+| 93 | Settings | Profile & accounts | Y | OK | Y |
 | 94 | Settings | Subscription | Y | missing | Y |
-| 95 | Settings | Privacy & backup | Y | missing | Y |
+| 95 | Settings | Privacy & backup | Y | OK | Y |
 | 96 | Settings | Data management | Y | interim | Y |
-| 97 | Settings | How PBJ learns | Y | missing | Y |
+| 97 | Settings | How PBJ learns | Y | OK | Y |
 | 98 | Connect Bank | Requirements | Y | missing | Y |
 | 99 | Connect Bank | Link bank | Y | missing | Y |
 | 100 | Connect Bank | Select accounts | Y | missing | Y |
-| 101 | Rules | Transaction rules | Y | missing | Y |
+| 101 | Rules | Transaction rules | Y | OK | Y |
 | 102 | Rules | Create rule | Y | missing | Y |
-| 103 | Rules | Bookmarks | Y | missing | Y |
+| 103 | Rules | Bookmarks | Y | OK | Y |
 | 104 | Voice | Voice shortcuts | Y | interim | Y |
 | 105 | Voice | Voice queries | Y | interim | Y |
 | 106 | Retirement | Retirement planner | Y | interim | Y |
@@ -137,78 +137,47 @@
 | 116 | Widgets | Widgets & watch | Y | missing | Y |
 | 117 | Privacy | App lock | Y | missing | Y |
 | 118 | Privacy | Cloud backup | Y | missing | Y |
-| 119 | Help | Help & support | Y | missing | Y |
+| 119 | Help | Help & support | Y | OK | Y |
 
 ## Features needing device screenshots (Priority order)
 
-- **Wayfinding — Drawer** (no PNG)
 - **Trial — Subscription intro** (no PNG)
 - **Notifications — Notification opt-in** (no PNG)
 - **Wizard — Launch wizard** (interim reuse)
 - **Wizard — Goals** (interim reuse)
 - **Activity — Open Activity** (interim reuse)
-- **Activity — Transaction list** (no PNG)
 - **Activity — Filters** (no PNG)
-- **Activity — Transaction detail** (no PNG)
 - **Activity — Approve imports** (no PNG)
 - **Budget — Open Budget** (interim reuse)
-- **Budget — Category manager** (no PNG)
-- **Budget — Spending plan** (no PNG)
 - **Goals — Open Goals** (interim reuse)
 - **Goals — Overview** (interim reuse)
 - **Goals — New goal** (interim reuse)
 - **Goals — Sinking funds** (interim reuse)
-- **Goals — Purchase wishlist** (no PNG)
 - **Coach — Open Coach** (interim reuse)
-- **Coach — Weekly recap** (no PNG)
 - **Transactions — Manual entry intro** (interim reuse)
 - **Transactions — Gold plus** (interim reuse)
 - **Transactions — Amount** (interim reuse)
 - **Transactions — Category** (interim reuse)
 - **Transactions — Split** (interim reuse)
 - **Transactions — Save** (interim reuse)
-- **Import — Import history** (no PNG)
 - **Scan — OCR save** (interim reuse)
 - **Scan — WiFi ADF** (interim reuse)
 - **Scan — Batch complete** (no PNG)
 - **Scan — Universal scan** (no PNG)
-- **Bills — Bills calendar** (no PNG)
 - **Bills — Add or mark paid** (interim reuse)
-- **Bills — Subscription tracker** (no PNG)
 - **Bills — Recurring hub** (no PNG)
-- **Income — Recurring income** (no PNG)
 - **Income — Pay stub review** (no PNG)
 - **Income — Direct deposit advisor** (no PNG)
-- **Debt — Debt planner** (no PNG)
-- **Debt — Strategy** (no PNG)
-- **Debt — Loan calculator** (no PNG)
-- **Debt — Debt progress** (no PNG)
-- **Reports — Report hub** (interim reuse)
-- **Reports — Spending trends** (no PNG)
-- **Reports — Category breakdown** (no PNG)
-- **Reports — Merchant analysis** (no PNG)
-- **Reports — Financial health** (no PNG)
-- **Reports — Custom reports** (no PNG)
-- **Net Worth — Net worth hub** (no PNG)
-- **Net Worth — Assets & investments** (no PNG)
-- **Export — Export hub** (no PNG)
 - **Export — Formats** (no PNG)
 - **Export — Tax export** (no PNG)
-- **Tax — Tax center** (no PNG)
-- **Tax — Mileage log** (no PNG)
 - **Tax — Deduction breakdown** (no PNG)
 - **Settings — Open Settings** (interim reuse)
-- **Settings — Profile & accounts** (no PNG)
 - **Settings — Subscription** (no PNG)
-- **Settings — Privacy & backup** (no PNG)
 - **Settings — Data management** (interim reuse)
-- **Settings — How PBJ learns** (no PNG)
 - **Connect Bank — Requirements** (no PNG)
 - **Connect Bank — Link bank** (no PNG)
 - **Connect Bank — Select accounts** (no PNG)
-- **Rules — Transaction rules** (no PNG)
 - **Rules — Create rule** (no PNG)
-- **Rules — Bookmarks** (no PNG)
 - **Voice — Voice shortcuts** (interim reuse)
 - **Voice — Voice queries** (interim reuse)
 - **Retirement — Retirement planner** (interim reuse)
@@ -222,7 +191,6 @@
 - **Widgets — Widgets & watch** (no PNG)
 - **Privacy — App lock** (no PNG)
 - **Privacy — Cloud backup** (no PNG)
-- **Help — Help & support** (no PNG)
 
 ## App features not yet in manual (minor / v2)
 
