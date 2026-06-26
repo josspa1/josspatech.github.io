@@ -158,23 +158,10 @@
             var y = slide.getAttribute('data-tap-y');
             var label = slide.getAttribute('data-tap-label') || '';
 
-            if (!x || !y) {
-                var inferred = inferTap(slide);
-                if (inferred) {
-                    x = String(inferred.x);
-                    y = String(inferred.y);
-                    if (!label) label = inferred.label;
-                    slide.setAttribute('data-tap-x', x);
-                    slide.setAttribute('data-tap-y', y);
-                    if (label) slide.setAttribute('data-tap-label', label);
-                } else {
-                    x = '50';
-                    y = '45';
-                    if (!label) label = 'Here';
-                }
-            }
+            // Gold pulse only when explicit tap coords are set (never infer or default).
+            if (!x || !y) return;
 
-            if (!slide.querySelector('.tap-indicator') && x && y) {
+            if (!slide.querySelector('.tap-indicator')) {
                 var ind = buildTapIndicator(slide, x, y, label);
                 var overlay = slide.querySelector('.slide-overlay');
                 if (overlay) slide.insertBefore(ind, overlay);
