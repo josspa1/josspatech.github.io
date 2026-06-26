@@ -1,181 +1,22 @@
 /**
- * User Guide walkthrough layout (Joe preference)
- * Desktop ≥1200px: side-by-side — transcript beside phone (import pattern)
- * Below 1200px: letterbox — phone on top, scrolling transcript below, both on one screen
+ * User Guide walkthrough — record-mode viewport only.
+ * Side-by-side layout (phone left, transcript right) lives in index.html inline CSS,
+ * matching videos/import/index.html. Do not override flex direction on desktop.
  */
 
 .walkthrough-stage {
-  --wt-stage-max: min(90vh, calc(100dvh - 5rem));
-  margin-top: 0.75rem;
-  min-height: 0;
+  width: 100%;
 }
 
 body.record-mode .walkthrough-stage {
-  --wt-stage-max: min(90vh, calc(100dvh - 2rem));
+  height: min(90vh, calc(100dvh - 2rem));
+  max-height: min(90vh, calc(100dvh - 2rem));
 }
 
-/* ---- Desktop: side-by-side ---- */
-@media (min-width: 1200px) {
-  .walkthrough-stage {
-    max-height: none;
-    overflow: visible;
-  }
-
-  .walkthrough-stage .video-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: 2.5rem;
-    width: 100%;
-  }
-
-  .walkthrough-stage .phone-column {
-    flex-shrink: 0;
-    width: 320px;
-    max-width: none;
-  }
-
-  .walkthrough-stage .narration-panel {
-    flex: 1;
-    min-width: 280px;
-    min-height: 0;
-    max-height: 580px;
-    height: auto;
-    overflow-y: auto;
-    align-self: stretch;
-  }
-}
-
-/* ---- Letterbox fallback (<1200px) ---- */
-@media (max-width: 1199px) {
-  .walkthrough,
-  .video-section.walkthrough {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
-  .walkthrough h2,
-  .video-section.walkthrough h2 {
-    margin-bottom: 0.35rem;
-  }
-
-  .walkthrough .section-sub,
-  .video-section.walkthrough .section-sub {
-    margin-bottom: 1.25rem;
-    font-size: 0.98rem;
-  }
-
-  .walkthrough-stage {
-    height: var(--wt-stage-max);
-    max-height: var(--wt-stage-max);
-    overflow: hidden;
-  }
-
-  .walkthrough-stage .video-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.65rem;
-    height: 100%;
-    min-height: 0;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .walkthrough-stage .phone-column {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: 100%;
-    max-width: 340px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .walkthrough-stage .phone-viewport {
-    flex: 1 1 auto;
-    min-height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .walkthrough-stage .phone-frame {
-    width: min(290px, 46vw);
-    height: auto;
-    max-height: min(46vh, 480px);
-  }
-
-  .walkthrough-stage .progress-dots {
-    flex-shrink: 0;
-    margin-top: 0.5rem;
-  }
-
-  .walkthrough-stage .playback-controls {
-    flex-shrink: 0;
-    margin-top: 0.35rem;
-  }
-
-  /* Chapter pills under phone — horizontal scroll, don't push transcript off screen */
-  .walkthrough-stage .chapter-nav {
-    flex-shrink: 0;
-    margin-top: 0.5rem;
-    max-width: 100%;
-    max-height: 9vh;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-  }
-
-  .walkthrough-stage .chapter-btn {
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 0.4rem 0.85rem;
-    font-size: 0.78rem;
-  }
-
-  /* Fixed-height transcript band; narration cards scroll inside */
-  .walkthrough-stage .narration-panel {
-    flex: 0 0 32vh;
-    width: 100%;
-    max-width: 100%;
-    min-height: 28vh;
-    max-height: 35vh;
-    height: 32vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    align-self: stretch;
-    scroll-behavior: smooth;
-  }
-}
-
-@media (max-width: 480px) {
-  .walkthrough-stage .phone-frame {
-    width: min(250px, 62vw);
-    max-height: min(42vh, 420px);
-  }
-
-  .walkthrough-stage .narration-panel {
-    flex-basis: 30vh;
-    height: 30vh;
-    min-height: 28vh;
-    max-height: 30vh;
-  }
-
-  .walkthrough-stage .chapter-nav {
-    max-height: 8vh;
-  }
-}
-
-/* Record mode: full viewport stage */
 body.record-mode .walkthrough,
 body.record-mode .video-section.walkthrough {
   padding: 1.5rem 2rem;
+  min-height: 100vh;
 }
 
 body.record-mode .walkthrough h2,
@@ -183,9 +24,4 @@ body.record-mode .walkthrough .section-sub,
 body.record-mode .video-section.walkthrough h2,
 body.record-mode .video-section.walkthrough .section-sub {
   display: none;
-}
-
-body.record-mode .walkthrough-stage {
-  height: var(--wt-stage-max);
-  max-height: var(--wt-stage-max);
 }

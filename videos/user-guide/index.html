@@ -181,8 +181,13 @@
  /* Plain transcript column beside phone */
  .narration-panel {
  flex: 1; min-width: 280px; min-height: 0;
- max-height: 580px; overflow-y: auto;
- padding: 0.25rem 0.5rem 0.25rem 0; align-self: stretch;
+ max-height: 580px; overflow-y: auto; scroll-behavior: smooth;
+ padding-right: 0.35rem; align-self: stretch;
+ }
+ .narration-panel-heading {
+ font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+ border-bottom: 2px solid var(--gold);
  }
  .narration-panel::-webkit-scrollbar { width: 6px; }
  .narration-panel::-webkit-scrollbar-thumb {
@@ -214,13 +219,14 @@
 
  /* Chapter navigation — under phone column only */
  .chapter-nav {
- display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+ display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem;
  margin-top: 1.5rem; padding: 0; width: 100%; max-width: 320px;
  }
  .chapter-btn {
  background: var(--navy); color: white; border: 2px solid var(--navy);
- padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer;
- font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease;
+ padding: 0.55rem 1.2rem; border-radius: 20px; cursor: pointer;
+ font-size: 0.9rem; font-family: 'Source Sans 3', sans-serif;
+ transition: all 0.3s ease;
  }
  .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
  .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
@@ -233,7 +239,7 @@
  .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
  .play-pause-btn {
  background: var(--navy); color: white; border: none; border-radius: 50%;
- width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
+ width: 40px; height: 40px; cursor: pointer; font-size: 1rem;
  display: flex; align-items: center; justify-content: center;
  transition: background 0.3s;
  }
@@ -307,6 +313,12 @@
  nav .nav-links { gap: 1rem; font-size: 0.85rem; }
  .hero h1 { font-size: 2rem; }
  .hero .subheader { font-size: 1rem; }
+ .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+ .phone-column { width: 100%; max-width: 320px; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
+ .phone-frame { width: 260px; }
+ .chapter-nav { max-width: 100%; gap: 0.5rem; }
+ .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
@@ -315,6 +327,9 @@
  .hero { padding: 2.5rem 1rem; }
  .hero h1 { font-size: 1.5rem; }
  .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
+ .video-section { padding: 2.5rem 1rem; }
+ .phone-frame { width: 230px; }
+ .chapter-nav { gap: 0.4rem; padding: 0 0.5rem; }
  .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  .transcript-body { font-size: 0.95rem; }
  }
@@ -489,6 +504,7 @@
  </div>
 
  <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript — read along as you watch</p>
  <div class="transcript-body" id="transcriptBody"></div>
  </div>
  </div>
