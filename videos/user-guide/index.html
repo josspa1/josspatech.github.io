@@ -64,16 +64,18 @@
  font-size: 1.25rem; font-weight: 300; max-width: 760px;
  margin: 0 auto; color: rgba(255,255,255,0.95);
  }
- .video-section { background-color: var(--background); padding: 4rem 2rem; }
- .video-section .container { max-width: 1200px; margin: 0 auto; }
- .video-section h2 {
+ .walkthrough { background-color: var(--background); padding: 4rem 2rem; }
+ .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+ .walkthrough h2 {
  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
  text-align: center; margin-bottom: 0.5rem; color: var(--navy);
  }
- .video-section .section-sub {
+ .walkthrough .section-sub {
  text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
  }
- body.record-mode .video-section { padding: 1.5rem 2rem; min-height: 100vh; }
+ body.record-mode nav, body.record-mode .breadcrumbs, body.record-mode .hero,
+ body.record-mode .cta-section, body.record-mode footer { display: none !important; }
+ body.record-mode .walkthrough { padding: 1.5rem 2rem; min-height: 100vh; background: var(--background); }
  .video-wrapper {
  display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
  flex-wrap: nowrap; width: 100%;
@@ -90,6 +92,7 @@
  box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
  aspect-ratio: 9 / 19.5; max-height: 580px;
  }
+ .phone-frame::before { display: none; }
  .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; }
  .slide {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -154,9 +157,7 @@
  .narration-panel {
  flex: 1; min-width: 280px; min-height: 0;
  max-height: 580px; overflow-y: auto; scroll-behavior: smooth;
- padding: 1rem 1.25rem; align-self: stretch;
- background: var(--white); border-radius: 16px;
- box-shadow: 0 4px 20px rgba(12, 51, 88, 0.08);
+ padding-right: 0.35rem; align-self: stretch;
  }
  .narration-panel-heading {
  font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
@@ -167,27 +168,32 @@
  .narration-panel::-webkit-scrollbar-thumb {
  background: rgba(26,79,122,0.25); border-radius: 3px;
  }
- .transcript-body { font-size: 1rem; line-height: 1.75; color: var(--slate); }
- .transcript-para {
- margin: 0 0 1.1rem 0; padding: 0.35rem 0.5rem 0.35rem 0.75rem;
- border-left: 3px solid transparent; border-radius: 4px;
- transition: border-color 0.25s ease, background-color 0.25s ease;
+ .narration-card {
+ background: var(--background); border-radius: 16px; padding: 1.2rem 1.5rem;
+ margin-bottom: 0.6rem; border-left: 5px solid transparent;
+ opacity: 0.5; transform: scale(0.98); transition: all 0.35s ease;
+ cursor: pointer;
  }
- .transcript-para:last-child { margin-bottom: 0; }
- .transcript-para.current {
+ .narration-card.active {
+ opacity: 1; transform: scale(1); background: var(--white);
  border-left-color: var(--gold);
- background: rgba(240, 192, 64, 0.08);
+ box-shadow: 0 4px 16px rgba(0,0,0,0.06);
  }
- .transcript-sentence {
- transition: background-color 0.2s ease, text-decoration-color 0.2s ease; border-radius: 2px;
+ .narration-step-badge {
+ display: inline-block; background: var(--navy); color: white;
+ font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px;
+ margin-bottom: 0.4rem;
  }
- .transcript-sentence.active {
- background: rgba(240, 192, 64, 0.32);
- text-decoration: underline; text-decoration-color: var(--gold-dark);
- text-underline-offset: 3px; text-decoration-thickness: 2px; color: var(--navy);
+ .narration-card h3 {
+ font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.3rem;
  }
- .transcript-sentence.past { color: var(--navy); }
- .transcript-body a { color: var(--navy-medium); font-weight: 600; text-decoration: underline; }
+ .narration-card p { color: var(--slate); font-size: 0.9rem; line-height: 1.5; }
+ .narration-timer {
+ height: 3px; background: var(--gold); border-radius: 2px;
+ margin-top: 0.6rem; width: 0%; transition: width linear;
+ }
+ .narration-card.active .narration-timer { width: 100%; }
  .chapter-nav {
  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
  margin-top: 1.5rem; padding: 0; width: 100%; max-width: 320px;
@@ -303,7 +309,7 @@
  </div>
  </div>
 
- <div class="video-section">
+ <section class="walkthrough">
  <div class="container">
  <h2>Master Manual</h2>
  <p class="section-sub">89 slides with synced narration and gold tap guides — cold launch through every major feature. Use the 28 chapter pills to jump, or read along in the scrolling transcript beside the phone.</p>
@@ -592,7 +598,6 @@
  </div>
  </div>
  </div>
- </div>
  <div class="progress-dots" id="dots"></div>
  <div class="playback-controls">
  <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause walkthrough">&#10074;&#10074;</button>
@@ -633,11 +638,10 @@
 
  <div class="narration-panel" id="narrationPanel">
  <p class="narration-panel-heading">Transcript — read along as you watch</p>
- <div class="transcript-body" id="transcriptBody"></div>
  </div>
  </div>
  </div>
- </div>
+ </section>
 
  <div class="cta-section">
  <div class="container">
@@ -652,6 +656,7 @@
  </footer>
 
  <script>
+ var goTo;
  (function() {
  var recordParams = new URLSearchParams(location.search);
  var recordMode = recordParams.get('record') === '1';
@@ -666,11 +671,13 @@
  const playPauseBtn = document.getElementById('playPauseBtn');
  const speedLabel = document.getElementById('speedLabel');
  const tapToStart = document.getElementById('tapToStart');
- const narrationPanel = document.getElementById('narrationPanel');
- const transcriptBody = document.getElementById('transcriptBody');
  const chapterBtns = document.querySelectorAll('.chapter-btn');
+ const narrationPanel = document.getElementById('narrationPanel');
+ let cards = [];
+ let current = 0, playing = true, timer = null;
+ let audioUnlocked = false;
+ let audioElement = null, voiceEnabled = true, advanceTimeout = null;
 
- const audioPaths = [];
  const NARRATION = [
  "Open PocketBudJet after install. The splash screen appears while the app loads your local database.",
  "Swipe the feature showcase. Slide one: control your money with envelopes, bills, and goals on your phone. Tap Next.",
@@ -763,62 +770,51 @@
  "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature."
 
  ];
+
+ const audioPaths = [];
  NARRATION.forEach(function(_, i) { audioPaths.push('audio/slide-' + i + '.mp3'); });
 
- const slideSentences = [];
- const slideParas = [];
- let allSentences = [];
- let current = 0;
- let currentSentenceIdx = 0;
- let playing = true;
- let audioUnlocked = false;
- let timer = null;
- let audioElement = null;
- let voiceEnabled = true;
- let advanceTimeout = null;
- let sentenceInterval = null;
- let audioHighlightReady = false;
- let userScrolling = false;
- let scrollIdleTimer = null;
-
- function splitSentences(text) {
- return text.split(/(?<=[.!?])\s+/).map(function(s) { return s.trim(); }).filter(Boolean);
+ function titleForSlide(index, text) {
+ var slide = slides[index];
+ if (slide) {
+ var img = slide.querySelector('img[alt]');
+ if (img && img.getAttribute('alt')) return img.getAttribute('alt');
+ }
+ var first = text.split(/[.!?]/)[0].trim();
+ if (first.length > 72) first = first.slice(0, 69) + '...';
+ return first || ('Slide ' + (index + 1));
  }
 
- function buildTranscript() {
- NARRATION.forEach(function(text, slideIdx) {
- var para = document.createElement('p');
- para.className = 'transcript-para';
- para.setAttribute('data-slide', String(slideIdx));
- para.setAttribute('data-index', String(slideIdx));
- splitSentences(text).forEach(function(part, si) {
- appendSentenceSpan(para, part, slideIdx, si);
+ function buildNarrationCards() {
+ NARRATION.forEach(function(text, index) {
+ var card = document.createElement('div');
+ card.className = 'narration-card' + (index === 0 ? ' active' : '');
+ card.setAttribute('data-index', String(index));
+ card.onclick = function() { goTo(index); };
+
+ var badge = document.createElement('span');
+ badge.className = 'narration-step-badge';
+ badge.textContent = index === LAST_SLIDE ? 'Done' : ('Slide ' + (index + 1));
+
+ var h3 = document.createElement('h3');
+ h3.textContent = titleForSlide(index, text);
+
+ var p = document.createElement('p');
+ p.textContent = text;
+
+ var timerBar = document.createElement('div');
+ timerBar.className = 'narration-timer';
+
+ card.appendChild(badge);
+ card.appendChild(h3);
+ card.appendChild(p);
+ card.appendChild(timerBar);
+ narrationPanel.appendChild(card);
  });
- transcriptBody.appendChild(para);
- slideParas[slideIdx] = para;
- slideSentences[slideIdx] = Array.from(para.querySelectorAll('.transcript-sentence'));
- allSentences = allSentences.concat(slideSentences[slideIdx]);
- });
- updateTranscriptSlide(current);
+ cards = document.querySelectorAll('.narration-card');
  }
 
- function appendSentenceSpan(para, text, slideIdx, sentIdx) {
- if (sentIdx > 0) para.appendChild(document.createTextNode(' '));
- var span = document.createElement('span');
- span.className = 'transcript-sentence';
- span.setAttribute('data-slide', String(slideIdx));
- span.setAttribute('data-sentence', String(sentIdx));
- span.textContent = text;
- para.appendChild(span);
- }
-
- buildTranscript();
-
- narrationPanel.addEventListener('scroll', function() {
- userScrolling = true;
- clearTimeout(scrollIdleTimer);
- scrollIdleTimer = setTimeout(function() { userScrolling = false; }, 2500);
- }, { passive: true });
+ buildNarrationCards();
 
  const voiceBtn = document.createElement('button');
  voiceBtn.className = 'voice-btn';
@@ -831,116 +827,54 @@
  voiceEnabled = !voiceEnabled;
  voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
  voiceBtn.classList.toggle('muted', !voiceEnabled);
- if (!voiceEnabled) { stopAudio(); if (playing) resetTimer(); }
- else { clearInterval(timer); playSlideAudio(current); }
+ if (!voiceEnabled) {
+ stopAudio();
+ if (playing) resetTimer();
+ } else {
+ clearInterval(timer);
+ playSlideAudio(current);
+ }
  });
-
- function updateChapterActive(slideIdx) {
- chapterBtns.forEach(function(btn) { btn.classList.remove('active'); });
- var active = chapterBtns[0];
- for (var i = CHAPTER_STARTS.length - 1; i >= 0; i--) {
- if (slideIdx >= CHAPTER_STARTS[i]) { active = chapterBtns[i]; break; }
- }
- active.classList.add('active');
- }
-
- function stopSentenceTimer() { clearInterval(sentenceInterval); sentenceInterval = null; }
 
  function stopAudio() {
  if (audioElement) {
- audioElement.onended = null; audioElement.onerror = null; audioElement.ontimeupdate = null;
- audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null;
+ audioElement.onended = null;
+ audioElement.onerror = null;
+ audioElement.pause();
+ audioElement.currentTime = 0;
+ audioElement.removeAttribute('src');
+ audioElement.load();
+ audioElement = null;
  }
- clearTimeout(advanceTimeout); stopSentenceTimer();
+ clearTimeout(advanceTimeout);
+ advanceTimeout = null;
  }
 
- function stopAllAudio() { stopAudio(); clearInterval(timer); timer = null; }
-
- function updateTranscriptSlide(slideIdx) {
- slideParas.forEach(function(p, i) {
- if (p) p.classList.toggle('current', i === slideIdx);
+ function stopAllAudio() {
+ playing = false;
+ clearInterval(timer);
+ timer = null;
+ stopAudio();
+ document.querySelectorAll('audio').forEach(function(a) {
+ a.onended = null;
+ a.onerror = null;
+ a.loop = false;
+ a.pause();
+ a.currentTime = 0;
+ a.removeAttribute('src');
+ a.load();
  });
- var para = slideParas[slideIdx];
- if (!userScrolling && narrationPanel && para) {
- para.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
- }
- }
-
- function resetSlideSentences(slideIdx) {
- allSentences.forEach(function(span) {
- span.classList.remove('active');
- var s = parseInt(span.getAttribute('data-slide'), 10);
- if (s < slideIdx) span.classList.add('past'); else span.classList.remove('past');
- });
- currentSentenceIdx = 0;
- updateTranscriptSlide(slideIdx);
- }
-
- function setActiveSentence(slideIdx, sentIdx) {
- allSentences.forEach(function(span) {
- span.classList.remove('active');
- var s = parseInt(span.getAttribute('data-slide'), 10);
- var n = parseInt(span.getAttribute('data-sentence'), 10);
- if (s < slideIdx || (s === slideIdx && n < sentIdx)) span.classList.add('past');
- else span.classList.remove('past');
- });
- var spans = slideSentences[slideIdx];
- if (!spans || !spans.length) return;
- currentSentenceIdx = Math.min(sentIdx, spans.length - 1);
- var active = spans[currentSentenceIdx];
- active.classList.add('active');
- if (!userScrolling && narrationPanel) {
- var panelRect = narrationPanel.getBoundingClientRect();
- var elRect = active.getBoundingClientRect();
- if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
- active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
- }
- }
- }
-
- function syncSentenceToAudio(slideIdx) {
- if (!audioElement || !audioElement.duration || !playing || !audioHighlightReady) return;
- var spans = slideSentences[slideIdx];
- if (!spans || !spans.length) return;
- var idx = Math.min(Math.floor(audioElement.currentTime / audioElement.duration * spans.length), spans.length - 1);
- setActiveSentence(slideIdx, idx);
- }
-
- function startSentenceSync(slideIdx, durationMs) {
- stopSentenceTimer();
- var spans = slideSentences[slideIdx];
- if (!spans || !spans.length) return;
- var idx = 0; var perMs = durationMs / spans.length;
- setActiveSentence(slideIdx, 0);
- sentenceInterval = setInterval(function() {
- if (!playing) return;
- idx++;
- if (idx >= spans.length) { stopSentenceTimer(); return; }
- setActiveSentence(slideIdx, idx);
- }, perMs);
+ if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
  }
 
  function playSlideAudio(index) {
- stopAudio(); audioHighlightReady = false;
- if (!voiceEnabled) { startSentenceSync(index, SLIDE_DURATION); return; }
- if (!playing) return;
- startSentenceSync(index, SLIDE_DURATION);
+ stopAudio();
+ if (!voiceEnabled || !playing) return;
  var src = audioPaths[index];
- if (!src) {
- advanceTimeout = setTimeout(function() {
- if (!playing) return;
- if (current < LAST_SLIDE) next();
- else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
- }, SLIDE_DURATION);
- return;
- }
+ if (!src) return;
  audioElement = new Audio(src);
  audioElement.loop = false;
  audioElement.volume = 1.0;
- audioElement.ontimeupdate = function() {
- audioHighlightReady = true;
- syncSentenceToAudio(index);
- };
  audioElement.onended = function() {
  if (!playing || !voiceEnabled) return;
  advanceTimeout = setTimeout(function() {
@@ -961,11 +895,10 @@
  _p.then(function() {
  if (!audioUnlocked) {
  audioUnlocked = true;
- if (tapToStart) tapToStart.classList.add('hidden');
+ tapToStart.classList.add('hidden');
  playPauseBtn.innerHTML = '&#10074;&#10074;';
  speedLabel.textContent = 'Auto-playing';
  }
- audioHighlightReady = true;
  }).catch(function() {
  if (!audioUnlocked) {
  playing = false;
@@ -979,11 +912,15 @@
  }
  });
  }
- advanceTimeout = setTimeout(function() {
- if (!playing) return;
- if (current < LAST_SLIDE) next();
- else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
- }, SLIDE_DURATION);
+ }
+
+ function updateChapterActive(slideIdx) {
+ chapterBtns.forEach(function(btn) { btn.classList.remove('active'); });
+ var active = chapterBtns[0];
+ for (var i = CHAPTER_STARTS.length - 1; i >= 0; i--) {
+ if (slideIdx >= CHAPTER_STARTS[i]) { active = chapterBtns[i]; break; }
+ }
+ active.classList.add('active');
  }
 
  slides.forEach(function(_, i) {
@@ -993,20 +930,32 @@
  dotsContainer.appendChild(dot);
  });
 
- function goTo(index) {
+ goTo = function(index) {
  slides[current].classList.remove('active');
+ cards[current].classList.remove('active');
  dotsContainer.children[current].classList.remove('active');
+ cards[current].querySelector('.narration-timer').style.transition = 'none';
+ cards[current].querySelector('.narration-timer').style.width = '0%';
+
  current = index;
  slides[current].classList.add('active');
+ cards[current].classList.add('active');
  dotsContainer.children[current].classList.add('active');
  updateChapterActive(current);
- resetSlideSentences(current);
+
+ var timerBar = cards[current].querySelector('.narration-timer');
+ requestAnimationFrame(function() {
+ timerBar.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+ timerBar.style.width = '100%';
+ });
+ if (narrationPanel && cards[current]) {
+ cards[current].scrollIntoView({ behavior: 'smooth', block: 'center' });
+ }
  if (playing && current === LAST_SLIDE) speedLabel.textContent = 'Last step';
  else if (playing) speedLabel.textContent = 'Auto-playing';
  if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
  else if (playing) { resetTimer(); }
- else { startSentenceSync(current, SLIDE_DURATION); }
- }
+ };
 
  function next() {
  if (current < LAST_SLIDE) goTo(current + 1);
@@ -1015,7 +964,6 @@
 
  function resetTimer() {
  clearInterval(timer); clearTimeout(advanceTimeout);
- startSentenceSync(current, SLIDE_DURATION);
  timer = setInterval(function() {
  if (current < LAST_SLIDE) next();
  else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
@@ -1033,18 +981,32 @@
  if (!audioUnlocked) { startPlayback(); return; }
  playing = !playing;
  if (playing) {
- playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
  if (voiceEnabled) playSlideAudio(current); else resetTimer();
+ var tb = cards[current].querySelector('.narration-timer');
+ tb.style.transition = 'none'; tb.style.width = '0%';
+ requestAnimationFrame(function() {
+ tb.style.transition = 'width ' + (SLIDE_DURATION / 1000) + 's linear';
+ tb.style.width = '100%';
+ });
  } else {
- playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Paused';
- stopAudio(); clearInterval(timer);
+ playPauseBtn.innerHTML = '&#9654;';
+ speedLabel.textContent = 'Paused';
+ stopAudio(); clearInterval(timer); clearTimeout(advanceTimeout);
+ var tb = cards[current].querySelector('.narration-timer');
+ var w = getComputedStyle(tb).width;
+ tb.style.transition = 'none'; tb.style.width = w;
  }
  });
 
  function startPlayback() {
  if (audioUnlocked) return;
- audioUnlocked = true; tapToStart.classList.add('hidden');
- playing = true; playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ audioUnlocked = true;
+ tapToStart.classList.add('hidden');
+ playing = true;
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
  playSlideAudio(current);
  }
  tapToStart.addEventListener('click', startPlayback);
@@ -1078,11 +1040,12 @@
  jumpFromHash();
  if (recordMode && !audioUnlocked) startPlayback();
  else if (recordMode && playing) {
- playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
  if (voiceEnabled) playSlideAudio(current); else resetTimer();
  }
  })();
- </script>
+</script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
 <script src="/videos/shared/walkthrough.js" defer></script>
 </body>
