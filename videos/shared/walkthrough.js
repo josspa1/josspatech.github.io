@@ -1,5 +1,5 @@
-/**
- * PocketBudJet video walkthrough helpers — tech-support mode.
+﻿/**
+ * PocketBudJet video walkthrough helpers ΓÇö tech-support mode.
  */
 (function () {
     var TAP_RULES = [
@@ -78,7 +78,7 @@
         finger.innerHTML = '&#9757;';
         ind.appendChild(finger);
 
-        // PNG screenshots already show UI labels — skip the floating pill on phone PNGs.
+        // PNG screenshots already show UI labels ΓÇö skip the floating pill on phone PNGs.
         if (label && !slideUsesPng(slide)) {
             var lbl = document.createElement('span');
             lbl.className = 'tap-label';
@@ -220,7 +220,7 @@
 })();
 
 /**
- * Shared audio teardown — stops MP3 narration when the tab closes, navigates
+ * Shared audio teardown ΓÇö stops MP3 narration when the tab closes, navigates
  * away, or is hidden. Pages register slide-specific cleanup via registerTeardown.
  */
 (function () {
