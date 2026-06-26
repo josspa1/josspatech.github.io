@@ -40,6 +40,8 @@ li{font-size:17px;margin-bottom:6px;}
 .feature-card .feature-where{font-size:14px;color:var(--slate);font-style:italic;margin-top:4px;}
 .callout{background:#FFF6E0;border-left:3px solid var(--gold);padding:14px 18px;margin:14px 0;border-radius:4px;}
 .callout strong{color:var(--navy-dark);}
+.callout-warn{background:#FDECEC;border-left:4px solid #C0392B;padding:16px 20px;margin:0 0 28px;border-radius:6px;font-size:17px;line-height:1.65;}
+.callout-warn strong{color:#922B21;}
 footer{background:var(--navy-dark);border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 footer p{font-size:12px;color:var(--light-slate);}
 @media(max-width:600px){header,footer{padding:0 20px;}.doc-hero{padding:36px 20px 28px;}main{padding:36px 20px 60px;}}
@@ -69,21 +71,26 @@ footer p{font-size:12px;color:var(--light-slate);}
   <span class="doc-type">PocketBudJet · Beta Tester Guide</span>
   <h1>Welcome, tester.</h1>
   <div class="doc-meta">
-    <span>Closed testing: build 299</span>
-    <span>Updated: June 25, 2026</span>
+    <span>Closed testing: build 303+ (302 broken bank sync)</span>
+    <span>Updated: June 26, 2026</span>
     <span>Feedback: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
 </div>
 
 <main>
+  <div class="callout-warn">
+    <strong>Build 302 and earlier — bank auto-sync is broken.</strong> Do <strong>not</strong> test Connect Bank on those builds; the connection never saves and you will get stuck on Teller’s “Connect another bank” screen. Use <strong>Import</strong> (CSV/PDF/sample) or <strong>Funnel Inspector → Store sample import</strong> (Settings → tap version 7× → Developer tools) to load test data instead.<br><br>
+    <strong>Build 303+</strong> (when Play shows it): bank sandbox connect works — Simulate Premium ON, then Settings → Bank Connections → Connect. Sandbox login: <code>username</code> / <code>password</code> only.
+  </div>
+
   <div class="start-here">
-    <span class="build-tag">Start here — build 299</span>
+    <span class="build-tag">Start here — latest closed build</span>
     <h2>Android closed testers</h2>
     <ol>
       <li><strong>Opt in + install from Play only:</strong> <a href="https://play.google.com/apps/testing/com.josspatech.pocketbudjet">Closed testing link</a> → Become a tester → Install / Update. Do not sideload. If install fails: uninstall PocketBudJet first, then install from Play again.</li>
-      <li><strong>Verify build before testing:</strong> Settings → scroll to <strong>About</strong> → check the version row. Must show <strong>build 299</strong> (e.g. v1.0.0 · build 299). If you see 284 or older: uninstall → Play Store → Update. Do not test until 299.</li>
-      <li><strong>Simulate Premium</strong> (bank sync testing): Settings → tap the version row <strong>7 times</strong> → scroll to red <strong>Developer tools</strong> → <strong>Simulate Premium</strong>. OFF = trial (import only). ON = paid sim (bank sync). If already ON during trial, toggle OFF then ON.</li>
-      <li><strong>Teller sandbox login</strong> (Connect a Bank screen): User ID <code>username</code>, Password <code>password</code> — not <code>test</code>/<code>test</code>. Never use your real bank password. <a href="https://teller.io/docs/guides/sandbox">Teller sandbox guide</a></li>
+      <li><strong>Verify build before testing:</strong> Settings → scroll to <strong>About</strong> → check the version row (e.g. v1.0.0 · build 303). If you still see <strong>302 or older</strong>, wait for Play to offer an update — do not spend time on bank connect on 302.</li>
+      <li><strong>Load data (all builds):</strong> Import a statement (Import tab) <em>or</em> unlock Developer tools (7-tap version) → <strong>Funnel Inspector</strong> → <strong>Store sample import</strong>. Add a few manual transactions with the dashboard <strong>+</strong> if you want more rows.</li>
+      <li><strong>Bank connect (303+ only):</strong> Settings → 7-tap version → <strong>Simulate Premium</strong> ON → Settings → <strong>Bank Connections</strong> → Connect. Teller sandbox: User ID <code>username</code>, Password <code>password</code>. Tap <strong>Done</strong> on the completion screen — never your real bank password. <a href="https://teller.io/docs/guides/sandbox">Teller sandbox guide</a></li>
     </ol>
   </div>
 
@@ -94,7 +101,7 @@ footer p{font-size:12px;color:var(--light-slate);}
   <h2>1. Install</h2>
   <p><strong>iPhone:</strong> Tap the TestFlight invite from your inbox. If TestFlight isn't installed yet, the App Store will prompt you. Accept and tap "Install" inside TestFlight.</p>
   <p><strong>Android (closed testing):</strong> Use the <a href="https://play.google.com/apps/testing/com.josspatech.pocketbudjet">closed opt-in link</a> → Become a tester → Install from Google Play. Install from Play only — not sideload. If install fails, uninstall first, then try again.</p>
-  <p>Updates land automatically. Always confirm <strong>build 299</strong> in Settings → About before testing (see Start here above).</p>
+  <p>Updates land automatically. Always confirm your build in Settings → About before testing (see Start here above). On <strong>302 or older</strong>, skip bank connect and use Import or sample import.</p>
 
   <h2>2. Your first ten minutes</h2>
   <p>Goal: get the app to the point where it has enough of your data to feel useful.</p>
@@ -185,7 +192,8 @@ footer p{font-size:12px;color:var(--light-slate);}
 
   <h2>5. What we're NOT testing in this round</h2>
   <ul>
-    <li><strong>Automatic bank sync (Teller) without Simulate Premium.</strong> Bank sync requires paid Premium — not the 21-day trial. Closed testers: enable <strong>Simulate Premium</strong> (7-tap unlock in Settings) to test sandbox bank connect. Manual entry, statement import (CSV/PDF/share), receipts, and email forwarding work on every plan without it.</li>
+    <li><strong>Connect Bank on build 302 or earlier.</strong> Automatic bank sync was broken on those builds — no connection row was saved. Use Import or Funnel Inspector sample import until Play offers <strong>303+</strong>.</li>
+    <li><strong>Automatic bank sync without Simulate Premium (303+).</strong> Bank sync requires paid Premium — not the 21-day trial. On 303+, enable <strong>Simulate Premium</strong> (7-tap unlock) before testing sandbox bank connect.</li>
     <li><strong>Real bank passwords in sandbox.</strong> Teller Sandbox uses test credentials only (<code>username</code> / <code>password</code>). Never enter your real bank login.</li>
     <li><strong>Credit-score tracking.</strong> Coming in a later version.</li>
     <li><strong>Real subscription billing.</strong> IAP is off in closed builds — Simulate Premium unlocks features locally.</li>
