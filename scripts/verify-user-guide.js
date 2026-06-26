@@ -9,9 +9,15 @@ const PORT = 4175;
 function serve(req, res) {
   let urlPath = req.url.split('?')[0];
   if (urlPath === '/') urlPath = '/index.html';
-  const filePath = path.join(ROOT, decodeURIComponent(urlPath));
-  if (!filePath.startsWith(ROOT) || !fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+  let filePath = path.join(ROOT, decodeURIComponent(urlPath));
+  if (!filePath.startsWith(ROOT) || !fs.existsSync(filePath)) {
     res.writeHead(404); res.end('Not found'); return;
+  }
+  if (fs.statSync(filePath).isDirectory()) {
+    filePath = path.join(filePath, 'index.html');
+    if (!fs.existsSync(filePath)) {
+      res.writeHead(404); res.end('Not found'); return;
+    }
   }
   const ext = path.extname(filePath).toLowerCase();
   const types = { '.html': 'text/html', '.js': 'application/javascript', '.css': 'text/css', '.mp3': 'audio/mpeg', '.png': 'image/png' };
@@ -40,7 +46,7 @@ function serve(req, res) {
 
   const tapToStart = page.locator('#tapToStart');
   if (await tapToStart.count() && await tapToStart.isVisible()) {
-    await tapToStart.click();
+    await tapToStart.click({ force: true });
     await page.waitForTimeout(500);
   }
 
@@ -67,5 +73,5 @@ function serve(req, res) {
 
   await browser.close();
   server.close();
-  process.exit(slides === 89 && tapIndicators > 0 && audioOk ? 0 : 1);
+  process.exit(slides === 120 && tapIndicators > 0 && audioOk ? 0 : 1);
 })();
