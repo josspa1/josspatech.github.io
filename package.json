@@ -1,0 +1,14 @@
+{
+  "name": "josspatech.github.io",
+  "private": true,
+  "description": "JosspaTech static site — dev tools for video render",
+  "scripts": {
+    "gen:user-guide-audio": "python scripts/gen-user-guide-en-audio.py",
+    "render:user-guide": "node scripts/render-user-guide-video.js",
+    "render:user-guide:preview": "node scripts/render-user-guide-video.js --preview",
+    "render:user-guide:fast": "node scripts/render-user-guide-video.js --fast"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.0"
+  }
+}
