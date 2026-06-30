@@ -54,8 +54,8 @@ footer .fn span{color:var(--gold);}
   <span class="doc-type">PocketBudJet · Legal Document</span>
   <h1>Privacy Policy</h1>
   <div class="doc-meta">
-    <span>Effective Date: May 20, 2026</span>
-    <span>Developer: JosspaTech LLC</span>
+    <span>Effective Date: June 30, 2026</span>
+    <span>Developer: JosspaTech</span>
     <span>Contact: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
 </div>
@@ -140,10 +140,11 @@ footer .fn span{color:var(--gold);}
   <p>The AI Financial Coach is disabled by default and can be toggled in Settings. You can use PocketBudJet indefinitely without ever turning it on.</p>
 
   <h2>6. Bank Account Connectivity (Teller — paid Premium only)</h2>
-  <p>PocketBudJet offers <strong>optional automatic bank sync</strong> for <strong>active paid Premium subscribers</strong> through <strong>Teller</strong> (Teller Financial, Inc.). It is <strong>not available during the 21-day Premium trial</strong>. Bank sync is available for <strong>US financial institutions only</strong>. If you do not use bank sync, your imports work the same as always: CSV / OFX / QFX / QIF / XLSX files, PDF statements, receipt scans, Share-to-PocketBudJet, and optional Email Forwarding (§4).</p>
-  <p><strong>What you do:</strong> You connect your bank inside the app using Teller Connect. Your bank login credentials are entered directly with Teller — JosspaTech never sees or stores them.</p>
-  <p><strong>What Teller sees:</strong> Your bank credentials (to authenticate), account identifiers, and transaction data your bank makes available through Teller's API.</p>
-  <p><strong>What JosspaTech sees:</strong> An enrollment token relayed through our Cloudflare Worker so your device can fetch transactions. We do not receive your bank password. Transactions retrieved through Teller are stored <strong>locally on your device</strong>.</p>
+  <p>PocketBudJet offers <strong>optional automatic bank sync</strong> for <strong>active paid Premium subscribers</strong> through <strong>Teller</strong> (<a href="https://teller.io" rel="noopener noreferrer">Teller, Inc.</a>, a third-party financial data aggregator). It is <strong>not available during the 14-day Premium trial</strong>. Bank sync is available for <strong>US financial institutions only</strong> — institutions outside the United States are not supported through Teller. If you do not use bank sync, your imports work the same as always: CSV / OFX / QFX / QIF / XLSX files, PDF statements, receipt scans, Share-to-PocketBudJet, and optional Email Forwarding (§4).</p>
+  <p><strong>What you do:</strong> You connect your bank inside the app using Teller Connect. Before connecting, you review and accept <a href="https://teller.io/legal/user/terms" rel="noopener noreferrer">Teller's End User Terms of Service</a> and <a href="https://teller.io/legal/user/privacy" rel="noopener noreferrer">End User Privacy Policy</a> in the Teller Connect flow. Your bank login credentials are entered directly with Teller — JosspaTech never sees or stores them.</p>
+  <p><strong>What Teller collects and processes:</strong> As described in Teller's End User Privacy Policy, Teller may collect your bank login credentials (to authenticate), account identifiers (institution name, account type, masked account numbers), account balances, and transaction data (amounts, dates, payees, descriptions) that your bank makes available through Teller's API. Teller processes this data as your agent to retrieve information you authorize.</p>
+  <p><strong>What JosspaTech receives:</strong> After you connect, Teller returns an enrollment access token to your device via a JosspaTech-operated Cloudflare Worker (TLS relay only — the Worker does not store your bank password). Your device uses that token to request transaction and account data from Teller through the Worker. We do not receive your bank login credentials. Transactions and account data retrieved through Teller are stored <strong>locally on your device</strong> in PocketBudJet's private app storage. JosspaTech does not retain a server-side copy of your bank transactions.</p>
+  <p><strong>Enrollment limits:</strong> Each paid Premium subscription includes up to <strong>2 bank connections</strong> (one enrollment per bank login; multiple accounts under the same login count as one). Additional connections may require a paid add-on when available.</p>
   <p><strong>Disconnecting:</strong> You can disconnect any bank in Settings → Bank Connections. Disconnecting removes the stored token from your device. Previously imported transactions remain on your device.</p>
   <p><strong>End of subscription or trial:</strong> If your paid subscription lapses or your trial ends without subscribing, bank connections are automatically disconnected.</p>
 
@@ -208,10 +209,5 @@ footer .fn span{color:var(--gold);}
   </div>
 
 </main>
-<footer>
-  <span class="fn">Josspa<span>Tech</span>™</span>
-  <p>© 2026 JosspaTech LLC · 2389 Main St STE 100, Glastonbury, CT 06033, USA<br><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
-  <a href="/#pbj" style="font-size:12px;color:#8AAABB;text-decoration:none;font-weight:600;">← PocketBudJet</a>
-</footer>
 </body>
 </html>
