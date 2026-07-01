@@ -1087,6 +1087,22 @@
     }
     .wm-threshold-legend .watch { color: var(--warning); font-weight: 600; }
     .wm-threshold-legend .alert { color: var(--danger); font-weight: 600; }
+    .wm-cost-block { margin-top: 2px; }
+    .wm-cost-row { margin-top: 6px; }
+    .wm-cost-toggle {
+      background: none; border: none; padding: 2px 0; margin: 2px 0 0;
+      font-size: 11px; color: var(--text-muted); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .wm-cost-toggle:hover { color: var(--primary); }
+    .wm-cost-chevron { font-size: 10px; width: 10px; text-align: center; flex-shrink: 0; }
+    .wm-cost-past { margin-top: 4px; padding-left: 14px; }
+    .wm-cost-past-item {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--text-dim); margin-top: 2px;
+    }
+    .wm-cost-past-item strong { color: var(--text); font-variant-numeric: tabular-nums; }
+    .wm-combined-cost { flex-basis: 100%; margin-top: 4px; }
     .wm-threshold-legend .stop { color: var(--danger); font-weight: 700; }
 
     /* ─── Thresholds & Baselines ─────────────────────────────── */
@@ -6130,6 +6146,7 @@ Generated ${new Date().toISOString()}.
         anthropicToday: null,
         costToday: Number(s.today.estimatedCostUsd || 0),
         costMtd: Number(s.month_to_date?.estimatedCostUsd || 0),
+        costHistory: Array.isArray(s.cost_history) ? s.cost_history : [],
         circuitBreaker: s.today.circuitBreakerArmed,
         quotaPct,
         quotaLabel: "Global OCR daily",
@@ -6151,6 +6168,7 @@ Generated ${new Date().toISOString()}.
       anthropicCap: s.caps?.anthropicDaily || 5000,
       costToday: Number(s.today.estimatedCostUsd || 0),
       costMtd: Number(s.month_to_date?.estimatedCostUsd || 0),
+      costHistory: Array.isArray(s.cost_history) ? s.cost_history : [],
       circuitBreaker: s.today.circuitBreakerArmed,
       quotaPct,
       quotaLabel: "Global AI daily",
@@ -6164,6 +6182,65 @@ Generated ${new Date().toISOString()}.
     if (state === "yellow") return "Attention";
     if (state === "red") return "Problem";
     return "Unknown";
+  }
+
+  function wmFormatMonthShort(monthStr) {
+    const parts = String(monthStr || "").split("-");
+    if (parts.length < 2) return monthStr || "—";
+    return `${parts[1]}/${parts[0].slice(2)}`;
+  }
+
+  function wmFormatCostUsd(val, decimals) {
+    const n = Number(val || 0);
+    const d = decimals != null ? decimals : (n > 0 && n < 0.01 ? 4 : 2);
+    return `$${n.toFixed(d)}`;
+  }
+
+  function wmToggleCostHistory(listId, btn) {
+    const el = document.getElementById(listId);
+    if (!el || !btn) return;
+    const open = el.hidden;
+    el.hidden = !open;
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    const chev = btn.querySelector(".wm-cost-chevron");
+    if (chev) chev.textContent = open ? "▾" : "▸";
+  }
+
+  function wmRenderCostExpand(idPrefix, mtdCost, history) {
+    const past = Array.isArray(history) ? history : [];
+    const costStr = wmFormatCostUsd(mtdCost);
+    if (!past.length) {
+      return `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${costStr}</strong></div>`;
+    }
+    const listId = `${idPrefix}-cost-list`;
+    const rows = past.map(h =>
+      `<div class="wm-cost-past-item"><span>${wmFormatMonthShort(h.month)}</span><strong>${wmFormatCostUsd(h.estimatedCostUsd)}</strong></div>`,
+    ).join("");
+    return `
+      <div class="wm-cost-block">
+        <div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${costStr}</strong></div>
+        <button type="button" class="wm-cost-toggle" onclick="event.stopPropagation();wmToggleCostHistory('${listId}', this)" aria-expanded="false">
+          <span class="wm-cost-chevron">▸</span> Past months
+        </button>
+        <div id="${listId}" class="wm-cost-past" hidden>${rows}</div>
+      </div>`;
+  }
+
+  function wmMergeCostHistory(results) {
+    const byMonth = {};
+    for (const r of results) {
+      const hist = r.stats?.data?.cost_history || [];
+      for (const h of hist) {
+        byMonth[h.month] = (byMonth[h.month] || 0) + Number(h.estimatedCostUsd || 0);
+      }
+    }
+    return Object.entries(byMonth)
+      .sort((a, b) => b[0].localeCompare(a[0]))
+      .slice(0, 12)
+      .map(([month, estimatedCostUsd]) => ({
+        month,
+        estimatedCostUsd: Math.round(estimatedCostUsd * 100) / 100,
+      }));
   }
 
   function wmRenderDetailPanel(result) {
@@ -6260,6 +6337,7 @@ Generated ${new Date().toISOString()}.
 
     const combinedToday = results.reduce((s, r) => s + (r.metrics?.costToday || 0), 0);
     const combinedMtd = results.reduce((s, r) => s + (r.metrics?.costMtd || 0), 0);
+    const combinedHistory = wmMergeCostHistory(results);
     const now = new Date().toLocaleTimeString();
 
     if (combinedEl) {
@@ -6267,8 +6345,8 @@ Generated ${new Date().toISOString()}.
         <div class="wm-combined">
           <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
           <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Sum of estimated overage across PBJ + HHH + CVC workers.</span>
-          <span><strong>Combined MTD:</strong> $${combinedMtd.toFixed(2)}</span>
-          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Calendar month; $0 while under free tiers.</span>
+          <div class="wm-combined-cost">${wmRenderCostExpand("wm-combined", combinedMtd, combinedHistory)}</div>
+          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Calendar month MTD; $0 while under free tiers. Past months from worker KV snapshots.</span>
           <span style="color:var(--text-muted);">All three workers · refreshed ${now}</span>
         </div>`;
     }
@@ -6276,7 +6354,9 @@ Generated ${new Date().toISOString()}.
     if (summaryEl) {
       summaryEl.innerHTML = results.map(r => {
         const state = wmCardState(r.health, r.metrics);
-        const cost = r.metrics ? `$${r.metrics.costToday.toFixed(4)}` : (r.stats.error === "no_key" ? "key needed" : "—");
+        const costBlock = r.metrics
+          ? wmRenderCostExpand(`wm-${r.app.id}`, r.metrics.costMtd, r.metrics.costHistory)
+          : `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${r.stats.error === "no_key" ? "key needed" : "—"}</strong></div>`;
         const gemini = r.metrics
           ? `${r.metrics.geminiToday.toLocaleString()} / ${r.metrics.geminiCap.toLocaleString()} Gemini`
           : "—";
@@ -6291,7 +6371,7 @@ Generated ${new Date().toISOString()}.
             <div class="wm-stat-row"><span>Gemini today</span><strong>${gemini}</strong></div>
             <div class="wm-stat-row"><span>Daily total</span><strong>${quota}</strong></div>
             <div class="metric-hint" style="margin-top:6px;">Status = worker + keys + quota %. Daily total = circuit-breaker counter.</div>
-            <div class="wm-stat-row"><span>Est. cost</span><strong>${cost}</strong></div>
+            ${costBlock}
             <div class="wm-stat-row"><span>Updated</span><strong>${now}</strong></div>
           </div>`;
       }).join("");
