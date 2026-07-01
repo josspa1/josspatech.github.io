@@ -1098,6 +1098,14 @@
     .wm-cost-click .wm-cost-hint {
       font-size: 10px; color: var(--text-muted); margin-left: 6px; font-weight: 400;
     }
+    .wm-cost-detail-click {
+      cursor: pointer; border-radius: 8px; padding: 2px 4px; margin: -2px -4px;
+      transition: background 0.15s;
+    }
+    .wm-cost-detail-click:hover { background: var(--surface-alt); }
+    .wm-cost-detail-click .metric-hint::after {
+      content: " · click for yearly chart";
+    }
     .wm-combined-cost { flex-basis: 100%; margin-top: 4px; }
     .wm-cost-modal-overlay {
       position: fixed; inset: 0; z-index: 9000;
@@ -6401,7 +6409,14 @@ Generated ${new Date().toISOString()}.
             ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div><div class="metric-hint">Identify/ask calls — billed from pre-paid credits.</div></div>` : ""}
             ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div><div class="metric-hint">Cloud OCR fallback when on-device OCR is thin.</div></div>` : ""}
             <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div><div class="metric-hint">Non-zero only after free-tier daily caps exceeded.</div></div>
-            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div><div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}</div><div class="metric-hint">Month-to-date overage estimate from KV counters.</div></div>
+            <div class="wm-cost-detail-click" role="button" tabindex="0"
+              onclick="wmOpenCostChart('wm-${app.id}')"
+              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();wmOpenCostChart('wm-${app.id}');}"
+              title="Click for yearly cost chart">
+              <div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div>
+              <div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}<span class="wm-cost-hint">↗</span></div>
+              <div class="metric-hint">Month-to-date overage estimate from KV counters.</div>
+            </div>
           </div>
           ${metrics.geminiToday === 0 && app.statsKind === "ops" ? `<div style="font-size:12px;color:var(--text-dim);">KV tracking active — counters increment on the first Gemini or Anthropic call through this worker.</div>` : ""}
         </div>`;
