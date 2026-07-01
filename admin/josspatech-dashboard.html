@@ -5971,11 +5971,18 @@ Generated ${new Date().toISOString()}.
     if (!s) return "";
     const nl = s.search(/[\r\n]/);
     if (nl >= 0) s = s.slice(0, nl).trim();
+    const tsAssign = s.match(
+      /(?:export\s+)?const\s+(?:WORKER_SHARED_KEY|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)\s*=\s*['"]([a-f0-9]{32,128})['"]\s*;?/i,
+    );
+    if (tsAssign) return tsAssign[1];
     if (/^export\s+/i.test(s)) s = s.replace(/^export\s+/i, "").trim();
     const eq = s.indexOf("=");
     if (eq > 0) {
-      const name = s.slice(0, eq).trim();
-      const val = s.slice(eq + 1).trim();
+      const name = s.slice(0, eq).trim().replace(/^const\s+/i, "");
+      let val = s.slice(eq + 1).trim().replace(/;+\s*$/, "");
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        val = val.slice(1, -1).trim();
+      }
       if (/^(EXPO_PUBLIC_(?:PBJ|HHH|CVC)_WORKER_(?:KEY|URL)|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)$/i.test(name)) {
         s = val;
       } else if (/(?:SHARED_KEY|WORKER_KEY)$/i.test(name) && /^[a-f0-9]{32,128}$/i.test(val)) {
