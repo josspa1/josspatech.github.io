@@ -1089,20 +1089,59 @@
     .wm-threshold-legend .alert { color: var(--danger); font-weight: 600; }
     .wm-cost-block { margin-top: 2px; }
     .wm-cost-row { margin-top: 6px; }
-    .wm-cost-toggle {
-      background: none; border: none; padding: 2px 0; margin: 2px 0 0;
-      font-size: 11px; color: var(--text-muted); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 4px;
+    .wm-cost-click {
+      cursor: pointer; border-radius: 6px; margin: 0 -6px; padding: 0 6px;
+      transition: background 0.15s;
     }
-    .wm-cost-toggle:hover { color: var(--primary); }
-    .wm-cost-chevron { font-size: 10px; width: 10px; text-align: center; flex-shrink: 0; }
-    .wm-cost-past { margin-top: 4px; padding-left: 14px; }
-    .wm-cost-past-item {
-      display: flex; justify-content: space-between;
-      font-size: 11px; color: var(--text-dim); margin-top: 2px;
+    .wm-cost-click:hover { background: var(--surface-alt); }
+    .wm-cost-click strong { color: var(--primary); }
+    .wm-cost-click .wm-cost-hint {
+      font-size: 10px; color: var(--text-muted); margin-left: 6px; font-weight: 400;
     }
-    .wm-cost-past-item strong { color: var(--text); font-variant-numeric: tabular-nums; }
     .wm-combined-cost { flex-basis: 100%; margin-top: 4px; }
+    .wm-cost-modal-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(26, 26, 46, 0.45);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+    }
+    .wm-cost-modal-overlay[hidden] { display: none; }
+    .wm-cost-modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(26, 79, 122, 0.18);
+      max-width: 620px; width: 100%; padding: 20px 22px 18px;
+    }
+    .wm-cost-modal-head {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 12px; margin-bottom: 14px;
+    }
+    .wm-cost-modal-head h3 {
+      font-size: 16px; color: var(--primary); line-height: 1.3;
+    }
+    .wm-cost-modal-close {
+      background: none; border: none; font-size: 22px; line-height: 1;
+      color: var(--text-muted); cursor: pointer; padding: 0 4px;
+    }
+    .wm-cost-modal-close:hover { color: var(--text); }
+    .wm-cost-chart-wrap { width: 100%; overflow-x: auto; }
+    .wm-cost-chart { display: block; width: 100%; height: auto; }
+    .wm-cost-chart .bar-past { fill: var(--primary); opacity: 0.55; }
+    .wm-cost-chart .bar-mtd { fill: var(--accent); }
+    .wm-cost-chart .bar-label { fill: var(--text-dim); font-size: 11px; }
+    .wm-cost-chart .bar-value { fill: var(--text); font-size: 10px; font-weight: 600; }
+    .wm-cost-chart .axis-label { fill: var(--text-muted); font-size: 10px; }
+    .wm-cost-modal-note {
+      font-size: 11px; color: var(--text-muted); margin-top: 10px; line-height: 1.45;
+    }
+    .wm-cost-modal-legend {
+      display: flex; gap: 14px; font-size: 11px; color: var(--text-dim); margin-top: 8px;
+    }
+    .wm-cost-modal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .wm-cost-modal-legend i {
+      display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+    }
+    .wm-cost-modal-legend .past i { background: var(--primary); opacity: 0.55; }
+    .wm-cost-modal-legend .mtd i { background: var(--accent); }
     .wm-threshold-legend .stop { color: var(--danger); font-weight: 700; }
 
     /* ─── Thresholds & Baselines ─────────────────────────────── */
@@ -2038,6 +2077,20 @@
         <p style="margin: 10px 0 0;">Bars turn yellow at 75% and red at 90%. PBJ's circuit breaker actually stops free-tier cloud OCR; HHH/CVC breakers are alerts only until we wire enforcement. Per-user PBJ caps: 15 free / 200 trial / 500 active scans per month, max 50/day per device.</p>
       </details>
       <div id="workerMonitoringCombined"></div>
+      <div id="wmCostModalOverlay" class="wm-cost-modal-overlay" hidden onclick="if(event.target===this)wmCloseCostChart()">
+        <div class="wm-cost-modal" role="dialog" aria-labelledby="wmCostModalTitle">
+          <div class="wm-cost-modal-head">
+            <h3 id="wmCostModalTitle">Estimated cost</h3>
+            <button type="button" class="wm-cost-modal-close" onclick="wmCloseCostChart()" aria-label="Close">&times;</button>
+          </div>
+          <div id="wmCostModalChart" class="wm-cost-chart-wrap"></div>
+          <div class="wm-cost-modal-legend">
+            <span class="past"><i></i> Finalized month</span>
+            <span class="mtd"><i></i> Current month (MTD)</span>
+          </div>
+          <p id="wmCostModalNote" class="wm-cost-modal-note"></p>
+        </div>
+      </div>
       <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>
       <div id="workerMonitoringTabs" class="wm-tabs"></div>
       <div id="workerMonitoringGrid">Loading…</div>
@@ -6196,33 +6249,108 @@ Generated ${new Date().toISOString()}.
     return `$${n.toFixed(d)}`;
   }
 
-  function wmToggleCostHistory(listId, btn) {
-    const el = document.getElementById(listId);
-    if (!el || !btn) return;
-    const open = el.hidden;
-    el.hidden = !open;
-    btn.setAttribute("aria-expanded", open ? "true" : "false");
-    const chev = btn.querySelector(".wm-cost-chevron");
-    if (chev) chev.textContent = open ? "▾" : "▸";
+  const wmCostChartData = {};
+
+  function wmCurrentMonthStr() {
+    const d = new Date();
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
   }
 
-  function wmRenderCostExpand(idPrefix, mtdCost, history) {
-    const past = Array.isArray(history) ? history : [];
-    const costStr = wmFormatCostUsd(mtdCost);
-    if (!past.length) {
-      return `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${costStr}</strong></div>`;
+  function wmBuildChartSeries(history, mtdCost) {
+    const past = Array.isArray(history) ? history.slice() : [];
+    past.sort((a, b) => a.month.localeCompare(b.month));
+    const series = past.map(h => ({
+      month: h.month,
+      cost: Number(h.estimatedCostUsd || 0),
+      isMtd: false,
+    }));
+    series.push({
+      month: wmCurrentMonthStr(),
+      cost: Number(mtdCost || 0),
+      isMtd: true,
+    });
+    return series.slice(-13);
+  }
+
+  function wmRenderCostChartSvg(series) {
+    const n = series.length;
+    const width = Math.max(320, n * 44 + 56);
+    const height = 220;
+    const padL = 44;
+    const padR = 12;
+    const padT = 28;
+    const padB = 36;
+    const chartW = width - padL - padR;
+    const chartH = height - padT - padB;
+    const maxCost = Math.max(0.01, ...series.map(s => s.cost));
+    const gap = 6;
+    const barW = Math.max(14, (chartW - gap * (n - 1)) / n);
+    const yTicks = 4;
+    let grid = "";
+    for (let t = 0; t <= yTicks; t++) {
+      const val = (maxCost / yTicks) * t;
+      const y = padT + chartH - (val / maxCost) * chartH;
+      grid += `<line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="var(--border)" stroke-width="1"/>`;
+      grid += `<text class="axis-label" x="${padL - 6}" y="${y + 3}" text-anchor="end">$${val.toFixed(val >= 1 ? 0 : 2)}</text>`;
     }
-    const listId = `${idPrefix}-cost-list`;
-    const rows = past.map(h =>
-      `<div class="wm-cost-past-item"><span>${wmFormatMonthShort(h.month)}</span><strong>${wmFormatCostUsd(h.estimatedCostUsd)}</strong></div>`,
-    ).join("");
+    let bars = "";
+    series.forEach((s, i) => {
+      const h = Math.max(2, (s.cost / maxCost) * chartH);
+      const x = padL + i * (barW + gap);
+      const y = padT + chartH - h;
+      const cls = s.isMtd ? "bar-mtd" : "bar-past";
+      const label = s.isMtd ? "MTD" : wmFormatMonthShort(s.month);
+      bars += `<rect class="${cls}" x="${x}" y="${y}" width="${barW}" height="${h}" rx="3"/>`;
+      bars += `<text class="bar-value" x="${x + barW / 2}" y="${y - 4}" text-anchor="middle">${wmFormatCostUsd(s.cost, s.cost > 0 && s.cost < 0.01 ? 4 : 2)}</text>`;
+      bars += `<text class="bar-label" x="${x + barW / 2}" y="${height - 10}" text-anchor="middle">${label}</text>`;
+    });
+    return `<svg class="wm-cost-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${grid}${bars}</svg>`;
+  }
+
+  function wmOpenCostChart(chartId) {
+    const data = wmCostChartData[chartId];
+    if (!data) return;
+    const series = wmBuildChartSeries(data.history, data.mtdCost);
+    const overlay = document.getElementById("wmCostModalOverlay");
+    const titleEl = document.getElementById("wmCostModalTitle");
+    const chartEl = document.getElementById("wmCostModalChart");
+    const noteEl = document.getElementById("wmCostModalNote");
+    if (!overlay || !titleEl || !chartEl || !noteEl) return;
+    titleEl.textContent = `${data.title} — estimated cost`;
+    chartEl.innerHTML = wmRenderCostChartSvg(series);
+    const pastCount = series.filter(s => !s.isMtd).length;
+    noteEl.textContent = pastCount
+      ? `Showing ${pastCount} finalized month${pastCount === 1 ? "" : "s"} plus current MTD from worker KV snapshots.`
+      : "History builds as months complete — only current month MTD is available so far.";
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function wmCloseCostChart() {
+    const overlay = document.getElementById("wmCostModalOverlay");
+    if (overlay) overlay.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") wmCloseCostChart();
+  });
+
+  function wmRegisterCostChart(chartId, title, mtdCost, history) {
+    wmCostChartData[chartId] = { title, mtdCost, history: Array.isArray(history) ? history : [] };
+  }
+
+  function wmRenderCostClickable(chartId, mtdCost) {
+    const costStr = wmFormatCostUsd(mtdCost);
     return `
       <div class="wm-cost-block">
-        <div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${costStr}</strong></div>
-        <button type="button" class="wm-cost-toggle" onclick="event.stopPropagation();wmToggleCostHistory('${listId}', this)" aria-expanded="false">
-          <span class="wm-cost-chevron">▸</span> Past months
-        </button>
-        <div id="${listId}" class="wm-cost-past" hidden>${rows}</div>
+        <div class="wm-stat-row wm-cost-row wm-cost-click" role="button" tabindex="0"
+          onclick="event.stopPropagation();wmOpenCostChart('${chartId}')"
+          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();wmOpenCostChart('${chartId}');}"
+          title="Click for yearly cost chart">
+          <span>Est. cost</span>
+          <strong>${costStr}<span class="wm-cost-hint">MTD ↗</span></strong>
+        </div>
       </div>`;
   }
 
@@ -6341,12 +6469,13 @@ Generated ${new Date().toISOString()}.
     const now = new Date().toLocaleTimeString();
 
     if (combinedEl) {
+      wmRegisterCostChart("wm-combined", "Combined PBJ + HHH + CVC", combinedMtd, combinedHistory);
       combinedEl.innerHTML = `
         <div class="wm-combined">
           <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
           <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Sum of estimated overage across PBJ + HHH + CVC workers.</span>
-          <div class="wm-combined-cost">${wmRenderCostExpand("wm-combined", combinedMtd, combinedHistory)}</div>
-          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Calendar month MTD; $0 while under free tiers. Past months from worker KV snapshots.</span>
+          <div class="wm-combined-cost">${wmRenderCostClickable("wm-combined", combinedMtd)}</div>
+          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Click Est. cost for yearly chart. Calendar month MTD; $0 while under free tiers.</span>
           <span style="color:var(--text-muted);">All three workers · refreshed ${now}</span>
         </div>`;
     }
@@ -6354,9 +6483,14 @@ Generated ${new Date().toISOString()}.
     if (summaryEl) {
       summaryEl.innerHTML = results.map(r => {
         const state = wmCardState(r.health, r.metrics);
-        const costBlock = r.metrics
-          ? wmRenderCostExpand(`wm-${r.app.id}`, r.metrics.costMtd, r.metrics.costHistory)
-          : `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${r.stats.error === "no_key" ? "key needed" : "—"}</strong></div>`;
+        let costBlock;
+        if (r.metrics) {
+          const chartId = `wm-${r.app.id}`;
+          wmRegisterCostChart(chartId, `${r.app.short} · ${r.app.name}`, r.metrics.costMtd, r.metrics.costHistory);
+          costBlock = wmRenderCostClickable(chartId, r.metrics.costMtd);
+        } else {
+          costBlock = `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${r.stats.error === "no_key" ? "key needed" : "—"}</strong></div>`;
+        }
         const gemini = r.metrics
           ? `${r.metrics.geminiToday.toLocaleString()} / ${r.metrics.geminiCap.toLocaleString()} Gemini`
           : "—";
