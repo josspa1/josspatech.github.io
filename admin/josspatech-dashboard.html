@@ -1152,6 +1152,74 @@
     .wm-cost-modal-legend .mtd i { background: var(--accent); }
     .wm-threshold-legend .stop { color: var(--danger); font-weight: 700; }
 
+    /* ─── Partner Referrals (HHH) ─────────────────────────────── */
+    .ref-toolbar {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px;
+    }
+    .ref-toolbar label { font-size: 12px; color: var(--text-dim); display: inline-flex; align-items: center; gap: 6px; }
+    .ref-toolbar input[type="date"] {
+      padding: 6px 8px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 12px; background: var(--surface);
+    }
+    .ref-cost-badge {
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+      padding: 2px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle;
+    }
+    .ref-cost-light { background: #e8f5e9; color: #2e7d32; }
+    .ref-cost-medium { background: #fff8e1; color: #f57f17; }
+    .ref-cost-heavy {
+      background: #ffebee; color: #c62828; border: 1px solid #ef9a9a;
+    }
+    .ref-btn-heavy {
+      border-color: #ef9a9a !important; color: #c62828 !important; background: #fff5f5 !important;
+    }
+    .ref-btn-heavy:hover { background: #ffebee !important; }
+    .ref-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .ref-tab {
+      padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--surface); color: var(--text-dim); font-size: 12px;
+      font-weight: 600; cursor: pointer;
+    }
+    .ref-tab:hover { border-color: var(--primary); color: var(--primary); }
+    .ref-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .ref-summary-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px; margin-bottom: 16px;
+    }
+    .ref-stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 14px; text-align: center;
+    }
+    .ref-stat-card .val { font-size: 22px; font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .ref-stat-card .lbl { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .ref-table-wrap {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      overflow-x: auto; margin-bottom: 16px;
+    }
+    .ref-table-wrap table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .ref-table-wrap th, .ref-table-wrap td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    .ref-table-wrap th { background: var(--surface-alt); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; color: var(--text-muted); }
+    .ref-table-wrap td.num { font-variant-numeric: tabular-nums; text-align: right; }
+    .ref-table-wrap tr:last-child td { border-bottom: none; }
+    .ref-status { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
+    .ref-status.err { color: var(--danger); }
+    .ref-jj-note {
+      background: var(--primary-soft); border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; font-size: 12px; color: var(--text-dim); margin-bottom: 14px;
+    }
+    .ref-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; align-items: center; }
+    .wm-actions { margin-top: 0; }
+    .wm-auto-row {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      margin-bottom: 12px; font-size: 12px;
+    }
+    .wm-auto-warn { color: var(--warning); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+    .dash-auto-label {
+      font-size: 12px; color: var(--text-dim); display: inline-flex; align-items: center; gap: 6px;
+    }
+    .dash-auto-label input, .wm-auto-warn input { accent-color: var(--primary); }
+    #refreshInterval:disabled, #wmAutoInterval:disabled { opacity: 0.45; }
+
     /* ─── Thresholds & Baselines ─────────────────────────────── */
     .tb-legend-row {
       display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
@@ -1889,15 +1957,16 @@
         </h1>
       </div>
       <div class="controls">
-        <span class="pulse" id="pulse"></span>
+        <span class="pulse stale" id="pulse"></span>
         <span id="lastRefresh">—</span>
-        <select id="refreshInterval" onchange="setRefresh()">
-          <option value="30">30s</option>
-          <option value="60" selected>1m</option>
-          <option value="120">2m</option>
+        <button type="button" class="m-btn" onclick="refresh()" title="PocketBase crowd-data grid only — no Worker KV">Refresh grid</button>
+        <label class="dash-auto-label" title="Polls PocketHost /api — not Cloudflare KV">
+          <input type="checkbox" id="pbAutoRefresh" onchange="setRefresh()"> Auto-refresh grid
+        </label>
+        <select id="refreshInterval" onchange="setRefresh()" disabled title="Uses PocketHost API quota when auto-refresh is on">
           <option value="300">5m</option>
-          <option value="600">10m</option>
-          <option value="0">off</option>
+          <option value="600" selected>10m</option>
+          <option value="1800">30m</option>
         </select>
         <button onclick="doLogout()">Sign out</button>
       </div>
@@ -1921,8 +1990,7 @@
           <li><strong>Service status dot</strong> — Online = probe succeeded; Degraded = slow or partial; Down = unreachable or error; Manual check = no auto-probe (open the vendor dashboard).</li>
           <li><strong>Usage meters</strong> (services + workers) — yellow at 75% of daily cap, red at 90%. PBJ circuit breaker at 100% blocks <em>free</em> cloud OCR only.</li>
           <li><strong>Red ops banner</strong> (top) — worker down, Gemini ≥80%, or circuit breaker armed. Gray info banner = housekeeping (missing pb_hooks, stale balance log).</li>
-          <li><strong>Live PocketBase grid</strong> (top of page) — crowd-data counts from josspatech.pockethost.io. Refreshes on the interval in the header.</li>
-          <li><strong>Worker panels</strong> — PBJ/HHH/CVC Cloudflare Workers; need <code>X-PBJ-Key</code> (etc.) in this browser from smoke test or login flow.</li>
+          <li><strong>Live PocketBase grid</strong> (top of page) — crowd-data counts from josspatech.pockethost.io. Manual <em>Refresh grid</em> by default; optional auto-refresh uses PocketHost <code>/api</code> only (not Worker KV).</li>          <li><strong>Worker panels</strong> — PBJ/HHH/CVC Cloudflare Workers; need <code>X-PBJ-Key</code> (etc.) in this browser from smoke test or login flow.</li>
           <li><strong>RevenueCat vs heartbeats</strong> — RC = store billing truth; heartbeats = anonymous install/tier signals from the app (30-day window).</li>
           <li><strong>— (dash)</strong> — no data yet, not wired, or metric unavailable — usually normal pre-launch.</li>
         </ul>
@@ -1941,6 +2009,7 @@
       <a class="sn-chip" href="#quicklinks">Quick Links</a>
       <a class="sn-chip" href="#services">Services &amp; Status</a>
       <a class="sn-chip" href="#workerMonitoring">Worker Monitoring</a>
+      <a class="sn-chip" href="#partnerReferrals">Partner Referrals</a>
       <a class="sn-chip" href="#thresholdsBaselines">Thresholds</a>
       <a class="sn-chip" href="#upgradePlaybook">Upgrade playbook</a>
       <a class="sn-chip" href="#capacityControl">Capacity Control</a>
@@ -2064,6 +2133,9 @@
         Shared keys are prompted on first smoke test and saved in this browser only — never in git.
         Worker URLs can be overridden below each tab if you redeploy to a custom domain.
         Click a summary card (or tab) for the full breakdown — usage vs limits, cost, and circuit-breaker status.
+        <strong>Manual refresh only</strong> by default — auto-polling <code>/ops/stats</code> with
+        <code>COST_GRAPH_ENABLED</code> burned ~113k KV reads/day at 1m intervals. Use Light / Medium / Heavy
+        buttons below; tab switches reuse cached data without re-fetching.
       </p>
       <details style="margin: 0 0 14px; font-size: 13px; color: var(--text-dim);">
         <summary style="cursor: pointer; font-weight: 600; color: var(--text);">Daily limits reference (what the numbers mean)</summary>
@@ -2084,6 +2156,27 @@
         </table>
         <p style="margin: 10px 0 0;">Bars turn yellow at 75% and red at 90%. PBJ's circuit breaker actually stops free-tier cloud OCR; HHH/CVC breakers are alerts only until we wire enforcement. Per-user PBJ caps: 15 free / 200 trial / 500 active scans per month, max 50/day per device.</p>
       </details>
+      <div class="ref-actions wm-actions">
+        <button type="button" class="m-btn accent" onclick="wmRefreshLight()" title="GET / health only — 0 KV reads per worker">
+          Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
+        </button>
+        <button type="button" class="m-btn" onclick="wmRefreshMedium()" title="Today's quota counters — ~6 KV reads per worker (~18 total for PBJ+HHH+CVC)">
+          Load usage <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="wmRefreshHeavy()" title="12-month cost_history rollups — ~15–25 KV reads per worker (~60 total). Requires worker ?cost_history=1 (COST_GRAPH_ENABLED stays false).">
+          Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
+        </button>
+      </div>
+      <div class="wm-auto-row">
+        <label class="wm-auto-warn">
+          <input type="checkbox" id="wmAutoRefresh" onchange="wmSetAutoRefresh()"> Auto-refresh usage (Medium) — uses Worker KV quota
+        </label>
+        <select id="wmAutoInterval" onchange="wmSetAutoRefresh()" disabled>
+          <option value="600">every 10m</option>
+          <option value="1800" selected>every 30m</option>
+        </select>
+      </div>
+      <div class="ref-status" id="wmStatus">Click Refresh to load worker data. Light = health only · Medium ≈18 KV reads · Heavy ≈60 KV reads (cost chart).</div>
       <div id="workerMonitoringCombined"></div>
       <div id="wmCostModalOverlay" class="wm-cost-modal-overlay" hidden onclick="if(event.target===this)wmCloseCostChart()">
         <div class="wm-cost-modal" role="dialog" aria-labelledby="wmCostModalTitle">
@@ -2099,14 +2192,68 @@
           <p id="wmCostModalNote" class="wm-cost-modal-note"></p>
         </div>
       </div>
-      <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>
-      <div id="workerMonitoringTabs" class="wm-tabs"></div>
-      <div id="workerMonitoringGrid">Loading…</div>
+      <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>      <div id="workerMonitoringTabs" class="wm-tabs"></div>
+      <div id="workerMonitoringGrid"></div>
       <p class="wm-threshold-legend" style="margin-top:14px;">
         <span class="watch">Yellow (75%)</span> = worth watching &nbsp;·&nbsp;
         <span class="alert">Red banner (80% Gemini)</span> = email alert fires &nbsp;·&nbsp;
         <span class="stop">Hard stop (100%)</span> = circuit breaker — free users blocked (premium/trial keep working on PBJ)
       </p>
+    </section>
+
+    <!-- ─── Partner Referrals (HHH) ───────────────────────────
+         Manual refresh only — KV rollups via HHH /ops/referrals.
+         No auto-polling. PocketBase only on explicit Heavy actions. -->
+    <section id="partnerReferrals">
+      <h2>Partner Referrals — HHH</h2>
+      <p class="section-explainer">
+        Outbound click proof for Clockworks (JJ commerce/repair/resources) and eBay affiliate traffic.
+        Data comes from HHH Worker KV rollups (<code>GET /ops/referrals</code>) — updated when users tap partner links in the app.
+        <strong>Manual refresh only</strong> — no auto-polling (same lesson as cost graph).
+        Use <em>JJ shareable</em> tab for screenshots with JJ — eBay is never included there.
+      </p>
+      <div class="ref-jj-note" id="refJjNote" hidden>
+        JJ shareable view: commerce + repair only. Check <em>Include resources</em> to add articles/how-to links.
+        eBay data is excluded from this tab.
+      </div>
+      <div class="ref-toolbar">
+        <label>Range
+          <select id="refRangePreset" onchange="refOnRangePresetChange()">
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <label id="refCustomFromWrap" style="display:none;">From
+          <input type="date" id="refCustomFrom">
+        </label>
+        <label id="refCustomToWrap" style="display:none;">To
+          <input type="date" id="refCustomTo">
+        </label>
+        <label id="refIncludeResourcesWrap" style="display:none;">
+          <input type="checkbox" id="refIncludeResources"> Include resources (articles)
+        </label>
+      </div>
+      <div class="ref-tabs">
+        <button type="button" class="ref-tab active" id="refTabAll" onclick="refSelectTab('all')">All stats (Joe)</button>
+        <button type="button" class="ref-tab" id="refTabJj" onclick="refSelectTab('jj')">JJ shareable</button>
+      </div>
+      <div class="ref-actions">
+        <button type="button" class="m-btn accent" onclick="refRefreshLight()" title="KV rollup only — ~few reads per day in range">
+          Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
+        </button>
+        <button type="button" class="m-btn" onclick="refLoadDetail()" title="Worker + context list per day — more KV keys">
+          Load detail tables <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="refLoadTopSkus()" title="Uses PocketBase quota — use sparingly. Bounded to top 20 SKUs in range.">
+          Top SKUs <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="refExportClickLog()" title="Uses PocketBase quota — use sparingly. Exports up to 2,000 rows in range.">
+          Export click log <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
+        </button>
+      </div>
+      <div class="ref-status" id="refStatus">Click Refresh to load KV rollups. HHH Worker key required (same as Worker Monitoring).</div>
+      <div id="refContent"></div>
     </section>
 
     <!-- ─── Thresholds & Baselines ────────────────────────────
@@ -2119,7 +2266,7 @@
         <strong>What this is:</strong> A plain-language cheat sheet for every limit on this dashboard —
         what's free, when you'll see yellow or red, what actually stops the app, and what it costs if you
         go over. Numbers come from deployed Worker settings (<code>wrangler.toml</code>) and vendor free tiers.
-        <strong>Live today</strong> columns update when Worker Monitoring refreshes.
+        <strong>Live today</strong> columns update when you click Worker Monitoring <em>Load usage (Medium)</em>.
         <br><br>
         <strong>Net per sub:</strong> $8.49/mo after Apple's/Google's 15% cut on a $9.99 shelf price.
       </p>
@@ -2440,8 +2587,18 @@
         the per-call USD rate in <code>wrangler.toml</code>. Tune those rates as real bills
         arrive. To raise or lower any limit: edit <code>wrangler.toml</code>, run
         <code>wrangler deploy</code>. No app build needed.
+        <strong>Manual refresh only</strong> — same KV quota rules as Worker Monitoring above.
       </p>
-      <div id="ocrQuotaGrid">Loading…</div>
+      <div class="ref-actions">
+        <button type="button" class="m-btn accent" onclick="ocrRefreshMedium()" title="Today's OCR counters — ~6 KV reads">
+          Refresh <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="ocrRefreshHeavy()" title="Includes cost_history — ~20 KV reads">
+          Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
+        </button>
+      </div>
+      <div class="ref-status" id="ocrQuotaStatus">Click Refresh to load PBJ OCR quota from Worker KV.</div>
+      <div id="ocrQuotaGrid"></div>
     </section>
 
     <!-- ─── Teller Status & Cost Panel ──────────────────────
@@ -2817,7 +2974,7 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
           <li><strong>Crashes spike after a release</strong> — click into the <em>Recent crashes</em>
           list and group by <code>error_name</code>. Roll back the release if it's systemic.</li>
           <li><strong>Dashboard fetches get rate-limited</strong> — PocketHost added <code>/api</code>
-          rate limits. Bump the refresh interval dropdown up top to <code>5m</code> or <code>off</code>.</li>
+          rate limits. Leave header auto-refresh <strong>off</strong> or set 10m/30m; Worker panels are manual-only by default.</li>
         </ul>
 
         <p style="margin-top:18px; font-size:11px; color:var(--text-muted)">
@@ -2851,8 +3008,11 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
   const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000; // poll GitHub at most every 5 min
   let   token  = sessionStorage.getItem("pbj_dash_token") || null;
   let   tick   = null;
-  let   intervalSec = 60;  // PocketHost rate-limits /api — default slower than before to stay under
+  let   intervalSec = 0;  // PocketBase grid — manual by default (auto uses PB /api only, not Worker KV)
   let   logTailTick = null;
+  let   wmCache = null;       // { results, tier, costHistoryLoaded, fetchedAt }
+  let   wmAutoTick = null;
+  let   ocrQuotaCache = null; // { data, costHistoryLoaded, fetchedAt }
   let   maintenanceFlag = null;  // last known state of _app_config.maintenance_mode
   let   prevCounts  = {};
   let   githubCache = null;      // { sizeKB, pushedAt, fetchedAt }
@@ -2907,8 +3067,13 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
   }
 
   function setRefresh() {
-    intervalSec = parseInt(document.getElementById("refreshInterval").value, 10);
+    const autoEl = document.getElementById("pbAutoRefresh");
+    const selEl = document.getElementById("refreshInterval");
+    const autoOn = autoEl && autoEl.checked;
+    if (selEl) selEl.disabled = !autoOn;
+    intervalSec = autoOn ? parseInt(selEl?.value || "600", 10) : 0;
     if (tick) clearInterval(tick);
+    tick = null;
     if (intervalSec > 0) {
       tick = setInterval(refresh, intervalSec * 1000);
       document.getElementById("pulse").classList.remove("stale");
@@ -3658,8 +3823,6 @@ powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
       updateOpsAlertBanner().catch(() => {});
       renderFounderCostTable();
       renderBreakevenPanel();
-      loadWorkerMonitoring();
-      loadOcrQuotaPanel();
 
       document.getElementById("lastRefresh").textContent =
         `updated ${new Date().toLocaleTimeString()}`;
@@ -4628,7 +4791,6 @@ Generated ${new Date().toISOString()}.
         ? `success — brand=${j.brand || "?"}, model=${j.model || "?"}, confidence=${confDisplay}`
         : `success=false (${j.error || "model returned no usable identification"})`;
       qaLog(`${app.short} /identify/${category} responded in ${ms}ms — ${summary}`, "ok");
-      loadWorkerMonitoring();
     } catch (e) { qaLog(`${app.short} /identify/${category} failed: ${e.message}`, "err"); }
   }
 
@@ -4835,44 +4997,10 @@ Generated ${new Date().toISOString()}.
     `;
   }
 
-  /* ─── OCR Quota & Cost — Worker /ocr/quota/stats ─────────── */
-  async function loadOcrQuotaPanel() {
+  /* ─── OCR Quota & Cost — Worker /ocr/quota/stats (manual refresh) ── */
+  function ocrRenderStats(stats) {
     const root = document.getElementById("ocrQuotaGrid");
-    if (!root) return;
-
-    const key = localStorage.getItem("pbj_shared_key") || "";
-    if (!key) {
-      root.innerHTML = `
-        <div class="cron-card unknown">
-          <div>
-            <div class="cron-name">X-PBJ-Key not set in this browser</div>
-            <div class="cron-last">Log in through the existing dashboard auth flow so the shared key is stored; this panel uses the same key.</div>
-          </div>
-        </div>`;
-      return;
-    }
-
-    let stats = null;
-    let httpStatus = 0;
-    try {
-      const r = await fetch(`${WORKER_BASE}/ocr/quota/stats`, {
-        headers: { "X-PBJ-Key": key },
-        signal: AbortSignal.timeout(8000),
-      });
-      httpStatus = r.status;
-      if (r.ok) stats = await r.json();
-    } catch (e) { /* network error */ }
-
-    if (!stats) {
-      root.innerHTML = `
-        <div class="cron-card red">
-          <div>
-            <div class="cron-name">Could not load OCR stats (HTTP ${httpStatus || "network error"})</div>
-            <div class="cron-last">Verify Worker is deployed and the X-PBJ-Key in localStorage matches the Worker's PBJ_SHARED_KEY secret.</div>
-          </div>
-        </div>`;
-      return;
-    }
+    if (!root || !stats) return;
 
     const usedPct = stats.caps.globalDailyLimit > 0
       ? Math.min(100, (stats.today.total / stats.caps.globalDailyLimit) * 100)
@@ -4886,6 +5014,9 @@ Generated ${new Date().toISOString()}.
     const cardStyle = "background: var(--surface, #fff); border: 1px solid var(--border, rgba(0,0,0,0.1)); border-radius: 12px; padding: 16px;";
     const muted = "color: var(--text-muted, #666); font-size: 12px;";
     const num = "font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 700;";
+    const histNote = Array.isArray(stats.cost_history) && stats.cost_history.length
+      ? `${stats.cost_history.length} month(s) in cost_history`
+      : "Cost graph history empty — use Heavy refresh";
 
     root.innerHTML = `
       <div style="display: grid; gap: 14px;">
@@ -4948,8 +5079,7 @@ Generated ${new Date().toISOString()}.
             <div>
               <div style="${muted}">Estimated cost MTD</div>
               <div style="${num}; color: ${costMtd > 0 ? 'var(--danger, #dc2626)' : 'var(--text)'};">$${costMtd.toFixed(2)}</div>
-              <div class="metric-hint">Running overage bill estimate — compare to Google/OCR invoices.</div>
-            </div>
+              <div class="metric-hint">Running overage bill estimate — compare to Google/OCR invoices. ${histNote}.</div>            </div>
           </div>
         </div>
 
@@ -4974,9 +5104,77 @@ Generated ${new Date().toISOString()}.
 
         ${(usedPct >= 75 || cb) ? panelUpgradeBox(["gemini", "ocr_space", "wrangler"], cb ? "Circuit breaker armed — free users blocked from cloud OCR until UTC reset or you raise limits." : "") : ""}
 
-        <div style="${muted}; text-align: right;">Data fetched ${new Date().toLocaleTimeString()}</div>
-      </div>
+        <div style="${muted}; text-align: right;">Data fetched ${ocrQuotaCache?.fetchedAt ? new Date(ocrQuotaCache.fetchedAt).toLocaleTimeString() : new Date().toLocaleTimeString()}</div>      </div>
     `;
+  }
+
+  function ocrRenderFromCache() {
+    const root = document.getElementById("ocrQuotaGrid");
+    const status = document.getElementById("ocrQuotaStatus");
+    if (!root) return;
+    const key = localStorage.getItem("pbj_shared_key") || "";
+    if (!key) {
+      root.innerHTML = `
+        <div class="cron-card unknown">
+          <div>
+            <div class="cron-name">X-PBJ-Key not set in this browser</div>
+            <div class="cron-last">Log in through the existing dashboard auth flow so the shared key is stored; this panel uses the same key.</div>
+          </div>
+        </div>`;
+      return;
+    }
+    if (!ocrQuotaCache?.data) {
+      root.innerHTML = "";
+      if (status) status.textContent = "Click Refresh to load PBJ OCR quota from Worker KV.";
+      return;
+    }
+    ocrRenderStats(ocrQuotaCache.data);
+    if (status) {
+      const label = ocrQuotaCache.costHistoryLoaded ? "Heavy (~20 KV reads)" : "Medium (~6 KV reads)";
+      status.textContent = `Loaded · ${new Date(ocrQuotaCache.fetchedAt).toLocaleTimeString()} · ${label}`;
+    }
+  }
+
+  async function ocrFetchTier(heavy) {
+    const status = document.getElementById("ocrQuotaStatus");
+    const pbj = WORKER_APPS.find(a => a.id === "pbj");
+    if (!pbj) return;
+    if (status) {
+      status.textContent = heavy ? "Loading Heavy (cost graph)…" : "Loading Medium…";
+      status.className = "ref-status";
+    }
+    const stats = await wmFetchStats(pbj, { costHistory: heavy });
+    if (stats.error) {
+      const root = document.getElementById("ocrQuotaGrid");
+      if (root) {
+        root.innerHTML = `
+          <div class="cron-card red">
+            <div>
+              <div class="cron-name">Could not load OCR stats (${stats.error}${stats.status ? ` HTTP ${stats.status}` : ""})</div>
+              <div class="cron-last">Verify Worker is deployed and the X-PBJ-Key in localStorage matches the Worker's PBJ_SHARED_KEY secret.</div>
+            </div>
+          </div>`;
+      }
+      if (status) {
+        status.textContent = `Failed — ${stats.error}`;
+        status.className = "ref-status err";
+      }
+      return;
+    }
+    ocrQuotaCache = {
+      data: stats.data,
+      costHistoryLoaded: heavy,
+      fetchedAt: Date.now(),
+    };
+    ocrRenderFromCache();
+    updateOpsAlertBanner().catch(() => {});
+  }
+
+  async function ocrRefreshMedium() { return ocrFetchTier(false); }
+  async function ocrRefreshHeavy() { return ocrFetchTier(true); }
+
+  function loadOcrQuotaPanel() {
+    ocrRenderFromCache();
   }
 
   /* ─── OpenCellID Quota — Worker /opencellid/stats ──────────
@@ -6040,7 +6238,8 @@ Generated ${new Date().toISOString()}.
       localStorage.setItem(app.urlKey, val);
       qaLog(`${app.short} worker URL saved: ${val}`, "ok");
     }
-    loadWorkerMonitoring();
+    wmCache = null;
+    wmRenderFromCache();
   }
 
   function wmNormalizeSharedKey(raw) {
@@ -6128,7 +6327,8 @@ Generated ${new Date().toISOString()}.
     if (!confirm(`Forget ${app.secretName} for ${app.name} in this browser?`)) return;
     localStorage.removeItem(app.keyKey);
     qaLog(`${app.short} key cleared. Next stats fetch will re-prompt.`, "ok");
-    loadWorkerMonitoring();
+    wmCache = null;
+    wmRenderFromCache();
   }
 
   function wmBarColor(pct, breaker) {
@@ -6166,11 +6366,12 @@ Generated ${new Date().toISOString()}.
     }
   }
 
-  async function wmFetchStats(app) {
+  async function wmFetchStats(app, { costHistory = false } = {}) {
     const url = wmGetUrl(app);
     const path = app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats";
+    const qs = costHistory ? "?cost_history=1" : "";
     const fetchOnce = async (key) => {
-      const r = await fetch(url + path, {
+      const r = await fetch(url + path + qs, {
         headers: { [app.authHeader]: key },
         signal: AbortSignal.timeout(8000),
       });
@@ -6318,200 +6519,45 @@ Generated ${new Date().toISOString()}.
   function wmOpenCostChart(chartId) {
     const data = wmCostChartData[chartId];
     if (!data) return;
-    const series = wmBuildChartSeries(data.history, data.mtdCost);
-    const overlay = document.getElementById("wmCostModalOverlay");
-    const titleEl = document.getElementById("wmCostModalTitle");
-    const chartEl = document.getElementById("wmCostModalChart");
-    const noteEl = document.getElementById("wmCostModalNote");
-    if (!overlay || !titleEl || !chartEl || !noteEl) return;
-    titleEl.textContent = `${data.title} — estimated cost`;
-    chartEl.innerHTML = wmRenderCostChartSvg(series);
-    const pastCount = series.filter(s => !s.isMtd).length;
-    noteEl.textContent = pastCount
-      ? `Showing ${pastCount} finalized month${pastCount === 1 ? "" : "s"} plus current MTD from worker KV snapshots.`
-      : "History builds as months complete — only current month MTD is available so far.";
-    overlay.hidden = false;
-    document.body.style.overflow = "hidden";
-  }
-
-  function wmCloseCostChart() {
-    const overlay = document.getElementById("wmCostModalOverlay");
-    if (overlay) overlay.hidden = true;
-    document.body.style.overflow = "";
-  }
-
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape") wmCloseCostChart();
-  });
-
-  function wmRegisterCostChart(chartId, title, mtdCost, history) {
-    wmCostChartData[chartId] = { title, mtdCost, history: Array.isArray(history) ? history : [] };
-  }
-
-  function wmRenderCostClickable(chartId, mtdCost) {
-    const costStr = wmFormatCostUsd(mtdCost);
-    return `
-      <div class="wm-cost-block">
-        <div class="wm-stat-row wm-cost-row wm-cost-click" role="button" tabindex="0"
-          onclick="event.stopPropagation();wmOpenCostChart('${chartId}')"
-          onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();event.stopPropagation();wmOpenCostChart('${chartId}');}"
-          title="Click for yearly cost chart">
-          <span>Est. cost</span>
-          <strong>${costStr}<span class="wm-cost-hint">MTD ↗</span></strong>
-        </div>
-      </div>`;
-  }
-
-  function wmMergeCostHistory(results) {
-    const byMonth = {};
-    for (const r of results) {
-      const hist = r.stats?.data?.cost_history || [];
-      for (const h of hist) {
-        byMonth[h.month] = (byMonth[h.month] || 0) + Number(h.estimatedCostUsd || 0);
-      }
-    }
-    return Object.entries(byMonth)
-      .sort((a, b) => b[0].localeCompare(a[0]))
-      .slice(0, 12)
-      .map(([month, estimatedCostUsd]) => ({
-        month,
-        estimatedCostUsd: Math.round(estimatedCostUsd * 100) / 100,
-      }));
-  }
-
-  function wmRenderDetailPanel(result) {
-    const { app, health, stats, metrics } = result;
-    const cardState = wmCardState(health, metrics);
-    const fetchedAt = new Date().toLocaleTimeString();
-    const url = wmGetUrl(app);
-    const keySet = Boolean(wmGetKey(app, false));
-
-    let statsBlock = "";
-    if (!keySet) {
-      statsBlock = `<div class="cron-card unknown"><div><div class="cron-name">${app.authHeader} not set</div><div class="cron-last">Click "Set ${app.short} key" below or run a smoke test — you'll be prompted once.</div></div></div>`;
-    } else if (stats.error === "auth") {
-      statsBlock = `<div class="cron-card red"><div><div class="cron-name">Auth failed (401)</div><div class="cron-last">Key in this browser doesn't match ${app.secretName} on the worker.</div></div></div>`;
-    } else if (stats.error) {
-      statsBlock = `<div class="cron-card red"><div><div class="cron-name">Stats unavailable (${stats.error}${stats.status ? ` HTTP ${stats.status}` : ""})</div><div class="cron-last">Check worker deploy and ${app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats"} route.</div></div></div>`;
-    } else if (metrics) {
-      const barColor = wmBarColor(Math.max(metrics.geminiPct, metrics.quotaPct), metrics.circuitBreaker);
-      statsBlock = `
-        <div style="display:grid;gap:14px;">
-          <div>
-            <strong>${metrics.quotaLabel}</strong>
-            ${metrics.circuitBreaker ? `<span style="color:var(--danger);font-weight:700;margin-left:8px;">⚠ circuit breaker armed</span>` : ""}
-            <div class="wm-meter"><div class="wm-meter-fill" style="width:${Math.min(100, metrics.quotaPct).toFixed(1)}%;background:${barColor};"></div></div>
-            <div style="font-size:12px;color:var(--text-dim);">${metrics.quotaUsed.toLocaleString()} / ${metrics.quotaCap.toLocaleString()} (${metrics.quotaPct.toFixed(0)}%) — watch 75% · stop 100%</div>
-            <div class="wm-threshold-legend">Gemini free tier: alert at 80% (${Math.round(metrics.geminiCap * 0.8).toLocaleString()} / ${metrics.geminiCap.toLocaleString()}/day)</div>
-          </div>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-            <div><div style="font-size:11px;color:var(--text-muted);">Gemini today</div><div style="font-size:20px;font-weight:700;">${metrics.geminiToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.geminiCap.toLocaleString()} free/day</span></div><div class="metric-hint">Google AI Studio free tier; email alert at 80%.</div></div>
-            ${metrics.anthropicToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">Anthropic today</div><div style="font-size:20px;font-weight:700;">${metrics.anthropicToday.toLocaleString()} <span style="font-size:12px;font-weight:400;color:var(--text-dim);">/ ${metrics.anthropicCap.toLocaleString()} free</span></div><div class="metric-hint">Identify/ask calls — billed from pre-paid credits.</div></div>` : ""}
-            ${metrics.spaceToday != null ? `<div><div style="font-size:11px;color:var(--text-muted);">OCR.Space today</div><div style="font-size:20px;font-weight:700;">${metrics.spaceToday.toLocaleString()}</div><div class="metric-hint">Cloud OCR fallback when on-device OCR is thin.</div></div>` : ""}
-            <div><div style="font-size:11px;color:var(--text-muted);">Est. cost today</div><div style="font-size:20px;font-weight:700;color:${metrics.costToday > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costToday.toFixed(4)}</div><div class="metric-hint">Non-zero only after free-tier daily caps exceeded.</div></div>
-            <div class="wm-cost-detail-click" role="button" tabindex="0"
-              onclick="wmOpenCostChart('wm-${app.id}')"
-              onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();wmOpenCostChart('wm-${app.id}');}"
-              title="Click for yearly cost chart">
-              <div style="font-size:11px;color:var(--text-muted);">Est. cost MTD</div>
-              <div style="font-size:20px;font-weight:700;color:${metrics.costMtd > 0 ? "var(--danger)" : "var(--text)"};">$${metrics.costMtd.toFixed(2)}<span class="wm-cost-hint">↗</span></div>
-              <div class="metric-hint">Month-to-date overage estimate from KV counters.</div>
-            </div>
-          </div>
-          ${metrics.geminiToday === 0 && app.statsKind === "ops" ? `<div style="font-size:12px;color:var(--text-dim);">KV tracking active — counters increment on the first Gemini or Anthropic call through this worker.</div>` : ""}
-        </div>`;
-    }
-
-    const wmUpgrade = (metrics && (metrics.quotaPct >= 75 || metrics.geminiPct >= 75 || metrics.circuitBreaker))
-      ? panelUpgradeBox(
-          app.statsKind === "ocr" ? ["gemini", "ocr_space", "wrangler"] : ["gemini", "anthropic", "wrangler"],
-          metrics.circuitBreaker ? "Circuit breaker armed on this worker." : "",
-        )
-      : "";
-
-    return `
-      <div class="wm-detail">
-        <div class="wm-detail-head">
-          <div>
-            <div class="wm-app-name">${app.short}</div>
-            <div style="font-size:18px;font-weight:700;color:var(--primary);">${app.name}</div>
-          </div>
-          <span class="wm-status-pill ${cardState}"><span class="wm-status-dot"></span>${wmStatusLabel(cardState)}</span>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:13px;margin-bottom:14px;">
-          <div><span style="color:var(--text-muted);">Worker</span><br><strong>${health.ok ? "OK" : "Down / error"}</strong><div class="metric-hint">GET / returns JSON — false = DNS, deploy, or Worker error.</div></div>
-          <div><span style="color:var(--text-muted);">Gemini key</span><br><strong>${health.gemini_configured === false ? "Not configured" : health.gemini_configured === true ? "Configured" : "—"}</strong><div class="metric-hint">Worker secret GEMINI_API_KEY — required for receipt/PDF vision.</div></div>
-          <div><span style="color:var(--text-muted);">Service</span><br><strong style="font-family:var(--mono);font-size:12px;">${health.service || "—"}</strong><div class="metric-hint">Worker self-identifies in health JSON.</div></div>
-          <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a><div class="metric-hint">Public ping — no API key needed.</div></div>
-        </div>
-        ${statsBlock}
-        ${wmUpgrade}
-        <div class="wm-url-row">
-          <label style="color:var(--text-muted);">Worker URL override:</label>
-          <input id="wm-url-${app.id}" type="url" value="${url}" placeholder="${app.defaultUrl}">
-          <button class="m-btn" type="button" onclick="wmSaveUrl('${app.id}')">Save URL</button>
-          <button class="m-btn" type="button" onclick="wmGetKey(WORKER_APPS.find(a=>a.id==='${app.id}'),true);loadWorkerMonitoring();">Set ${app.short} key</button>
-          <button class="m-btn" type="button" onclick="wmClearKey('${app.id}')">Clear key</button>
-        </div>
-        <div class="wm-updated">Last updated ${fetchedAt}</div>
-      </div>`;
-  }
-
-  function wmSelectTab(id) {
-    wmActiveTab = id;
-    localStorage.setItem("wm_active_tab", id);
-    loadWorkerMonitoring();
-  }
-
-  async function loadWorkerMonitoring() {
-    const combinedEl = document.getElementById("workerMonitoringCombined");
-    const summaryEl = document.getElementById("workerMonitoringSummary");
-    const tabsEl = document.getElementById("workerMonitoringTabs");
-    const gridEl = document.getElementById("workerMonitoringGrid");
-    if (!gridEl) return;
-
-    for (const app of WORKER_APPS) wmHealStoredWorkerKey(app);
-
-    const results = await Promise.all(WORKER_APPS.map(async app => {
-      const [health, stats] = await Promise.all([wmFetchHealth(app), wmFetchStats(app)]);
-      const metrics = stats.data ? wmNormalizeMetrics(app, stats.data) : null;
-      return { app, health, stats, metrics };
-    }));
-
-    const combinedToday = results.reduce((s, r) => s + (r.metrics?.costToday || 0), 0);
-    const combinedMtd = results.reduce((s, r) => s + (r.metrics?.costMtd || 0), 0);
-    const combinedHistory = wmMergeCostHistory(results);
-    const now = new Date().toLocaleTimeString();
+    const fetchedAt = wmCache?.fetchedAt ? new Date(wmCache.fetchedAt).toLocaleTimeString() : new Date().toLocaleTimeString();
+    const tier = wmCache?.tier || "light";
+    const costReady = wmCache?.costHistoryLoaded;
 
     if (combinedEl) {
-      wmRegisterCostChart("wm-combined", "Combined PBJ + HHH + CVC", combinedMtd, combinedHistory);
-      combinedEl.innerHTML = `
-        <div class="wm-combined">
-          <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
-          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Sum of estimated overage across PBJ + HHH + CVC workers.</span>
-          <div class="wm-combined-cost">${wmRenderCostClickable("wm-combined", combinedMtd)}</div>
-          <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Click Est. cost for yearly chart. Calendar month MTD; $0 while under free tiers.</span>
-          <span style="color:var(--text-muted);">All three workers · refreshed ${now}</span>
-        </div>`;
-    }
+      if (tier === "light") {
+        combinedEl.innerHTML = `<div class="wm-combined"><span style="color:var(--text-muted);">Health-only refresh — load Medium for combined cost totals.</span></div>`;
+      } else {
+        wmRegisterCostChart("wm-combined", "Combined PBJ + HHH + CVC", combinedMtd, combinedHistory);
+        combinedEl.innerHTML = `
+          <div class="wm-combined">
+            <span><strong>Combined AI/OCR cost today:</strong> $${combinedToday.toFixed(4)}</span>
+            <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">Sum of estimated overage across PBJ + HHH + CVC workers.</span>
+            <div class="wm-combined-cost">${costReady ? wmRenderCostClickable("wm-combined", combinedMtd) : `<span class="metric-hint">Cost chart needs Heavy refresh.</span>`}</div>
+            <span class="metric-hint" style="display:inline;margin:0 8px 0 0;">${costReady ? "Click Est. cost for yearly chart." : "MTD shown; yearly bars need Heavy."} Calendar month MTD; $0 while under free tiers.</span>
+            <span style="color:var(--text-muted);">All three workers · ${tier} · ${fetchedAt}</span>
+          </div>`;
+      }    }
 
     if (summaryEl) {
       summaryEl.innerHTML = results.map(r => {
         const state = wmCardState(r.health, r.metrics);
         let costBlock;
-        if (r.metrics) {
+        if (r.metrics && tier !== "light") {
           const chartId = `wm-${r.app.id}`;
           wmRegisterCostChart(chartId, `${r.app.short} · ${r.app.name}`, r.metrics.costMtd, r.metrics.costHistory);
-          costBlock = wmRenderCostClickable(chartId, r.metrics.costMtd);
+          costBlock = costReady && r.metrics.costHistory?.length
+            ? wmRenderCostClickable(chartId, r.metrics.costMtd)
+            : `<div class="wm-stat-row wm-cost-row"><span>Est. cost MTD</span><strong>$${r.metrics.costMtd.toFixed(2)}</strong></div>`;
+        } else if (r.metrics) {
+          costBlock = `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>—</strong></div>`;
         } else {
-          costBlock = `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${r.stats.error === "no_key" ? "key needed" : "—"}</strong></div>`;
-        }
+          costBlock = `<div class="wm-stat-row wm-cost-row"><span>Est. cost</span><strong>${r.stats?.error === "no_key" ? "key needed" : r.stats?.error === "skipped" ? "Medium+" : "—"}</strong></div>`;        }
         const gemini = r.metrics
           ? `${r.metrics.geminiToday.toLocaleString()} / ${r.metrics.geminiCap.toLocaleString()} Gemini`
-          : "—";
+          : (tier === "light" ? "— (Medium)" : "—");
         const quota = r.metrics
           ? `${r.metrics.quotaUsed.toLocaleString()} / ${r.metrics.quotaCap.toLocaleString()} ${r.metrics.quotaLabel}`
-          : "—";
+          : (tier === "light" ? "— (Medium)" : "—");
         return `
           <div class="wm-summary-card ${state}" role="button" tabindex="0" onclick="wmSelectTab('${r.app.id}')" onkeydown="if(event.key==='Enter')wmSelectTab('${r.app.id}')">
             <div class="wm-app-name">${r.app.short}</div>
@@ -6521,8 +6567,7 @@ Generated ${new Date().toISOString()}.
             <div class="wm-stat-row"><span>Daily total</span><strong>${quota}</strong></div>
             <div class="metric-hint" style="margin-top:6px;">Status = worker + keys + quota %. Daily total = circuit-breaker counter.</div>
             ${costBlock}
-            <div class="wm-stat-row"><span>Updated</span><strong>${now}</strong></div>
-          </div>`;
+            <div class="wm-stat-row"><span>Updated</span><strong>${fetchedAt}</strong></div>          </div>`;
       }).join("");
     }
 
@@ -6536,6 +6581,415 @@ Generated ${new Date().toISOString()}.
     gridEl.innerHTML = wmRenderDetailPanel(active);
     updateThresholdsLiveUsage(results);
   }
+
+  function wmRenderFromCache() {
+    if (!wmCache?.results) {
+      wmShowIdle();
+      return;
+    }
+    wmRenderMonitoring(wmCache.results);
+  }
+
+  async function wmFetchTier(tier) {
+    const costHistory = tier === "heavy";
+    const fetchStats = tier !== "light";
+    wmSetStatus(`${tier === "light" ? "Light" : tier === "medium" ? "Medium" : "Heavy"} refresh…`);
+    for (const app of WORKER_APPS) wmHealStoredWorkerKey(app);
+
+    const results = await Promise.all(WORKER_APPS.map(async app => {
+      const health = await wmFetchHealth(app);
+      let stats = { error: "skipped" };
+      if (fetchStats) {
+        stats = await wmFetchStats(app, { costHistory });
+      }
+      const metrics = stats.data ? wmNormalizeMetrics(app, stats.data) : null;
+      return { app, health, stats, metrics };
+    }));
+
+    wmCache = {
+      results,
+      tier,
+      costHistoryLoaded: costHistory,
+      fetchedAt: Date.now(),
+    };
+
+    const pbjResult = results.find(r => r.app.id === "pbj");
+    if (pbjResult?.stats?.data) {
+      ocrQuotaCache = {
+        data: pbjResult.stats.data,
+        costHistoryLoaded: costHistory,
+        fetchedAt: Date.now(),
+      };
+      ocrRenderFromCache();
+    }
+
+    wmRenderMonitoring(results);
+    const kv = wmEstimateKvReads(tier);
+    wmSetStatus(
+      `${tier.charAt(0).toUpperCase() + tier.slice(1)} loaded · ${new Date().toLocaleTimeString()}` +
+      (kv ? ` · ~${kv} KV reads (3 workers)` : " · 0 KV reads (health only)"),
+    );
+    updateOpsAlertBanner().catch(() => {});
+    return results;
+  }
+
+  async function wmRefreshLight() { return wmFetchTier("light"); }
+  async function wmRefreshMedium() { return wmFetchTier("medium"); }
+  async function wmRefreshHeavy() { return wmFetchTier("heavy"); }
+
+  function wmSetAutoRefresh() {
+    const autoEl = document.getElementById("wmAutoRefresh");
+    const selEl = document.getElementById("wmAutoInterval");
+    const on = autoEl && autoEl.checked;
+    if (selEl) selEl.disabled = !on;
+    if (wmAutoTick) {
+      clearInterval(wmAutoTick);
+      wmAutoTick = null;
+    }
+    if (!on) return;
+    const sec = parseInt(selEl?.value || "1800", 10);
+    wmAutoTick = setInterval(() => wmRefreshMedium(), sec * 1000);
+  }
+
+  function wmSelectTab(id) {
+    wmActiveTab = id;
+    localStorage.setItem("wm_active_tab", id);
+    wmRenderFromCache();
+  }
+
+  async function loadWorkerMonitoring() {
+    wmRenderFromCache();
+  }
+
+  /* ─── Partner Referrals (HHH) — manual refresh only ─────────── */
+  let refActiveTab = localStorage.getItem("ref_active_tab") || "all";
+  let refLastData = null;
+  let refLastDetail = null;
+
+  function refHhhApp() {
+    return WORKER_APPS.find(a => a.id === "hhh");
+  }
+
+  function refOnRangePresetChange() {
+    const preset = document.getElementById("refRangePreset")?.value || "7";
+    const showCustom = preset === "custom";
+    document.getElementById("refCustomFromWrap").style.display = showCustom ? "" : "none";
+    document.getElementById("refCustomToWrap").style.display = showCustom ? "" : "none";
+  }
+
+  function refSelectTab(tab) {
+    refActiveTab = tab;
+    localStorage.setItem("ref_active_tab", tab);
+    document.getElementById("refTabAll")?.classList.toggle("active", tab === "all");
+    document.getElementById("refTabJj")?.classList.toggle("active", tab === "jj");
+    document.getElementById("refJjNote").hidden = tab !== "jj";
+    document.getElementById("refIncludeResourcesWrap").style.display = tab === "jj" ? "" : "none";
+    refRender();
+  }
+
+  function refRangeParams() {
+    const preset = document.getElementById("refRangePreset")?.value || "7";
+    if (preset === "custom") {
+      const from = document.getElementById("refCustomFrom")?.value;
+      const to = document.getElementById("refCustomTo")?.value;
+      if (!from || !to) return { error: "Pick both From and To dates for custom range." };
+      return { from, to };
+    }
+    return { days: preset };
+  }
+
+  function refRangeQueryString(extra) {
+    const p = refRangeParams();
+    if (p.error) return p;
+    const q = new URLSearchParams(extra || {});
+    if (p.from) {
+      q.set("from", p.from);
+      q.set("to", p.to);
+    } else {
+      q.set("days", p.days || "7");
+    }
+    return { qs: q.toString() };
+  }
+
+  async function refFetchReferrals(detail) {
+    const app = refHhhApp();
+    if (!app) return { error: "HHH worker config missing." };
+    const key = wmGetKey(app, true);
+    if (!key) return { error: "HHH Worker key required." };
+    const rq = refRangeQueryString({ detail: detail === "full" ? "full" : "summary" });
+    if (rq.error) return rq;
+    const url = `${wmGetUrl(app)}/ops/referrals?${rq.qs}`;
+    try {
+      const r = await fetch(url, {
+        headers: { [app.authHeader]: key },
+        cache: "no-store",
+        signal: AbortSignal.timeout(15000),
+      });
+      if (r.status === 401) return { error: "HHH key rejected (401)." };
+      if (!r.ok) return { error: `HTTP ${r.status} — deploy HHH worker with /ops/referrals.` };
+      return { data: await r.json() };
+    } catch (e) {
+      return { error: e.message || "Network error" };
+    }
+  }
+
+  function refFilteredTotals(data) {
+    const t = data.totals || {};
+    const includeResources = document.getElementById("refIncludeResources")?.checked;
+    if (refActiveTab === "all") {
+      return {
+        total: t.total || 0,
+        commerce: t.commerce || 0,
+        repair: t.repair || 0,
+        resources: t.resources || 0,
+        ebay: t.ebay || 0,
+        clockworks: t.clockworks || 0,
+      };
+    }
+    const commerce = t.commerce || 0;
+    const repair = t.repair || 0;
+    const resources = includeResources ? (t.resources || 0) : 0;
+    return {
+      total: commerce + repair + resources,
+      commerce,
+      repair,
+      resources,
+      ebay: 0,
+      clockworks: commerce + repair + resources,
+    };
+  }
+
+  function refFilterByDayRows(byDay) {
+    const includeResources = document.getElementById("refIncludeResources")?.checked;
+    return (byDay || []).map(row => {
+      if (refActiveTab === "all") return row;
+      const commerce = row.commerce || 0;
+      const repair = row.repair || 0;
+      const resources = includeResources ? (row.resources || 0) : 0;
+      return {
+        date: row.date,
+        total: commerce + repair + resources,
+        commerce,
+        repair,
+        resources,
+        ebay: 0,
+        clockworks: commerce + repair + resources,
+      };
+    });
+  }
+
+  function refRenderTable(title, headers, rows) {
+    if (!rows.length) return `<div class="ref-table-wrap"><h3 style="padding:12px 14px 0;font-size:13px;color:var(--primary);">${title}</h3><p style="padding:12px 14px;color:var(--text-muted);font-size:12px;">No data in range.</p></div>`;
+    return `
+      <div class="ref-table-wrap">
+        <h3 style="padding:12px 14px 0;font-size:13px;color:var(--primary);">${title}</h3>
+        <table>
+          <thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead>
+          <tbody>${rows.map(cells => `<tr>${cells.map((c, i) => `<td${i > 0 ? ' class="num"' : ""}>${c}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table>
+      </div>`;
+  }
+
+  function refRender() {
+    const el = document.getElementById("refContent");
+    if (!el) return;
+    const data = refLastData;
+    if (!data) {
+      el.innerHTML = "";
+      return;
+    }
+    const ft = refFilteredTotals(data);
+    const byDay = refFilterByDayRows(data.byDay);
+    const tabLabel = refActiveTab === "jj" ? "JJ shareable" : "All stats";
+
+    let html = `
+      <div class="ref-summary-grid">
+        <div class="ref-stat-card"><div class="val">${ft.total.toLocaleString()}</div><div class="lbl">Total clicks</div></div>
+        <div class="ref-stat-card"><div class="val">${ft.commerce.toLocaleString()}</div><div class="lbl">Commerce</div></div>
+        <div class="ref-stat-card"><div class="val">${ft.repair.toLocaleString()}</div><div class="lbl">Repair</div></div>
+        <div class="ref-stat-card"><div class="val">${ft.resources.toLocaleString()}</div><div class="lbl">Resources</div></div>`;
+    if (refActiveTab === "all") {
+      html += `<div class="ref-stat-card"><div class="val">${ft.ebay.toLocaleString()}</div><div class="lbl">eBay</div></div>`;
+    }
+    html += `</div>`;
+
+    html += refRenderTable(
+      `${tabLabel} · daily breakdown (${data.range?.from || "?"} → ${data.range?.to || "?"})`,
+      ["Date", "Total", "Commerce", "Repair", "Resources"].concat(refActiveTab === "all" ? ["eBay"] : []),
+      byDay.map(r => [
+        r.date,
+        r.total.toLocaleString(),
+        r.commerce.toLocaleString(),
+        r.repair.toLocaleString(),
+        r.resources.toLocaleString(),
+      ].concat(refActiveTab === "all" ? [r.ebay.toLocaleString()] : [])),
+    );
+
+    if (refLastDetail && refActiveTab === "all") {
+      const ctxRows = Object.entries(refLastDetail.byContext || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(([ctx, n]) => [ctx, n.toLocaleString()]);
+      html += refRenderTable("By context (range total)", ["Context", "Clicks"], ctxRows);
+
+      const destRows = Object.entries(refLastDetail.byDestinationType || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(([d, n]) => [d, n.toLocaleString()]);
+      html += refRenderTable("By destination type", ["Type", "Clicks"], destRows);
+
+      const partnerRows = Object.entries(refLastDetail.byPartner || {})
+        .sort((a, b) => b[1] - a[1])
+        .map(([p, n]) => [p, n.toLocaleString()]);
+      html += refRenderTable("By partner", ["Partner", "Clicks"], partnerRows);
+
+      const dayCtx = refLastDetail.byDayByContext || {};
+      const matrixRows = [];
+      for (const [day, ctxMap] of Object.entries(dayCtx).sort((a, b) => a[0].localeCompare(b[0]))) {
+        for (const [ctx, n] of Object.entries(ctxMap).sort((a, b) => b[1] - a[1])) {
+          matrixRows.push([day, ctx, n.toLocaleString()]);
+        }
+      }
+      html += refRenderTable("Daily × context (detail)", ["Date", "Context", "Clicks"], matrixRows);
+    } else if (refLastDetail && refActiveTab === "jj") {
+      const cwCtx = refLastDetail.byContextByPartner?.clockworks || {};
+      const ctxRows = Object.entries(cwCtx)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 30)
+        .map(([ctx, n]) => [ctx, n.toLocaleString()]);
+      html += refRenderTable("By context (Clockworks only — JJ view)", ["Context", "Clicks"], ctxRows);
+    } else if (refLastData?.byContext && Object.keys(refLastData.byContext).length) {
+      const ctxRows = Object.entries(refLastData.byContext)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 20)
+        .map(([ctx, n]) => [ctx, n.toLocaleString()]);
+      html += refRenderTable("By context (range total)", ["Context", "Clicks"], ctxRows);
+    }
+
+    el.innerHTML = html;
+  }
+
+  async function refRefreshLight() {
+    const status = document.getElementById("refStatus");
+    const rq = refRangeQueryString();
+    if (rq.error) {
+      status.textContent = rq.error;
+      status.className = "ref-status err";
+      return;
+    }
+    status.textContent = "Loading KV rollups (Light)…";
+    status.className = "ref-status";
+    refLastDetail = null;
+    const res = await refFetchReferrals("summary");
+    if (res.error) {
+      status.textContent = res.error;
+      status.className = "ref-status err";
+      return;
+    }
+    refLastData = res.data;
+    refRender();
+    status.textContent = `KV rollups loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${new Date().toLocaleTimeString()} · Light (~${(res.data.range?.days || 7) * 8} KV reads)`;
+  }
+
+  async function refLoadDetail() {
+    const status = document.getElementById("refStatus");
+    status.textContent = "Loading detail tables (Medium)…";
+    status.className = "ref-status";
+    const res = await refFetchReferrals("full");
+    if (res.error) {
+      status.textContent = res.error;
+      status.className = "ref-status err";
+      return;
+    }
+    refLastData = res.data;
+    refLastDetail = res.data;
+    refRender();
+    status.textContent = `Detail tables loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${new Date().toLocaleTimeString()} · Medium (context lists per day)`;
+  }
+
+  async function refLoadTopSkus() {
+    if (!confirm("Top SKUs uses PocketBase quota — use sparingly. Continue?")) return;
+    const status = document.getElementById("refStatus");
+    const rp = refRangeParams();
+    if (rp.error) {
+      status.textContent = rp.error;
+      status.className = "ref-status err";
+      return;
+    }
+    status.textContent = "Querying PocketBase for top SKUs (Heavy)…";
+    status.className = "ref-status";
+    const fromIso = rp.from ? `${rp.from} 00:00:00.000Z` : "";
+    const toIso = rp.to ? `${rp.to} 23:59:59.999Z` : "";
+    let filter = 'partner = "clockworks" && product_sku != ""';
+    if (fromIso && toIso) {
+      filter += ` && ts >= "${fromIso}" && ts <= "${toIso}"`;
+    } else {
+      const days = parseInt(rp.days || "7", 10);
+      const start = new Date();
+      start.setUTCDate(start.getUTCDate() - days + 1);
+      filter += ` && ts >= "${start.toISOString()}"`;
+    }
+    try {
+      const res = await pbAuth(
+        `/api/collections/hhh_outbound_clicks/records?perPage=500&sort=-ts&filter=${encodeURIComponent(filter)}&fields=product_sku,context,destination_type`,
+      );
+      if (!res.ok) throw new Error(`PocketBase HTTP ${res.status}`);
+      const data = await res.json();
+      const counts = {};
+      for (const row of data.items || []) {
+        const sku = row.product_sku || "unknown";
+        counts[sku] = (counts[sku] || 0) + 1;
+      }
+      const top = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 20);
+      const el = document.getElementById("refContent");
+      const table = refRenderTable(
+        "Top Clockworks SKUs (Heavy · PocketBase, max 500 rows sampled)",
+        ["SKU", "Clicks in sample"],
+        top.map(([sku, n]) => [sku, n.toLocaleString()]),
+      );
+      el.insertAdjacentHTML("beforeend", table);
+      status.textContent = `Top SKUs loaded from PocketBase · ${top.length} SKUs · ${new Date().toLocaleTimeString()} · Heavy`;
+    } catch (e) {
+      status.textContent = e.message || "PocketBase query failed";
+      status.className = "ref-status err";
+    }
+  }
+
+  async function refExportClickLog() {
+    if (!confirm("Export uses PocketBase quota — use sparingly (up to 2,000 rows). Continue?")) return;
+    const status = document.getElementById("refStatus");
+    const rp = refRangeParams();
+    if (rp.error) {
+      status.textContent = rp.error;
+      status.className = "ref-status err";
+      return;
+    }
+    status.textContent = "Exporting click log from PocketBase (Heavy)…";
+    let filter = 'id != ""';
+    if (rp.from && rp.to) {
+      filter = `ts >= "${rp.from} 00:00:00.000Z" && ts <= "${rp.to} 23:59:59.999Z"`;
+    } else {
+      const days = parseInt(rp.days || "7", 10);
+      const start = new Date();
+      start.setUTCDate(start.getUTCDate() - days + 1);
+      filter = `ts >= "${start.toISOString()}"`;
+    }
+    if (refActiveTab === "jj") {
+      filter += ' && partner = "clockworks"';
+    }
+    try {
+      const records = await listAllRecords("hhh_outbound_clicks", filter);
+      const capped = records.slice(0, 2000);
+      const csv = recordsToCSV(capped);
+      downloadFile(`hhh_outbound_clicks_${rp.from || rp.days + "d"}.csv`, csv, "text/csv");
+      status.textContent = `Exported ${capped.length} rows · Heavy · PocketBase`;
+    } catch (e) {
+      status.textContent = e.message || "Export failed";
+      status.className = "ref-status err";
+    }
+  }
+
+  document.getElementById("refIncludeResources")?.addEventListener("change", () => refRender());
+  refOnRangePresetChange();
+  refSelectTab(refActiveTab);
 
   /* ─── Thresholds & Baselines — Joe ops reference tables ─── */
   const TB_TABS = [
@@ -6690,7 +7144,7 @@ Generated ${new Date().toISOString()}.
             </tr>
           </tbody>
         </table>`;
-      note = `${appLabel} caps in <code>${appLabel === "HHH" ? "HandyHorology" : "CVC"}/cloudflare-worker/wrangler.toml</code>. Separate Gemini API key per app (see CLOUD_KEYS.md).`;
+      note = `${appLabel} caps in <code>${appLabel === "HHH" ? "HHH" : "CVC"}/cloudflare-worker/wrangler.toml</code>. Separate Gemini API key per app (see CLOUD_KEYS.md).`;
     } else {
       tableHtml = `
         <table>
@@ -7249,724 +7703,30 @@ Generated ${new Date().toISOString()}.
     const infoIssues = [];
     const key = localStorage.getItem("pbj_shared_key") || "";
 
-    if (key) {
-      try {
-        const r = await fetch(`${WORKER_BASE}/ocr/quota/stats`, {
-          headers: { "X-PBJ-Key": key },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (r.ok) {
-          const stats = await r.json();
-          const geminiCap = stats.freeTier?.geminiDaily || 1500;
-          const geminiPct = geminiCap > 0 ? (stats.today.gemini / geminiCap) * 100 : 0;
-          if (geminiPct >= 80) {
-            issues.push(`PBJ Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
-          }
-          if (stats.today.circuitBreakerArmed) {
-            issues.push("PBJ OCR circuit breaker ARMED — free users denied cloud OCR");
-          }
-        } else {
-          issues.push(`PBJ Worker OCR stats unreachable (HTTP ${r.status})`);
-        }
-      } catch {
-        issues.push("PBJ Worker OCR stats request failed — check Worker deploy");
+    const pbjStats =
+      ocrQuotaCache?.data ||
+      wmCache?.results?.find(r => r.app.id === "pbj")?.stats?.data;
+
+    if (pbjStats) {
+      const geminiCap = pbjStats.freeTier?.geminiDaily || 1500;
+      const geminiPct = geminiCap > 0 ? (pbjStats.today.gemini / geminiCap) * 100 : 0;
+      if (geminiPct >= 80) {
+        issues.push(`PBJ Gemini daily quota at ${geminiPct.toFixed(0)}% (${pbjStats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
       }
+      if (pbjStats.today.circuitBreakerArmed) {
+        issues.push("PBJ OCR circuit breaker ARMED — free users denied cloud OCR");
+      }
+    } else if (key) {
+      try {
+        const r = await fetch(`${WORKER_BASE}/`, { cache: "no-store", signal: AbortSignal.timeout(6000) });
+        if (!r.ok) issues.push(`PBJ Worker health ping failed (HTTP ${r.status})`);
+      } catch {
+        issues.push("PBJ Worker health ping failed — pbj-import-worker may be down");
+      }
+      infoIssues.push("PBJ quota — load Worker Monitoring Medium or OCR panel for Gemini/breaker checks (skipped KV stats poll).");
     } else {
       infoIssues.push("PBJ Worker stats — X-PBJ-Key not set in this browser (run a PBJ smoke test once; worker may still be healthy).");
-    }
-
-    for (const app of WORKER_APPS.filter(a => a.statsKind === "ops")) {
-      const appKey = wmGetKey(app, false);
-      const base = wmGetUrl(app);
-      try {
-        const hr = await fetch(base + "/", { cache: "no-store", signal: AbortSignal.timeout(6000) });
-        if (!hr.ok) {
-          issues.push(`${app.short} worker health failed (HTTP ${hr.status})`);
-          continue;
-        }
-        const hj = await hr.json();
-        if (hj.gemini_configured === false) {
-          infoIssues.push(`${app.short} (${app.name}) — Gemini API key not set on worker yet (identify may fall back to Anthropic).`);
-        }
-      } catch {
-        issues.push(`${app.short} worker unreachable — ${base}`);
-      }
-      if (!appKey) continue;
-      try {
-        const sr = await fetch(base + "/ops/stats", {
-          headers: { [app.authHeader]: appKey },
-          signal: AbortSignal.timeout(8000),
-        });
-        if (sr.ok) {
-          const stats = await sr.json();
-          const geminiCap = stats.caps?.geminiDaily || 1500;
-          const geminiPct = geminiCap > 0 ? (stats.today.gemini / geminiCap) * 100 : 0;
-          if (geminiPct >= 80) {
-            issues.push(`${app.short} Gemini daily quota at ${geminiPct.toFixed(0)}% (${stats.today.gemini.toLocaleString()} / ${geminiCap.toLocaleString()})`);
-          }
-          if (stats.today.circuitBreakerArmed) {
-            issues.push(`${app.short} AI circuit breaker ARMED`);
-          }
-        }
-      } catch { /* stats optional for banner */ }
-    }
-
-    try {
-      const r = await fetch(`${WORKER_BASE}/`, { cache: "no-store", signal: AbortSignal.timeout(6000) });
-      if (!r.ok) issues.push(`PBJ Worker health ping failed (HTTP ${r.status})`);
-    } catch {
-      issues.push("PBJ Worker health ping failed — pbj-import-worker may be down");
-    }
-
-    try {
-      const authHdr = token ? { Authorization: `Bearer ${token}` } : {};
-      const r = await fetch(
-        "https://josspatech.pockethost.io/api/collections/_cron_heartbeat/records?perPage=1&sort=-last_run&filter=" +
-        encodeURIComponent('name="aggregate_submissions"'),
-        { headers: authHdr, signal: AbortSignal.timeout(8000) },
-      );
-      if (r.status === 429) {
-        infoIssues.push("PocketBase rate-limited this tab's poll — cron status unknown right now. PocketBase is up; wait ~15 min or use Cron Health panel.");
-      } else if (r.ok) {
-        const j = await r.json();
-        const lastRun = j.items?.[0]?.last_run;
-        if (lastRun) {
-          const minutes = (Date.now() - new Date(lastRun).getTime()) / 60000;
-          if (minutes > 180) {
-            infoIssues.push(
-              `PocketBase aggregation cron last ran ${Math.round(minutes)} min ago — PBJ crowd-data flywheel only; HHH/CVC unaffected. See Cron Health panel if you care about merchant consensus.`,
-            );
-          }
-        } else {
-          infoIssues.push(
-            "PocketBase aggregation cron — no heartbeat yet (pb_hooks may not be deployed). PBJ flywheel only; not a site outage.",
-          );
-        }
-      } else if (r.status === 401 || r.status === 403) {
-        infoIssues.push("PocketBase cron heartbeat — sign in again to read _cron_heartbeat (not a PocketBase outage).");
-      } else if (r.status === 404) {
-        infoIssues.push("PocketBase aggregation cron — _cron_heartbeat not set up yet (pb_hooks not deployed). Expected; HHH/CVC unaffected.");
-      }
-    } catch {
-      infoIssues.push("PocketBase cron heartbeat — could not poll (network or rate limit). Check /api/health or Cron Health panel.");
-    }
-
-    infoIssues.push(...opsAnthropicInfoLines());
-
-    await Promise.all(WORKER_APPS.map(async (app) => {
-      const appKey = wmGetKey(app, false);
-      if (!appKey) return;
-      const data = await capFetch(app);
-      capacityCache[app.id] = data;
-    }));
-    const capIssues = capacityIssuesFromCache();
-    for (const ci of capIssues) {
-      if (!issues.some(x => x.includes(ci.slice(0, 20)))) issues.push(ci);
-    }
-    renderCapacityBottleneckBanner();
-
-    if (issues.length === 0) {
-      banner.style.display = "none";
-      banner.innerHTML = "";
-      const infoBuy = infoIssues.filter(i => /anthropic|claude|balance|gemini/i.test(i));
-      renderOpsBuyBar(infoBuy);
-    } else {
-      banner.innerHTML =
-        `<div class="ops-alert-title">⚠ Ops alert — action needed</div>` +
-        `<ul>${issues.map(i => `<li>${i}</li>`).join("")}</ul>`;
-      banner.style.display = "block";
-      renderOpsBuyBar(issues);
-    }
-
-    if (infoBanner) {
-      if (infoIssues.length === 0) {
-        infoBanner.style.display = "none";
-        infoBanner.innerHTML = "";
-      } else {
-        infoBanner.innerHTML =
-          `<div class="ops-info-title">ℹ Expected gaps — not an outage</div>` +
-          `<ul>${infoIssues.map(i => `<li>${i}</li>`).join("")}</ul>`;
-        infoBanner.style.display = "block";
-      }
-    }
-  }
-
-  // Cache the most recent /health/quotas response so individual probes
-  // can read from it. Refreshed on every refreshServiceStatus() call.
-  let quotaCache = null;
-
-  /** Convert a raw used/limit pair to a state + the meter's display
-   *  color. Thresholds: <60% green, 60–85% yellow, >85% red. */
-  function stateFromPercent(pct) {
-    if (pct < 0.60) return "green";
-    if (pct < 0.85) return "yellow";
-    return "red";
-  }
-
-  /** Compact number formatter: 1234 → "1.23K", 1500000 → "1.5M". */
-  function fmtNum(n) {
-    if (n == null || isNaN(n)) return "—";
-    if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M";
-    if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, "") + "K";
-    if (Math.abs(n) >= 1)   return n.toLocaleString("en-US", { maximumFractionDigits: 2 });
-    return n.toFixed(2); // currency-like sub-dollar
-  }
-
-  /** Build a probe that reads its data from the cached /health/quotas
-   *  response. Used for services where the Worker tracks the count. */
-  function quotaProbe(quotaKey) {
-    return async () => {
-      const q = quotaCache?.[quotaKey];
-      if (!q || typeof q.used !== "number" || typeof q.limit !== "number") {
-        return { state: "unknown" };
-      }
-      const pct = q.limit > 0 ? q.used / q.limit : 0;
-      return {
-        state: stateFromPercent(pct),
-        used:  q.used,
-        limit: q.limit,
-        unit:  q.unit || "",
-      };
-    };
-  }
-
-  // ─── Anthropic balance tracker ────────────────────────────
-  // Manual log of credit balance. Joe checks platform.claude.com/settings/billing,
-  // taps "Record balance" here, types what he saw. We persist a short history in
-  // localStorage so we can compute a rough burn-rate from consecutive readings.
-  // Data is per-browser; not synced. Single-admin dashboard, that's fine.
-  const ANT_HISTORY_KEY = "jt_anthropic_balance_history";
-  const ANT_HISTORY_MAX = 12;
-
-  function antGetHistory() {
-    try {
-      const arr = JSON.parse(localStorage.getItem(ANT_HISTORY_KEY) || "[]");
-      return Array.isArray(arr) ? arr : [];
-    } catch { return []; }
-  }
-  function antSetHistory(arr) {
-    try { localStorage.setItem(ANT_HISTORY_KEY, JSON.stringify(arr)); }
-    catch (e) { console.warn("ant: localStorage write failed", e); }
-  }
-  function antLogBalance() {
-    const v = window.prompt(
-      "Enter the credit balance you see on platform.claude.com (in dollars).\n" +
-      "Example: 9.85"
-    );
-    if (v === null) return; // cancelled
-    const num = parseFloat(String(v).replace(/[^0-9.]/g, ""));
-    if (!isFinite(num) || num < 0) {
-      alert("Couldn't read that as a number. Try again — just digits and a decimal point, like 9.85");
-      return;
-    }
-    const history = antGetHistory();
-    history.push({ amount: num, at: new Date().toISOString() });
-    while (history.length > ANT_HISTORY_MAX) history.shift();
-    antSetHistory(history);
-    // Re-render the Services panel so the card updates immediately.
-    renderServices(window.__lastServiceResults || {});
-  }
-  function antResetHistory() {
-    if (!confirm("Clear all recorded Anthropic balance readings? This can't be undone.")) return;
-    antSetHistory([]);
-    renderServices(window.__lastServiceResults || {});
-  }
-
-  // Returns the most recent burn-rate window: a strictly-decreasing pair of
-  // readings (so we don't treat a top-up as "negative burn"). Returns null
-  // if we don't have one. Walks backward from the latest reading until it
-  // finds the most recent prior reading where amount > latest.amount; that
-  // window is the user's spend trajectory.
-  function antBurnWindow() {
-    const h = antGetHistory();
-    if (h.length < 2) return null;
-    const last = h[h.length - 1];
-    for (let i = h.length - 2; i >= 0; i--) {
-      const prev = h[i];
-      if (prev.amount > last.amount) {
-        const dt = (new Date(last.at) - new Date(prev.at)) / 86400000; // days
-        if (dt <= 0) continue;
-        const dv = prev.amount - last.amount;
-        return { burnPerDay: dv / dt, days: dt, from: prev, to: last };
-      }
-    }
-    return null;
-  }
-
-  // Card-state for the Anthropic service card — escalates if balance is low
-  // OR the last reading is stale. "Don't know" is treated as a soft warning.
-  function antDeriveState() {
-    const h = antGetHistory();
-    if (h.length === 0) return { state: "unknown" };
-    const last = h[h.length - 1];
-    const ageDays = (Date.now() - new Date(last.at)) / 86400000;
-    if (last.amount < 5)  return { state: "red" };
-    if (ageDays > 30)     return { state: "red" };  // truly stale
-    if (last.amount < 10) return { state: "yellow" };
-    if (ageDays > 14)     return { state: "yellow" };
-    return { state: "green" };
-  }
-
-  // Render the tracker block. Inserted into the Anthropic card via SERVICES[i].extra.
-  function antRenderTracker() {
-    const h = antGetHistory();
-    if (h.length === 0) {
-      return `
-        <div class="ant-tracker">
-          <div class="ant-empty">No balance recorded yet — Anthropic API is not down. After you check the billing page, tap below to log what you see (manual tracker; stale by design until you record again).</div>
-          <div class="ant-actions">
-            <button class="ant-btn primary" onclick="antLogBalance()">Record balance</button>
-            <a class="ant-btn" href="https://platform.claude.com/settings/billing" target="_blank" rel="noopener noreferrer">Open billing ↗</a>
-          </div>
-        </div>`;
-    }
-    const last = h[h.length - 1];
-    const ageMs = Date.now() - new Date(last.at);
-    const ageDays = Math.floor(ageMs / 86400000);
-    const ageHours = Math.floor(ageMs / 3600000);
-    let ageText;
-    if (ageHours < 1)        ageText = "just now";
-    else if (ageHours < 24)  ageText = `${ageHours} hour${ageHours === 1 ? "" : "s"} ago`;
-    else if (ageDays === 1)  ageText = "yesterday";
-    else                     ageText = `${ageDays} days ago`;
-    let staleClass = "";
-    if (ageDays > 30) staleClass = "stale-red";
-    else if (ageDays > 14) staleClass = "stale-yellow";
-
-    let balanceClass = "ok";
-    if (last.amount < 5) balanceClass = "crit";
-    else if (last.amount < 10) balanceClass = "warn";
-
-    const burn = antBurnWindow();
-    let burnHTML = "";
-    if (burn) {
-      const daysLeft = burn.burnPerDay > 0 ? last.amount / burn.burnPerDay : Infinity;
-      const projection = isFinite(daysLeft)
-        ? `≈ ${Math.floor(daysLeft)} day${Math.floor(daysLeft) === 1 ? "" : "s"} of runway at this pace`
-        : "burn rate ~0";
-      burnHTML = `
-        <div class="ant-row">
-          <span class="ant-label">Burn rate:</span>
-          <span class="ant-value">$${burn.burnPerDay.toFixed(2)}/day</span>
-          <span class="ant-aux">${projection}</span>
-        </div>`;
-    } else if (h.length >= 2) {
-      burnHTML = `
-        <div class="ant-row">
-          <span class="ant-label">Burn rate:</span>
-          <span class="ant-aux">— last change was a top-up; record again after some usage</span>
-        </div>`;
-    } else {
-      burnHTML = `
-        <div class="ant-row">
-          <span class="ant-label">Burn rate:</span>
-          <span class="ant-aux">— need a second reading to estimate</span>
-        </div>`;
-    }
-
-    // Compact history (last 4) — collapsed by default would be nice but
-    // we'll just show inline for simplicity.
-    const histRows = h.slice(-4).reverse().map(r => {
-      const d = new Date(r.at);
-      const stamp = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`;
-      return `<div class="ant-history-row"><span>${stamp}</span><span>$${r.amount.toFixed(2)}</span></div>`;
-    }).join("");
-
-    return `
-      <div class="ant-tracker">
-        <div class="ant-row">
-          <span class="ant-label">Last known balance:</span>
-          <span class="ant-value ant-balance ${balanceClass}">$${last.amount.toFixed(2)}</span>
-          <span class="ant-aux ${staleClass}">checked ${ageText}</span>
-        </div>
-        ${burnHTML}
-        <div class="ant-actions">
-          <button class="ant-btn primary" onclick="antLogBalance()">Record balance</button>
-          <a class="ant-btn" href="https://platform.claude.com/settings/billing" target="_blank" rel="noopener noreferrer">Top up ↗</a>
-          <button class="ant-btn" onclick="antResetHistory()" title="Clear recorded readings">Reset</button>
-        </div>
-        <div class="ant-history" title="Recent readings">${histRows}</div>
-      </div>`;
-  }
-
-  const SERVICES = [
-    {
-      name: "Cloudflare Worker — pbj-import-worker",
-      tier: "free",
-      desc: "AI/OCR proxy for receipts, PDFs, and HHH/CVC identification. Hosts /vision/*, /identify/*, /ask, /anthropic-proxy.",
-      quota: "Free: 100K req/day, 10ms CPU. Paid ($5/mo): 10M req/month + 50ms.",
-      probe: async () => {
-        // Try the /health/quotas endpoint first — gives us numeric usage.
-        // Falls back to the basic / health check if /health/quotas isn't
-        // deployed yet (tomorrow's Worker redeploy ships it).
-        const q = quotaCache?.cloudflare_worker;
-        if (q && typeof q.used === "number" && typeof q.limit === "number") {
-          return { state: stateFromPercent(q.used / q.limit), used: q.used, limit: q.limit, unit: "req/day" };
-        }
-        try {
-          const r = await fetch(WORKER_BASE + "/", { cache: "no-store", signal: AbortSignal.timeout(5000) });
-          if (!r.ok) return { state: "red" };
-          const j = await r.json();
-          return { state: j.ok ? "green" : "yellow" };
-        } catch { return { state: "red" }; }
-      },
-      buy: "cloudflare",
-      links: [
-        { label: "Health endpoint",   url: "https://pbj-import-worker.morning-star-b5e0.workers.dev/", primary: true },
-        { label: "Cloudflare dash",   url: "https://dash.cloudflare.com/" },
-        { label: "Worker limits",     url: "https://developers.cloudflare.com/workers/platform/limits/" },
-      ],
-    },
-    {
-      name: "PocketBase — josspatech instance",
-      tier: "paid",
-      desc: "Crowd-data backend. Shared by PBJ + HHH + CVC. FTPS quirk: use curl, not WinSCP (Session 68 notes).",
-      quota: "PocketHost smart tier: 5GB DB. Migration runbook in ClaudeFiles/HETZNER_MIGRATION_RUNBOOK.md.",
-      buy: "pockethost",
-      probe: async () => {
-        const q = quotaCache?.pocketbase_db;
-        if (q && typeof q.used === "number" && typeof q.limit === "number") {
-          return { state: stateFromPercent(q.used / q.limit), used: q.used, limit: q.limit, unit: "MB" };
-        }
-        try {
-          const r = await fetch("https://josspatech.pockethost.io/api/health", { cache: "no-store", signal: AbortSignal.timeout(8000) });
-          if (!r.ok) return { state: r.status === 429 ? "yellow" : "red" };
-          const j = await r.json();
-          return { state: j.code === 200 ? "green" : "yellow" };
-        } catch {
-          return { state: "yellow" }; // slow/timeout — not proven down
-        }
-      },
-      links: [
-        { label: "PocketBase admin",   url: "https://josspatech.pockethost.io/_/", primary: true },
-        { label: "PocketHost dash",    url: "https://pockethost.io/dashboard" },
-        { label: "Status page",        url: "https://status.pockethost.io/" },
-      ],
-    },
-    {
-      name: "Gemini Flash (Google AI Studio)",
-      tier: "free",
-      desc: "Vision parser for receipts (/vision/receipt) and bank statements (/vision/pdf). Worker secret: GEMINI_API_KEY.",
-      quota: "Free: 1,500 req/day. Paid: ~$0.0002 per receipt-vision call → ~$450/mo at 75K calls/day.",
-      buy: "gemini",
-      probe: quotaProbe("gemini"),
-      links: [
-        { label: "Usage dashboard",    url: "https://aistudio.google.com/app/usage", primary: true },
-        { label: "Manage keys",        url: "https://aistudio.google.com/app/apikey" },
-        { label: "Add billing/alerts", url: "https://console.cloud.google.com/billing" },
-      ],
-    },
-    {
-      name: "Anthropic Claude",
-      tier: "paid",
-      desc: "Identification (HHH/CVC) and general AI calls (/ask, /identify/*, /anthropic-proxy). Worker secret ANTHROPIC_API_KEY is deployed.",
-      quota: "Pre-paid credits, manual top-up (auto-reload off). ~$0.003–0.005 per identify call. Track balance via the panel below — record what you see when you check the billing page.",
-      probe: quotaProbe("anthropic_credit"),
-      // Custom widget renders inside the card. Lets Joe log the balance he
-      // sees on platform.claude.com without integrating Anthropic's Admin API
-      // (which would need yet another key + a Worker proxy). Stores readings
-      // in localStorage so each browser keeps its own log; that's fine for a
-      // single-admin dashboard. Stays one click away from the billing page
-      // and surfaces stale or low balances back into the card's status light.
-      extra: () => antRenderTracker(),
-      stateOverride: () => antDeriveState(),
-      buy: "anthropic",
-      links: [
-        { label: "Buy credits / billing", url: "https://platform.claude.com/settings/billing", primary: true },
-        { label: "Usage",                 url: "https://platform.claude.com/settings/usage" },
-        { label: "Manage keys",           url: "https://platform.claude.com/settings/keys" },
-      ],
-    },
-    {
-      name: "OCR.Space",
-      tier: "free",
-      desc: "Stage 2 OCR cloud fallback when on-device OCR returns thin results. Used by receipt scan and PDF import.",
-      quota: "Free: 25K/month + 500/day per IP + 1MB. PRO ($30/mo): 300K + 5MB.",
-      buy: "ocr_space",
-      probe: quotaProbe("ocr_space"),
-      links: [
-        { label: "Account dashboard",  url: "https://ocr.space/ocrapi", primary: true },
-        { label: "Get / view key",     url: "https://ocr.space/ocrapikey" },
-        { label: "Upgrade to PRO",     url: "https://ocr.space/ocrapi#price" },
-      ],
-    },
-    {
-      name: "RevenueCat",
-      tier: "free",
-      desc: "Subscription management. Anonymous app-user IDs, IAP receipt validation, churn analytics. Used by PBJ; HHH/CVC will adopt.",
-      quota: "Free up to $10K MTR. Past that: 1% of MTR. At ~$30K MTR (3K subscribers × $9.99) → ~$200/mo.",
-      buy: "revenuecat",
-      probe: quotaProbe("revenuecat_mtr"),
-      links: [
-        { label: "Dashboard",          url: "https://app.revenuecat.com/", primary: true },
-        { label: "Projects",           url: "https://app.revenuecat.com/projects" },
-        { label: "Pricing",            url: "https://www.revenuecat.com/pricing/" },
-      ],
-    },
-    {
-      name: "Firebase / Crashlytics",
-      tier: "free",
-      desc: "Crash reporting + analytics for PBJ. google-services.json + GoogleService-Info.plist baked into Builds.",
-      quota: "Spark plan: generous for solo-dev volume. No action needed unless usage exceeds Spark caps.",
-      probe: null,
-      links: [
-        { label: "PBJ Firebase",       url: "https://console.firebase.google.com/project/pocketbudjet-b70f3", primary: true },
-        { label: "All projects",       url: "https://console.firebase.google.com/" },
-      ],
-    },
-    {
-      name: "Apple App Store Connect",
-      tier: "paid",
-      desc: "PBJ live listing + TestFlight. iOS submission, pricing, screenshots, In-App Purchases.",
-      quota: "$99/year Apple Developer fee, auto-renew. Set calendar reminder if turning off auto-renew.",
-      probe: null,
-      links: [
-        { label: "App Store Connect",  url: "https://appstoreconnect.apple.com/", primary: true },
-        { label: "Apple Developer",    url: "https://developer.apple.com/account/" },
-        { label: "Users / access",     url: "https://appstoreconnect.apple.com/access/users" },
-      ],
-    },
-    {
-      name: "Google Play Console",
-      tier: "paid",
-      desc: "PBJ Play Store listing + closed testing. Android submission, rollout, billing.",
-      quota: "$25 one-time Google Dev fee. 12-tester gate: use BetaFamily ($30–50, 14 days).",
-      probe: null,
-      links: [
-        { label: "Play Console",       url: "https://play.google.com/console/", primary: true },
-        { label: "Closed testing",     url: "https://play.google.com/console/u/0/developers/closed-testing" },
-        { label: "BetaFamily",         url: "https://betafamily.com/" },
-      ],
-    },
-    {
-      name: "Expo / EAS",
-      tier: "free",
-      desc: "iOS cloud builds + submission. (Android builds are local Gradle from C:\\PBJ\\android.)",
-      quota: "Free: 30 builds/month. Paid tiers from $19/mo if needed.",
-      buy: "expo",
-      probe: null,
-      links: [
-        { label: "Expo dashboard",     url: "https://expo.dev/", primary: true },
-        { label: "Projects",           url: "https://expo.dev/accounts/josspatech/projects" },
-        { label: "Billing",            url: "https://expo.dev/accounts/josspatech/settings/billing" },
-      ],
-    },
-    {
-      name: "GitHub",
-      tier: "free",
-      desc: "Source control (private app repos) + GitHub Pages hosting for josspatech.com.",
-      quota: "Free: private repos, GitHub Pages, sufficient for solo dev.",
-      probe: async () => {
-        // GitHub status API is CORS-friendly. Status-only — no usage meter.
-        try {
-          const r = await fetch("https://www.githubstatus.com/api/v2/status.json", {
-            cache: "no-store",
-            signal: AbortSignal.timeout(5000),
-          });
-          if (!r.ok) return { state: "yellow" };
-          const j = await r.json();
-          if (j?.status?.indicator === "none")  return { state: "green" };
-          if (j?.status?.indicator === "minor") return { state: "yellow" };
-          return { state: "red" };
-        } catch { return { state: "unknown" }; }
-      },
-      links: [
-        { label: "Profile",            url: "https://github.com/josspatech", primary: true },
-        { label: "Status page",        url: "https://www.githubstatus.com/" },
-      ],
-    },
-  ];
-
-  function svcLightHTML(state) {
-    const labels = {
-      green:    "Online",
-      yellow:   "Degraded",
-      red:      "Down",
-      checking: "Checking…",
-      unknown:  "Manual check",
-    };
-    const cls = state || "unknown";
-    return `<span class="svc-light ${cls}"><span class="dot"></span>${labels[cls] || labels.unknown}</span>`;
-  }
-
-  function svcStatusMeaning(state, result, service) {
-    const pct = (result && typeof result.used === "number" && typeof result.limit === "number" && result.limit > 0)
-      ? result.used / result.limit
-      : null;
-    if (pct != null && pct >= 0.9) {
-      const buy = service?.buy ? (Array.isArray(service.buy) ? service.buy[0] : service.buy) : null;
-      const link = buy && VENDOR_BUY[buy] ? ` Use the buy button below — ${VENDOR_BUY[buy].label}.` : " Use the buy button below.";
-      return `Usage at ${(pct * 100).toFixed(0)}% of tracked cap — near limit.${link}`;
-    }
-    if (pct != null && pct >= 0.75) {
-      return `Usage at ${(pct * 100).toFixed(0)}% of tracked cap — watch trend; buy link below if you're making money and need headroom.`;
-    }
-    if (state === "green") return "Last automatic check succeeded. Click a link below to confirm in the vendor UI.";
-    if (state === "yellow") return "Reachable but slow, rate-limited, or missing config — verify in vendor dashboard.";
-    if (state === "red") return "Probe failed — service may be down or keys misconfigured. Open dashboard link.";
-    if (state === "checking") return "Probe in flight…";
-    if (service && typeof service.stateOverride === "function") {
-      return "Status from manual balance log in this card — record credits after checking billing.";
-    }
-    if (!service?.probe) return "No browser probe — open the dashboard link to check health and quotas.";
-    return "Could not determine status — use dashboard link.";
-  }
-
-  /** Format a numeric meter "used / limit unit · NN%" with the same
-   *  green/yellow/red coloring as the status light. Only renders when
-   *  the probe returned numeric usage data; status-only results show
-   *  nothing here. */
-  function svcBuyRowHtml(s, cardState) {
-    if (!s.buy) return "";
-    const keys = Array.isArray(s.buy) ? s.buy : [s.buy];
-    const primary = VENDOR_BUY[keys[0]];
-    if (!primary) return "";
-    const tgt = primary.internal ? "" : ' target="_blank" rel="noopener noreferrer"';
-    const anchor = `<a href="${primary.url}"${tgt}>${primary.label} ↗</a>`;
-    if (cardState === "crit" || cardState === "warn" || cardState === "red") {
-      return `<div class="svc-buy-row">${anchor}</div>`;
-    }
-    return `<div class="svc-upgrade"><strong>Need more later?</strong> ${anchor}</div>`;
-  }
-
-  function svcMeterHTML(result) {
-    if (!result || typeof result.used !== "number" || typeof result.limit !== "number") return "";
-    const pct = result.limit > 0 ? Math.min(1, result.used / result.limit) : 0;
-    const cls = stateFromPercent(pct);
-    const unit = result.unit ? ` ${result.unit}` : "";
-    const usedFmt  = fmtNum(result.used);
-    const limitFmt = fmtNum(result.limit);
-    const pctFmt   = (pct * 100).toFixed(pct < 0.10 ? 1 : 0);
-    return `<span class="svc-meter ${cls}">${usedFmt} / ${limitFmt}${unit}<span class="pct">${pctFmt}%</span></span>`;
-  }
-
-  function renderServices(results /* { name → result | string } */) {
-    // Cache the last results so card-internal widgets (e.g. the Anthropic
-    // balance tracker) can trigger a re-render after a state change without
-    // losing the most recent probe data.
-    window.__lastServiceResults = results || {};
-
-    const grid = document.getElementById("servicesGrid");
-    if (!grid) return;
-    grid.innerHTML = SERVICES.map(s => {
-      // Normalize: results may carry the legacy plain-string state,
-      // or the new { state, used?, limit?, unit? } object. Old probes
-      // are dead, but the migration leaves this defensive.
-      let r = results[s.name];
-      if (typeof r === "string") r = { state: r };
-      if (!r) r = { state: s.probe ? "checking" : "unknown" };
-
-      // A service can supply `stateOverride()` to compute its own state
-      // from local data (the Anthropic tracker does this — its state comes
-      // from a manual balance log, not a network probe).
-      if (typeof s.stateOverride === "function") {
-        try {
-          const o = s.stateOverride();
-          if (o && o.state) r = { ...r, ...o };
-        } catch (e) { console.warn("svc stateOverride failed for", s.name, e); }
-      }
-      const state = r.state;
-
-      // Card border accent — meter percent overrides status when available
-      // so capacity warnings dominate the visual hierarchy.
-      let cardState = state;
-      if (typeof r.used === "number" && typeof r.limit === "number" && r.limit > 0) {
-        cardState = stateFromPercent(r.used / r.limit);
-      }
-      const cardCls = cardState === "red" ? "crit"
-                    : cardState === "yellow" ? "warn"
-                    : cardState === "green" ? "ok"
-                    : s.tier === "todo" ? "todo" : "";
-
-      const tierBadge = `<span class="svc-tier ${s.tier}">${s.tier}</span>`;
-      const meter     = svcMeterHTML(r);
-      const links = s.links.map(l =>
-        `<a href="${l.url}" target="_blank" rel="noopener noreferrer" ${l.primary ? 'class="primary"' : ""}>${l.label} ↗</a>`
-      ).join("");
-      const extraHTML = (typeof s.extra === "function") ? (s.extra() || "") : "";
-      return `
-        <div class="svc-card ${cardCls}">
-          <div class="svc-head">
-            <div class="svc-name">${s.name}</div>
-            ${svcLightHTML(state)}
-          </div>
-          <div class="svc-meter-row">
-            ${tierBadge}
-            ${meter}
-          </div>
-          <div class="svc-status-meaning">${svcStatusMeaning(state, r, s)}</div>
-          <div class="svc-desc">${s.desc}</div>
-          <div class="svc-links">${links}</div>
-          <div class="svc-quota"><strong>Limits:</strong> ${s.quota}</div>
-          ${svcBuyRowHtml(s, cardState)}
-          ${extraHTML}
-        </div>`;
-    }).join("");
-  }
-
-  async function refreshServiceStatus() {
-    // Step 1 — render placeholders so the UI snaps in immediately.
-    const results = {};
-    for (const s of SERVICES) results[s.name] = { state: s.probe ? "checking" : "unknown" };
-    renderServices(results);
-    document.getElementById("svcLastChecked").textContent = "Checking…";
-
-    // Step 2 — bulk-fetch the Worker's /health/quotas snapshot. This
-    // gives us the numeric usage for every auth-gated service in a
-    // single network call. If it fails (Worker hasn't been redeployed
-    // with the endpoint yet), individual probes fall back gracefully.
-    try {
-      const r = await fetch(WORKER_BASE + "/health/quotas", {
-        cache: "no-store",
-        signal: AbortSignal.timeout(7000),
-      });
-      if (r.ok) {
-        quotaCache = await r.json();
-      } else {
-        quotaCache = null;
-      }
-    } catch {
-      quotaCache = null;
-    }
-
-    // Step 3 — run individual probes in parallel; update each card as
-    // it resolves. quota-driven probes pull from quotaCache.
-    await Promise.all(SERVICES.map(async (s) => {
-      if (!s.probe) { return; }
-      try {
-        results[s.name] = await s.probe();
-      } catch {
-        results[s.name] = { state: "red" };
-      }
-      renderServices(results);
-    }));
-
-    document.getElementById("svcLastChecked").textContent =
-      `Last checked: ${new Date().toLocaleTimeString()}` +
-      (quotaCache ? "" : "  ·  capacity numbers unavailable (Worker /health/quotas not deployed)");
-  }
-
-  // Auto-run once after the dashboard finishes loading. The existing
-  // dashboard's grid renderer fires on login success — we hook off the
-  // same window load to keep startup ordering predictable.
-  window.addEventListener("DOMContentLoaded", () => {
-    // Synchronous renders first — no network, instant paint.
-    renderAppVersions();
-    renderQuickLinks();
-    renderFounderCostTable();
-    renderThresholdsBaselines();
-    renderUpgradePlaybook();
-    renderVendorOnlyCapReminders();
-
-    // Network-bound renders deferred slightly so login flow doesn't
-    // fight for the wire on first load.
-    setTimeout(() => {
-      refreshServiceStatus();
-      loadCronHealth();
-      loadQuarantineWatch();
-      loadRecentCommits();
-      loadWorkerMonitoring();
-      loadCapacityControl();
+      wmShowIdle();      loadCapacityControl();
       loadOcrQuotaPanel();
       loadTellerStatusPanel();
       loadOpenCellIdPanel();
