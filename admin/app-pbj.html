@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="referrer"              content="no-referrer">
+  <title>JosspaTech — PBJ Ops</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "app-pbj";</script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+  <div id="login">
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Pocket Budget Journal · ops</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          PBJ <span class="subtitle">Pocket Budget Journal · all ops in one place</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsBuyBar" role="region" aria-label="Quick upgrade actions">
+      <div class="ops-buy-title">Fix it now — open billing / upgrade</div>
+      <div id="opsBuyBtns" class="ops-buy-btns"></div>
+    </div>
+    <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
+    <div id="wowBanner" style="display:none"></div>
+    <main class="page-main">
+<section id="workerMonitoring">
+      <h2>Worker — PBJ</h2>
+      <p class="section-explainer">
+        Cloudflare Worker health, OCR + Gemini quotas via <code>/ocr/quota/stats</code>, circuit breaker, and cost.
+        <strong>Manual refresh only</strong> — data is shared with <a href="workers.html">Workers</a> and
+        <a href="ocr-quota.html">OCR</a> pages via session cache (no re-fetch when switching pages).
+      </p>
+      <div class="ref-actions wm-actions">
+        <button type="button" class="m-btn accent" onclick="wmRefreshLight()" title="GET / health only — 0 KV reads">
+          Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
+        </button>
+        <button type="button" class="m-btn" onclick="wmRefreshMedium()" title="Today's quota counters — ~6 KV reads (all workers; PBJ slice shown)">
+          Load usage <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="wmRefreshHeavy()" title="12-month cost_history — ~60 KV reads total (all workers)">
+          Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
+        </button>
+      </div>
+      <div class="ref-status" id="wmStatus">Click Refresh to load PBJ worker data.</div>
+      <div id="workerMonitoringCombined"></div>
+      <div id="wmCostModalOverlay" class="wm-cost-modal-overlay" hidden onclick="if(event.target===this)wmCloseCostChart()">
+        <div class="wm-cost-modal" role="dialog" aria-labelledby="wmCostModalTitle">
+          <div class="wm-cost-modal-head">
+            <h3 id="wmCostModalTitle">Estimated cost</h3>
+            <button type="button" class="wm-cost-modal-close" onclick="wmCloseCostChart()" aria-label="Close">&times;</button>
+          </div>
+          <div id="wmCostModalChart" class="wm-cost-chart-wrap"></div>
+          <div class="wm-cost-modal-legend">
+            <span class="past"><i></i> Finalized month</span>
+            <span class="mtd"><i></i> Current month (MTD)</span>
+          </div>
+          <p id="wmCostModalNote" class="wm-cost-modal-note"></p>
+        </div>
+      </div>
+      <div id="workerMonitoringSummary" class="wm-summary-row"></div>
+      <div id="workerMonitoringTabs" class="wm-tabs"></div>
+      <div id="workerMonitoringGrid"></div>
+    </section>
+<section id="ocrQuotaPanel">
+      <h2>OCR Quota &amp; Cost</h2>
+      <p class="section-explainer">Detailed PBJ OCR breakdown — same KV data as Worker Medium/Heavy above.</p>
+      <div class="ref-actions">
+        <button type="button" class="m-btn accent" onclick="ocrRefreshMedium()" title="Today's OCR counters — ~6 KV reads">
+          Refresh <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="ocrRefreshHeavy()" title="Includes cost_history — ~20 KV reads">
+          Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
+        </button>
+      </div>
+      <div class="ref-status" id="ocrQuotaStatus">Click Refresh to load PBJ OCR quota from Worker KV.</div>
+      <div id="ocrQuotaGrid"></div>
+    </section>
+<section id="thresholdsBaselines">
+      <h2>Thresholds &amp; Baselines — PBJ</h2>
+      <p class="section-explainer">Daily limits, circuit breaker, and per-user scan caps. Live columns update on Medium refresh above.</p>
+      <div id="thresholdsTabs" class="tb-tabs"></div>
+      <div id="thresholdsPanel" class="tb-panel">Loading…</div>
+      <div id="thresholdsScenarios" class="tb-scenario-grid"></div>
+    </section>
+<section id="tellerStatusPanel">
+      <h2>Teller Status &amp; Cost</h2>
+      <p class="section-explainer">Bank-sync enrollments and webhook health from the PBJ Worker.</p>
+      <div id="tellerStatusGrid">Loading…</div>
+    </section>
+<section id="openCellIdPanel">
+      <h2>OpenCellID Quota</h2>
+      <p class="section-explainer">Cell-tower geolocation daily cap (1,000/day free tier).</p>
+      <div id="openCellIdGrid">Loading…</div>
+    </section>
+<section id="capacityControl">
+      <h2>Capacity Control</h2>
+      <p class="section-explainer">Raise PBJ Worker caps vs vendor billing without redeploying.</p>
+      <div id="capacityBottleneckBanner" style="display:none;"></div>
+      <div id="capacityControlGrid" class="capacity-grid">Loading capacity config…</div>
+      <div id="vendorOnlyCapGrid" class="vendor-only-wrap"></div>
+    </section>
+<section id="cronHealth">
+      <h2>Cron Health — PBJ flywheel</h2>
+      <p class="section-explainer">PocketBase hourly aggregation heartbeat. Gray = pb_hooks not deployed yet — not urgent.</p>
+      <div id="cronHealthGrid"></div>
+    </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+</body>
+</html>

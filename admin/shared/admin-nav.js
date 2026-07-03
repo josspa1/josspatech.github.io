@@ -8,6 +8,16 @@
     { href: "flywheel.html", page: "flywheel", label: "Flywheel" },
   ];
 
+  const APP_NAV = [
+    { href: "app-pbj.html", page: "app-pbj", label: "PBJ" },
+    { href: "app-hhh.html", page: "app-hhh", label: "HHH" },
+    { href: "app-cvc.html", page: "app-cvc", label: "CVC" },
+  ];
+
+  function isAppPage(page) {
+    return APP_NAV.some((a) => a.page === page);
+  }
+
   window.injectAdminNav = function injectAdminNav() {
     const dash = document.getElementById("dashboard");
     if (!dash || document.getElementById("adminTopNav")) return;
@@ -16,9 +26,22 @@
     nav.id = "adminTopNav";
     nav.className = "admin-topnav";
     nav.setAttribute("aria-label", "Admin sections");
-    nav.innerHTML = NAV.map(
+
+    const mainLinks = NAV.map(
       (n) => `<a href="${n.href}" class="${n.page === page ? "active" : ""}">${n.label}</a>`,
     ).join("");
+
+    const appLinks = APP_NAV.map(
+      (a) => `<a href="${a.href}" class="admin-app-link ${a.page === page ? "active" : ""}">${a.label}</a>`,
+    ).join("");
+
+    nav.innerHTML = mainLinks + `
+      <span class="admin-nav-divider" aria-hidden="true"></span>
+      <span class="admin-nav-apps-label">Apps</span>
+      <span class="admin-nav-apps">${appLinks}</span>`;
+
+    if (isAppPage(page)) nav.classList.add("admin-topnav--app-active");
+
     const header = dash.querySelector("header");
     if (header && header.nextSibling) {
       dash.insertBefore(nav, header.nextSibling);

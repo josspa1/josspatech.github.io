@@ -18,13 +18,45 @@
   const GITHUB_REPO = "josspa1/josspatech.github.io";
   const FETCH_TIMEOUT_MS = 12000; // per-request ceiling
   const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000; // poll GitHub at most every 5 min
+  const ADMIN_CACHE_KEYS = {
+    wm: "pbj_dash_cache_wm",
+    ocr: "pbj_dash_cache_ocr",
+    ref: "pbj_dash_cache_ref",
+  };
+
+  function adminCacheRead(slot) {
+    try {
+      const raw = sessionStorage.getItem(ADMIN_CACHE_KEYS[slot]);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function adminCacheWrite(slot, data) {
+    try {
+      if (data == null) sessionStorage.removeItem(ADMIN_CACHE_KEYS[slot]);
+      else sessionStorage.setItem(ADMIN_CACHE_KEYS[slot], JSON.stringify(data));
+    } catch { /* quota / private mode */ }
+  }
+
+  /** Per-app page id (pbj | hhh | cvc) when ADMIN_PAGE is app-* */
+  function adminGetApp() {
+    const p = window.ADMIN_PAGE || "";
+    if (p.startsWith("app-")) return p.slice(4);
+    return window.ADMIN_APP || null;
+  }
+
+  function persistWmCache() { adminCacheWrite("wm", wmCache); }
+  function persistOcrQuotaCache() { adminCacheWrite("ocr", ocrQuotaCache); }
+
   let   token  = sessionStorage.getItem("pbj_dash_token") || null;
   let   tick   = null;
   let   intervalSec = 0;  // PocketBase grid — manual by default (auto uses PB /api only, not Worker KV)
   let   logTailTick = null;
-  let   wmCache = null;       // { results, tier, costHistoryLoaded, fetchedAt }
+  let   wmCache = adminCacheRead("wm");       // { results, tier, costHistoryLoaded, fetchedAt }
   let   wmAutoTick = null;
-  let   ocrQuotaCache = null; // { data, costHistoryLoaded, fetchedAt }
+  let   ocrQuotaCache = adminCacheRead("ocr"); // { data, costHistoryLoaded, fetchedAt }
   let   maintenanceFlag = null;  // last known state of _app_config.maintenance_mode
   let   prevCounts  = {};
   let   githubCache = null;      // { sizeKB, pushedAt, fetchedAt }
