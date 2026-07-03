@@ -7,9 +7,9 @@
   <meta name="googlebot"             content="noindex, nofollow, noarchive">
   <meta name="bingbot"               content="noindex, nofollow, noarchive">
   <meta name="referrer"              content="no-referrer">
-  <title>JosspaTech — Control Center</title>
+  <title>JosspaTech — Partner Referrals</title>
   <link rel="stylesheet" href="shared/admin.css">
-  <script>window.ADMIN_PAGE = "hub";</script>
+  <script>window.ADMIN_PAGE = "referrals";</script>
 </head>
 <body>
   <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
@@ -65,35 +65,59 @@
     </div>
     <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
     <div id="wowBanner" style="display:none"></div>
-    <section id="hubNav" class="hub-nav">
-      <h2>Control Center</h2>
+    <main class="page-main">
+<section id="partnerReferrals">
+      <h2>Partner Referrals — HHH</h2>
       <p class="section-explainer">
-        Multi-page ops dashboard — <strong>manual refresh only</strong> by default (Light / Medium / Heavy cost labels on Worker and Referral pages).
-        No auto-polling of Worker KV or <code>COST_GRAPH_ENABLED</code> cost history unless you explicitly click Heavy.
+        Outbound click proof for Clockworks (JJ commerce/repair/resources) and eBay affiliate traffic.
+        Data comes from HHH Worker KV rollups (<code>GET /ops/referrals</code>) — updated when users tap partner links in the app.
+        <strong>Manual refresh only</strong> — no auto-polling (same lesson as cost graph).
+        Use <em>JJ shareable</em> tab for screenshots with JJ — eBay is never included there.
       </p>
-      <div class="hub-cards">
-        <a class="hub-card" href="flywheel.html">
-          <h3>Flywheel</h3>
-          <p>PocketBase crowd-data grid, services, cron, maintenance, founder economics.</p>
-        </a>
-        <a class="hub-card" href="workers.html">
-          <h3>Workers</h3>
-          <p>PBJ · HHH · CVC monitoring — health, usage, cost charts (Light / Medium / Heavy).</p>
-        </a>
-        <a class="hub-card" href="referrals.html">
-          <h3>Referrals</h3>
-          <p>HHH partner referrals — All stats (Joe) and JJ shareable tab.</p>
-        </a>
-        <a class="hub-card" href="ocr-quota.html">
-          <h3>OCR &amp; Quotas</h3>
-          <p>PBJ OCR quota, Teller bank-sync, OpenCellID daily caps.</p>
-        </a>
+      <div class="ref-jj-note" id="refJjNote" hidden>
+        JJ shareable view: commerce + repair only. Check <em>Include resources</em> to add articles/how-to links.
+        eBay data is excluded from this tab.
       </div>
-      <div class="hub-status" id="hubBriefStatus">
-        <p class="section-explainer" style="margin-bottom:8px;">Brief status (health ping only — no KV reads on load).</p>
-        <div id="hubStatusLines">Sign in to see ops summary.</div>
+      <div class="ref-toolbar">
+        <label>Range
+          <select id="refRangePreset" onchange="refOnRangePresetChange()">
+            <option value="7">Last 7 days</option>
+            <option value="30">Last 30 days</option>
+            <option value="custom">Custom</option>
+          </select>
+        </label>
+        <label id="refCustomFromWrap" style="display:none;">From
+          <input type="date" id="refCustomFrom">
+        </label>
+        <label id="refCustomToWrap" style="display:none;">To
+          <input type="date" id="refCustomTo">
+        </label>
+        <label id="refIncludeResourcesWrap" style="display:none;">
+          <input type="checkbox" id="refIncludeResources"> Include resources (articles)
+        </label>
       </div>
+      <div class="ref-tabs">
+        <button type="button" class="ref-tab active" id="refTabAll" onclick="refSelectTab('all')">All stats (Joe)</button>
+        <button type="button" class="ref-tab" id="refTabJj" onclick="refSelectTab('jj')">JJ shareable</button>
+      </div>
+      <div class="ref-actions">
+        <button type="button" class="m-btn accent" onclick="refRefreshLight()" title="KV rollup only — ~few reads per day in range">
+          Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
+        </button>
+        <button type="button" class="m-btn" onclick="refLoadDetail()" title="Worker + context list per day — more KV keys">
+          Load detail tables <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="refLoadTopSkus()" title="Uses PocketBase quota — use sparingly. Bounded to top 20 SKUs in range.">
+          Top SKUs <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="refExportClickLog()" title="Uses PocketBase quota — use sparingly. Exports up to 2,000 rows in range.">
+          Export click log <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
+        </button>
+      </div>
+      <div class="ref-status" id="refStatus">Click Refresh to load KV rollups. HHH Worker key required (same as Worker Monitoring).</div>
+      <div id="refContent"></div>
     </section>
+    </main>
   </div>
   <script src="shared/admin-nav.js"></script>
   <script src="shared/admin-common.js"></script>

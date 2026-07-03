@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="referrer"              content="no-referrer">
+  <title>JosspaTech — Flywheel Operations</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "flywheel";</script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+  <div id="login">
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">
+          Flywheel · shared ops for PBJ · HHH · CVC
+        </span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          Jossp<span class="amp">a</span>Tech
+          <span class="subtitle">Flywheel Ops · PBJ · HHH · CVC</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">—</span>
+        <button type="button" class="m-btn" onclick="refresh()" title="PocketBase crowd-data grid only — no Worker KV">Refresh grid</button>
+        <label class="dash-auto-label" title="Polls PocketHost /api — not Cloudflare KV">
+          <input type="checkbox" id="pbAutoRefresh" onchange="setRefresh()"> Auto-refresh grid
+        </label>
+        <select id="refreshInterval" onchange="setRefresh()" disabled title="Uses PocketHost API quota when auto-refresh is on">
+          <option value="300">5m</option>
+          <option value="600" selected>10m</option>
+          <option value="1800">30m</option>
+        </select>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsBuyBar" role="region" aria-label="Quick upgrade actions">
+      <div class="ops-buy-title">Fix it now — open billing / upgrade</div>
+      <div id="opsBuyBtns" class="ops-buy-btns"></div>
+    </div>
+    <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
+    <div id="wowBanner" style="display:none"></div>
+    <main class="page-main">
+<div class="dash-legend">
+      <details>
+        <summary>How to read this dashboard — colors, dots, and data sources</summary>
+        <ul>
+          <li><strong>Card left border</strong> — green = healthy, yellow = watch, red = action needed, gray = informational or not configured yet.</li>
+          <li><strong>Service status dot</strong> — Online = probe succeeded; Degraded = slow or partial; Down = unreachable or error; Manual check = no auto-probe (open the vendor dashboard).</li>
+          <li><strong>Usage meters</strong> (services + workers) — yellow at 75% of daily cap, red at 90%. PBJ circuit breaker at 100% blocks <em>free</em> cloud OCR only.</li>
+          <li><strong>Red ops banner</strong> (top) — worker down, Gemini ≥80%, or circuit breaker armed. Gray info banner = housekeeping (missing pb_hooks, stale balance log).</li>
+          <li><strong>Live PocketBase grid</strong> (top of page) — crowd-data counts from josspatech.pockethost.io. Manual <em>Refresh grid</em> by default; optional auto-refresh uses PocketHost <code>/api</code> only (not Worker KV).</li>          <li><strong>Worker panels</strong> — PBJ/HHH/CVC Cloudflare Workers; need <code>X-PBJ-Key</code> (etc.) in this browser from smoke test or login flow.</li>
+          <li><strong>RevenueCat vs heartbeats</strong> — RC = store billing truth; heartbeats = anonymous install/tier signals from the app (30-day window).</li>
+          <li><strong>— (dash)</strong> — no data yet, not wired, or metric unavailable — usually normal pre-launch.</li>
+        </ul>
+      </details>
+    </div>
+
+    
+<main id="grid"></main>
+<section id="appVersions">
+      <h2>App Version Snapshot</h2>
+      <p class="section-explainer">
+        What's currently shipped on each store. <strong>Update the table when you ship</strong>
+        — there's no automatic source of truth that's free + auth-less, so this is hand-maintained.
+        The <em>versionCode</em> matches the `versionCode` in `android/app/build.gradle` and
+        Apple's auto-incremented build number. <strong>"Last submitted"</strong> is the
+        date you last tapped Submit, not when it went live. <strong>"Status"</strong> is
+        what the store will tell users (Live / In Review / Rejected / Not Shipped).
+      </p>
+      <div id="appVersionsTable"></div>
+    </section>
+<section id="quickActions">
+      <h2>Quick Actions</h2>
+      <p class="section-explainer">
+        Single-click admin tasks. Each button hits an endpoint and shows the result inline.
+        Use the green/red <strong>Force-refresh status checks</strong> when you've made
+        a change and want immediate feedback rather than waiting on the next page reload.
+      </p>
+      <div class="m-row" id="quickActionsRow">
+        <button class="m-btn" onclick="refreshServiceStatus(); qaLog('Service status refreshed')">Force-refresh status checks</button>
+        <button class="m-btn" onclick="qaPingWorker()">Ping Worker /health</button>
+        <button class="m-btn" onclick="qaPingPocketBase()">Ping PocketBase /api/health</button>
+        <button class="m-btn" onclick="qaCheckQuotas()">Re-fetch /health/quotas</button>
+      </div>
+      <div class="m-row" id="quickActionsTestsRow" style="margin-top: 8px;">
+        <span style="font-size: 11px; color: var(--text-muted); align-self: center; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Endpoint smoke tests:</span>
+        <button class="m-btn accent" onclick="qaSampleVision()">PBJ — /vision/receipt</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('watch', 'Rolex Submariner Date 16610 stainless steel oyster bracelet')">HHH — /identify/watch</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('coin', '1909-S VDB Lincoln Wheat Cent United States')">CVC — /identify/coin</button>
+        <button class="m-btn accent" onclick="qaTestIdentify('card', '1986 Fleer Michael Jordan rookie card #57')">CVC — /identify/card</button>
+        <button class="m-btn" onclick="clearPbjKey()" title="Forget the stored Worker shared key in this browser. Next smoke test will re-prompt.">Clear PBJ key</button>
+      </div>
+      <pre id="qaLog" style="margin-top: 12px; max-height: 240px; overflow: auto; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 6px; padding: 10px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); white-space: pre-wrap; display: none;"></pre>
+    </section>
+<section id="quicklinks">
+      <h2>Quick Links</h2>
+      <p class="section-explainer">
+        Bookmarks only — no status probes. Use <strong>External Services &amp; Status</strong> for green/red health
+        and usage meters; use <strong>Worker Monitoring</strong> for per-app AI/OCR quotas.
+        Grouped by vendor so you can jump to App Store Connect, RevenueCat, Cloudflare, PocketBase admin, etc.
+      </p>
+      <div id="quickLinksGrid"></div>
+    </section>
+<section id="services">
+      <h2>External Services &amp; Status</h2>
+      <p class="section-explainer">
+        One card per vendor the apps depend on. <strong>Status dot:</strong>
+        <span style="color:var(--success);">Online</span> = last probe OK;
+        <span style="color:var(--warning);">Degraded</span> = slow, rate-limited, or partial;
+        <span style="color:var(--danger);">Down</span> = failed probe;
+        <span style="color:var(--text-muted);">Manual check</span> = no browser probe (click through to the dashboard).
+        When a <strong>usage meter</strong> shows (e.g. Gemini req/day), yellow = 75%+ of cap, red = 90%+.
+        Tier badge: <code>free</code> / <code>paid</code> / <code>todo</code> = billing model for that vendor today.
+        Anthropic balance is logged manually in its card — not polled from an API.
+      </p>
+      <div class="m-row" style="margin-bottom: 12px;">
+        <button class="m-btn" onclick="refreshServiceStatus()">Refresh status checks</button>
+        <span id="svcLastChecked" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+
+      <!-- Cards built from the SERVICES array in JS so adding a new
+           service is a one-line change instead of an HTML edit. -->
+      <div id="servicesGrid"></div>
+    </section>
+<section id="upgradePlaybook">
+      <h2>Need more quota? Upgrade playbook</h2>
+      <p class="section-explainer">
+        When a meter turns yellow or red, a <strong>gold bar appears under the red ops banner</strong>
+        with one-click billing links — use that first in production.
+        This table is the full reference: <strong>what triggered it</strong>, <strong>steps</strong>, and
+        <strong>buy / fix links</strong> for every vendor.
+        Self-hosted limits in <code>wrangler.toml</code> can be raised for free; vendor free tiers need billing or a paid plan.
+      </p>
+      <div id="upgradePlaybookGrid" class="upgrade-playbook-wrap">Loading…</div>
+    </section>
+<section id="capacityControl">
+      <h2>Capacity Control — app caps vs vendor billing</h2>
+      <p class="section-explainer">
+        <strong>Problem this solves:</strong> you enable Gemini billing or buy OCR.Space PRO, vendor meters look fine,
+        but users still fail because <strong>app caps in the Worker</strong> were never raised.
+        Use this section to raise enforcement limits in seconds (KV overrides — no <code>wrangler deploy</code>).
+        After buying vendor capacity, either check the billing box + <strong>Match caps to vendor billing</strong>,
+        or apply a <strong>Growing</strong> / <strong>Scale</strong> preset.
+        Red bottleneck lines here also feed the ops alert banner when keys are set.
+      </p>
+      <div id="capacityBottleneckBanner" style="display:none;"></div>
+      <div id="capacityControlGrid" class="capacity-grid">Loading capacity config…</div>
+      <h3 style="margin-top:8px;font-size:14px;">Vendor-only — no dashboard cap link</h3>
+      <p class="section-explainer" style="margin-top:4px;">
+        These services are billed or limited at the vendor only. Buying more does <em>not</em> auto-raise any Worker cap.
+        Use the reminder column after you upgrade.
+      </p>
+      <div id="vendorOnlyCapGrid" class="vendor-only-wrap"></div>
+    </section>
+<section id="cronHealth">
+      <h2>Cron Health</h2>
+      <p class="section-explainer">
+        The <strong>aggregation cron</strong> is a scheduled task inside PocketBase that runs every hour
+        on the top of the hour. It drains the merchant / paycheck / bill submission queues into
+        the consensus tables, weights submissions by confidence, applies user-merge alias
+        promotions, and copies vendor phone/domain onto canonical entities. <strong>If the cron
+        stops firing, crowd-data accumulates in the queue but never aggregates</strong> — the
+        seed library stops growing, alias promotions stall, and the flywheel stalls.
+        <br><br>
+        This card reads a heartbeat that the hook writes on every run. <strong style="color: var(--success);">Green</strong>
+        if the last run was within 90 minutes (cron is healthy). <strong style="color: var(--warning);">Yellow</strong>
+        90-180 min (might just be one missed cycle). <strong style="color: var(--danger);">Red</strong> if &gt;180 min
+        (cron is broken — investigate). <strong style="color: var(--text-muted);">Gray</strong> means the heartbeat
+        collection doesn't exist yet — create <code>_cron_heartbeat</code> in PocketBase admin
+        with fields <code>name</code> (text) and <code>last_run</code> (date), and the
+        aggregation hook will start writing to it on the next run.
+        <br><br>
+        <strong>PBJ only — not blocking HHH/CVC.</strong> This cron powers the crowd merchant
+        library for Pocket Budget Journal. The <code>pb_hooks</code> scripts in the PBJ repo are
+        not deployed to PocketHost yet, so gray/missing here is expected and not urgent.
+        Quota alert emails come from the Cloudflare Worker cron instead (see
+        <a href="#thresholdsBaselines">Thresholds &amp; Baselines</a>).
+      </p>
+      <div id="cronHealthGrid"></div>
+    </section>
+<section id="subscriptionUsers">
+      <h2>Users by App — Trial vs Paying</h2>
+      <p class="section-explainer">
+        <strong>Two data sources per app — read them separately:</strong>
+        <br><br>
+        <strong>RevenueCat (store truth)</strong> — live from Apple/Google via RevenueCat.
+        <em>Paying</em> = active paid subscriptions right now.
+        <em>Active trials</em> = store free trials in progress (card on file, not charged yet).
+        <strong>—</strong> means that app's RC project id is not on the Worker yet.
+        <br><br>
+        <strong>App heartbeats (install truth)</strong> — each app reports anonymous tier on open
+        (no email, one row per device). Counted only if seen in the last <strong>30 days</strong>.
+        <em>Free</em> = using the app without Pro. <em>Expired trial</em> = trial ended, not paying.
+        PBJ sends heartbeats today; HHH/CVC when those builds ship.
+        <br><br>
+        <strong>Zero is normal</strong> at pre-launch. RC zeros with no subscribers; heartbeat zeros
+        until users open the app after a build with heartbeat code.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadSubscriptionUsers()">Refresh user counts</button>
+        <span id="subscriptionUsersHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="subscriptionUsersGrid">Loading…</div>
+    </section>
+<section id="runtimeTruthGate">
+      <h2>PBJ — Runtime gate</h2>
+      <p class="section-explainer">
+        Weekly crash-free + cold-start P95 from
+        <code>docs/runtime-truth-data.json</code> in the PBJ repo (Firebase Console manual or BigQuery).
+        Gates: crash-free ≥ 99%, cold-start P95 ≤ 2.5s. Pair with
+        <a href="https://github.com/josspa1/PocketBudJet/blob/master/docs/RUNTIME_TRUTH.md" target="_blank" rel="noopener noreferrer">RUNTIME_TRUTH.md</a>
+        before cutting a build.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadRuntimeTruthFromGithub()">Refresh runtime gate</button>
+        <span id="runtimeTruthHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="runtimeTruthGrid">Loading…</div>
+    </section>
+<section id="commercialProof">
+      <h2>PBJ — Commercial proof (90-day cohort)</h2>
+      <p class="section-explainer">
+        Anonymous funnel counts from the app via <code>POST /ops/commercial-proof/events</code>,
+        aggregated on the Worker KV. Rates are cohort ratios (not store billing).
+        Refresh after closed-testing builds ship.
+      </p>
+      <div class="m-row" style="margin-bottom: 10px;">
+        <button class="m-btn" onclick="loadCommercialProofFromWorker()">Refresh commercial proof</button>
+        <span id="commercialProofHint" style="color: var(--text-dim); font-size: 12px;"></span>
+      </div>
+      <div id="commercialProofGrid">Loading…</div>
+    </section>
+<section id="founderBreakeven">
+      <details class="tb-collapse founder-collapse" open>
+        <summary>Founder Economics &amp; Breakeven — expand for full detail</summary>
+        <div class="tb-collapse-body">
+      <p class="section-explainer">
+        <strong>What this is:</strong> Your fixed monthly burn as a solo founder — domains, store
+        accounts, PocketHost, and optional tools — plus how many paying PocketBudJet subscribers
+        cover that burn at <strong>$8.49/mo net</strong> ($9.99 shelf minus 15% Apple/Google cut).
+        Use this section before the <strong>OCR Quota &amp; Cost</strong> panel below: economics
+        first, then live API quota.
+        <br><br>
+        <strong>Fixed monthly stack</strong> (infra + domains + licenses — shared across PBJ, HHH,
+        and future apps; do not double-count Apple/Google per app):
+        <br>
+        josspatech.com ~$1/mo · pocketbudjet.com ~$1/mo · Apple Developer $8.25/mo ($99/yr) ·
+        Google Play $0.42/mo ($25 one-time, amortized) · PocketHost $5/mo · Cloudflare Workers
+        $0 (free tier) · GitHub Pages $0 · Firebase Spark $0 · RevenueCat $0 (until ~$10K MTR) ·
+        Expo EAS $0 (free 30 builds/mo). <strong>Infra subtotal: $15.67/mo.</strong>
+        Founder-tool stacks on top: <strong>Lean</strong> $15.67 (no Cursor) ·
+        <strong>Realistic</strong> $35.67 (+ Cursor ~$20) · <strong>Comfort</strong> $50.67
+        (+ $15 misc buffer). Full line items:
+        <code>docs/JOE_OPS_COSTS.md</code> in the PBJ repo.
+        <br><br>
+        <strong>Breakeven</strong> at $8.49 net per monthly sub
+        (<code>ceil(fixed ÷ 8.49)</code>): <strong>Lean → 2 subs</strong> ·
+        <strong>Realistic → 5 subs</strong> · <strong>Comfort → 6 subs</strong>.
+        Annual plan nets ~$5.31/mo — use monthly for conservative planning.
+        <br><br>
+        <strong>Variable costs</strong> (tracked separately — not baked into fixed stacks; add on
+        top when they go non-zero): Gemini API overage above 1,500 free calls/day, Claude API
+        (Cursor agent + app <code>/anthropic-proxy</code>), Teller ~$2/active enrollment/mo in
+        production (see Teller panel), OCR.Space PRO if rate-limited. Panels below show live usage.
+        <br><br>
+        <strong>Joe's three alerts</strong> (what to watch and what already fires automatically):
+        <br>
+        (a) <strong>Enough paying users for Gemini paid tier</strong> — compare your manual paying
+        subs (or RevenueCat when wired) against the breakeven cards; realistic stack (~5 subs)
+        is the day-to-day target before variable API bills hurt.
+        <br>
+        (b) <strong>Approaching free Gemini cap</strong> — watch the <strong>OCR Quota &amp; Cost</strong>
+        panel below (Gemini daily bar); the red <strong>ops alert banner</strong> at the top of this
+        page appears at ≥80% utilization. The Worker hourly cron also emails
+        <code>support@josspatech.com</code> when quota thresholds trip (MailChannels or Postmark).
+        <br>
+        (c) <strong>Service stopped because cap hit</strong> — when the global circuit breaker
+        arms at 100%, free users are denied cloud OCR; the red banner shows
+        <em>OCR circuit breaker ARMED</em>. Premium/trial users keep working. Raise limits in
+        <code>wrangler.toml</code> and redeploy, or upgrade the API plan.
+        <br><br>
+        <strong>How to use:</strong> Enter current paying monthly subs below (saved in this browser
+        until RevenueCat <code>/ops/revenue</code> is live). Compare your count and status line
+        against lean / realistic / comfort breakeven. Scroll to <strong>OCR Quota</strong> for
+        today's Gemini usage. If you get a quota email from the Worker cron, cross-check the
+        panel and banner here before changing caps.
+      </p>
+      <div id="founderBreakevenGrid"></div>
+      <div id="breakevenGrid">Loading…</div>
+      <div class="be-manual">
+        <div>
+          <label for="joePayingSubs">Current paying monthly subs</label>
+          <input type="number" id="joePayingSubs" min="0" step="1" placeholder="0"
+                 onchange="saveJoePayingSubs()" oninput="renderBreakevenPanel()">
+        </div>
+        <div>
+          <label for="joeMrrManual">Manual MRR ($/mo net, optional)</label>
+          <input type="number" id="joeMrrManual" min="0" step="0.01" placeholder="auto"
+                 onchange="saveJoeMrrManual()" oninput="renderBreakevenPanel()">
+        </div>
+        <div id="breakevenStatus" style="font-size: 13px; flex: 1; min-width: 200px;"></div>
+      </div>
+      <p id="revenueCatHint" class="section-explainer" style="margin-top: 12px; margin-bottom: 0;"></p>
+        </div>
+      </details>
+    </section>
+<section id="quarantineWatch">
+      <h2>Quarantine Watch</h2>
+      <p class="section-explainer">
+        When the aggregation hook scans an incoming submission and detects something that
+        looks like personally identifiable information (SSN, credit card, email, phone, routing
+        number, account number), it routes the submission to <code>_quarantine_submissions</code>
+        instead of feeding it into the consensus tables. <strong>Privacy-by-default:</strong>
+        we'd rather false-positive a usable data point than leak PII into a public-read
+        collection. <strong style="color: var(--success);">Green</strong> at 0 records.
+        <strong style="color: var(--warning);">Yellow</strong> at 1–10 records (review when convenient).
+        <strong style="color: var(--danger);">Red</strong> at &gt;10 (something's misclassifying — investigate the
+        hook's PII patterns and check whether legitimate user data is getting trapped).
+      </p>
+      <div id="quarantineWatchGrid"></div>
+    </section>
+<section id="recentCommits">
+      <h2>Recent Commits</h2>
+      <p class="section-explainer">
+        Last commits across <strong>website + app-source repos</strong> via GitHub's API. The website
+        repo (<code>josspatech.github.io</code>) is public; commits are read without auth.
+        App-source repos (PBJ / HHH / CVC) are private; commits require a fine-grained
+        personal access token. <strong>To include the private repos:</strong>
+        generate a PAT at
+        <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener noreferrer">github.com/settings/personal-access-tokens</a>
+        with read-only <em>Contents</em> permission on the three repos, then in the browser
+        console (F12 → Console) run <code>localStorage.setItem("gh_pat", "github_pat_…")</code>
+        and reload the page. The token stays per-browser — never committed to source.
+        Until then, only website commits show; private repos are skipped silently.
+      </p>
+      <div id="recentCommitsGrid"></div>
+    </section>
+<section id="maintenance">
+      <h2>Maintenance &amp; Reports</h2>
+
+      <div class="m-group">
+        <div class="m-group-title">Backups</div>
+        <div class="m-desc">
+          A fresh backup gives you a point-in-time recovery file AND powers the "Database size" card above.
+          Keep 2–3 at a time; older backups waste storage.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mCreateBackup()">Create backup now</button>
+          <button class="m-btn danger" onclick="mPruneBackups()">Delete all but latest 3 backups</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Data hygiene</div>
+        <div class="m-desc">
+          Purge resolved anomaly records and old quarantine entries so the "Quality &amp; Security" cards
+          reflect current state, not historical noise.
+        </div>
+        <div class="m-row">
+          <button class="m-btn danger" onclick="mClearResolvedAnomalies()">Clear resolved anomalies (older than 7 days)</button>
+          <button class="m-btn danger" onclick="mClearOldQuarantine()">Clear quarantine records older than 30 days</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Export a collection as CSV</div>
+        <div class="m-desc">
+          Downloads every record in the selected collection as a CSV file. Large collections (&gt;10k rows)
+          may take 30–60 seconds to stream.
+        </div>
+        <div class="m-row">
+          <select class="m-sel" id="exportCol">
+            <optgroup label="PBJ">
+              <option value="pbj_category_analytics">pbj_category_analytics</option>
+              <option value="pbj_merchant_data">pbj_merchant_data</option>
+              <option value="pbj_price_trends">pbj_price_trends</option>
+              <option value="pbj_spending_benchmarks">pbj_spending_benchmarks</option>
+              <option value="pbj_store_intel">pbj_store_intel</option>
+              <option value="pbj_recurring_patterns">pbj_recurring_patterns</option>
+              <option value="pbj_household_benchmarks">pbj_household_benchmarks</option>
+              <option value="pbj_document_patterns">pbj_document_patterns</option>
+              <option value="pbj_subscription_library">pbj_subscription_library</option>
+              <option value="pbj_merchant_submissions">pbj_merchant_submissions</option>
+              <option value="pbj_paycheck_submissions">pbj_paycheck_submissions</option>
+              <option value="pbj_bill_submissions">pbj_bill_submissions</option>
+              <option value="pbj_purchase_links">pbj_purchase_links</option>
+            </optgroup>
+            <optgroup label="Shared">
+              <option value="shared_entity_library">shared_entity_library</option>
+              <option value="shared_entity_aliases">shared_entity_aliases</option>
+              <option value="product_intel">product_intel</option>
+            </optgroup>
+            <optgroup label="Cross-app">
+              <option value="hhh_collection_values">hhh_collection_values</option>
+              <option value="hhh_market_intelligence">hhh_market_intelligence</option>
+              <option value="cvc_collection_values">cvc_collection_values</option>
+              <option value="cts_market_intelligence">cts_market_intelligence</option>
+            </optgroup>
+            <optgroup label="Ops">
+              <option value="_anomaly_log">_anomaly_log</option>
+              <option value="_quarantine_submissions">_quarantine_submissions</option>
+              <option value="_site_visits">_site_visits</option>
+            </optgroup>
+          </select>
+          <button class="m-btn" onclick="mExportCSV()">Download CSV</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Reports</div>
+        <div class="m-desc">
+          Quick canned reports. Each produces a downloadable file you can mail to yourself or check in.
+        </div>
+        <div class="m-row">
+          <button class="m-btn accent" onclick="mWeeklySummary()">Weekly summary (.md)</button>
+          <button class="m-btn accent" onclick="mTopMerchants()">Top merchants report (.md)</button>
+          <button class="m-btn accent" onclick="mSiteTraffic()">7-day site traffic (.md)</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Testing &amp; verification</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> you just deployed <code>pb_hooks</code> or suspect the aggregation isn't
+          running. The test-submission button writes a fake merchant submission with a unique fingerprint;
+          wait for the next hour, then check that it was processed. The delete-by-ID tool is for removing
+          one specific stub/test record without clicking through the admin UI.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mSendTestSubmission()">Send test submission</button>
+          <span id="testSubStatus" style="color:var(--text-dim); font-size:12px;"></span>
+        </div>
+        <div class="m-row">
+          <select class="m-sel" id="deleteCol" style="min-width:200px">
+            <optgroup label="PBJ">
+              <option value="pbj_merchant_submissions">pbj_merchant_submissions</option>
+              <option value="pbj_paycheck_submissions">pbj_paycheck_submissions</option>
+              <option value="pbj_bill_submissions">pbj_bill_submissions</option>
+              <option value="pbj_merchant_data">pbj_merchant_data</option>
+              <option value="pbj_price_trends">pbj_price_trends</option>
+              <option value="pbj_purchase_links">pbj_purchase_links</option>
+            </optgroup>
+            <optgroup label="Shared">
+              <option value="shared_entity_library">shared_entity_library</option>
+              <option value="shared_entity_aliases">shared_entity_aliases</option>
+            </optgroup>
+            <optgroup label="Ops">
+              <option value="_anomaly_log">_anomaly_log</option>
+              <option value="_quarantine_submissions">_quarantine_submissions</option>
+              <option value="_site_visits">_site_visits</option>
+            </optgroup>
+          </select>
+          <input type="text" class="m-sel" id="deleteId" placeholder="Record ID (15-char)"
+                 style="min-width:180px; font-family:var(--mono);">
+          <button class="m-btn danger" onclick="mDeleteById()">Delete record</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Flywheel curation</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> the pending alias count is growing and you want to force-approve the
+          confident ones <em>now</em> rather than waiting for the hourly aggregation cron. Or when you want
+          manual control over which aliases promote — the reviewer shows the 20 oldest pending votes with
+          approve/reject buttons.
+        </div>
+        <div class="m-row">
+          Promote all pending aliases with
+          <input type="number" id="promoteThreshold" class="m-sel" value="5" min="1" max="100"
+                 style="min-width:70px; width:80px;">
+          votes or more
+          <button class="m-btn" onclick="mPromoteAliases()">Run promotion</button>
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mOpenAliasReviewer()">Open alias reviewer (20 oldest pending)</button>
+        </div>
+        <div id="aliasReviewerPanel" style="display:none"></div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Operations</div>
+        <div class="m-desc">
+          <strong>Use when:</strong>
+          <em>Maintenance mode</em> — you're about to do a risky schema change or deploy a new hooks
+          version and want clients to back off writing. (Note: the PBJ app doesn't check the flag yet —
+          this is wired for future builds. Toggling it now just records the intent.)
+          <em>Log tail</em> — you want to see server-side hook output in real time (e.g. <code>[aggregate]
+          merchant=12 paycheck=3…</code> lines as they fire). Stop the tail when you're done to avoid
+          hammering rate limits.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mToggleMaintenance()">Toggle maintenance mode</button>
+          <span id="maintenanceStatus" style="color:var(--text-dim); font-size:12px;">checking…</span>
+        </div>
+        <div class="m-row">
+          <button class="m-btn" id="logTailBtn" onclick="mToggleLogTail()">Start log tail (every 30s)</button>
+          <span id="logTailStatus" style="color:var(--text-dim); font-size:12px;"></span>
+        </div>
+        <pre id="logTailPane"></pre>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Force-run server jobs</div>
+        <div class="m-desc">
+          <strong>Use when:</strong> you don't want to wait for the scheduled cron. Each button invokes
+          the same logic as the recurring job, on demand. Requires <code>ops_routes.pb.js</code> to be
+          deployed to <code>pb_hooks/</code> (alongside aggregation / staleness / anomaly / retention).
+          If the route returns a 404, the hook file isn't deployed yet.
+        </div>
+        <div class="m-row">
+          <button class="m-btn" onclick="mForceRun('aggregate')">Run aggregation now</button>
+          <button class="m-btn" onclick="mForceRun('staleness')">Run staleness sweep</button>
+          <button class="m-btn" onclick="mForceRun('anomaly')">Run anomaly detection</button>
+          <button class="m-btn" onclick="mForceRun('retention')">Run retention cleanup</button>
+        </div>
+        <div class="m-row">
+          <button class="m-btn accent" onclick="mOpsHealth()">Ping /api/ops/health</button>
+        </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">Ask Claude to analyze</div>
+        <div class="m-desc">
+          Grabs every number visible on the dashboard right now, wraps it into a well-formatted
+          analysis prompt, copies it to your clipboard, then opens Claude in a new tab.
+          Paste (<kbd>Cmd/Ctrl+V</kbd>) and get a take on what the flywheel looks like today.
+          Zero cost — runs in your existing Claude session.
+        </div>
+        <div class="m-row">
+          <input type="text" id="claudeQuestion" class="m-sel"
+                 placeholder="Optional follow-up — e.g. 'What should I watch this week?'"
+                 style="flex:1; min-width:260px;">
+          <button class="m-btn accent" onclick="mAskClaude()">Copy &amp; open Claude</button>
+        </div>
+      </div>
+
+      <div id="log"></div>
+
+      <!-- ─── Reference: About + Deploying updates ─── -->
+      <div id="reference">
+        <h3>What this dashboard is</h3>
+        <p>
+          This is the <strong>JosspaTech Flywheel Ops</strong> dashboard. It watches the shared
+          PocketBase instance that all three JosspaTech apps write to &mdash; PocketBudJet (PBJ),
+          Handy Horology Helper (HHH), and Curator's Vault (CVC) &mdash; so you have one place
+          to see whether the consensus engine is healthy instead of bouncing between PocketBase
+          admin, GitHub Insights, PocketHost billing, and Google Play Console.
+        </p>
+        <p>
+          <strong>The flywheel:</strong> users scan receipts / pay stubs / bills. PBJ writes anonymized
+          submissions to PocketBase. Server-side hooks (deployed from this dashboard's deploy scripts)
+          drain those submissions into canonical merchants/employers/payees. Every device then reads
+          back richer intel on the next scan. Each user correction makes the database a little smarter
+          for every future user.
+        </p>
+        <p>
+          The cards above are the instrumentation. The buttons in <em>Maintenance &amp; Reports</em> are
+          the controls. If something's off, start with <em>Week-over-week</em> banner (top), then the
+          red/yellow cards, then the anomaly &amp; crash lists.
+        </p>
+
+        <h3>Deploying updates</h3>
+        <p>
+          There are four things that can change and how to ship each:
+        </p>
+
+        <p><strong>1. Server-side hooks</strong> (anything in <code>pb_hooks/*.pb.js</code> — aggregation
+        logic, anomaly thresholds, rate limits, force-run routes).</p>
+        <pre>cd C:\Users\jossp\Documents\MobileApps\ClaudeFiles
+powershell -ExecutionPolicy Bypass -File deploy_everything.ps1</pre>
+        <p>
+          Prompts for your PocketHost email + password. Uploads all 6 hook files via FTPS. PocketBase
+          hot-reloads in ~5 seconds — no restart. Mac/Linux: run <code>./deploy_everything.sh</code>
+          instead (same contract, bash version).
+        </p>
+
+        <p><strong>2. This dashboard</strong> (<code>admin/josspatech-dashboard.html</code>).</p>
+        <p>
+          Live at <code>josspatech.com/admin/josspatech-dashboard.html</code>. Edit the file in
+          <code>C:\Users\jossp\Documents\MobileApps\WebSite\HostedFiles\admin\</code> and
+          <code>C:\Users\jossp\Documents\GitHub\josspatech.github.io\admin\</code>
+          (keep both folders in sync per the project rules), then push via GitHub Desktop —
+          stage the change, write a commit message, push to <code>main</code>. GitHub Pages
+          rebuilds in 30–60 seconds.
+        </p>
+
+        <p><strong>3. The website itself</strong> (<code>index.html</code>, the site-visit tracker,
+        any other page content).</p>
+        <p>Same <code>git push</code> as above — GitHub Pages picks up everything in the repo.</p>
+
+        <p><strong>4. The PBJ / HHH / CVC apps</strong> (client-side code — new features, bug fixes,
+        <code>maintenanceGate.ts</code>, <code>crashReporter.ts</code>, etc.).</p>
+        <p>Standard build &amp; submit:</p>
+        <ul>
+          <li><strong>iOS:</strong> <code>npx eas build --platform ios --profile production</code>, then
+          <code>npx eas submit --platform ios --profile production --latest</code></li>
+          <li><strong>Android:</strong> scorched-earth bundle per CLAUDE.md, then
+          <code>.\gradlew.bat bundleRelease</code>, then <code>npx eas submit --platform android --profile production --path "Builds-Android\app-release-N.aab"</code></li>
+        </ul>
+
+        <h3>If something breaks</h3>
+        <ul>
+          <li><strong>Dashboard shows "Last aggregation: never"</strong> — hooks aren't deployed. Run
+          <code>deploy_everything.ps1</code>.</li>
+          <li><strong>Queue card turns red (&gt;500)</strong> — aggregation isn't keeping up. Click
+          <em>Run aggregation now</em> in the Force-run section.</li>
+          <li><strong>Force-run buttons return 404</strong> — <code>ops_routes.pb.js</code> didn't
+          load. Re-run deploy, then click <em>Ping /api/ops/health</em> to verify.</li>
+          <li><strong>Crashes spike after a release</strong> — click into the <em>Recent crashes</em>
+          list and group by <code>error_name</code>. Roll back the release if it's systemic.</li>
+          <li><strong>Dashboard fetches get rate-limited</strong> — PocketHost added <code>/api</code>
+          rate limits. Leave header auto-refresh <strong>off</strong> or set 10m/30m; Worker panels are manual-only by default.</li>
+        </ul>
+
+        <p style="margin-top:18px; font-size:11px; color:var(--text-muted)">
+          Full file inventory + session context:
+          <code>MobileApps/ClaudeFiles/SESSION_64_MASTER_STATUS.md</code>
+        </p>
+      </div>
+    </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+</body>
+</html>

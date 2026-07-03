@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="referrer"              content="no-referrer">
+  <title>JosspaTech — Worker Monitoring</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "workers";</script>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+  <div id="login">
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">
+          Flywheel · shared ops for PBJ · HHH · CVC
+        </span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          Jossp<span class="amp">a</span>Tech
+          <span class="subtitle">Flywheel Ops · PBJ · HHH · CVC</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsBuyBar" role="region" aria-label="Quick upgrade actions">
+      <div class="ops-buy-title">Fix it now — open billing / upgrade</div>
+      <div id="opsBuyBtns" class="ops-buy-btns"></div>
+    </div>
+    <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
+    <div id="wowBanner" style="display:none"></div>
+    <main class="page-main">
+<section id="workerMonitoring">
+      <h2>Worker Monitoring — PBJ · HHH · CVC</h2>
+      <p class="section-explainer">
+        Live status for each app's dedicated Cloudflare Worker. <strong>Pocket Budget Journal</strong>
+        tracks OCR + Gemini via <code>/ocr/quota/stats</code>; <strong>Handy Horology Helper</strong> and
+        <strong>Curator's Vault</strong> track Gemini + Anthropic via <code>/ops/stats</code>.
+        <strong style="color: var(--success);">Green</strong> = worker healthy and Gemini configured.
+        <strong style="color: var(--warning);">Yellow</strong> = worker up but Gemini key missing or quota ≥75%.
+        <strong style="color: var(--danger);">Red</strong> = worker unreachable, auth failed, or circuit breaker armed.
+        Shared keys are prompted on first smoke test and saved in this browser only — never in git.
+        Worker URLs can be overridden below each tab if you redeploy to a custom domain.
+        Click a summary card (or tab) for the full breakdown — usage vs limits, cost, and circuit-breaker status.
+        <strong>Manual refresh only</strong> by default — auto-polling <code>/ops/stats</code> with
+        <code>COST_GRAPH_ENABLED</code> burned ~113k KV reads/day at 1m intervals. Use Light / Medium / Heavy
+        buttons below; tab switches reuse cached data without re-fetching.
+      </p>
+      <details style="margin: 0 0 14px; font-size: 13px; color: var(--text-dim);">
+        <summary style="cursor: pointer; font-weight: 600; color: var(--text);">Daily limits reference (what the numbers mean)</summary>
+        <table style="width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 12px;">
+          <thead>
+            <tr style="text-align: left; border-bottom: 1px solid var(--border);">
+              <th style="padding: 6px 8px;">App</th>
+              <th style="padding: 6px 8px;">What we count</th>
+              <th style="padding: 6px 8px;">Free-tier ceiling</th>
+              <th style="padding: 6px 8px;">Circuit breaker</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 6px 8px;"><strong>PBJ</strong></td><td style="padding: 6px 8px;">OCR.Space + Gemini calls</td><td style="padding: 6px 8px;">500 OCR.Space + 1,500 Gemini / day</td><td style="padding: 6px 8px;">1,800 total OCR calls / day — blocks <em>free</em> users only</td></tr>
+            <tr><td style="padding: 6px 8px;"><strong>HHH</strong></td><td style="padding: 6px 8px;">Gemini + Anthropic identify / ask</td><td style="padding: 6px 8px;">1,500 Gemini + 5,000 Anthropic / day</td><td style="padding: 6px 8px;">500 total AI calls / day (monitoring flag)</td></tr>
+            <tr><td style="padding: 6px 8px;"><strong>CVC</strong></td><td style="padding: 6px 8px;">Gemini + Anthropic identify / ask</td><td style="padding: 6px 8px;">1,500 Gemini + 5,000 Anthropic / day</td><td style="padding: 6px 8px;">500 total AI calls / day (monitoring flag)</td></tr>
+          </tbody>
+        </table>
+        <p style="margin: 10px 0 0;">Bars turn yellow at 75% and red at 90%. PBJ's circuit breaker actually stops free-tier cloud OCR; HHH/CVC breakers are alerts only until we wire enforcement. Per-user PBJ caps: 15 free / 200 trial / 500 active scans per month, max 50/day per device.</p>
+      </details>
+      <div class="ref-actions wm-actions">
+        <button type="button" class="m-btn accent" onclick="wmRefreshLight()" title="GET / health only — 0 KV reads per worker">
+          Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
+        </button>
+        <button type="button" class="m-btn" onclick="wmRefreshMedium()" title="Today's quota counters — ~6 KV reads per worker (~18 total for PBJ+HHH+CVC)">
+          Load usage <span class="ref-cost-badge ref-cost-medium">Medium</span>
+        </button>
+        <button type="button" class="m-btn ref-btn-heavy" onclick="wmRefreshHeavy()" title="12-month cost_history rollups — ~15–25 KV reads per worker (~60 total). Requires worker ?cost_history=1 (COST_GRAPH_ENABLED stays false).">
+          Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
+        </button>
+      </div>
+      <div class="wm-auto-row">
+        <label class="wm-auto-warn">
+          <input type="checkbox" id="wmAutoRefresh" onchange="wmSetAutoRefresh()"> Auto-refresh usage (Medium) — uses Worker KV quota
+        </label>
+        <select id="wmAutoInterval" onchange="wmSetAutoRefresh()" disabled>
+          <option value="600">every 10m</option>
+          <option value="1800" selected>every 30m</option>
+        </select>
+      </div>
+      <div class="ref-status" id="wmStatus">Click Refresh to load worker data. Light = health only · Medium ≈18 KV reads · Heavy ≈60 KV reads (cost chart).</div>
+      <div id="workerMonitoringCombined"></div>
+      <div id="wmCostModalOverlay" class="wm-cost-modal-overlay" hidden onclick="if(event.target===this)wmCloseCostChart()">
+        <div class="wm-cost-modal" role="dialog" aria-labelledby="wmCostModalTitle">
+          <div class="wm-cost-modal-head">
+            <h3 id="wmCostModalTitle">Estimated cost</h3>
+            <button type="button" class="wm-cost-modal-close" onclick="wmCloseCostChart()" aria-label="Close">&times;</button>
+          </div>
+          <div id="wmCostModalChart" class="wm-cost-chart-wrap"></div>
+          <div class="wm-cost-modal-legend">
+            <span class="past"><i></i> Finalized month</span>
+            <span class="mtd"><i></i> Current month (MTD)</span>
+          </div>
+          <p id="wmCostModalNote" class="wm-cost-modal-note"></p>
+        </div>
+      </div>
+      <div id="workerMonitoringSummary" class="wm-summary-row">Loading…</div>      <div id="workerMonitoringTabs" class="wm-tabs"></div>
+      <div id="workerMonitoringGrid"></div>
+      <p class="wm-threshold-legend" style="margin-top:14px;">
+        <span class="watch">Yellow (75%)</span> = worth watching &nbsp;·&nbsp;
+        <span class="alert">Red banner (80% Gemini)</span> = email alert fires &nbsp;·&nbsp;
+        <span class="stop">Hard stop (100%)</span> = circuit breaker — free users blocked (premium/trial keep working on PBJ)
+      </p>
+    </section>
+<section id="thresholdsBaselines">
+      <h2>Thresholds &amp; Baselines</h2>
+      <p class="section-explainer">
+        <strong>What this is:</strong> A plain-language cheat sheet for every limit on this dashboard —
+        what's free, when you'll see yellow or red, what actually stops the app, and what it costs if you
+        go over. Numbers come from deployed Worker settings (<code>wrangler.toml</code>) and vendor free tiers.
+        <strong>Live today</strong> columns update when you click Worker Monitoring <em>Load usage (Medium)</em>.
+        <br><br>
+        <strong>Net per sub:</strong> $8.49/mo after Apple's/Google's 15% cut on a $9.99 shelf price.
+      </p>
+      <div class="tb-legend-row">
+        <div class="tb-legend-pill">
+          <strong>Watch (yellow)</strong>
+          Meter hits 75% of daily cap — no outage yet; check usage.
+        </div>
+        <div class="tb-legend-pill">
+          <strong>Alert (red banner + email)</strong>
+          Gemini ≥80% of free tier (1,200/1,500 calls). Hourly Worker cron emails
+          <code>support@josspatech.com</code>.
+        </div>
+        <div class="tb-legend-pill">
+          <strong>Hard stop (circuit breaker)</strong>
+          100% of global daily limit — PBJ denies <em>free</em> cloud OCR; HHH/CVC deny when global AI cap hit.
+          Premium/trial PBJ users keep working.
+        </div>
+      </div>
+      <div id="thresholdsTabs" class="tb-tabs"></div>
+      <div id="thresholdsPanel" class="tb-panel">Loading…</div>
+      <h3 style="margin:20px 0 10px;font-size:14px;color:var(--primary);">How many paying users before you raise limits?</h3>
+      <p class="section-explainer" style="margin-bottom:12px;">
+        Rough planning scenarios — assumes most users scan a few receipts or identify a few items per month,
+        not hundreds per day. If the red banner or circuit breaker fires while you're still under ~50 subs,
+        something is misconfigured or being abused — investigate before paying for API upgrades.
+      </p>
+      <div id="thresholdsScenarios" class="tb-scenario-grid"></div>
+      <details class="tb-collapse">
+        <summary>Founder economics — fixed costs, breakeven &amp; when to upgrade APIs</summary>
+        <div class="tb-collapse-body">
+          <p class="section-explainer" style="margin-top:0;">
+            <strong>Fixed monthly burn</strong> (shared across PBJ, HHH, CVC — don't double-count Apple/Google):
+            <strong>Lean ~$16/mo</strong> (domains + store accounts + PocketHost, no Cursor) →
+            <strong>2 paying subs</strong> breakeven.
+            <strong>Realistic ~$36/mo</strong> (+ Cursor ~$20) → <strong>5 subs</strong>.
+            <strong>Comfort ~$51/mo</strong> (+ buffer) → <strong>6 subs</strong>.
+            Full line items in <code>docs/JOE_OPS_COSTS.md</code> (PBJ repo) and the
+            <a href="#founderBreakeven">Founder Economics</a> section below.
+          </p>
+          <div class="tb-panel" style="margin-bottom:12px;">
+            <table>
+              <thead>
+                <tr><th>Trigger</th><th>What to do</th><th>Rough cost to cover</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Gemini over free tier (~1,500 calls/day per project)</td>
+                  <td>Enable billing in Google AI Studio or raise <code>OCR_GLOBAL_DAILY_LIMIT</code> / split Gemini projects per app</td>
+                  <td class="num">~$0.001/call · ~$30/mo overage ≈ +4 subs</td>
+                </tr>
+                <tr>
+                  <td>OCR.Space rate limits</td>
+                  <td>Upgrade to PRO plan</td>
+                  <td class="num">$30/mo ≈ +4 subs</td>
+                </tr>
+                <tr>
+                  <td>Teller bank sync in production</td>
+                  <td>Flip <code>TELLER_ENV</code> to production when users connect real banks</td>
+                  <td class="num">~$2/active bank connection/mo</td>
+                </tr>
+                <tr>
+                  <td>RevenueCat platform fee</td>
+                  <td>Automatic after ~$10K monthly tracked revenue</td>
+                  <td class="num">1% of MTR</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+      <details class="tb-collapse" style="margin-top:12px;">
+        <summary>PocketBase cron heartbeat — PBJ flywheel only (not urgent for HHH/CVC)</summary>
+        <div class="tb-collapse-body">
+          <p class="section-explainer" style="margin-top:0;">
+            The <strong>Cron Health</strong> card below checks whether PocketBase's hourly
+            <em>aggregation</em> task is running. That task drains merchant / paycheck / bill
+            submission queues into the crowd library — it matters for <strong>Pocket Budget Journal's
+            flywheel</strong>, not for Handy Horology or Curator's Vault identification.
+            <br><br>
+            <strong>Gray or missing heartbeat?</strong> The <code>pb_hooks</code> folder in the PBJ repo
+            is <em>not deployed</em> to PocketHost yet — the heartbeat collection may not exist until
+            hooks are uploaded. The dashboard shows this in the <strong>gray info banner</strong> at the
+            top (not the red ops alert). HHH/CVC workers and identification are unaffected.
+            <br><br>
+            <strong>Red ops alert</strong> only fires for real outages (worker down), Gemini ≥80%,
+            or an armed circuit breaker — not for missing pb_hooks.
+            <br><br>
+            <strong>Separate from this:</strong> the PBJ Cloudflare Worker's hourly cron sends
+            <em>quota alert emails</em> (Gemini 80%, circuit breaker) — that runs on Workers, not PocketBase.
+          </p>
+        </div>
+      </details>
+    </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+</body>
+</html>
