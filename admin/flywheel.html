@@ -379,6 +379,7 @@
           A fresh backup gives you a point-in-time recovery file AND powers the "Database size" card above.
           Keep 2–3 at a time; older backups waste storage.
         </div>
+        <div id="flywheelBackupStatus" class="infra-panel infra-panel--inline"></div>
         <div class="m-row">
           <button class="m-btn" onclick="mCreateBackup()">Create backup now</button>
           <button class="m-btn danger" onclick="mPruneBackups()">Delete all but latest 3 backups</button>
@@ -439,6 +440,16 @@
           </select>
           <button class="m-btn" onclick="mExportCSV()">Download CSV</button>
         </div>
+      </div>
+
+      <div class="m-group">
+        <div class="m-group-title">GitHub repo size (static)</div>
+        <div class="m-desc">
+          Browser cannot call GitHub API without a token. Pack sizes come from
+          <code>shared/github-usage.json</code> — refresh with
+          <code>scripts/update-github-usage.ps1</code> (<code>git count-objects -vH</code> on each repo).
+        </div>
+        <div id="flywheelGithubUsage" class="infra-panel infra-panel--inline"></div>
       </div>
 
       <div class="m-group">

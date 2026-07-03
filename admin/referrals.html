@@ -113,6 +113,12 @@
         <button type="button" class="m-btn ref-btn-heavy" onclick="refExportClickLog()" title="Uses PocketBase quota — use sparingly. Exports up to 2,000 rows in range.">
           Export click log <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
         </button>
+        <button type="button" class="m-btn" onclick="refOpenJjReport()" title="Printable JJ report from session cache — no Worker fetch">
+          JJ report <span class="ref-cost-badge ref-cost-light">Light · cache only</span>
+        </button>
+        <label class="ref-jj-report-opt" title="Applies to JJ report window only">
+          <input type="checkbox" id="refJjIncludeResources"> Include resources in JJ report
+        </label>
       </div>
       <div class="ref-status" id="refStatus">Click Refresh to load KV rollups. HHH Worker key required (same as Worker Monitoring).</div>
       <div id="refContent"></div>

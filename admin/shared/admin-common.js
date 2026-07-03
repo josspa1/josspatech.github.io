@@ -24,6 +24,17 @@
     ref: "pbj_dash_cache_ref",
     fw: "pbj_dash_cache_fw",
   };
+  const STALE_CACHE_MS = 24 * 60 * 60 * 1000;
+
+  async function adminLoadStaticJson(relativePath) {
+    try {
+      const r = await fetch(relativePath, { cache: "no-store" });
+      if (!r.ok) return null;
+      return await r.json();
+    } catch {
+      return null;
+    }
+  }
 
   function adminCacheRead(slot) {
     try {
@@ -203,6 +214,45 @@
       el.innerHTML = html;
       el.classList.toggle("muted", muted);
     }
+    updateStaleCacheBanner();
+  }
+
+  function adminAnyCacheStale() {
+    const slots = ["wm", "ocr", "ref", "fw"];
+    const now = Date.now();
+    let hasAny = false;
+    let hasStale = false;
+    for (const key of slots) {
+      const at = adminParseFetchedAt(adminCacheRead(key)?.fetchedAt);
+      if (at != null) {
+        hasAny = true;
+        if (now - at > STALE_CACHE_MS) hasStale = true;
+      }
+    }
+    return hasAny && hasStale;
+  }
+
+  function injectStaleCacheBanner() {
+    const dash = document.getElementById("dashboard");
+    if (!dash || document.getElementById("staleCacheBanner")) return;
+    const el = document.createElement("div");
+    el.id = "staleCacheBanner";
+    el.className = "stale-cache-banner";
+    el.hidden = true;
+    el.setAttribute("role", "status");
+    el.innerHTML = "Some data may be stale — <strong>Refresh recommended</strong>";
+    const anchor = document.getElementById("dataFreshness")
+      || document.getElementById("adminTopNav")
+      || dash.querySelector("header");
+    if (anchor) anchor.insertAdjacentElement("afterend", el);
+    else dash.prepend(el);
+  }
+
+  function updateStaleCacheBanner() {
+    injectStaleCacheBanner();
+    const el = document.getElementById("staleCacheBanner");
+    if (!el) return;
+    el.hidden = !adminAnyCacheStale();
   }
 
   function persistFlywheelFetchedAt() {
@@ -1063,6 +1113,7 @@
     }
     mCheckMaintenanceFlag().catch(() => {});
     injectDataFreshnessBar();
+    injectStaleCacheBanner();
     initAdminPage();
     updatePageFreshness();
   }

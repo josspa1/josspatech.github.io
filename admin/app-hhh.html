@@ -63,6 +63,7 @@
     <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
     <div id="wowBanner" style="display:none"></div>
     <main class="page-main">
+<div id="shipVersionStrip" class="ship-version-strip" aria-live="polite">Loading shipped versions…</div>
 <section id="workerMonitoring">
       <h2>Worker — HHH</h2>
       <p class="section-explainer">
@@ -145,6 +146,12 @@
         <button type="button" class="m-btn ref-btn-heavy" onclick="refExportClickLog()" title="PocketBase quota — use sparingly">
           Export click log <span class="ref-cost-badge ref-cost-heavy">Heavy · PB</span>
         </button>
+        <button type="button" class="m-btn" onclick="refOpenJjReport()" title="Printable JJ report from session cache — no Worker fetch">
+          JJ report <span class="ref-cost-badge ref-cost-light">Light · cache only</span>
+        </button>
+        <label class="ref-jj-report-opt" title="Applies to JJ report window only">
+          <input type="checkbox" id="refJjIncludeResources"> Include resources in JJ report
+        </label>
       </div>
       <div class="ref-status" id="refStatus">Click Refresh to load KV rollups. HHH Worker key required.</div>
       <div id="refContent"></div>

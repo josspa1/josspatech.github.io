@@ -3367,6 +3367,112 @@ function wmOpenCostChart(chartId) {
     }
   }
 
+  function refJjReportTotals(data, includeResources) {
+    const t = data.totals || {};
+    const commerce = t.commerce || 0;
+    const repair = t.repair || 0;
+    const resources = includeResources ? (t.resources || 0) : 0;
+    return {
+      total: commerce + repair + resources,
+      commerce,
+      repair,
+      resources,
+    };
+  }
+
+  function refJjReportByDay(byDay, includeResources) {
+    return (byDay || []).map(row => {
+      const commerce = row.commerce || 0;
+      const repair = row.repair || 0;
+      const resources = includeResources ? (row.resources || 0) : 0;
+      return {
+        date: row.date,
+        total: commerce + repair + resources,
+        commerce,
+        repair,
+        resources,
+      };
+    });
+  }
+
+  function refOpenJjReport() {
+    const data = refLastData;
+    if (!data) {
+      alert("No referral data in session cache. Click Refresh (Light) first.");
+      return;
+    }
+    const includeResources = document.getElementById("refJjIncludeResources")?.checked
+      || document.getElementById("refIncludeResources")?.checked;
+    const ft = refJjReportTotals(data, includeResources);
+    const byDay = refJjReportByDay(data.byDay, includeResources);
+    const rangeFrom = data.range?.from || "?";
+    const rangeTo = data.range?.to || "?";
+    const refCached = adminCacheRead("ref");
+    const fetchedAt = formatDataAsOf(refCached?.fetchedAt) || "session cache";
+    const resourcesNote = includeResources
+      ? "Commerce + repair + resources (articles/how-to)"
+      : "Commerce + repair only (resources excluded)";
+
+    const rows = byDay.map(r => `
+      <tr>
+        <td>${r.date}</td>
+        <td class="num">${r.total.toLocaleString()}</td>
+        <td class="num">${r.commerce.toLocaleString()}</td>
+        <td class="num">${r.repair.toLocaleString()}</td>
+        <td class="num">${r.resources.toLocaleString()}</td>
+      </tr>`).join("");
+
+    const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<title>HHH Partner Referrals — JJ Report</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, Segoe UI, sans-serif; margin: 32px; color: #1a1a2e; background: #fff; }
+  h1 { font-size: 22px; margin: 0 0 4px; color: #1a4f7a; }
+  .sub { font-size: 13px; color: #5a6570; margin-bottom: 20px; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 999px;
+    background: #e8f4ec; color: #1b6b3a; margin-right: 6px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+  .card { border: 1px solid #d8dee4; border-radius: 10px; padding: 14px; text-align: center; }
+  .card .val { font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .card .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; color: #5a6570; margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 8px 10px; border-bottom: 1px solid #e8ecf0; text-align: left; }
+  th { font-size: 11px; text-transform: uppercase; color: #5a6570; background: #f6f8fa; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .foot { margin-top: 20px; font-size: 11px; color: #8a939c; }
+  @media print { body { margin: 16px; } }
+</style></head><body>
+  <h1>Handy Horology Helper — Partner Referral Report</h1>
+  <p class="sub">
+    <span class="badge">JJ shareable</span>
+    <span class="badge">Light · cache only</span><br>
+    ${resourcesNote} · eBay excluded<br>
+    Range: <strong>${rangeFrom}</strong> → <strong>${rangeTo}</strong> · Data as of ${fetchedAt}
+  </p>
+  <div class="grid">
+    <div class="card"><div class="val">${ft.total.toLocaleString()}</div><div class="lbl">Total clicks</div></div>
+    <div class="card"><div class="val">${ft.commerce.toLocaleString()}</div><div class="lbl">Commerce</div></div>
+    <div class="card"><div class="val">${ft.repair.toLocaleString()}</div><div class="lbl">Repair</div></div>
+    <div class="card"><div class="val">${ft.resources.toLocaleString()}</div><div class="lbl">Resources</div></div>
+  </div>
+  <table>
+    <thead><tr><th>Date</th><th>Total</th><th>Commerce</th><th>Repair</th><th>Resources</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="5">No daily rows in range.</td></tr>'}</tbody>
+  </table>
+  <p class="foot">Generated from session cache — no extra Worker fetch · JosspaTech admin</p>
+</body></html>`;
+
+    const w = window.open("", "_blank", "width=900,height=720");
+    if (!w) {
+      alert("Pop-up blocked. Allow pop-ups for this site to open the JJ report.");
+      return;
+    }
+    w.document.write(html);
+    w.document.close();
+  }
+
   document.getElementById("refIncludeResources")?.addEventListener("change", () => refRender());
   refOnRangePresetChange();
   refSelectTab(refActiveTab);
@@ -4799,6 +4905,114 @@ function wmOpenCostChart(chartId) {
     }
   });
 
+  /* ─── Hub: refresh all workers Light + static JSON panels ─── */
+  async function hubRefreshAllLight() {
+    const status = document.getElementById("hubRefreshLightStatus");
+    const btn = document.getElementById("hubRefreshLightBtn");
+    if (btn) btn.disabled = true;
+    if (status) {
+      status.textContent = "Refreshing worker health (Light) for PBJ · HHH · CVC…";
+      status.className = "ref-status";
+    }
+    try {
+      await wmRefreshLight();
+      await updateOpsAlertBanner();
+      if (status) {
+        status.textContent = "Light refresh done · 0 KV reads per worker · wmCache updated in sessionStorage";
+      }
+      updatePageFreshness();
+      updateStaleCacheBanner();
+    } catch (e) {
+      if (status) {
+        status.textContent = e.message || "Light refresh failed";
+        status.className = "ref-status err";
+      }
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  let shipVersionsCache = null;
+
+  async function loadShipVersionStrip() {
+    const el = document.getElementById("shipVersionStrip");
+    const appId = adminGetApp();
+    if (!el || !appId) return;
+    if (!shipVersionsCache) {
+      shipVersionsCache = await adminLoadStaticJson("shared/ship-versions.json");
+    }
+    const app = shipVersionsCache?.apps?.[appId];
+    if (!app) {
+      el.textContent = "Shipped: — (edit shared/ship-versions.json at ship time)";
+      return;
+    }
+    const appPart = app.appVersion
+      ? `app ${app.appVersion}${app.appBuild ? ` build ${app.appBuild}` : ""}`
+      : "app not shipped";
+    const workerPart = app.workerCommit ? `worker ${app.workerCommit}` : "worker —";
+    el.innerHTML = `<span class="ship-version-label">Shipped:</span> ${appPart} · ${workerPart}` +
+      (app.shippedAt ? ` <span class="ship-version-meta">(${app.shippedAt})</span>` : "") +
+      `<span class="static-json-badge">static JSON</span>`;
+  }
+
+  function renderBackupStatusPanel(rootId) {
+    const root = document.getElementById(rootId);
+    if (!root) return;
+    adminLoadStaticJson("shared/backup-status.json").then(data => {
+      if (!data) {
+        root.innerHTML = '<p class="infra-panel-empty">backup-status.json not found</p>';
+        return;
+      }
+      const when = formatDataAsOf(data.updatedAt) || data.updatedAt || "—";
+      root.innerHTML = `
+        <h3>Local HHH backup</h3>
+        <p class="infra-panel-sub"><span class="static-json-badge">static JSON · no cloud cost</span></p>
+        <div class="infra-stat-row"><span>File</span><strong>${data.lastHHHBackup || "—"}</strong></div>
+        <div class="infra-stat-row"><span>Size</span><strong>${data.sizeMB != null ? data.sizeMB + " MB" : "—"}</strong></div>
+        <div class="infra-stat-row"><span>Updated</span><strong>${when}</strong></div>
+        ${data.path ? `<div class="infra-path">${String(data.path).replace(/</g, "&lt;")}</div>` : ""}
+        <p class="infra-panel-note">${data.note || "Run scripts/update-backup-status.ps1 after each backup."}</p>`;
+    });
+  }
+
+  function renderGithubUsagePanel(rootId) {
+    const root = document.getElementById(rootId);
+    if (!root) return;
+    adminLoadStaticJson("shared/github-usage.json").then(data => {
+      if (!data) {
+        root.innerHTML = '<p class="infra-panel-empty">github-usage.json not found</p>';
+        return;
+      }
+      const cap = 1024;
+      const pct = Math.min(100, ((data.totalMB || 0) / cap) * 100);
+      const barW = pct.toFixed(1);
+      const rows = (data.repos || []).map(r => `
+        <tr>
+          <td>${r.label || r.name}</td>
+          <td class="num">${r.sizeMB != null ? r.sizeMB + " MB" : "—"}</td>
+        </tr>`).join("");
+      root.innerHTML = `
+        <h3>GitHub repo pack size</h3>
+        <p class="infra-panel-sub"><span class="static-json-badge">static JSON</span> · as of ${data.asOf || "—"} · no API token in browser</p>
+        <div class="github-usage-bar" role="img" aria-label="Total ${data.totalMB} MB of ~1 GB soft cap">
+          <div class="github-usage-bar-fill" style="width:${barW}%"></div>
+        </div>
+        <div class="github-usage-total"><strong>${data.totalMB ?? "—"} MB</strong> total · ~${barW}% of 1 GB Pages soft cap</div>
+        <table class="infra-table">
+          <thead><tr><th>Repo</th><th>Pack size</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <p class="infra-panel-note">${data.note || "Run scripts/update-github-usage.ps1 to refresh."}</p>`;
+    });
+  }
+
+  function loadStaticInfraPanels() {
+    renderBackupStatusPanel("backupStatusPanel");
+    renderBackupStatusPanel("flywheelBackupStatus");
+    renderGithubUsagePanel("githubUsagePanel");
+    renderGithubUsagePanel("flywheelGithubUsage");
+  }
+
   function initAdminPage() {
     const page = window.ADMIN_PAGE || "flywheel";
 
@@ -4811,6 +5025,7 @@ function wmOpenCostChart(chartId) {
     if (document.getElementById("vendorOnlyCapGrid")) renderVendorOnlyCapReminders();
 
     if (page === "hub") {
+      loadStaticInfraPanels();
       updateOpsAlertBanner().catch(() => {});
       return;
     }
@@ -4827,6 +5042,7 @@ function wmOpenCostChart(chartId) {
         loadCommercialProofFromWorker();
         loadRuntimeTruthFromGithub();
         loadRevenueFromWorker();
+        loadStaticInfraPanels();
         updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
@@ -4856,6 +5072,7 @@ function wmOpenCostChart(chartId) {
       }
       if (page.startsWith("app-")) {
         const appId = page.slice(4);
+        loadShipVersionStrip();
         wmActiveTab = appId;
         tbActiveTab = appId;
         wmRenderFromCache();

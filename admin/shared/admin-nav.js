@@ -48,5 +48,19 @@
     } else {
       dash.prepend(nav);
     }
+
+    injectAdminFooter(dash);
   };
+
+  function injectAdminFooter(dash) {
+    if (document.getElementById("adminFooter")) return;
+    const footer = document.createElement("footer");
+    footer.id = "adminFooter";
+    footer.className = "admin-footer";
+    footer.innerHTML = `
+      <a href="DASHBOARD_QUOTA.md" target="_blank" rel="noopener noreferrer">Dashboard quota &amp; refresh rules</a>
+      <span class="admin-footer-sep" aria-hidden="true">·</span>
+      <span class="admin-footer-note">Manual refresh only · static JSON panels · no Worker polling on load</span>`;
+    dash.appendChild(footer);
+  }
 })();

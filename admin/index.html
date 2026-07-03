@@ -71,6 +71,16 @@
         Multi-page ops dashboard — <strong>manual refresh only</strong> by default (Light / Medium / Heavy cost labels on Worker and Referral pages).
         No auto-polling of Worker KV or <code>COST_GRAPH_ENABLED</code> cost history unless you explicitly click Heavy.
       </p>
+      <div class="hub-actions ref-actions">
+        <button type="button" class="m-btn accent" id="hubRefreshLightBtn" onclick="hubRefreshAllLight()" title="GET / health for PBJ, HHH, CVC — 0 KV reads each; updates wmCache">
+          Refresh all <span class="ref-cost-badge ref-cost-light">Light · ~0–18 KV reads per worker</span>
+        </button>
+        <span id="hubRefreshLightStatus" class="ref-status" style="margin:0"></span>
+      </div>
+      <div class="hub-infra-grid">
+        <div id="backupStatusPanel" class="infra-panel"></div>
+        <div id="githubUsagePanel" class="infra-panel"></div>
+      </div>
       <div class="hub-cards">
         <a class="hub-card" href="app-pbj.html">
           <h3>PBJ · all ops</h3>
