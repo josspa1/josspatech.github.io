@@ -1945,4 +1945,18 @@
   border: 1px solid var(--border);
   font-size: 13px;
 }
+.data-freshness {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8px 16px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.data-freshness.muted { color: var(--text-muted); }
+.data-freshness-idle { color: var(--text-muted); font-style: italic; }
+.data-freshness-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+}
 .page-main { max-width: 1200px; margin: 0 auto; padding: 16px 16px 48px; }

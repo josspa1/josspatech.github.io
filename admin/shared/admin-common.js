@@ -22,6 +22,7 @@
     wm: "pbj_dash_cache_wm",
     ocr: "pbj_dash_cache_ocr",
     ref: "pbj_dash_cache_ref",
+    fw: "pbj_dash_cache_fw",
   };
 
   function adminCacheRead(slot) {
@@ -38,6 +39,175 @@
       if (data == null) sessionStorage.removeItem(ADMIN_CACHE_KEYS[slot]);
       else sessionStorage.setItem(ADMIN_CACHE_KEYS[slot], JSON.stringify(data));
     } catch { /* quota / private mode */ }
+  }
+
+  function adminNowIso() {
+    return new Date().toISOString();
+  }
+
+  function adminParseFetchedAt(ts) {
+    if (ts == null || ts === "") return null;
+    const ms = typeof ts === "number" ? ts : Date.parse(ts);
+    return Number.isNaN(ms) ? null : ms;
+  }
+
+  function formatDataAsOf(ts) {
+    const ms = adminParseFetchedAt(ts);
+    if (ms == null) return null;
+    const tz = new Date().toLocaleTimeString(undefined, { timeZoneName: "short" }).split(" ").pop();
+    const when = new Date(ms).toLocaleString(undefined, {
+      weekday: "short", month: "short", day: "numeric", year: "numeric",
+      hour: "numeric", minute: "2-digit",
+    });
+    return `${when} ${tz}`;
+  }
+
+  function adminFreshnessIdle() {
+    return '<span class="data-freshness-idle">Not loaded — click Refresh</span>';
+  }
+
+  function adminFreshnessLine(label, ts, extra) {
+    const when = formatDataAsOf(ts);
+    if (!when) return `${label}: ${adminFreshnessIdle()}`;
+    return `${label}: <strong>${when}</strong>${extra ? ` · ${extra}` : ""}`;
+  }
+
+  function injectDataFreshnessBar() {
+    const dash = document.getElementById("dashboard");
+    if (!dash || document.getElementById("dataFreshness")) return;
+    const el = document.createElement("div");
+    el.id = "dataFreshness";
+    el.className = "data-freshness muted";
+    el.setAttribute("role", "status");
+    el.setAttribute("aria-live", "polite");
+    const anchor = document.getElementById("wowBanner")
+      || document.getElementById("opsInfoBanner")
+      || document.getElementById("adminTopNav")
+      || dash.querySelector("header");
+    if (anchor) {
+      anchor.insertAdjacentElement("afterend", el);
+    } else {
+      dash.prepend(el);
+    }
+  }
+
+  function adminHubCacheSummary() {
+    const slots = [
+      { key: "wm", label: "Workers" },
+      { key: "ocr", label: "OCR" },
+      { key: "ref", label: "Referrals" },
+      { key: "fw", label: "Flywheel" },
+    ];
+    const loaded = slots
+      .map(s => ({ ...s, at: adminParseFetchedAt(adminCacheRead(s.key)?.fetchedAt) }))
+      .filter(s => s.at != null);
+    if (!loaded.length) {
+      return { html: adminFreshnessIdle(), muted: true, oldest: null, newest: null };
+    }
+    const oldest = loaded.reduce((a, b) => (a.at <= b.at ? a : b));
+    const newest = loaded.reduce((a, b) => (a.at >= b.at ? a : b));
+    const parts = loaded.map(s =>
+      `${s.label} ${formatDataAsOf(s.at)}`,
+    );
+    let html = `<strong>Data as of:</strong> ${parts.join(" · ")}`;
+    if (loaded.length > 1) {
+      html += `<br><span class="data-freshness-sub">Oldest fetch: ${oldest.label} (${formatDataAsOf(oldest.at)}) · Newest: ${newest.label} (${formatDataAsOf(newest.at)})</span>`;
+    }
+    return { html, muted: false, oldest: oldest.at, newest: newest.at };
+  }
+
+  function updatePageFreshness() {
+    injectDataFreshnessBar();
+    const el = document.getElementById("dataFreshness");
+    if (!el) return;
+    const page = window.ADMIN_PAGE || "flywheel";
+    const idle = adminFreshnessIdle();
+    let html = "";
+    let muted = true;
+
+    if (page === "hub") {
+      const hub = adminHubCacheSummary();
+      html = hub.html;
+      muted = hub.muted;
+    } else if (page === "workers") {
+      const wmAt = wmCache?.fetchedAt;
+      if (wmAt) {
+        html = `<strong>Data as of:</strong> ${adminFreshnessLine("Fetched at", wmAt, "worker today counters reflect this fetch")}`;
+        muted = false;
+      } else {
+        html = `<strong>Data as of:</strong> ${idle}`;
+      }
+    } else if (page === "ocr") {
+      const ocrAt = ocrQuotaCache?.fetchedAt;
+      const wmAt = wmCache?.fetchedAt;
+      const lines = [];
+      if (ocrAt) lines.push(adminFreshnessLine("OCR fetched at", ocrAt, "today / MTD counters reflect this fetch"));
+      if (wmAt) lines.push(adminFreshnessLine("Worker fetched at", wmAt));
+      if (lines.length) {
+        html = `<strong>Data as of:</strong><br>${lines.join("<br>")}`;
+        muted = false;
+      } else {
+        html = `<strong>Data as of:</strong> ${idle}`;
+      }
+    } else if (page === "referrals") {
+      const refCached = adminCacheRead("ref");
+      const refAt = refCached?.fetchedAt;
+      if (refAt) {
+        const range = refCached.rangeLabel || (refLastData?.range
+          ? `Showing ${refLastData.range.from} → ${refLastData.range.to}`
+          : null);
+        html = `<strong>Data as of:</strong> ${adminFreshnessLine("Fetched at", refAt)}`;
+        if (range) html += `<br><span class="data-freshness-sub"><strong>Range:</strong> ${range} (historic window — not stale)</span>`;
+        muted = false;
+      } else {
+        html = `<strong>Data as of:</strong> ${idle}`;
+      }
+    } else if (page === "flywheel") {
+      const fwAt = adminCacheRead("fw")?.fetchedAt;
+      if (fwAt) {
+        html = `<strong>Data as of:</strong> ${adminFreshnessLine("Fetched at", fwAt, "PocketBase grid · 24h activity cards use rolling window")}`;
+        muted = false;
+      } else {
+        html = `<strong>Data as of:</strong> ${idle}`;
+      }
+    } else if (page.startsWith("app-")) {
+      const appId = page.slice(4);
+      const lines = [];
+      const wmAt = wmCache?.fetchedAt;
+      if (wmAt) {
+        lines.push(adminFreshnessLine("Worker fetched at", wmAt, "today counters as of fetch"));
+      }
+      if (appId === "pbj" && ocrQuotaCache?.fetchedAt) {
+        lines.push(adminFreshnessLine("OCR fetched at", ocrQuotaCache.fetchedAt));
+      }
+      if (appId === "hhh") {
+        const refCached = adminCacheRead("ref");
+        if (refCached?.fetchedAt) {
+          const range = refCached.rangeLabel || (refLastData?.range
+            ? `Showing ${refLastData.range.from} → ${refLastData.range.to}`
+            : null);
+          let refLine = adminFreshnessLine("Referrals fetched at", refCached.fetchedAt);
+          if (range) refLine += ` · Range: ${range}`;
+          lines.push(refLine);
+        }
+      }
+      if (lines.length) {
+        html = `<strong>Data as of:</strong><br>${lines.join("<br>")}`;
+        muted = false;
+      } else {
+        html = `<strong>Data as of:</strong> ${idle}`;
+      }
+    }
+
+    if (html) {
+      el.innerHTML = html;
+      el.classList.toggle("muted", muted);
+    }
+  }
+
+  function persistFlywheelFetchedAt() {
+    adminCacheWrite("fw", { fetchedAt: adminNowIso() });
+    updatePageFreshness();
   }
 
   /** Per-app page id (pbj | hhh | cvc) when ADMIN_PAGE is app-* */
@@ -868,8 +1038,10 @@
       renderFounderCostTable();
       renderBreakevenPanel();
 
+      persistFlywheelFetchedAt();
+      const fwWhen = formatDataAsOf(adminCacheRead("fw")?.fetchedAt);
       document.getElementById("lastRefresh").textContent =
-        `updated ${new Date().toLocaleTimeString()}`;
+        fwWhen ? `Data as of ${fwWhen}` : `updated ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
     } catch (e) {
       document.getElementById("lastRefresh").textContent = `error: ${e.message}`;
@@ -890,7 +1062,9 @@
       if (pulse) pulse.classList.add("stale");
     }
     mCheckMaintenanceFlag().catch(() => {});
+    injectDataFreshnessBar();
     initAdminPage();
+    updatePageFreshness();
   }
 
   function wireLoginEnterKey() {
@@ -915,6 +1089,13 @@
     if (issues.length) lines.push(`<strong style="color:var(--danger)">${issues.length} alert(s)</strong>: ${issues[0]}`);
     else lines.push('<span style="color:var(--success)">No red ops alerts from cached data / health ping.</span>');
     if (infoIssues.length) lines.push(`<span style="color:var(--text-dim)">${infoIssues.length} info note(s) — see banners on sub-pages.</span>`);
+    const hub = adminHubCacheSummary();
+    if (hub.muted) {
+      lines.push(`<span class="data-freshness-sub">Session cache: ${adminFreshnessIdle()}</span>`);
+    } else {
+      lines.push(`<span class="data-freshness-sub">Session cache — newest: <strong>${formatDataAsOf(hub.newest)}</strong> · oldest: <strong>${formatDataAsOf(hub.oldest)}</strong></span>`);
+    }
     lines.push('Worker KV: manual refresh only · <a href="workers.html">Workers</a> · <a href="ocr-quota.html">OCR</a>');
     el.innerHTML = lines.join("<br>");
+    updatePageFreshness();
   }

@@ -1246,7 +1246,7 @@ Generated ${new Date().toISOString()}.
 
         ${(usedPct >= 75 || cb) ? panelUpgradeBox(["gemini", "ocr_space", "wrangler"], cb ? "Circuit breaker armed — free users blocked from cloud OCR until UTC reset or you raise limits." : "") : ""}
 
-        <div style="${muted}; text-align: right;">Data fetched ${ocrQuotaCache?.fetchedAt ? new Date(ocrQuotaCache.fetchedAt).toLocaleTimeString() : new Date().toLocaleTimeString()}</div>      </div>
+        <div style="${muted}; text-align: right;">${ocrQuotaCache?.fetchedAt ? adminFreshnessLine("Fetched at", ocrQuotaCache.fetchedAt) : ""}</div>      </div>
     `;
   }
 
@@ -1273,7 +1273,8 @@ Generated ${new Date().toISOString()}.
     ocrRenderStats(ocrQuotaCache.data);
     if (status) {
       const label = ocrQuotaCache.costHistoryLoaded ? "Heavy (~20 KV reads)" : "Medium (~6 KV reads)";
-      status.textContent = `Loaded · ${new Date(ocrQuotaCache.fetchedAt).toLocaleTimeString()} · ${label}`;
+      const when = formatDataAsOf(ocrQuotaCache.fetchedAt) || "—";
+      status.textContent = `Loaded · ${when} · ${label}`;
     }
   }
 
@@ -1306,10 +1307,11 @@ Generated ${new Date().toISOString()}.
     ocrQuotaCache = {
       data: stats.data,
       costHistoryLoaded: heavy,
-      fetchedAt: Date.now(),
+      fetchedAt: adminNowIso(),
     };
     persistOcrQuotaCache();
     ocrRenderFromCache();
+    updatePageFreshness();
     updateOpsAlertBanner().catch(() => {});
   }
 
@@ -2730,7 +2732,7 @@ function wmOpenCostChart(chartId) {
   function wmRenderDetailPanel(result) {
     const { app, health, stats, metrics } = result;
     const cardState = wmCardState(health, metrics);
-    const fetchedAt = new Date().toLocaleTimeString();
+    const fetchedAt = formatDataAsOf(wmCache?.fetchedAt) || new Date().toLocaleTimeString();
     const url = wmGetUrl(app);
     const keySet = Boolean(wmGetKey(app, false));
 
@@ -2850,7 +2852,7 @@ function wmOpenCostChart(chartId) {
       return;
     }
 
-    const fetchedAt = wmCache?.fetchedAt ? new Date(wmCache.fetchedAt).toLocaleTimeString() : new Date().toLocaleTimeString();
+    const fetchedAt = formatDataAsOf(wmCache?.fetchedAt) || new Date().toLocaleTimeString();
     const tier = wmCache?.tier || "light";
     const costReady = wmCache?.costHistoryLoaded;
     const combinedToday = displayResults.reduce((s, r) => s + (r.metrics?.costToday || 0), 0);
@@ -2935,9 +2937,10 @@ function wmOpenCostChart(chartId) {
       return;
     }
     wmRenderMonitoring(wmCache.results);
-    const ts = new Date(wmCache.fetchedAt).toLocaleTimeString();
+    const ts = formatDataAsOf(wmCache.fetchedAt) || "—";
     const tier = (wmCache.tier || "medium").charAt(0).toUpperCase() + (wmCache.tier || "medium").slice(1);
     wmSetStatus(`Restored from session cache · ${ts} · ${tier} · click Refresh to update.`);
+    updatePageFreshness();
   }
 
   async function wmFetchTier(tier) {
@@ -2960,7 +2963,7 @@ function wmOpenCostChart(chartId) {
       results,
       tier,
       costHistoryLoaded: costHistory,
-      fetchedAt: Date.now(),
+      fetchedAt: adminNowIso(),
     };
     persistWmCache();
 
@@ -2969,7 +2972,7 @@ function wmOpenCostChart(chartId) {
       ocrQuotaCache = {
         data: pbjResult.stats.data,
         costHistoryLoaded: costHistory,
-        fetchedAt: Date.now(),
+        fetchedAt: adminNowIso(),
       };
       persistOcrQuotaCache();
       ocrRenderFromCache();
@@ -2977,10 +2980,12 @@ function wmOpenCostChart(chartId) {
 
     wmRenderMonitoring(results);
     const kv = wmEstimateKvReads(tier);
+    const when = formatDataAsOf(wmCache.fetchedAt) || new Date().toLocaleTimeString();
     wmSetStatus(
-      `${tier.charAt(0).toUpperCase() + tier.slice(1)} loaded · ${new Date().toLocaleTimeString()}` +
+      `${tier.charAt(0).toUpperCase() + tier.slice(1)} loaded · ${when}` +
       (kv != null ? ` · ~${kv} KV reads (3 workers)` : " · 0 KV reads (health only)"),
     );
+    updatePageFreshness();
     updateOpsAlertBanner().catch(() => {});
     return results;
   }
@@ -3024,11 +3029,17 @@ function wmOpenCostChart(chartId) {
       adminCacheWrite("ref", null);
       return;
     }
+    const range = refLastData.range;
+    const rangeLabel = range
+      ? `Showing ${range.from} → ${range.to}`
+      : null;
     adminCacheWrite("ref", {
       data: refLastData,
       detail: refLastDetail,
-      fetchedAt: Date.now(),
+      fetchedAt: adminNowIso(),
+      rangeLabel,
     });
+    updatePageFreshness();
   }
 
   function refHhhApp() {
@@ -3252,7 +3263,8 @@ function wmOpenCostChart(chartId) {
     refLastData = res.data;
     persistRefCache();
     refRender();
-    status.textContent = `KV rollups loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${new Date().toLocaleTimeString()} · Light (~${(res.data.range?.days || 7) * 8} KV reads)`;
+    const when = formatDataAsOf(adminCacheRead("ref")?.fetchedAt) || new Date().toLocaleTimeString();
+    status.textContent = `KV rollups loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${when} · Light (~${(res.data.range?.days || 7) * 8} KV reads)`;
   }
 
   async function refLoadDetail() {
@@ -3269,7 +3281,8 @@ function wmOpenCostChart(chartId) {
     refLastDetail = res.data;
     persistRefCache();
     refRender();
-    status.textContent = `Detail tables loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${new Date().toLocaleTimeString()} · Medium (context lists per day)`;
+    const when = formatDataAsOf(adminCacheRead("ref")?.fetchedAt) || new Date().toLocaleTimeString();
+    status.textContent = `Detail tables loaded · ${res.data.range?.from} → ${res.data.range?.to} · ${when} · Medium (context lists per day)`;
   }
 
   async function refLoadTopSkus() {
@@ -4814,29 +4827,31 @@ function wmOpenCostChart(chartId) {
         loadCommercialProofFromWorker();
         loadRuntimeTruthFromGithub();
         loadRevenueFromWorker();
+        updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
       if (page === "workers") {
         wmRenderFromCache();
         loadThresholdsSharedStats();
+        updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
       if (page === "referrals") {
         refRender();
         const refCached = adminCacheRead("ref");
         if (refLastData && document.getElementById("refStatus")) {
-          const ts = refCached?.fetchedAt
-            ? new Date(refCached.fetchedAt).toLocaleTimeString()
-            : "cached";
+          const ts = formatDataAsOf(refCached?.fetchedAt) || "cached";
           document.getElementById("refStatus").textContent =
             `Restored from session cache · ${ts} · click Refresh to update.`;
         }
+        updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
       if (page === "ocr") {
         loadOcrQuotaPanel();
         loadTellerStatusPanel();
         loadOpenCellIdPanel();
+        updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
       if (page.startsWith("app-")) {
@@ -4856,9 +4871,7 @@ function wmOpenCostChart(chartId) {
           refRender();
           const refCached = adminCacheRead("ref");
           if (refLastData && document.getElementById("refStatus")) {
-            const ts = refCached?.fetchedAt
-              ? new Date(refCached.fetchedAt).toLocaleTimeString()
-              : "cached";
+            const ts = formatDataAsOf(refCached?.fetchedAt) || "cached";
             document.getElementById("refStatus").textContent =
               `Restored from session cache · ${ts} · click Refresh to update.`;
           }
@@ -4867,7 +4880,9 @@ function wmOpenCostChart(chartId) {
         if (appId === "cvc") {
           loadCapacityControl();
         }
+        updatePageFreshness();
         updateOpsAlertBanner().catch(() => {});
       }
     }, 600);
+    updatePageFreshness();
   }
