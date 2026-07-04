@@ -5103,3 +5103,4 @@ function wmOpenCostChart(chartId) {
     }, 600);
     updatePageFreshness();
   }
+}
