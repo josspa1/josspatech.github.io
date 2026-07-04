@@ -1,6 +1,40 @@
 node_modules/
+
+# Video pipeline temp / intermediate artifacts
 videos/user-guide/_record_tmp/
+videos/user-guide/_frames_tmp/
 videos/user-guide/*.video-only.mp4
 videos/user-guide/_combined-narration.m4a
+videos/user-guide/*.baseline*.tmp
+videos/user-guide/index-89.html
+
+# Render / audio generation logs
 _render*.log
 _audio-gen.log
+/_audio_*.log
+
+# Local scratch utilities (repo-root one-offs)
+/_*.py
+/_tmp_*
+/_test_*
+/_verify*.py
+/_check_*.py
+/_compare_*.py
+/_count_*.py
+/_extract*.py
+/_fix_*.py
+/_git_*.py
+/_live_*.py
+/_mp3_*.py
+/*.tmp
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Ad-hoc script patches (keep scripts/_qa_verify.py)
+scripts/_patch*.py
+
+# Screenshot pipeline scratch
+assets/screenshots/**/_*.png
+assets/screenshots/**/*.fixed.png
