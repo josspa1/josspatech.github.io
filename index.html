@@ -484,7 +484,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(212,168,83,0.7);
 }
 
-/* PAL card — Pocket Allowance Ledger — In Development */
+/* PAL card — Pocket Allowance Ledger */
 .pal-card{
   background:var(--navy-dk);border-radius:20px;
   padding:48px 44px;
@@ -1334,8 +1334,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <!-- Pocket Allowance Ledger card -->
       <div role="button" tabindex="0" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="pal-card rv d3">
         <div class="pal-badge">
-          <div class="pal-badge-dot"></div>
-          In development
+          Parent app &middot; ages 6+
         </div>
         <div class="pal-name">Pocket Allowance<br><span>Ledger</span>™</div>
         <div class="pal-tagline">A calm home token economy for families — built on behavioral science, not kid banking</div>
@@ -1343,16 +1342,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li><div class="pf-icon"></div>Parent-managed gold tokens and approved rewards — you stay in charge</li>
           <li><div class="pf-icon"></div>One-tap behavior recording from a home screen built for busy parents</li>
           <li><div class="pf-icon"></div>Kid companion opens in the browser at <strong>pal.local</strong> on home Wi&#8209;Fi — no kid App Store account</li>
-          <li><div class="pf-icon"></div>First-contract wizard, shaping ladders, and calm coaching copy — not surveillance</li>
+          <li><div class="pf-icon"></div>Multi-kid balances, assignments, and a first-contract setup wizard</li>
+          <li><div class="pf-icon"></div>Parent insight cards and trend dashboard — coaching, not surveillance</li>
           <li><div class="pf-icon"></div>Behavioral data stays on your phone and home network — we do not host it</li>
-          <li><div class="pf-icon"></div>Not Greenlight — no debit card, no custodial account, ages 6+</li>
+          <li><div class="pf-icon"></div>Not Greenlight — no debit card, no custodial account</li>
         </ul>
         <div class="pal-cta">
           Learn More
           <span class="pal-cta-arrow">→</span>
         </div>
         <div class="pal-platforms">
-          <div class="pal-pill dev">In development</div>
           <div class="pal-pill">Android</div>
         </div>
       </div>
@@ -1874,6 +1873,154 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 }
 @media (max-width: 820px) {
   #page-hhh .hhh-clockworks-grid { grid-template-columns: 1fr !important; }
+}
+
+/* PAL — product page (mirrors HHH layout, sage/gold palette) */
+#page-pal .hero { text-align: left; padding-bottom: 64px; }
+#page-pal .hero-text { text-align: left; }
+#page-pal .hero-inner {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 400px);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+#page-pal .hero-acts { justify-content: flex-start; }
+#page-pal .hhh-how-it-works {
+  background: linear-gradient(180deg, #121c28 0%, #0d1a28 100%);
+  border-color: rgba(232, 184, 74, 0.1);
+}
+#page-pal .hhh-how-eyebrow,
+#page-pal .hhh-feature-eyebrow { color: #E8B84A; }
+#page-pal .hhh-step {
+  background: rgba(232, 184, 74, 0.05);
+  border-color: rgba(232, 184, 74, 0.12);
+}
+#page-pal .hhh-step-num {
+  background: rgba(232, 184, 74, 0.18);
+  color: #E8B84A;
+}
+#page-pal .hhh-app-tour { background: #0d1a28; }
+#page-pal .hhh-feature-band {
+  border-color: rgba(232, 184, 74, 0.08);
+}
+#page-pal .hhh-feature-band:nth-child(even) { background: rgba(232, 184, 74, 0.03); }
+#page-pal .hhh-feature-headline em { color: #E8B84A; }
+#page-pal .hhh-platform-label {
+  color: rgba(232, 184, 74, 0.85);
+  background: rgba(232, 184, 74, 0.1);
+  border-color: rgba(232, 184, 74, 0.22);
+}
+.pal-hero-visual {
+  justify-self: end;
+  width: 100%;
+  max-width: 380px;
+  margin: 0;
+  text-align: center;
+}
+.pal-brand-stack {
+  position: relative;
+  padding: 48px 32px 40px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(91, 123, 106, 0.18) 0%, rgba(18, 28, 40, 0.95) 55%);
+  border: 1px solid rgba(232, 184, 74, 0.18);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.42);
+}
+.pal-brand-stack img.pal-coin-lg {
+  width: 96px;
+  height: 96px;
+  display: block;
+  margin: 0 auto 20px;
+  filter: drop-shadow(0 8px 24px rgba(201, 162, 39, 0.35));
+}
+.pal-brand-stack img.pal-coin-sm {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  opacity: 0.85;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+}
+.pal-brand-stack .pal-coin-a { top: 28px; left: 24px; transform: rotate(-12deg); }
+.pal-brand-stack .pal-coin-b { top: 36px; right: 20px; transform: rotate(14deg); }
+.pal-brand-stack-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.8vw, 24px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.pal-brand-stack-sub {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.52);
+  max-width: 28ch;
+  margin: 0 auto;
+}
+.pal-brand-panel {
+  margin: 0;
+  padding: 36px 28px;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(165deg, rgba(91, 123, 106, 0.12) 0%, rgba(232, 184, 74, 0.06) 100%);
+  border: 1px solid rgba(232, 184, 74, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.pal-brand-panel img {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  display: block;
+  filter: drop-shadow(0 6px 18px rgba(201, 162, 39, 0.28));
+}
+.pal-brand-panel-caption {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.pal-brand-panel-detail {
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
+  max-width: 32ch;
+  margin: 0 auto;
+}
+.pal-for-not {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+.pal-for-not-card {
+  padding: 28px;
+  border-radius: 16px;
+  background: rgba(232, 184, 74, 0.04);
+  border: 1px solid rgba(232, 184, 74, 0.12);
+}
+.pal-for-not-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #E8B84A;
+  margin-bottom: 12px;
+}
+.pal-for-not-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+}
+@media (max-width: 900px) {
+  #page-pal .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  #page-pal .hero-text { text-align: center; }
+  #page-pal .hero-acts { justify-content: center; }
+  .pal-hero-visual { justify-self: center; max-width: min(340px, 88vw); }
+  .pal-for-not { grid-template-columns: 1fr; }
 }
 
 .pbj-sticky-bar {
@@ -3093,9 +3240,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 <section class="sec" style="background:#0d1a28;padding:48px 24px;text-align:center;border-top:1px solid rgba(200,170,110,0.08);">
   <div class="section-inner rv" style="max-width:720px;margin:0 auto;">
     <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">More from JosspaTech</p>
-    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Handy Horology Helper is one of three collecting and finance apps from JosspaTech &mdash; same privacy-first philosophy, same fair subscription shelf.</p>
+    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Handy Horology Helper is one of four JosspaTech apps &mdash; same privacy-first philosophy, same fair subscription shelf.</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
       <a href="#pbj" onclick="showPage('pbj');return false;" style="color:#c8aa6e;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(200,170,110,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
+      <a href="#pal" onclick="showPage('pal');return false;" style="color:#c8aa6e;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(200,170,110,0.25);border-radius:8px;">Pocket Allowance Ledger &mdash; family tokens</a>
       <a href="#cvc" onclick="showPage('cvc');return false;" style="color:#c8aa6e;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(200,170,110,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
       <a href="#" onclick="showPage('company');return false;" style="color:rgba(255,255,255,0.55);font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;">About JosspaTech</a>
     </div>
@@ -3183,54 +3331,209 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#E8B84A;">JosspaTech</a><span style="color:rgba(232,184,74,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Pocket Allowance Ledger</span></div>
-      <div class="hero-eyebrow" style="background:rgba(232,184,74,0.08);border-color:rgba(232,184,74,0.18);color:#E8B84A;"><div class="hero-dot" style="background:#E8B84A;"></div>In development &middot; not on app stores yet</div>
-      <h1 class="hero-h1" style="color:#fff;">Run a home token economy.<br><em style="color:#E8B84A;">Stay in charge.</em></h1>
-      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">A parent tool for shaping behavior with gold tokens and approved rewards — for children ages 6 and up.</p>
-      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Pocket Allowance Ledger (PAL) helps families run a calm token system the way behavioral science describes: clear contingencies, immediate feedback, and reinforcers your child actually wants. This is <strong>not</strong> kid banking — no debit card, no custodial account. Data stays on your phone and home network.</p>
+      <div class="hero-eyebrow" style="background:rgba(232,184,74,0.08);border-color:rgba(232,184,74,0.18);color:#E8B84A;"><div class="hero-dot" style="background:#E8B84A;"></div>v0.1.0 &middot; Parent app &middot; Android &middot; ages 6+</div>
+      <h1 class="hero-h1" style="color:#fff;text-align:inherit;">Run a home token economy.<br><em style="color:#E8B84A;">Stay in charge.</em></h1>
+      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);text-align:inherit;">A parent tool for shaping behavior with gold tokens and approved rewards.</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);text-align:inherit;">Pocket Allowance Ledger (PAL) helps families run a calm token system the way behavioral science describes: clear contingencies, immediate feedback, and reinforcers your child actually wants. This is <strong>not</strong> kid banking &mdash; no debit card, no custodial account. Behavioral data stays on your phone and home network.</p>
       <div class="hero-acts" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
-        <span class="btn-primary" style="background:rgba(232,184,74,0.15);color:#E8B84A;border:1px solid rgba(232,184,74,0.25);box-shadow:none;cursor:default;">Coming soon — in development</span>
-        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-ghost" style="border:1px solid rgba(232,184,74,0.35);color:#E8B84A;text-decoration:none;">Get updates</a>
+        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-primary" style="background:#E8B84A;color:#1a2838;text-decoration:none;border:none;">Email for access &rarr;</a>
+        <a href="#products" onclick="navTo('products');return false;" class="btn-ghost" style="border:1px solid rgba(232,184,74,0.35);color:#E8B84A;text-decoration:none;">All products</a>
       </div>
     </div>
+    <figure class="pal-hero-visual" aria-label="PAL token economy">
+      <span class="hhh-platform-label">Parent-managed &middot; local-only</span>
+      <div class="pal-brand-stack">
+        <img class="pal-coin-sm pal-coin-a" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-sm pal-coin-b" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-lg" src="assets/brand/pal-coin.svg" alt="PAL gold token" width="96" height="96">
+        <p class="pal-brand-stack-title">Tokens for behavior.<br>Rewards you approve.</p>
+        <p class="pal-brand-stack-sub">Parent decides. App coaches. Kids see progress on your home Wi&#8209;Fi.</p>
+      </div>
+    </figure>
   </div>
 </section>
+
 <div class="pstrip" style="background:rgba(232,184,74,0.06);border-color:rgba(232,184,74,0.12);">
-  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Parent-managed tokens</div>
-  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Kid dashboard on home Wi&#8209;Fi</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>One-tap quick record</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Kid dashboard at pal.local</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Multi-kid household</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Insight cards &amp; trends</div>
   <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Local-only data</div>
   <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Not a banking app</div>
-  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>In development</div>
+</div>
+
+<section class="hhh-how-it-works" aria-labelledby="pal-how-title">
+  <div class="hhh-how-inner rv">
+    <span class="hhh-how-eyebrow">How it works</span>
+    <h2 class="hhh-how-title" id="pal-how-title">Set up &rarr; Record &rarr; Reward</h2>
+    <ol class="hhh-steps">
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">1</span>
+        <span class="hhh-step-title">Set up</span>
+        <p class="hhh-step-desc">Add your kids, pick a first behavior contract, and build a reward menu your child actually wants. The guided wizard walks through preference assessment and schedule basics.</p>
+      </li>
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">2</span>
+        <span class="hhh-step-title">Record</span>
+        <p class="hhh-step-desc">Today&rsquo;s contracts show up as Done buttons on the parent home screen. One tap logs the behavior and awards a token. Optional detail when you want it &mdash; never required to earn.</p>
+      </li>
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">3</span>
+        <span class="hhh-step-title">Reward</span>
+        <p class="hhh-step-desc">Kids open a browser dashboard at <strong>pal.local</strong> on the same WiFi. They see assignments, mark &ldquo;I did it,&rdquo; watch tokens land, and browse parent-approved rewards.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="hhh-app-tour">
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Parent home</span>
+        <h2 class="hhh-feature-headline">Log behavior<br><em>in one tap.</em></h2>
+        <p class="hhh-feature-body">The parent home screen is built for busy evenings. Today&rsquo;s contracts appear as large Done buttons &mdash; tap to record behavior and award a gold token. No forms blocking the moment.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Quick-record home with one-tap token recording</li>
+          <li>Optional notes when you want more detail</li>
+          <li>Kid sees the token on their dashboard within about a second on home WiFi</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Today&rsquo;s contracts, ready to tap</figcaption>
+        <p class="pal-brand-panel-detail">Parent records on the phone. Feedback lands fast on the kid dashboard.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band hhh-feature-band--reverse rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Kid companion</span>
+        <h2 class="hhh-feature-headline">Kids on your WiFi.<br><em>Not another app install.</em></h2>
+        <p class="hhh-feature-body">PAL serves a simple browser dashboard on your home network at <strong>pal.local</strong>. Kids see assignments, mark completion, watch tokens arrive, and browse approved rewards &mdash; no kid phone app and no App Store account for the child.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Browser dashboard on local WiFi</li>
+          <li>No ads, no social feed</li>
+          <li>Behavioral data stays on your phone and home network</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">pal.local on home Wi&#8209;Fi</figcaption>
+        <p class="pal-brand-panel-detail">A warm kid-facing view &mdash; tokens and rewards, not banking UI.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Household view</span>
+        <h2 class="hhh-feature-headline">Every kid.<br><em>One calm ledger.</em></h2>
+        <p class="hhh-feature-body">Track balances and assignments for each child. See pending vs store tokens, manage contracts, and keep independent programs without leaderboards or sibling shame.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Multi-kid balances and assignment tracking</li>
+          <li>Assignments with contract detail</li>
+          <li>Parent-managed rewards and wish list</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Balances &amp; assignments</figcaption>
+        <p class="pal-brand-panel-detail">Per-kid avatars, token counts, and rolling progress.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band hhh-feature-band--reverse rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Coaching</span>
+        <h2 class="hhh-feature-headline">Insights you can<br><em>actually use.</em></h2>
+        <p class="hhh-feature-body">Reports and insight cards use plain language and calm copy. Celebrate progress without red-zone shame. You choose what to change &mdash; PAL coaches, it does not surveil.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Parent insight cards on the reports dashboard</li>
+          <li>Trend charts that focus on progress</li>
+          <li>First-contract wizard with preference assessment</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Reports &amp; insight cards</figcaption>
+        <p class="pal-brand-panel-detail">Gentle evidence and plain-language nudges.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Privacy</span>
+        <h2 class="hhh-feature-headline">Your data stays<br><em>at home.</em></h2>
+        <p class="hhh-feature-body">PAL stores behavioral records in local SQLite on the parent phone. The kid web client runs only on your LAN. Optional encrypted backup goes to your iCloud or Google Drive &mdash; you own the copy. No JosspaTech cloud backend in v1.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Local-only storage on the parent device</li>
+          <li>Optional iCloud or Google Drive backup</li>
+          <li>No selling of data. No behavioral profiles sent to us.</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Private by architecture</figcaption>
+        <p class="pal-brand-panel-detail">Local server on your phone. Kid view on your WiFi only.</p>
+      </figure>
+    </div>
+  </section>
 </div>
 
 <section class="sec" style="background:#121c28;padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
-    <span class="section-eyebrow rv" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">What we're building</span>
-    <h2 class="section-title rv" style="color:#fff;">Record behavior.<br><em style="color:#E8B84A;">Reward what matters.</em></h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
-      <div class="rv d1" style="background:rgba(232,184,74,0.05);border:1px solid rgba(232,184,74,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9733;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">One-tap recording</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Today&rsquo;s contracts show up as Done buttons on the parent home screen. Optional detail when you want it — never required to earn a token.</p>
+    <span class="section-eyebrow rv" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Who it&rsquo;s for</span>
+    <h2 class="section-title rv" style="color:#fff;">Token economy.<br><em style="color:#E8B84A;">Not kid banking.</em></h2>
+    <div class="pal-for-not rv">
+      <div class="pal-for-not-card">
+        <h3>PAL is for</h3>
+        <ul>
+          <li>Parents building consistent routines &mdash; homework, bedtime, hygiene, kindness</li>
+          <li>Families who want structure without a banking product or classroom behavior app</li>
+          <li>Caregivers who value evidence-aligned mechanics and calm UX</li>
+        </ul>
       </div>
-      <div class="rv d2" style="background:rgba(232,184,74,0.05);border:1px solid rgba(232,184,74,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127760;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Kid companion on your LAN</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Kids open a simple browser dashboard at <strong>pal.local</strong> on the same WiFi. See assignments, mark &ldquo;I did it,&rdquo; watch tokens land, and browse approved rewards — no kid phone app or App Store account.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(232,184,74,0.05);border:1px solid rgba(232,184,74,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128218;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Behavior coaching, not chore stickers</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">First-contract wizard, shaping ladders, schedule thinning, and calm copy when behavior dips early. Reinforcer rotation nudges when rewards get stale.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(232,184,74,0.05);border:1px solid rgba(232,184,74,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Private by design</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Behavioral data stays on your phone and home network. PAL coaches — it does not surveil. No ads, no social feed, no cloud hosting of your family&rsquo;s records.</p>
+      <div class="pal-for-not-card">
+        <h3>PAL is not for</h3>
+        <ul>
+          <li>Custodial allowance banking or debit cards</li>
+          <li>Classroom-wide behavior tracking</li>
+          <li>Financial literacy curriculum or investment education</li>
+        </ul>
       </div>
     </div>
-    <div class="rv" style="text-align:center;margin-top:64px;">
-      <div style="font-size:14px;color:rgba(255,255,255,0.45);font-style:italic;">In development &middot; not on Google Play or the App Store yet</div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0d1a28;padding:48px 24px;text-align:center;border-top:1px solid rgba(232,184,74,0.08);">
+  <div class="section-inner rv" style="max-width:720px;margin:0 auto;">
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">More from JosspaTech</p>
+    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Pocket Allowance Ledger shares the same privacy-first philosophy as our other Pocket apps.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+      <a href="#pbj" onclick="showPage('pbj');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
+      <a href="#hhh" onclick="showPage('hhh');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches</a>
+      <a href="#cvc" onclick="showPage('cvc');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
     </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0a1520;padding:60px 24px;text-align:center;">
+  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
+    <span class="section-eyebrow" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Get in touch</span>
+    <h2 class="section-title" style="color:#fff;font-size:28px;">Questions about<br><em style="color:#E8B84A;">Pocket Allowance Ledger?</em></h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Email us for early access, feedback, or press inquiries. We read every message.</p>
+    <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,184,74,0.12);color:#E8B84A;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(232,184,74,0.22);">
+      support@josspatech.com
+      <span>&rarr;</span>
+    </a>
   </div>
 </section>
 
@@ -3250,7 +3553,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="footer-col">
         <h4>Pocket Allowance Ledger</h4>
-        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger">Contact for updates</a>
+        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger">Contact</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
