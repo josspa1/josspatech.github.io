@@ -1210,7 +1210,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hhh-card rv d2">
         <div class="hhh-badge">
           <div class="hhh-badge-dot"></div>
-          Internal testing · v1.0.12 (build 13)
+          Internal testing · v1.0.22 (build 37)
         </div>
         <div class="hhh-name">Handy Horology<br><span>Helper</span>™</div>
         <div class="hhh-tagline">AI identification, collection manager &amp; Web Companion on your LAN</div>
@@ -1478,6 +1478,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 @media (max-width: 820px) {
   .hhh-hero-features { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
   .hhh-feature-panel img { height: 280px; }
+  #page-hhh .hhh-clockworks-grid { grid-template-columns: 1fr !important; }
 }
 
 .pbj-sticky-bar {
@@ -2058,26 +2059,27 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#c8aa6e;">JosspaTech</a><span style="color:rgba(200,170,110,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Handy Horology Helper</span></div>
-      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>Internal testing · v1.0.12 (build 13) &middot; iOS &amp; Android</div>
+      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>v1.0.22 (build 37) &middot; Google Play internal testing &middot; iOS TestFlight</div>
       <h1 class="hero-h1" style="color:#fff;">Know your timepiece.<br><em style="color:#c8aa6e;">Know its worth.</em></h1>
-      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your AI-powered horology identification, collection &amp; financial companion</p>
-      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with full profit/loss tracking, Clockworks parts wizard, eBay hunt alerts, and a <strong>Web Companion</strong> that runs on your phone and opens in any PC browser on the same WiFi. Full UI in <strong>7 languages</strong>.</p>
-      <div class="hero-acts">
-        <span class="btn-primary" style="background:rgba(200,170,110,0.15);color:#c8aa6e;border:1px solid rgba(200,170,110,0.25);box-shadow:none;cursor:default;">Internal testing v1.0.12 (build 13) &mdash; not public on Play</span>
+      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">AI identification, collection manager &amp; Clockworks parts wizard</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Photograph any watch or clock for instant AI identification with confidence scoring. Manage your collection in <strong>My Museum</strong>, troubleshoot clocks with the <strong>Clockworks parts wizard</strong>, run eBay Grail Radar on your wish list, and browse your collection from a PC with <strong>Web Companion</strong> on your home WiFi. Full UI in <strong>7 languages</strong>.</p>
+      <div class="hero-acts" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+        <a href="https://play.google.com/apps/internaltest/4701583732703251381" target="_blank" rel="noopener" class="btn-primary" style="background:#c8aa6e;color:#1a2a3a;text-decoration:none;border:none;">Get on Google Play &#8594;</a>
+        <a href="mailto:support@josspatech.com?subject=Handy%20Horology%20Helper%20TestFlight" class="btn-ghost" style="border:1px solid rgba(200,170,110,0.35);color:#c8aa6e;text-decoration:none;">Request iOS TestFlight</a>
+        <a href="videos/user-guide-hhh/" class="btn-ghost" style="border:1px solid rgba(200,170,110,0.35);color:#c8aa6e;text-decoration:none;">User Guide</a>
       </div>
     </div>
-    <!-- Replace PNGs with light-theme device crops when captured (see HHH APP_STORE_SCREENSHOTS.md) -->
     <div class="hhh-hero-features" aria-label="Handy Horology Helper feature highlights">
       <figure class="hhh-feature-panel hhh-feature-panel--identify">
-        <img src="assets/screenshots/hhh/02-ai-identify.png" alt="AI identification with confidence-scored match" loading="lazy" width="920" height="340">
+        <img src="assets/screenshots/hhh/feature-identify.png" alt="AI identification with confidence-scored match" loading="lazy" width="920" height="340">
         <figcaption class="hhh-feature-caption">AI Identification</figcaption>
       </figure>
       <figure class="hhh-feature-panel hhh-feature-panel--museum">
-        <img src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection gallery with portfolio value" loading="lazy" width="920" height="340">
+        <img src="assets/screenshots/hhh/feature-museum.png" alt="My Museum collection gallery with portfolio value" loading="lazy" width="920" height="340">
         <figcaption class="hhh-feature-caption">My Museum</figcaption>
       </figure>
       <figure class="hhh-feature-panel hhh-feature-panel--clockworks">
-        <img src="assets/screenshots/hhh/03-clockworks-wizard.png" alt="Clockworks symptom wizard and parts list" loading="lazy" width="920" height="340">
+        <img src="assets/screenshots/hhh/feature-clockworks.png" alt="Clockworks symptom wizard and parts list" loading="lazy" width="920" height="340">
         <figcaption class="hhh-feature-caption">Clockworks Wizard</figcaption>
       </figure>
     </div>
@@ -2092,8 +2094,33 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>7 Languages</div>
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Web Companion (LAN)</div>
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>14-day trial &middot; $9.99/mo &middot; $74.99/yr</div>
+  <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>Clockworks Parts</div>
   <div class="psi" style="color:#c8aa6e;"><div class="psd" style="background:#c8aa6e;"></div>iOS &amp; Android</div>
 </div>
+
+<!-- Clockworks partnership — featured for JJ referrer traffic -->
+<section class="sec" style="background:linear-gradient(160deg,#2a1520 0%,#0d1a28 55%);padding:72px 24px;border-top:1px solid rgba(200,170,110,0.12);border-bottom:1px solid rgba(200,170,110,0.12);">
+  <div class="section-inner rv hhh-clockworks-grid" style="max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;">
+    <div>
+      <span class="section-eyebrow" style="color:#c8aa6e;border-color:rgba(200,170,110,0.22);background:rgba(200,170,110,0.08);">Clockworks Partnership</span>
+      <h2 class="section-title" style="color:#fff;font-size:clamp(26px,4vw,34px);margin-top:16px;">Fix your clock.<br><em style="color:#c8aa6e;">Find the right parts.</em></h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:15px;line-height:1.75;margin-top:16px;">Handy Horology Helper includes a <strong>Clock Repair Help</strong> wizard in Tools. Describe the symptom &mdash; won&rsquo;t chime, pendulum stops, hands slip &mdash; and HHH suggests matching parts from our friends at <a href="https://www.clockworks.com" target="_blank" rel="noopener" style="color:#c8aa6e;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(200,170,110,0.35);">Clockworks.com</a>, trusted by repair shops for over 100 years.</p>
+      <ul style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.9;margin:20px 0 0;padding-left:20px;">
+        <li>Symptom-to-parts wizard for mantel, wall, and grandfather clocks</li>
+        <li>Shop suggested SKUs on Clockworks with one tap</li>
+        <li>Sample parts catalog when offline &mdash; live catalog when connected</li>
+      </ul>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;">
+        <a href="https://play.google.com/apps/internaltest/4701583732703251381" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.18);color:#c8aa6e;font-size:14px;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.28);">Try HHH free for 14 days &#8594;</a>
+        <a href="https://www.clockworks.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.65);font-size:14px;font-weight:600;padding:12px 18px;text-decoration:none;border-bottom:1px solid rgba(200,170,110,0.25);">Visit Clockworks.com</a>
+      </div>
+    </div>
+    <figure class="hhh-feature-panel hhh-feature-panel--clockworks" style="margin:0;">
+      <img src="assets/screenshots/hhh/feature-clockworks.png" alt="Clockworks parts wizard showing suggested repair parts" loading="lazy" width="920" height="340" style="height:clamp(240px,36vw,380px);">
+      <figcaption class="hhh-feature-caption">Clock Repair Help &rarr; Clockworks parts</figcaption>
+    </figure>
+  </div>
+</section>
 
 <section class="sec" style="background:#0d1a28;padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
@@ -2319,6 +2346,27 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <!-- Pricing Section -->
+<section class="sec" id="hhh-download" style="background:#0a1520;padding:72px 24px;border-top:1px solid rgba(200,170,110,0.08);">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Download</span>
+    <h2 class="section-title rv" style="color:#fff;font-size:28px;">Install Handy Horology Helper<br><em style="color:#c8aa6e;">on your phone.</em></h2>
+    <p class="rv" style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">v1.0.22 (build 37) is on <strong>Google Play internal testing</strong> today. iOS builds ship via TestFlight by request. Web Companion runs on your LAN (Tools &rarr; Web Companion) &mdash; not a public website.</p>
+    <div class="rv" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:720px;margin:0 auto 32px;text-align:left;">
+      <a href="https://play.google.com/apps/internaltest/4701583732703251381" target="_blank" rel="noopener" style="display:block;background:rgba(200,170,110,0.1);border:1px solid rgba(200,170,110,0.25);border-radius:14px;padding:22px;text-decoration:none;">
+        <div style="font-size:22px;margin-bottom:8px;">&#129302;</div>
+        <div style="color:#fff;font-weight:700;font-size:16px;margin-bottom:4px;">Google Play &mdash; Internal</div>
+        <div style="color:rgba(255,255,255,0.5);font-size:13px;line-height:1.5;">Opt in with your Google account, then install. Android 9+.</div>
+      </a>
+      <a href="mailto:support@josspatech.com?subject=Handy%20Horology%20Helper%20TestFlight" style="display:block;background:rgba(200,170,110,0.06);border:1px solid rgba(200,170,110,0.18);border-radius:14px;padding:22px;text-decoration:none;">
+        <div style="font-size:22px;margin-bottom:8px;">&#127822;</div>
+        <div style="color:#fff;font-weight:700;font-size:16px;margin-bottom:4px;">App Store &mdash; TestFlight</div>
+        <div style="color:rgba(255,255,255,0.5);font-size:13px;line-height:1.5;">Email support@josspatech.com for an iOS invite. iOS 16+.</div>
+      </a>
+    </div>
+    <p class="rv" style="color:rgba(255,255,255,0.4);font-size:13px;">Public store listings coming after beta. <a href="videos/user-guide-hhh/" style="color:#c8aa6e;text-decoration:none;border-bottom:1px solid rgba(200,170,110,0.3);">User guide</a> &middot; <a href="docs/handyhorology/HandyHorology_PrivacyPolicy.html" style="color:#c8aa6e;text-decoration:none;border-bottom:1px solid rgba(200,170,110,0.3);">Privacy Policy</a></p>
+  </div>
+</section>
+
 <section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(200,170,110,0.08);">
   <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
     <span class="section-eyebrow rv" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Pricing</span>
@@ -2353,9 +2401,21 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <section class="sec" style="background:#0d1a28;padding:48px 24px;text-align:center;border-top:1px solid rgba(200,170,110,0.08);">
+  <div class="section-inner rv" style="max-width:720px;margin:0 auto;">
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">More from JosspaTech</p>
+    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Handy Horology Helper is one of three collecting and finance apps from JosspaTech &mdash; same privacy-first philosophy, same fair subscription shelf.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+      <a href="#pbj" onclick="showPage('pbj');return false;" style="color:#c8aa6e;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(200,170,110,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
+      <a href="#cvc" onclick="showPage('cvc');return false;" style="color:#c8aa6e;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(200,170,110,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
+      <a href="#" onclick="showPage('company');return false;" style="color:rgba(255,255,255,0.55);font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:8px;">About JosspaTech</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0d1a28;padding:48px 24px;text-align:center;border-top:1px solid rgba(200,170,110,0.08);">
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Friends of Horology</p>
-    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;">Looking for clock parts, movements, or expert repair? Our friends at <a href="https://www.clockworks.com" target="_blank" rel="noopener" style="color:#c8aa6e;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(200,170,110,0.3);transition:border-color .18s;">Clockworks.com</a> have been supplying collectors and repair shops for over 100 years.</p>
+    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;">Clock parts, movements, and expert repair from <a href="https://www.clockworks.com" target="_blank" rel="noopener" style="color:#c8aa6e;text-decoration:none;font-weight:600;border-bottom:1px solid rgba(200,170,110,0.3);">Clockworks.com</a> &mdash; HHH&rsquo;s parts wizard links directly to their catalog.</p>
   </div>
 </section>
 
@@ -2376,9 +2436,13 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <span class="section-eyebrow" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Stay Updated</span>
     <h2 class="section-title" style="color:#fff;font-size:28px;">Want to know when<br><em style="color:#c8aa6e;">we launch?</em></h2>
-    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Handy Horology Helper v1.0.12 (build 13) is in <strong>internal testing</strong> on Google Play — not a public listing. Web Companion runs on your LAN (Tools &rarr; Web Companion), not at josspatech.com/hhh/. Drop us an email for early access.</p>
-    <a href="mailto:support@josspatech.com" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.12);color:#c8aa6e;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.22);transition:all .18s;">
-      Get Notified
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Handy Horology Helper v1.0.22 (build 37) is in <strong>Google Play internal testing</strong>. Request TestFlight for iOS or email for early-access help.</p>
+    <a href="https://play.google.com/apps/internaltest/4701583732703251381" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.12);color:#c8aa6e;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.22);margin-right:10px;">
+      Google Play Internal
+      <span>&rarr;</span>
+    </a>
+    <a href="mailto:support@josspatech.com?subject=Handy%20Horology%20Helper%20early%20access" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.08);color:#c8aa6e;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.18);">
+      Email for TestFlight
       <span>&rarr;</span>
     </a>
   </div>
