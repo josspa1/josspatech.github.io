@@ -43,6 +43,9 @@
 
   function goTo(i) {
     current = Math.max(0, Math.min(i, LAST_SLIDE));
+    if (window.PBJWalkthrough && window.PBJWalkthrough.clearTapPulse) {
+      window.PBJWalkthrough.clearTapPulse();
+    }
     slides.forEach(function (s, j) { s.classList.toggle('active', j === current); });
     dots.forEach(function (d, j) { d.classList.toggle('active', j === current); });
     paras.forEach(function (p, j) { p.classList.toggle('current', j === current); });
@@ -73,6 +76,9 @@
 
   function playSlide() {
     goTo(current);
+    if (playing && window.PBJWalkthrough && window.PBJWalkthrough.scheduleTapPulse) {
+      window.PBJWalkthrough.scheduleTapPulse(current);
+    }
     if (playing && voiceEnabled) playSlideAudio(current);
     else if (playing) scheduleNoVoiceAdvance(current);
   }
@@ -87,7 +93,16 @@
 
   playBtn.addEventListener('click', function () {
     if (!playing) startPlayback();
-    else { playing = false; playBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Paused'; clearTimeout(timer); if (slideAudio) slideAudio.pause(); }
+    else {
+      playing = false;
+      playBtn.innerHTML = '&#9654;';
+      speedLabel.textContent = 'Paused';
+      clearTimeout(timer);
+      if (slideAudio) slideAudio.pause();
+      if (window.PBJWalkthrough && window.PBJWalkthrough.clearTapPulse) {
+        window.PBJWalkthrough.clearTapPulse();
+      }
+    }
   });
   if (tapStart) tapStart.addEventListener('click', startPlayback);
   voiceBtn.addEventListener('click', function () {

@@ -143,6 +143,61 @@
         return /\.png(\?|$)/i.test(img.getAttribute('src') || '');
     }
 
+    var tapTimers = [];
+
+    function clearTapPulse() {
+        tapTimers.forEach(function (id) { clearTimeout(id); });
+        tapTimers = [];
+        document.querySelectorAll('.tap-indicator.tap-visible, .slide-highlight.tap-visible').forEach(function (el) {
+            el.classList.remove('tap-visible');
+        });
+    }
+
+    function getTapTiming(slide) {
+        var showAt = parseFloat(slide.getAttribute('data-tap-show-at'));
+        var duration = parseFloat(slide.getAttribute('data-tap-duration'));
+        if (isNaN(showAt)) showAt = 0.3;
+        if (isNaN(duration)) duration = 2.5;
+        return { showAtMs: showAt * 1000, durationMs: duration * 1000 };
+    }
+
+    function setTapVisible(slide, visible) {
+        if (!slide) return;
+        var ind = slide.querySelector('.tap-indicator');
+        var hi = slide.querySelector('.slide-highlight');
+        if (ind) ind.classList.toggle('tap-visible', visible);
+        if (hi) hi.classList.toggle('tap-visible', visible);
+    }
+
+    function scheduleTapPulse(slideIndex) {
+        clearTapPulse();
+        var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
+        if (!slide || slide.hasAttribute('data-tap-none')) return;
+        if (!slide.getAttribute('data-tap-x') || !slide.getAttribute('data-tap-y')) return;
+
+        var timing = getTapTiming(slide);
+        var showTimer = setTimeout(function () {
+            setTapVisible(slide, true);
+        }, timing.showAtMs);
+        var hideTimer = setTimeout(function () {
+            setTapVisible(slide, false);
+        }, timing.showAtMs + timing.durationMs);
+        tapTimers.push(showTimer, hideTimer);
+    }
+
+    function showTapNow(slideIndex) {
+        clearTapPulse();
+        var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
+        if (!slide || slide.hasAttribute('data-tap-none')) return;
+        if (!slide.getAttribute('data-tap-x')) return;
+        setTapVisible(slide, true);
+    }
+
+    function hideTapNow(slideIndex) {
+        var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
+        setTapVisible(slide, false);
+    }
+
     function initSlides() {
         document.querySelectorAll('.slide').forEach(function (slide) {
             slide.querySelectorAll(':scope > .tap-ring-outer, :scope > .tap-finger, :scope > .tap-ring').forEach(function (el) {
@@ -220,6 +275,10 @@
 
     window.PBJWalkthrough = window.PBJWalkthrough || {};
     window.PBJWalkthrough.syncTranscriptSlide = syncTranscriptSlide;
+    window.PBJWalkthrough.clearTapPulse = clearTapPulse;
+    window.PBJWalkthrough.scheduleTapPulse = scheduleTapPulse;
+    window.PBJWalkthrough.showTapNow = showTapNow;
+    window.PBJWalkthrough.hideTapNow = hideTapNow;
     window.initWalkthroughSlides = init;
     window.syncTranscriptSlide = syncTranscriptSlide;
 
@@ -227,6 +286,13 @@
         document.addEventListener('DOMContentLoaded', init);
     } else {
         init();
+    }
+
+    if (window.PBJWalkthrough && window.PBJWalkthrough.registerTeardown) {
+        window.PBJWalkthrough.registerTeardown(clearTapPulse);
+    } else {
+        window.__pbjTeardownQueue = window.__pbjTeardownQueue || [];
+        window.__pbjTeardownQueue.push(clearTapPulse);
     }
 })();
 

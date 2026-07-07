@@ -359,11 +359,36 @@ PLACEHOLDER = (
 )
 
 
-def tap_attrs(tap):
+TAP_VERB = re.compile(r"\b(Tap|Open|Press|Choose|Pick|Swipe|Select|Enter|Fill)\b", re.I)
+SEC_PER_WORD = 0.38
+DEFAULT_TAP_DURATION = 2.5
+
+
+def estimate_tap_show_sec(narration: str) -> float:
+    """Seconds into slide narration when the tap instruction is spoken."""
+    if not narration:
+        return 0.3
+    m = TAP_VERB.search(narration)
+    if not m:
+        return 0.3
+    words_before = len(narration[: m.start()].split())
+    if words_before == 0:
+        return 0.2
+    total_words = max(1, len(narration.split()))
+    est_total = max(1.5, total_words * SEC_PER_WORD)
+    show = words_before * SEC_PER_WORD
+    return round(min(est_total * 0.85, max(0.2, show)), 1)
+
+
+def tap_attrs(tap, narration: str = ""):
     if tap is None:
         return " data-tap-none"
     x, y, label = tap
-    return f' data-tap-x="{x}" data-tap-y="{y}" data-tap-label="{label.replace(chr(34), "")}"'
+    show_at = estimate_tap_show_sec(narration)
+    return (
+        f' data-tap-x="{x}" data-tap-y="{y}" data-tap-label="{label.replace(chr(34), "")}"'
+        f' data-tap-show-at="{show_at}" data-tap-duration="{DEFAULT_TAP_DURATION}"'
+    )
 
 
 def slide_inner(slide, idx):
@@ -377,7 +402,7 @@ def render_slides():
     lines = []
     for i, slide in enumerate(SLIDES):
         cls = "slide active" if i == 0 else "slide"
-        lines.append(f' <div class="{cls}" data-index="{i}"{tap_attrs(slide["tap"])}>')
+        lines.append(f' <div class="{cls}" data-index="{i}"{tap_attrs(slide["tap"], slide["narration"])}>')
         lines.append(f" {slide_inner(slide, i)}")
         lines.append(" </div>")
     return "\n".join(lines)

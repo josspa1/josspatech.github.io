@@ -34,6 +34,26 @@ function parseSlideImageKeys(htmlPath) {
   return keys;
 }
 
+function parseSlideTapMeta(htmlPath) {
+  const html = fs.readFileSync(htmlPath, 'utf8');
+  const meta = [];
+  const blocks = html.split(/<div class="slide(?:\s+active)?"/);
+  for (let i = 1; i < blocks.length; i++) {
+    const block = blocks[i];
+    const tapNone = /\bdata-tap-none\b/.test(block.split('>')[0]);
+    const tapX = block.match(/\bdata-tap-x="([^"]+)"/);
+    const showAt = block.match(/\bdata-tap-show-at="([^"]+)"/);
+    const duration = block.match(/\bdata-tap-duration="([^"]+)"/);
+    meta.push({
+      tapNone,
+      hasTap: !tapNone && !!tapX,
+      showAt: showAt ? parseFloat(showAt[1]) : 0.3,
+      duration: duration ? parseFloat(duration[1]) : 2.5,
+    });
+  }
+  return meta;
+}
+
 function advanceBufferSec(imageKeys, slideIndex) {
   const next = slideIndex < imageKeys.length - 1 ? slideIndex + 1 : slideIndex;
   return imageKeys[slideIndex] === imageKeys[next] ? SAME_BUFFER_SEC : CHANGE_BUFFER_SEC;
@@ -117,14 +137,42 @@ function buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, outPath) {
   runFfmpeg(ffmpeg, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile, '-c:a', 'aac', '-b:a', '128k', outPath]);
 }
 
-function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, outPath) {
+function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, tapMeta, outPath) {
   const listFile = path.join(shotDir, 'frames.txt');
   const lines = [];
   for (let i = 0; i < slideDurations.length; i++) {
-    const png = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
-    lines.push(`file '${png.replace(/\\/g, '/')}'`, `duration ${slideDurations[i]}`);
+    const slideSec = slideDurations[i];
+    const meta = tapMeta[i] || { hasTap: false };
+    const prePng = path.join(shotDir, `frame-${String(i).padStart(3, '0')}-pre.png`);
+    const tapPng = path.join(shotDir, `frame-${String(i).padStart(3, '0')}-tap.png`);
+    const singlePng = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
+
+    if (meta.hasTap && fs.existsSync(prePng) && fs.existsSync(tapPng)) {
+      const showAt = Math.min(meta.showAt, Math.max(0, slideSec - meta.duration - 0.1));
+      const tapDur = Math.min(meta.duration, Math.max(0.3, slideSec - showAt));
+      const postDur = Math.max(0.05, slideSec - showAt - tapDur);
+      const prePath = prePng.replace(/\\/g, '/');
+      const tapPath = tapPng.replace(/\\/g, '/');
+      lines.push(`file '${prePath}'`, `duration ${showAt}`);
+      lines.push(`file '${tapPath}'`, `duration ${tapDur}`);
+      if (postDur > 0.05) lines.push(`file '${prePath}'`, `duration ${postDur}`);
+    } else {
+      const png = fs.existsSync(singlePng) ? singlePng : prePng;
+      lines.push(`file '${png.replace(/\\/g, '/')}'`, `duration ${slideSec}`);
+    }
   }
-  lines.push(`file '${path.join(shotDir, `frame-${String(slideDurations.length - 1).padStart(3, '0')}.png`).replace(/\\/g, '/')}'`);
+  const lastIdx = slideDurations.length - 1;
+  const lastMeta = tapMeta[lastIdx] || { hasTap: false };
+  let lastPng;
+  if (lastMeta.hasTap) {
+    const postDur = Math.max(0.05, slideDurations[lastIdx] - lastMeta.showAt - lastMeta.duration);
+    lastPng = postDur > 0.05
+      ? path.join(shotDir, `frame-${String(lastIdx).padStart(3, '0')}-pre.png`)
+      : path.join(shotDir, `frame-${String(lastIdx).padStart(3, '0')}-tap.png`);
+  } else {
+    lastPng = path.join(shotDir, `frame-${String(lastIdx).padStart(3, '0')}.png`);
+  }
+  lines.push(`file '${lastPng.replace(/\\/g, '/')}'`);
   fs.writeFileSync(listFile, lines.join('\n'), 'utf8');
   runFfmpeg(ffmpeg, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile,
     '-vf', 'scale=1280:800:force_original_aspect_ratio=decrease,pad=1280:800:(ow-iw)/2:(oh-ih)/2',
@@ -139,7 +187,7 @@ function muxVideoAudio(ffmpeg, videoPath, audioPath, outPath) {
   fs.renameSync(tmpOut, outPath);
 }
 
-async function captureSlideScreenshots(page, shotDir, slideCount) {
+async function captureSlideScreenshots(page, shotDir, slideCount, tapMeta) {
   fs.mkdirSync(shotDir, { recursive: true });
   await page.evaluate(() => {
     const tap = document.getElementById('tapToStart');
@@ -151,10 +199,38 @@ async function captureSlideScreenshots(page, shotDir, slideCount) {
       const dots = document.querySelectorAll('#progressDots .dot');
       if (dots[idx]) dots[idx].click();
     }, i);
-    await page.waitForTimeout(500);
-    await page.locator('.video-wrapper').screenshot({
-      path: path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`), type: 'png',
-    });
+    await page.waitForTimeout(400);
+
+    const meta = tapMeta[i] || { hasTap: false };
+    const pad = String(i).padStart(3, '0');
+    const wrapper = page.locator('.video-wrapper');
+
+    if (meta.hasTap) {
+      await page.evaluate((idx) => {
+        if (window.PBJWalkthrough && window.PBJWalkthrough.hideTapNow) {
+          window.PBJWalkthrough.hideTapNow(idx);
+        }
+      }, i);
+      await page.waitForTimeout(150);
+      await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}-pre.png`), type: 'png' });
+
+      await page.evaluate((idx) => {
+        if (window.PBJWalkthrough && window.PBJWalkthrough.showTapNow) {
+          window.PBJWalkthrough.showTapNow(idx);
+        }
+      }, i);
+      await page.waitForTimeout(250);
+      await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}-tap.png`), type: 'png' });
+
+      await page.evaluate((idx) => {
+        if (window.PBJWalkthrough && window.PBJWalkthrough.hideTapNow) {
+          window.PBJWalkthrough.hideTapNow(idx);
+        }
+      }, i);
+    } else {
+      await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}.png`), type: 'png' });
+    }
+
     if ((i + 1) % 5 === 0 || i === slideCount - 1) console.log(`captured ${i + 1}/${slideCount}`);
   }
 }
@@ -165,8 +241,12 @@ async function main() {
   const playwright = require('playwright');
   const audioDir = path.join(OUT_DIR, 'audio');
   const imageKeys = parseSlideImageKeys(INDEX_HTML);
+  const tapMeta = parseSlideTapMeta(INDEX_HTML);
   if (imageKeys.length !== SLIDE_COUNT) {
     throw new Error(`Slide/image count mismatch: html=${imageKeys.length} narration=${SLIDE_COUNT}`);
+  }
+  if (tapMeta.length !== SLIDE_COUNT) {
+    throw new Error(`Tap meta count mismatch: html=${tapMeta.length} narration=${SLIDE_COUNT}`);
   }
   const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT, imageKeys);
   const totalSec = slideDurations.reduce((a, b) => a + b, 0);
@@ -182,12 +262,12 @@ async function main() {
   try {
     await page.goto(`http://127.0.0.1:${PORT}/videos/user-guide-hhh/?record=1`, { waitUntil: 'networkidle', timeout: 120000 });
     await page.waitForSelector('.video-wrapper', { timeout: 30000 });
-    await captureSlideScreenshots(page, shotDir, SLIDE_COUNT);
+    await captureSlideScreenshots(page, shotDir, SLIDE_COUNT, tapMeta);
   } finally {
     await browser.close();
     server.close();
   }
-  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, videoOnlyPath);
+  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, tapMeta, videoOnlyPath);
   buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, combinedAudio);
   muxVideoAudio(ffmpeg, videoOnlyPath, combinedAudio, OUT_MP4);
 
