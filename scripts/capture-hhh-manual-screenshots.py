@@ -180,7 +180,9 @@ def prepare_app(*, skip_clear: bool = False) -> None:
     dismiss_system_dialogs()
     if not MAESTRO.exists():
         raise RuntimeError(f"Maestro not found: {MAESTRO}")
-    flow = HHH_SRC / ".maestro" / "load-demo-collection.yaml"
+    flow = HHH_SRC / ".maestro" / "subflows" / "complete-onboarding-sample.yaml"
+    if not flow.exists():
+        flow = HHH_SRC / ".maestro" / "load-demo-collection.yaml"
     print(f"Maestro prep: {flow.name}")
     result = subprocess.run([str(MAESTRO), "test", str(flow)], cwd=str(HHH_SRC), env=env, check=False)
     if result.returncode != 0:
@@ -293,8 +295,8 @@ def capture_main() -> None:
         tap(W // 3, int(H * 0.32))
         time.sleep(2)
     tap_label("Identify this timepiece") or tap(W // 2, H - 120, 1.0)
-    print("AI wait up to 150s")
-    for i in range(75):
+    print("AI wait up to 90s")
+    for i in range(45):
         if has(r"Top match|confident|Save to collection|Looks right|%"):
             print(f"  identify ready @{i * 2}s")
             break
