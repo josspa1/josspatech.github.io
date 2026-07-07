@@ -2,7 +2,6 @@
   var current = 0;
   var playing = false;
   var voiceEnabled = true;
-  var audioUnlocked = false;
   var slideAudio = null;
   var timer = null;
   var SLIDE_MS = 8000;
@@ -26,7 +25,10 @@
 
   function resetTimer() {
     clearTimeout(timer);
-    timer = setTimeout(function () { if (playing) goTo(current + 1 > LAST_SLIDE ? 0 : current + 1); if (playing) playSlide(); }, SLIDE_MS);
+    timer = setTimeout(function () {
+      if (playing) goTo(current + 1 > LAST_SLIDE ? 0 : current + 1);
+      if (playing) playSlide();
+    }, SLIDE_MS);
   }
 
   function playSlideAudio(i) {
@@ -44,7 +46,6 @@
   }
 
   function startPlayback() {
-    audioUnlocked = true;
     playing = true;
     if (tapStart) tapStart.classList.add('hidden');
     playBtn.innerHTML = '&#10074;&#10074;';

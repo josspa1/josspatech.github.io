@@ -32,8 +32,8 @@
          .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
          .slide.active { opacity: 1; }
          .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
-         .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
-         .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(91,35,51,0.2); cursor: pointer; }
+         .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; max-height: 48px; overflow-y: auto; }
+         .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(91,35,51,0.2); cursor: pointer; flex-shrink: 0; }
          .playback-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center; }
          .play-pause-btn, .voice-btn { color: white; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; }
          .narration-panel { flex: 1; max-height: 580px; overflow-y: auto; padding: 0.5rem; }
@@ -54,7 +54,7 @@
          nav .cta-button { background-color: var(--gold); color: var(--navy-dark); }
          .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); }
          .walkthrough h2, .narration-panel-heading, .transcript-sentence.active { color: var(--navy); }
-         .chapter-btn { background: var(--navy); border-color: var(--navy); }
+         .chapter-btn { background: var(--navy); border-color: var(--navy); color: var(--white); border: 1px solid var(--navy); }
          .chapter-btn.active { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
          .dot.active { background: var(--gold); }
          .play-pause-btn, .voice-btn { background: var(--navy); }
@@ -90,14 +90,14 @@
          <div class="hero">
           <div class="container">
            <h1>Handy Horology Helper User Manual</h1>
-           <p class="subheader">v1.0.22 — identify watches and clocks, track your collection, hunt grails on eBay, and find repair parts. Plain-English walkthrough of every shipped feature.</p>
+           <p class="subheader">Detailed user manual — install through every shipped v1 feature in app order. Imperative tap steps, real PNGs where captured, gold pulse guides.</p>
           </div>
          </div>
-         <section class="walkthrough">
+         <section class="user-manual walkthrough">
           <div class="container">
-           <h2>Interactive User Guide</h2>
-           <p class="section-sub">18 slides with synced narration — install through trial and support. Use the 13 chapter pills to jump, or read the transcript beside the phone. <a href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="color:var(--navy-medium);font-weight:700;">Download PDF</a> · <a href="handy-horology-helper-user-guide.mp4" style="color:var(--navy-medium);font-weight:700;">Watch MP4</a></p>
-           <div class="walkthrough-stage">
+           <h2>Interactive User Manual</h2>
+           <p class="section-sub">105 slides with synced narration and gold tap guides — generated from users-manual markdown. Use the 15 chapter pills to jump, or read the scrolling transcript beside the phone. <a href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="color:var(--navy-medium);font-weight:700;">Download PDF</a></p>
+           <div class="user-manual-stage walkthrough-stage">
             <div class="video-wrapper">
              <div class="phone-column">
               <div class="phone-viewport">
@@ -108,58 +108,319 @@
                   <div class="tap-to-start-label">Tap to play</div>
                  </div>
          <div class="slide active" data-index="0" data-tap-none>
- <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="HHH welcome and Command Center" loading="eager">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Google Play internal testing install</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
  </div>
  <div class="slide" data-index="1" data-tap-none>
- <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Onboarding path choice" loading="lazy">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">TestFlight install</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
  </div>
- <div class="slide" data-index="2" data-tap-none>
+ <div class="slide" data-index="2" data-tap-x="50" data-tap-y="92" data-tap-label="Continue">
+ <img src="/assets/screenshots/hhh/manual/13-onboarding-welcome.png" alt="Welcome carousel" loading="lazy">
+ </div>
+ <div class="slide" data-index="3" data-tap-x="50" data-tap-y="92" data-tap-label="Get Started">
+ <img src="/assets/screenshots/hhh/manual/13-onboarding-welcome.png" alt="Welcome — Get Started" loading="lazy">
+ </div>
+ <div class="slide" data-index="4" data-tap-x="50" data-tap-y="55" data-tap-label="Sample collection">
+ <img src="/assets/screenshots/hhh/manual/14-onboarding-path.png" alt="Sample vs own piece choice" loading="lazy">
+ </div>
+ <div class="slide" data-index="5" data-tap-x="50" data-tap-y="70" data-tap-label="Own piece">
+ <img src="/assets/screenshots/hhh/manual/14-onboarding-path.png" alt="Start with my own piece" loading="lazy">
+ </div>
+ <div class="slide" data-index="6" data-tap-x="50" data-tap-y="92" data-tap-label="Get Started">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Sample collection loading" loading="lazy">
+ </div>
+ <div class="slide" data-index="7" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Sample mode banner" loading="lazy">
+ </div>
+ <div class="slide" data-index="8" data-tap-x="50" data-tap-y="75" data-tap-label="Clear sample">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="Clear sample data" loading="lazy">
+ </div>
+ <div class="slide" data-index="9" data-tap-none>
  <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Command Center home screen" loading="lazy">
  </div>
- <div class="slide" data-index="3" data-tap-none>
- <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="My Museum collection view" loading="lazy">
+ <div class="slide" data-index="10" data-tap-x="50" data-tap-y="28" data-tap-label="Quick commands">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Quick commands row" loading="lazy">
  </div>
- <div class="slide" data-index="4" data-tap-x="50" data-tap-y="88" data-tap-label="Add">
- <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Add piece from My Museum" loading="lazy">
+ <div class="slide" data-index="11" data-tap-x="50" data-tap-y="45" data-tap-label="Path card">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Getting started path cards" loading="lazy">
  </div>
- <div class="slide" data-index="5" data-tap-x="50" data-tap-y="55" data-tap-label="Identify">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">AI Identify camera screen</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="12" data-tap-x="50" data-tap-y="97" data-tap-label="Tab bar">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Bottom tab bar" loading="lazy">
  </div>
- <div class="slide" data-index="6" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Identify results with confidence scores</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="13" data-tap-x="30" data-tap-y="97" data-tap-label="My Pieces">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Tap My Pieces tab" loading="lazy">
  </div>
- <div class="slide" data-index="7" data-tap-x="50" data-tap-y="45" data-tap-label="Fix clock">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Clock Repair Help symptom list</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="14" data-tap-x="25" data-tap-y="18" data-tap-label="Owned">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Owned Wish For Sale tabs" loading="lazy">
  </div>
- <div class="slide" data-index="8" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Suggested repair parts list</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="15" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Portfolio value hero card" loading="lazy">
  </div>
- <div class="slide" data-index="9" data-tap-x="66" data-tap-y="22" data-tap-label="Wish">
- <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Wish list tab" loading="lazy">
+ <div class="slide" data-index="16" data-tap-x="50" data-tap-y="14" data-tap-label="Search">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Search collection" loading="lazy">
  </div>
- <div class="slide" data-index="10" data-tap-x="13" data-tap-y="24" data-tap-label="Hunt">
- <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Hunt quick command" loading="lazy">
+ <div class="slide" data-index="17" data-tap-x="50" data-tap-y="35" data-tap-label="Piece row">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Tap piece in list" loading="lazy">
  </div>
- <div class="slide" data-index="11" data-tap-none>
- <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Portfolio dashboard card" loading="lazy">
+ <div class="slide" data-index="18" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png" alt="Piece detail overview" loading="lazy">
  </div>
- <div class="slide" data-index="12" data-tap-none>
- <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Tools hub" loading="lazy">
+ <div class="slide" data-index="19" data-tap-x="50" data-tap-y="55" data-tap-label="Provenance">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png" alt="Provenance section" loading="lazy">
  </div>
- <div class="slide" data-index="13" data-tap-x="50" data-tap-y="50" data-tap-label="Web Companion">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Web Companion QR pairing</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="20" data-tap-x="50" data-tap-y="65" data-tap-label="Service">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png" alt="Service history" loading="lazy">
  </div>
- <div class="slide" data-index="14" data-tap-x="50" data-tap-y="55" data-tap-label="Backup">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Backup and restore settings</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="21" data-tap-x="66" data-tap-y="18" data-tap-label="Wish">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png" alt="Wish list segment" loading="lazy">
  </div>
- <div class="slide" data-index="15" data-tap-x="90" data-tap-y="97" data-tap-label="Settings">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Settings screen</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="22" data-tap-x="88" data-tap-y="18" data-tap-label="For Sale">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png" alt="For Sale segment" loading="lazy">
  </div>
- <div class="slide" data-index="16" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Trial and subscription</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ <div class="slide" data-index="23" data-tap-x="88" data-tap-y="12" data-tap-label="More">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="My Museum More menu" loading="lazy">
  </div>
- <div class="slide" data-index="17" data-tap-none>
+ <div class="slide" data-index="24" data-tap-x="50" data-tap-y="92" data-tap-label="Add">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Tap Add on action bar" loading="lazy">
+ </div>
+ <div class="slide" data-index="25" data-tap-x="50" data-tap-y="22" data-tap-label="Manual">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Tap Manual entry" loading="lazy">
+ </div>
+ <div class="slide" data-index="26" data-tap-x="50" data-tap-y="50" data-tap-label="Brand">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Fill manual fields" loading="lazy">
+ </div>
+ <div class="slide" data-index="27" data-tap-x="50" data-tap-y="88" data-tap-label="Save">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Tap Save" loading="lazy">
+ </div>
+ <div class="slide" data-index="28" data-tap-x="50" data-tap-y="92" data-tap-label="Identify">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Tap Identify" loading="lazy">
+ </div>
+ <div class="slide" data-index="29" data-tap-x="50" data-tap-y="35" data-tap-label="Take Photo">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Take Photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="30" data-tap-x="50" data-tap-y="48" data-tap-label="Choose Photo">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Choose Photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="31" data-tap-x="50" data-tap-y="72" data-tap-label="Skip">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Optional movement photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="32" data-tap-x="50" data-tap-y="58" data-tap-label="Brand guess">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Manual clue fields" loading="lazy">
+ </div>
+ <div class="slide" data-index="33" data-tap-x="50" data-tap-y="22" data-tap-label="Item type">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Item type toggle" loading="lazy">
+ </div>
+ <div class="slide" data-index="34" data-tap-x="50" data-tap-y="88" data-tap-label="Identify">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png" alt="Identify this timepiece" loading="lazy">
+ </div>
+ <div class="slide" data-index="35" data-tap-x="50" data-tap-y="40" data-tap-label="Top match">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="Top match confidence" loading="lazy">
+ </div>
+ <div class="slide" data-index="36" data-tap-x="50" data-tap-y="55" data-tap-label="This is correct">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="This is correct" loading="lazy">
+ </div>
+ <div class="slide" data-index="37" data-tap-x="50" data-tap-y="70" data-tap-label="Detail photos">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="Add detail photos" loading="lazy">
+ </div>
+ <div class="slide" data-index="38" data-tap-x="50" data-tap-y="62" data-tap-label="What I know">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="Edit clues" loading="lazy">
+ </div>
+ <div class="slide" data-index="39" data-tap-x="50" data-tap-y="82" data-tap-label="Save">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="Save to Collection" loading="lazy">
+ </div>
+ <div class="slide" data-index="40" data-tap-x="50" data-tap-y="90" data-tap-label="Find parts">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png" alt="Find parts on Clockworks" loading="lazy">
+ </div>
+ <div class="slide" data-index="41" data-tap-none>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Offline identify queue</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="42" data-tap-x="38" data-tap-y="28" data-tap-label="Fix clock">
+ <img src="/assets/screenshots/hhh/manual/06a-clock-repair-symptoms.png" alt="Home Fix clock" loading="lazy">
+ </div>
+ <div class="slide" data-index="43" data-tap-x="50" data-tap-y="45" data-tap-label="Clock Repair">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Tools Clock Repair Help" loading="lazy">
+ </div>
+ <div class="slide" data-index="44" data-tap-x="50" data-tap-y="42" data-tap-label="Symptom">
+ <img src="/assets/screenshots/hhh/manual/06a-clock-repair-symptoms.png" alt="Symptom list" loading="lazy">
+ </div>
+ <div class="slide" data-index="45" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png" alt="Repair guidance steps" loading="lazy">
+ </div>
+ <div class="slide" data-index="46" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png" alt="Suggested parts list" loading="lazy">
+ </div>
+ <div class="slide" data-index="47" data-tap-x="50" data-tap-y="75" data-tap-label="Shop">
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png" alt="Shop on Clockworks" loading="lazy">
+ </div>
+ <div class="slide" data-index="48" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png" alt="Clockworks checkout in browser" loading="lazy">
+ </div>
+ <div class="slide" data-index="49" data-tap-x="13" data-tap-y="28" data-tap-label="Hunt">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png" alt="Hunt quick command" loading="lazy">
+ </div>
+ <div class="slide" data-index="50" data-tap-x="88" data-tap-y="12" data-tap-label="Add">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png" alt="Add wish list item" loading="lazy">
+ </div>
+ <div class="slide" data-index="51" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png" alt="Grail Radar screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="52" data-tap-x="50" data-tap-y="55" data-tap-label="Save rules">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png" alt="Hunt rules editor" loading="lazy">
+ </div>
+ <div class="slide" data-index="53" data-tap-x="50" data-tap-y="75" data-tap-label="Check now">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png" alt="Check now" loading="lazy">
+ </div>
+ <div class="slide" data-index="54" data-tap-x="50" data-tap-y="65" data-tap-label="Listing">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png" alt="Open eBay listing" loading="lazy">
+ </div>
+ <div class="slide" data-index="55" data-tap-none>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">eBay match notification</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="56" data-tap-x="50" data-tap-y="40" data-tap-label="eBay Listings">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="eBay Listings tool" loading="lazy">
+ </div>
+ <div class="slide" data-index="57" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png" alt="eBay search results" loading="lazy">
+ </div>
+ <div class="slide" data-index="58" data-tap-x="50" data-tap-y="50" data-tap-label="Finances">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png" alt="Finances menu" loading="lazy">
+ </div>
+ <div class="slide" data-index="59" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png" alt="P/L portfolio dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="60" data-tap-x="50" data-tap-y="48" data-tap-label="Purchase price">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png" alt="Enter purchase price" loading="lazy">
+ </div>
+ <div class="slide" data-index="61" data-tap-x="50" data-tap-y="68" data-tap-label="Add entry">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png" alt="Add service expense" loading="lazy">
+ </div>
+ <div class="slide" data-index="62" data-tap-x="50" data-tap-y="55" data-tap-label="Insurance">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Insurance Report" loading="lazy">
+ </div>
+ <div class="slide" data-index="63" data-tap-x="50" data-tap-y="60" data-tap-label="Budget">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png" alt="Budget Tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="64" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png" alt="Budget progress" loading="lazy">
+ </div>
+ <div class="slide" data-index="65" data-tap-x="50" data-tap-y="55" data-tap-label="Web Companion">
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png" alt="Web Companion screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="66" data-tap-x="50" data-tap-y="45" data-tap-label="QR code">
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png" alt="QR code pairing" loading="lazy">
+ </div>
+ <div class="slide" data-index="67" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png" alt="PC companion dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="68" data-tap-x="50" data-tap-y="55" data-tap-label="Backup">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png" alt="Backup and Restore" loading="lazy">
+ </div>
+ <div class="slide" data-index="69" data-tap-x="50" data-tap-y="65" data-tap-label="Export">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png" alt="Export backup" loading="lazy">
+ </div>
+ <div class="slide" data-index="70" data-tap-x="50" data-tap-y="75" data-tap-label="Restore">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png" alt="Restore backup" loading="lazy">
+ </div>
+ <div class="slide" data-index="71" data-tap-x="50" data-tap-y="85" data-tap-label="Cloud sync">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png" alt="Cloud sync toggle" loading="lazy">
+ </div>
+ <div class="slide" data-index="72" data-tap-x="90" data-tap-y="97" data-tap-label="Settings">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="Settings tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="73" data-tap-x="50" data-tap-y="35" data-tap-label="Theme">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="Theme toggle" loading="lazy">
+ </div>
+ <div class="slide" data-index="74" data-tap-x="50" data-tap-y="45" data-tap-label="Language">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="Language picker" loading="lazy">
+ </div>
+ <div class="slide" data-index="75" data-tap-x="50" data-tap-y="55" data-tap-label="App lock">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="App lock" loading="lazy">
+ </div>
+ <div class="slide" data-index="76" data-tap-x="50" data-tap-y="65" data-tap-label="Notifications">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png" alt="Notification preferences" loading="lazy">
+ </div>
+ <div class="slide" data-index="77" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png" alt="Trial intro" loading="lazy">
+ </div>
+ <div class="slide" data-index="78" data-tap-x="50" data-tap-y="70" data-tap-label="Subscribe">
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png" alt="Subscribe to Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="79" data-tap-x="50" data-tap-y="80" data-tap-label="Manage">
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png" alt="Manage subscription" loading="lazy">
+ </div>
+ <div class="slide" data-index="80" data-tap-x="50" data-tap-y="97" data-tap-label="Tools">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Tools tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="81" data-tap-x="50" data-tap-y="30" data-tap-label="Worth">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="What's It Worth Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="82" data-tap-x="50" data-tap-y="35" data-tap-label="Compare">
+ <img src="/assets/screenshots/hhh/manual/16-compare.png" alt="Compare two pieces" loading="lazy">
+ </div>
+ <div class="slide" data-index="83" data-tap-x="50" data-tap-y="40" data-tap-label="Condition">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Condition Assessment" loading="lazy">
+ </div>
+ <div class="slide" data-index="84" data-tap-x="50" data-tap-y="45" data-tap-label="Value trend">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png" alt="Collection Value trend" loading="lazy">
+ </div>
+ <div class="slide" data-index="85" data-tap-x="50" data-tap-y="50" data-tap-label="Trade">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Trade Analyzer Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="86" data-tap-x="50" data-tap-y="55" data-tap-label="Ask Expert">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Ask the Expert Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="87" data-tap-x="50" data-tap-y="58" data-tap-label="Photo Studio">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Photo Studio Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="88" data-tap-x="50" data-tap-y="60" data-tap-label="ID Card">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Digital ID Card Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="89" data-tap-x="50" data-tap-y="62" data-tap-label="Barcode">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Scan Barcode" loading="lazy">
+ </div>
+ <div class="slide" data-index="90" data-tap-x="50" data-tap-y="64" data-tap-label="Scan Papers">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Scan Papers" loading="lazy">
+ </div>
+ <div class="slide" data-index="91" data-tap-x="50" data-tap-y="66" data-tap-label="Complexity">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Complication calculator" loading="lazy">
+ </div>
+ <div class="slide" data-index="92" data-tap-x="50" data-tap-y="68" data-tap-label="Accuracy">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Accuracy tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="93" data-tap-x="50" data-tap-y="70" data-tap-label="Rotation">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Rotation planner" loading="lazy">
+ </div>
+ <div class="slide" data-index="94" data-tap-x="50" data-tap-y="72" data-tap-label="Warranty">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Warranty tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="95" data-tap-x="50" data-tap-y="74" data-tap-label="Events">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Event calendar" loading="lazy">
+ </div>
+ <div class="slide" data-index="96" data-tap-x="50" data-tap-y="40" data-tap-label="Exact Time">
+ <img src="/assets/screenshots/hhh/manual/17-atomic-clock.png" alt="Exact Time atomic clock" loading="lazy">
+ </div>
+ <div class="slide" data-index="97" data-tap-x="50" data-tap-y="45" data-tap-label="Moon Phase">
+ <img src="/assets/screenshots/hhh/manual/18-moon-phase.png" alt="Moon Phase tool" loading="lazy">
+ </div>
+ <div class="slide" data-index="98" data-tap-x="50" data-tap-y="78" data-tap-label="Print">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Print and Export List" loading="lazy">
+ </div>
+ <div class="slide" data-index="99" data-tap-x="50" data-tap-y="80" data-tap-label="Flea market">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Nearby Finds Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="100" data-tap-x="50" data-tap-y="82" data-tap-label="Share Nearby">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="BLE Share Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="101" data-tap-x="50" data-tap-y="84" data-tap-label="Big Screen">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="LAN Report big screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="102" data-tap-x="50" data-tap-y="50" data-tap-label="Movement → Parts">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Movement to Parts tool" loading="lazy">
+ </div>
+ <div class="slide" data-index="103" data-tap-none>
  <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Help and support" loading="lazy">
+ </div>
+ <div class="slide" data-index="104" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="User manual link" loading="lazy">
  </div>
                 </div>
                </div>
@@ -183,6 +444,93 @@
  <span class="dot" data-slide="15"></span>
  <span class="dot" data-slide="16"></span>
  <span class="dot" data-slide="17"></span>
+ <span class="dot" data-slide="18"></span>
+ <span class="dot" data-slide="19"></span>
+ <span class="dot" data-slide="20"></span>
+ <span class="dot" data-slide="21"></span>
+ <span class="dot" data-slide="22"></span>
+ <span class="dot" data-slide="23"></span>
+ <span class="dot" data-slide="24"></span>
+ <span class="dot" data-slide="25"></span>
+ <span class="dot" data-slide="26"></span>
+ <span class="dot" data-slide="27"></span>
+ <span class="dot" data-slide="28"></span>
+ <span class="dot" data-slide="29"></span>
+ <span class="dot" data-slide="30"></span>
+ <span class="dot" data-slide="31"></span>
+ <span class="dot" data-slide="32"></span>
+ <span class="dot" data-slide="33"></span>
+ <span class="dot" data-slide="34"></span>
+ <span class="dot" data-slide="35"></span>
+ <span class="dot" data-slide="36"></span>
+ <span class="dot" data-slide="37"></span>
+ <span class="dot" data-slide="38"></span>
+ <span class="dot" data-slide="39"></span>
+ <span class="dot" data-slide="40"></span>
+ <span class="dot" data-slide="41"></span>
+ <span class="dot" data-slide="42"></span>
+ <span class="dot" data-slide="43"></span>
+ <span class="dot" data-slide="44"></span>
+ <span class="dot" data-slide="45"></span>
+ <span class="dot" data-slide="46"></span>
+ <span class="dot" data-slide="47"></span>
+ <span class="dot" data-slide="48"></span>
+ <span class="dot" data-slide="49"></span>
+ <span class="dot" data-slide="50"></span>
+ <span class="dot" data-slide="51"></span>
+ <span class="dot" data-slide="52"></span>
+ <span class="dot" data-slide="53"></span>
+ <span class="dot" data-slide="54"></span>
+ <span class="dot" data-slide="55"></span>
+ <span class="dot" data-slide="56"></span>
+ <span class="dot" data-slide="57"></span>
+ <span class="dot" data-slide="58"></span>
+ <span class="dot" data-slide="59"></span>
+ <span class="dot" data-slide="60"></span>
+ <span class="dot" data-slide="61"></span>
+ <span class="dot" data-slide="62"></span>
+ <span class="dot" data-slide="63"></span>
+ <span class="dot" data-slide="64"></span>
+ <span class="dot" data-slide="65"></span>
+ <span class="dot" data-slide="66"></span>
+ <span class="dot" data-slide="67"></span>
+ <span class="dot" data-slide="68"></span>
+ <span class="dot" data-slide="69"></span>
+ <span class="dot" data-slide="70"></span>
+ <span class="dot" data-slide="71"></span>
+ <span class="dot" data-slide="72"></span>
+ <span class="dot" data-slide="73"></span>
+ <span class="dot" data-slide="74"></span>
+ <span class="dot" data-slide="75"></span>
+ <span class="dot" data-slide="76"></span>
+ <span class="dot" data-slide="77"></span>
+ <span class="dot" data-slide="78"></span>
+ <span class="dot" data-slide="79"></span>
+ <span class="dot" data-slide="80"></span>
+ <span class="dot" data-slide="81"></span>
+ <span class="dot" data-slide="82"></span>
+ <span class="dot" data-slide="83"></span>
+ <span class="dot" data-slide="84"></span>
+ <span class="dot" data-slide="85"></span>
+ <span class="dot" data-slide="86"></span>
+ <span class="dot" data-slide="87"></span>
+ <span class="dot" data-slide="88"></span>
+ <span class="dot" data-slide="89"></span>
+ <span class="dot" data-slide="90"></span>
+ <span class="dot" data-slide="91"></span>
+ <span class="dot" data-slide="92"></span>
+ <span class="dot" data-slide="93"></span>
+ <span class="dot" data-slide="94"></span>
+ <span class="dot" data-slide="95"></span>
+ <span class="dot" data-slide="96"></span>
+ <span class="dot" data-slide="97"></span>
+ <span class="dot" data-slide="98"></span>
+ <span class="dot" data-slide="99"></span>
+ <span class="dot" data-slide="100"></span>
+ <span class="dot" data-slide="101"></span>
+ <span class="dot" data-slide="102"></span>
+ <span class="dot" data-slide="103"></span>
+ <span class="dot" data-slide="104"></span>
               </div>
               <div class="playback-controls">
                <button class="voice-btn" id="voiceBtn" title="Toggle narration" aria-label="Toggle narration">&#128266;</button>
@@ -193,42 +541,131 @@
              <div class="narration-panel" id="narrationPanel">
               <div class="narration-panel-heading">Transcript</div>
         <div class="transcript-body" id="transcriptBody">
- <p class="transcript-para current" data-slide="0">Install Handy Horology Helper from Google Play internal testing or request a TestFlight invite from josspatech.com. Open the app to the welcome carousel.</p>
- <p class="transcript-para" data-slide="1">After the welcome slides, pick Explore with sample collection to tour Harold's demo gallery, or Start with my own piece to add your first watch from the camera.</p>
- <p class="transcript-para" data-slide="2">The Home tab is your Command Center. See how many pieces you own, what's on your wish list, and quick commands for Hunt, Fix clock, Add Watch, and Tools.</p>
- <p class="transcript-para" data-slide="3">Open My Pieces to enter My Museum. Portfolio value and profit tracking sit at the top. Switch between Owned, Wish, and For Sale tabs.</p>
- <p class="transcript-para" data-slide="4">Tap Add to photograph a watch, pick from the catalog, or enter details manually. Each piece stores photos, provenance, service history, and estimated value.</p>
- <p class="transcript-para" data-slide="5">From Tools or the Identify quick action, photograph a dial, caseback, or movement. HHH sends the image to AI and returns ranked brand and model matches.</p>
- <p class="transcript-para" data-slide="6">Review confidence scores for each match. Save the top result straight to My Museum or compare alternatives before you buy, sell, or insure.</p>
- <p class="transcript-para" data-slide="7">Clock not running right? Open Clock Repair Help from Home or Tools. Pick a symptom like won't chime, pendulum stops, or hands slip.</p>
- <p class="transcript-para" data-slide="8">HHH walks you through likely causes and suggests parts from a major supplier catalog so you order the right item the first time.</p>
- <p class="transcript-para" data-slide="9">Add grails to your Wish list with target prices. Keep hunting pieces separate from what you already own in My Museum.</p>
- <p class="transcript-para" data-slide="10">Tap Hunt on Home or open eBay Hunt Alerts under Tools. Set keywords and a max price — HHH checks eBay when you open the app and notifies you of new matches.</p>
- <p class="transcript-para" data-slide="11">Enter purchase price and expenses on each piece. My Museum shows estimated value, gain or loss per item, and portfolio totals across your collection.</p>
- <p class="transcript-para" data-slide="12">Tools holds Identify, Clock Repair Help, eBay Hunt Alerts, Exact Time, Moon Phase, Reference Library, and more — your bench reference in one place.</p>
- <p class="transcript-para" data-slide="13">Open Web Companion under Tools. HHH starts a server on your phone — scan the QR code from a PC browser on the same Wi‑Fi to browse your collection on a big screen.</p>
- <p class="transcript-para" data-slide="14">In Settings, open Backup and Restore. Share a full encrypted backup through Drive, iCloud, or your PC via the system share sheet. Restore replaces local data on a new phone.</p>
- <p class="transcript-para" data-slide="15">Settings controls light or dark theme, seven display languages, notification preferences, and app lock. Changes apply immediately.</p>
- <p class="transcript-para" data-slide="16">HHH includes a 14-day Pro trial with full access. After the trial, subscribe for $9.99 per month or $74.99 per year. Pro unlocks Hunt Alerts, advanced tools, and cloud backup.</p>
- <p class="transcript-para" data-slide="17">Questions? Email support@josspatech.com or use in-app feedback. This guide at josspatech.com/videos/user-guide-hhh/ covers every shipped v1 feature.</p>
+ <p class="transcript-para current" data-slide="0">Android: Open the Google Play internal testing link from josspatech.com/#hhh, opt in with your Google account, then tap Install.</p>
+ <p class="transcript-para" data-slide="1">IOS: Email support@josspatech.com for a TestFlight invite. Install TestFlight, accept the invite, then install Handy Horology Helper.</p>
+ <p class="transcript-para" data-slide="2">Open HHH after install. Swipe the welcome slides — identify pieces, track your collection, hunt on eBay. Tap Continue on each slide.</p>
+ <p class="transcript-para" data-slide="3">On the last welcome slide, tap Get Started. You land on How do you want to start?</p>
+ <p class="transcript-para" data-slide="4">Tap Explore with sample collection to tour Harold's demo gallery — recommended for first launch.</p>
+ <p class="transcript-para" data-slide="5">Or tap Start with my own piece to add your first watch from camera or manual entry.</p>
+ <p class="transcript-para" data-slide="6">If you picked sample collection, wait while Harold's demo watches load, then tap Get Started on the confirmation screen.</p>
+ <p class="transcript-para" data-slide="7">When sample data is active, notice the banner reminding you these are demo pieces.</p>
+ <p class="transcript-para" data-slide="8">Tap Clear sample data in Settings when you are ready for your own museum.</p>
+ <p class="transcript-para" data-slide="9">You land on Home — the Command Center. The status line shows piece count and wish-list size.</p>
+ <p class="transcript-para" data-slide="10">Use the quick command row: Hunt opens your wish list, Fix clock starts Clock Repair Help, Add Watch opens My Museum, Tools opens the toolkit grid.</p>
+ <p class="transcript-para" data-slide="11">Scroll the getting started cards to jump straight to Hunt on eBay, troubleshoot a clock, start your museum, or identify a piece.</p>
+ <p class="transcript-para" data-slide="12">The bottom tab bar has five tabs: Home, My Pieces, Tools, Collectors, and Settings. Tap any tab to switch.</p>
+ <p class="transcript-para" data-slide="13">Tap the My Pieces tab — second icon from the left — to open My Museum.</p>
+ <p class="transcript-para" data-slide="14">Switch segments at the top: Owned shows your collection, Wish holds grail targets, For Sale lists pieces you are selling.</p>
+ <p class="transcript-para" data-slide="15">The hero card shows total estimated value, gain or loss line, and a sparkline of collection value over time.</p>
+ <p class="transcript-para" data-slide="16">Tap the search field and type a brand or model. The list filters as you type.</p>
+ <p class="transcript-para" data-slide="17">Tap any row to open Piece Detail — photos, provenance, service history, and estimated value.</p>
+ <p class="transcript-para" data-slide="18">On Piece Detail, swipe through photos. Brand, model, reference, and estimated value sit below the gallery.</p>
+ <p class="transcript-para" data-slide="19">Scroll to Provenance to record where you bought the piece, serial numbers, and collector notes.</p>
+ <p class="transcript-para" data-slide="20">Tap Repairs and Service to log cleanings, repairs, and costs — each entry updates your cost basis.</p>
+ <p class="transcript-para" data-slide="21">Tap the Wish segment to see grail targets linked to Grail Radar hunt rules.</p>
+ <p class="transcript-para" data-slide="22">Tap For Sale to list pieces you are actively selling with asking price and notes.</p>
+ <p class="transcript-para" data-slide="23">On My Pieces, tap More for Timeline, Finances, Insurance Report, Service Tracker, and eBay match alerts.</p>
+ <p class="transcript-para" data-slide="24">On My Pieces, tap the gold Add button on the action bar — center of the bottom bar.</p>
+ <p class="transcript-para" data-slide="25">Tap Manual to enter details yourself instead of running AI Identify.</p>
+ <p class="transcript-para" data-slide="26">Fill brand, model, reference, serial, purchase price, and optional notes.</p>
+ <p class="transcript-para" data-slide="27">Tap Save. HHH adds the piece to your Owned collection immediately.</p>
+ <p class="transcript-para" data-slide="28">To add with AI, tap Identify on the My Museum action bar — or open Tools and tap Identify.</p>
+ <p class="transcript-para" data-slide="29">Tap Take Photo. Frame the dial straight-on with even light — one clear photo is enough to start.</p>
+ <p class="transcript-para" data-slide="30">Or tap Choose Photo to pick from your gallery — useful for photos from a show or estate sale.</p>
+ <p class="transcript-para" data-slide="31">When prompted, tap Add movement photo for better accuracy — or tap Skip Identify now to proceed with dial only.</p>
+ <p class="transcript-para" data-slide="32">Scroll to What do you know? Enter brand guess, model, reference, serial, or free-text clues.</p>
+ <p class="transcript-para" data-slide="33">Tap Wristwatch, Pocket Watch, or Clock if the auto-detected type is wrong.</p>
+ <p class="transcript-para" data-slide="34">Tap Identify this timepiece. Wait while HHH reads your photo and searches reference databases.</p>
+ <p class="transcript-para" data-slide="35">On the results screen, read the confidence percentage on the top match. Tap Other possibilities to compare alternatives.</p>
+ <p class="transcript-para" data-slide="36">If the top match looks right, tap This is correct. If not, tap a different possibility from the list below.</p>
+ <p class="transcript-para" data-slide="37">When confidence is low, tap Add detail photos for bezel text, logos, or serial close-ups — then tap Identify again.</p>
+ <p class="transcript-para" data-slide="38">Tap What I know to correct brand or model before re-running. Your edits override the AI guess on the next pass.</p>
+ <p class="transcript-para" data-slide="39">Tap Save to Collection. HHH creates a museum entry with photos, brand, model, and estimated value pre-filled.</p>
+ <p class="transcript-para" data-slide="40">After saving a clock, tap Find parts on Clockworks to jump to movement-aware parts search from this identification.</p>
+ <p class="transcript-para" data-slide="41">With no connection, HHH queues your identification and runs it when you are back online — check the banner on Home.</p>
+ <p class="transcript-para" data-slide="42">Tap Fix clock on the Home quick commands row. The Clock Repair Help wizard opens.</p>
+ <p class="transcript-para" data-slide="43">Or tap Tools, scroll to Clock Repair Help, and tap the card.</p>
+ <p class="transcript-para" data-slide="44">Pick the symptom that matches: Won't chime, Pendulum stops, Hands slip, or another option from the list.</p>
+ <p class="transcript-para" data-slide="45">Review the plain-language repair steps HHH suggests for your symptom. Follow safety notes before opening the case.</p>
+ <p class="transcript-para" data-slide="46">Scroll to Suggested parts on Clockworks. SKUs and product names appear when the catalog is connected.</p>
+ <p class="transcript-para" data-slide="47">Tap a product row or Shop on Clockworks to open the item in your browser.</p>
+ <p class="transcript-para" data-slide="48">Complete checkout on Clockworks.com — HHH does not process payments for parts.</p>
+ <p class="transcript-para" data-slide="49">Tap Hunt on Home — or open My Pieces and switch to the Wish segment — to see grail targets.</p>
+ <p class="transcript-para" data-slide="50">Tap the plus button on Wish list. Enter brand, model, and a target price you are willing to pay.</p>
+ <p class="transcript-para" data-slide="51">Tap a wish-list row to open Grail Radar for that grail. Hunt rules and last-check time appear at the top.</p>
+ <p class="transcript-para" data-slide="52">Edit keywords and max price under Hunt rules. Tap Save hunt rules when done.</p>
+ <p class="transcript-para" data-slide="53">Tap Check now to search eBay immediately. Matches appear with listing title, price, and link.</p>
+ <p class="transcript-para" data-slide="54">Tap any match to open the eBay listing in your browser.</p>
+ <p class="transcript-para" data-slide="55">When a new match arrives, HHH sends a notification. Tap it to jump straight to that grail's Grail Radar screen.</p>
+ <p class="transcript-para" data-slide="56">From Tools, open eBay Listings to search sold and active listings by brand and model.</p>
+ <p class="transcript-para" data-slide="57">Enter brand and model, then review active and sold comps before you commit to a purchase.</p>
+ <p class="transcript-para" data-slide="58">On My Pieces, tap More, then Finances — or Gains and Losses — for portfolio-level profit and loss.</p>
+ <p class="transcript-para" data-slide="59">The dashboard shows total cost basis, estimated value, and net gain or loss across all owned pieces.</p>
+ <p class="transcript-para" data-slide="60">On any Piece Detail screen, tap Edit and enter Purchase price. HHH recalculates gain or loss against estimated value.</p>
+ <p class="transcript-para" data-slide="61">Under Repairs and Service, tap Add entry. Enter date, vendor, and cost — service spend adds to your cost basis.</p>
+ <p class="transcript-para" data-slide="62">Tap More, then Insurance Report. HHH generates a PDF-ready summary of pieces, values, and photos for your insurer.</p>
+ <p class="transcript-para" data-slide="63">From Finances or the More menu, open Budget Tracker.</p>
+ <p class="transcript-para" data-slide="64">Set a monthly or annual acquisition budget and track spend against it as you add pieces.</p>
+ <p class="transcript-para" data-slide="65">From Tools, scroll to Web Companion and tap the card. HHH starts a local server on your phone.</p>
+ <p class="transcript-para" data-slide="66">On your PC browser — same Wi-Fi as the phone — scan the QR code shown on screen.</p>
+ <p class="transcript-para" data-slide="67">On the PC dashboard, browse pieces, add watches, and run Grail Hunt — changes sync back to the phone over LAN.</p>
+ <p class="transcript-para" data-slide="68">Tap Settings, scroll to Backup and Restore — or open Backup from Tools — to manage your .hhh backup file.</p>
+ <p class="transcript-para" data-slide="69">Tap Export backup. Choose Drive, iCloud, email, or Files on the share sheet.</p>
+ <p class="transcript-para" data-slide="70">On a new phone, tap Restore backup and pick your .hhh file. Restore replaces all local museum data — confirm before proceeding.</p>
+ <p class="transcript-para" data-slide="71">Pro subscribers can enable optional cloud sync in Backup settings. Your collection stays on your device by default.</p>
+ <p class="transcript-para" data-slide="72">Tap the Settings tab — gear icon at bottom right.</p>
+ <p class="transcript-para" data-slide="73">Tap Theme and switch Light or Dark. The app updates immediately.</p>
+ <p class="transcript-para" data-slide="74">Tap Language. HHH supports seven display languages — pick one and confirm.</p>
+ <p class="transcript-para" data-slide="75">Under Security, enable App lock for PIN or biometrics when opening HHH.</p>
+ <p class="transcript-para" data-slide="76">Under Notifications, allow eBay Grail Radar alerts and service reminders.</p>
+ <p class="transcript-para" data-slide="77">HHH includes a 14-day Pro trial with full access — no card required on Android internal testing.</p>
+ <p class="transcript-para" data-slide="78">After the trial, tap Upgrade in Settings. Choose $9.99 per month or $74.99 per year.</p>
+ <p class="transcript-para" data-slide="79">Manage or cancel your subscription through Google Play or App Store — Settings, Subscription, Manage.</p>
+ <p class="transcript-para" data-slide="80">Tap the Tools tab — center icon — to open the horology toolkit grid.</p>
+ <p class="transcript-para" data-slide="81">Tap What's It Worth for AI price guidance on a piece — Pro feature.</p>
+ <p class="transcript-para" data-slide="82">Tap Compare. Pick two pieces from your museum to see side-by-side specs, value, and photos.</p>
+ <p class="transcript-para" data-slide="83">Tap Condition Assessment. Answer checklist questions about case, dial, and movement condition.</p>
+ <p class="transcript-para" data-slide="84">Tap Collection Value to see how your portfolio estimated value changed over time.</p>
+ <p class="transcript-para" data-slide="85">Tap Trade Analyzer to model a trade — your piece plus cash versus theirs — Pro feature.</p>
+ <p class="transcript-para" data-slide="86">Tap Ask the Expert for AI chat about horology questions — Pro feature.</p>
+ <p class="transcript-para" data-slide="87">Tap Take Photos for guided step-by-step shots — dial, caseback, movement — Pro feature.</p>
+ <p class="transcript-para" data-slide="88">Tap Digital ID Card to generate a proof-of-ownership card with photos and key details — Pro feature.</p>
+ <p class="transcript-para" data-slide="89">Tap Scan Barcode. Point the camera at a UPC or QR on packaging or paperwork.</p>
+ <p class="transcript-para" data-slide="90">Tap Scan Papers to photograph receipts, certificates, or appraisal documents and attach them to a piece.</p>
+ <p class="transcript-para" data-slide="91">Tap How Complex Is It. Select complications to rate movement complexity.</p>
+ <p class="transcript-para" data-slide="92">Tap Is It Accurate. Log time checks against a reference and track daily rate over weeks.</p>
+ <p class="transcript-para" data-slide="93">Tap What to Wear — Rotation Planner. Pick pieces for the week so nothing sits unworn too long.</p>
+ <p class="transcript-para" data-slide="94">Tap Warranties. Add expiry dates — HHH reminds you before they lapse.</p>
+ <p class="transcript-para" data-slide="95">Tap Shows and Events. Add watch fairs, club meetings, and auction dates to your calendar.</p>
+ <p class="transcript-para" data-slide="96">Tap Exact Time. HHH shows atomic-clock reference time — use it to set your watch or verify rate.</p>
+ <p class="transcript-para" data-slide="97">Tap Moon Phase. See tonight's moon phase and set your moonphase complication dial.</p>
+ <p class="transcript-para" data-slide="98">Tap Print and Export List. Generate a PDF table of your collection, wish list, or for-sale pieces.</p>
+ <p class="transcript-para" data-slide="99">Tap Nearby Finds for flea-market and estate-sale alerts near you — Pro feature.</p>
+ <p class="transcript-para" data-slide="100">Tap Share Nearby to send a piece summary to another phone over Bluetooth — Pro feature.</p>
+ <p class="transcript-para" data-slide="101">Tap View on Big Screen for a LAN slideshow of your collection on a TV or projector.</p>
+ <p class="transcript-para" data-slide="102">From Tools, open Movement to Parts to search the Clockworks catalog from a movement photo or identification.</p>
+ <p class="transcript-para" data-slide="103">Questions? Email support@josspatech.com or use in-app feedback.</p>
+ <p class="transcript-para" data-slide="104">This detailed user manual at josspatech.com/videos/user-guide-hhh covers every shipped v1 feature.</p>
 </div>
              </div>
             </div>
            </div>
            <div class="chapter-nav" id="chapterNav">
-         <button class="chapter-btn active" data-slide="0">Welcome</button>
- <button class="chapter-btn" data-slide="2">Home</button>
- <button class="chapter-btn" data-slide="3">My Museum</button>
- <button class="chapter-btn" data-slide="5">Identify</button>
- <button class="chapter-btn" data-slide="7">Clock Repair</button>
- <button class="chapter-btn" data-slide="9">Grail Radar</button>
- <button class="chapter-btn" data-slide="11">Financial</button>
- <button class="chapter-btn" data-slide="12">Tools</button>
- <button class="chapter-btn" data-slide="13">Web Companion</button>
- <button class="chapter-btn" data-slide="14">Backup</button>
- <button class="chapter-btn" data-slide="15">Settings</button>
- <button class="chapter-btn" data-slide="16">Trial</button>
- <button class="chapter-btn" data-slide="17">Help</button>
+         <button class="chapter-btn active" data-slide="0">Install</button>
+ <button class="chapter-btn" data-slide="2">Onboarding</button>
+ <button class="chapter-btn" data-slide="9">Home</button>
+ <button class="chapter-btn" data-slide="13">My Museum</button>
+ <button class="chapter-btn" data-slide="24">Add Watch</button>
+ <button class="chapter-btn" data-slide="28">Identify</button>
+ <button class="chapter-btn" data-slide="42">Clock Repair</button>
+ <button class="chapter-btn" data-slide="49">Grail Radar</button>
+ <button class="chapter-btn" data-slide="58">Finances</button>
+ <button class="chapter-btn" data-slide="65">Web Companion</button>
+ <button class="chapter-btn" data-slide="68">Backup</button>
+ <button class="chapter-btn" data-slide="72">Settings</button>
+ <button class="chapter-btn" data-slide="77">Trial</button>
+ <button class="chapter-btn" data-slide="80">Tools</button>
+ <button class="chapter-btn" data-slide="103">Help</button>
            </div>
           </div>
          </section>
@@ -244,27 +681,114 @@
          </footer>
          <script>
          const NARRATION = [
-          "Install Handy Horology Helper from Google Play internal testing or request a TestFlight invite from josspatech.com. Open the app to the welcome carousel.",
- "After the welcome slides, pick Explore with sample collection to tour Harold's demo gallery, or Start with my own piece to add your first watch from the camera.",
- "The Home tab is your Command Center. See how many pieces you own, what's on your wish list, and quick commands for Hunt, Fix clock, Add Watch, and Tools.",
- "Open My Pieces to enter My Museum. Portfolio value and profit tracking sit at the top. Switch between Owned, Wish, and For Sale tabs.",
- "Tap Add to photograph a watch, pick from the catalog, or enter details manually. Each piece stores photos, provenance, service history, and estimated value.",
- "From Tools or the Identify quick action, photograph a dial, caseback, or movement. HHH sends the image to AI and returns ranked brand and model matches.",
- "Review confidence scores for each match. Save the top result straight to My Museum or compare alternatives before you buy, sell, or insure.",
- "Clock not running right? Open Clock Repair Help from Home or Tools. Pick a symptom like won't chime, pendulum stops, or hands slip.",
- "HHH walks you through likely causes and suggests parts from a major supplier catalog so you order the right item the first time.",
- "Add grails to your Wish list with target prices. Keep hunting pieces separate from what you already own in My Museum.",
- "Tap Hunt on Home or open eBay Hunt Alerts under Tools. Set keywords and a max price — HHH checks eBay when you open the app and notifies you of new matches.",
- "Enter purchase price and expenses on each piece. My Museum shows estimated value, gain or loss per item, and portfolio totals across your collection.",
- "Tools holds Identify, Clock Repair Help, eBay Hunt Alerts, Exact Time, Moon Phase, Reference Library, and more — your bench reference in one place.",
- "Open Web Companion under Tools. HHH starts a server on your phone — scan the QR code from a PC browser on the same Wi‑Fi to browse your collection on a big screen.",
- "In Settings, open Backup and Restore. Share a full encrypted backup through Drive, iCloud, or your PC via the system share sheet. Restore replaces local data on a new phone.",
- "Settings controls light or dark theme, seven display languages, notification preferences, and app lock. Changes apply immediately.",
- "HHH includes a 14-day Pro trial with full access. After the trial, subscribe for $9.99 per month or $74.99 per year. Pro unlocks Hunt Alerts, advanced tools, and cloud backup.",
- "Questions? Email support@josspatech.com or use in-app feedback. This guide at josspatech.com/videos/user-guide-hhh/ covers every shipped v1 feature."
+          "Android: Open the Google Play internal testing link from josspatech.com/#hhh, opt in with your Google account, then tap Install.",
+ "IOS: Email support@josspatech.com for a TestFlight invite. Install TestFlight, accept the invite, then install Handy Horology Helper.",
+ "Open HHH after install. Swipe the welcome slides — identify pieces, track your collection, hunt on eBay. Tap Continue on each slide.",
+ "On the last welcome slide, tap Get Started. You land on How do you want to start?",
+ "Tap Explore with sample collection to tour Harold's demo gallery — recommended for first launch.",
+ "Or tap Start with my own piece to add your first watch from camera or manual entry.",
+ "If you picked sample collection, wait while Harold's demo watches load, then tap Get Started on the confirmation screen.",
+ "When sample data is active, notice the banner reminding you these are demo pieces.",
+ "Tap Clear sample data in Settings when you are ready for your own museum.",
+ "You land on Home — the Command Center. The status line shows piece count and wish-list size.",
+ "Use the quick command row: Hunt opens your wish list, Fix clock starts Clock Repair Help, Add Watch opens My Museum, Tools opens the toolkit grid.",
+ "Scroll the getting started cards to jump straight to Hunt on eBay, troubleshoot a clock, start your museum, or identify a piece.",
+ "The bottom tab bar has five tabs: Home, My Pieces, Tools, Collectors, and Settings. Tap any tab to switch.",
+ "Tap the My Pieces tab — second icon from the left — to open My Museum.",
+ "Switch segments at the top: Owned shows your collection, Wish holds grail targets, For Sale lists pieces you are selling.",
+ "The hero card shows total estimated value, gain or loss line, and a sparkline of collection value over time.",
+ "Tap the search field and type a brand or model. The list filters as you type.",
+ "Tap any row to open Piece Detail — photos, provenance, service history, and estimated value.",
+ "On Piece Detail, swipe through photos. Brand, model, reference, and estimated value sit below the gallery.",
+ "Scroll to Provenance to record where you bought the piece, serial numbers, and collector notes.",
+ "Tap Repairs and Service to log cleanings, repairs, and costs — each entry updates your cost basis.",
+ "Tap the Wish segment to see grail targets linked to Grail Radar hunt rules.",
+ "Tap For Sale to list pieces you are actively selling with asking price and notes.",
+ "On My Pieces, tap More for Timeline, Finances, Insurance Report, Service Tracker, and eBay match alerts.",
+ "On My Pieces, tap the gold Add button on the action bar — center of the bottom bar.",
+ "Tap Manual to enter details yourself instead of running AI Identify.",
+ "Fill brand, model, reference, serial, purchase price, and optional notes.",
+ "Tap Save. HHH adds the piece to your Owned collection immediately.",
+ "To add with AI, tap Identify on the My Museum action bar — or open Tools and tap Identify.",
+ "Tap Take Photo. Frame the dial straight-on with even light — one clear photo is enough to start.",
+ "Or tap Choose Photo to pick from your gallery — useful for photos from a show or estate sale.",
+ "When prompted, tap Add movement photo for better accuracy — or tap Skip Identify now to proceed with dial only.",
+ "Scroll to What do you know? Enter brand guess, model, reference, serial, or free-text clues.",
+ "Tap Wristwatch, Pocket Watch, or Clock if the auto-detected type is wrong.",
+ "Tap Identify this timepiece. Wait while HHH reads your photo and searches reference databases.",
+ "On the results screen, read the confidence percentage on the top match. Tap Other possibilities to compare alternatives.",
+ "If the top match looks right, tap This is correct. If not, tap a different possibility from the list below.",
+ "When confidence is low, tap Add detail photos for bezel text, logos, or serial close-ups — then tap Identify again.",
+ "Tap What I know to correct brand or model before re-running. Your edits override the AI guess on the next pass.",
+ "Tap Save to Collection. HHH creates a museum entry with photos, brand, model, and estimated value pre-filled.",
+ "After saving a clock, tap Find parts on Clockworks to jump to movement-aware parts search from this identification.",
+ "With no connection, HHH queues your identification and runs it when you are back online — check the banner on Home.",
+ "Tap Fix clock on the Home quick commands row. The Clock Repair Help wizard opens.",
+ "Or tap Tools, scroll to Clock Repair Help, and tap the card.",
+ "Pick the symptom that matches: Won't chime, Pendulum stops, Hands slip, or another option from the list.",
+ "Review the plain-language repair steps HHH suggests for your symptom. Follow safety notes before opening the case.",
+ "Scroll to Suggested parts on Clockworks. SKUs and product names appear when the catalog is connected.",
+ "Tap a product row or Shop on Clockworks to open the item in your browser.",
+ "Complete checkout on Clockworks.com — HHH does not process payments for parts.",
+ "Tap Hunt on Home — or open My Pieces and switch to the Wish segment — to see grail targets.",
+ "Tap the plus button on Wish list. Enter brand, model, and a target price you are willing to pay.",
+ "Tap a wish-list row to open Grail Radar for that grail. Hunt rules and last-check time appear at the top.",
+ "Edit keywords and max price under Hunt rules. Tap Save hunt rules when done.",
+ "Tap Check now to search eBay immediately. Matches appear with listing title, price, and link.",
+ "Tap any match to open the eBay listing in your browser.",
+ "When a new match arrives, HHH sends a notification. Tap it to jump straight to that grail's Grail Radar screen.",
+ "From Tools, open eBay Listings to search sold and active listings by brand and model.",
+ "Enter brand and model, then review active and sold comps before you commit to a purchase.",
+ "On My Pieces, tap More, then Finances — or Gains and Losses — for portfolio-level profit and loss.",
+ "The dashboard shows total cost basis, estimated value, and net gain or loss across all owned pieces.",
+ "On any Piece Detail screen, tap Edit and enter Purchase price. HHH recalculates gain or loss against estimated value.",
+ "Under Repairs and Service, tap Add entry. Enter date, vendor, and cost — service spend adds to your cost basis.",
+ "Tap More, then Insurance Report. HHH generates a PDF-ready summary of pieces, values, and photos for your insurer.",
+ "From Finances or the More menu, open Budget Tracker.",
+ "Set a monthly or annual acquisition budget and track spend against it as you add pieces.",
+ "From Tools, scroll to Web Companion and tap the card. HHH starts a local server on your phone.",
+ "On your PC browser — same Wi-Fi as the phone — scan the QR code shown on screen.",
+ "On the PC dashboard, browse pieces, add watches, and run Grail Hunt — changes sync back to the phone over LAN.",
+ "Tap Settings, scroll to Backup and Restore — or open Backup from Tools — to manage your .hhh backup file.",
+ "Tap Export backup. Choose Drive, iCloud, email, or Files on the share sheet.",
+ "On a new phone, tap Restore backup and pick your .hhh file. Restore replaces all local museum data — confirm before proceeding.",
+ "Pro subscribers can enable optional cloud sync in Backup settings. Your collection stays on your device by default.",
+ "Tap the Settings tab — gear icon at bottom right.",
+ "Tap Theme and switch Light or Dark. The app updates immediately.",
+ "Tap Language. HHH supports seven display languages — pick one and confirm.",
+ "Under Security, enable App lock for PIN or biometrics when opening HHH.",
+ "Under Notifications, allow eBay Grail Radar alerts and service reminders.",
+ "HHH includes a 14-day Pro trial with full access — no card required on Android internal testing.",
+ "After the trial, tap Upgrade in Settings. Choose $9.99 per month or $74.99 per year.",
+ "Manage or cancel your subscription through Google Play or App Store — Settings, Subscription, Manage.",
+ "Tap the Tools tab — center icon — to open the horology toolkit grid.",
+ "Tap What's It Worth for AI price guidance on a piece — Pro feature.",
+ "Tap Compare. Pick two pieces from your museum to see side-by-side specs, value, and photos.",
+ "Tap Condition Assessment. Answer checklist questions about case, dial, and movement condition.",
+ "Tap Collection Value to see how your portfolio estimated value changed over time.",
+ "Tap Trade Analyzer to model a trade — your piece plus cash versus theirs — Pro feature.",
+ "Tap Ask the Expert for AI chat about horology questions — Pro feature.",
+ "Tap Take Photos for guided step-by-step shots — dial, caseback, movement — Pro feature.",
+ "Tap Digital ID Card to generate a proof-of-ownership card with photos and key details — Pro feature.",
+ "Tap Scan Barcode. Point the camera at a UPC or QR on packaging or paperwork.",
+ "Tap Scan Papers to photograph receipts, certificates, or appraisal documents and attach them to a piece.",
+ "Tap How Complex Is It. Select complications to rate movement complexity.",
+ "Tap Is It Accurate. Log time checks against a reference and track daily rate over weeks.",
+ "Tap What to Wear — Rotation Planner. Pick pieces for the week so nothing sits unworn too long.",
+ "Tap Warranties. Add expiry dates — HHH reminds you before they lapse.",
+ "Tap Shows and Events. Add watch fairs, club meetings, and auction dates to your calendar.",
+ "Tap Exact Time. HHH shows atomic-clock reference time — use it to set your watch or verify rate.",
+ "Tap Moon Phase. See tonight's moon phase and set your moonphase complication dial.",
+ "Tap Print and Export List. Generate a PDF table of your collection, wish list, or for-sale pieces.",
+ "Tap Nearby Finds for flea-market and estate-sale alerts near you — Pro feature.",
+ "Tap Share Nearby to send a piece summary to another phone over Bluetooth — Pro feature.",
+ "Tap View on Big Screen for a LAN slideshow of your collection on a TV or projector.",
+ "From Tools, open Movement to Parts to search the Clockworks catalog from a movement photo or identification.",
+ "Questions? Email support@josspatech.com or use in-app feedback.",
+ "This detailed user manual at josspatech.com/videos/user-guide-hhh covers every shipped v1 feature."
          ];
-         const CHAPTER_STARTS = [0, 2, 3, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17];
-         const LAST_SLIDE = 17;
+         const CHAPTER_STARTS = [0, 2, 9, 13, 24, 28, 42, 49, 58, 65, 68, 72, 77, 80, 103];
+         const LAST_SLIDE = 104;
          const AUDIO_BASE = 'audio/';
          </script>
          <script src="/videos/shared/walkthrough.js" defer></script>
