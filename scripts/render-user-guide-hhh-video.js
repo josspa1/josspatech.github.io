@@ -19,7 +19,7 @@ const fast = process.argv.includes('--fast');
 const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4175;
 const SLIDE_COUNT = JSON.parse(fs.readFileSync(NARRATION_JSON, 'utf8')).length;
-const SLIDE_SEC = fast ? 2 : 8;
+const BUFFER_SEC = fast ? 0.25 : 0.75;
 
 function resolveFfmpeg() {
   const w = spawnSync('where.exe', ['ffmpeg'], { encoding: 'utf8', shell: true });
@@ -58,13 +58,36 @@ function runFfmpeg(ffmpeg, ffArgs) {
   if (r.status !== 0) throw new Error((r.stderr || r.stdout || '').slice(-800));
 }
 
-function buildSlideAudioTrack(ffmpeg, audioDir, slideCount, slideSec, outPath) {
-  const tmpDir = path.join(audioDir, '_mux_tmp');
-  fs.mkdirSync(tmpDir, { recursive: true });
-  const segPaths = [];
+function probeDuration(ffmpeg, filePath) {
+  const r = spawnSync(ffmpeg, ['-i', filePath, '-f', 'null', '-'], { encoding: 'utf8' });
+  const m = (r.stderr || '').match(/Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)/);
+  if (!m) return null;
+  return parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 + parseFloat(m[3]);
+}
+
+function getSlideDurations(ffmpeg, audioDir, slideCount) {
+  const durations = [];
   for (let i = 0; i < slideCount; i++) {
     const mp3 = path.join(audioDir, `slide-${i}.mp3`);
     if (!fs.existsSync(mp3)) throw new Error(`Missing slide-${i}.mp3 — run gen-user-guide-hhh-en-audio.py`);
+    if (fast) {
+      durations.push(2);
+      continue;
+    }
+    const narrationSec = probeDuration(ffmpeg, mp3);
+    if (narrationSec == null) throw new Error(`Could not probe duration for slide-${i}.mp3`);
+    durations.push(Math.max(0.5, narrationSec + BUFFER_SEC));
+  }
+  return durations;
+}
+
+function buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, outPath) {
+  const tmpDir = path.join(audioDir, '_mux_tmp');
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const segPaths = [];
+  for (let i = 0; i < slideDurations.length; i++) {
+    const slideSec = slideDurations[i];
+    const mp3 = path.join(audioDir, `slide-${i}.mp3`);
     const seg = path.join(tmpDir, `seg-${String(i).padStart(3, '0')}.m4a`);
     runFfmpeg(ffmpeg, ['-y', '-i', mp3, '-af', `apad=whole_dur=${slideSec}`, '-t', String(slideSec),
       '-c:a', 'aac', '-b:a', '128k', seg]);
@@ -75,14 +98,14 @@ function buildSlideAudioTrack(ffmpeg, audioDir, slideCount, slideSec, outPath) {
   runFfmpeg(ffmpeg, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile, '-c:a', 'aac', '-b:a', '128k', outPath]);
 }
 
-function buildVideoFromScreenshots(ffmpeg, shotDir, slideCount, slideSec, outPath) {
+function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, outPath) {
   const listFile = path.join(shotDir, 'frames.txt');
   const lines = [];
-  for (let i = 0; i < slideCount; i++) {
+  for (let i = 0; i < slideDurations.length; i++) {
     const png = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
-    lines.push(`file '${png.replace(/\\/g, '/')}'`, `duration ${slideSec}`);
+    lines.push(`file '${png.replace(/\\/g, '/')}'`, `duration ${slideDurations[i]}`);
   }
-  lines.push(`file '${path.join(shotDir, `frame-${String(slideCount - 1).padStart(3, '0')}.png`).replace(/\\/g, '/')}'`);
+  lines.push(`file '${path.join(shotDir, `frame-${String(slideDurations.length - 1).padStart(3, '0')}.png`).replace(/\\/g, '/')}'`);
   fs.writeFileSync(listFile, lines.join('\n'), 'utf8');
   runFfmpeg(ffmpeg, ['-y', '-f', 'concat', '-safe', '0', '-i', listFile,
     '-vf', 'scale=1280:800:force_original_aspect_ratio=decrease,pad=1280:800:(ow-iw)/2:(oh-ih)/2',
@@ -121,6 +144,11 @@ async function main() {
   const ffmpeg = resolveFfmpeg();
   if (!ffmpeg) { console.error('ffmpeg not found'); process.exit(1); }
   const playwright = require('playwright');
+  const audioDir = path.join(OUT_DIR, 'audio');
+  const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT);
+  const totalSec = slideDurations.reduce((a, b) => a + b, 0);
+  console.log(`slides=${SLIDE_COUNT} totalSec=${totalSec.toFixed(1)} buffer=${BUFFER_SEC}s/slide`);
+
   const shotDir = path.join(OUT_DIR, '_frames_tmp');
   const videoOnlyPath = OUT_MP4 + '.video-only.mp4';
   const combinedAudio = path.join(OUT_DIR, '_combined-narration.m4a');
@@ -135,10 +163,12 @@ async function main() {
     await browser.close();
     server.close();
   }
-  buildVideoFromScreenshots(ffmpeg, shotDir, SLIDE_COUNT, SLIDE_SEC, videoOnlyPath);
-  buildSlideAudioTrack(ffmpeg, path.join(OUT_DIR, 'audio'), SLIDE_COUNT, SLIDE_SEC, combinedAudio);
+  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, videoOnlyPath);
+  buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, combinedAudio);
   muxVideoAudio(ffmpeg, videoOnlyPath, combinedAudio, OUT_MP4);
-  console.log('Wrote', OUT_MP4, fs.statSync(OUT_MP4).size, 'bytes');
+
+  const duration = probeDuration(ffmpeg, OUT_MP4);
+  console.log('Wrote', OUT_MP4, fs.statSync(OUT_MP4).size, 'bytes', 'durationSec=', duration ? duration.toFixed(1) : '?');
 }
 
 main().catch((e) => { console.error(e); process.exit(1); });

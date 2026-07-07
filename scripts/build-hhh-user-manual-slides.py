@@ -575,7 +575,8 @@ def write_deck_js():
               var voiceEnabled = true;
               var slideAudio = null;
               var timer = null;
-              var SLIDE_MS = 8000;
+              var NO_VOICE_MS = 8000;
+              var ADV_BUFFER_MS = 800;
               var slides = document.querySelectorAll('.slide');
               var dots = document.querySelectorAll('.dot');
               var paras = document.querySelectorAll('.transcript-para');
@@ -594,19 +595,23 @@ def write_deck_js():
                 if (window.syncTranscriptSlide) window.syncTranscriptSlide(current);
               }
 
-              function resetTimer() {
+              function scheduleAdvance(ms) {
                 clearTimeout(timer);
                 timer = setTimeout(function () {
                   if (playing) goTo(current + 1 > LAST_SLIDE ? 0 : current + 1);
                   if (playing) playSlide();
-                }, SLIDE_MS);
+                }, ms);
+              }
+
+              function resetTimer() {
+                scheduleAdvance(NO_VOICE_MS);
               }
 
               function playSlideAudio(i) {
                 if (!voiceEnabled) { resetTimer(); return; }
                 if (slideAudio) { slideAudio.pause(); slideAudio = null; }
                 slideAudio = new Audio(AUDIO_BASE + 'slide-' + i + '.mp3');
-                slideAudio.onended = resetTimer;
+                slideAudio.onended = function () { scheduleAdvance(ADV_BUFFER_MS); };
                 slideAudio.onerror = resetTimer;
                 slideAudio.play().catch(resetTimer);
               }
