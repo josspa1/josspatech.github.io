@@ -178,3 +178,41 @@ body.record-mode .walkthrough .video-wrapper {
   object-position: center center;
   background: var(--background, #EDF2F7);
 }
+
+/* HHH gold pulse tap ring — circle only, no finger */
+.tap-finger {
+  display: none !important;
+}
+
+.tap-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--gold, #C8AA6E);
+  animation: hhh-tap-pulse 1.8s ease-out infinite;
+  box-shadow: 0 0 12px rgba(200, 170, 110, 0.45);
+}
+
+.tap-indicator .tap-ring-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(200, 170, 110, 0.6);
+  border-radius: 50%;
+  animation: hhh-tap-ripple 1.8s ease-out infinite 0.2s;
+}
+
+@keyframes hhh-tap-pulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes hhh-tap-ripple {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  20% { opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+}

@@ -34,17 +34,9 @@
     animation: wt-tap-ripple 1.8s ease-out infinite 0.2s;
 }
 
+/* Finger removed — gold pulse ring only */
 .tap-finger {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    font-size: 22px;
-    line-height: 1;
-    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
-    /* Tip of ☝ lands on ring center (not floating below-right of target) */
-    transform: translate(-42%, -78%) rotate(-15deg);
-    transform-origin: 50% 100%;
-    animation: wt-tap-bounce 1.8s ease-in-out infinite;
+    display: none !important;
 }
 
 .tap-label {
