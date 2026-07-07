@@ -1,30 +1,29 @@
-# HHH User Manual Coverage (scaffold)
+# HHH User Manual Coverage
 
 **Live URL:** https://josspatech.com/videos/user-guide-hhh/  
-**App version:** 1.0.22 (build 37)
+**PDF:** https://josspatech.com/docs/handyhorology/HandyHorology_UserGuide.pdf  
+**MP4:** https://josspatech.com/videos/user-guide-hhh/handy-horology-helper-user-guide.mp4  
+**Slide count:** 18  
+**Chapter pills:** 13  
 
-## Status
+## Summary
 
-| Deliverable | Status |
-|-------------|--------|
-| Interactive HTML guide (12 slides) | Scaffold live |
-| PDF (`HandyHorology_UserGuide.pdf`) | Not generated — use PBJ `build-user-manual-slides.py` pattern |
-| Narrated MP4 | Not generated |
-| Locale variants | Not started |
-| Device PNG slides | Using marketing crops until Maestro emulator capture stable |
+| PNG OK | 4 |
+| PNG interim (reuse) | 6 |
+| PNG missing (placeholder) | 8 |
 
-## Chapters (v1)
+## Locales
 
-0. Welcome / install  
-1. Command Center  
-2. My Museum  
-3. AI Identification  
-4–5. Clockworks wizard + parts  
-6. eBay Grail Radar  
-7. P/L dashboard  
-8. Horology tools  
-9. Web Companion  
-10. Backup  
-11. Trial & support  
+English only for v1. HHH app supports 7 display languages in Settings; locale folders deferred (PBJ has 8).
 
-**Regenerate slides:** extend `scripts/build-hhh-user-manual-slides.py` (TBD) mirroring PBJ `build-user-manual-slides.py`.
+## Regenerate
+
+```powershell
+cd josspatech.github.io
+python scripts/capture-hhh-manual-screenshots.py
+python scripts/build-hhh-user-manual-slides.py
+python scripts/gen-user-guide-hhh-en-audio.py --force
+node scripts/render-user-guide-hhh-video.js
+python scripts/build-hhh-user-guide-pdf.py
+```
+

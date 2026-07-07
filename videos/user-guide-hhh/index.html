@@ -1,99 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Handy Horology Helper User Guide | JosspaTech</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --burgundy:#5B2333; --burgundy-dark:#3D1522; --gold:#C8AA6E; --cream:#F5EDE4; --muted:#A89890; }
-    * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'Source Sans 3',sans-serif; background:var(--cream); color:var(--burgundy-dark); line-height:1.6; }
-    nav { background:var(--burgundy-dark); padding:1rem 1.5rem; }
-    nav a { color:var(--cream); text-decoration:none; font-weight:600; margin-right:1.25rem; }
-    nav a:hover { color:var(--gold); }
-    .hero { background:linear-gradient(135deg,var(--burgundy) 0%,var(--burgundy-dark) 100%); color:var(--cream); padding:2.5rem 1.5rem; text-align:center; }
-    .hero h1 { font-family:'Playfair Display',serif; font-size:2.2rem; margin-bottom:0.5rem; }
-    .hero p { max-width:640px; margin:0 auto; opacity:0.9; }
-    main { max-width:1100px; margin:0 auto; padding:2rem 1.5rem 3rem; }
-    .layout { display:grid; grid-template-columns:340px 1fr; gap:2rem; align-items:start; }
-    @media (max-width:900px) { .layout { grid-template-columns:1fr; } }
-    .phone { border:3px solid var(--burgundy-dark); border-radius:24px; overflow:hidden; background:#111; aspect-ratio:9/19.5; max-height:620px; box-shadow:0 16px 40px rgba(0,0,0,0.25); }
-    .phone img { width:100%; height:100%; object-fit:cover; display:block; }
-    .panel h2 { font-family:'Playfair Display',serif; font-size:1.35rem; margin-bottom:0.75rem; color:var(--burgundy); }
-    .panel p { color:#444; margin-bottom:1rem; }
-    .chips { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0 1.5rem; }
-    .chip { background:var(--burgundy); color:var(--cream); border:none; padding:0.45rem 0.9rem; border-radius:999px; cursor:pointer; font-size:0.85rem; }
-    .chip.active { background:var(--gold); color:var(--burgundy-dark); font-weight:700; }
-    .controls { display:flex; gap:0.75rem; margin-top:1rem; }
-    .btn { background:var(--burgundy); color:var(--cream); border:none; padding:0.6rem 1.2rem; border-radius:8px; cursor:pointer; font-weight:600; }
-    .btn:hover { background:var(--burgundy-dark); }
-    .cta { margin-top:2.5rem; text-align:center; padding:2rem; background:var(--burgundy-dark); border-radius:12px; color:var(--cream); }
-    .cta a { display:inline-block; margin-top:1rem; background:var(--gold); color:var(--burgundy-dark); padding:0.75rem 1.5rem; border-radius:8px; font-weight:700; text-decoration:none; }
-    footer { text-align:center; padding:1.5rem; font-size:0.85rem; color:var(--muted); }
-  </style>
-</head>
-<body>
-  <nav>
-    <a href="/">JosspaTech</a>
-    <a href="/#hhh">Handy Horology Helper</a>
-    <a href="https://play.google.com/apps/internaltest/4701583732703251381" target="_blank" rel="noopener">Get the app</a>
-  </nav>
-  <header class="hero">
-    <h1>Handy Horology Helper User Guide</h1>
-    <p>v1.0.22 (build 37) — scaffold edition. Twelve chapters covering identify, My Museum, repair parts lookup, eBay hunting, and more.</p>
-  </header>
-  <main>
-    <div class="layout">
-      <div class="phone" id="phone"><img id="slide-img" src="/assets/screenshots/hhh/feature-museum.png" alt=""></div>
-      <div class="panel">
-        <h2 id="slide-title">My Museum</h2>
-        <p id="slide-text">Open the My Pieces tab to browse your collection, wish list, and for-sale segments. Portfolio value and P/L appear at the top.</p>
-        <div class="chips" id="chips"></div>
-        <div class="controls">
-          <button class="btn" id="prev">Previous</button>
-          <button class="btn" id="next">Next</button>
-        </div>
-      </div>
-    </div>
-    <div class="cta">
-      <p>Ready to identify your first timepiece or fix a clock with the right parts?</p>
-      <a href="https://josspatech.com/#hhh">Back to HHH product page</a>
-    </div>
-  </main>
-  <footer>&copy; 2026 JosspaTech · <a href="/docs/handyhorology/HandyHorology_PrivacyPolicy.html">Privacy</a></footer>
-  <script>
-    const SLIDES = [
-      { title:'Welcome', text:'Install from Google Play internal testing or request TestFlight. Choose Explore with sample collection on first launch to see Harold\'s demo gallery.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'Command Center', text:'The Home tab shows portfolio summary, quick actions, and smart prompts for your collection.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'My Museum', text:'Collection, wish list, and for-sale segments. Tap any piece for photos, provenance, service history, and valuation.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'AI Identification', text:'Tools → Identify. Photograph dial, caseback, or movement. Review confidence-scored matches before saving to your collection.', img:'/assets/screenshots/hhh/feature-identify.png' },
-      { title:'Clock Repair Help', text:'Tools → Clock Repair Help. Pick a symptom (won\'t chime, pendulum stops, etc.). HHH walks you through likely causes and helps you find the right parts from a major supplier.', img:'/assets/screenshots/hhh/feature-clockworks.png' },
-      { title:'Find Parts from Markings', text:'Photograph movement markings or use symptom context — HHH helps you find the right parts from a major supplier catalog.', img:'/assets/screenshots/hhh/feature-clockworks.png' },
-      { title:'eBay Grail Radar', text:'Build a wish list and HHH checks eBay when you open the app. Get notified when new matches appear.', img:'/assets/screenshots/hhh/feature-identify.png' },
-      { title:'Profit & Loss', text:'Track purchase price, expenses, and estimated value per piece and across your whole collection.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'Horology Tools', text:'Atomic clock reference, moon phase setter, wear tracker, and warranty reminders live under Tools.', img:'/assets/screenshots/hhh/feature-identify.png' },
-      { title:'Web Companion', text:'Tools → Web Companion starts a server on your phone. Scan the QR code from a PC browser on the same WiFi.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'Backup & Restore', text:'Settings → Backup. Share a full encrypted backup to Drive, iCloud, or your PC via the system share sheet.', img:'/assets/screenshots/hhh/feature-museum.png' },
-      { title:'Trial & Support', text:'14-day Pro trial, then $9.99/mo or $74.99/yr. Email support@josspatech.com or use in-app feedback.', img:'/assets/screenshots/hhh/feature-clockworks.png' }
-    ];
-    let i = 0;
-    const img = document.getElementById('slide-img');
-    const title = document.getElementById('slide-title');
-    const text = document.getElementById('slide-text');
-    const chips = document.getElementById('chips');
-    function render() {
-      const s = SLIDES[i];
-      img.src = s.img;
-      img.alt = s.title;
-      title.textContent = s.title;
-      text.textContent = s.text;
-      chips.innerHTML = SLIDES.map((sl, j) => `<button class="chip${j===i?' active':''}" data-i="${j}">${j+1}</button>`).join('');
-      chips.querySelectorAll('.chip').forEach(b => b.onclick = () => { i = +b.dataset.i; render(); });
-    }
-    document.getElementById('prev').onclick = () => { i = (i - 1 + SLIDES.length) % SLIDES.length; render(); };
-    document.getElementById('next').onclick = () => { i = (i + 1) % SLIDES.length; render(); };
-    render();
-  </script>
-</body>
-</html>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Handy Horology Helper User Manual | JosspaTech</title>
+         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+         <link rel="stylesheet" href="walkthrough.css">
+         <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+         <style>
+         * { margin: 0; padding: 0; box-sizing: border-box; }
+         html { scroll-behavior: smooth; }
+         body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--white); }
+         nav { position: sticky; top: 0; z-index: 1000; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+         nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+         nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+         nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; }
+         nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; }
+         .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.9rem; color: var(--slate); }
+         .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+         .hero { color: var(--white); padding: 2rem; text-align: center; }
+         .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.75rem; }
+         .hero .subheader { font-size: 1.1rem; max-width: 760px; margin: 0 auto; opacity: 0.95; }
+         .walkthrough { padding: 3rem 2rem; }
+         .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+         .walkthrough h2 { font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 0.5rem; }
+         .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; }
+         .video-wrapper { display: flex; gap: 2rem; align-items: flex-start; }
+         .phone-column { flex-shrink: 0; width: 360px; }
+         .phone-frame { width: 340px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; max-height: 640px; position: relative; }
+         .slideshow { width: 100%; height: 100%; position: relative; }
+         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+         .slide.active { opacity: 1; }
+         .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+         .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; }
+         .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(91,35,51,0.2); cursor: pointer; }
+         .playback-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center; }
+         .play-pause-btn, .voice-btn { color: white; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; }
+         .narration-panel { flex: 1; max-height: 580px; overflow-y: auto; padding: 0.5rem; }
+         .chapter-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+         .chapter-btn { padding: 0.55rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.88rem; }
+         .cta-section { padding: 3rem 2rem; text-align: center; color: white; }
+         .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.75rem; }
+         .download-button { display: inline-block; padding: 0.9rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; margin-top: 1rem; }
+         footer { padding: 2rem; text-align: center; color: white; font-size: 0.9rem; }
+         body.record-mode nav, body.record-mode .breadcrumbs, body.record-mode .hero, body.record-mode .cta-section, body.record-mode footer { display: none !important; }
+         :root {
+           --navy: #5B2333; --navy-dark: #3D1522; --navy-medium: #7A3A4F;
+           --gold: #C8AA6E; --gold-dark: #A8884A;
+           --slate: #8A7070; --slate-light: #A89890;
+           --background: #F5EDE4; --white: #FFFFFF;
+         }
+         nav { background-color: var(--navy-dark); }
+         nav .cta-button { background-color: var(--gold); color: var(--navy-dark); }
+         .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); }
+         .walkthrough h2, .narration-panel-heading, .transcript-sentence.active { color: var(--navy); }
+         .chapter-btn { background: var(--navy); border-color: var(--navy); }
+         .chapter-btn.active { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
+         .dot.active { background: var(--gold); }
+         .play-pause-btn, .voice-btn { background: var(--navy); }
+         .phone-frame { border-color: var(--navy-dark); box-shadow: 0 16px 48px rgba(61,21,34,0.22); }
+         .tap-ring { border-color: var(--gold); box-shadow: 0 0 12px rgba(200,170,110,0.45); }
+         .transcript-para.current { border-left-color: var(--gold); background: rgba(200,170,110,0.1); }
+         .narration-panel-heading { border-bottom-color: var(--gold); }
+         .download-button { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
+         footer { background: var(--navy-dark); }
+         footer a { color: var(--gold); }
+         body { color: var(--navy); }
+         .walkthrough { background: var(--background); }
+         .slide img { background: var(--background); }
+         </style>
+        </head>
+        <body>
+         <nav>
+          <div class="container">
+           <a href="/" class="logo">JosspaTech</a>
+           <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#hhh">Handy Horology Helper</a></li>
+            <li><a href="/docs/handyhorology/HandyHorology_UserGuide.pdf">PDF</a></li>
+            <li><a href="https://play.google.com/apps/internaltest/4701583732703251381" class="cta-button">Get the App</a></li>
+           </ul>
+          </div>
+         </nav>
+         <div class="breadcrumbs">
+          <a href="/">Home</a><span class="sep">/</span>
+          <a href="/#hhh">Handy Horology Helper</a><span class="sep">/</span>
+          <span class="current">User Manual</span>
+         </div>
+         <div class="hero">
+          <div class="container">
+           <h1>Handy Horology Helper User Manual</h1>
+           <p class="subheader">v1.0.22 — identify watches and clocks, track your collection, hunt grails on eBay, and find repair parts. Plain-English walkthrough of every shipped feature.</p>
+          </div>
+         </div>
+         <section class="walkthrough">
+          <div class="container">
+           <h2>Interactive User Guide</h2>
+           <p class="section-sub">18 slides with synced narration — install through trial and support. Use the 13 chapter pills to jump, or read the transcript beside the phone. <a href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="color:var(--navy-medium);font-weight:700;">Download PDF</a> · <a href="handy-horology-helper-user-guide.mp4" style="color:var(--navy-medium);font-weight:700;">Watch MP4</a></p>
+           <div class="walkthrough-stage">
+            <div class="video-wrapper">
+             <div class="phone-column">
+              <div class="phone-viewport">
+               <div class="phone-frame">
+                <div class="slideshow" id="slideshow">
+                 <div class="tap-to-start" id="tapToStart">
+                  <div class="tap-to-start-icon">&#9654;</div>
+                  <div class="tap-to-start-label">Tap to play</div>
+                 </div>
+         <div class="slide active" data-index="0" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="HHH welcome and Command Center" loading="eager">
+ </div>
+ <div class="slide" data-index="1" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Onboarding path choice" loading="lazy">
+ </div>
+ <div class="slide" data-index="2" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Command Center home screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="3" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="My Museum collection view" loading="lazy">
+ </div>
+ <div class="slide" data-index="4" data-tap-x="50" data-tap-y="88" data-tap-label="Add">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Add piece from My Museum" loading="lazy">
+ </div>
+ <div class="slide" data-index="5" data-tap-x="50" data-tap-y="55" data-tap-label="Identify">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">AI Identify camera screen</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="6" data-tap-none>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Identify results with confidence scores</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="7" data-tap-x="50" data-tap-y="45" data-tap-label="Fix clock">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Clock Repair Help symptom list</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="8" data-tap-none>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Suggested repair parts list</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="9" data-tap-x="66" data-tap-y="22" data-tap-label="Wish">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Wish list tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="10" data-tap-x="13" data-tap-y="24" data-tap-label="Hunt">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Hunt quick command" loading="lazy">
+ </div>
+ <div class="slide" data-index="11" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png" alt="Portfolio dashboard card" loading="lazy">
+ </div>
+ <div class="slide" data-index="12" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png" alt="Tools hub" loading="lazy">
+ </div>
+ <div class="slide" data-index="13" data-tap-x="50" data-tap-y="50" data-tap-label="Web Companion">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Web Companion QR pairing</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="14" data-tap-x="50" data-tap-y="55" data-tap-label="Backup">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Backup and restore settings</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="15" data-tap-x="90" data-tap-y="97" data-tap-label="Settings">
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Settings screen</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="16" data-tap-none>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Trial and subscription</p><p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>
+ </div>
+ <div class="slide" data-index="17" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png" alt="Help and support" loading="lazy">
+ </div>
+                </div>
+               </div>
+              </div>
+              <div class="progress-dots" id="progressDots">
+         <span class="dot active" data-slide="0"></span>
+ <span class="dot" data-slide="1"></span>
+ <span class="dot" data-slide="2"></span>
+ <span class="dot" data-slide="3"></span>
+ <span class="dot" data-slide="4"></span>
+ <span class="dot" data-slide="5"></span>
+ <span class="dot" data-slide="6"></span>
+ <span class="dot" data-slide="7"></span>
+ <span class="dot" data-slide="8"></span>
+ <span class="dot" data-slide="9"></span>
+ <span class="dot" data-slide="10"></span>
+ <span class="dot" data-slide="11"></span>
+ <span class="dot" data-slide="12"></span>
+ <span class="dot" data-slide="13"></span>
+ <span class="dot" data-slide="14"></span>
+ <span class="dot" data-slide="15"></span>
+ <span class="dot" data-slide="16"></span>
+ <span class="dot" data-slide="17"></span>
+              </div>
+              <div class="playback-controls">
+               <button class="voice-btn" id="voiceBtn" title="Toggle narration" aria-label="Toggle narration">&#128266;</button>
+               <button class="play-pause-btn" id="playPauseBtn" title="Play/Pause">&#9654;</button>
+               <span class="speed-label" id="speedLabel">Tap play to start</span>
+              </div>
+             </div>
+             <div class="narration-panel" id="narrationPanel">
+              <div class="narration-panel-heading">Transcript</div>
+        <div class="transcript-body" id="transcriptBody">
+ <p class="transcript-para current" data-slide="0">Install Handy Horology Helper from Google Play internal testing or request a TestFlight invite from josspatech.com. Open the app to the welcome carousel.</p>
+ <p class="transcript-para" data-slide="1">After the welcome slides, pick Explore with sample collection to tour Harold's demo gallery, or Start with my own piece to add your first watch from the camera.</p>
+ <p class="transcript-para" data-slide="2">The Home tab is your Command Center. See how many pieces you own, what's on your wish list, and quick commands for Hunt, Fix clock, Add Watch, and Tools.</p>
+ <p class="transcript-para" data-slide="3">Open My Pieces to enter My Museum. Portfolio value and profit tracking sit at the top. Switch between Owned, Wish, and For Sale tabs.</p>
+ <p class="transcript-para" data-slide="4">Tap Add to photograph a watch, pick from the catalog, or enter details manually. Each piece stores photos, provenance, service history, and estimated value.</p>
+ <p class="transcript-para" data-slide="5">From Tools or the Identify quick action, photograph a dial, caseback, or movement. HHH sends the image to AI and returns ranked brand and model matches.</p>
+ <p class="transcript-para" data-slide="6">Review confidence scores for each match. Save the top result straight to My Museum or compare alternatives before you buy, sell, or insure.</p>
+ <p class="transcript-para" data-slide="7">Clock not running right? Open Clock Repair Help from Home or Tools. Pick a symptom like won't chime, pendulum stops, or hands slip.</p>
+ <p class="transcript-para" data-slide="8">HHH walks you through likely causes and suggests parts from a major supplier catalog so you order the right item the first time.</p>
+ <p class="transcript-para" data-slide="9">Add grails to your Wish list with target prices. Keep hunting pieces separate from what you already own in My Museum.</p>
+ <p class="transcript-para" data-slide="10">Tap Hunt on Home or open eBay Hunt Alerts under Tools. Set keywords and a max price — HHH checks eBay when you open the app and notifies you of new matches.</p>
+ <p class="transcript-para" data-slide="11">Enter purchase price and expenses on each piece. My Museum shows estimated value, gain or loss per item, and portfolio totals across your collection.</p>
+ <p class="transcript-para" data-slide="12">Tools holds Identify, Clock Repair Help, eBay Hunt Alerts, Exact Time, Moon Phase, Reference Library, and more — your bench reference in one place.</p>
+ <p class="transcript-para" data-slide="13">Open Web Companion under Tools. HHH starts a server on your phone — scan the QR code from a PC browser on the same Wi‑Fi to browse your collection on a big screen.</p>
+ <p class="transcript-para" data-slide="14">In Settings, open Backup and Restore. Share a full encrypted backup through Drive, iCloud, or your PC via the system share sheet. Restore replaces local data on a new phone.</p>
+ <p class="transcript-para" data-slide="15">Settings controls light or dark theme, seven display languages, notification preferences, and app lock. Changes apply immediately.</p>
+ <p class="transcript-para" data-slide="16">HHH includes a 14-day Pro trial with full access. After the trial, subscribe for $9.99 per month or $74.99 per year. Pro unlocks Hunt Alerts, advanced tools, and cloud backup.</p>
+ <p class="transcript-para" data-slide="17">Questions? Email support@josspatech.com or use in-app feedback. This guide at josspatech.com/videos/user-guide-hhh/ covers every shipped v1 feature.</p>
+</div>
+             </div>
+            </div>
+           </div>
+           <div class="chapter-nav" id="chapterNav">
+         <button class="chapter-btn active" data-slide="0">Welcome</button>
+ <button class="chapter-btn" data-slide="2">Home</button>
+ <button class="chapter-btn" data-slide="3">My Museum</button>
+ <button class="chapter-btn" data-slide="5">Identify</button>
+ <button class="chapter-btn" data-slide="7">Clock Repair</button>
+ <button class="chapter-btn" data-slide="9">Grail Radar</button>
+ <button class="chapter-btn" data-slide="11">Financial</button>
+ <button class="chapter-btn" data-slide="12">Tools</button>
+ <button class="chapter-btn" data-slide="13">Web Companion</button>
+ <button class="chapter-btn" data-slide="14">Backup</button>
+ <button class="chapter-btn" data-slide="15">Settings</button>
+ <button class="chapter-btn" data-slide="16">Trial</button>
+ <button class="chapter-btn" data-slide="17">Help</button>
+           </div>
+          </div>
+         </section>
+         <section class="cta-section">
+          <div class="container">
+           <h2>Ready to identify your first timepiece?</h2>
+           <p>Try HHH free for 14 days on Google Play internal testing or request iOS TestFlight from josspatech.com.</p>
+           <a href="https://play.google.com/apps/internaltest/4701583732703251381" class="download-button">Get HHH on Google Play</a>
+          </div>
+         </section>
+         <footer>
+          <p>&copy; 2026 JosspaTech · <a href="/docs/handyhorology/HandyHorology_PrivacyPolicy.html">Privacy</a> · <a href="/docs/handyhorology/HandyHorologyHelper_TermsOfService.html">Terms</a></p>
+         </footer>
+         <script>
+         const NARRATION = [
+          "Install Handy Horology Helper from Google Play internal testing or request a TestFlight invite from josspatech.com. Open the app to the welcome carousel.",
+ "After the welcome slides, pick Explore with sample collection to tour Harold's demo gallery, or Start with my own piece to add your first watch from the camera.",
+ "The Home tab is your Command Center. See how many pieces you own, what's on your wish list, and quick commands for Hunt, Fix clock, Add Watch, and Tools.",
+ "Open My Pieces to enter My Museum. Portfolio value and profit tracking sit at the top. Switch between Owned, Wish, and For Sale tabs.",
+ "Tap Add to photograph a watch, pick from the catalog, or enter details manually. Each piece stores photos, provenance, service history, and estimated value.",
+ "From Tools or the Identify quick action, photograph a dial, caseback, or movement. HHH sends the image to AI and returns ranked brand and model matches.",
+ "Review confidence scores for each match. Save the top result straight to My Museum or compare alternatives before you buy, sell, or insure.",
+ "Clock not running right? Open Clock Repair Help from Home or Tools. Pick a symptom like won't chime, pendulum stops, or hands slip.",
+ "HHH walks you through likely causes and suggests parts from a major supplier catalog so you order the right item the first time.",
+ "Add grails to your Wish list with target prices. Keep hunting pieces separate from what you already own in My Museum.",
+ "Tap Hunt on Home or open eBay Hunt Alerts under Tools. Set keywords and a max price — HHH checks eBay when you open the app and notifies you of new matches.",
+ "Enter purchase price and expenses on each piece. My Museum shows estimated value, gain or loss per item, and portfolio totals across your collection.",
+ "Tools holds Identify, Clock Repair Help, eBay Hunt Alerts, Exact Time, Moon Phase, Reference Library, and more — your bench reference in one place.",
+ "Open Web Companion under Tools. HHH starts a server on your phone — scan the QR code from a PC browser on the same Wi‑Fi to browse your collection on a big screen.",
+ "In Settings, open Backup and Restore. Share a full encrypted backup through Drive, iCloud, or your PC via the system share sheet. Restore replaces local data on a new phone.",
+ "Settings controls light or dark theme, seven display languages, notification preferences, and app lock. Changes apply immediately.",
+ "HHH includes a 14-day Pro trial with full access. After the trial, subscribe for $9.99 per month or $74.99 per year. Pro unlocks Hunt Alerts, advanced tools, and cloud backup.",
+ "Questions? Email support@josspatech.com or use in-app feedback. This guide at josspatech.com/videos/user-guide-hhh/ covers every shipped v1 feature."
+         ];
+         const CHAPTER_STARTS = [0, 2, 3, 5, 7, 9, 11, 12, 13, 14, 15, 16, 17];
+         const LAST_SLIDE = 17;
+         const AUDIO_BASE = 'audio/';
+         </script>
+         <script src="/videos/shared/walkthrough.js" defer></script>
+         <script src="deck.js" defer></script>
+        </body>
+        </html>
