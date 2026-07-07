@@ -38,6 +38,10 @@ FIN = f"{M}15-finances-pl.png"
 COMPARE = f"{M}16-compare.png"
 ATOMIC = f"{M}17-atomic-clock.png"
 MOON = f"{M}18-moon-phase.png"
+PLAY_INSTALL = f"{M}00-play-internal-install.png"
+TESTFLIGHT = f"{M}00-testflight-install.png"
+OFFLINE_QUEUE = f"{M}07b-offline-identify-queue.png"
+EBAY_NOTIF = f"{M}05b-ebay-match-notification.png"
 
 
 def S(chapter, feature, narration, img=None, png_status="missing", alt="", tap=None):
@@ -68,8 +72,8 @@ def _meta(img, status="OK", alt="", tap=None):
 # Per-topic step metadata (index aligns with parsed What to do steps)
 STEP_META: dict[str, list[dict]] = {
     "UM-H01": [
-        _meta(None, "missing", "Google Play internal testing install"),
-        _meta(None, "missing", "TestFlight install"),
+        _meta(PLAY_INSTALL, "OK", "Google Play internal testing install", (50, 88, "Install")),
+        _meta(TESTFLIGHT, "OK", "TestFlight install", (50, 88, "Install")),
     ],
     "UM-H02": [
         _meta(WELCOME, "OK", "Welcome carousel", (65, 92, "Continue")),
@@ -123,7 +127,7 @@ STEP_META: dict[str, list[dict]] = {
         _meta(ID_RES, "interim", "Edit clues", (50, 62, "What I know")),
         _meta(ID_RES, "OK", "Save to Collection", (50, 82, "Save")),
         _meta(ID_RES, "interim", "Find parts on Clockworks", (50, 90, "Find parts")),
-        _meta(None, "missing", "Offline identify queue"),
+        _meta(OFFLINE_QUEUE, "OK", "Offline identify queue"),
     ],
     "UM-H09": [
         _meta(CLOCK_SYM, "interim", "Home Fix clock", (38, 24, "Fix clock")),
@@ -143,7 +147,7 @@ STEP_META: dict[str, list[dict]] = {
         _meta(GRAIL, "interim", "Hunt rules editor", (50, 55, "Save rules")),
         _meta(GRAIL, "OK", "Check now", (50, 75, "Check now")),
         _meta(GRAIL, "interim", "Open eBay listing", (50, 65, "Listing")),
-        _meta(None, "missing", "eBay match notification"),
+        _meta(EBAY_NOTIF, "OK", "eBay match notification", (50, 18, "Notification")),
     ],
     "UM-H12": [
         _meta(TOOLS, "interim", "eBay Listings tool", (50, 40, "eBay Listings")),
@@ -351,11 +355,16 @@ for i, slide in enumerate(SLIDES):
         _seen.add(ch)
         CHAPTER_PILLS.append((ch, i))
 
-PLACEHOLDER = (
+BRANDED_FALLBACK = (
     '<div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;'
-    'justify-content:center;background:#F5EDE4;color:#3D1522;padding:1.5rem;text-align:center;">'
-    '<p style="font-family:\'Playfair Display\',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">{title}</p>'
-    '<p style="font-size:0.82rem;line-height:1.5;color:#A89890;">Narration describes this screen — device capture pending.</p></div>'
+    'justify-content:center;background:linear-gradient(160deg,#5B2333 0%,#3D1522 100%);'
+    'color:#F5EDE4;padding:2rem;text-align:center;">'
+    '<div style="width:72px;height:72px;border-radius:18px;background:#C8AA6E;margin-bottom:1rem;'
+    'display:flex;align-items:center;justify-content:center;font-size:1.6rem;">&#9201;</div>'
+    '<p style="font-family:\'Playfair Display\',serif;font-size:1.05rem;font-weight:700;'
+    'margin-bottom:0.75rem;color:#F5EDE4;">{title}</p>'
+    '<p style="font-size:0.85rem;line-height:1.55;color:#C8AA6E;max-width:16rem;">'
+    'Handy Horology Helper — follow the narration beside the phone.</p></div>'
 )
 
 
@@ -395,7 +404,7 @@ def slide_inner(slide, idx):
     if slide["img"]:
         loading = "eager" if idx == 0 else "lazy"
         return f'<img src="{slide["img"]}" alt="{slide["alt"]}" loading="{loading}">'
-    return PLACEHOLDER.format(title=slide["alt"])
+    return BRANDED_FALLBACK.format(title=slide["alt"])
 
 
 def render_slides():

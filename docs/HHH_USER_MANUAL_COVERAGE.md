@@ -12,16 +12,16 @@
 | Metric | Count |
 |--------|------:|
 | Slides with voice + narration | 105 |
-| PNG OK | 38 |
+| PNG OK | 42 |
 | PNG interim (reuse / mockup) | 63 |
-| PNG missing (placeholder) | 4 |
+| PNG missing (placeholder) | 0 |
 
 ## Slide inventory
 
 | Slide | Topic | Chapter | Feature | PNG |
 |------:|-------|---------|---------|:---:|
-| 0 | UM-H01 | Install | Google Play internal testing install | missing |
-| 1 | UM-H01 | Install | TestFlight install | missing |
+| 0 | UM-H01 | Install | Google Play internal testing install | OK |
+| 1 | UM-H01 | Install | TestFlight install | OK |
 | 2 | UM-H02 | Onboarding | Welcome carousel | OK |
 | 3 | UM-H02 | Onboarding | Welcome — Get Started | interim |
 | 4 | UM-H02 | Onboarding | Sample vs own piece choice | OK |
@@ -61,7 +61,7 @@
 | 38 | UM-H08 | Identify | Edit clues | interim |
 | 39 | UM-H08 | Identify | Save to Collection | OK |
 | 40 | UM-H08 | Identify | Find parts on Clockworks | interim |
-| 41 | UM-H08 | Identify | Offline identify queue | missing |
+| 41 | UM-H08 | Identify | Offline identify queue | OK |
 | 42 | UM-H09 | Clock Repair | Home Fix clock | interim |
 | 43 | UM-H09 | Clock Repair | Tools Clock Repair Help | interim |
 | 44 | UM-H09 | Clock Repair | Symptom list | OK |
@@ -75,7 +75,7 @@
 | 52 | UM-H11 | Grail Radar | Hunt rules editor | interim |
 | 53 | UM-H11 | Grail Radar | Check now | OK |
 | 54 | UM-H11 | Grail Radar | Open eBay listing | interim |
-| 55 | UM-H11 | Grail Radar | eBay match notification | missing |
+| 55 | UM-H11 | Grail Radar | eBay match notification | OK |
 | 56 | UM-H12 | Grail Radar | eBay Listings tool | interim |
 | 57 | UM-H12 | Grail Radar | eBay search results | interim |
 | 58 | UM-H13 | Finances | Finances menu | OK |
