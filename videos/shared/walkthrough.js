@@ -90,12 +90,9 @@
         outer.className = 'tap-ring-outer';
         ind.appendChild(outer);
 
-        var finger = document.createElement('span');
-        finger.className = 'tap-finger';
-        finger.innerHTML = '&#9757;';
-        ind.appendChild(finger);
+        // Gold pulse ring only — no finger emoji (Joe preference, PBJ + HHH parity).
 
-        // PNG screenshots already show UI labels ΓÇö skip the floating pill on phone PNGs.
+        // PNG screenshots already show UI labels — skip the floating pill on phone PNGs.
         if (label && !slideUsesPng(slide)) {
             var lbl = document.createElement('span');
             lbl.className = 'tap-label';
@@ -223,6 +220,8 @@
 
     window.PBJWalkthrough = window.PBJWalkthrough || {};
     window.PBJWalkthrough.syncTranscriptSlide = syncTranscriptSlide;
+    window.initWalkthroughSlides = init;
+    window.syncTranscriptSlide = syncTranscriptSlide;
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);

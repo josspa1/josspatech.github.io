@@ -19,7 +19,25 @@ const fast = process.argv.includes('--fast');
 const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4175;
 const SLIDE_COUNT = JSON.parse(fs.readFileSync(NARRATION_JSON, 'utf8')).length;
-const BUFFER_SEC = fast ? 0.25 : 0.75;
+const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.4;
+const SAME_BUFFER_SEC = fast ? 0.05 : 0.1;
+const INDEX_HTML = path.join(OUT_DIR, 'index.html');
+
+function parseSlideImageKeys(htmlPath) {
+  const html = fs.readFileSync(htmlPath, 'utf8');
+  const keys = [];
+  const blocks = html.split(/<div class="slide(?:\s+active)?"/);
+  for (let i = 1; i < blocks.length; i++) {
+    const img = blocks[i].match(/<img src="([^"]+)"/);
+    keys.push(img ? img[1] : `placeholder:${i - 1}`);
+  }
+  return keys;
+}
+
+function advanceBufferSec(imageKeys, slideIndex) {
+  const next = slideIndex < imageKeys.length - 1 ? slideIndex + 1 : slideIndex;
+  return imageKeys[slideIndex] === imageKeys[next] ? SAME_BUFFER_SEC : CHANGE_BUFFER_SEC;
+}
 
 function resolveFfmpeg() {
   const w = spawnSync('where.exe', ['ffmpeg'], { encoding: 'utf8', shell: true });
@@ -65,7 +83,7 @@ function probeDuration(ffmpeg, filePath) {
   return parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 + parseFloat(m[3]);
 }
 
-function getSlideDurations(ffmpeg, audioDir, slideCount) {
+function getSlideDurations(ffmpeg, audioDir, slideCount, imageKeys) {
   const durations = [];
   for (let i = 0; i < slideCount; i++) {
     const mp3 = path.join(audioDir, `slide-${i}.mp3`);
@@ -76,7 +94,8 @@ function getSlideDurations(ffmpeg, audioDir, slideCount) {
     }
     const narrationSec = probeDuration(ffmpeg, mp3);
     if (narrationSec == null) throw new Error(`Could not probe duration for slide-${i}.mp3`);
-    durations.push(Math.max(0.5, narrationSec + BUFFER_SEC));
+    const bufferSec = advanceBufferSec(imageKeys, i);
+    durations.push(Math.max(0.5, narrationSec + bufferSec));
   }
   return durations;
 }
@@ -145,9 +164,14 @@ async function main() {
   if (!ffmpeg) { console.error('ffmpeg not found'); process.exit(1); }
   const playwright = require('playwright');
   const audioDir = path.join(OUT_DIR, 'audio');
-  const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT);
+  const imageKeys = parseSlideImageKeys(INDEX_HTML);
+  if (imageKeys.length !== SLIDE_COUNT) {
+    throw new Error(`Slide/image count mismatch: html=${imageKeys.length} narration=${SLIDE_COUNT}`);
+  }
+  const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT, imageKeys);
   const totalSec = slideDurations.reduce((a, b) => a + b, 0);
-  console.log(`slides=${SLIDE_COUNT} totalSec=${totalSec.toFixed(1)} buffer=${BUFFER_SEC}s/slide`);
+  const sameCount = imageKeys.slice(0, -1).filter((k, i) => k === imageKeys[i + 1]).length;
+  console.log(`slides=${SLIDE_COUNT} totalSec=${totalSec.toFixed(1)} changeBuf=${CHANGE_BUFFER_SEC}s sameBuf=${SAME_BUFFER_SEC}s samePairs=${sameCount}`);
 
   const shotDir = path.join(OUT_DIR, '_frames_tmp');
   const videoOnlyPath = OUT_MP4 + '.video-only.mp4';

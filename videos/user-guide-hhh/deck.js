@@ -4,8 +4,11 @@
   var voiceEnabled = true;
   var slideAudio = null;
   var timer = null;
-  var NO_VOICE_MS = 8000;
-  var ADV_BUFFER_MS = 800;
+  var CHANGE_BUFFER_MS = 400;
+  var SAME_BUFFER_MS = 100;
+  var FALLBACK_WPM_MS = 380;
+  var MIN_FALLBACK_MS = 1500;
+  var MAX_FALLBACK_MS = 12000;
   var slides = document.querySelectorAll('.slide');
   var dots = document.querySelectorAll('.dot');
   var paras = document.querySelectorAll('.transcript-para');
@@ -15,6 +18,28 @@
   var tapStart = document.getElementById('tapToStart');
   var recordMode = /[?&]record=1/.test(location.search);
   if (recordMode) document.body.classList.add('record-mode');
+
+  function slideImgKey(i) {
+    var s = slides[i];
+    if (!s) return '';
+    var img = s.querySelector('img[src]');
+    if (img) return img.getAttribute('src') || '';
+    return 'placeholder:' + i;
+  }
+
+  function advanceDelayMs(fromIndex) {
+    var idx = fromIndex !== undefined ? fromIndex : current;
+    var next = idx < LAST_SLIDE ? idx + 1 : 0;
+    return slideImgKey(idx) === slideImgKey(next) ? SAME_BUFFER_MS : CHANGE_BUFFER_MS;
+  }
+
+  function estimateReadMs(i) {
+    if (typeof NARRATION !== 'undefined' && NARRATION[i]) {
+      var words = String(NARRATION[i]).split(/\s+/).filter(Boolean).length;
+      return Math.min(MAX_FALLBACK_MS, Math.max(MIN_FALLBACK_MS, words * FALLBACK_WPM_MS));
+    }
+    return 4000;
+  }
 
   function goTo(i) {
     current = Math.max(0, Math.min(i, LAST_SLIDE));
@@ -27,27 +52,29 @@
   function scheduleAdvance(ms) {
     clearTimeout(timer);
     timer = setTimeout(function () {
-      if (playing) goTo(current + 1 > LAST_SLIDE ? 0 : current + 1);
-      if (playing) playSlide();
+      if (!playing) return;
+      goTo(current + 1 > LAST_SLIDE ? 0 : current + 1);
+      playSlide();
     }, ms);
   }
 
-  function resetTimer() {
-    scheduleAdvance(NO_VOICE_MS);
+  function scheduleNoVoiceAdvance(i) {
+    scheduleAdvance(estimateReadMs(i) + advanceDelayMs(i));
   }
 
   function playSlideAudio(i) {
-    if (!voiceEnabled) { resetTimer(); return; }
+    if (!voiceEnabled) { scheduleNoVoiceAdvance(i); return; }
     if (slideAudio) { slideAudio.pause(); slideAudio = null; }
     slideAudio = new Audio(AUDIO_BASE + 'slide-' + i + '.mp3');
-    slideAudio.onended = function () { scheduleAdvance(ADV_BUFFER_MS); };
-    slideAudio.onerror = resetTimer;
-    slideAudio.play().catch(resetTimer);
+    slideAudio.onended = function () { scheduleAdvance(advanceDelayMs(i)); };
+    slideAudio.onerror = function () { scheduleNoVoiceAdvance(i); };
+    slideAudio.play().catch(function () { scheduleNoVoiceAdvance(i); });
   }
 
   function playSlide() {
     goTo(current);
-    if (playing && voiceEnabled) playSlideAudio(current); else resetTimer();
+    if (playing && voiceEnabled) playSlideAudio(current);
+    else if (playing) scheduleNoVoiceAdvance(current);
   }
 
   function startPlayback() {

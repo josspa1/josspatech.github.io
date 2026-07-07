@@ -53,6 +53,14 @@ def S(chapter, feature, narration, img=None, png_status="missing", alt="", tap=N
     }
 
 
+# Tap coords: percentage of 1080×2400 emulator frame (see capture-hhh-manual-screenshots.py)
+TAB_Y = 98
+TAB_HOME, TAB_MUSEUM, TAB_TOOLS, TAB_COMMUNITY, TAB_PROFILE = 10, 30, 50, 70, 90
+BAR_ADD = (50, 95)
+BAR_IDENTIFY = (17, 95)
+BAR_FIX = (83, 95)
+
+
 def _meta(img, status="OK", alt="", tap=None):
     return {"img": img, "png_status": status, "alt": alt, "tap": tap}
 
@@ -64,49 +72,49 @@ STEP_META: dict[str, list[dict]] = {
         _meta(None, "missing", "TestFlight install"),
     ],
     "UM-H02": [
-        _meta(WELCOME, "OK", "Welcome carousel", (50, 92, "Continue")),
-        _meta(WELCOME, "interim", "Welcome — Get Started", (50, 92, "Get Started")),
-        _meta(PATH, "OK", "Sample vs own piece choice", (50, 55, "Sample collection")),
-        _meta(PATH, "OK", "Start with my own piece", (50, 70, "Own piece")),
+        _meta(WELCOME, "OK", "Welcome carousel", (65, 92, "Continue")),
+        _meta(WELCOME, "interim", "Welcome — Get Started", (65, 92, "Get Started")),
+        _meta(PATH, "OK", "Sample vs own piece choice", (50, 74, "Sample collection")),
+        _meta(PATH, "OK", "Start with my own piece", (50, 61, "Own piece")),
     ],
     "UM-H03": [
-        _meta(HOME, "interim", "Sample collection loading", (50, 92, "Get Started")),
+        _meta(HOME, "interim", "Sample collection loading", (65, 92, "Get Started")),
         _meta(HOME, "interim", "Sample mode banner"),
         _meta(SETTINGS, "interim", "Clear sample data", (50, 75, "Clear sample")),
     ],
     "UM-H04": [
         _meta(HOME, "OK", "Command Center home screen"),
-        _meta(HOME, "OK", "Quick commands row", (50, 28, "Quick commands")),
+        _meta(HOME, "OK", "Quick commands row", (13, 24, "Hunt")),
         _meta(HOME, "interim", "Getting started path cards", (50, 45, "Path card")),
-        _meta(HOME, "interim", "Bottom tab bar", (50, 97, "Tab bar")),
+        _meta(HOME, "interim", "Bottom tab bar", (TAB_HOME, TAB_Y, "Tab bar")),
     ],
     "UM-H05": [
-        _meta(MUSEUM, "OK", "Tap My Pieces tab", (30, 97, "My Pieces")),
-        _meta(MUSEUM, "OK", "Owned Wish For Sale tabs", (25, 18, "Owned")),
+        _meta(MUSEUM, "OK", "Tap My Pieces tab", (TAB_MUSEUM, TAB_Y, "My Pieces")),
+        _meta(MUSEUM, "OK", "Owned Wish For Sale tabs", (17, 22, "Owned")),
         _meta(MUSEUM, "OK", "Portfolio value hero card"),
         _meta(MUSEUM, "interim", "Search collection", (50, 14, "Search")),
         _meta(MUSEUM, "OK", "Tap piece in list", (50, 35, "Piece row")),
         _meta(DETAIL, "OK", "Piece detail overview"),
         _meta(DETAIL, "interim", "Provenance section", (50, 55, "Provenance")),
         _meta(DETAIL, "interim", "Service history", (50, 65, "Service")),
-        _meta(WISH, "OK", "Wish list segment", (66, 18, "Wish")),
-        _meta(WISH, "interim", "For Sale segment", (88, 18, "For Sale")),
-        _meta(MUSEUM, "interim", "My Museum More menu", (88, 12, "More")),
+        _meta(WISH, "OK", "Wish list segment", (50, 22, "Wish")),
+        _meta(WISH, "interim", "For Sale segment", (83, 22, "For Sale")),
+        _meta(MUSEUM, "interim", "My Museum More menu", (94, 5, "More")),
     ],
     "UM-H06": [
-        _meta(MUSEUM, "OK", "Tap Add on action bar", (50, 92, "Add")),
+        _meta(MUSEUM, "OK", "Tap Add on action bar", BAR_ADD + ("Add",)),
         _meta(ID_CAM, "OK", "Tap Manual entry", (50, 22, "Manual")),
         _meta(ID_CAM, "interim", "Fill manual fields", (50, 50, "Brand")),
-        _meta(ID_CAM, "OK", "Tap Save", (50, 88, "Save")),
+        _meta(ID_CAM, "OK", "Tap Save", BAR_ADD + ("Save",)),
     ],
     "UM-H07": [
-        _meta(MUSEUM, "interim", "Tap Identify", (50, 92, "Identify")),
+        _meta(MUSEUM, "interim", "Tap Identify", BAR_IDENTIFY + ("Identify",)),
         _meta(ID_CAM, "OK", "Take Photo", (50, 35, "Take Photo")),
-        _meta(ID_CAM, "OK", "Choose Photo", (50, 48, "Choose Photo")),
+        _meta(ID_CAM, "OK", "Choose Photo", (50, 72, "Choose Photo")),
         _meta(ID_CAM, "interim", "Optional movement photo", (50, 72, "Skip")),
         _meta(ID_CAM, "interim", "Manual clue fields", (50, 58, "Brand guess")),
         _meta(ID_CAM, "interim", "Item type toggle", (50, 22, "Item type")),
-        _meta(ID_CAM, "OK", "Identify this timepiece", (50, 88, "Identify")),
+        _meta(ID_CAM, "OK", "Identify this timepiece", (50, 95, "Identify")),
     ],
     "UM-H08": [
         _meta(ID_RES, "OK", "Top match confidence", (50, 40, "Top match")),
@@ -118,9 +126,9 @@ STEP_META: dict[str, list[dict]] = {
         _meta(None, "missing", "Offline identify queue"),
     ],
     "UM-H09": [
-        _meta(CLOCK_SYM, "interim", "Home Fix clock", (38, 28, "Fix clock")),
+        _meta(CLOCK_SYM, "interim", "Home Fix clock", (38, 24, "Fix clock")),
         _meta(TOOLS, "interim", "Tools Clock Repair Help", (50, 45, "Clock Repair")),
-        _meta(CLOCK_SYM, "OK", "Symptom list", (50, 42, "Symptom")),
+        _meta(CLOCK_SYM, "OK", "Symptom list", (50, 12, "Symptom")),
         _meta(CLOCK_PARTS, "interim", "Repair guidance steps"),
         _meta(CLOCK_PARTS, "OK", "Suggested parts list"),
     ],
@@ -129,8 +137,8 @@ STEP_META: dict[str, list[dict]] = {
         _meta(CLOCK_PARTS, "interim", "Clockworks checkout in browser"),
     ],
     "UM-H11": [
-        _meta(WISH, "interim", "Hunt quick command", (13, 28, "Hunt")),
-        _meta(WISH, "interim", "Add wish list item", (88, 12, "Add")),
+        _meta(WISH, "interim", "Hunt quick command", (13, 24, "Hunt")),
+        _meta(WISH, "interim", "Add wish list item", (94, 5, "Add")),
         _meta(GRAIL, "OK", "Grail Radar screen"),
         _meta(GRAIL, "interim", "Hunt rules editor", (50, 55, "Save rules")),
         _meta(GRAIL, "OK", "Check now", (50, 75, "Check now")),
@@ -153,8 +161,8 @@ STEP_META: dict[str, list[dict]] = {
         _meta(FIN, "interim", "Budget progress"),
     ],
     "UM-H15": [
-        _meta(WEB, "OK", "Web Companion screen", (50, 55, "Web Companion")),
-        _meta(WEB, "OK", "QR code pairing", (50, 45, "QR code")),
+        _meta(WEB, "OK", "Web Companion screen", (50, 58, "Web Companion")),
+        _meta(WEB, "OK", "QR code pairing", (50, 33, "QR code")),
         _meta(WEB, "interim", "PC companion dashboard"),
     ],
     "UM-H16": [
@@ -164,7 +172,7 @@ STEP_META: dict[str, list[dict]] = {
         _meta(BACKUP, "interim", "Cloud sync toggle", (50, 85, "Cloud sync")),
     ],
     "UM-H17": [
-        _meta(SETTINGS, "OK", "Settings tab", (90, 97, "Settings")),
+        _meta(SETTINGS, "OK", "Settings tab", (TAB_PROFILE, TAB_Y, "Settings")),
         _meta(SETTINGS, "interim", "Theme toggle", (50, 35, "Theme")),
         _meta(SETTINGS, "interim", "Language picker", (50, 45, "Language")),
         _meta(SETTINGS, "interim", "App lock", (50, 55, "App lock")),
@@ -176,27 +184,27 @@ STEP_META: dict[str, list[dict]] = {
         _meta(TRIAL, "interim", "Manage subscription", (50, 80, "Manage")),
     ],
     "UM-H19": [
-        _meta(TOOLS, "OK", "Tools tab", (50, 97, "Tools")),
-        _meta(TOOLS, "interim", "What's It Worth Pro", (50, 30, "Worth")),
-        _meta(COMPARE, "OK", "Compare two pieces", (50, 35, "Compare")),
-        _meta(TOOLS, "interim", "Condition Assessment", (50, 40, "Condition")),
-        _meta(FIN, "interim", "Collection Value trend", (50, 45, "Value trend")),
-        _meta(TOOLS, "interim", "Trade Analyzer Pro", (50, 50, "Trade")),
-        _meta(TOOLS, "interim", "Ask the Expert Pro", (50, 55, "Ask Expert")),
-        _meta(TOOLS, "interim", "Photo Studio Pro", (50, 58, "Photo Studio")),
-        _meta(TOOLS, "interim", "Digital ID Card Pro", (50, 60, "ID Card")),
-        _meta(TOOLS, "interim", "Scan Barcode", (50, 62, "Barcode")),
-        _meta(TOOLS, "interim", "Scan Papers", (50, 64, "Scan Papers")),
-        _meta(TOOLS, "interim", "Complication calculator", (50, 66, "Complexity")),
-        _meta(TOOLS, "interim", "Accuracy tracker", (50, 68, "Accuracy")),
-        _meta(TOOLS, "interim", "Rotation planner", (50, 70, "Rotation")),
-        _meta(TOOLS, "interim", "Warranty tracker", (50, 72, "Warranty")),
-        _meta(TOOLS, "interim", "Event calendar", (50, 74, "Events")),
-        _meta(ATOMIC, "OK", "Exact Time atomic clock", (50, 40, "Exact Time")),
-        _meta(MOON, "OK", "Moon Phase tool", (50, 45, "Moon Phase")),
-        _meta(TOOLS, "interim", "Print and Export List", (50, 78, "Print")),
-        _meta(TOOLS, "interim", "Nearby Finds Pro", (50, 80, "Flea market")),
-        _meta(TOOLS, "interim", "BLE Share Pro", (50, 82, "Share Nearby")),
+        _meta(TOOLS, "OK", "Tools tab", (TAB_TOOLS, TAB_Y, "Tools")),
+        _meta(TOOLS, "interim", "What's It Worth Pro", (17, 32, "Worth")),
+        _meta(COMPARE, "OK", "Compare two pieces", (50, 32, "Compare")),
+        _meta(TOOLS, "interim", "Condition Assessment", (83, 32, "Condition")),
+        _meta(FIN, "interim", "Collection Value trend", (83, 32, "Value trend")),
+        _meta(TOOLS, "interim", "Trade Analyzer Pro", (17, 45, "Trade")),
+        _meta(TOOLS, "interim", "Ask the Expert Pro", (50, 45, "Ask Expert")),
+        _meta(TOOLS, "interim", "Photo Studio Pro", (83, 45, "Photo Studio")),
+        _meta(TOOLS, "interim", "Digital ID Card Pro", (17, 58, "ID Card")),
+        _meta(TOOLS, "interim", "Scan Barcode", (50, 58, "Barcode")),
+        _meta(TOOLS, "interim", "Scan Papers", (83, 58, "Scan Papers")),
+        _meta(TOOLS, "interim", "Complication calculator", (17, 71, "Complexity")),
+        _meta(TOOLS, "interim", "Accuracy tracker", (50, 71, "Accuracy")),
+        _meta(TOOLS, "interim", "Rotation planner", (83, 71, "Rotation")),
+        _meta(TOOLS, "interim", "Warranty tracker", (17, 84, "Warranty")),
+        _meta(TOOLS, "interim", "Event calendar", (50, 84, "Events")),
+        _meta(ATOMIC, "OK", "Exact Time atomic clock", (17, 58, "Exact Time")),
+        _meta(MOON, "OK", "Moon Phase tool", (50, 71, "Moon Phase")),
+        _meta(TOOLS, "interim", "Print and Export List", (83, 84, "Print")),
+        _meta(TOOLS, "interim", "Nearby Finds Pro", (17, 84, "Flea market")),
+        _meta(TOOLS, "interim", "BLE Share Pro", (83, 58, "Share Nearby")),
         _meta(TOOLS, "interim", "LAN Report big screen", (50, 84, "Big Screen")),
         _meta(TOOLS, "interim", "Movement to Parts tool", (50, 50, "Movement → Parts")),
     ],
@@ -467,6 +475,7 @@ def build_html() -> str:
          .play-pause-btn, .voice-btn {{ background: var(--navy); }}
          .phone-frame {{ border-color: var(--navy-dark); box-shadow: 0 16px 48px rgba(61,21,34,0.22); }}
          .tap-ring {{ border-color: var(--gold); box-shadow: 0 0 12px rgba(200,170,110,0.45); }}
+         .tap-finger {{ display: none !important; }}
          .transcript-para.current {{ border-left-color: var(--gold); background: rgba(200,170,110,0.1); }}
          .narration-panel-heading {{ border-bottom-color: var(--gold); }}
          .download-button {{ background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }}
@@ -566,6 +575,9 @@ def build_html() -> str:
 
 def write_deck_js():
     deck = ROOT / "videos" / "user-guide-hhh" / "deck.js"
+    # deck.js is the source of truth — copy if present, else emit embedded fallback.
+    if deck.is_file():
+        return
     deck.write_text(
         textwrap.dedent(
             """\
