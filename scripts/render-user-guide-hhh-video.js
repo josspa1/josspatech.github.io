@@ -16,7 +16,8 @@ const OUT_MP4 = path.join(OUT_DIR, 'handy-horology-helper-user-guide.mp4');
 const NARRATION_JSON = path.join(OUT_DIR, 'narration-en.json');
 
 const fast = process.argv.includes('--fast');
-const PORT = 4175;
+const portArg = process.argv.find((a) => a.startsWith('--port='));
+const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4175;
 const SLIDE_COUNT = JSON.parse(fs.readFileSync(NARRATION_JSON, 'utf8')).length;
 const SLIDE_SEC = fast ? 2 : 8;
 
