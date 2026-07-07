@@ -701,7 +701,18 @@ def write_coverage():
     COVERAGE_MD.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def resolve_png_statuses() -> None:
+    manual = ROOT / "assets" / "screenshots" / "hhh" / "manual"
+    for slide in SLIDES:
+        if not slide["img"]:
+            continue
+        name = slide["img"].split("/")[-1]
+        if (manual / name).exists() and (manual / name).stat().st_size > 10000:
+            slide["png_status"] = "OK"
+
+
 def main():
+    resolve_png_statuses()
     global SLIDES, CHAPTER_PILLS
     SLIDES = build_slides_from_markdown()
     CHAPTER_PILLS = []

@@ -13,6 +13,10 @@ import sys
 import time
 from pathlib import Path
 
+# Unbuffered stdout for long runs
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(line_buffering=True)
+
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "screenshots" / "hhh" / "manual"
 UI = ROOT / "assets" / "screenshots" / "hhh" / "_ui-dump.xml"
@@ -168,9 +172,15 @@ def capture_onboarding() -> None:
         shot("14-onboarding-path")
 
 
+def ensure_app_foreground() -> None:
+    if has(r"nexuslauncher|launcher"):
+        adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
+        time.sleep(4)
+        dismiss_system_dialogs()
+
+
 def prepare_app(*, skip_clear: bool = False) -> None:
-    """Fresh install + sample museum via Maestro (fallback: Settings → Load Demo)."""
-    env = {**os.environ, "MAESTRO_ALLOW_CAPTURE": "1", "MAESTRO_ALLOW_EMULATOR": "1", "ANDROID_SERIAL": SERIAL}
+    """Fresh install + Harold sample museum via adb (no Maestro dependency)."""
     if not skip_clear:
         adb("shell", "pm", "clear", PKG)
         time.sleep(2)
@@ -178,45 +188,30 @@ def prepare_app(*, skip_clear: bool = False) -> None:
     adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
     time.sleep(5)
     dismiss_system_dialogs()
-    if not MAESTRO.exists():
-        raise RuntimeError(f"Maestro not found: {MAESTRO}")
-    flow = HHH_SRC / ".maestro" / "subflows" / "complete-onboarding-sample.yaml"
-    if not flow.exists():
-        flow = HHH_SRC / ".maestro" / "load-demo-collection.yaml"
-    print(f"Maestro prep: {flow.name}")
-    result = subprocess.run([str(MAESTRO), "test", str(flow)], cwd=str(HHH_SRC), env=env, check=False)
-    if result.returncode != 0:
-        print("Maestro failed — manual demo load fallback")
-        _manual_load_demo()
+    print("Onboarding via adb taps")
+    for step in range(12):
+        ensure_app_foreground()
+        if has(r"COMMAND CENTER|Your horology companion|Good morning|Good afternoon|Good evening"):
+            print(f"  home ready step {step}")
+            break
+        if has(r"Explore with sample"):
+            tap_label("Explore with sample collection") or tap(540, int(H * 0.55))
+            time.sleep(4)
+            continue
+        if has(r"Get Started") and not has(r"How do you want"):
+            tap_label("Get Started") or tap(540, int(H * 0.92))
+            time.sleep(10)
+            continue
+        if has(r"How do you want to start"):
+            tap_label("Explore with sample collection") or tap(540, int(H * 0.55))
+            time.sleep(4)
+            continue
+        tap_label("Continue") or tap_label("Get Started") or tap_label("Skip") or tap(540, int(H * 0.92))
+        time.sleep(2)
     tab("Home")
     time.sleep(3)
-
-
-def _manual_load_demo() -> None:
-    """Settings → Load Demo Collection when Maestro launch fails."""
-    adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
-    time.sleep(4)
-    dismiss_system_dialogs()
-    for _ in range(4):
-        if has(r"COMMAND CENTER|Your horology companion|How do you want"):
-            break
-        tap_label("Continue") or tap(540, int(H * 0.92))
-        time.sleep(2)
-    if has(r"Explore with sample"):
-        tap_label("Explore with sample collection") or tap(540, int(H * 0.55))
-        time.sleep(3)
-        tap_label("Get Started") or tap(540, int(H * 0.92))
-        time.sleep(8)
-    tab("Settings")
-    time.sleep(2)
-    for _ in range(8):
-        if tap_label("Load Demo Collection"):
-            break
-        swipe_up()
-    tap_label("Load Demo Data") or tap(540, int(H * 0.55))
-    time.sleep(15)
-    tap_label("OK") or tap(540, int(H * 0.55))
-    time.sleep(3)
+    if not has(r"COMMAND CENTER|Your horology companion|Harold|pieces"):
+        print("WARN: demo collection may not be loaded — continuing anyway")
 
 
 def ensure_home() -> None:
