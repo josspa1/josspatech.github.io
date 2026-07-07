@@ -17,12 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "assets" / "screenshots" / "hhh" / "manual"
 UI = ROOT / "assets" / "screenshots" / "hhh" / "_ui-dump.xml"
 SERIAL = os.environ.get("ANDROID_SERIAL", "emulator-5554")
-# Pixel_8 AVD @ 1080x2400 (not 1440x3120 — scale Maestro coords ×0.75)
+# Pixel_8 AVD @ 1080x2400
 PKG = "com.josspatech.handyhorology"
-ADB = os.environ.get(
-    "ADB",
-    str(Path(os.environ.get("LOCALAPPDATA", "")) / "Android/Sdk/platform-tools/adb.exe"),
-)
+W, H = 1080, 2400
+TAB_Y = H - 32  # tab bar center
+HHH_SRC = Path(os.environ.get("HHH_SRC", r"C:\Users\jossp\Documents\MobileApps\HHH\SourceCode"))
+MAESTRO = HHH_SRC / ".tools" / "maestro" / "maestro" / "bin" / "maestro.bat"
+SKIP_BOOT = os.environ.get("HHH_CAPTURE_SKIP_BOOT") == "1"
 
 
 def adb(*args: str) -> None:
@@ -41,19 +42,43 @@ def back(n: int = 1) -> None:
 
 
 def swipe_up() -> None:
-    adb("shell", "input", "swipe", "720", "2300", "720", "1100", "400")
+    adb("shell", "input", "swipe", str(W // 2), str(int(H * 0.82)), str(W // 2), str(int(H * 0.35)), "400")
     time.sleep(0.7)
 
 
-def ui() -> str:
-    adb("shell", "uiautomator", "dump", "/sdcard/ui.xml")
-    adb("pull", "/sdcard/ui.xml", str(UI))
+def tab(name: str) -> None:
+    if tap_label(name):
+        return
+    tabs = {"Home": W // 10, "My Pieces": W * 3 // 10, "Tools": W // 2, "Collectors": W * 7 // 10, "Settings": W * 9 // 10}
+    x = tabs.get(name, W // 10)
+    tap(x, TAB_Y)
+
+
+def ui(retries: int = 4) -> str:
+    for attempt in range(retries):
+        adb("shell", "rm", "-f", "/sdcard/ui.xml")
+        time.sleep(0.4)
+        proc = subprocess.run(
+            [ADB, "-s", SERIAL, "shell", "uiautomator", "dump", "/sdcard/ui.xml"],
+            capture_output=True,
+            text=True,
+        )
+        if "could not get idle state" in (proc.stdout + proc.stderr):
+            time.sleep(2 + attempt)
+            continue
+        adb("pull", "/sdcard/ui.xml", str(UI))
+        if UI.exists() and UI.stat().st_size > 500:
+            return UI.read_text(encoding="utf-8", errors="ignore")
+        time.sleep(1)
+    # Stale dump fallback — return last pull if any
     return UI.read_text(encoding="utf-8", errors="ignore") if UI.exists() else ""
 
 
-def has(*patterns: str) -> bool:
+def on_home() -> bool:
     xml = ui()
-    return any(re.search(p, xml, re.I) for p in patterns)
+    if "Welcome to Handy" in xml or "How do you want to start" in xml:
+        return False
+    return bool(re.search(r"COMMAND CENTER|Your horology companion|Enjoying HHH|Load Demo Collection", xml))
 
 
 def tap_label(label: str) -> bool:
@@ -61,7 +86,8 @@ def tap_label(label: str) -> bool:
     xml = ui()
     for node in re.findall(r"<node[^>]+>", xml):
         if not re.search(rf'text="{esc}"|content-desc="{esc}"', node):
-            continue
+            if label not in node:
+                continue
         m = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', node)
         if not m:
             continue
@@ -85,6 +111,26 @@ def shot(name: str) -> int:
     return size
 
 
+def has(*patterns: str) -> bool:
+    xml = ui()
+    return any(re.search(p, xml, re.I) for p in patterns)
+
+
+def dismiss_system_dialogs() -> bool:
+    """Dismiss Android permission / debugger overlays."""
+    acted = False
+    if has(r"send you notifications|POST_NOTIFICATIONS"):
+        acted = (
+            tap_label("Don't allow")
+            or tap_label("Don\u2019t allow")
+            or tap(540, 1470)
+        )
+    if has(r"Open debugger"):
+        tap(W - 24, H - 48, 0.8)
+        acted = True
+    return acted
+
+
 def grant_perms() -> None:
     for perm in (
         "android.permission.READ_MEDIA_IMAGES",
@@ -94,70 +140,48 @@ def grant_perms() -> None:
         adb("shell", "pm", "grant", PKG, perm)
 
 
-def launch_fresh() -> None:
-    grant_perms()
+ADB = os.environ.get(
+    "ADB",
+    str(Path(os.environ.get("LOCALAPPDATA", "")) / "Android/Sdk/platform-tools/adb.exe"),
+)
+
+
+def prepare_app() -> None:
+    """Fresh install + sample museum via Maestro (reliable on 1080x2400)."""
+    env = {**os.environ, "MAESTRO_ALLOW_CAPTURE": "1", "MAESTRO_ALLOW_EMULATOR": "1", "ANDROID_SERIAL": SERIAL}
     adb("shell", "pm", "clear", PKG)
     time.sleep(2)
-    adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
-    print("boot 20s")
-    time.sleep(20)
-    if has(r"Don't allow"):
-        tap_label("Don't allow") or tap(720, 1750)
-    if has(r"Open debugger"):
-        tap(1356, 2929, 0.8)
-
-
-def onboarding_sample() -> None:
-    """Load Harold's sample collection for richer museum shots."""
-    for _ in range(8):
-        if has(r"COMMAND CENTER|Your horology companion|Good morning|Good evening"):
-            return
-        if has(r"Explore with sample collection"):
-            tap_label("Explore with sample collection") or tap(720, 2098)
-            time.sleep(3)
-            if has(r"Get Started"):
-                tap_label("Get Started") or tap(841, 2926)
-                time.sleep(8)
-                continue
-        if has(r"How do you want to start"):
-            tap_label("Explore with sample collection") or tap(720, 1750)
-            time.sleep(3)
-            continue
-        if has(r"Continue|Welcome to Handy|Get Started"):
-            tap_label("Continue") or tap_label("Get Started") or tap(841, 2926)
-            time.sleep(3)
-            continue
-        if has(r"Skip"):
-            tap_label("Skip") or tap(163, 2926)
-            time.sleep(4)
-            continue
-        time.sleep(2)
-    if not has(r"COMMAND CENTER|Your horology companion|Good morning|Good evening"):
-        raise RuntimeError("Onboarding did not reach home")
+    grant_perms()
+    if not MAESTRO.exists():
+        raise RuntimeError(f"Maestro not found: {MAESTRO}")
+    flow = HHH_SRC / ".maestro" / "load-demo-collection.yaml"
+    print(f"Maestro prep: {flow.name}")
+    subprocess.run([str(MAESTRO), "test", str(flow)], cwd=str(HHH_SRC), env=env, check=True)
+    tab("Home")
+    time.sleep(3)
 
 
 def ensure_home() -> None:
-    for _ in range(4):
-        if has(r"COMMAND CENTER|Your horology companion|Good morning|Good evening"):
-            tap(144, 3026)  # Home tab
-            time.sleep(2)
-            return
-        back()
-    raise RuntimeError("Could not reach home")
+    tab("Home")
+    time.sleep(2)
+    dismiss_system_dialogs()
 
 
 def capture_all() -> None:
-    launch_fresh()
-    onboarding_sample()
+    if not SKIP_BOOT:
+        prepare_app()
+    else:
+        tab("Home")
+        time.sleep(2)
     ensure_home()
     shot("01-home-command-center")
 
     # My Museum / My Pieces
-    tap(432, 3026)
+    tab("My Pieces")
     time.sleep(4)
     shot("02-museum-collection")
     # First piece in grid (sample collection)
-    tap(360, 700)
+    tap(W // 3, int(H * 0.32))
     time.sleep(3)
     if has(r"Provenance|Service|Estimated|Purchase"):
         shot("03-piece-detail")
@@ -170,25 +194,27 @@ def capture_all() -> None:
     time.sleep(2)
     shot("04-wishlist-grails")
 
-    ensure_home()
-    # Hunt / eBay Grail Radar
-    tap_label("Hunt") or tap(250, 686)
+    tab("Home")
+    time.sleep(3)
+    # Hunt / eBay Grail Radar — quick command on home
+    tap_label("Hunt") or tap(int(W * 0.13), int(H * 0.24))
     time.sleep(4)
     shot("05-ebay-grail-radar")
 
     ensure_home()
     # Clock Repair Help
-    tap_label("Fix clock") or tap(520, 686)
+    tap_label("Fix clock") or tap(int(W * 0.38), int(H * 0.24))
     time.sleep(4)
-    if not has(r"What's wrong|Won"):
-        ensure_home()
-        tap(720, 3026)  # Tools tab
+    if not has(r"What.s wrong|Won.t chime|symptom|Clock Repair"):
+        tab("Tools")
         time.sleep(2)
         for _ in range(8):
             swipe_up()
         tap_label("Clock Repair Help")
         time.sleep(3)
-    tap_label("Won't chime") or tap(720, 950)
+    if has(r"What.s wrong|Won.t chime|symptom"):
+        shot("06a-clock-repair-symptoms")
+    tap_label("Won't chime") or tap_label("Won\u2019t chime") or tap(W // 2, int(H * 0.4))
     time.sleep(10)
     shot("06-clockworks-parts")
 
@@ -196,18 +222,20 @@ def capture_all() -> None:
     for _ in range(4):
         back()
     ensure_home()
-    tap(720, 3026)
+    tab("Tools")
     time.sleep(2)
     for _ in range(10):
         swipe_up()
     tap_label("Identify")
     time.sleep(3)
+    if has(r"Choose Photo|Take Photo|Camera|Identify this"):
+        shot("07a-identify-camera")
     if has(r"Choose Photo"):
-        tap_label("Choose Photo") or tap(720, 2600)
+        tap_label("Choose Photo") or tap(W // 2, int(H * 0.72))
         time.sleep(2)
-        tap(360, 700)
+        tap(W // 3, int(H * 0.32))
         time.sleep(2)
-    tap_label("Identify this timepiece") or tap(720, 2800, 1.0)
+    tap_label("Identify this timepiece") or tap(W // 2, H - 120, 1.0)
     print("AI wait up to 150s")
     for i in range(75):
         if has(r"Top match|confident|Save to collection|Looks right|%"):
@@ -219,7 +247,7 @@ def capture_all() -> None:
     # Tools overview
     for _ in range(3):
         back()
-    tap(720, 3026)
+    tab("Tools")
     time.sleep(2)
     shot("08-tools-hub")
 
@@ -233,16 +261,16 @@ def capture_all() -> None:
     # Settings + trial
     for _ in range(4):
         back()
-    tap(1296, 3026)
+    tab("Settings")
     time.sleep(3)
     shot("10-settings")
     for _ in range(5):
         swipe_up()
-    if has(r"Backup|Export"):
-        tap_label("Backup") or tap_label("Backup & Restore")
+    if has(r"Backup|Export|Restore"):
+        tap_label("Backup & Restore") or tap_label("Backup") or tap_label("Backup and Restore")
         time.sleep(3)
         shot("11-backup-restore")
-    tap_label("Subscription") or tap_label("Pro")
+    tap_label("Subscription") or tap_label("Pro") or tap_label("Upgrade")
     time.sleep(2)
     shot("12-trial-subscription")
 
