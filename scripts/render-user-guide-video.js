@@ -29,7 +29,7 @@ const fast = args.includes('--fast');
 const portArg = args.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4174;
 
-const SLIDE_COUNT = preview ? 27 : 28;
+const SLIDE_COUNT = preview ? 27 : 120;
 const SLIDE_SEC = fast ? 2 : 8;
 
 function resolveFfmpeg() {

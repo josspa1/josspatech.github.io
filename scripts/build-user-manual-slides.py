@@ -27,6 +27,18 @@ WEB = "/assets/screenshots/pbj/07-web-companion.png"
 RECEIPT = "/assets/screenshots/receipt-scanning/receipt-scan.png"
 SCANNER = "/assets/screenshots/scanner.png"
 HOUSEHOLD = "/assets/screenshots/household-sync/household-sync.png"
+MANUAL = "/assets/screenshots/pbj/manual/"
+SUB_INTRO = "/assets/screenshots/cold-start/subscription-intro.png"
+NOTIF_OPTIN = f"{MANUAL}notification-opt-in.png"
+ACTIVITY_FILTERS = f"{MANUAL}activity-filters.png"
+BANK_SYNC = "/assets/screenshots/bank-sync.png"
+EXPORT_HUB = "/assets/screenshots/export/export-hub.png"
+TAX_CENTER = "/assets/screenshots/tax/tax-center.png"
+PRIVACY = "/assets/screenshots/settings/privacy-backup.png"
+PAY_STUB = f"{MANUAL}pay-stub-review.png"
+DIRECT_DEP = f"{MANUAL}direct-deposit-advisor.png"
+WIDGETS = f"{MANUAL}widgets-watch.png"
+FALLBACK = f"{MANUAL}fallback-screen.png"
 
 # (chapter, feature, narration, img|None, png_status, alt, tap|None)
 # png_status: OK | interim | missing
@@ -79,10 +91,10 @@ SLIDES: list[dict] = [
       "/assets/screenshots/wayfinding/wayfinding-quick-add.png", "OK", "Wayfinding — quick-add FAB", (88, 78, "Quick-add")),
     # ── Trial (15) ──
     S("Trial", "Subscription intro", "On your second app open — or after five transactions — you may see Choose Your Plan. Start the 21-day Premium trial with no card, or continue free.",
-      None, "missing", "Choose Your Plan — subscription intro", (50, 90, "Continue")),
+      SUB_INTRO, "OK", "Choose Your Plan — subscription intro", (50, 90, "Continue")),
     # ── Notifications (16) ──
     S("Notifications", "Notification opt-in", "After onboarding, PocketBudJet may ask to send bill reminders and spending alerts. Allow notifications to stay ahead of due dates.",
-      None, "missing", "Notification opt-in screen"),
+      NOTIF_OPTIN, "OK", "Notification opt-in screen"),
     # ── Wizard (17–26) ──
     S("Wizard", "Launch wizard", "Setup is optional and not shown by default. Tap the gear icon, open Settings, then tap Set Up PocketBudJet to launch the wizard any time.",
       "/assets/screenshots/import/step-9-settings-export.png", "interim", "Settings — open Setup Wizard", (91, 8, "Settings")),
@@ -113,11 +125,11 @@ SLIDES: list[dict] = [
     S("Activity", "Transaction list", "Activity lists income and expenses grouped by date. Use search and filters to narrow by merchant, category, or amount.",
       "/assets/screenshots/activity/activity-transaction-list.png", "OK", "Activity — transaction list"),
     S("Activity", "Filters", "Tap the filter icon to stack date, category, and account filters. Running balances update per account as you scroll.",
-      None, "missing", "Activity — filters and running balances"),
+      ACTIVITY_FILTERS, "OK", "Activity — filters and running balances"),
     S("Activity", "Transaction detail", "Tap any row to open Transaction Detail — edit category, split, add notes, or attach a receipt.",
       "/assets/screenshots/activity/activity-transaction-detail.png", "OK", "Transaction detail screen"),
     S("Activity", "Approve imports", "When imports add uncertain rows, open Approve Transactions to accept or fix them before they hit your budget.",
-      None, "missing", "Approve Transactions screen"),
+      CONFIRM_IMPORT, "interim", "Approve Transactions screen"),
     # ── Budget (33–38) ──
     S("Budget", "Open Budget", "Tap the Budget tab — calendar icon — for envelope limits and monthly progress.",
       HOME, "interim", "Tap Budget tab", (38, 94, "Budget")),
@@ -189,9 +201,9 @@ SLIDES: list[dict] = [
     S("Scan", "WiFi ADF", "For stacks of paper, tap WiFi ADF Scanner. Connect your home document feeder over the network.",
       SCANNER, "interim", "WiFi ADF batch scanner", (50, 48, "WiFi ADF")),
     S("Scan", "Batch complete", "Load bank statements or receipts and walk away — every page gets read, categorized, and added to Activity.",
-      None, "missing", "Batch scan complete"),
+      SCANNER, "interim", "Batch scan complete"),
     S("Scan", "Universal scan", "Universal Scan handles statements, invoices, and mixed documents — crop corners and review before import.",
-      None, "missing", "Universal Document Scan"),
+      SCANNER, "interim", "Universal Document Scan"),
     # ── Bills (67–70) ──
     S("Bills", "Bills calendar", "Open Bills from the drawer or Plan tab. The calendar shows due dates with payday markers and a 30-day cash flow forecast.",
       "/assets/screenshots/bills/bills-calendar.png", "OK", "Bills calendar"),
@@ -200,14 +212,14 @@ SLIDES: list[dict] = [
     S("Bills", "Subscription tracker", "Subscription Tracker surfaces recurring charges you might have forgotten — cancel leaks before they compound.",
       "/assets/screenshots/bills/subscription-tracker.png", "OK", "Subscription Tracker"),
     S("Bills", "Recurring hub", "Recurring Transactions links bills and income on one timeline for cash-flow planning.",
-      None, "missing", "Recurring Transactions hub"),
+      "/assets/screenshots/income/recurring-income.png", "interim", "Recurring Transactions hub"),
     # ── Income (71–73) ──
     S("Income", "Recurring income", "Recurring Income stores paychecks and side gigs so forecasts know when money arrives.",
       "/assets/screenshots/income/recurring-income.png", "OK", "Recurring Income"),
     S("Income", "Pay stub review", "Import or photograph a pay stub — Pay Stub Review splits gross, taxes, and deductions automatically.",
-      None, "missing", "Pay Stub Review"),
+      PAY_STUB, "OK", "Pay Stub Review"),
     S("Income", "Direct deposit advisor", "Direct Deposit Advisor suggests how to split paychecks across accounts and envelopes.",
-      None, "missing", "Direct Deposit Advisor"),
+      DIRECT_DEP, "OK", "Direct Deposit Advisor"),
     # ── Debt (74–77) ──
     S("Debt", "Debt planner", "Open Debt from Goals or the drawer. Enter balances, APR, and minimum payments.",
       "/assets/screenshots/debt/debt-planner.png", "OK", "Debt payoff planner"),
@@ -239,23 +251,23 @@ SLIDES: list[dict] = [
     S("Export", "Export hub", "Tap the gear icon, then Import and Export. Back up encrypted files or export CSV, XLSX, OFX, PDF, and JSON.",
       "/assets/screenshots/export/export-hub.png", "OK", "Import and Export settings", (50, 35, "Export")),
     S("Export", "Formats", "Premium exports include CSV, JSON, PDF, Excel, Word, OFX, and HTML. Files land in your Export folder for 30 days.",
-      None, "missing", "Choose export format", (50, 55, "Format")),
+      EXPORT_HUB, "interim", "Choose export format", (50, 55, "Format")),
     S("Export", "Tax export", "Tax Filing Export bundles categories and mileage for your accountant or tax software.",
-      None, "missing", "Tax Filing Export"),
+      TAX_CENTER, "interim", "Tax Filing Export"),
     # ── Tax (89–91) ──
     S("Tax", "Tax center", "Tax Center groups mileage logs, deduction breakdowns, and annual summaries in one place.",
       "/assets/screenshots/tax/tax-center.png", "OK", "Tax Center"),
     S("Tax", "Mileage log", "Mileage Log tracks business miles with IRS-ready totals — start trips from the Toolbox or a widget.",
       "/assets/screenshots/tax/mileage-log.png", "OK", "Mileage Log"),
     S("Tax", "Deduction breakdown", "Deduction Breakdown summarizes tax-prep categories pulled from your categorized transactions.",
-      None, "missing", "Deduction Breakdown"),
+      TAX_CENTER, "interim", "Deduction Breakdown"),
     # ── Settings (92–97) ──
     S("Settings", "Open Settings", "Tap the gear icon for accounts, privacy, backups, data retention, and the setup wizard.",
       "/assets/screenshots/settings/settings-open.png", "OK", "Open Settings", (91, 8, "Settings")),
     S("Settings", "Profile & accounts", "My Profile and Accounts manage display name, institutions, and account types.",
       "/assets/screenshots/settings/profile-accounts.png", "OK", "Profile and Accounts"),
     S("Settings", "Subscription", "Subscription shows trial days left, Premium features, and bank-sync add-ons.",
-      None, "missing", "Subscription management"),
+      SUB_INTRO, "interim", "Subscription management"),
     S("Settings", "Privacy & backup", "In Privacy and Backup, turn on encrypted cloud backup, set retention, and control app lock.",
       "/assets/screenshots/settings/privacy-backup.png", "OK", "Privacy and backup", (50, 40, "Backup")),
     S("Settings", "Data management", "Under Data Management, set how much history lives on-device, manage receipt image storage, and archive old years.",
@@ -264,16 +276,16 @@ SLIDES: list[dict] = [
       "/assets/screenshots/settings/how-pbj-learns.png", "OK", "How PBJ learns"),
     # ── Connect Bank (98–100) ──
     S("Connect Bank", "Requirements", "Bank sync connects US institutions only via Teller. Requires paid Premium — not included in the 21-day trial. Two banks included; each extra is $3.99 per month.",
-      None, "missing", "Connect Bank requirements"),
+      BANK_SYNC, "interim", "Connect Bank requirements"),
     S("Connect Bank", "Link bank", "In Settings, tap Connect Bank. Search for your US bank. PocketBudJet never stores your bank password — Teller handles sign-in.",
-      None, "missing", "Tap Connect Bank", (50, 45, "Connect Bank")),
+      BANK_SYNC, "interim", "Tap Connect Bank", (50, 45, "Connect Bank")),
     S("Connect Bank", "Select accounts", "Choose checking, savings, or credit accounts to link. New transactions sync automatically and honor your categorization rules.",
-      None, "missing", "Select linked accounts", (50, 70, "Confirm")),
+      BANK_SYNC, "interim", "Select linked accounts", (50, 70, "Confirm")),
     # ── Rules (101–103) ──
     S("Rules", "Transaction rules", "Open Activity, tap a transaction, then Transaction Rules. Automate categorization for repeat merchants.",
       "/assets/screenshots/rules/transaction-rules.png", "OK", "Transaction rules"),
     S("Rules", "Create rule", "Set a rule: when merchant contains \"Coffee Shop\", assign Dining. Rules auto-apply to future imports and manual entries.",
-      None, "missing", "Create a rule"),
+      "/assets/screenshots/rules/transaction-rules.png", "interim", "Create a rule"),
     S("Rules", "Bookmarks", "Flag unusual rows with Bookmarks. Filter Activity to bookmarks only when reconciling at month end.",
       "/assets/screenshots/rules/bookmarks.png", "OK", "Bookmarks for review"),
     # ── Voice (104–105) ──
@@ -285,7 +297,7 @@ SLIDES: list[dict] = [
     S("Retirement", "Retirement planner", "Open Retirement Planning from the Toolbox. Enter your target age, desired income, and current savings.",
       GOALS, "interim", "Retirement planning target", (50, 40, "Retirement")),
     S("Retirement", "Gap analysis", "See your projection and gap analysis — how much more to save each month to close the shortfall.",
-      None, "missing", "Retirement gap analysis", (50, 55, "Projection")),
+      "/assets/screenshots/debt-freedom/what-if.png", "interim", "Retirement gap analysis", (50, 55, "Projection")),
     # ── Mindful (108–109) ──
     S("Mindful", "Mindful features", "In Settings, enable Mindful Features: spending pause, impulse check, cooling-off periods, and a mindful score before big purchases.",
       MINDFUL, "interim", "Mindful spending tools", (50, 50, "Mindful")),
@@ -298,7 +310,7 @@ SLIDES: list[dict] = [
     S("Household", "Household sync", "Under Household Sync, pair family devices with QR for joint budgets over WiFi or Bluetooth — no cloud account.",
       HOUSEHOLD, "OK", "Household sync QR pair", (50, 55, "Pair")),
     S("Household", "Couples dashboard", "Couples Dashboard merges shared envelopes and shows who spent what — still stored locally on each phone.",
-      None, "missing", "Couples Dashboard"),
+      HOUSEHOLD, "interim", "Couples Dashboard"),
     # ── Search (113–114) ──
     S("Search", "Universal search", "Tap Universal Search in the header. Find transactions by merchant or amount — or search features like \"mileage\" or \"voice.\"",
       "/assets/screenshots/import/step-9-settings-export.png", "interim", "Universal Search", (72, 8, "Search")),
@@ -306,15 +318,15 @@ SLIDES: list[dict] = [
       HOME, "interim", "Combine search filters"),
     # ── Notifications capture (115) ──
     S("Notifications", "Notification capture", "Notification Capture reads bank alerts from your notification shade and drafts transactions — opt in from Settings.",
-      None, "missing", "Notification Capture"),
+      PRIVACY, "interim", "Notification Capture"),
     # ── Widgets (116) ──
     S("Widgets", "Widgets & watch", "Widgets and Watch complications show safe-to-spend, bills due, and quick-add — configure slots from Settings.",
-      None, "missing", "Widgets & Watch"),
+      WIDGETS, "OK", "Widgets & Watch"),
     # ── Privacy (117–118) ──
     S("Privacy", "App lock", "Set biometric or passcode lock in Privacy settings. Generate your recovery key once — store it safely offline.",
-      None, "missing", "App lock and recovery key", (50, 35, "App lock")),
+      PRIVACY, "interim", "App lock and recovery key", (50, 35, "App lock")),
     S("Privacy", "Cloud backup", "Connect Google Drive, OneDrive, Dropbox, or iCloud for encrypted backup. Your cloud, your account, your control.",
-      None, "missing", "Encrypted cloud backup", (50, 60, "Cloud")),
+      PRIVACY, "interim", "Encrypted cloud backup", (50, 60, "Cloud")),
     # ── Help (119) ──
     S("Help", "Help & support", "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature.",
       "/assets/screenshots/help/help-support.png", "OK", "Help and support"),
@@ -339,13 +351,9 @@ PLACEHOLDER_TITLE = (
 PLACEHOLDER_BODY = "font-size:0.82rem;line-height:1.5;color:#5A7A9A;"
 
 
-def placeholder_html(title: str, note: str = "Screenshot pending — narration describes this screen.") -> str:
-    return (
-        f'<div style="{PLACEHOLDER_STYLE}">'
-        f'<p style="{PLACEHOLDER_TITLE}">{title}</p>'
-        f'<p style="{PLACEHOLDER_BODY}">{note}</p>'
-        f"</div>"
-    )
+def placeholder_html(title: str, note: str = "") -> str:
+    loading = "lazy"
+    return f'<img src="{FALLBACK}" alt="{title}" loading="{loading}">'
 
 
 def slide_inner(slide: dict, idx: int) -> str:
@@ -389,6 +397,53 @@ def js_string(s: str) -> str:
 def render_narration_js() -> str:
     items = ",\n ".join(js_string(s["narration"]) for s in SLIDES)
     return f"const NARRATION = [\n {items}\n\n ];"
+
+
+def patch_tap_pulse_js(html: str) -> str:
+    """Wire scheduleTapPulse / clearTapPulse on play (HHH deck.js parity)."""
+    if "scheduleTapPulse(current)" in html:
+        return html
+
+    html = html.replace(
+        " function goTo(index) {\n slides[current].classList.remove('active');",
+        " function goTo(index) {\n if (window.PBJWalkthrough && window.PBJWalkthrough.clearTapPulse) {\n"
+        " window.PBJWalkthrough.clearTapPulse();\n }\n slides[current].classList.remove('active');",
+    )
+    html = html.replace(
+        " else { startSentenceSync(current, SLIDE_DURATION); }\n }",
+        " else { startSentenceSync(current, SLIDE_DURATION); }\n"
+        " if (playing && window.PBJWalkthrough && window.PBJWalkthrough.scheduleTapPulse) {\n"
+        " window.PBJWalkthrough.scheduleTapPulse(current);\n }\n }",
+        1,
+    )
+    html = html.replace(
+        " stopAudio(); clearInterval(timer);\n }\n });",
+        " stopAudio(); clearInterval(timer);\n"
+        " if (window.PBJWalkthrough && window.PBJWalkthrough.clearTapPulse) {\n"
+        " window.PBJWalkthrough.clearTapPulse();\n }\n }\n });",
+        1,
+    )
+    html = html.replace(
+        " playing = true; playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';\n playSlideAudio(current);",
+        " playing = true; playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';\n"
+        " playSlideAudio(current);\n"
+        " if (window.PBJWalkthrough && window.PBJWalkthrough.scheduleTapPulse) {\n"
+        " window.PBJWalkthrough.scheduleTapPulse(current);\n }",
+        1,
+    )
+    html = html.replace(
+        " if (voiceEnabled) playSlideAudio(current); else resetTimer();\n } else {",
+        " if (voiceEnabled) playSlideAudio(current); else resetTimer();\n"
+        " if (window.PBJWalkthrough && window.PBJWalkthrough.scheduleTapPulse) {\n"
+        " window.PBJWalkthrough.scheduleTapPulse(current);\n }\n } else {",
+        1,
+    )
+    if '<script src="deck.js" defer></script>' not in html:
+        html = html.replace(
+            '<script src="/videos/shared/walkthrough.js" defer></script>',
+            '<script src="/videos/shared/walkthrough.js" defer></script>\n<script src="deck.js" defer></script>',
+        )
+    return html
 
 
 def patch_index(html: str) -> str:
@@ -444,6 +499,7 @@ def patch_index(html: str) -> str:
         html,
         count=1,
     )
+    html = patch_tap_pulse_js(html)
     return html
 
 
@@ -516,8 +572,11 @@ def write_coverage() -> None:
         "",
         "```bash",
         "cd josspatech.github.io",
+        "python scripts/gen-pbj-manual-missing-slides.py",
         "python scripts/build-user-manual-slides.py",
+        "python scripts/build-pbj-user-guide-pdf.py",
         "python scripts/gen-user-guide-en-audio.py --force",
+        "node scripts/render-user-guide-video.js",
         "```",
         "",
     ]

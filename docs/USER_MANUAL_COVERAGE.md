@@ -10,9 +10,9 @@
 | Metric | Count |
 |--------|------:|
 | Slides with voice + narration | 120 |
-| PNG OK | 72 |
-| PNG interim (reuse / mockup) | 25 |
-| PNG missing (placeholder) | 23 |
+| PNG OK | 78 |
+| PNG interim (reuse / mockup) | 42 |
+| PNG missing (placeholder) | 0 |
 
 ## Slide inventory
 
@@ -33,8 +33,8 @@
 | 12 | Wayfinding | Drawer | Y | OK | Y |
 | 13 | Wayfinding | Toolbox | Y | OK | Y |
 | 14 | Wayfinding | Quick-add | Y | OK | Y |
-| 15 | Trial | Subscription intro | Y | missing | Y |
-| 16 | Notifications | Notification opt-in | Y | missing | Y |
+| 15 | Trial | Subscription intro | Y | OK | Y |
+| 16 | Notifications | Notification opt-in | Y | OK | Y |
 | 17 | Wizard | Launch wizard | Y | interim | Y |
 | 18 | Wizard | Name | Y | OK | Y |
 | 19 | Wizard | Currency | Y | OK | Y |
@@ -48,9 +48,9 @@
 | 27 | Home | Dashboard | Y | OK | Y |
 | 28 | Activity | Open Activity | Y | OK | Y |
 | 29 | Activity | Transaction list | Y | OK | Y |
-| 30 | Activity | Filters | Y | missing | Y |
+| 30 | Activity | Filters | Y | OK | Y |
 | 31 | Activity | Transaction detail | Y | OK | Y |
-| 32 | Activity | Approve imports | Y | missing | Y |
+| 32 | Activity | Approve imports | Y | interim | Y |
 | 33 | Budget | Open Budget | Y | interim | Y |
 | 34 | Budget | Envelopes | Y | OK | Y |
 | 35 | Budget | Edit category | Y | OK | Y |
@@ -83,15 +83,15 @@
 | 62 | Scan | Receipt scan | Y | OK | Y |
 | 63 | Scan | OCR save | Y | interim | Y |
 | 64 | Scan | WiFi ADF | Y | interim | Y |
-| 65 | Scan | Batch complete | Y | missing | Y |
-| 66 | Scan | Universal scan | Y | missing | Y |
+| 65 | Scan | Batch complete | Y | interim | Y |
+| 66 | Scan | Universal scan | Y | interim | Y |
 | 67 | Bills | Bills calendar | Y | OK | Y |
 | 68 | Bills | Add or mark paid | Y | interim | Y |
 | 69 | Bills | Subscription tracker | Y | OK | Y |
-| 70 | Bills | Recurring hub | Y | missing | Y |
+| 70 | Bills | Recurring hub | Y | interim | Y |
 | 71 | Income | Recurring income | Y | OK | Y |
-| 72 | Income | Pay stub review | Y | missing | Y |
-| 73 | Income | Direct deposit advisor | Y | missing | Y |
+| 72 | Income | Pay stub review | Y | OK | Y |
+| 73 | Income | Direct deposit advisor | Y | OK | Y |
 | 74 | Debt | Debt planner | Y | OK | Y |
 | 75 | Debt | Strategy | Y | OK | Y |
 | 76 | Debt | Loan calculator | Y | OK | Y |
@@ -105,48 +105,45 @@
 | 84 | Net Worth | Net worth hub | Y | OK | Y |
 | 85 | Net Worth | Assets & investments | Y | OK | Y |
 | 86 | Export | Export hub | Y | OK | Y |
-| 87 | Export | Formats | Y | missing | Y |
-| 88 | Export | Tax export | Y | missing | Y |
+| 87 | Export | Formats | Y | interim | Y |
+| 88 | Export | Tax export | Y | interim | Y |
 | 89 | Tax | Tax center | Y | OK | Y |
 | 90 | Tax | Mileage log | Y | OK | Y |
-| 91 | Tax | Deduction breakdown | Y | missing | Y |
+| 91 | Tax | Deduction breakdown | Y | interim | Y |
 | 92 | Settings | Open Settings | Y | OK | Y |
 | 93 | Settings | Profile & accounts | Y | OK | Y |
-| 94 | Settings | Subscription | Y | missing | Y |
+| 94 | Settings | Subscription | Y | interim | Y |
 | 95 | Settings | Privacy & backup | Y | OK | Y |
 | 96 | Settings | Data management | Y | interim | Y |
 | 97 | Settings | How PBJ learns | Y | OK | Y |
-| 98 | Connect Bank | Requirements | Y | missing | Y |
-| 99 | Connect Bank | Link bank | Y | missing | Y |
-| 100 | Connect Bank | Select accounts | Y | missing | Y |
+| 98 | Connect Bank | Requirements | Y | interim | Y |
+| 99 | Connect Bank | Link bank | Y | interim | Y |
+| 100 | Connect Bank | Select accounts | Y | interim | Y |
 | 101 | Rules | Transaction rules | Y | OK | Y |
-| 102 | Rules | Create rule | Y | missing | Y |
+| 102 | Rules | Create rule | Y | interim | Y |
 | 103 | Rules | Bookmarks | Y | OK | Y |
 | 104 | Voice | Voice shortcuts | Y | interim | Y |
 | 105 | Voice | Voice queries | Y | interim | Y |
 | 106 | Retirement | Retirement planner | Y | interim | Y |
-| 107 | Retirement | Gap analysis | Y | missing | Y |
+| 107 | Retirement | Gap analysis | Y | interim | Y |
 | 108 | Mindful | Mindful features | Y | interim | Y |
 | 109 | Mindful | Shopping intelligence | Y | interim | Y |
 | 110 | Web | PC companion | Y | OK | Y |
 | 111 | Household | Household sync | Y | OK | Y |
-| 112 | Household | Couples dashboard | Y | missing | Y |
+| 112 | Household | Couples dashboard | Y | interim | Y |
 | 113 | Search | Universal search | Y | interim | Y |
 | 114 | Search | Filter stack | Y | interim | Y |
-| 115 | Notifications | Notification capture | Y | missing | Y |
-| 116 | Widgets | Widgets & watch | Y | missing | Y |
-| 117 | Privacy | App lock | Y | missing | Y |
-| 118 | Privacy | Cloud backup | Y | missing | Y |
+| 115 | Notifications | Notification capture | Y | interim | Y |
+| 116 | Widgets | Widgets & watch | Y | OK | Y |
+| 117 | Privacy | App lock | Y | interim | Y |
+| 118 | Privacy | Cloud backup | Y | interim | Y |
 | 119 | Help | Help & support | Y | OK | Y |
 
 ## Features needing device screenshots (Priority order)
 
-- **Trial — Subscription intro** (no PNG)
-- **Notifications — Notification opt-in** (no PNG)
 - **Wizard — Launch wizard** (interim reuse)
 - **Wizard — Goals** (interim reuse)
-- **Activity — Filters** (no PNG)
-- **Activity — Approve imports** (no PNG)
+- **Activity — Approve imports** (interim reuse)
 - **Budget — Open Budget** (interim reuse)
 - **Goals — Open Goals** (interim reuse)
 - **Goals — Overview** (interim reuse)
@@ -161,34 +158,31 @@
 - **Transactions — Save** (interim reuse)
 - **Scan — OCR save** (interim reuse)
 - **Scan — WiFi ADF** (interim reuse)
-- **Scan — Batch complete** (no PNG)
-- **Scan — Universal scan** (no PNG)
+- **Scan — Batch complete** (interim reuse)
+- **Scan — Universal scan** (interim reuse)
 - **Bills — Add or mark paid** (interim reuse)
-- **Bills — Recurring hub** (no PNG)
-- **Income — Pay stub review** (no PNG)
-- **Income — Direct deposit advisor** (no PNG)
-- **Export — Formats** (no PNG)
-- **Export — Tax export** (no PNG)
-- **Tax — Deduction breakdown** (no PNG)
-- **Settings — Subscription** (no PNG)
+- **Bills — Recurring hub** (interim reuse)
+- **Export — Formats** (interim reuse)
+- **Export — Tax export** (interim reuse)
+- **Tax — Deduction breakdown** (interim reuse)
+- **Settings — Subscription** (interim reuse)
 - **Settings — Data management** (interim reuse)
-- **Connect Bank — Requirements** (no PNG)
-- **Connect Bank — Link bank** (no PNG)
-- **Connect Bank — Select accounts** (no PNG)
-- **Rules — Create rule** (no PNG)
+- **Connect Bank — Requirements** (interim reuse)
+- **Connect Bank — Link bank** (interim reuse)
+- **Connect Bank — Select accounts** (interim reuse)
+- **Rules — Create rule** (interim reuse)
 - **Voice — Voice shortcuts** (interim reuse)
 - **Voice — Voice queries** (interim reuse)
 - **Retirement — Retirement planner** (interim reuse)
-- **Retirement — Gap analysis** (no PNG)
+- **Retirement — Gap analysis** (interim reuse)
 - **Mindful — Mindful features** (interim reuse)
 - **Mindful — Shopping intelligence** (interim reuse)
-- **Household — Couples dashboard** (no PNG)
+- **Household — Couples dashboard** (interim reuse)
 - **Search — Universal search** (interim reuse)
 - **Search — Filter stack** (interim reuse)
-- **Notifications — Notification capture** (no PNG)
-- **Widgets — Widgets & watch** (no PNG)
-- **Privacy — App lock** (no PNG)
-- **Privacy — Cloud backup** (no PNG)
+- **Notifications — Notification capture** (interim reuse)
+- **Privacy — App lock** (interim reuse)
+- **Privacy — Cloud backup** (interim reuse)
 
 ## App features not yet in manual (minor / v2)
 
@@ -207,7 +201,10 @@ These screens exist in screenRegistry but are grouped or deferred:
 
 ```bash
 cd josspatech.github.io
+python scripts/gen-pbj-manual-missing-slides.py
 python scripts/build-user-manual-slides.py
+python scripts/build-pbj-user-guide-pdf.py
 python scripts/gen-user-guide-en-audio.py --force
+node scripts/render-user-guide-video.js
 ```
 
