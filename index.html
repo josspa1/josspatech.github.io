@@ -8,6 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var h = (location.hash || '').replace('#', '');
+  if (h === 'pbj' || h === 'intro-tour' || h === 'download' || h === 'pricing') document.documentElement.classList.add('boot-pbj');
+  else if (h === 'hhh') document.documentElement.classList.add('boot-hhh');
+  else if (h === 'cvc') document.documentElement.classList.add('boot-cvc');
+})();
+</script>
 <style>
 
 /* ═══════════════════════════════════
@@ -15,6 +23,12 @@
 ═══════════════════════════════════ */
 .page{ display:none; }
 .page.active{ display:block; }
+html.boot-pbj #page-company,
+html.boot-hhh #page-company,
+html.boot-cvc #page-company { display:none !important; }
+html.boot-pbj #page-pbj { display:block !important; }
+html.boot-hhh #page-hhh { display:block !important; }
+html.boot-cvc #page-cvc { display:block !important; }
 
 /* ═══════════════════════════════════
    HOMEPAGE STYLES
@@ -2659,6 +2673,7 @@ function scrollToAnchor(id, behavior) {
 
 function showPage(id, opts) {
   opts = opts || {};
+  document.documentElement.classList.remove('boot-pbj', 'boot-hhh', 'boot-cvc');
   document.querySelectorAll('.page').forEach(function(p) {
     p.classList.remove('active');
   });
