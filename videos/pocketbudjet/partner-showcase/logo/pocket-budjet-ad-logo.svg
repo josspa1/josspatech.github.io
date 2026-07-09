@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 92" role="img" aria-labelledby="title desc">
-  <title id="title">Pocket ù Bud Jet</title>
-  <desc id="desc">PocketBudJet ad wordmark  Pocket, centered dot, Bud, jet arrow to Jet.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 118" role="img" aria-labelledby="title desc">
+  <title id="title">Pocket ∑ Bud Jet</title>
+  <desc id="desc">PocketBudJet ad wordmark</desc>
   <defs>
     <linearGradient id="budGold" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#F5D060"/>
@@ -13,21 +13,20 @@
         font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
         font-style: italic;
         font-weight: 700;
-        font-size: 54px;
-        letter-spacing: -0.02em;
+        font-size: 68px;
+        letter-spacing: -0.015em;
       }
     </style>
   </defs>
-  <!-- Dark-background / showcase variant -->
-  <text class="pbj-word" x="0" y="62" fill="#FFFFFF">Pocket</text>
-  <circle cx="188" cy="50" r="5.5" fill="url(#budGold)"/>
-  <text class="pbj-word" x="206" y="62" fill="url(#budGold)">Bud</text>
-  <path d="M318 50 H352" stroke="url(#budGold)" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
-  <path d="M318 50 H352" stroke="url(#budGold)" stroke-width="1.5" stroke-linecap="round" opacity="0.45" transform="translate(0 5)"/>
-  <g transform="translate(348 50)">
-    <path d="M-16 0 H-2" stroke="url(#budGold)" stroke-width="3.5" stroke-linecap="round"/>
-    <path d="M-2 -1 H44 L40 -8 L54 -1 L40 8 L44 -1 H-2 Z" fill="#FFFFFF"/>
-    <path d="M12 0 L36 0 L33 -4 L42 -1 L33 4 L36 0 Z" fill="#D8E4EE" opacity="0.45"/>
+  <text class="pbj-word" x="0" y="82" fill="#FFFFFF">Pocket</text>
+  <circle cx="214" cy="66" r="6.5" fill="url(#budGold)"/>
+  <text class="pbj-word" x="236" y="82" fill="url(#budGold)">Bud</text>
+  <path d="M358 66 H396" stroke="url(#budGold)" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M358 74 H388" stroke="url(#budGold)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+  <g transform="translate(392 66)">
+    <path d="M-18 0 H-2" stroke="url(#budGold)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-2 -2 H50 L45 -11 L58 -2 L45 9 L50 -2 H-2 Z" fill="#FFFFFF"/>
+    <path d="M14 0 L40 0 L36 -5 L46 -2 L36 5 L40 0 Z" fill="#D8E4EE" opacity="0.4"/>
   </g>
-  <text class="pbj-word" x="418" y="62" fill="#FFFFFF">Jet</text>
+  <text class="pbj-word" x="468" y="82" fill="#FFFFFF">Jet</text>
 </svg>

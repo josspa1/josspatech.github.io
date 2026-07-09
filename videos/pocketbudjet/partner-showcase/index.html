@@ -11,8 +11,8 @@
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
     .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
-    .ad-logo { display: block; height: 34px; width: auto; max-width: min(320px, 72vw); }
-    .ad-logo-lg { height: clamp(52px, 10vw, 78px); max-width: min(520px, 92vw); margin: 0 auto 1rem; }
+    .ad-logo { display: block; width: min(440px, 92vw); height: auto; object-fit: contain; }
+    .ad-logo-lg { width: min(600px, 96vw); margin: 0 auto 1rem; }
     .top .meta { font-size: 0.85rem; opacity: 0.85; }
     .stage-wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
     .stage {
@@ -70,6 +70,15 @@
     .intro-main-layer.visible { opacity: 1; z-index: 2; }
     .intro-main-layer .screen-video,
     .intro-main-layer .screen-img { width: 100%; height: 100%; }
+    .color-theme-layer,
+    .color-eye-layer {
+      position: absolute; inset: 0;
+      transition: opacity 0.55s ease;
+      opacity: 1;
+    }
+    .color-theme-layer.hidden,
+    .color-eye-layer.hidden { opacity: 0; pointer-events: none; }
+    .color-eye-layer { display: flex; align-items: stretch; background: #000; }
     .theme-badge {
       margin-top: 0.75rem; font-weight: 700; font-size: 0.95rem;
       background: var(--gold); color: #0C3358; padding: 0.35rem 1rem; border-radius: 999px;
@@ -132,13 +141,13 @@
 </head>
 <body>
   <div class="overlay" id="overlay">
-    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" width="740" height="92" />
+    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
     <p>A Mack truck of features — that handles like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
   </div>
 
   <div class="top">
-    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" width="740" height="92" />
+    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
     <div class="meta" id="slideLabel">Slide 1 / 10</div>
   </div>
   <div class="progress"><div id="progressBar"></div></div>
@@ -188,11 +197,16 @@
           </div>
           <div class="theme-badge" hidden></div>
         </div>
-        <div class="slide" data-index="6" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg,home-merchants.jpg,home-weekly.jpg" data-theme-labels="Home hero,Where money went,Spending donut,Top merchants,Weekly patterns">
-          <div class="phone phone-photo">
-            <img class="screen-img eye-candy-img" src="screens/home-concierge.jpg" alt="Classic · PBJ · OLED" />
+        <div class="slide" data-index="6" data-color-showcase="1" data-themes="dashboard.html,dashboard-pbj.html,dashboard-oled.html" data-theme-labels="Classic navy &amp; gold,Grape &amp; honey PBJ,True OLED black" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg,home-merchants.jpg,home-weekly.jpg" data-eye-labels="Home hero,Where money went,Spending donut,Top merchants,Weekly patterns" data-theme-ms="3200" data-eye-ms="2400">
+          <div class="phone">
+            <div class="color-theme-layer phone-scroll">
+              <iframe class="screen-frame color-theme-frame" title="Classic · PBJ · OLED" loading="lazy"></iframe>
+            </div>
+            <div class="color-eye-layer phone-photo hidden">
+              <img class="screen-img eye-candy-img" src="screens/home-concierge.jpg" alt="Home carousel" />
+            </div>
           </div>
-          <div class="theme-badge">Home hero</div>
+          <div class="theme-badge">Classic navy &amp; gold</div>
         </div>
         <div class="slide" data-index="7" data-image="subscriptions-live.jpg">
           <div class="phone phone-photo">
@@ -281,7 +295,7 @@
 
   <script>
   (function(){
-    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their month — income, spending, goals, what's left. Transactions stay on the phone. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?","Scan a receipt, price-match every line. Savings at the store.","Classic navy and gold. Grape-and-honey PBJ. True OLED black.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
+    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their month — income, spending, goals, what's left. Transactions stay on the phone. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?","Scan a receipt, price-match every line. Savings at the store.","Classic navy and gold. Grape-and-honey PBJ. True OLED black. Then swipe home — hero, Sankey, donut, merchants, weekly patterns.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
     const SLIDE_FALLBACK_MS = 10000;
     const POST_SLIDE_PAUSE_MS = 1100;
     const audioPaths = Array.from({length: 10}, (_, i) => 'audio/slide-' + i + '.mp3');
@@ -367,7 +381,9 @@
 
     function startEyeCandy(slide) {
       const files = slide.dataset.eyeCandy.split(',');
-      const labels = slide.dataset.themeLabels ? slide.dataset.themeLabels.split(',') : [];
+      const labels = slide.dataset.eyeLabels
+        ? slide.dataset.eyeLabels.split(',')
+        : (slide.dataset.themeLabels ? slide.dataset.themeLabels.split(',') : []);
       const img = slide.querySelector('.eye-candy-img');
       const badge = slide.querySelector('.theme-badge');
       if (!img || files.length === 0) return;
@@ -385,7 +401,63 @@
         }, 180);
       };
       showCandy();
-      themeTimer = setInterval(showCandy, 2200);
+      themeTimer = setInterval(showCandy, parseInt(slide.dataset.eyeMs || '2200', 10));
+    }
+
+    function startColorShowcase(slide) {
+      const themeFiles = slide.dataset.themes.split(',');
+      const themeLabels = slide.dataset.themeLabels.split(',');
+      const eyeFiles = slide.dataset.eyeCandy.split(',');
+      const eyeLabels = slide.dataset.eyeLabels ? slide.dataset.eyeLabels.split(',') : [];
+      const themeMs = parseInt(slide.dataset.themeMs || '3200', 10);
+      const eyeMs = parseInt(slide.dataset.eyeMs || '2400', 10);
+      const iframe = slide.querySelector('.color-theme-frame');
+      const img = slide.querySelector('.eye-candy-img');
+      const themeLayer = slide.querySelector('.color-theme-layer');
+      const eyeLayer = slide.querySelector('.color-eye-layer');
+      const badge = slide.querySelector('.theme-badge');
+      if (!iframe || !img || !themeLayer || !eyeLayer) return;
+
+      let ti = 0;
+      themeLayer.classList.remove('hidden');
+      eyeLayer.classList.add('hidden');
+
+      const beginEyePhase = () => {
+        themeLayer.classList.add('hidden');
+        eyeLayer.classList.remove('hidden');
+        let ci = 0;
+        const showEye = () => {
+          if (badge && eyeLabels[ci]) {
+            badge.hidden = false;
+            badge.textContent = eyeLabels[ci];
+          }
+          img.classList.add('fade');
+          setTimeout(() => {
+            img.src = 'screens/' + eyeFiles[ci];
+            img.classList.remove('fade');
+            ci = (ci + 1) % eyeFiles.length;
+          }, 180);
+        };
+        showEye();
+        themeTimer = setInterval(showEye, eyeMs);
+      };
+
+      const showThemeStep = () => {
+        iframe.src = 'screens/' + themeFiles[ti];
+        if (badge) {
+          badge.hidden = false;
+          badge.textContent = themeLabels[ti] || '';
+        }
+        ti += 1;
+        if (ti >= themeFiles.length) {
+          clearInterval(themeTimer);
+          themeTimer = null;
+          beginEyePhase();
+        }
+      };
+
+      showThemeStep();
+      themeTimer = setInterval(showThemeStep, themeMs);
     }
 
     function syncHomeVideo(play) {
@@ -412,6 +484,11 @@
         if (playing && !slide.dataset.introPrivacy) syncHomeVideo(true);
         return;
       }
+      if (slide.dataset.colorShowcase) {
+        stopTheme();
+        startColorShowcase(slide);
+        return;
+      }
       if (slide.dataset.eyeCandy) {
         stopTheme();
         startEyeCandy(slide);
@@ -426,16 +503,7 @@
       void iframe.offsetWidth;
       stopTheme();
       if (slide.dataset.themes) {
-        const files = slide.dataset.themes.split(',');
-        const labels = slide.dataset.themeLabels.split(',');
-        let ti = 0;
-        const showTheme = () => {
-          iframe.src = 'screens/' + files[ti];
-          if (badge) { badge.hidden = false; badge.textContent = labels[ti]; }
-          ti = (ti + 1) % files.length;
-        };
-        showTheme();
-        themeTimer = setInterval(showTheme, 2800);
+        startThemeCycle(slide);
       } else {
         if (badge) badge.hidden = true;
         const file = slide.dataset.screen || 'home-modern.html';
@@ -443,6 +511,22 @@
         const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
         iframe.style.transform = 'scale(0.242) translateY(-' + y + 'px)';
       }
+    }
+
+    function startThemeCycle(slide) {
+      const iframe = slide.querySelector('.screen-frame');
+      const badge = slide.querySelector('.theme-badge');
+      if (!iframe || !slide.dataset.themes) return;
+      const files = slide.dataset.themes.split(',');
+      const labels = slide.dataset.themeLabels.split(',');
+      let ti = 0;
+      const showTheme = () => {
+        iframe.src = 'screens/' + files[ti];
+        if (badge) { badge.hidden = false; badge.textContent = labels[ti]; }
+        ti = (ti + 1) % files.length;
+      };
+      showTheme();
+      themeTimer = setInterval(showTheme, 2800);
     }
 
     function playSlideAudio(index, onDone){
@@ -454,7 +538,9 @@
       const start = () => {
         const slide = slides[index];
         if (slide && slide.dataset.introPrivacy) beginIntroReveal(slide, true);
+        else if (slide.dataset.colorShowcase) startColorShowcase(slide);
         else if (slide.dataset.eyeCandy) startEyeCandy(slide);
+        else if (slide.dataset.themes) startThemeCycle(slide);
         else syncHomeVideo(true);
         audioElement.onended = () => { advanceTimer = setTimeout(onDone, POST_SLIDE_PAUSE_MS); };
         audioElement.onerror = () => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); };
