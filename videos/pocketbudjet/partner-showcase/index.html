@@ -144,18 +144,28 @@
     html.embed-mode .top { display: none; }
     html.embed-mode .extra { display: none; }
     html.embed-mode .stage-wrap { max-width: none; padding: 0.5rem 1rem 1rem; }
+    html.embed-mode .lang-picker { display: none; }
+    .lang-picker {
+      font: inherit; font-size: 0.85rem; font-weight: 600;
+      background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(240,192,64,0.45);
+      border-radius: 8px; padding: 0.35rem 0.55rem; cursor: pointer; max-width: 9rem;
+    }
+    .top-right { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; justify-content: flex-end; }
 </head>
 <body>
   <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
     <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
-    <p>A Mack truck of features — that handles like a Porsche.</p>
+    <p id="overlayTagline">A Mack truck of features — that handles like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
   </div>
 
   <div class="top">
     <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
-    <div class="meta" id="slideLabel">Slide 1 / 10</div>
+    <div class="top-right">
+      <select class="lang-picker" id="langSelect" aria-label="Language"></select>
+      <div class="meta" id="slideLabel">Slide 1 / 11</div>
+    </div>
   </div>
   <div class="progress"><div id="progressBar"></div></div>
 
@@ -227,7 +237,7 @@
           <div class="theme-badge" hidden></div>
         </div>
         <div class="slide slide-list" data-index="9" data-feature-list="1">
-          <div class="feature-grid"><span class="chip">US bank sync</span>
+          <div class="feature-grid" id="featureGrid"><span class="chip">US bank sync</span>
             <span class="chip">Tax & mileage exports</span>
             <span class="chip">Transaction rules</span>
             <span class="chip">Web companion</span>
@@ -235,7 +245,7 @@
             <span class="chip">Cancel in one tap → Play subscriptions</span>
             <span class="chip">Receipt scanner batch import</span>
             <span class="chip">Household sync</span></div>
-          <p class="feature-note">102 features total · 7 shown here</p>
+          <p class="feature-note" id="featureNote">102 features total · 7 shown here</p>
         </div>
         <div class="slide" data-index="10" data-screen="paywall.html">
           <div class="phone">
@@ -310,11 +320,18 @@
   </details>
 
   <script>
-  (function(){
-    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their month — income, spending, goals, what's left. Transactions stay on the phone. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?","Scan to price-match every line — then savings stay on your purchased-goods transactions.","Classic navy and gold. Grape-and-honey PBJ. True OLED black.","Then swipe home — hero, Sankey, donut, merchants, weekly patterns.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
+  (async function(){
+    const SUPPORTED = ['en','es','de','fr','pt','zh','it','hi'];
+    const params = new URLSearchParams(location.search);
+    let lang = (params.get('lang') || 'en').toLowerCase();
+    if (!SUPPORTED.includes(lang)) lang = 'en';
+    const bundle = await (await fetch('locales.json')).json();
+    const pack = bundle.locales[lang] || bundle.locales.en;
+    document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'pt' ? 'pt-BR' : lang === 'hi' ? 'hi-IN' : lang;
+
     const SLIDE_FALLBACK_MS = 10000;
     const POST_SLIDE_PAUSE_MS = 1100;
-    const audioPaths = Array.from({length: 11}, (_, i) => 'audio/slide-' + i + '.mp3');
+    const audioPaths = Array.from({length: 11}, (_, i) => 'audio/' + lang + '/slide-' + i + '.mp3');
     const audioCache = audioPaths.map((src) => { const a = new Audio(); a.preload = 'auto'; a.src = src; return a; });
     const slides = document.querySelectorAll('.slide');
     const captions = document.querySelectorAll('.caption');
@@ -326,9 +343,66 @@
     const startBtn = document.getElementById('startBtn');
     const playBtn = document.getElementById('playBtn');
     const voiceBtn = document.getElementById('voiceBtn');
+    const langSelect = document.getElementById('langSelect');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
     let cur = 0, playing = false, voiceOn = true;
     let audioElement = null, advanceTimer = null, themeTimer = null, themeTimeouts = [], introTimer = null;
     const MOCK_W = 1242;
+
+    function slideLabelText(n) {
+      return (pack.slideOf || 'Slide {n} / {total}')
+        .replace('{n}', n).replace('{total}', slides.length);
+    }
+
+    function applyLocale() {
+      document.getElementById('overlayTagline').textContent = pack.overlayTagline;
+      startBtn.textContent = pack.start;
+      prevBtn.textContent = pack.prev;
+      nextBtn.textContent = pack.next;
+      playBtn.textContent = pack.pause;
+      status.textContent = pack.ready;
+      pack.captions.forEach((c, i) => {
+        const cap = captions[i];
+        if (!cap) return;
+        cap.querySelector('.tag').textContent = c.tag;
+        cap.querySelector('h2').textContent = c.h2;
+      });
+      const themeSlide = document.querySelector('[data-theme-labels]');
+      if (themeSlide && pack.themeLabels) {
+        themeSlide.dataset.themeLabels = pack.themeLabels.join(',');
+        const badge = themeSlide.querySelector('.theme-badge');
+        if (badge && !badge.hidden) badge.textContent = pack.themeLabels[0];
+      }
+      const eyeSlide = document.querySelector('[data-eye-labels]');
+      if (eyeSlide && pack.eyeLabels) {
+        eyeSlide.dataset.eyeLabels = pack.eyeLabels.join(',');
+        const badge = eyeSlide.querySelector('.theme-badge');
+        if (badge && !badge.hidden) badge.textContent = pack.eyeLabels[0];
+      }
+      const grid = document.getElementById('featureGrid');
+      if (grid && pack.featureChips) {
+        grid.innerHTML = pack.featureChips.map((t) => '<span class="chip">' + t + '</span>').join('');
+      }
+      const note = document.getElementById('featureNote');
+      if (note && pack.featureNote) note.textContent = pack.featureNote;
+      slideLabel.textContent = slideLabelText(1);
+    }
+
+    SUPPORTED.forEach((code) => {
+      const opt = document.createElement('option');
+      opt.value = code;
+      opt.textContent = bundle.locales[code].nativeName;
+      if (code === lang) opt.selected = true;
+      langSelect.appendChild(opt);
+    });
+    langSelect.onchange = () => {
+      const next = langSelect.value;
+      const p = new URLSearchParams(location.search);
+      if (next === 'en') p.delete('lang'); else p.set('lang', next);
+      location.search = p.toString();
+    };
+    applyLocale();
 
     function frameScale(phone) {
       return phone ? phone.clientWidth / MOCK_W : 450 / MOCK_W;
@@ -358,7 +432,7 @@
       const b = document.createElement('button');
       b.className = 'dot' + (i ? '' : ' active');
       b.type = 'button';
-      b.onclick = () => { stopAll(); if (playing) go(i, true); else { show(i); status.textContent = 'Paused'; } };
+      b.onclick = () => { stopAll(); if (playing) go(i, true); else { show(i); status.textContent = pack.paused; } };
       dotsEl.appendChild(b);
     });
 
@@ -603,7 +677,7 @@
       slides[cur].classList.add('active');
       captions[cur].classList.add('active');
       dotsEl.children[cur].classList.add('active');
-      slideLabel.textContent = 'Slide ' + (cur+1) + ' / ' + slides.length;
+      slideLabel.textContent = slideLabelText(cur + 1);
       progressBar.style.width = ((cur+1) / slides.length * 100) + '%';
       loadSlideScreen(cur);
       syncFrameScales();
@@ -613,7 +687,7 @@
       if (!(fromPlay && playing)) stopAudio();
       show(i);
       if (fromPlay && playing) {
-        status.textContent = 'Playing…';
+        status.textContent = pack.playing;
         playSlideAudio(cur, () => {
           if (!playing) return;
           if (cur < slides.length - 1) go(cur + 1, true);
@@ -622,16 +696,16 @@
       }
     }
 
-    function finish(){ playing = false; playBtn.textContent = 'Replay'; status.textContent = 'Done'; stopAll(); }
+    function finish(){ playing = false; playBtn.textContent = pack.replay; status.textContent = pack.done; stopAll(); }
 
-    startBtn.onclick = () => { overlay.classList.add('hidden'); playing = true; playBtn.textContent = 'Pause'; go(0, true); };
+    startBtn.onclick = () => { overlay.classList.add('hidden'); playing = true; playBtn.textContent = pack.pause; go(0, true); };
     playBtn.onclick = () => {
-      if (playBtn.textContent === 'Replay') { cur = 0; overlay.classList.add('hidden'); playing = true; playBtn.textContent = 'Pause'; go(0, true); return; }
-      if (!playing) { playing = true; playBtn.textContent = 'Pause'; go(cur, true); }
-      else { playing = false; playBtn.textContent = 'Resume'; status.textContent = 'Paused'; stopAll(); }
+      if (playBtn.textContent === pack.replay) { cur = 0; overlay.classList.add('hidden'); playing = true; playBtn.textContent = pack.pause; go(0, true); return; }
+      if (!playing) { playing = true; playBtn.textContent = pack.pause; go(cur, true); }
+      else { playing = false; playBtn.textContent = pack.resume; status.textContent = pack.paused; stopAll(); }
     };
-    document.getElementById('prevBtn').onclick = () => { if (cur > 0) { playing = false; playBtn.textContent = 'Resume'; stopAll(); show(cur - 1); status.textContent = 'Paused'; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
-    document.getElementById('nextBtn').onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = 'Resume'; stopAll(); show(cur + 1); status.textContent = 'Paused'; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
+    prevBtn.onclick = () => { if (cur > 0) { playing = false; playBtn.textContent = pack.resume; stopAll(); show(cur - 1); status.textContent = pack.paused; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
+    nextBtn.onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = pack.resume; stopAll(); show(cur + 1); status.textContent = pack.paused; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
 
     show(0);
     syncFrameScales();

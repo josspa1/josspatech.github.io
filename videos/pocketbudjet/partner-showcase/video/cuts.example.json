@@ -1,0 +1,27 @@
+{
+  "description": "Keep ranges only — drop stuck frames / Maestro waits between beats.",
+  "input": "_source/raw-home.mp4",
+  "output": "home-hero.mp4",
+  "segments": [
+    {
+      "start": "0",
+      "end": "4",
+      "note": "Sankey glance"
+    },
+    {
+      "start": "5",
+      "end": "22",
+      "note": "Hero carousel swipes"
+    },
+    {
+      "start": "24",
+      "end": "38",
+      "note": "Scroll down + back up"
+    },
+    {
+      "start": "40",
+      "end": "55",
+      "note": "Hero carousel close"
+    }
+  ]
+}
