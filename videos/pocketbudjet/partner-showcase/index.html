@@ -16,11 +16,10 @@
     .top .meta { font-size: 0.85rem; opacity: 0.85; }
     .stage-wrap { max-width: 1200px; margin: 0 auto; padding: 1rem; }
     .stage {
-      position: relative; width: 100%; min-height: 780px;
+      position: relative; width: 100%; min-height: 820px;
       display: flex; align-items: center; justify-content: center;
       background: radial-gradient(ellipse at center, #1a3a5c 0%, #0a1a2e 70%);
       border-radius: 16px; overflow: hidden;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
     }
     .slide {
       position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s;
@@ -28,16 +27,13 @@
     }
     .slide.active { opacity: 1; }
     .phone {
-      width: min(450px, 63vw); aspect-ratio: 9/19.5;
-      border: 10px solid #1a1a1a; border-radius: 44px;
+      width: min(450px, 72vw); aspect-ratio: 9/19.5;
+      border: none; border-radius: 28px;
       background: #000; overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.08);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
       position: relative;
     }
-    .phone::before {
-      content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-      width: 96px; height: 28px; background: #1a1a1a; border-radius: 0 0 14px 14px; z-index: 2;
-    }
+    .phone::before { display: none; }
     .phone-scroll {
       position: absolute; inset: 0; overflow: hidden;
     }
@@ -53,16 +49,16 @@
     }
     .screen-frame {
       position: absolute; top: 0; left: 0; width: 1242px; height: 3200px;
-      border: none; transform: scale(0.363) translateY(0); transform-origin: top left;
+      border: none; transform: scale(var(--frame-scale, 0.362)) translateY(0); transform-origin: top left;
       pointer-events: none; transition: transform 0.6s ease;
     }
-    .privacy-frame { width: 1242px; height: 2688px; transform: scale(0.363) translateY(0); }
+    .privacy-frame { width: 1242px; height: 2688px; transform: scale(var(--frame-scale, 0.362)) translateY(0); }
     .intro-phone { position: relative; }
     .intro-privacy-layer {
       position: absolute; inset: 0; z-index: 3; opacity: 1;
       transition: opacity 0.65s ease; background: #000; overflow: hidden;
     }
-    .intro-privacy-layer.faded { opacity: 0; pointer-events: none; }
+    .intro-privacy-layer.faded { opacity: 0; visibility: hidden; pointer-events: none; }
     .intro-main-layer {
       position: absolute; inset: 0; z-index: 1; opacity: 0;
       transition: opacity 0.65s ease; display: flex; align-items: stretch;
@@ -322,6 +318,31 @@
     const voiceBtn = document.getElementById('voiceBtn');
     let cur = 0, playing = false, voiceOn = true;
     let audioElement = null, advanceTimer = null, themeTimer = null, introTimer = null;
+    const MOCK_W = 1242;
+
+    function frameScale(phone) {
+      return phone ? phone.clientWidth / MOCK_W : 450 / MOCK_W;
+    }
+
+    function setFrameTransform(iframe, phone, scrollY) {
+      if (!iframe) return;
+      const scale = frameScale(phone || iframe.closest('.phone'));
+      const y = scrollY || 0;
+      iframe.style.transform = 'scale(' + scale + ') translateY(-' + y + 'px)';
+    }
+
+    function syncFrameScales() {
+      document.querySelectorAll('.phone').forEach((phone) => {
+        const scale = frameScale(phone);
+        phone.style.setProperty('--frame-scale', scale);
+        phone.querySelectorAll('.screen-frame, .privacy-frame').forEach((iframe) => {
+          const m = iframe.style.transform.match(/translateY\(-(\d+)px\)/);
+          setFrameTransform(iframe, phone, m ? parseInt(m[1], 10) : 0);
+        });
+      });
+    }
+
+    window.addEventListener('resize', syncFrameScales);
 
     slides.forEach((_, i) => {
       const b = document.createElement('button');
@@ -383,7 +404,7 @@
           if (hero && slide.dataset.screen) {
             hero.src = 'screens/' + slide.dataset.screen;
             const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
-            hero.style.transform = 'scale(0.363) translateY(-' + y + 'px)';
+            setFrameTransform(hero, slide.querySelector('.phone'), y);
           }
         }
       }, ms);
@@ -495,14 +516,15 @@
       const badge = slide.querySelector('.theme-badge');
       if (!iframe) return;
       iframe.classList.remove('pan');
-      iframe.style.transform = 'scale(0.363) translateY(0)';
+      const phone = slide.querySelector('.phone');
+      setFrameTransform(iframe, phone, 0);
       void iframe.offsetWidth;
       stopTheme();
       if (badge) badge.hidden = true;
       const file = slide.dataset.screen || 'home-modern.html';
       iframe.src = 'screens/' + file;
       const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
-      iframe.style.transform = 'scale(0.363) translateY(-' + y + 'px)';
+      setFrameTransform(iframe, phone, y);
     }
 
     function playSlideAudio(index, onDone){
@@ -546,6 +568,7 @@
       slideLabel.textContent = 'Slide ' + (cur+1) + ' / ' + slides.length;
       progressBar.style.width = ((cur+1) / slides.length * 100) + '%';
       loadSlideScreen(cur);
+      syncFrameScales();
     }
 
     function go(i, fromPlay){
@@ -573,6 +596,7 @@
     document.getElementById('nextBtn').onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = 'Resume'; stopAll(); show(cur + 1); status.textContent = 'Paused'; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
 
     show(0);
+    syncFrameScales();
   })();
   </script>
 </body>
