@@ -11,6 +11,8 @@
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
     .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .ad-logo { display: block; height: 34px; width: auto; max-width: min(320px, 72vw); }
+    .ad-logo-lg { height: clamp(52px, 10vw, 78px); max-width: min(520px, 92vw); margin: 0 auto 1rem; }
     .top .meta { font-size: 0.85rem; opacity: 0.85; }
     .stage-wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
     .stage {
@@ -130,13 +132,13 @@
 </head>
 <body>
   <div class="overlay" id="overlay">
-    <h2>PocketBudJet</h2>
+    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" width="740" height="92" />
     <p>A Mack truck of features — that handles like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
   </div>
 
   <div class="top">
-    <h1>PocketBudJet</h1>
+    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" width="740" height="92" />
     <div class="meta" id="slideLabel">Slide 1 / 10</div>
   </div>
   <div class="progress"><div id="progressBar"></div></div>

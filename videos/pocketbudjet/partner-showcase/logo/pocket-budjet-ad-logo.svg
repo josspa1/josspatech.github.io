@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 92" role="img" aria-labelledby="title desc">
+  <title id="title">Pocket ù Bud Jet</title>
+  <desc id="desc">PocketBudJet ad wordmark  Pocket, centered dot, Bud, jet arrow to Jet.</desc>
+  <defs>
+    <linearGradient id="budGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F5D060"/>
+      <stop offset="55%" stop-color="#F0C040"/>
+      <stop offset="100%" stop-color="#E8943A"/>
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,700&amp;display=swap');
+      .pbj-word {
+        font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+        font-style: italic;
+        font-weight: 700;
+        font-size: 54px;
+        letter-spacing: -0.02em;
+      }
+    </style>
+  </defs>
+  <!-- Dark-background / showcase variant -->
+  <text class="pbj-word" x="0" y="62" fill="#FFFFFF">Pocket</text>
+  <circle cx="188" cy="50" r="5.5" fill="url(#budGold)"/>
+  <text class="pbj-word" x="206" y="62" fill="url(#budGold)">Bud</text>
+  <path d="M318 50 H352" stroke="url(#budGold)" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
+  <path d="M318 50 H352" stroke="url(#budGold)" stroke-width="1.5" stroke-linecap="round" opacity="0.45" transform="translate(0 5)"/>
+  <g transform="translate(348 50)">
+    <path d="M-16 0 H-2" stroke="url(#budGold)" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M-2 -1 H44 L40 -8 L54 -1 L40 8 L44 -1 H-2 Z" fill="#FFFFFF"/>
+    <path d="M12 0 L36 0 L33 -4 L42 -1 L33 4 L36 0 Z" fill="#D8E4EE" opacity="0.45"/>
+  </g>
+  <text class="pbj-word" x="418" y="62" fill="#FFFFFF">Jet</text>
+</svg>
