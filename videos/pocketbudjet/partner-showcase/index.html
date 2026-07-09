@@ -143,11 +143,20 @@
     .extra { max-width: 900px; margin: 0 auto 2rem; padding: 0 1rem; font-size: 0.9rem; opacity: 0.7; }
     html.embed-mode .top { display: none; }
     html.embed-mode .extra { display: none; }
-    html.embed-mode .stage-wrap { max-width: none; padding: 0.5rem 1rem 1rem; }
+    html.embed-mode .stage-wrap { max-width: none; padding: 0.25rem 0.75rem 0.5rem; flex: 1; display: flex; flex-direction: column; }
     html.embed-mode .lang-picker { display: none; }
-    html.embed-mode .overlay { position: absolute; inset: 0; min-height: 100%; }
-    html.embed-mode .stage { min-height: min(640px, 72vh); }
-    html.embed-mode body { min-height: 100%; position: relative; }
+    html.embed-mode, html.embed-mode body { height: 100%; margin: 0; overflow: hidden; }
+    html.embed-mode body { display: flex; flex-direction: column; background: var(--bg); }
+    html.embed-mode .overlay { position: fixed; inset: 0; z-index: 100; }
+    html.embed-mode .stage { min-height: 0; flex: 1; }
+    html.embed-mode .progress,
+    html.embed-mode .caption-wrap,
+    html.embed-mode .controls { display: none; }
+    html.embed-mode.playing .progress,
+    html.embed-mode.playing .caption-wrap,
+    html.embed-mode.playing .controls { display: block; }
+    html.embed-mode.playing .controls { display: flex; }
+    html.embed-mode.playing body { overflow: auto; }
     .lang-picker {
       font: inherit; font-size: 0.85rem; font-weight: 600;
       background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(240,192,64,0.45);
@@ -712,9 +721,9 @@
 
     function finish(){ playing = false; playBtn.textContent = pack.replay; status.textContent = pack.done; stopAll(); }
 
-    startBtn.onclick = () => { overlay.classList.add('hidden'); playing = true; playBtn.textContent = pack.pause; go(0, true); };
+    startBtn.onclick = () => { overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); };
     playBtn.onclick = () => {
-      if (playBtn.textContent === pack.replay) { cur = 0; overlay.classList.add('hidden'); playing = true; playBtn.textContent = pack.pause; go(0, true); return; }
+      if (playBtn.textContent === pack.replay) { cur = 0; overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); return; }
       if (!playing) { playing = true; playBtn.textContent = pack.pause; go(cur, true); }
       else { playing = false; playBtn.textContent = pack.resume; status.textContent = pack.paused; stopAll(); }
     };
