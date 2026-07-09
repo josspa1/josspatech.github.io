@@ -73,12 +73,15 @@
     .color-theme-layer,
     .color-eye-layer {
       position: absolute; inset: 0;
-      transition: opacity 0.55s ease;
+      transition: opacity 0.45s ease, visibility 0.45s ease;
       opacity: 1;
+      visibility: visible;
     }
+    .color-theme-layer { z-index: 2; }
+    .color-eye-layer { z-index: 1; display: flex; align-items: stretch; background: #000; }
     .color-theme-layer.hidden,
-    .color-eye-layer.hidden { opacity: 0; pointer-events: none; }
-    .color-eye-layer { display: flex; align-items: stretch; background: #000; }
+    .color-eye-layer.hidden { opacity: 0; visibility: hidden; pointer-events: none; z-index: 0; }
+    .color-eye-layer:not(.hidden) { z-index: 3; }
     .theme-badge {
       margin-top: 0.75rem; font-weight: 700; font-size: 0.95rem;
       background: var(--gold); color: #0C3358; padding: 0.35rem 1rem; border-radius: 999px;
@@ -197,7 +200,7 @@
           </div>
           <div class="theme-badge" hidden></div>
         </div>
-        <div class="slide" data-index="6" data-color-showcase="1" data-themes="dashboard.html,dashboard-pbj.html,dashboard-oled.html" data-theme-labels="Classic navy &amp; gold,Grape &amp; honey PBJ,True OLED black" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg,home-merchants.jpg,home-weekly.jpg" data-eye-labels="Home hero,Where money went,Spending donut,Top merchants,Weekly patterns" data-theme-ms="3200" data-eye-ms="2400">
+        <div class="slide" data-index="6" data-color-showcase="1" data-themes="dashboard.html,dashboard-pbj.html,dashboard-oled.html" data-theme-labels="Classic navy &amp; gold,Grape &amp; honey PBJ,True OLED black" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg,home-merchants.jpg,home-weekly.jpg" data-eye-labels="Home hero,Where money went,Spending donut,Top merchants,Weekly patterns" data-theme-ms="3000" data-eye-ms="2400" data-eye-delay-ms="9200">
           <div class="phone">
             <div class="color-theme-layer phone-scroll">
               <iframe class="screen-frame color-theme-frame" title="Classic · PBJ · OLED" loading="lazy"></iframe>
@@ -311,7 +314,7 @@
     const playBtn = document.getElementById('playBtn');
     const voiceBtn = document.getElementById('voiceBtn');
     let cur = 0, playing = false, voiceOn = true;
-    let audioElement = null, advanceTimer = null, themeTimer = null, introTimer = null;
+    let audioElement = null, advanceTimer = null, themeTimer = null, introTimer = null, colorEyeTimer = null;
 
     slides.forEach((_, i) => {
       const b = document.createElement('button');
@@ -339,7 +342,13 @@
       syncHomeVideo(false);
     }
     function stopIntro(){ clearTimeout(introTimer); introTimer = null; }
-    function stopTheme(){ clearInterval(themeTimer); themeTimer = null; stopIntro(); }
+    function stopTheme(){
+      clearInterval(themeTimer);
+      clearTimeout(colorEyeTimer);
+      themeTimer = null;
+      colorEyeTimer = null;
+      stopIntro();
+    }
     function stopAll(){ stopAudio(); stopTheme(); }
 
     function resetIntroLayers(slide) {
@@ -404,13 +413,32 @@
       themeTimer = setInterval(showCandy, parseInt(slide.dataset.eyeMs || '2200', 10));
     }
 
+    function prepareColorShowcase(slide) {
+      const themeFiles = slide.dataset.themes.split(',');
+      const themeLabels = slide.dataset.themeLabels.split(',');
+      const iframe = slide.querySelector('.color-theme-frame');
+      const themeLayer = slide.querySelector('.color-theme-layer');
+      const eyeLayer = slide.querySelector('.color-eye-layer');
+      const badge = slide.querySelector('.theme-badge');
+      if (!iframe || !themeLayer || !eyeLayer) return;
+      themeLayer.classList.remove('hidden');
+      eyeLayer.classList.add('hidden');
+      iframe.src = 'screens/' + themeFiles[0];
+      if (badge) {
+        badge.hidden = false;
+        badge.textContent = themeLabels[0] || '';
+      }
+    }
+
     function startColorShowcase(slide) {
+      stopTheme();
       const themeFiles = slide.dataset.themes.split(',');
       const themeLabels = slide.dataset.themeLabels.split(',');
       const eyeFiles = slide.dataset.eyeCandy.split(',');
       const eyeLabels = slide.dataset.eyeLabels ? slide.dataset.eyeLabels.split(',') : [];
-      const themeMs = parseInt(slide.dataset.themeMs || '3200', 10);
+      const themeMs = parseInt(slide.dataset.themeMs || '3000', 10);
       const eyeMs = parseInt(slide.dataset.eyeMs || '2400', 10);
+      const eyeDelay = parseInt(slide.dataset.eyeDelayMs || '9200', 10);
       const iframe = slide.querySelector('.color-theme-frame');
       const img = slide.querySelector('.eye-candy-img');
       const themeLayer = slide.querySelector('.color-theme-layer');
@@ -418,11 +446,24 @@
       const badge = slide.querySelector('.theme-badge');
       if (!iframe || !img || !themeLayer || !eyeLayer) return;
 
-      let ti = 0;
       themeLayer.classList.remove('hidden');
       eyeLayer.classList.add('hidden');
 
+      let ti = 0;
+      const showTheme = () => {
+        iframe.src = 'screens/' + themeFiles[ti % themeFiles.length];
+        if (badge) {
+          badge.hidden = false;
+          badge.textContent = themeLabels[ti % themeLabels.length] || '';
+        }
+        ti += 1;
+      };
+      showTheme();
+      themeTimer = setInterval(showTheme, themeMs);
+
       const beginEyePhase = () => {
+        clearInterval(themeTimer);
+        themeTimer = null;
         themeLayer.classList.add('hidden');
         eyeLayer.classList.remove('hidden');
         let ci = 0;
@@ -442,22 +483,7 @@
         themeTimer = setInterval(showEye, eyeMs);
       };
 
-      const showThemeStep = () => {
-        iframe.src = 'screens/' + themeFiles[ti];
-        if (badge) {
-          badge.hidden = false;
-          badge.textContent = themeLabels[ti] || '';
-        }
-        ti += 1;
-        if (ti >= themeFiles.length) {
-          clearInterval(themeTimer);
-          themeTimer = null;
-          beginEyePhase();
-        }
-      };
-
-      showThemeStep();
-      themeTimer = setInterval(showThemeStep, themeMs);
+      colorEyeTimer = setTimeout(beginEyePhase, eyeDelay);
     }
 
     function syncHomeVideo(play) {
@@ -486,7 +512,8 @@
       }
       if (slide.dataset.colorShowcase) {
         stopTheme();
-        startColorShowcase(slide);
+        prepareColorShowcase(slide);
+        if (!playing) startColorShowcase(slide);
         return;
       }
       if (slide.dataset.eyeCandy) {
@@ -531,7 +558,13 @@
 
     function playSlideAudio(index, onDone){
       stopAudio();
-      if (!voiceOn) { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); return; }
+      if (!voiceOn) {
+        const slide = slides[index];
+        if (slide && slide.dataset.colorShowcase) startColorShowcase(slide);
+        else if (slide && slide.dataset.eyeCandy) startEyeCandy(slide);
+        advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS);
+        return;
+      }
       audioElement = audioCache[index] || new Audio(audioPaths[index]);
       audioElement.volume = 1;
       audioElement.currentTime = 0;
