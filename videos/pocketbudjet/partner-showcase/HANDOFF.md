@@ -144,3 +144,72 @@ node C:\PBJ\cvc-batch\write-partner-showcase-v6.js
 **Preview:** `python -m http.server 8765` in partner-showcase folder
 
 ---
+
+## Replicate for other apps (HHH, CVC, …)
+
+Use this checklist when building a partner showcase like PBJ’s. **PBJ is the reference implementation.**
+
+### 1. Content & assets
+
+| Requirement | PBJ example |
+|-------------|-------------|
+| **Slide deck** | ~11 slides: welcome → feature highlights → close. Narration-driven timing (`audio.onended`). |
+| **Screenshots** | Real device JPGs at **1440×3120** (Galaxy S25 Ultra). Match app locale in UI; narration can be localized separately. |
+| **Hero video** | Optional MP4 for slide 0 (e.g. `video/home-hero.mp4`). Privacy/intro layer crossfades in before video. |
+| **HTML mocks** | `screens/*.html` for flows hard to capture (iframe scaled inside phone frame). |
+| **Logo / wordmark** | `logo/*-ad-logo.svg` for Start overlay. |
+| **locales.json** | Per-locale: `narrations[]`, `captions[]`, `eyeLabels`, `themeLabels`, UI strings (`start`, `pause`, …). |
+| **Narration MP3s** | `audio/{locale}/slide-0.mp3` … `slide-N.mp3` via `gen-partner-showcase-audio.py` (edge-tts, neural voices). |
+| **Demo data on device** | CSV / sample vault so Home and key tabs show real numbers before capture. |
+
+### 2. Phone mockup (critical for “looks right”)
+
+| Requirement | Value |
+|-------------|--------|
+| **Capture device** | Samsung Galaxy **S25 Ultra** (`R5CXC2K4Z8F` in PBJ notes) |
+| **Screenshot size** | **1440 × 3120** (QHD+ 19.5:9) |
+| **CSS aspect ratio** | `--phone-ar: 1440 / 3120` on `.phone` |
+| **Sizing** | Width scales to viewport; **height from aspect-ratio only** — never cap `max-height` independently (squashes frame). |
+| **Embed JS** | `syncEmbedPhoneSize()` — fit phone inside stage: `w = min(maxW, maxH * PHONE_AR)`. |
+| **Iframe HTML mocks** | Scale iframes with `--frame-scale` from `phone.clientWidth / 1242`. |
+
+### 3. `index.html` behavior
+
+- **`?embed=1`** — iframe mode on homepage / how-to:
+  - Start overlay (logo + tagline + gold **Start**); no autoplay until click.
+  - Stage uses **container queries** + full width (`width: 100%` on stage-wrap — flex collapse bug if missing).
+  - Compact progress / caption / controls when `.playing`.
+- **Full page** — language picker, taller stage, all chrome visible.
+- **`?lang=xx`** — 8 locales (or subset); fallback to `en` in `locales.json`.
+- **Valid HTML** — closing `</style>` before `</head>` (broken tag = empty navy box).
+
+### 4. Site integration (josspatech.github.io)
+
+| Location | What |
+|----------|------|
+| `HostedFiles/videos/{app}/partner-showcase/` | **Canonical source** |
+| GitHub mirror | `videos/{app}/partner-showcase/` — push for Pages |
+| NAS archive | `\\10.0.0.252\MobileApps\WebSite\VideoArchive\pbj\videos\` (per-app subfolder) |
+| Homepage embed | `#intro-tour` iframe: `src="/videos/.../partner-showcase/?embed=1"`, height **`min(960px, 92vh)`** |
+| Hash routing | `#intro-tour` must call `showPage('{app-page}')` + scroll — anchor lives inside hidden `.page` otherwise iframe is **0×0** |
+| Boot script | Inline `<head>` script: `boot-pbj` (etc.) so refresh doesn’t flash company homepage |
+| how-to | Same iframe block + “Open full screen” + locale links |
+
+### 5. Deploy & verify
+
+1. Sync HostedFiles → GitHub → `git push origin main`
+2. Hard-refresh after Pages CDN (~1–2 min)
+3. Test: standalone `?embed=1`, homepage `#intro-tour`, click **Start** → sound + visible phone + no horizontal scrollbar
+4. Optional: screen-record deck with narration for partner MP4 deliverable
+
+### 6. Per-app paths (when ready)
+
+| App | Suggested folder | Homepage page id |
+|-----|------------------|------------------|
+| PocketBudJet | `videos/pocketbudjet/partner-showcase/` | `#intro-tour` on `page-pbj` |
+| HHH | `videos/hhh/partner-showcase/` (TBD) | `page-hhh` + anchor |
+| CVC | `videos/cvc/partner-showcase/` (TBD) | `page-cvc` + anchor |
+
+Copy PBJ `index.html` + `locales.json` structure; replace slides, screenshots, voices, and generator script. Reuse embed CSS/JS patterns verbatim.
+
+---
