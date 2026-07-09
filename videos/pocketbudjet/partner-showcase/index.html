@@ -160,7 +160,16 @@
     }
     .overlay.hidden { display: none; }
     .overlay h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 5vw, 2.6rem); margin-bottom: 0.75rem; }
-    .overlay p { max-width: 480px; opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.5; }
+    .overlay p { max-width: 520px; line-height: 1.5; }
+    .overlay-decode {
+      font-size: clamp(0.95rem, 2.2vw, 1.1rem); font-weight: 600;
+      opacity: 0.95; margin: 0 0 0.4rem; letter-spacing: 0.01em;
+    }
+    .overlay-pun {
+      font-size: clamp(0.78rem, 1.8vw, 0.88rem); opacity: 0.52;
+      margin: 0 0 0.85rem; font-style: italic;
+    }
+    .overlay-tagline { opacity: 0.9; margin-bottom: 1.5rem; max-width: 480px; }
     .status { font-size: 0.9rem; opacity: 0.75; min-width: 90px; text-align: center; }
     .voice-btn {
       background: rgba(255,255,255,0.12); color: #fff; border: none; border-radius: 50%;
@@ -223,13 +232,15 @@
 <body>
   <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
-    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
-    <p id="overlayTagline">A Mack truck of features — that handles like a Porsche.</p>
+    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud · Jet" />
+    <p class="overlay-decode" id="overlayDecode">In your pocket · Your buddy · Budget on the fast track</p>
+    <p class="overlay-pun" id="overlayPun">Sounds like &ldquo;budget&rdquo; — on purpose.</p>
+    <p class="overlay-tagline" id="overlayTagline">A Mack truck of features — that corners like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
   </div>
 
   <div class="top">
-    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
+    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud · Jet" />
     <div class="top-right">
       <select class="lang-picker" id="langSelect" aria-label="Language"></select>
       <div class="meta" id="slideLabel">Slide 1 / 11</div>
@@ -384,7 +395,7 @@
     try {
       bundle = await (await fetch('locales.json')).json();
     } catch (_) {
-      bundle = { voices: { en: 'en-US-AndrewNeural' }, locales: { en: { nativeName: 'English', overlayTagline: 'A Mack truck of features — that handles like a Porsche.', start: 'Start', prev: 'Prev', next: 'Next', pause: 'Pause', resume: 'Resume', replay: 'Replay', ready: 'Ready', playing: 'Playing…', paused: 'Paused', done: 'Done', slideOf: 'Slide {n} / {total}', narrations: [], captions: [], themeLabels: [], eyeLabels: [], featureChips: [], featureNote: '' } } };
+      bundle = { voices: { en: 'en-US-AndrewNeural' }, locales: { en: { nativeName: 'English', nameDecode: 'In your pocket · Your buddy · Budget on the fast track', namePun: 'Sounds like "budget" — on purpose.', overlayTagline: 'A Mack truck of features — that corners like a Porsche.', start: 'Start', prev: 'Prev', next: 'Next', pause: 'Pause', resume: 'Resume', replay: 'Replay', ready: 'Ready', playing: 'Playing…', paused: 'Paused', done: 'Done', slideOf: 'Slide {n} / {total}', narrations: [], captions: [], themeLabels: [], eyeLabels: [], featureChips: [], featureNote: '' } } };
     }
     const pack = bundle.locales[lang] || bundle.locales.en;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'pt' ? 'pt-BR' : lang === 'hi' ? 'hi-IN' : lang;
@@ -436,6 +447,11 @@
 
     function applyLocale() {
       document.getElementById('overlayTagline').textContent = pack.overlayTagline;
+      const decode = document.getElementById('overlayDecode');
+      if (decode && pack.nameDecode) decode.textContent = pack.nameDecode;
+      const pun = document.getElementById('overlayPun');
+      if (pun) pun.textContent = pack.namePun || '';
+      if (pun) pun.style.display = pack.namePun ? '' : 'none';
       startBtn.textContent = pack.start;
       prevBtn.textContent = pack.prev;
       nextBtn.textContent = pack.next;

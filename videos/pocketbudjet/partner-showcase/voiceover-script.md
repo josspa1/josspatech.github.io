@@ -1,6 +1,6 @@
 ## 1. PocketBudJet (WELCOME)
 
-Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.
+Welcome to PocketBudJet. A Mack truck of features, that corners like a Porsche. Watch.
 
 ## 2. See every dollar (BREAKDOWNS)
 
