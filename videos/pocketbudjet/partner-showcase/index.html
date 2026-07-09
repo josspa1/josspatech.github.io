@@ -97,6 +97,28 @@
       background: var(--gold); color: #0C3358; padding: 0.35rem 1rem; border-radius: 999px;
     }
     .slide-list { padding: 1.5rem; }
+    .slide-credits { padding: 0.5rem 1rem 1rem; }
+    .credits-panel { width: min(680px, 94vw); text-align: center; }
+    .credits-head {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.35rem, 3vw, 1.85rem);
+      color: var(--gold); margin-bottom: 0.75rem; letter-spacing: 0.02em;
+    }
+    .credits-mask {
+      height: min(440px, 58vh); overflow: hidden; position: relative;
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    }
+    .credits-track { display: flex; flex-direction: column; gap: 0.5rem; will-change: transform; }
+    .credits-track.rolling { animation: creditScroll var(--credits-dur, 16s) linear forwards; }
+    .credits-line { font-size: clamp(0.95rem, 2vw, 1.12rem); font-weight: 600; line-height: 1.35; opacity: 0.9; }
+    .credits-finale {
+      margin-top: 1rem; font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.4vw, 1.45rem); color: var(--gold); font-weight: 700;
+    }
+    @keyframes creditScroll {
+      from { transform: translateY(0); }
+      to { transform: translateY(-50%); }
+    }
     .feature-grid {
       display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center;
       max-width: 720px; padding: 0 1rem;
@@ -255,7 +277,7 @@
         <div class="slide" data-index="5" data-screen="transactions.html">
           <div class="phone">
             <div class="phone-scroll">
-              <iframe class="screen-frame" title="Price intel on purchases" loading="lazy"></iframe>
+              <iframe class="screen-frame" title="Lowest price near you" loading="lazy"></iframe>
             </div>
           </div>
           <div class="theme-badge" hidden></div>
@@ -282,24 +304,14 @@
           </div>
           <div class="theme-badge" hidden></div>
         </div>
-        <div class="slide slide-list" data-index="9" data-feature-list="1">
-          <div class="feature-grid" id="featureGrid"><span class="chip">US bank sync</span>
-            <span class="chip">Tax & mileage exports</span>
-            <span class="chip">Transaction rules</span>
-            <span class="chip">Web companion</span>
-            <span class="chip">11 languages</span>
-            <span class="chip">Cancel in one tap → Play subscriptions</span>
-            <span class="chip">Receipt scanner batch import</span>
-            <span class="chip">Household sync</span></div>
-          <p class="feature-note" id="featureNote">102 features total · 7 shown here</p>
-        </div>
-        <div class="slide" data-index="10" data-screen="paywall.html">
-          <div class="phone">
-            <div class="phone-scroll">
-              <iframe class="screen-frame" title="Built to win" loading="lazy"></iframe>
+        <div class="slide slide-credits" data-index="9" data-credits="1" data-credits-ms="18000">
+          <div class="credits-panel">
+            <div class="credits-head" id="creditsHead">One hundred two features</div>
+            <div class="credits-mask">
+              <div class="credits-track" id="creditsTrack"></div>
             </div>
+            <div class="credits-finale" id="creditsFinale">PocketBudJet · Built to win</div>
           </div>
-          <div class="theme-badge" hidden></div>
         </div>
     </div>
   </div>
@@ -326,8 +338,8 @@
           <h2>Your Coach</h2>
         </div>
         <div class="caption" data-index="5">
-          <span class="tag">MATCH</span>
-          <h2>Savings on purchases</h2>
+          <span class="tag">SAVE</span>
+          <h2>Lowest price near you</h2>
         </div>
         <div class="caption" data-index="6">
           <span class="tag">COLOR</span>
@@ -342,12 +354,8 @@
           <h2>Subscriptions surfaced</h2>
         </div>
         <div class="caption" data-index="9">
-          <span class="tag">AND MORE</span>
-          <h2>Plus dozens more</h2>
-        </div>
-        <div class="caption" data-index="10">
-          <span class="tag">CLOSE</span>
-          <h2>Built to win</h2>
+          <span class="tag">DEPTH</span>
+          <h2>One hundred two features</h2>
         </div>
   </div>
 
@@ -457,7 +465,41 @@
       }
       const note = document.getElementById('featureNote');
       if (note && pack.featureNote) note.textContent = pack.featureNote;
+      renderCredits();
       slideLabel.textContent = slideLabelText(1);
+    }
+
+    function creditLines() {
+      return pack.creditLines || pack.featureChips || [];
+    }
+
+    function renderCredits() {
+      const track = document.getElementById('creditsTrack');
+      const head = document.getElementById('creditsHead');
+      const finale = document.getElementById('creditsFinale');
+      if (!track) return;
+      const lines = creditLines();
+      const dup = lines.concat(lines);
+      track.innerHTML = dup.map((t) => '<div class="credits-line">' + t + '</div>').join('');
+      track.classList.remove('rolling');
+      if (head && pack.creditsHead) head.textContent = pack.creditsHead;
+      if (finale && pack.creditsFinale) finale.textContent = pack.creditsFinale;
+    }
+
+    function startCredits(slide) {
+      const track = document.getElementById('creditsTrack');
+      if (!track) return;
+      const ms = parseInt(slide.dataset.creditsMs || '18000', 10);
+      track.classList.remove('rolling');
+      track.style.setProperty('--credits-dur', (ms / 1000) + 's');
+      void track.offsetWidth;
+      track.classList.add('rolling');
+      return ms;
+    }
+
+    function stopCredits() {
+      const track = document.getElementById('creditsTrack');
+      if (track) track.classList.remove('rolling');
     }
 
     SUPPORTED.forEach((code) => {
@@ -537,7 +579,7 @@
       themeTimer = null;
       stopIntro();
     }
-    function stopAll(){ stopAudio(); stopTheme(); }
+    function stopAll(){ stopAudio(); stopTheme(); stopCredits(); }
 
     function resetIntroLayers(slide) {
       if (!slide || !slide.dataset.introPrivacy) return;
@@ -680,6 +722,7 @@
 
     function loadSlideScreen(i){
       const slide = slides[i];
+      if (slide.dataset.credits) { stopTheme(); syncHomeVideo(false); stopCredits(); return; }
       if (slide.dataset.featureList) { stopTheme(); syncHomeVideo(false); return; }
       if (slide.dataset.introPrivacy) resetIntroLayers(slide);
       if (slide.dataset.homeVideo) {
@@ -721,7 +764,10 @@
         const slide = slides[index];
         if (slide && slide.dataset.themes) startThemeCycle(slide);
         else if (slide && slide.dataset.eyeCandy) startEyeCandy(slide);
-        advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS);
+        else if (slide && slide.dataset.credits) {
+          const ms = startCredits(slide) || SLIDE_FALLBACK_MS;
+          advanceTimer = setTimeout(onDone, ms);
+        } else advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS);
         return;
       }
       if (!audioCache[index]) {
@@ -734,12 +780,23 @@
       audioElement.currentTime = 0;
       const start = () => {
         const slide = slides[index];
+        let creditsMs = 0;
         if (slide && slide.dataset.introPrivacy) beginIntroReveal(slide, true);
         else if (slide.dataset.themes) startThemeCycle(slide);
         else if (slide.dataset.eyeCandy) startEyeCandy(slide);
+        else if (slide && slide.dataset.credits) creditsMs = startCredits(slide) || 0;
         else syncHomeVideo(true);
-        audioElement.onended = () => { advanceTimer = setTimeout(onDone, POST_SLIDE_PAUSE_MS); };
-        audioElement.onerror = () => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); };
+        const creditsStarted = creditsMs ? Date.now() : 0;
+        const afterAudio = () => {
+          if (creditsMs && creditsStarted) {
+            const remain = Math.max(POST_SLIDE_PAUSE_MS, creditsMs - (Date.now() - creditsStarted));
+            advanceTimer = setTimeout(onDone, remain);
+          } else {
+            advanceTimer = setTimeout(onDone, POST_SLIDE_PAUSE_MS);
+          }
+        };
+        audioElement.onended = afterAudio;
+        audioElement.onerror = () => { advanceTimer = setTimeout(onDone, creditsMs || SLIDE_FALLBACK_MS); };
         const p = audioElement.play();
         if (p) p.catch(() => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); });
       };
@@ -790,6 +847,10 @@
 
     show(0);
     syncLayout();
+
+    if (params.get('start') === '1') {
+      setTimeout(() => startBtn.click(), 150);
+    }
   })();
   </script>
 </body>
