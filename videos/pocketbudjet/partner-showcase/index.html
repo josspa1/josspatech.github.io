@@ -16,8 +16,30 @@
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
     .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
-    .ad-logo { display: block; width: min(440px, 92vw); height: auto; object-fit: contain; }
-    .ad-logo-lg { width: min(640px, 94vw); margin: 0 auto 1.1rem; min-height: 72px; }
+    .pbj-wordmark {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 0.44em; font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic; font-weight: 700; line-height: 1;
+      letter-spacing: -0.015em; white-space: nowrap;
+    }
+    .pbj-wordmark-lg {
+      font-size: clamp(2rem, 5.5vw, 3.25rem);
+      margin: 0 auto 1.1rem;
+    }
+    .top .pbj-wordmark { font-size: clamp(1rem, 2.4vw, 1.5rem); max-width: min(440px, 92vw); }
+    .wm-pocket, .wm-jet { color: #f8fafc; }
+    .wm-bud { color: var(--gold); }
+    .wm-dot {
+      flex-shrink: 0; width: 0.24em; height: 0.24em;
+      min-width: 7px; min-height: 7px; border-radius: 50%; background: var(--gold);
+    }
+    .wm-dash {
+      flex-shrink: 0; width: 0.95em; height: 0.13em; min-width: 16px;
+      border-radius: 2px; background: var(--gold);
+    }
+    .wm-jet-icon {
+      flex-shrink: 0; width: 1.85em; height: 0.58em; color: #f8fafc; display: block;
+    }
     .top .meta { font-size: 0.85rem; opacity: 0.85; }
     .stage-wrap { max-width: 1200px; margin: 0 auto; padding: 1rem; }
     .stage {
@@ -248,7 +270,7 @@
 <body>
   <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
-    <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud · Jet" />
+    <div id="overlayWordmark" class="pbj-wordmark pbj-wordmark-lg" role="img" aria-label="Pocket · Bud · Jet"></div>
     <div class="overlay-decode" id="overlayDecode" aria-label="Pocket Bud Jet name meaning"></div>
     <p class="overlay-pun" id="overlayPun">Sounds like &ldquo;budget&rdquo; — on purpose.</p>
     <p class="overlay-tagline" id="overlayTagline">A Mack truck of features — that corners like a Porsche.</p>
@@ -256,7 +278,7 @@
   </div>
 
   <div class="top">
-    <img class="ad-logo" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud · Jet" />
+    <div id="topWordmark" class="pbj-wordmark" role="img" aria-label="Pocket · Bud · Jet"></div>
     <div class="top-right">
       <select class="lang-picker" id="langSelect" aria-label="Language"></select>
       <div class="meta" id="slideLabel">Slide 1 / 11</div>
@@ -461,6 +483,16 @@
         .replace('{n}', n).replace('{total}', slides.length);
     }
 
+    const JET_ICON = '<svg class="wm-jet-icon" viewBox="0 0 58 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M1 9 H44 L40 5.5 L56 9 L40 12.5 L44 9 H1 Z"/></svg>';
+
+    function mountWordmarks() {
+      const inner = '<span class="wm-pocket">Pocket</span><span class="wm-dot" aria-hidden="true"></span><span class="wm-bud">Bud</span><span class="wm-dash" aria-hidden="true"></span>' + JET_ICON + '<span class="wm-jet">Jet</span>';
+      ['overlayWordmark', 'topWordmark'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = inner;
+      });
+    }
+
     function renderNameDecode() {
       const el = document.getElementById('overlayDecode');
       if (!el) return;
@@ -561,6 +593,7 @@
       location.search = p.toString();
     };
     applyLocale();
+    mountWordmarks();
 
     function frameScale(phone) {
       return phone ? phone.clientWidth / MOCK_W : 450 / MOCK_W;
