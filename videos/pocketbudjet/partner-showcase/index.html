@@ -162,9 +162,19 @@
     .overlay h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 5vw, 2.6rem); margin-bottom: 0.75rem; }
     .overlay p { max-width: 520px; line-height: 1.5; }
     .overlay-decode {
-      font-size: clamp(0.95rem, 2.2vw, 1.1rem); font-weight: 600;
-      opacity: 0.95; margin: 0 0 0.4rem; letter-spacing: 0.01em;
+      display: flex; flex-direction: column; gap: 0.38rem;
+      margin: 0 0 0.55rem; text-align: center; max-width: 520px;
     }
+    .decode-line {
+      font-size: clamp(0.88rem, 2vw, 1.02rem); font-weight: 600; line-height: 1.35;
+      opacity: 0.96;
+    }
+    .decode-label {
+      color: var(--gold); font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic; font-weight: 700;
+    }
+    .decode-sep { opacity: 0.45; font-weight: 400; }
+    .decode-text { color: #f0f4f8; }
     .overlay-pun {
       font-size: clamp(0.78rem, 1.8vw, 0.88rem); opacity: 0.52;
       margin: 0 0 0.85rem; font-style: italic;
@@ -233,7 +243,7 @@
   <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
     <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud · Jet" />
-    <p class="overlay-decode" id="overlayDecode">In your pocket · Your buddy · Budget on the fast track</p>
+    <div class="overlay-decode" id="overlayDecode" aria-label="Pocket Bud Jet name meaning"></div>
     <p class="overlay-pun" id="overlayPun">Sounds like &ldquo;budget&rdquo; — on purpose.</p>
     <p class="overlay-tagline" id="overlayTagline">A Mack truck of features — that corners like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
@@ -395,7 +405,7 @@
     try {
       bundle = await (await fetch('locales.json')).json();
     } catch (_) {
-      bundle = { voices: { en: 'en-US-AndrewNeural' }, locales: { en: { nativeName: 'English', nameDecode: 'In your pocket · Your buddy · Budget on the fast track', namePun: 'Sounds like "budget" — on purpose.', overlayTagline: 'A Mack truck of features — that corners like a Porsche.', start: 'Start', prev: 'Prev', next: 'Next', pause: 'Pause', resume: 'Resume', replay: 'Replay', ready: 'Ready', playing: 'Playing…', paused: 'Paused', done: 'Done', slideOf: 'Slide {n} / {total}', narrations: [], captions: [], themeLabels: [], eyeLabels: [], featureChips: [], featureNote: '' } } };
+      bundle = { voices: { en: 'en-US-AndrewNeural' }, locales: { en: { nativeName: 'English', nameDecodeLines: [{ label: 'Pocket', text: 'Convenience, always with you' }, { label: 'Bud', text: 'Your friend in budgeting' }, { label: 'Jet', text: 'Finances under control, fast' }], namePun: 'Sounds like "budget" — on purpose.', overlayTagline: 'A Mack truck of features — that corners like a Porsche.', start: 'Start', prev: 'Prev', next: 'Next', pause: 'Pause', resume: 'Resume', replay: 'Replay', ready: 'Ready', playing: 'Playing…', paused: 'Paused', done: 'Done', slideOf: 'Slide {n} / {total}', narrations: [], captions: [], themeLabels: [], eyeLabels: [], featureChips: [], featureNote: '' } } };
     }
     const pack = bundle.locales[lang] || bundle.locales.en;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'pt' ? 'pt-BR' : lang === 'hi' ? 'hi-IN' : lang;
@@ -445,10 +455,23 @@
         .replace('{n}', n).replace('{total}', slides.length);
     }
 
+    function renderNameDecode() {
+      const el = document.getElementById('overlayDecode');
+      if (!el) return;
+      const lines = pack.nameDecodeLines;
+      if (lines && lines.length) {
+        el.innerHTML = lines.map((l) => {
+          if (typeof l === 'string') return '<div class="decode-line">' + l + '</div>';
+          return '<div class="decode-line"><span class="decode-label">' + l.label + '</span><span class="decode-sep"> — </span><span class="decode-text">' + l.text + '</span></div>';
+        }).join('');
+      } else if (pack.nameDecode) {
+        el.innerHTML = '<div class="decode-line">' + pack.nameDecode + '</div>';
+      }
+    }
+
     function applyLocale() {
       document.getElementById('overlayTagline').textContent = pack.overlayTagline;
-      const decode = document.getElementById('overlayDecode');
-      if (decode && pack.nameDecode) decode.textContent = pack.nameDecode;
+      renderNameDecode();
       const pun = document.getElementById('overlayPun');
       if (pun) pun.textContent = pack.namePun || '';
       if (pun) pun.style.display = pack.namePun ? '' : 'none';
@@ -865,7 +888,7 @@
     syncLayout();
 
     if (params.get('start') === '1') {
-      const holdMs = Math.max(2500, parseInt(params.get('hold') || '3500', 10) || 3500);
+      const holdMs = Math.max(2500, parseInt(params.get('hold') || '4500', 10) || 4500);
       setTimeout(() => startBtn.click(), holdMs);
     }
   })();
