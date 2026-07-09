@@ -186,11 +186,11 @@
           </div>
           <div class="theme-badge" hidden></div>
         </div>
-        <div class="slide" data-index="6" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg" data-theme-labels="Home hero,Breakdowns,Spending donut">
+        <div class="slide" data-index="6" data-eye-candy="home-sankey.jpg,home-donut.jpg" data-theme-labels="Where money went,Spending donut">
           <div class="phone phone-photo">
-            <img class="screen-img eye-candy-img" src="screens/home-concierge.jpg" alt="Classic · PB&amp;J · OLED" />
+            <img class="screen-img eye-candy-img" src="screens/home-sankey.jpg" alt="Classic · PBJ · OLED" />
           </div>
-          <div class="theme-badge">Home hero</div>
+          <div class="theme-badge">Where money went</div>
         </div>
         <div class="slide" data-index="7" data-image="subscriptions-live.jpg">
           <div class="phone phone-photo">
@@ -247,7 +247,7 @@
         </div>
         <div class="caption" data-index="6">
           <span class="tag">COLOR</span>
-          <h2>Classic · PB&J · OLED</h2>
+          <h2>Classic · PBJ · OLED</h2>
         </div>
         <div class="caption" data-index="7">
           <span class="tag">TRUST</span>
@@ -279,7 +279,7 @@
 
   <script>
   (function(){
-    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their numbers. Ask anything, get a real answer.","Scan a receipt, price-match every line. Savings at the store.","Classic navy and gold. Grape-and-honey PB and J. True OLED black.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
+    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their numbers. Ask anything, get a real answer.","Scan a receipt, price-match every line. Savings at the store.","Classic navy and gold. Grape-and-honey PBJ. True OLED black.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
     const SLIDE_FALLBACK_MS = 10000;
     const POST_SLIDE_PAUSE_MS = 1100;
     const audioPaths = Array.from({length: 10}, (_, i) => 'audio/slide-' + i + '.mp3');
@@ -383,7 +383,7 @@
         }, 180);
       };
       showCandy();
-      themeTimer = setInterval(showCandy, 2800);
+      themeTimer = setInterval(showCandy, 2200);
     }
 
     function syncHomeVideo(play) {
@@ -412,7 +412,7 @@
       }
       if (slide.dataset.eyeCandy) {
         stopTheme();
-        if (playing && !slide.dataset.introPrivacy) startEyeCandy(slide);
+        startEyeCandy(slide);
         return;
       }
       if (slide.dataset.image) { stopTheme(); return; }
@@ -452,6 +452,7 @@
       const start = () => {
         const slide = slides[index];
         if (slide && slide.dataset.introPrivacy) beginIntroReveal(slide, true);
+        else if (slide.dataset.eyeCandy) startEyeCandy(slide);
         else syncHomeVideo(true);
         audioElement.onended = () => { advanceTimer = setTimeout(onDone, POST_SLIDE_PAUSE_MS); };
         audioElement.onerror = () => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); };
