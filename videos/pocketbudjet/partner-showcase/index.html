@@ -141,10 +141,12 @@
     .progress { height: 4px; background: rgba(255,255,255,0.15); margin: 0 1rem; border-radius: 2px; }
     .progress > div { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; border-radius: 2px; }
     .extra { max-width: 900px; margin: 0 auto 2rem; padding: 0 1rem; font-size: 0.9rem; opacity: 0.7; }
-    .extra summary { cursor: pointer; color: var(--gold); }
-  </style>
+    html.embed-mode .top { display: none; }
+    html.embed-mode .extra { display: none; }
+    html.embed-mode .stage-wrap { max-width: none; padding: 0.5rem 1rem 1rem; }
 </head>
 <body>
+  <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
     <img class="ad-logo ad-logo-lg" src="logo/pocket-budjet-ad-logo.svg" alt="Pocket · Bud Jet" />
     <p>A Mack truck of features — that handles like a Porsche.</p>
