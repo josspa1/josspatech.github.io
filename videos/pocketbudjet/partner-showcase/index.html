@@ -167,7 +167,7 @@
     html.embed-mode .slide { padding: 0.2rem 0; }
     html.embed-mode .phone {
       aspect-ratio: var(--phone-ar);
-      width: min(380px, 92cqw, calc(92cqh * 1080 / 2340));
+      width: min(380px, 92cqw, calc(92cqh * 1440 / 3120));
       height: auto;
       flex-shrink: 0;
     }
@@ -401,7 +401,7 @@
     let cur = 0, playing = false, voiceOn = true;
     let audioElement = null, advanceTimer = null, themeTimer = null, themeTimeouts = [], introTimer = null;
     const MOCK_W = 1242;
-    const PHONE_AR = 1080 / 2340; /* Galaxy S25 19.5:9 */
+    const PHONE_AR = 1440 / 3120; /* Galaxy S25 Ultra 19.5:9 */
 
     function syncEmbedPhoneSize() {
       if (!embedMode) return;
