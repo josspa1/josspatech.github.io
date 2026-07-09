@@ -2652,14 +2652,23 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 
 <script>
 /* ── PAGE ROUTING ── */
-function showPage(id) {
+function scrollToAnchor(id, behavior) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
+}
+
+function showPage(id, opts) {
+  opts = opts || {};
   document.querySelectorAll('.page').forEach(function(p) {
     p.classList.remove('active');
   });
   var target = document.getElementById('page-' + id);
   if (target) target.classList.add('active');
-  window.scrollTo(0, 0);
-  if (id === 'company') {
+  if (!opts.skipScrollTop) window.scrollTo(0, 0);
+  if (opts.anchor) {
+    history.replaceState(null, '', '#' + opts.anchor);
+    setTimeout(function() { scrollToAnchor(opts.anchor); }, opts.anchorDelay || 80);
+  } else if (id === 'company') {
     history.replaceState(null, '', window.location.pathname);
   } else {
     history.replaceState(null, '', '#' + id);
@@ -2668,21 +2677,37 @@ function showPage(id) {
   document.querySelectorAll('.rv:not(.on)').forEach(function(el) { rvObs.observe(el); });
 }
 
+function routeFromHash() {
+  var hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+  if (document.getElementById('page-' + hash)) {
+    showPage(hash);
+    return;
+  }
+  var anchor = document.getElementById(hash);
+  if (!anchor) return;
+  var page = anchor.closest('.page');
+  if (page && page.id && page.id.indexOf('page-') === 0) {
+    showPage(page.id.replace('page-', ''), {
+      anchor: hash,
+      skipScrollTop: true,
+      anchorDelay: 100
+    });
+    return;
+  }
+  scrollToAnchor(hash);
+}
+
 function navTo(section) {
   showPage('company');
   setTimeout(function() {
-    var el = document.getElementById(section);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    scrollToAnchor(section);
   }, 50);
 }
 
 /* ── INIT ── */
-document.addEventListener('DOMContentLoaded', function() {
-  var hash = window.location.hash.replace('#', '');
-  if (hash && document.getElementById('page-' + hash)) {
-    showPage(hash);
-  }
-});
+document.addEventListener('DOMContentLoaded', routeFromHash);
+window.addEventListener('hashchange', routeFromHash);
 
 /* ── SHARED NAV ── */
 function toggleMenu(btn) {
