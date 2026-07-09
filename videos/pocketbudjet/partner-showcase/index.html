@@ -16,32 +16,9 @@
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
     .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
-    .pbj-wordmark {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 0.44em; font-family: 'Playfair Display', Georgia, serif;
-      font-style: italic; font-weight: 700; line-height: 1;
-      letter-spacing: -0.015em; white-space: nowrap;
-    }
-    .pbj-wordmark-lg {
-      font-size: clamp(2rem, 5.5vw, 3.25rem);
-      margin: 0 auto 1.1rem;
-    }
-    .top .pbj-wordmark { font-size: clamp(1rem, 2.4vw, 1.5rem); max-width: min(440px, 92vw); }
-    .wm-pocket, .wm-jet { color: #f8fafc; }
-    .wm-bud { color: var(--gold); }
-    .wm-dot {
-      flex-shrink: 0; width: 0.24em; height: 0.24em;
-      min-width: 7px; min-height: 7px; border-radius: 50%; background: var(--gold);
-    }
-    .wm-dash {
-      flex-shrink: 0; width: 0.95em; height: 0.13em; min-width: 16px;
-      border-radius: 2px; background: var(--gold);
-    }
-    .wm-jet-img {
-      flex-shrink: 0; height: 1.2em; width: 3em;
-      min-height: 36px; min-width: 72px; display: block;
-    }
-    .pbj-wordmark-lg .wm-jet-img { min-height: 44px; min-width: 88px; height: 1.35em; width: 3.4em; }
+    .pbj-glyph { display: block; width: min(88px, 22vw); height: auto; }
+    .pbj-glyph-lg { width: min(140px, 34vw); margin: 0 auto 1.25rem; }
+    .overlay-brand { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 700; font-size: clamp(1.35rem, 3.5vw, 1.85rem); color: #f8fafc; margin-bottom: 0.35rem; }
     html.overlay-open .top,
     html.overlay-open .progress,
     html.overlay-open .stage-wrap,
@@ -272,15 +249,14 @@
 <body>
   <script>document.documentElement.classList.add('overlay-open');if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
-    <div id="overlayWordmark" class="pbj-wordmark pbj-wordmark-lg" role="img" aria-label="Pocket · Bud · Jet"></div>
-    <div class="overlay-decode" id="overlayDecode" aria-label="Pocket Bud Jet name meaning"></div>
-    <p class="overlay-pun" id="overlayPun">Sounds like &ldquo;budget&rdquo; — on purpose.</p>
+    <img class="pbj-glyph pbj-glyph-lg" src="logo/pbj-glyph.svg" alt="PBJ" />
+    <p class="overlay-brand">PocketBudJet</p>
     <p class="overlay-tagline" id="overlayTagline">A Mack truck of features — that corners like a Porsche.</p>
     <button class="btn-primary" id="startBtn">Start</button>
   </div>
 
   <div class="top">
-    <div id="topWordmark" class="pbj-wordmark" role="img" aria-label="Pocket · Bud · Jet"></div>
+    <img class="pbj-glyph" src="logo/pbj-glyph.svg" alt="PBJ" />
     <div class="top-right">
       <select class="lang-picker" id="langSelect" aria-label="Language"></select>
       <div class="meta" id="slideLabel">Slide 1 / 11</div>
@@ -485,36 +461,8 @@
         .replace('{n}', n).replace('{total}', slides.length);
     }
 
-    const JET_ICON = '<svg class="wm-jet-icon" viewBox="0 0 58 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M1 9 H44 L40 5.5 L56 9 L40 12.5 L44 9 H1 Z"/></svg>';
-
-    function mountWordmarks() {
-      const inner = '<span class="wm-pocket">Pocket</span><span class="wm-dot" aria-hidden="true"></span><span class="wm-bud">Bud</span><span class="wm-dash" aria-hidden="true"></span>' + JET_ICON + '<span class="wm-jet">Jet</span>';
-      ['overlayWordmark', 'topWordmark'].forEach((id) => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = inner;
-      });
-    }
-
-    function renderNameDecode() {
-      const el = document.getElementById('overlayDecode');
-      if (!el) return;
-      const lines = pack.nameDecodeLines;
-      if (lines && lines.length) {
-        el.innerHTML = lines.map((l) => {
-          if (typeof l === 'string') return '<div class="decode-line">' + l + '</div>';
-          return '<div class="decode-line"><span class="decode-label">' + l.label + '</span><span class="decode-sep"> — </span><span class="decode-text">' + l.text + '</span></div>';
-        }).join('');
-      } else if (pack.nameDecode) {
-        el.innerHTML = '<div class="decode-line">' + pack.nameDecode + '</div>';
-      }
-    }
-
     function applyLocale() {
       document.getElementById('overlayTagline').textContent = pack.overlayTagline;
-      renderNameDecode();
-      const pun = document.getElementById('overlayPun');
-      if (pun) pun.textContent = pack.namePun || '';
-      if (pun) pun.style.display = pack.namePun ? '' : 'none';
       startBtn.textContent = pack.start;
       prevBtn.textContent = pack.prev;
       nextBtn.textContent = pack.next;
@@ -595,7 +543,6 @@
       location.search = p.toString();
     };
     applyLocale();
-    mountWordmarks();
 
     function frameScale(phone) {
       return phone ? phone.clientWidth / MOCK_W : 450 / MOCK_W;
@@ -916,18 +863,22 @@
 
     function finish(){ playing = false; playBtn.textContent = pack.replay; status.textContent = pack.done; stopAll(); }
 
-    startBtn.onclick = () => { overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); };
+    startBtn.onclick = () => { document.documentElement.classList.remove('overlay-open'); overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); };
     playBtn.onclick = () => {
-      if (playBtn.textContent === pack.replay) { cur = 0; overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); return; }
+      if (playBtn.textContent === pack.replay) { cur = 0; document.documentElement.classList.remove('overlay-open'); overlay.classList.add('hidden'); if (embedMode) document.documentElement.classList.add('playing'); playing = true; playBtn.textContent = pack.pause; go(0, true); return; }
       if (!playing) { playing = true; playBtn.textContent = pack.pause; go(cur, true); }
       else { playing = false; playBtn.textContent = pack.resume; status.textContent = pack.paused; stopAll(); }
     };
     prevBtn.onclick = () => { if (cur > 0) { playing = false; playBtn.textContent = pack.resume; stopAll(); show(cur - 1); status.textContent = pack.paused; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
     nextBtn.onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = pack.resume; stopAll(); show(cur + 1); status.textContent = pack.paused; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
 
-    show(0);
+    cur = 0;
+    slides[0].classList.add('active');
+    captions[0].classList.add('active');
+    dotsEl.children[0].classList.add('active');
+    slideLabel.textContent = slideLabelText(1);
+    progressBar.style.width = (1 / slides.length * 100) + '%';
     syncLayout();
-    // Privacy iframe + phone stage load only after Start — overlay stays clean.
 
     if (params.get('start') === '1') {
       const holdMs = Math.max(2500, parseInt(params.get('hold') || '4500', 10) || 4500);
