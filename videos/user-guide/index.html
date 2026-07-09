@@ -763,7 +763,9 @@
  var recordMode = recordParams.get('record') === '1';
  var previewMode = recordParams.get('preview') === '1';
  var fastMode = recordParams.get('fast') === '1';
+ var embedMode = recordParams.get('embed') === '1';
  if (recordMode) document.body.classList.add('record-mode');
+ if (embedMode) document.documentElement.classList.add('embed-mode');
  const SLIDE_DURATION = fastMode ? 2000 : 8000;
  const LAST_SLIDE = previewMode ? 26 : 119;
  const CHAPTER_STARTS = [0, 10, 15, 16, 17, 27, 28, 33, 39, 44, 48, 54, 62, 67, 71, 74, 78, 84, 86, 89, 92, 98, 101, 104, 106, 108, 110, 111, 113, 116, 117, 119];
@@ -906,7 +908,7 @@
  let allSentences = [];
  let current = 0;
  let currentSentenceIdx = 0;
- let playing = true;
+ let playing = recordMode;
  let audioUnlocked = false;
  let timer = null;
  let audioElement = null;
@@ -1127,11 +1129,15 @@
  if (window.PBJWalkthrough && window.PBJWalkthrough.syncTranscriptSlide) {
  window.PBJWalkthrough.syncTranscriptSlide(current);
  }
- if (playing && current === LAST_SLIDE) speedLabel.textContent = 'Last step';
- else if (playing) speedLabel.textContent = 'Auto-playing';
+ if (playing && audioUnlocked && current === LAST_SLIDE) speedLabel.textContent = 'Last step';
+ else if (playing && audioUnlocked) speedLabel.textContent = 'Auto-playing';
+ else if (!audioUnlocked) speedLabel.textContent = embedMode ? 'Click to play' : 'Tap to play';
+ if (playing && audioUnlocked) {
  if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
- else if (playing) { resetTimer(); }
- else { startSentenceSync(current, SLIDE_DURATION); }
+ else resetTimer();
+ } else {
+ stopAudio(); clearInterval(timer);
+ }
  }
 
  function next() {
@@ -1174,11 +1180,6 @@
  playSlideAudio(current);
  }
  tapToStart.addEventListener('click', startPlayback);
-
- if (!navigator.maxTouchPoints) {
- audioUnlocked = true;
- if (tapToStart) tapToStart.classList.add('hidden');
- }
 
  if (window.PBJWalkthrough && window.PBJWalkthrough.registerTeardown) {
  window.PBJWalkthrough.registerTeardown(stopAllAudio);

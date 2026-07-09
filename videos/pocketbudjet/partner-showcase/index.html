@@ -145,6 +145,9 @@
     html.embed-mode .extra { display: none; }
     html.embed-mode .stage-wrap { max-width: none; padding: 0.5rem 1rem 1rem; }
     html.embed-mode .lang-picker { display: none; }
+    html.embed-mode .overlay { position: absolute; inset: 0; min-height: 100%; }
+    html.embed-mode .stage { min-height: min(640px, 72vh); }
+    html.embed-mode body { min-height: 100%; position: relative; }
     .lang-picker {
       font: inherit; font-size: 0.85rem; font-weight: 600;
       background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(240,192,64,0.45);
@@ -176,7 +179,7 @@
             <div class="intro-privacy-layer">
               <iframe class="screen-frame privacy-frame" title="100% private" loading="eager"></iframe>
             </div>
-            <div class="intro-main-layer"><video class="screen-video" src="video/home-hero.mp4" muted playsinline loop preload="auto"></video></div>
+            <div class="intro-main-layer"><video class="screen-video" src="video/home-hero.mp4" muted playsinline loop preload="metadata"></video></div>
           </div>
           <div class="theme-badge" hidden></div>
         </div>
@@ -323,16 +326,22 @@
   (async function(){
     const SUPPORTED = ['en','es','de','fr','pt','zh','it','hi'];
     const params = new URLSearchParams(location.search);
+    const embedMode = params.get('embed') === '1';
     let lang = (params.get('lang') || 'en').toLowerCase();
     if (!SUPPORTED.includes(lang)) lang = 'en';
-    const bundle = await (await fetch('locales.json')).json();
+    let bundle;
+    try {
+      bundle = await (await fetch('locales.json')).json();
+    } catch (_) {
+      bundle = { voices: { en: 'en-US-AndrewNeural' }, locales: { en: { nativeName: 'English', overlayTagline: 'A Mack truck of features — that handles like a Porsche.', start: 'Start', prev: 'Prev', next: 'Next', pause: 'Pause', resume: 'Resume', replay: 'Replay', ready: 'Ready', playing: 'Playing…', paused: 'Paused', done: 'Done', slideOf: 'Slide {n} / {total}', narrations: [], captions: [], themeLabels: [], eyeLabels: [], featureChips: [], featureNote: '' } } };
+    }
     const pack = bundle.locales[lang] || bundle.locales.en;
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang === 'pt' ? 'pt-BR' : lang === 'hi' ? 'hi-IN' : lang;
 
     const SLIDE_FALLBACK_MS = 10000;
     const POST_SLIDE_PAUSE_MS = 1100;
     const audioPaths = Array.from({length: 11}, (_, i) => 'audio/' + lang + '/slide-' + i + '.mp3');
-    const audioCache = audioPaths.map((src) => { const a = new Audio(); a.preload = 'auto'; a.src = src; return a; });
+    const audioCache = audioPaths.map(() => null);
     const slides = document.querySelectorAll('.slide');
     const captions = document.querySelectorAll('.caption');
     const dotsEl = document.getElementById('dots');
@@ -648,7 +657,12 @@
         advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS);
         return;
       }
-      audioElement = audioCache[index] || new Audio(audioPaths[index]);
+      if (!audioCache[index]) {
+        const a = new Audio(audioPaths[index]);
+        a.preload = 'auto';
+        audioCache[index] = a;
+      }
+      audioElement = audioCache[index];
       audioElement.volume = 1;
       audioElement.currentTime = 0;
       const start = () => {
