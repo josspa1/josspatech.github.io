@@ -155,10 +155,16 @@
     .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; border: none; padding: 0; }
     .dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
     .overlay {
-      position: fixed; inset: 0; z-index: 100; background: rgba(6,20,40,0.94);
+      position: fixed; inset: 0; z-index: 100; background: #061428;
       display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
     }
     .overlay.hidden { display: none; }
+    body:has(#overlay:not(.hidden)) .top,
+    body:has(#overlay:not(.hidden)) .progress,
+    body:has(#overlay:not(.hidden)) .stage-wrap,
+    body:has(#overlay:not(.hidden)) .caption-wrap,
+    body:has(#overlay:not(.hidden)) .controls,
+    body:has(#overlay:not(.hidden)) .extra { visibility: hidden; }
     .overlay h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 5vw, 2.6rem); margin-bottom: 0.75rem; }
     .overlay p { max-width: 520px; line-height: 1.5; }
     .overlay-decode {
@@ -263,7 +269,7 @@
         <div class="slide active" data-index="0" data-home-video="1" data-intro-privacy="feature-private.html" data-intro-privacy-ms="4200">
           <div class="phone phone-photo intro-phone">
             <div class="intro-privacy-layer">
-              <iframe class="screen-frame privacy-frame" title="100% private" loading="eager"></iframe>
+              <iframe class="screen-frame privacy-frame" title="100% private" loading="lazy"></iframe>
             </div>
             <div class="intro-main-layer"><video class="screen-video" src="video/home-hero.mp4" muted playsinline loop preload="metadata"></video></div>
           </div>
@@ -620,14 +626,14 @@
     }
     function stopAll(){ stopAudio(); stopTheme(); stopCredits(); }
 
-    function resetIntroLayers(slide) {
+    function resetIntroLayers(slide, loadPrivacy) {
       if (!slide || !slide.dataset.introPrivacy) return;
       const priv = slide.querySelector('.intro-privacy-layer');
       const main = slide.querySelector('.intro-main-layer');
       if (priv) priv.classList.remove('faded');
       if (main) main.classList.remove('visible');
       const pFrame = slide.querySelector('.privacy-frame');
-      if (pFrame && !pFrame.src) pFrame.src = 'screens/' + slide.dataset.introPrivacy;
+      if (loadPrivacy && pFrame && !pFrame.src) pFrame.src = 'screens/' + slide.dataset.introPrivacy;
     }
 
     function beginIntroReveal(slide, playMain) {
@@ -635,7 +641,7 @@
         if (playMain) syncHomeVideo(true);
         return;
       }
-      resetIntroLayers(slide);
+      resetIntroLayers(slide, true);
       const ms = parseInt(slide.dataset.introPrivacyMs || '4200', 10);
       const priv = slide.querySelector('.intro-privacy-layer');
       const main = slide.querySelector('.intro-main-layer');
@@ -763,7 +769,7 @@
       const slide = slides[i];
       if (slide.dataset.credits) { stopTheme(); syncHomeVideo(false); stopCredits(); return; }
       if (slide.dataset.featureList) { stopTheme(); syncHomeVideo(false); return; }
-      if (slide.dataset.introPrivacy) resetIntroLayers(slide);
+      if (slide.dataset.introPrivacy) resetIntroLayers(slide, false);
       if (slide.dataset.homeVideo) {
         stopTheme();
         const vid = slide.querySelector('.screen-video');
@@ -886,6 +892,7 @@
 
     show(0);
     syncLayout();
+    // Privacy iframe + phone stage load only after Start — overlay stays clean.
 
     if (params.get('start') === '1') {
       const holdMs = Math.max(2500, parseInt(params.get('hold') || '4500', 10) || 4500);
