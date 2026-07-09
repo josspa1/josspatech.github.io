@@ -28,15 +28,15 @@
     }
     .slide.active { opacity: 1; }
     .phone {
-      width: min(300px, 42vw); aspect-ratio: 9/19.5;
-      border: 8px solid #1a1a1a; border-radius: 36px;
+      width: min(450px, 63vw); aspect-ratio: 9/19.5;
+      border: 10px solid #1a1a1a; border-radius: 44px;
       background: #000; overflow: hidden;
       box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.08);
       position: relative;
     }
     .phone::before {
-      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-      width: 72px; height: 22px; background: #1a1a1a; border-radius: 0 0 12px 12px; z-index: 2;
+      content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
+      width: 96px; height: 28px; background: #1a1a1a; border-radius: 0 0 14px 14px; z-index: 2;
     }
     .phone-scroll {
       position: absolute; inset: 0; overflow: hidden;
@@ -53,10 +53,10 @@
     }
     .screen-frame {
       position: absolute; top: 0; left: 0; width: 1242px; height: 3200px;
-      border: none; transform: scale(0.242) translateY(0); transform-origin: top left;
+      border: none; transform: scale(0.363) translateY(0); transform-origin: top left;
       pointer-events: none; transition: transform 0.6s ease;
     }
-    .privacy-frame { width: 1242px; height: 2688px; transform: scale(0.242) translateY(0); }
+    .privacy-frame { width: 1242px; height: 2688px; transform: scale(0.363) translateY(0); }
     .intro-phone { position: relative; }
     .intro-privacy-layer {
       position: absolute; inset: 0; z-index: 3; opacity: 1;
@@ -383,7 +383,7 @@
           if (hero && slide.dataset.screen) {
             hero.src = 'screens/' + slide.dataset.screen;
             const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
-            hero.style.transform = 'scale(0.242) translateY(-' + y + 'px)';
+            hero.style.transform = 'scale(0.363) translateY(-' + y + 'px)';
           }
         }
       }, ms);
@@ -495,14 +495,14 @@
       const badge = slide.querySelector('.theme-badge');
       if (!iframe) return;
       iframe.classList.remove('pan');
-      iframe.style.transform = 'scale(0.242) translateY(0)';
+      iframe.style.transform = 'scale(0.363) translateY(0)';
       void iframe.offsetWidth;
       stopTheme();
       if (badge) badge.hidden = true;
       const file = slide.dataset.screen || 'home-modern.html';
       iframe.src = 'screens/' + file;
       const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
-      iframe.style.transform = 'scale(0.242) translateY(-' + y + 'px)';
+      iframe.style.transform = 'scale(0.363) translateY(-' + y + 'px)';
     }
 
     function playSlideAudio(index, onDone){
