@@ -37,9 +37,17 @@
       flex-shrink: 0; width: 0.95em; height: 0.13em; min-width: 16px;
       border-radius: 2px; background: var(--gold);
     }
-    .wm-jet-icon {
-      flex-shrink: 0; width: 1.85em; height: 0.58em; color: #f8fafc; display: block;
+    .wm-jet-img {
+      flex-shrink: 0; height: 1.2em; width: 3em;
+      min-height: 36px; min-width: 72px; display: block;
     }
+    .pbj-wordmark-lg .wm-jet-img { min-height: 44px; min-width: 88px; height: 1.35em; width: 3.4em; }
+    html.overlay-open .top,
+    html.overlay-open .progress,
+    html.overlay-open .stage-wrap,
+    html.overlay-open .caption-wrap,
+    html.overlay-open .controls,
+    html.overlay-open .extra { display: none !important; }
     .top .meta { font-size: 0.85rem; opacity: 0.85; }
     .stage-wrap { max-width: 1200px; margin: 0 auto; padding: 1rem; }
     .stage {
@@ -181,12 +189,6 @@
       display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
     }
     .overlay.hidden { display: none; }
-    body:has(#overlay:not(.hidden)) .top,
-    body:has(#overlay:not(.hidden)) .progress,
-    body:has(#overlay:not(.hidden)) .stage-wrap,
-    body:has(#overlay:not(.hidden)) .caption-wrap,
-    body:has(#overlay:not(.hidden)) .controls,
-    body:has(#overlay:not(.hidden)) .extra { visibility: hidden; }
     .overlay h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 5vw, 2.6rem); margin-bottom: 0.75rem; }
     .overlay p { max-width: 520px; line-height: 1.5; }
     .overlay-decode {
@@ -268,7 +270,7 @@
   </style>
 </head>
 <body>
-  <script>if (new URLSearchParams(location.search).get('embed') === '1') document.documentElement.classList.add('embed-mode');</script>
+  <script>document.documentElement.classList.add('overlay-open');if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
   <div class="overlay" id="overlay">
     <div id="overlayWordmark" class="pbj-wordmark pbj-wordmark-lg" role="img" aria-label="Pocket · Bud · Jet"></div>
     <div class="overlay-decode" id="overlayDecode" aria-label="Pocket Bud Jet name meaning"></div>
