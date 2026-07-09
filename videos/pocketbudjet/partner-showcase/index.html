@@ -10,8 +10,8 @@
     :root {
       --gold: #F0C040;
       --bg: #0C3358;
-      /* Samsung Galaxy S25 — 2340×1080 (19.5:9); chassis 146.9×70.5 mm */
-      --phone-ar: 1080 / 2340;
+      /* Samsung Galaxy S25 Ultra — 3120×1440 (19.5:9); chassis 162.8×77.6 mm */
+      --phone-ar: 1440 / 3120;
     }
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
@@ -607,7 +607,7 @@
         badge.hidden = false;
         badge.textContent = labels[0] || '';
       }
-      syncFrameScales();
+      syncLayout();
     }
 
     function startThemeCycle(slide) {
