@@ -7,7 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --gold: #F0C040; --bg: #0C3358; }
+    :root {
+      --gold: #F0C040;
+      --bg: #0C3358;
+      /* Samsung Galaxy S25 — 2340×1080 (19.5:9); chassis 146.9×70.5 mm */
+      --phone-ar: 1080 / 2340;
+    }
     body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
     .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
     .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
@@ -27,11 +32,14 @@
     }
     .slide.active { opacity: 1; }
     .phone {
-      width: min(450px, 72vw); aspect-ratio: 9/19.5;
-      border: none; border-radius: 28px;
+      width: min(450px, 72vw);
+      aspect-ratio: var(--phone-ar);
+      height: auto;
+      border: none; border-radius: clamp(20px, 5.5vw, 32px);
       background: #000; overflow: hidden;
       box-shadow: 0 16px 48px rgba(0,0,0,0.4);
       position: relative;
+      flex-shrink: 0;
     }
     .phone::before { display: none; }
     .phone-scroll {
@@ -158,10 +166,10 @@
     }
     html.embed-mode .slide { padding: 0.2rem 0; }
     html.embed-mode .phone {
-      width: min(380px, 92cqw, calc(92cqh * 9 / 19.5));
+      aspect-ratio: var(--phone-ar);
+      width: min(380px, 92cqw, calc(92cqh * 1080 / 2340));
       height: auto;
-      max-height: 92cqh;
-      aspect-ratio: 9 / 19.5;
+      flex-shrink: 0;
     }
     html.embed-mode .theme-badge:not([hidden]) {
       position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%);
@@ -393,6 +401,25 @@
     let cur = 0, playing = false, voiceOn = true;
     let audioElement = null, advanceTimer = null, themeTimer = null, themeTimeouts = [], introTimer = null;
     const MOCK_W = 1242;
+    const PHONE_AR = 1080 / 2340; /* Galaxy S25 19.5:9 */
+
+    function syncEmbedPhoneSize() {
+      if (!embedMode) return;
+      const stage = document.getElementById('stage');
+      if (!stage || stage.clientWidth < 1 || stage.clientHeight < 1) return;
+      const maxW = Math.min(380, stage.clientWidth * 0.92);
+      const maxH = stage.clientHeight * 0.92;
+      const w = Math.min(maxW, maxH * PHONE_AR);
+      document.querySelectorAll('.phone').forEach((phone) => {
+        phone.style.width = Math.round(w) + 'px';
+        phone.style.height = 'auto';
+      });
+    }
+
+    function syncLayout() {
+      syncEmbedPhoneSize();
+      syncFrameScales();
+    }
 
     function slideLabelText(n) {
       return (pack.slideOf || 'Slide {n} / {total}')
@@ -470,9 +497,9 @@
       });
     }
 
-    window.addEventListener('resize', syncFrameScales);
+    window.addEventListener('resize', syncLayout);
     if (embedMode) {
-      const ro = new ResizeObserver(() => syncFrameScales());
+      const ro = new ResizeObserver(() => syncLayout());
       const stage = document.getElementById('stage');
       if (stage) ro.observe(stage);
     }
@@ -734,7 +761,7 @@
       slideLabel.textContent = slideLabelText(cur + 1);
       progressBar.style.width = ((cur+1) / slides.length * 100) + '%';
       loadSlideScreen(cur);
-      syncFrameScales();
+      syncLayout();
     }
 
     function go(i, fromPlay){
@@ -762,7 +789,7 @@
     nextBtn.onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = pack.resume; stopAll(); show(cur + 1); status.textContent = pack.paused; if (slides[cur].dataset.themes) startThemeCycle(slides[cur]); else if (slides[cur].dataset.eyeCandy) startEyeCandy(slides[cur]); } };
 
     show(0);
-    syncFrameScales();
+    syncLayout();
   })();
   </script>
 </body>
