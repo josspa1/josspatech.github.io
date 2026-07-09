@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1A4F7A;
+    --navy-dark: #0C3358;
+    --navy-mid: #2E6FA3;
+    --gold: #F0C040;
+    --gold-dark: #E8A820;
+    --success: #27AE60;
+    --error: #E74C3C;
+    --warning: #E67E22;
+    --bg: #F0F4F8;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1A202C;
+    --text2: #4A5568;
+    --text3: #A0AEC0;
+  }
+
+  body {
+    width: 1242px;
+    height: 2688px;
+    background: var(--bg);
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Status bar */
+  .status {
+    background: var(--navy-dark);
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    color: white;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .status-right { display: flex; gap: 16px; align-items: center; }
+  .signal { font-size: 22px; }
+
+  /* Hero header */
+  .hero {
+    background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-mid) 100%);
+    padding: 48px 56px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(240,192,64,0.06);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-emoji { font-size: 56px; margin-bottom: 16px; }
+  .hero-title { color: #fff; font-size: 48px; font-weight: 800; margin-bottom: 12px; }
+  .hero-subtitle { color: rgba(255,255,255,0.5); font-size: 28px; font-weight: 500; }
+
+  /* Content */
+  .content { padding: 0 40px; margin-top: -24px; position: relative; z-index: 10; }
+
+  /* Card */
+  .card {
+    background: var(--surface);
+    border-radius: 28px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    display: flex;
+    gap: 28px;
+  }
+
+  .card.featured {
+    border: 2px solid var(--gold);
+  }
+
+  .card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-shrink: 0;
+  }
+
+  .card-icon {
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .badge-featured {
+    background: var(--gold);
+    color: var(--navy-dark);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+  .card-subtitle {
+    font-size: 22px;
+    color: var(--text2);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .card-preview {
+    background: #F8F9FA;
+    border-radius: 20px;
+    padding: 24px;
+    margin-top: 16px;
+  }
+
+  .receipt-line {
+    font-size: 22px;
+    color: var(--text);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .receipt-line.highlighted {
+    background: rgba(240,192,64,0.15);
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 28px;
+  }
+
+  .receipt-label {
+    font-size: 18px;
+    color: var(--text3);
+    font-weight: 500;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .receipt-badge {
+    background: rgba(39,174,96,0.12);
+    border: 1px solid rgba(39,174,96,0.25);
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 18px;
+    color: var(--success);
+    font-weight: 600;
+  }
+
+  .scanner-status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 20px;
+    color: var(--text2);
+    font-weight: 600;
+  }
+
+  .scanner-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--success);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .scanner-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scanner-pages {
+    font-size: 20px;
+    color: var(--text2);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .progress-bar {
+    height: 8px;
+    background: #EDF2F7;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--success);
+    width: 65%;
+    border-radius: 4px;
+  }
+
+  /* Supported formats */
+  .formats-section {
+    text-align: center;
+    margin: 28px 0 0 0;
+  }
+
+  .formats-label {
+    font-size: 20px;
+    color: var(--text3);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .formats-pills {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .format-pill {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* Bottom nav */
+  .nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    height: 140px;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 20px 24px;
+  }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .nav-icon { font-size: 34px; }
+  .nav-label { font-size: 18px; font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--navy); }
+  .nav-item.active .nav-icon { filter: none; }
+  .nav-item:not(.active) .nav-label { color: var(--text3); }
+
+  .fab {
+    width: 100px; height: 100px; border-radius: 32px;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px; color: var(--navy-dark);
+    box-shadow: 0 8px 32px rgba(240,192,64,0.4);
+    margin-top: -40px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Status bar -->
+<div class="status">
+  <span>9:41</span>
+  <div class="status-right">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;color:white;"><rect x="2" y="16" width="3" height="4" rx="1"/><rect x="7" y="12" width="3" height="8" rx="1"/><rect x="12" y="8" width="3" height="12" rx="1"/><rect x="17" y="4" width="3" height="16" rx="1"/></svg><svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;color:white;"><path d="M12 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-5.66-3.34a1 1 0 0 0 1.41 1.42 6 6 0 0 1 8.49 0 1 1 0 0 0 1.42-1.42 8 8 0 0 0-11.32 0zM1.39 10.05a1 1 0 0 0 1.41 1.41 13 13 0 0 1 18.4 0 1 1 0 0 0 1.41-1.41 15 15 0 0 0-21.22 0z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" style="width:28px;height:28px;"><rect x="2" y="7" width="18" height="10" rx="2.5"/><rect x="4" y="9" width="14" height="6" rx="1" fill="white"/><rect x="21" y="10" width="1.6" height="4" rx="0.8" fill="white" stroke="none"/></svg>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-emoji"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#E0A820;"><path fill="currentColor" d="M9 2l-2 3H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4l-2-3zM12 8a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></div>
+    <div class="hero-title">Smart Scanning</div>
+    <div class="hero-subtitle">3 ways to capture your transactions</div>
+  </div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- Card 1: Receipt Scanner -->
+  <div class="card">
+    <div class="card-left">
+      <div class="card-icon" style="background:#2980B9;"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#E0A820;"><path fill="currentColor" d="M9 2l-2 3H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-4l-2-3zM12 8a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Receipt Scanner</div>
+      <div class="card-subtitle">Point, shoot, done. OCR reads merchant, amount & date.</div>
+      <div class="card-preview">
+        <div class="receipt-line highlighted">Whole Foods Market</div>
+        <div class="receipt-line highlighted" style="font-size:48px;margin-bottom:8px;">$87.43</div>
+        <div class="receipt-line highlighted">Mar 10, 2026</div>
+        <div class="receipt-label">
+          <span><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#27AE60;"><path fill="currentColor" d="M6 2c-3 0-3 4-3 7s3 6 3 6l-2 5h14l-2-5s3-3 3-6-0-7-3-7c-2 0-3 2-4 2s-2-2-4-2z"/></svg></span> Groceries — Auto-detected
+          <span class="receipt-badge" style="margin-left:auto;">✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2: WiFi Document Scanner (Featured) -->
+  <div class="card featured">
+    <div class="card-left">
+      <div class="card-icon" style="background:#E67E22;"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#2E6FA3;"><path fill="currentColor" d="M5 3a1 1 0 0 0-.7 1.7l3 3 10.6 10.6c-3.9 2.9-9.6 2.3-13-1.1a1 1 0 0 0-1.4 1.4c4 4 11 4 15.5 0l1.7 1.7a1 1 0 0 0 1.4-1.4L6.5 3.3A1 1 0 0 0 5 3z"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">
+        WiFi ADF Scanner
+        <span class="badge-featured">ONLY IN PBJ</span>
+      </div>
+      <div class="card-subtitle">Scan multi-page bank statements through your network scanner's automatic document feeder.</div>
+      <div class="card-preview">
+        <div class="scanner-pages"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#4A5568;"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 7V3.5L19.5 9H14z"/></svg> Page 1 of 6 · Scanning...</div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="scanner-status">
+          <div class="scanner-info">
+            <span class="scanner-dot"></span>
+            <span>Connected: HP OfficeJet Pro</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Screenshot Import -->
+  <div class="card">
+    <div class="card-left">
+      <div class="card-icon" style="background:#9B59B6;"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#4A5568;"><path fill="currentColor" d="M7 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7zm5 18a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6-4H6V5h12z"/></svg></div>
+    </div>
+    <div class="card-body">
+      <div class="card-title">Screenshot Import</div>
+      <div class="card-subtitle">Snap a photo of any transaction screen. AI extracts the data.</div>
+    </div>
+  </div>
+
+  <!-- Supported formats -->
+  <div class="formats-section">
+    <div class="formats-label">Supported Formats</div>
+    <div class="formats-pills">
+      <div class="format-pill">CSV</div>
+      <div class="format-pill">OFX</div>
+      <div class="format-pill">QFX</div>
+      <div class="format-pill">QIF</div>
+      <div class="format-pill">XLSX</div>
+      <div class="format-pill">PDF</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom nav -->
+<div class="nav">
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="#A0AEC0" style="width:36px;height:36px;"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Dashboard</div>
+  </div>
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" style="width:36px;height:36px;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h8"/></svg>
+    <div class="nav-label" style="color:#1A4F7A;">Transactions</div>
+  </div>
+  <div class="fab"><svg viewBox="0 0 24 24" fill="#0C3358" style="width:56px;height:56px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg></div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" style="width:36px;height:36px;"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 3v9l6 4"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Budget</div>
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round" style="width:36px;height:36px;"><path d="M4 20V10M10 20V4M16 20v-8M22 20V14"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Insights</div>
+  </div>
+</div>
+
+</body>
+</html>

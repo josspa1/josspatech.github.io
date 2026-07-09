@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PocketBudJet — Paywall</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1A4F7A;
+    --navy-dark: #0C3358;
+    --navy-mid: #2E6FA3;
+    --navy-deep: #071C34;
+    --gold: #F0C040;
+    --gold-dark: #E0A820;
+    --success: #4ADE80;
+    --text: #FFFFFF;
+    --text-soft: rgba(255,255,255,0.72);
+    --text-muted: rgba(255,255,255,0.45);
+    --glass-bg: rgba(255,255,255,0.08);
+    --glass-border: rgba(255,255,255,0.15);
+    --glass-border-active: rgba(240,192,64,0.70);
+    --gold-glow: rgba(240,192,64,0.22);
+  }
+
+  body {
+    width: 1242px;
+    height: 2688px;
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(160deg, #071C34 0%, #0C3358 50%, #05152A 100%);
+    color: var(--text);
+  }
+
+  /* Simulated underlying app content blurred behind */
+  .underlayer {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(240,192,64,0.10) 0%, transparent 30%),
+      radial-gradient(circle at 80% 85%, rgba(46,111,163,0.25) 0%, transparent 35%),
+      linear-gradient(160deg, #0C3358 0%, #1A4F7A 60%, #2E6FA3 100%);
+    filter: blur(60px);
+    opacity: 0.85;
+  }
+  .scrim { position: absolute; inset: 0; background: rgba(10,22,40,0.55); }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+  }
+  .orb-1 {
+    top: 180px; right: -60px; width: 420px; height: 420px;
+    background: radial-gradient(circle, rgba(240,192,64,0.12) 0%, transparent 70%);
+  }
+  .orb-2 {
+    bottom: 700px; left: -80px; width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(46,111,163,0.35) 0%, transparent 70%);
+  }
+
+  .status {
+    position: relative;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 56px 0;
+    color: white;
+    font-size: 28px;
+    font-weight: 600;
+    z-index: 5;
+  }
+  .status-right { display: flex; gap: 10px; align-items: center; }
+  .status-right svg { width: 28px; height: 28px; }
+
+  .close-btn {
+    position: absolute;
+    top: 110px;
+    right: 56px;
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.22);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+  }
+  .close-btn svg { width: 40px; height: 40px; color: white; }
+
+  .sheet {
+    position: absolute;
+    top: 260px;
+    left: 0; right: 0;
+    height: calc(100% - 260px);
+    background: rgba(10, 22, 40, 0.38);
+    backdrop-filter: blur(40px);
+    border-top-left-radius: 48px;
+    border-top-right-radius: 48px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding: 64px 56px 60px;
+    overflow: hidden;
+  }
+
+  .hero { text-align: center; margin-bottom: 36px; }
+  .hero-icon {
+    width: 104px; height: 104px;
+    margin: 0 auto 28px;
+    border-radius: 50%;
+    background: var(--gold-glow);
+    border: 1.5px solid rgba(240,192,64,0.40);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 60px rgba(240,192,64,0.25);
+  }
+  .hero-icon svg { width: 56px; height: 56px; color: var(--gold); }
+  .hero-title {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin-bottom: 22px;
+  }
+  .hero-sub {
+    font-size: 32px;
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+
+  .badge-wrap { text-align: center; margin-bottom: 40px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 30px;
+    background: var(--gold-glow);
+    border: 1.5px solid rgba(240,192,64,0.45);
+    border-radius: 999px;
+  }
+  .badge svg { width: 30px; height: 30px; color: var(--gold); }
+  .badge-text {
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .plan {
+    position: relative;
+    margin-bottom: 22px;
+    border-radius: 26px;
+    border: 1.5px solid var(--glass-border);
+    background: var(--glass-bg);
+    padding: 30px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .plan-active {
+    border: 2px solid var(--glass-border-active);
+    background: rgba(240,192,64,0.09);
+    box-shadow: 0 0 48px rgba(240,192,64,0.20);
+  }
+  .plan-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .radio {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255,255,255,0.40);
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .radio-active {
+    border-color: var(--gold);
+  }
+  .radio-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .plan-label { font-size: 38px; font-weight: 700; letter-spacing: -0.3px; }
+  .plan-billing { font-size: 22px; color: var(--text-soft); margin-top: 5px; font-weight: 500; }
+  .plan-right { text-align: right; }
+  .plan-price { font-size: 42px; font-weight: 800; letter-spacing: -0.5px; }
+  .plan-unit { font-size: 24px; color: var(--text-soft); font-weight: 600; margin-left: 2px; }
+  .plan-savings { font-size: 22px; color: var(--success); font-weight: 700; margin-top: 5px; }
+
+  .badge-corner {
+    position: absolute;
+    top: -16px; right: 32px;
+    background: var(--gold);
+    color: #0A1628;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 8px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(240,192,64,0.4);
+  }
+
+  .comparison {
+    margin: 32px 0 36px;
+    padding: 24px 28px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 18px;
+  }
+  .comp-row { margin-bottom: 16px; }
+  .comp-row:last-child { margin-bottom: 0; }
+  .comp-bar {
+    height: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .comp-bar-others { width: 100%; background: rgba(255,255,255,0.13); }
+  .comp-bar-pbj { width: 40%; background: var(--gold); box-shadow: 0 0 16px rgba(240,192,64,0.3); }
+  .comp-label {
+    font-size: 22px;
+    color: var(--text-soft);
+    font-weight: 600;
+  }
+  .comp-label-pbj { color: var(--gold); }
+
+  .cta {
+    width: 100%;
+    background: linear-gradient(135deg, #F0C040 0%, #E0A820 100%);
+    color: #1A1A2E;
+    font-size: 36px;
+    font-weight: 800;
+    padding: 28px;
+    border: none;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: 0 12px 36px rgba(240,192,64,0.40);
+    letter-spacing: 0.3px;
+  }
+  .cta svg { width: 36px; height: 36px; color: #1A1A2E; }
+
+  .maybe-later {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 24px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .features {
+    margin-top: 38px;
+    padding: 30px 30px 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .feat-title {
+    font-size: 22px;
+    color: var(--gold);
+    font-weight: 700;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .feat-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 9px 0;
+  }
+  .feat-row svg { width: 26px; height: 26px; color: var(--gold); flex-shrink: 0; }
+  .feat-text {
+    font-size: 26px;
+    color: rgba(255,255,255,0.88);
+    font-weight: 500;
+  }
+
+  .privacy {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 28px; padding: 20px 26px;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.22);
+    border-radius: 16px;
+  }
+  .privacy svg { width: 26px; height: 26px; color: var(--success); flex-shrink: 0; }
+  .privacy-text {
+    font-size: 24px;
+    color: rgba(255,255,255,0.82);
+    font-weight: 500;
+  }
+
+  .restore {
+    text-align: center;
+    margin-top: 28px;
+    font-size: 24px;
+    color: var(--text-soft);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="underlayer"></div>
+  <div class="scrim"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="status">
+    <span>9:41</span>
+    <span class="status-right">
+      <!-- signal -->
+      <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="16" width="3" height="4" rx="1"/><rect x="7" y="12" width="3" height="8" rx="1"/><rect x="12" y="8" width="3" height="12" rx="1"/><rect x="17" y="4" width="3" height="16" rx="1"/></svg>
+      <!-- wifi -->
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-5.66-3.34a1 1 0 0 0 1.41 1.42 6 6 0 0 1 8.49 0 1 1 0 0 0 1.42-1.42 8 8 0 0 0-11.32 0zM1.39 10.05a1 1 0 0 0 1.41 1.41 13 13 0 0 1 18.4 0 1 1 0 0 0 1.41-1.41 15 15 0 0 0-21.22 0z"/></svg>
+      <!-- battery -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="7" width="18" height="10" rx="2.5"/><rect x="4" y="9" width="14" height="6" rx="1" fill="currentColor"/><rect x="21" y="10" width="1.6" height="4" rx="0.8" fill="currentColor" stroke="none"/></svg>
+    </span>
+  </div>
+
+  <div class="close-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </div>
+
+  <div class="sheet">
+    <div class="hero">
+      <div class="hero-icon">
+        <!-- sparkles ionicon -->
+        <svg viewBox="0 0 512 512" fill="currentColor">
+          <path d="M 208 512 l -32 -96 l -96 -32 l 96 -32 l 32 -96 l 32 96 l 96 32 l -96 32 z"/>
+          <path d="M 400 256 l -16 -48 l -48 -16 l 48 -16 l 16 -48 l 16 48 l 48 16 l -48 16 z" opacity="0.9"/>
+          <path d="M 128 176 l -12 -36 l -36 -12 l 36 -12 l 12 -36 l 12 36 l 36 12 l -36 12 z" opacity="0.8"/>
+        </svg>
+      </div>
+      <div class="hero-title">Take control of<br>every dollar</div>
+      <div class="hero-sub">Budget smarter. Crush debt. Build wealth.</div>
+    </div>
+
+    <div class="badge-wrap">
+      <div class="badge">
+        <!-- shield-checkmark ionicon -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 256 48 c -32 16 -96 32 -160 32 c 0 144 32 304 160 384 c 128 -80 160 -240 160 -384 c -64 0 -128 -16 -160 -32 z"/>
+          <path d="M 176 256 l 56 56 l 112 -128"/>
+        </svg>
+        <span class="badge-text">Cancel anytime — no contract</span>
+      </div>
+    </div>
+
+    <div class="plan plan-active">
+      <div class="badge-corner">BEST VALUE</div>
+      <div class="plan-left">
+        <div class="radio radio-active"><div class="radio-dot"></div></div>
+        <div>
+          <div class="plan-label">Annual</div>
+          <div class="plan-billing">$74.99 billed yearly</div>
+        </div>
+      </div>
+      <div class="plan-right">
+        <div><span class="plan-price">$6.25</span><span class="plan-unit">/mo</span></div>
+        <div class="plan-savings">Save 37%</div>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-left">
+        <div class="radio"></div>
+        <div>
+          <div class="plan-label">Monthly</div>
+          <div class="plan-billing">Billed monthly</div>
+        </div>
+      </div>
+      <div class="plan-right">
+        <div><span class="plan-price">$9.99</span><span class="plan-unit">/mo</span></div>
+      </div>
+    </div>
+
+    <div class="comparison">
+      <div class="comp-row">
+        <div class="comp-bar comp-bar-others"></div>
+        <div class="comp-label">Others: $100–$180/yr</div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-bar comp-bar-pbj"></div>
+        <div class="comp-label comp-label-pbj">PocketBudJet: $74.99/yr</div>
+      </div>
+    </div>
+
+    <button class="cta">
+      <!-- checkmark-circle ionicon -->
+      <svg viewBox="0 0 512 512" fill="currentColor">
+        <path d="M 256 48 C 141 48 48 141 48 256 s 93 208 208 208 208 -93 208 -208 S 371 48 256 48 z m -50 304 l -98 -98 l 28 -28 l 70 70 l 142 -142 l 28 28 z"/>
+      </svg>
+      <span>Start Premium</span>
+    </button>
+
+    <div class="maybe-later">Maybe later — continue without Premium</div>
+
+    <div class="features">
+      <div class="feat-title">Everything included</div>
+      <div class="feat-row">
+        <svg viewBox="0 0 512 512" fill="currentColor">
+          <path d="M 208 384 l -32 -72 l -72 -32 l 72 -32 l 32 -72 l 32 72 l 72 32 l -72 32 z"/>
+          <path d="M 384 224 l -14 -40 l -40 -14 l 40 -14 l 14 -40 l 14 40 l 40 14 l -40 14 z" opacity="0.85"/>
+        </svg>
+        <span class="feat-text">AI-powered insights</span>
+      </div>
+      <div class="feat-row">
+        <!-- pie-chart -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 256 48 v 208 h 208 a 208 208 0 0 1 -208 208 a 208 208 0 1 1 0 -416 z"/>
+          <path d="M 288 80 a 176 176 0 0 1 144 144 h -144 z" fill="currentColor"/>
+        </svg>
+        <span class="feat-text">Custom budget templates</span>
+      </div>
+      <div class="feat-row">
+        <!-- calculator -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="96" y="48" width="320" height="416" rx="32"/>
+          <rect x="144" y="96" width="224" height="80" rx="8" fill="currentColor" opacity="0.25"/>
+          <circle cx="180" cy="248" r="18" fill="currentColor"/>
+          <circle cx="256" cy="248" r="18" fill="currentColor"/>
+          <circle cx="332" cy="248" r="18" fill="currentColor"/>
+          <circle cx="180" cy="320" r="18" fill="currentColor"/>
+          <circle cx="256" cy="320" r="18" fill="currentColor"/>
+          <circle cx="332" cy="320" r="18" fill="currentColor"/>
+          <circle cx="180" cy="392" r="18" fill="currentColor"/>
+          <circle cx="256" cy="392" r="18" fill="currentColor"/>
+          <circle cx="332" cy="392" r="18" fill="currentColor"/>
+        </svg>
+        <span class="feat-text">Debt payoff planner</span>
+      </div>
+      <div class="feat-row">
+        <!-- swap-horizontal -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 96 176 h 320 l -64 -64"/>
+          <path d="M 416 336 H 96 l 64 64"/>
+        </svg>
+        <span class="feat-text">Multi-currency support</span>
+      </div>
+      <div class="feat-row">
+        <!-- shield-checkmark small -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="36" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 256 48 c -32 16 -96 32 -160 32 c 0 144 32 304 160 384 c 128 -80 160 -240 160 -384 c -64 0 -128 -16 -160 -32 z"/>
+          <path d="M 176 256 l 56 56 l 112 -128"/>
+        </svg>
+        <span class="feat-text">Local-only encryption</span>
+      </div>
+      <div class="feat-row">
+        <!-- notifications bell -->
+        <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M 256 48 c -70 0 -128 58 -128 128 v 96 l -48 80 h 352 l -48 -80 v -96 c 0 -70 -58 -128 -128 -128 z"/>
+          <path d="M 208 384 a 48 48 0 0 0 96 0"/>
+        </svg>
+        <span class="feat-text">Smart spending alerts</span>
+      </div>
+    </div>
+
+    <div class="privacy">
+      <!-- lock-closed -->
+      <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="96" y="208" width="320" height="256" rx="24"/>
+        <path d="M 160 208 v -48 a 96 96 0 0 1 192 0 v 48"/>
+      </svg>
+      <span class="privacy-text">No account required. You choose where your data lives.</span>
+    </div>
+
+    <div class="restore">Restore Purchases</div>
+  </div>
+</body>
+</html>

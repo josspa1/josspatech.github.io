@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --navy: #1A4F7A;
+    --navy-dark: #0C3358;
+    --gold: #F0C040;
+    --on-dark-muted: rgba(255,255,255,0.72);
+    --on-dark-secondary: rgba(255,255,255,0.55);
+  }
+  body {
+    width: 1242px; height: 2688px;
+    background: var(--navy);
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+  .status {
+    height: 54px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; color: rgba(255,255,255,0.9); font-size: 26px; font-weight: 600;
+  }
+  .title-bar {
+    position: absolute; top: 72px; left: 48px; z-index: 10;
+    display: flex; align-items: center; gap: 14px;
+    background: rgba(255,255,255,0.12); padding: 14px 24px; border-radius: 28px;
+  }
+  .title-text { color: #fff; font-size: 26px; font-weight: 700; }
+  .title-counter { color: var(--on-dark-muted); font-size: 24px; font-weight: 600; }
+  .skip-btn {
+    position: absolute; top: 74px; right: 48px; z-index: 10;
+    display: flex; align-items: center; gap: 6px;
+    color: #fff; font-size: 26px; font-weight: 600;
+  }
+  .hero-area {
+    position: absolute; top: 220px; left: 0; right: 0; bottom: 520px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 0 64px;
+  }
+  .glow {
+    position: absolute; width: 360px; height: 360px; border-radius: 50%;
+    background: var(--gold); opacity: 0.18; top: 28%;
+    filter: blur(40px);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.12; transform: scale(0.95); }
+    50% { opacity: 0.28; transform: scale(1.05); }
+  }
+  .shield {
+    width: 180px; height: 180px; margin-bottom: 56px; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .shield svg { width: 140px; height: 140px; color: var(--gold); filter: drop-shadow(0 0 24px rgba(240,192,64,0.45)); }
+  .privacy-line {
+    font-size: 36px; font-weight: 800; color: #fff; text-align: center;
+    line-height: 1.25; margin-bottom: 36px; z-index: 2;
+  }
+  .subtext { text-align: center; z-index: 2; }
+  .subtext-line {
+    font-size: 28px; color: var(--on-dark-secondary); line-height: 1.45;
+  }
+  .bottom-panel {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 56px 64px 120px;
+    background: rgba(0,0,0,0.15);
+  }
+  .headline {
+    font-size: 44px; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 16px;
+  }
+  .sub {
+    font-size: 30px; color: var(--on-dark-muted); line-height: 1.35; margin-bottom: 36px;
+  }
+  .dots { display: flex; gap: 12px; margin-bottom: 40px; }
+  .dot {
+    width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.28);
+  }
+  .dot.on { width: 36px; border-radius: 6px; background: var(--gold); }
+  .next-btn {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    background: var(--gold); color: var(--navy); font-size: 32px; font-weight: 800;
+    padding: 28px; border-radius: 20px;
+  }
+</style>
+</head>
+<body>
+  <div class="status"><span>9:41</span><span>●●●●  WiFi  100%</span></div>
+
+  <div class="title-bar">
+    <span class="title-text">Quick tour</span>
+    <span class="title-counter">4 of 4</span>
+  </div>
+  <div class="skip-btn">Skip tour ›</div>
+
+  <div class="hero-area">
+    <div class="glow"></div>
+    <div class="shield">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54l-2.83-2.83 1.41-1.41 1.42 1.42 3.54-3.54 1.41 1.41-4.95 4.95z"/></svg>
+    </div>
+    <div class="privacy-line">100% private.<br>Zero cloud tracking.</div>
+    <div class="subtext">
+      <div class="subtext-line">Your finances never leave your phone.</div>
+      <div class="subtext-line">Not even we can see them.</div>
+    </div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="headline">Your Data. Your Device.</div>
+    <div class="sub">100% private. Zero cloud tracking.</div>
+    <div class="dots">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot on"></span>
+    </div>
+    <div class="next-btn">Get started →</div>
+  </div>
+</body>
+</html>

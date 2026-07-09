@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1A4F7A;
+    --navy-dark: #0C3358;
+    --navy-mid: #2E6FA3;
+    --gold: #F0C040;
+    --gold-dark: #E8A820;
+    --success: #27AE60;
+    --error: #E74C3C;
+    --warning: #E67E22;
+    --bg: #F0F4F8;
+    --surface: #FFFFFF;
+    --border: #E2E8F0;
+    --text: #1A202C;
+    --text2: #4A5568;
+    --text3: #A0AEC0;
+  }
+
+  body {
+    width: 1242px;
+    height: 2688px;
+    background: var(--bg);
+    font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Status bar */
+  .status {
+    background: var(--navy-dark);
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    color: white;
+    font-size: 26px;
+    font-weight: 600;
+  }
+  .status-right { display: flex; gap: 16px; align-items: center; }
+  .signal { font-size: 22px; }
+
+  /* Hero header */
+  .hero {
+    background: linear-gradient(160deg, var(--navy-dark) 0%, var(--navy) 60%, var(--navy-mid) 100%);
+    padding: 48px 56px 60px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(240,192,64,0.06);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-emoji { font-size: 56px; margin-bottom: 16px; }
+  .hero-title { color: #fff; font-size: 48px; font-weight: 800; margin-bottom: 12px; }
+  .hero-subtitle { color: rgba(255,255,255,0.5); font-size: 28px; font-weight: 500; }
+
+  .month-selector {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 12px 24px;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Content */
+  .content { padding: 0 40px; margin-top: -24px; position: relative; z-index: 10; }
+
+  /* Calendar card */
+  .calendar-card {
+    background: var(--surface);
+    border-radius: 28px;
+    padding: 32px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .calendar-header {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text3);
+    text-align: center;
+    padding: 8px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    background: #F8F9FA;
+    position: relative;
+  }
+
+  .calendar-day.today {
+    background: #EBF4FF;
+    color: var(--navy);
+  }
+
+  .calendar-dot {
+    position: absolute;
+    bottom: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .calendar-day.payday .calendar-dot {
+    background: var(--success);
+  }
+
+  .calendar-day.billdue .calendar-dot {
+    background: var(--error);
+  }
+
+  /* Bills timeline */
+  .bills-card {
+    background: var(--surface);
+    border-radius: 28px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .bills-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 28px;
+    display: flex;
+    gap: 24px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -42px;
+    top: 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 3px solid;
+    flex-shrink: 0;
+  }
+
+  .timeline-dot.pending {
+    border-color: #2980B9;
+    background: #EBF4FF;
+  }
+
+  .timeline-dot.subscription {
+    border-color: #9B59B6;
+    background: #F4EBF7;
+  }
+
+  .timeline-dot.payday {
+    border-color: var(--success);
+    background: #F0FDF4;
+    width: 26px;
+    height: 26px;
+    left: -45px;
+  }
+
+  .timeline-dot.billdue {
+    border-color: var(--error);
+    background: #FEF2F2;
+  }
+
+  .timeline-content {
+    flex: 1;
+  }
+
+  .timeline-date {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text3);
+    margin-bottom: 6px;
+  }
+
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .timeline-name {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .timeline-badge {
+    background: #F4EBF7;
+    color: #9B59B6;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .timeline-amount {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .timeline-item.payday .timeline-name {
+    font-size: 28px;
+    color: var(--success);
+  }
+
+  .timeline-item.payday .timeline-amount {
+    color: var(--success);
+  }
+
+  .timeline-item.payday .timeline-date {
+    color: var(--success);
+    font-weight: 700;
+  }
+
+  .timeline-item.billdue .timeline-amount {
+    color: var(--error);
+  }
+
+  /* Summary footer */
+  .bills-summary {
+    border-top: 1px solid var(--border);
+    margin-top: 28px;
+    padding-top: 24px;
+    font-size: 22px;
+    color: var(--text2);
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  /* Bottom nav */
+  .nav {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    height: 140px;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 0 20px 24px;
+  }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .nav-icon { font-size: 34px; }
+  .nav-label { font-size: 18px; font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--navy); }
+  .nav-item.active .nav-icon { filter: none; }
+  .nav-item:not(.active) .nav-label { color: var(--text3); }
+
+  .fab {
+    width: 100px; height: 100px; border-radius: 32px;
+    background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 52px; color: var(--navy-dark);
+    box-shadow: 0 8px 32px rgba(240,192,64,0.4);
+    margin-top: -40px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Status bar -->
+<div class="status">
+  <span>9:41</span>
+  <div class="status-right">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;color:white;"><rect x="2" y="16" width="3" height="4" rx="1"/><rect x="7" y="12" width="3" height="8" rx="1"/><rect x="12" y="8" width="3" height="12" rx="1"/><rect x="17" y="4" width="3" height="16" rx="1"/></svg><svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;color:white;"><path d="M12 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-5.66-3.34a1 1 0 0 0 1.41 1.42 6 6 0 0 1 8.49 0 1 1 0 0 0 1.42-1.42 8 8 0 0 0-11.32 0zM1.39 10.05a1 1 0 0 0 1.41 1.41 13 13 0 0 1 18.4 0 1 1 0 0 0 1.41-1.41 15 15 0 0 0-21.22 0z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" style="width:28px;height:28px;"><rect x="2" y="7" width="18" height="10" rx="2.5"/><rect x="4" y="9" width="14" height="6" rx="1" fill="white"/><rect x="21" y="10" width="1.6" height="4" rx="0.8" fill="white" stroke="none"/></svg>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-emoji"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#2E6FA3;"><path fill="currentColor" d="M7 2v3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3V2h-2v3H9V2zm-3 8h16v11H4z"/><path fill="white" d="M7 13h3v3H7zM13 13h3v3h-3z"/></svg></div>
+    <div class="hero-title">Bills & Paydays</div>
+    <div class="hero-subtitle">Never miss a payment</div>
+  </div>
+  <div class="month-selector">April 2026</div>
+</div>
+
+<!-- Content -->
+<div class="content">
+
+  <!-- Calendar -->
+  <div class="calendar-card">
+    <div class="calendar-grid">
+      <!-- Header -->
+      <div class="calendar-header">S</div>
+      <div class="calendar-header">M</div>
+      <div class="calendar-header">T</div>
+      <div class="calendar-header">W</div>
+      <div class="calendar-header">T</div>
+      <div class="calendar-header">F</div>
+      <div class="calendar-header">S</div>
+
+      <!-- April 2026 calendar -->
+      <!-- Empty cells for days before 1st -->
+      <div class="calendar-day" style="visibility:hidden;"></div>
+      <!-- Days 1-30 -->
+      <div class="calendar-day billdue">
+        1<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day">2</div>
+      <div class="calendar-day">3</div>
+      <div class="calendar-day">4</div>
+      <div class="calendar-day billdue">
+        5<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day">6</div>
+
+      <div class="calendar-day">7</div>
+      <div class="calendar-day">8</div>
+      <div class="calendar-day">9</div>
+      <div class="calendar-day">10</div>
+      <div class="calendar-day billdue">
+        12<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day">13</div>
+
+      <div class="calendar-day">14</div>
+      <div class="calendar-day billdue">
+        15<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day">16</div>
+      <div class="calendar-day">17</div>
+      <div class="calendar-day">18</div>
+      <div class="calendar-day">19</div>
+      <div class="calendar-day billdue">
+        20<div class="calendar-dot"></div>
+      </div>
+
+      <div class="calendar-day">21</div>
+      <div class="calendar-day">22</div>
+      <div class="calendar-day">23</div>
+      <div class="calendar-day payday">
+        24<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day billdue">
+        25<div class="calendar-dot"></div>
+      </div>
+      <div class="calendar-day">26</div>
+      <div class="calendar-day">27</div>
+
+      <div class="calendar-day">28</div>
+      <div class="calendar-day">29</div>
+      <div class="calendar-day">30</div>
+    </div>
+  </div>
+
+  <!-- Bills timeline -->
+  <div class="bills-card">
+    <div class="bills-title">Upcoming Bills</div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot pending"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">Apr 12</div>
+          <div class="timeline-header">
+            <div class="timeline-name">Internet</div>
+          </div>
+          <div class="timeline-amount">$80</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot subscription"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">Apr 15</div>
+          <div class="timeline-header">
+            <div class="timeline-name">Netflix</div>
+            <div class="timeline-badge">Subscription</div>
+          </div>
+          <div class="timeline-amount">$15.99</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot pending"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">Apr 20</div>
+          <div class="timeline-header">
+            <div class="timeline-name">Water Bill</div>
+          </div>
+          <div class="timeline-amount">$65</div>
+        </div>
+      </div>
+
+      <div class="timeline-item payday">
+        <div class="timeline-dot payday"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">Apr 24</div>
+          <div class="timeline-header">
+            <div class="timeline-name"><svg viewBox="0 0 24 24" style="width:40px;height:40px;color:#F0C040;"><path fill="currentColor" d="M12 2C7 2 3 6 3 11s4 9 9 9 9-4 9-9-4-9-9-9zm1 14h-2v-1H9v-2h4v-1h-2a2 2 0 0 1 0-4h2V7h2v1h2v2h-4v1h2a2 2 0 0 1 0 4h-2z"/></svg> PAYDAY</div>
+          </div>
+          <div class="timeline-amount">$2,100</div>
+        </div>
+      </div>
+
+      <div class="timeline-item billdue">
+        <div class="timeline-dot billdue"></div>
+        <div class="timeline-content">
+          <div class="timeline-date">Apr 25</div>
+          <div class="timeline-header">
+            <div class="timeline-name">Car Payment</div>
+          </div>
+          <div class="timeline-amount">$350</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bills-summary">
+      <strong>Total due this month:</strong> $2,745 · <strong>Next payday:</strong> 14 days
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom nav -->
+<div class="nav">
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="#A0AEC0" style="width:36px;height:36px;"><path d="M12 3 2 12h3v8h5v-6h4v6h5v-8h3z"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Dashboard</div>
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" style="width:36px;height:36px;"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 10h8M8 14h8"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Transactions</div>
+  </div>
+  <div class="fab"><svg viewBox="0 0 24 24" fill="#0C3358" style="width:56px;height:56px;"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z"/></svg></div>
+  <div class="nav-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" style="width:36px;height:36px;"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/><path d="M12 3v9l6 4"/></svg>
+    <div class="nav-label" style="color:#1A4F7A;">Budget</div>
+  </div>
+  <div class="nav-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#A0AEC0" stroke-width="2" stroke-linecap="round" style="width:36px;height:36px;"><path d="M4 20V10M10 20V4M16 20v-8M22 20V14"/></svg>
+    <div class="nav-label" style="color:#A0AEC0;">Insights</div>
+  </div>
+</div>
+
+</body>
+</html>

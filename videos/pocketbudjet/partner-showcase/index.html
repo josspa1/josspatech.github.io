@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PocketBudJet — Partner Showcase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&amp;family=Source+Sans+3:wght@400;600&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --gold: #F0C040; --bg: #0C3358; }
+    body { font-family: 'Source Sans 3', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+    .top { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; background: rgba(0,0,0,0.35); }
+    .top h1 { font-family: 'Playfair Display', serif; font-size: 1.1rem; }
+    .top .meta { font-size: 0.85rem; opacity: 0.85; }
+    .stage-wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    .stage {
+      position: relative; width: 100%; min-height: 520px;
+      display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(ellipse at center, #1a3a5c 0%, #0a1a2e 70%);
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+    }
+    .slide {
+      position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+    }
+    .slide.active { opacity: 1; }
+    .phone {
+      width: min(300px, 42vw); aspect-ratio: 9/19.5;
+      border: 8px solid #1a1a1a; border-radius: 36px;
+      background: #000; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 0 0 2px rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .phone::before {
+      content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+      width: 72px; height: 22px; background: #1a1a1a; border-radius: 0 0 12px 12px; z-index: 2;
+    }
+    .phone-scroll {
+      position: absolute; inset: 0; overflow: hidden;
+    }
+    .phone-photo { display: flex; align-items: stretch; justify-content: center; background: #000; }
+    .screen-img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block; transition: opacity 0.35s ease;
+    }
+    .screen-img.fade { opacity: 0.15; }
+    .screen-video {
+      width: 100%; height: 100%; object-fit: cover; object-position: top center;
+      display: block; background: #000;
+    }
+    .screen-frame {
+      position: absolute; top: 0; left: 0; width: 1242px; height: 3200px;
+      border: none; transform: scale(0.242) translateY(0); transform-origin: top left;
+      pointer-events: none; transition: transform 0.6s ease;
+    }
+    .privacy-frame { width: 1242px; height: 2688px; transform: scale(0.242) translateY(0); }
+    .intro-phone { position: relative; }
+    .intro-privacy-layer {
+      position: absolute; inset: 0; z-index: 3; opacity: 1;
+      transition: opacity 0.65s ease; background: #000; overflow: hidden;
+    }
+    .intro-privacy-layer.faded { opacity: 0; pointer-events: none; }
+    .intro-main-layer {
+      position: absolute; inset: 0; z-index: 1; opacity: 0;
+      transition: opacity 0.65s ease; display: flex; align-items: stretch;
+    }
+    .intro-main-layer.visible { opacity: 1; z-index: 2; }
+    .intro-main-layer .screen-video,
+    .intro-main-layer .screen-img { width: 100%; height: 100%; }
+    .theme-badge {
+      margin-top: 0.75rem; font-weight: 700; font-size: 0.95rem;
+      background: var(--gold); color: #0C3358; padding: 0.35rem 1rem; border-radius: 999px;
+    }
+    .slide-list { padding: 1.5rem; }
+    .feature-grid {
+      display: flex; flex-wrap: wrap; gap: 0.65rem; justify-content: center;
+      max-width: 720px; padding: 0 1rem;
+    }
+    .chip {
+      background: rgba(240,192,64,0.15); border: 1px solid rgba(240,192,64,0.45);
+      color: #fff; padding: 0.55rem 1rem; border-radius: 999px;
+      font-size: 0.95rem; font-weight: 600;
+      animation: chipIn 0.5s ease both;
+    }
+    .chip:nth-child(2) { animation-delay: 0.08s; }
+    .chip:nth-child(3) { animation-delay: 0.16s; }
+    .chip:nth-child(4) { animation-delay: 0.24s; }
+    .chip:nth-child(5) { animation-delay: 0.32s; }
+    .chip:nth-child(6) { animation-delay: 0.4s; }
+    .chip:nth-child(7) { animation-delay: 0.48s; }
+    .chip:nth-child(8) { animation-delay: 0.56s; }
+    @keyframes chipIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .feature-note { margin-top: 1.25rem; opacity: 0.75; font-size: 0.9rem; }
+    .caption-wrap { max-width: 1100px; margin: 0 auto; padding: 0.75rem 1rem; text-align: center; min-height: 56px; }
+    .caption { display: none; }
+    .caption.active { display: block; }
+    .caption .tag {
+      display: inline-block; background: var(--gold); color: var(--bg);
+      font-size: 0.65rem; font-weight: 800; padding: 3px 10px; border-radius: 999px;
+      margin-bottom: 0.35rem; letter-spacing: 0.06em;
+    }
+    .caption h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
+    .controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: center; padding: 0.5rem 1rem 1.5rem; }
+    button { font: inherit; cursor: pointer; border: none; border-radius: 8px; padding: 0.65rem 1.25rem; font-weight: 700; }
+    .btn-primary { background: var(--gold); color: var(--bg); padding: 0.85rem 2rem; }
+    .btn-secondary { background: rgba(255,255,255,0.12); color: #fff; }
+    .dots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; max-width: 360px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.25); cursor: pointer; border: none; padding: 0; }
+    .dot.active { background: var(--gold); width: 20px; border-radius: 4px; }
+    .overlay {
+      position: fixed; inset: 0; z-index: 100; background: rgba(6,20,40,0.94);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
+    }
+    .overlay.hidden { display: none; }
+    .overlay h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 5vw, 2.6rem); margin-bottom: 0.75rem; }
+    .overlay p { max-width: 480px; opacity: 0.9; margin-bottom: 1.5rem; line-height: 1.5; }
+    .status { font-size: 0.9rem; opacity: 0.75; min-width: 90px; text-align: center; }
+    .voice-btn {
+      background: rgba(255,255,255,0.12); color: #fff; border: none; border-radius: 50%;
+      width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .voice-btn.muted { opacity: 0.45; }
+    .progress { height: 4px; background: rgba(255,255,255,0.15); margin: 0 1rem; border-radius: 2px; }
+    .progress > div { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; border-radius: 2px; }
+    .extra { max-width: 900px; margin: 0 auto 2rem; padding: 0 1rem; font-size: 0.9rem; opacity: 0.7; }
+    .extra summary { cursor: pointer; color: var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <h2>PocketBudJet</h2>
+    <p>A Mack truck of features — that handles like a Porsche.</p>
+    <button class="btn-primary" id="startBtn">Start</button>
+  </div>
+
+  <div class="top">
+    <h1>PocketBudJet</h1>
+    <div class="meta" id="slideLabel">Slide 1 / 10</div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+
+  <div class="stage-wrap">
+    <div class="stage" id="stage">
+        <div class="slide active" data-index="0" data-home-video="1" data-intro-privacy="feature-private.html" data-intro-privacy-ms="4200">
+          <div class="phone phone-photo intro-phone">
+            <div class="intro-privacy-layer">
+              <iframe class="screen-frame privacy-frame" title="100% private" loading="eager"></iframe>
+            </div>
+            <div class="intro-main-layer"><video class="screen-video" src="video/home-hero.mp4" muted playsinline loop preload="auto"></video></div>
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="1" data-image="transactions-live.jpg">
+          <div class="phone phone-photo">
+            <img class="screen-img" src="screens/transactions-live.jpg" alt="See every dollar" />
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="2" data-image="budget-live.jpg">
+          <div class="phone phone-photo">
+            <img class="screen-img" src="screens/budget-live.jpg" alt="Budget with depth" />
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="3" data-screen="debt.html">
+          <div class="phone">
+            <div class="phone-scroll">
+              <iframe class="screen-frame" title="Freedom on a timeline" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="4" data-image="coach-live.jpg">
+          <div class="phone phone-photo">
+            <img class="screen-img" src="screens/coach-live.jpg" alt="Your Coach" />
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="5" data-screen="scanner.html">
+          <div class="phone">
+            <div class="phone-scroll">
+              <iframe class="screen-frame" title="Price matching" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide" data-index="6" data-eye-candy="home-concierge.jpg,home-sankey.jpg,home-donut.jpg" data-theme-labels="Home hero,Breakdowns,Spending donut">
+          <div class="phone phone-photo">
+            <img class="screen-img eye-candy-img" src="screens/home-concierge.jpg" alt="Classic · PB&amp;J · OLED" />
+          </div>
+          <div class="theme-badge">Home hero</div>
+        </div>
+        <div class="slide" data-index="7" data-image="subscriptions-live.jpg">
+          <div class="phone phone-photo">
+            <img class="screen-img" src="screens/subscriptions-live.jpg" alt="Subscriptions surfaced" />
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+        <div class="slide slide-list" data-index="8" data-feature-list="1">
+          <div class="feature-grid"><span class="chip">US bank sync</span>
+            <span class="chip">Tax & mileage exports</span>
+            <span class="chip">Transaction rules</span>
+            <span class="chip">Web companion</span>
+            <span class="chip">11 languages</span>
+            <span class="chip">Cancel in one tap → Play subscriptions</span>
+            <span class="chip">Receipt scanner batch import</span>
+            <span class="chip">Household sync</span></div>
+          <p class="feature-note">102 features total · 7 shown here</p>
+        </div>
+        <div class="slide" data-index="9" data-screen="paywall.html">
+          <div class="phone">
+            <div class="phone-scroll">
+              <iframe class="screen-frame" title="Built to win" loading="lazy"></iframe>
+            </div>
+          </div>
+          <div class="theme-badge" hidden></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="caption-wrap" id="captions">
+        <div class="caption active" data-index="0">
+          <span class="tag">WELCOME</span>
+          <h2>PocketBudJet</h2>
+        </div>
+        <div class="caption" data-index="1">
+          <span class="tag">BREAKDOWNS</span>
+          <h2>See every dollar</h2>
+        </div>
+        <div class="caption" data-index="2">
+          <span class="tag">BUDGET</span>
+          <h2>Budget with depth</h2>
+        </div>
+        <div class="caption" data-index="3">
+          <span class="tag">GOALS</span>
+          <h2>Freedom on a timeline</h2>
+        </div>
+        <div class="caption" data-index="4">
+          <span class="tag">COACH</span>
+          <h2>Your Coach</h2>
+        </div>
+        <div class="caption" data-index="5">
+          <span class="tag">MATCH</span>
+          <h2>Price matching</h2>
+        </div>
+        <div class="caption" data-index="6">
+          <span class="tag">COLOR</span>
+          <h2>Classic · PB&J · OLED</h2>
+        </div>
+        <div class="caption" data-index="7">
+          <span class="tag">TRUST</span>
+          <h2>Subscriptions surfaced</h2>
+        </div>
+        <div class="caption" data-index="8">
+          <span class="tag">AND MORE</span>
+          <h2>Plus dozens more</h2>
+        </div>
+        <div class="caption" data-index="9">
+          <span class="tag">CLOSE</span>
+          <h2>Built to win</h2>
+        </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-secondary" id="prevBtn">Prev</button>
+    <button class="btn-primary" id="playBtn">Pause</button>
+    <button class="btn-secondary" id="nextBtn">Next</button>
+    <div class="dots" id="dots"></div>
+    <button type="button" class="voice-btn" id="voiceBtn" aria-label="Toggle narration">&#128264;</button>
+    <span class="status" id="status">Ready</span>
+  </div>
+
+  <details class="extra">
+    <summary>Partner links</summary>
+    <p style="margin-top:0.5rem">JosspaTech LLC · josspatech.com · Teller App ID app_psfagjumce7veea470000</p>
+  </details>
+
+  <script>
+  (function(){
+    const NARRATIONS = ["Welcome to PocketBudJet. A Mack truck of features, that handles like a Porsche. Watch.","Categories, accounts, months. Breakdowns that click instantly.","Envelopes, rollover, goals. Serious budgeting in living color.","Debt payoff and savings charts. Progress you can feel.","The Coach knows their numbers. Ask anything, get a real answer.","Scan a receipt, price-match every line. Savings at the store.","Classic navy and gold. Grape-and-honey PB and J. True OLED black.","It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.","Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.","Seven highlights on screen. 102 highly useful features inside. PocketBudJet."];
+    const SLIDE_FALLBACK_MS = 10000;
+    const POST_SLIDE_PAUSE_MS = 1100;
+    const audioPaths = Array.from({length: 10}, (_, i) => 'audio/slide-' + i + '.mp3');
+    const audioCache = audioPaths.map((src) => { const a = new Audio(); a.preload = 'auto'; a.src = src; return a; });
+    const slides = document.querySelectorAll('.slide');
+    const captions = document.querySelectorAll('.caption');
+    const dotsEl = document.getElementById('dots');
+    const progressBar = document.getElementById('progressBar');
+    const slideLabel = document.getElementById('slideLabel');
+    const status = document.getElementById('status');
+    const overlay = document.getElementById('overlay');
+    const startBtn = document.getElementById('startBtn');
+    const playBtn = document.getElementById('playBtn');
+    const voiceBtn = document.getElementById('voiceBtn');
+    let cur = 0, playing = false, voiceOn = true;
+    let audioElement = null, advanceTimer = null, themeTimer = null, introTimer = null;
+
+    slides.forEach((_, i) => {
+      const b = document.createElement('button');
+      b.className = 'dot' + (i ? '' : ' active');
+      b.type = 'button';
+      b.onclick = () => { stopAll(); if (playing) go(i, true); else { show(i); status.textContent = 'Paused'; } };
+      dotsEl.appendChild(b);
+    });
+
+    voiceBtn.onclick = () => {
+      voiceOn = !voiceOn;
+      voiceBtn.classList.toggle('muted', !voiceOn);
+      if (!voiceOn) stopAudio(); else if (playing) playSlideAudio(cur, () => {});
+    };
+
+    function stopAudio(){
+      if (audioElement) {
+        audioElement.onended = null;
+        audioElement.onerror = null;
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        audioElement = null;
+      }
+      clearTimeout(advanceTimer);
+      syncHomeVideo(false);
+    }
+    function stopIntro(){ clearTimeout(introTimer); introTimer = null; }
+    function stopTheme(){ clearInterval(themeTimer); themeTimer = null; stopIntro(); }
+    function stopAll(){ stopAudio(); stopTheme(); }
+
+    function resetIntroLayers(slide) {
+      if (!slide || !slide.dataset.introPrivacy) return;
+      const priv = slide.querySelector('.intro-privacy-layer');
+      const main = slide.querySelector('.intro-main-layer');
+      if (priv) priv.classList.remove('faded');
+      if (main) main.classList.remove('visible');
+      const pFrame = slide.querySelector('.privacy-frame');
+      if (pFrame && !pFrame.src) pFrame.src = 'screens/' + slide.dataset.introPrivacy;
+    }
+
+    function beginIntroReveal(slide, playMain) {
+      if (!slide || !slide.dataset.introPrivacy) {
+        if (playMain) syncHomeVideo(true);
+        return;
+      }
+      resetIntroLayers(slide);
+      const ms = parseInt(slide.dataset.introPrivacyMs || '4200', 10);
+      const priv = slide.querySelector('.intro-privacy-layer');
+      const main = slide.querySelector('.intro-main-layer');
+      stopIntro();
+      introTimer = setTimeout(() => {
+        if (priv) priv.classList.add('faded');
+        if (main) main.classList.add('visible');
+        if (playMain) {
+          syncHomeVideo(true);
+          const img = slide.querySelector('.eye-candy-img');
+          if (img && slide.dataset.eyeCandy) startEyeCandy(slide);
+          const hero = slide.querySelector('.hero-frame');
+          if (hero && slide.dataset.screen) {
+            hero.src = 'screens/' + slide.dataset.screen;
+            const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
+            hero.style.transform = 'scale(0.242) translateY(-' + y + 'px)';
+          }
+        }
+      }, ms);
+    }
+
+    function startEyeCandy(slide) {
+      const files = slide.dataset.eyeCandy.split(',');
+      const labels = slide.dataset.themeLabels ? slide.dataset.themeLabels.split(',') : [];
+      const img = slide.querySelector('.eye-candy-img');
+      const badge = slide.querySelector('.theme-badge');
+      if (!img || files.length === 0) return;
+      let ci = 0;
+      const showCandy = () => {
+        if (badge && labels.length) {
+          badge.hidden = false;
+          badge.textContent = labels[ci] || '';
+        }
+        img.classList.add('fade');
+        setTimeout(() => {
+          img.src = 'screens/' + files[ci];
+          img.classList.remove('fade');
+          ci = (ci + 1) % files.length;
+        }, 180);
+      };
+      showCandy();
+      themeTimer = setInterval(showCandy, 2800);
+    }
+
+    function syncHomeVideo(play) {
+      const slide = slides[cur];
+      if (!slide || !slide.dataset.homeVideo) return;
+      if (slide.dataset.introPrivacy && play) {
+        const main = slide.querySelector('.intro-main-layer');
+        if (main && !main.classList.contains('visible')) return;
+      }
+      const vid = slide.querySelector('.screen-video');
+      if (!vid) return;
+      if (play) { vid.currentTime = 0; const p = vid.play(); if (p) p.catch(() => {}); }
+      else { vid.pause(); }
+    }
+
+    function loadSlideScreen(i){
+      const slide = slides[i];
+      if (slide.dataset.featureList) { stopTheme(); syncHomeVideo(false); return; }
+      if (slide.dataset.introPrivacy) resetIntroLayers(slide);
+      if (slide.dataset.homeVideo) {
+        stopTheme();
+        const vid = slide.querySelector('.screen-video');
+        if (vid) vid.currentTime = 0;
+        if (playing && !slide.dataset.introPrivacy) syncHomeVideo(true);
+        return;
+      }
+      if (slide.dataset.eyeCandy) {
+        stopTheme();
+        if (playing && !slide.dataset.introPrivacy) startEyeCandy(slide);
+        return;
+      }
+      if (slide.dataset.image) { stopTheme(); return; }
+      const iframe = slide.querySelector('.screen-frame');
+      const badge = slide.querySelector('.theme-badge');
+      if (!iframe) return;
+      iframe.classList.remove('pan');
+      iframe.style.transform = 'scale(0.242) translateY(0)';
+      void iframe.offsetWidth;
+      stopTheme();
+      if (slide.dataset.themes) {
+        const files = slide.dataset.themes.split(',');
+        const labels = slide.dataset.themeLabels.split(',');
+        let ti = 0;
+        const showTheme = () => {
+          iframe.src = 'screens/' + files[ti];
+          if (badge) { badge.hidden = false; badge.textContent = labels[ti]; }
+          ti = (ti + 1) % files.length;
+        };
+        showTheme();
+        themeTimer = setInterval(showTheme, 2800);
+      } else {
+        if (badge) badge.hidden = true;
+        const file = slide.dataset.screen || 'home-modern.html';
+        iframe.src = 'screens/' + file;
+        const y = slide.dataset.scrollY ? parseInt(slide.dataset.scrollY, 10) : 0;
+        iframe.style.transform = 'scale(0.242) translateY(-' + y + 'px)';
+      }
+    }
+
+    function playSlideAudio(index, onDone){
+      stopAudio();
+      if (!voiceOn) { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); return; }
+      audioElement = audioCache[index] || new Audio(audioPaths[index]);
+      audioElement.volume = 1;
+      audioElement.currentTime = 0;
+      const start = () => {
+        const slide = slides[index];
+        if (slide && slide.dataset.introPrivacy) beginIntroReveal(slide, true);
+        else syncHomeVideo(true);
+        audioElement.onended = () => { advanceTimer = setTimeout(onDone, POST_SLIDE_PAUSE_MS); };
+        audioElement.onerror = () => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); };
+        const p = audioElement.play();
+        if (p) p.catch(() => { advanceTimer = setTimeout(onDone, SLIDE_FALLBACK_MS); });
+      };
+      if (audioElement.readyState >= 3) start();
+      else {
+        audioElement.addEventListener('canplaythrough', start, { once: true });
+        audioElement.load();
+      }
+    }
+
+    function show(i){
+      slides[cur].classList.remove('active');
+      captions[cur].classList.remove('active');
+      dotsEl.children[cur].classList.remove('active');
+      cur = i;
+      slides[cur].classList.add('active');
+      captions[cur].classList.add('active');
+      dotsEl.children[cur].classList.add('active');
+      slideLabel.textContent = 'Slide ' + (cur+1) + ' / ' + slides.length;
+      progressBar.style.width = ((cur+1) / slides.length * 100) + '%';
+      loadSlideScreen(cur);
+    }
+
+    function go(i, fromPlay){
+      if (!(fromPlay && playing)) stopAudio();
+      show(i);
+      if (fromPlay && playing) {
+        status.textContent = 'Playing…';
+        playSlideAudio(cur, () => {
+          if (!playing) return;
+          if (cur < slides.length - 1) go(cur + 1, true);
+          else finish();
+        });
+      }
+    }
+
+    function finish(){ playing = false; playBtn.textContent = 'Replay'; status.textContent = 'Done'; stopAll(); }
+
+    startBtn.onclick = () => { overlay.classList.add('hidden'); playing = true; playBtn.textContent = 'Pause'; go(0, true); };
+    playBtn.onclick = () => {
+      if (playBtn.textContent === 'Replay') { cur = 0; overlay.classList.add('hidden'); playing = true; playBtn.textContent = 'Pause'; go(0, true); return; }
+      if (!playing) { playing = true; playBtn.textContent = 'Pause'; go(cur, true); }
+      else { playing = false; playBtn.textContent = 'Resume'; status.textContent = 'Paused'; stopAll(); }
+    };
+    document.getElementById('prevBtn').onclick = () => { if (cur > 0) { playing = false; playBtn.textContent = 'Resume'; stopAll(); show(cur - 1); status.textContent = 'Paused'; } };
+    document.getElementById('nextBtn').onclick = () => { if (cur < slides.length - 1) { playing = false; playBtn.textContent = 'Resume'; stopAll(); show(cur + 1); status.textContent = 'Paused'; } };
+
+    show(0);
+  })();
+  </script>
+</body>
+</html>
