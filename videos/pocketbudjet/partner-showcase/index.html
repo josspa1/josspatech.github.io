@@ -37,6 +37,12 @@
     .phone-scroll {
       position: absolute; inset: 0; overflow: hidden;
     }
+    .theme-stack { position: absolute; inset: 0; }
+    .theme-layer {
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .theme-layer.active { opacity: 1; visibility: visible; z-index: 1; }
     .phone-photo { display: flex; align-items: stretch; justify-content: center; background: #000; }
     .screen-img {
       width: 100%; height: 100%; object-fit: cover; object-position: top center;
@@ -196,10 +202,12 @@
           </div>
           <div class="theme-badge" hidden></div>
         </div>
-        <div class="slide" data-index="6" data-themes="dashboard.html,dashboard-pbj.html,dashboard-oled.html" data-theme-labels="Classic navy &amp; gold,Grape &amp; honey PBJ,True OLED black" data-theme-ms="3200">
+        <div class="slide" data-index="6" data-themes="dashboard.html,dashboard-pbj.html,dashboard-oled.html" data-theme-labels="Classic navy &amp; gold,Grape &amp; honey PBJ,True OLED black" data-theme-at="0,1800,3600">
           <div class="phone">
-            <div class="phone-scroll">
-              <iframe class="screen-frame" title="Classic · PBJ · OLED" loading="lazy"></iframe>
+            <div class="phone-scroll theme-stack">
+              <iframe class="screen-frame theme-layer active" title="Classic navy and gold" loading="eager"></iframe>
+              <iframe class="screen-frame theme-layer" title="Grape and honey PBJ" loading="eager"></iframe>
+              <iframe class="screen-frame theme-layer" title="True OLED black" loading="eager"></iframe>
             </div>
           </div>
           <div class="theme-badge">Classic navy &amp; gold</div>
@@ -317,7 +325,7 @@
     const playBtn = document.getElementById('playBtn');
     const voiceBtn = document.getElementById('voiceBtn');
     let cur = 0, playing = false, voiceOn = true;
-    let audioElement = null, advanceTimer = null, themeTimer = null, introTimer = null;
+    let audioElement = null, advanceTimer = null, themeTimer = null, themeTimeouts = [], introTimer = null;
     const MOCK_W = 1242;
 
     function frameScale(phone) {
@@ -370,7 +378,13 @@
       syncHomeVideo(false);
     }
     function stopIntro(){ clearTimeout(introTimer); introTimer = null; }
-    function stopTheme(){ clearInterval(themeTimer); themeTimer = null; stopIntro(); }
+    function stopTheme(){
+      themeTimeouts.forEach((t) => clearTimeout(t));
+      themeTimeouts = [];
+      clearInterval(themeTimer);
+      themeTimer = null;
+      stopIntro();
+    }
     function stopAll(){ stopAudio(); stopTheme(); }
 
     function resetIntroLayers(slide) {
@@ -424,16 +438,54 @@
     }
 
     function prepareThemeSlide(slide) {
-      const files = slide.dataset.themes.split(',');
+      const files = slide.dataset.themes.split(',').map((s) => s.trim());
       const labels = slide.dataset.themeLabels.split(',');
-      const iframe = slide.querySelector('.screen-frame');
+      const layers = slide.querySelectorAll('.theme-layer');
+      const iframe = slide.querySelector('.screen-frame:not(.theme-layer)');
       const badge = slide.querySelector('.theme-badge');
-      if (!iframe || !files.length) return;
-      iframe.src = 'screens/' + files[0];
+      if (layers.length) {
+        layers.forEach((layer, i) => {
+          layer.classList.toggle('active', i === 0);
+          if (files[i]) layer.src = 'screens/' + files[i];
+        });
+      } else if (iframe && files.length) {
+        iframe.src = 'screens/' + files[0];
+      }
       if (badge) {
         badge.hidden = false;
         badge.textContent = labels[0] || '';
       }
+      syncFrameScales();
+    }
+
+    function startThemeCycle(slide) {
+      const files = slide.dataset.themes.split(',').map((s) => s.trim());
+      const labels = slide.dataset.themeLabels.split(',');
+      const layers = slide.querySelectorAll('.theme-layer');
+      const iframe = slide.querySelector('.screen-frame:not(.theme-layer)');
+      const badge = slide.querySelector('.theme-badge');
+      if (!slide.dataset.themes) return;
+      stopTheme();
+
+      const showIdx = (idx) => {
+        if (layers.length) {
+          layers.forEach((layer, i) => layer.classList.toggle('active', i === idx));
+        } else if (iframe && files[idx]) {
+          iframe.src = 'screens/' + files[idx];
+        }
+        if (badge && labels[idx]) {
+          badge.hidden = false;
+          badge.textContent = labels[idx];
+        }
+      };
+
+      const at = slide.dataset.themeAt
+        ? slide.dataset.themeAt.split(',').map((s) => parseInt(s.trim(), 10))
+        : files.map((_, i) => i * parseInt(slide.dataset.themeMs || '3200', 10));
+
+      at.forEach((ms, idx) => {
+        if (idx < files.length) themeTimeouts.push(setTimeout(() => showIdx(idx), ms));
+      });
     }
 
     function startEyeCandy(slide) {
@@ -459,22 +511,6 @@
       };
       showCandy();
       themeTimer = setInterval(showCandy, parseInt(slide.dataset.eyeMs || '2200', 10));
-    }
-
-    function startThemeCycle(slide) {
-      const iframe = slide.querySelector('.screen-frame');
-      const badge = slide.querySelector('.theme-badge');
-      if (!iframe || !slide.dataset.themes) return;
-      const files = slide.dataset.themes.split(',');
-      const labels = slide.dataset.themeLabels.split(',');
-      let ti = 0;
-      const showTheme = () => {
-        iframe.src = 'screens/' + files[ti];
-        if (badge) { badge.hidden = false; badge.textContent = labels[ti]; }
-        ti = (ti + 1) % files.length;
-      };
-      showTheme();
-      themeTimer = setInterval(showTheme, parseInt(slide.dataset.themeMs || '3200', 10));
     }
 
     function syncHomeVideo(play) {
