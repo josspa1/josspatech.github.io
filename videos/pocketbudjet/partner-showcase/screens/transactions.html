@@ -82,6 +82,15 @@
   .tx-amount.expense { color: var(--error); }
   .tx-amount.income { color: var(--success); }
   .tx-time { font-size: 20px; color: var(--text3); margin-top: 4px; }
+  .tx-insight {
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 10px;
+    background: rgba(39,174,96,0.1); border: 1px solid rgba(39,174,96,0.28);
+    border-radius: 12px; padding: 7px 14px;
+    font-size: 19px; font-weight: 700; color: #1e6b3e;
+  }
+  .tx-insight.warn {
+    background: rgba(240,192,64,0.12); border-color: rgba(240,192,64,0.35); color: #8a6914;
+  }
   .import-banner {
     background: rgba(26,79,122,0.07); border: 1.5px solid rgba(26,79,122,0.15);
     border-radius: 20px; padding: 28px 32px; margin-bottom: 28px;
@@ -159,6 +168,7 @@
             <div class="tx-cat-chip"><div class="tx-cat-dot" style="background:#E67E22;"></div><div class="tx-cat-text">Groceries</div></div>
             <div class="tx-source">First National Bank</div>
           </div>
+          <div class="tx-insight">Could've saved $6.40 · Costco $77.92</div>
         </div>
         <div class="tx-right"><div class="tx-amount expense">−$84.32</div><div class="tx-time">2:14 PM</div></div>
       </div>
@@ -230,6 +240,7 @@
             <div class="tx-cat-chip"><div class="tx-cat-dot" style="background:#E67E22;"></div><div class="tx-cat-text">Groceries</div></div>
             <div class="tx-source">First National Bank</div>
           </div>
+          <div class="tx-insight warn">3 items · $4.18 cheaper at Walmart</div>
         </div>
         <div class="tx-right"><div class="tx-amount expense">−$94.21</div><div class="tx-time">Scanned</div></div>
       </div>
@@ -241,6 +252,7 @@
             <div class="tx-cat-chip"><div class="tx-cat-dot" style="background:#D35400;"></div><div class="tx-cat-text">Shopping</div></div>
             <div class="tx-source">Premier Visa Card</div>
           </div>
+          <div class="tx-insight">Better price online · save $3.12</div>
         </div>
         <div class="tx-right"><div class="tx-amount expense">−$68.24</div><div class="tx-time">Imported</div></div>
       </div>

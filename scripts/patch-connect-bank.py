@@ -103,7 +103,7 @@ narration = '''                <div class="narration-panel" id="narrationPanel">
                     <div class="narration-card" data-index="3">
                         <span class="narration-step-badge">Step 4 of 7</span>
                         <h3>Find your institution</h3>
-                        <p>Search for your US bank or credit union. Teller supports major US banks; if yours is missing, use <a href="/videos/pocketbudjet/share-statements/" style="color:#1A4F7A;font-weight:600">Share to import</a> or CSV import instead — no bank password needed.</p>
+                        <p>Search for your US bank or credit union. Teller supports major US banks; if yours is missing, use <a href="/videos/user-guide/#chapter=54" style="color:#1A4F7A;font-weight:600">Share to import</a> or CSV import instead — no bank password needed.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="4">
@@ -150,7 +150,7 @@ html = html.replace("Your dashboard updates in real time", "Lapse disconnects ba
 
 html = html.replace(
     "Need help? See our <a href=\"/getting-started/\">Getting Started guide</a> or <a href=\"/how-to/\">Help Center</a>.",
-    "Prefer no bank login? See <a href=\"/videos/import/\">Import Bank Data</a> or <a href=\"/videos/pocketbudjet/share-statements/\">Share Statements</a>. Full policy: <a href=\"/docs/pocketbudjet/HowWeMakeMoney.html\">How We Make Money</a>.",
+    "Prefer no bank login? See the <a href=\"/videos/user-guide/#chapter=54\">Import chapter</a> or <a href=\"/videos/user-guide/#chapter=54\">Share statements</a> in the user manual. Full policy: <a href=\"/docs/pocketbudjet/HowWeMakeMoney.html\">How We Make Money</a>.",
 )
 
 # Remove budget-setup audio paths — use timer-only until VO recorded

@@ -16,24 +16,28 @@ Debt payoff and savings charts. Progress you can feel.
 
 ## 5. Your Coach (COACH)
 
-The Coach knows their numbers. Ask anything, get a real answer.
+The Coach knows their month — income, spending, goals, what's left. Transactions stay on the phone. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?
 
 ## 6. Price matching (MATCH)
 
-Scan a receipt, price-match every line. Savings at the store.
+Scan to price-match every line — then savings stay on your purchased-goods transactions.
 
-## 7. Classic · PB&J · OLED (COLOR)
+## 7. Classic · PBJ · OLED (COLOR)
 
-Classic navy and gold. Grape-and-honey PB and J. True OLED black.
+Classic navy and gold. Grape-and-honey PBJ. True OLED black.
 
-## 8. Subscriptions surfaced (TRUST)
+## 8. Swipe the carousel (HOME)
+
+Then swipe home — hero, Sankey, donut, merchants, weekly patterns.
+
+## 9. Subscriptions surfaced (TRUST)
 
 It finds and lists recurring subscriptions from their spending. A convenient cancel button on each one. Users stay in control.
 
-## 9. Plus dozens more (AND MORE)
+## 10. Plus dozens more (AND MORE)
 
 Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.
 
-## 10. Built to win (CLOSE)
+## 11. Built to win (CLOSE)
 
 Seven highlights on screen. 102 highly useful features inside. PocketBudJet.
