@@ -1,4 +1,4 @@
-{
+window.PBJ_SHOWCASE_BUNDLE = {
   "voices": {
     "en": "en-US-AndrewNeural",
     "es": "es-US-AlonsoNeural",
@@ -1033,4 +1033,4 @@
       "namePun": "«बजजट» जैसा लगता है — जानबूझकर।"
     }
   }
-}
+};

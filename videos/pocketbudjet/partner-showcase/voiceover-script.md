@@ -4,7 +4,7 @@ Welcome to PocketBudJet. A Mack truck of features, that corners like a Porsche. 
 
 ## 2. See every dollar (BREAKDOWNS)
 
-Categories, accounts, months. Breakdowns that click instantly.
+Categories, accounts, months. Breakdowns that immediately make sense.
 
 ## 3. Budget with depth (BUDGET)
 
@@ -16,19 +16,19 @@ Debt payoff and savings charts. Progress you can feel.
 
 ## 5. Your Coach (COACH)
 
-The Coach knows their month — income, spending, goals, what's left. Transactions stay on the phone. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?
+The Coach knows their month — income, spending, goals, what's left. Ask in plain English. Get a real answer. For example — How am I doing this month? Where am I overspending? What should I prioritize next?
 
 ## 6. Price matching (MATCH)
 
 Scan to price-match every line — then savings stay on your purchased-goods transactions.
 
-## 7. Classic · PBJ · OLED (COLOR)
+## 7. Four color schemes (COLOR)
 
-Classic navy and gold. Grape-and-honey PBJ. True OLED black.
+Four color schemes to choose from. Classic navy and gold. Warm rose and sage. Cool electric blue. Grape-and-honey PBJ.
 
-## 8. Swipe the carousel (HOME)
+## 8. Sankey money flow (HOME)
 
-Then swipe home — hero, Sankey, donut, merchants, weekly patterns.
+Then swipe home. Sankey — a money-flow chart other apps don't have. Donut breakdown. Spending by day of week.
 
 ## 9. Subscriptions surfaced (TRUST)
 

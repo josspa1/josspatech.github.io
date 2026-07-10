@@ -133,15 +133,22 @@ node C:\PBJ\cvc-batch\write-partner-showcase-v6.js
 | `coach-ask.jpg` | Coach ask screen | 4 COACH |
 | `screens/_spare/coach-live.jpg` | Coach → Reports (alt) | unused |
 | `subscriptions-live.jpg` | Subscription Tracker (Netflix) | 8 TRUST |
-| `home-concierge.jpg` | Home hero (ALL · AT A GLANCE) | 7 COLOR carousel |
-| `home-sankey.jpg` | Where Your Money Went | 7 COLOR carousel |
-| `home-donut.jpg` | Spending donut | 7 COLOR carousel |
-| `home-merchants.jpg` | Top merchants | 7 HOME carousel |
+| `home-concierge.jpg` | Home hero (ALL · AT A GLANCE) — Joe 2026-07-09, buttons surfaced | 7 HOME carousel |
+| `home-sankey.jpg` | Where Your Money Went · ALL | 7 HOME carousel |
+| `home-donut.jpg` | Spending donut | 7 HOME carousel |
+| `home-merchants.jpg` | Top merchants | unused (dropped from slide 7 — layout bleed) |
 | `screens/_spare/home-transactions-card.jpg` | Recent transactions on Home | unused |
 
 **Still mock HTML:** GOALS (`debt.html`), MATCH (`scanner.html`), CLOSE (`paywall.html`)
 
-**Preview:** `python -m http.server 8765` in partner-showcase folder
+**Preview:** `file://` breaks Start in Chrome (fetch blocked). Use a local server:
+
+```bash
+cd C:\Users\jossp\Documents\MobileApps\WebSite\HostedFiles\videos\pocketbudjet\partner-showcase
+python -m http.server 8765
+```
+
+Open **http://localhost:8765/** (not file://).
 
 ---
 
