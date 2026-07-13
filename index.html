@@ -11,7 +11,7 @@
 <script>
 (function () {
   var h = (location.hash || '').replace('#', '');
-  if (h === 'pbj' || h === 'intro-tour' || h === 'download' || h === 'pricing') document.documentElement.classList.add('boot-pbj');
+  if (h === 'pbj' || h === 'download' || h === 'pricing') document.documentElement.classList.add('boot-pbj');
   else if (h === 'hhh') document.documentElement.classList.add('boot-hhh');
   else if (h === 'cvc') document.documentElement.classList.add('boot-cvc');
 })();
@@ -498,6 +498,95 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   color:rgba(212,168,83,0.7);
 }
 
+/* PAL card — Pocket Allowance Ledger */
+.pal-card{
+  background:var(--navy-dk);border-radius:20px;
+  padding:48px 44px;
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 24px rgba(12,51,88,0.18),0 32px 64px rgba(12,51,88,0.14);
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease);
+}
+.pal-card:focus-visible{outline:2px solid var(--gold);outline-offset:4px;}
+.pal-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(12,51,88,0.22),0 40px 80px rgba(12,51,88,0.18);}
+.pal-card::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,184,74,0.14) 0%,transparent 65%);
+  pointer-events:none;
+}
+.pal-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(232,184,74,0.10);
+  border:1px solid rgba(232,184,74,0.22);
+  border-radius:16px;padding:5px 13px;
+  font-size:11px;font-weight:700;letter-spacing:1.8px;
+  text-transform:uppercase;color:#E8B84A;
+  width:fit-content;margin-bottom:20px;
+}
+.pal-badge-dot{width:5px;height:5px;border-radius:50%;background:#E8B84A;animation:pal-pulse 2s ease-in-out infinite;}
+@keyframes pal-pulse{0%,100%{opacity:.5;}50%{opacity:1;}}
+.pal-name{
+  font-family:'Playfair Display',serif;
+  font-size:32px;font-weight:900;color:#fff;
+  letter-spacing:-0.6px;line-height:1.1;
+  margin-bottom:6px;
+}
+.pal-name span{color:#E8B84A;}
+.pal-tagline{
+  font-size:1.125rem;color:rgba(255,255,255,0.58);
+  font-style:italic;margin-bottom:26px;line-height:1.55;
+}
+.pal-features{
+  list-style:none;display:flex;flex-direction:column;
+  gap:12px;margin-bottom:32px;flex:1;
+}
+.pal-features li{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:1.0625rem;color:rgba(255,255,255,0.82);line-height:1.55;
+}
+.pf-icon{
+  width:19px;height:19px;border-radius:50%;flex-shrink:0;
+  background:rgba(232,184,74,0.12);
+  border:1px solid rgba(232,184,74,0.22);
+  display:flex;align-items:center;justify-content:center;
+  margin-top:2px;
+}
+.pf-icon::after{
+  content:'';width:5px;height:5px;border-radius:50%;
+  background:#E8B84A;display:block;
+}
+.pal-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(232,184,74,0.12);color:#E8B84A;
+  font-size:14px;font-weight:700;
+  padding:13px 24px;border-radius:8px;
+  width:fit-content;text-decoration:none;
+  border:1px solid rgba(232,184,74,0.22);
+  transition:all .18s;
+}
+.pal-cta:hover{background:rgba(232,184,74,0.18);transform:translateY(-1px);}
+.pal-cta-arrow{transition:transform .18s;}
+.pal-card:hover .pal-cta-arrow{transform:translateX(3px);}
+.pal-platforms{
+  display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;
+}
+.pal-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 11px;border-radius:20px;
+  font-size:12px;font-weight:600;
+  border:1px solid rgba(255,255,255,0.10);
+  color:rgba(255,255,255,0.62);
+}
+.pal-pill.dev{
+  background:rgba(232,184,74,0.08);
+  border-color:rgba(232,184,74,0.18);
+  color:rgba(232,184,74,0.85);
+}
+
+
 /* ══ QUOTE BAR ═══════════════════════════════════════════ */
 .quote-bar{
   background:var(--navy-dk);padding:64px 48px;text-align:center;
@@ -618,7 +707,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 @media(max-width:600px){
   .hero-h1{letter-spacing:-1px;}
   .hero-actions{flex-direction:column;align-items:center;}
-  .product-card,.coming-card{padding:36px 28px;}
+  .product-card,.hhh-card,.pal-card,.coming-card{padding:36px 28px;}
   .footer-cols{gap:28px;}
 }
 
@@ -1204,7 +1293,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li><div class="pf-check"></div><span class="pf-text"><strong>Coach:</strong> AI Financial Coach, Ask PBJ chat, weekly recap, natural-language search, financial literacy</span></li>
           <li><div class="pf-check"></div><span class="pf-text"><strong>Tools:</strong> debt payoff engine, shopping intelligence &amp; price watch, tax &amp; pro exports (PDF, Excel, Word, OFX), household &amp; partner sync, PC Web Companion on WiFi, voice shortcuts, widgets, optional bank sync (Teller), and 40+ Toolbox power tools</span></li>
           <li><div class="pf-check"></div><span class="pf-text">Private by design &mdash; no account, no personal info; data stays on your phone by default</span></li>
-          <li><div class="pf-check"></div><span class="pf-text">Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/videos/user-guide/#chapter=54" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import guide &rarr;</a></span></li>
+          <li><div class="pf-check"></div><span class="pf-text">Import from your bank app or files &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX, PDF. <a href="/videos/user-guide/#chapter=54" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">Import chapter &rarr;</a></span></li>
           <li><div class="pf-check"></div><span class="pf-text">Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></span></li>
           <li><div class="pf-check"></div><span class="pf-text">Optional bank sync via Teller &mdash; US financial institutions only; paid Premium subscribers only (not included in trial)</span></li>
           <li><div class="pf-check"></div><span class="pf-text">63 currencies &middot; cancel anytime &middot; no contract</span></li>
@@ -1249,6 +1338,33 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <div class="hhh-pill">Android</div>
         </div>
       </div>
+
+      <!-- Pocket Allowance Ledger card -->
+      <div role="button" tabindex="0" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="pal-card rv d3">
+        <div class="pal-badge">
+          Parent app &middot; ages 6+
+        </div>
+        <div class="pal-name">Pocket Allowance<br><span>Ledger</span>™</div>
+        <div class="pal-tagline">A home token economy for families — parent-led rewards, not kid banking</div>
+        <ul class="pal-features">
+          <li><div class="pf-icon"></div>Parent-managed gold tokens and approved rewards — you set the contracts</li>
+          <li><div class="pf-icon"></div>Log behavior in one tap from a home screen built for busy evenings</li>
+          <li><div class="pf-icon"></div>Parents manage in the app; kids use the companion from any browser on home Wi&#8209;Fi</li>
+          <li><div class="pf-icon"></div>See token balances and assignments for every kid in the household</li>
+          <li><div class="pf-icon"></div>Coaching cards and trend reports — guide kids toward better habits</li>
+          <li><div class="pf-icon"></div>Your family&rsquo;s data stays on your phone — not in our cloud</li>
+          <li><div class="pf-icon"></div>Not Greenlight — no debit card, no custodial account</li>
+          <li><div class="pf-icon"></div>15&#8209;day free trial &middot; no card required &middot; Pro $9.99/mo or $74.99/yr</li>
+        </ul>
+        <div class="pal-cta">
+          Learn More
+          <span class="pal-cta-arrow">→</span>
+        </div>
+        <div class="pal-platforms">
+          <div class="pal-pill">Android</div>
+        </div>
+      </div>
+
 
       <!-- Curator's Vault: Classics card -->
       <div role="button" tabindex="0" onclick="showPage('cvc');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('cvc');}" class="cvc-card rv d3">
@@ -1344,8 +1460,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        \1\2<a href=\"#pal\" onclick=\"showPage('pal');return false;\">Pocket Allowance Ledger</a>\n\2\3 onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -1362,7 +1477,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a href="getting-started/">Getting Started</a>
         <a href="import/">Import Guide</a>
         <a href="for-professionals/">For Professionals</a>
-        <a href="how-to/">How To &amp; Guides</a>
+        <a href="how-to/">How To &amp; Help</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -1372,7 +1487,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="mailto:support@josspatech.com" class="footer-contact">support@josspatech.com</a>
   </div>
 </footer>
@@ -1392,8 +1507,8 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <p class="hero-sub">Start with a <strong>21-day Premium trial</strong> &mdash; no card required, bank sync excluded. Then subscribe at $9.99/mo or $74.99/yr, or lose access to Premium features (import and manual budgeting stay free). No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Cancel anytime.</strong></p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Start 21-Day Trial &#8594;</a>
-        <a href="#intro-tour" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">Watch intro</a>
-        <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Guides</a>
+        <a href="gary-demo/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">Watch demo</a>
+        <a href="how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Help</a>
         <a href="#pricing" class="btn-ghost">See pricing</a>
       </div>
     </div>
@@ -1452,6 +1567,154 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 @media (max-width: 720px) {
   .pbj-shot-side { display: none; }
   .pbj-shot-center img { width: 280px; transform: none; }
+}
+
+/* PAL — product page (mirrors HHH layout, sage/gold palette) */
+#page-pal .hero { text-align: left; padding-bottom: 64px; }
+#page-pal .hero-text { text-align: left; }
+#page-pal .hero-inner {
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 400px);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+#page-pal .hero-acts { justify-content: flex-start; }
+#page-pal .hhh-how-it-works {
+  background: linear-gradient(180deg, #121c28 0%, #0d1a28 100%);
+  border-color: rgba(232, 184, 74, 0.1);
+}
+#page-pal .hhh-how-eyebrow,
+#page-pal .hhh-feature-eyebrow { color: #E8B84A; }
+#page-pal .hhh-step {
+  background: rgba(232, 184, 74, 0.05);
+  border-color: rgba(232, 184, 74, 0.12);
+}
+#page-pal .hhh-step-num {
+  background: rgba(232, 184, 74, 0.18);
+  color: #E8B84A;
+}
+#page-pal .hhh-app-tour { background: #0d1a28; }
+#page-pal .hhh-feature-band {
+  border-color: rgba(232, 184, 74, 0.08);
+}
+#page-pal .hhh-feature-band:nth-child(even) { background: rgba(232, 184, 74, 0.03); }
+#page-pal .hhh-feature-headline em { color: #E8B84A; }
+#page-pal .hhh-platform-label {
+  color: rgba(232, 184, 74, 0.85);
+  background: rgba(232, 184, 74, 0.1);
+  border-color: rgba(232, 184, 74, 0.22);
+}
+.pal-hero-visual {
+  justify-self: end;
+  width: 100%;
+  max-width: 380px;
+  margin: 0;
+  text-align: center;
+}
+.pal-brand-stack {
+  position: relative;
+  padding: 48px 32px 40px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(91, 123, 106, 0.18) 0%, rgba(18, 28, 40, 0.95) 55%);
+  border: 1px solid rgba(232, 184, 74, 0.18);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.42);
+}
+.pal-brand-stack img.pal-coin-lg {
+  width: 96px;
+  height: 96px;
+  display: block;
+  margin: 0 auto 20px;
+  filter: drop-shadow(0 8px 24px rgba(201, 162, 39, 0.35));
+}
+.pal-brand-stack img.pal-coin-sm {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  opacity: 0.85;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
+}
+.pal-brand-stack .pal-coin-a { top: 28px; left: 24px; transform: rotate(-12deg); }
+.pal-brand-stack .pal-coin-b { top: 36px; right: 20px; transform: rotate(14deg); }
+.pal-brand-stack-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(20px, 2.8vw, 24px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.pal-brand-stack-sub {
+  font-size: 14px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.52);
+  max-width: 28ch;
+  margin: 0 auto;
+}
+.pal-brand-panel {
+  margin: 0;
+  padding: 36px 28px;
+  border-radius: 20px;
+  text-align: center;
+  background: linear-gradient(165deg, rgba(91, 123, 106, 0.12) 0%, rgba(232, 184, 74, 0.06) 100%);
+  border: 1px solid rgba(232, 184, 74, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.pal-brand-panel img {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  display: block;
+  filter: drop-shadow(0 6px 18px rgba(201, 162, 39, 0.28));
+}
+.pal-brand-panel-caption {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.pal-brand-panel-detail {
+  font-size: 13px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.48);
+  max-width: 32ch;
+  margin: 0 auto;
+}
+.pal-for-not {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+.pal-for-not-card {
+  padding: 28px;
+  border-radius: 16px;
+  background: rgba(232, 184, 74, 0.04);
+  border: 1px solid rgba(232, 184, 74, 0.12);
+}
+.pal-for-not-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: #E8B84A;
+  margin-bottom: 12px;
+}
+.pal-for-not-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.55);
+}
+@media (max-width: 900px) {
+  #page-pal .hero-inner {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  #page-pal .hero-text { text-align: center; }
+  #page-pal .hero-acts { justify-content: center; }
+  .pal-hero-visual { justify-self: center; max-width: min(340px, 88vw); }
+  .pal-for-not { grid-template-columns: 1fr; }
 }
 
 .pbj-sticky-bar {
@@ -1685,28 +1948,18 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
     </div>
     <div style="text-align:center;margin-top:24px;display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-      <a href="#intro-tour" style="display:inline-flex;align-items:center;gap:8px;background:#0C3358;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;box-shadow:0 4px 16px rgba(12,51,88,0.28);transition:all .18s;" onmouseover="this.style.background='#1A4F7A';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0C3358';this.style.transform='none'">&#9654; Watch intro tour</a>
-      <a href="how-to/" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1A4F7A;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;border:2px solid #1A4F7A;transition:all .18s;" onmouseover="this.style.background='#1A4F7A';this.style.color='#fff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='transparent';this.style.color='#1A4F7A';this.style.transform='none'">How To &amp; Guides</a>
+      <a href="gary-demo/" style="display:inline-flex;align-items:center;gap:8px;background:#0C3358;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;box-shadow:0 4px 16px rgba(12,51,88,0.28);transition:all .18s;" onmouseover="this.style.background='#1A4F7A';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#0C3358';this.style.transform='none'">&#9654; Watch the Demo</a>
+      <a href="how-to/" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1A4F7A;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;border:2px solid #1A4F7A;transition:all .18s;" onmouseover="this.style.background='#1A4F7A';this.style.color='#fff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='transparent';this.style.color='#1A4F7A';this.style.transform='none'">How To &amp; Help</a>
       <a href="#pricing" style="display:inline-flex;align-items:center;gap:8px;background:#F0C040;color:#0C3358;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;box-shadow:0 4px 16px rgba(232,168,32,0.32);transition:all .18s;" onmouseover="this.style.background='#f5d060';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F0C040';this.style.transform='none'">See pricing &amp; plans &rarr;</a>
     </div>
-    <div id="intro-tour" style="max-width:1100px;margin:48px auto 0;text-align:center;">
-      <span class="sec-ey rv d2">Product Intro</span>
-      <h3 class="sec-ti rv d2" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">Meet PocketBudJet <em>(~2 min)</em></h3>
-      <p class="sec-su rv d2" style="margin-bottom:16px;">Narrated highlight reel — privacy, budgets, Coach, themes, and what makes PBJ different. For step-by-step how-to, use the user manual below.</p>
-      <div class="pbj-intro-embed">
-        <iframe src="/videos/pocketbudjet/partner-showcase/?embed=1" title="PocketBudJet product intro" loading="eager"></iframe>
-      </div>
-      <p style="margin-top:12px;font-size:0.9rem;opacity:0.75;"><a href="videos/pocketbudjet/partner-showcase/" style="color:var(--gold);font-weight:700;">Open full screen ↗</a></p>
-      <p style="margin-top:6px;font-size:0.85rem;opacity:0.65;">Narration: <a href="videos/pocketbudjet/partner-showcase/" style="color:var(--gold);">English</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=es" style="color:var(--gold);">Español</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=de" style="color:var(--gold);">Deutsch</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=fr" style="color:var(--gold);">Français</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=pt" style="color:var(--gold);">Português</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=zh" style="color:var(--gold);">中文</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=it" style="color:var(--gold);">Italiano</a> · <a href="videos/pocketbudjet/partner-showcase/?lang=hi" style="color:var(--gold);">हिन्दी</a></p>
-    </div>
-    <div class="rv d3" style="max-width:900px;margin:56px auto 0;text-align:center;">
+    <div class="rv d2" style="max-width:900px;margin:32px auto 0;text-align:center;">
       <span class="sec-ey">User Manual</span>
-      <h3 class="sec-ti" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">How to use every feature <em>(~12 min)</em></h3>
-      <p class="sec-su" style="margin-bottom:16px;">89 slides with synced narration — cold start through every major feature. Tap <strong>Start</strong> in the interactive manual below.</p>
-      <div style="border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(12,51,88,0.18);background:#0c1726;line-height:0;max-width:860px;margin:0 auto;">
-        <iframe src="/videos/user-guide/?embed=1" title="PocketBudJet interactive user manual" loading="lazy" style="width:100%;height:min(920px,88vh);border:none;display:block;"></iframe>
-      </div>
-      <p style="margin-top:12px;font-size:0.9rem;opacity:0.75;"><a href="/videos/user-guide/" style="color:var(--gold);font-weight:700;">Open full screen ↗</a> · <a href="/how-to/" style="color:var(--gold);font-weight:700;">Help center</a></p>
+      <h3 class="sec-ti" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">Watch the full user manual <em>(~12 min)</em></h3>
+      <p class="sec-su" style="margin-bottom:16px;">89 slides with narration — cold start through every major feature. Or open the <a href="/videos/user-guide/" style="color:var(--navy);font-weight:700;">interactive manual</a> for chapter jumps.</p>
+      <video controls preload="metadata" playsinline poster="assets/screenshots/cold-start/splash.png" style="width:100%;max-width:860px;border-radius:16px;box-shadow:0 16px 48px rgba(12,51,88,0.18);background:#0c1726;">
+        <source src="videos/user-guide/pocketbudjet-user-guide.mp4" type="video/mp4">
+        Your browser does not support HTML5 video. <a href="videos/user-guide/pocketbudjet-user-guide.mp4">Download the MP4</a>.
+      </video>
     </div>
   </div>
 </section>
@@ -1998,7 +2251,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a class="li" href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener"><div class="li-lft"><span class="li-ic">&#128172;</span><div><span class="li-ti">Beta Feedback</span><span class="li-no">Report bugs &amp; request features (PocketBudJet)</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="getting-started/"><div class="li-lft"><span class="li-ic">&#128640;</span><div><span class="li-ti">Getting Started</span><span class="li-no">First-run setup and quick wins</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="import/"><div class="li-lft"><span class="li-ic">&#128229;</span><div><span class="li-ti">Import Guide</span><span class="li-no">Bank files, share-sheet, and receipts</span></div></div><span class="li-ar">&#8594;</span></a>
-        <a class="li" href="how-to/"><div class="li-lft"><span class="li-ic">&#128214;</span><div><span class="li-ti">How To &amp; Guides</span><span class="li-no">Quick start, walkthroughs, and full user guide</span></div></div><span class="li-ar">&#8594;</span></a>
+        <a class="li" href="how-to/"><div class="li-lft"><span class="li-ic">&#128214;</span><div><span class="li-ti">How To &amp; Help</span><span class="li-no">Quick start, walkthroughs, and full user manual</span></div></div><span class="li-ar">&#8594;</span></a>
         <a class="li" href="for-professionals/"><div class="li-lft"><span class="li-ic">&#128188;</span><div><span class="li-ti">For Professionals</span><span class="li-no">Accountants, planners, and mortgage brokers</span></div></div><span class="li-ar">&#8594;</span></a>
         <div class="li ph"><div class="li-lft"><span class="li-ic">&#128506;</span><div><span class="li-ti">Feature Roadmap</span><span class="li-no">What's coming next</span></div></div><span class="li-pt">Coming Soon</span></div>
       </div>
@@ -2015,8 +2268,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        \1\2<a href=\"#pal\" onclick=\"showPage('pal');return false;\">Pocket Allowance Ledger</a>\n\2\3 onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -2033,7 +2285,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         <a href="getting-started/">Getting Started</a>
         <a href="import/">Import Guide</a>
         <a href="for-professionals/">For Professionals</a>
-        <a href="how-to/">How To &amp; Guides</a>
+        <a href="how-to/">How To &amp; Help</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -2043,7 +2295,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="mailto:support@josspatech.com" class="footer-contact">support@josspatech.com</a>
   </div>
 </footer>
@@ -2389,8 +2641,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        \1\2<a href=\"#pal\" onclick=\"showPage('pal');return false;\">Pocket Allowance Ledger</a>\n\2\3 onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Handy Horology Helper</h4>
@@ -2404,7 +2655,287 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <a href="mailto:support@josspatech.com" class="footer-contact">support@josspatech.com</a>
+  </div>
+</footer>
+</div>
+
+<!-- ══════════════════════════
+     PAGE: POCKET ALLOWANCE LEDGER
+══════════════════════════ -->
+<div class="page" id="page-pal">
+<section class="hero" style="background:linear-gradient(145deg,#1a2838 0%,#0f1824 100%);">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#E8B84A;">JosspaTech</a><span style="color:rgba(232,184,74,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Pocket Allowance Ledger</span></div>
+      <div class="hero-eyebrow" style="background:rgba(232,184,74,0.08);border-color:rgba(232,184,74,0.18);color:#E8B84A;"><div class="hero-dot" style="background:#E8B84A;"></div>v0.1.0 &middot; Parent app &middot; Android &middot; ages 6+</div>
+      <h1 class="hero-h1" style="color:#fff;text-align:inherit;">Run a home token economy.<br><em style="color:#E8B84A;">Parent-led coaching.</em></h1>
+      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);text-align:inherit;">A parent tool for building habits with gold tokens and approved rewards.</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);text-align:inherit;">Pocket Allowance Ledger (PAL) helps families run a home token system with gold tokens and parent-approved rewards. This is <strong>not</strong> kid banking &mdash; no debit card, no custodial account.</p>
+      <div class="hero-acts" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-primary" style="background:#E8B84A;color:#1a2838;text-decoration:none;border:none;">Email for access &rarr;</a>
+        <a href="#products" onclick="navTo('products');return false;" class="btn-ghost" style="border:1px solid rgba(232,184,74,0.35);color:#E8B84A;text-decoration:none;">All products</a>
+      </div>
+    </div>
+    <figure class="pal-hero-visual" aria-label="PAL token economy">
+      <span class="hhh-platform-label">Parent-managed</span>
+      <div class="pal-brand-stack">
+        <img class="pal-coin-sm pal-coin-a" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-sm pal-coin-b" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-lg" src="assets/brand/pal-coin.svg" alt="PAL gold token" width="96" height="96">
+        <p class="pal-brand-stack-title">Tokens for behavior.<br>Rewards you approve.</p>
+        <p class="pal-brand-stack-sub">Parents manage in the app. Kids use the companion from any browser on home Wi&#8209;Fi.</p>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<div class="pstrip" style="background:rgba(232,184,74,0.06);border-color:rgba(232,184,74,0.12);">
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>One-tap quick record</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Kid web companion</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Multi-kid household</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Coaching cards &amp; trends</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Your data stays home</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>Not a banking app</div>
+  <div class="psi" style="color:#E8B84A;"><div class="psd" style="background:#E8B84A;"></div>15-day trial &middot; no card &middot; $9.99/mo &middot; $74.99/yr</div>
+</div>
+
+<section class="hhh-how-it-works" aria-labelledby="pal-how-title">
+  <div class="hhh-how-inner rv">
+    <span class="hhh-how-eyebrow">Three steps</span>
+    <h2 class="hhh-how-title" id="pal-how-title">Set up &rarr; Record &rarr; Reward</h2>
+    <ol class="hhh-steps">
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">1</span>
+        <span class="hhh-step-title">Set up</span>
+        <p class="hhh-step-desc">Add your kids, pick behaviors to reward, and build a reward menu your child actually wants.</p>
+      </li>
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">2</span>
+        <span class="hhh-step-title">Record</span>
+        <p class="hhh-step-desc">Today&rsquo;s contracts show up as Done buttons on the parent home screen. One tap logs the behavior and awards a token.</p>
+      </li>
+      <li class="hhh-step">
+        <span class="hhh-step-num" aria-hidden="true">3</span>
+        <span class="hhh-step-title">Reward</span>
+        <p class="hhh-step-desc">Kids use the companion from any browser on home Wi&#8209;Fi &mdash; see assignments, mark completion, watch tokens arrive, and browse approved rewards.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<div class="hhh-app-tour">
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Parent home</span>
+        <h2 class="hhh-feature-headline">Log behavior<br><em>in one tap.</em></h2>
+        <p class="hhh-feature-body">The parent home screen is built for busy evenings. Today&rsquo;s contracts appear as large Done buttons &mdash; tap to record behavior and award a gold token.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Log behavior in one tap</li>
+          <li>Add notes when you want more detail</li>
+          <li>Kids see tokens land in the companion right away</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Today&rsquo;s contracts, ready to tap</figcaption>
+        <p class="pal-brand-panel-detail">Record in the app. Kids see feedback right away.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band hhh-feature-band--reverse rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Kid companion</span>
+        <h2 class="hhh-feature-headline">Kids on your WiFi.<br><em>Not another app install.</em></h2>
+        <p class="hhh-feature-body">Parents manage in the app. Kids use the companion from any browser on home Wi&#8209;Fi &mdash; see assignments, mark completion, watch tokens arrive, and browse approved rewards.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Works in any browser on home Wi&#8209;Fi</li>
+          <li>No ads, no social feed</li>
+          <li>Your family&rsquo;s data stays on your phone</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Companion on home Wi&#8209;Fi</figcaption>
+        <p class="pal-brand-panel-detail">A warm kid-facing view &mdash; tokens and rewards, not banking UI.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Household view</span>
+        <h2 class="hhh-feature-headline">Every kid.<br><em>One home ledger.</em></h2>
+        <p class="hhh-feature-body">See token balances and assignments for each child &mdash; no leaderboards or sibling shame.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Multi-kid balances and assignments</li>
+          <li>See what each child is working toward</li>
+          <li>Parent-managed rewards and wish list</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Balances &amp; assignments</figcaption>
+        <p class="pal-brand-panel-detail">Per-kid avatars, token counts, and rolling progress.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band hhh-feature-band--reverse rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Coaching</span>
+        <h2 class="hhh-feature-headline">Insights you can<br><em>actually use.</em></h2>
+        <p class="hhh-feature-body">Reports and coaching cards use plain language and supportive copy. Celebrate progress without red-zone shame. You choose what to try next &mdash; PAL helps you guide, teach, and build better habits.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Coaching cards with plain-language suggestions</li>
+          <li>Trend charts that focus on progress</li>
+          <li>Celebrate wins without red-zone shame</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Reports &amp; coaching cards</figcaption>
+        <p class="pal-brand-panel-detail">Gentle evidence and plain-language nudges.</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="hhh-feature-band rv">
+    <div class="hhh-feature-band-inner">
+      <div class="hhh-feature-copy">
+        <span class="hhh-feature-eyebrow">Privacy</span>
+        <h2 class="hhh-feature-headline">Your data stays<br><em>at home.</em></h2>
+        <p class="hhh-feature-body">Your family&rsquo;s records stay on your phone. Back up to your own cloud account if you want &mdash; we never see the data, and we don&rsquo;t sell it.</p>
+        <ul class="hhh-feature-bullets">
+          <li>Data stays on your phone</li>
+          <li>Optional backup to your cloud account</li>
+          <li>No selling of data. No profiles sent to us.</li>
+        </ul>
+      </div>
+      <figure class="pal-brand-panel hhh-feature-visual">
+        <img src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="72" height="72">
+        <figcaption class="pal-brand-panel-caption">Private by design</figcaption>
+        <p class="pal-brand-panel-detail">Your data stays on your phone.</p>
+      </figure>
+    </div>
+  </section>
+</div>
+
+<section class="sec" style="background:#121c28;padding:80px 24px;">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;">
+    <span class="section-eyebrow rv" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Who it&rsquo;s for</span>
+    <h2 class="section-title rv" style="color:#fff;">Token economy.<br><em style="color:#E8B84A;">Not kid banking.</em></h2>
+    <div class="pal-for-not rv">
+      <div class="pal-for-not-card">
+        <h3>PAL is for</h3>
+        <ul>
+          <li>Parents building consistent routines &mdash; homework, bedtime, hygiene, kindness</li>
+          <li>Families who want structure without a banking product or classroom behavior app</li>
+          <li>Caregivers who want clear structure and supportive coaching</li>
+        </ul>
+      </div>
+      <div class="pal-for-not-card">
+        <h3>PAL is not for</h3>
+        <ul>
+          <li>Custodial allowance banking or debit cards</li>
+          <li>Classroom-wide behavior management apps</li>
+          <li>Financial literacy curriculum or investment education</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(232,184,74,0.08);">
+  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-eyebrow rv" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Pricing</span>
+    <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:#E8B84A;">Then Pro.</em></h2>
+    <p class="rv" style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:24px;">Try full Pro access free for 15 days &mdash; no credit card required. After the trial, subscribe at <strong>$9.99/mo</strong> or <strong>$74.99/yr</strong> &mdash; cancel anytime. Same shelf as Handy Horology Helper and our other Pocket apps.</p>
+    <div class="rv" style="background:rgba(232,184,74,0.08);border:1px solid rgba(232,184,74,0.25);border-radius:12px;padding:14px 22px;margin-bottom:32px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.55;"><strong style="color:#E8B84A;">15-day free trial</strong> &mdash; full Pro features during trial, no card required. Subscription required after trial ends.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto;">
+      <div class="rv d1" style="background:rgba(232,184,74,0.06);border:1px solid rgba(232,184,74,0.18);border-radius:16px;padding:32px;text-align:left;">
+        <div style="color:#E8B84A;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Monthly</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$9.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px;">per month &middot; cancel anytime</div>
+        <div style="border-top:1px solid rgba(232,184,74,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
+          Unlimited kids &amp; behaviors<br>
+          Coaching cards &amp; trend reports<br>
+          Kid web companion on home Wi&#8209;Fi
+        </div>
+      </div>
+      <div class="rv d2" style="background:rgba(232,184,74,0.08);border:2px solid rgba(232,184,74,0.30);border-radius:16px;padding:32px;text-align:left;position:relative;">
+        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#E8B84A;color:#1a2838;font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;">BEST VALUE</div>
+        <div style="color:#E8B84A;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Annual</div>
+        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$74.99</div>
+        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:4px;">per year &middot; save 37% vs monthly</div>
+        <div style="color:#E8B84A;font-size:12px;margin-bottom:20px;">$6.25 / month equivalent</div>
+        <div style="border-top:1px solid rgba(232,184,74,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
+          Everything in Pro Monthly<br>
+          Full household history<br>
+          Priority support
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0d1a28;padding:48px 24px;text-align:center;border-top:1px solid rgba(232,184,74,0.08);">
+  <div class="section-inner rv" style="max-width:720px;margin:0 auto;">
+    <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">More from JosspaTech</p>
+    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Pocket Allowance Ledger shares the same privacy-first philosophy as our other Pocket apps.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
+      <a href="#pbj" onclick="showPage('pbj');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
+      <a href="#hhh" onclick="showPage('hhh');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches</a>
+      <a href="#cvc" onclick="showPage('cvc');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:#0a1520;padding:60px 24px;text-align:center;">
+  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
+    <span class="section-eyebrow" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Get in touch</span>
+    <h2 class="section-title" style="color:#fff;font-size:28px;">Questions about<br><em style="color:#E8B84A;">Pocket Allowance Ledger?</em></h2>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Email us for early access, feedback, or press inquiries. We read every message.</p>
+    <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" style="display:inline-flex;align-items:center;gap:8px;background:rgba(232,184,74,0.12);color:#E8B84A;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(232,184,74,0.22);">
+      support@josspatech.com
+      <span>&rarr;</span>
+    </a>
+  </div>
+</section>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
+      <p class="footer-brand-sub">Fewer apps. Better apps.</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>Products</h4>
+        <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
+        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
+        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
+        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+      </div>
+      <div class="footer-col">
+        <h4>Pocket Allowance Ledger</h4>
+        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
+        <a href="mailto:support@josspatech.com">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="mailto:support@josspatech.com" class="footer-contact">support@josspatech.com</a>
   </div>
 </footer>
@@ -2643,8 +3174,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div class="footer-col">
         <h4>Products</h4>
         <a href="#pbj" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="#hhh" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#cvc" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        \1\2<a href=\"#pal\" onclick=\"showPage('pal');return false;\">Pocket Allowance Ledger</a>\n\2\3 onclick="showPage('cvc');return false;">Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Curator's Vault</h4>
@@ -2658,7 +3188,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <a href="mailto:support@josspatech.com" class="footer-contact">support@josspatech.com</a>
   </div>
 </footer>

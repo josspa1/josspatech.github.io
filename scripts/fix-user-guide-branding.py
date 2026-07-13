@@ -1,4 +1,16 @@
 #!/usr/bin/env python3
+"""DEPRECATED (Jul 2026 terminology): do not run.
+
+Canonical product term is User Manual (not User Guide). Walkthrough =
+partner-showcase overview only. This one-shot script would reverse live
+branding back to "User Guide". Kept for history only.
+"""
+import sys
+print("DEPRECATED: refuse to run — would reverse User Manual branding.", file=sys.stderr)
+raise SystemExit(2)
+
+# --- original script below (unreachable) ---
+#!/usr/bin/env python3
 """Apply User Guide branding to 89-slide index.html."""
 from pathlib import Path
 

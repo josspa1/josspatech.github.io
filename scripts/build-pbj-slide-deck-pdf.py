@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
-"""Export PocketBudJet user manual PDF — one page per slide (screenshot + narration)."""
+"""Export PocketBudJet slide-deck PDF — one page per interactive user-manual slide.
+
+IMPORTANT: Do NOT write to docs/pocketbudjet/PocketBudJet_UserManual.pdf
+(or the legacy alias PocketBudJet_UserGuide.pdf). Those paths are the written
+User Manual (16-page prose PDF). Overwriting them with slide screenshots
+(commit 5309a1c, Jul 2026) broke the public download.
+
+This script writes a separate slide-deck artifact only.
+URL path videos/user-guide/ is a legacy folder name; product term is User Manual.
+"""
 from __future__ import annotations
 
 import json
@@ -8,13 +17,23 @@ from io import BytesIO
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Legacy path: videos/user-guide/ — displayed title is User Manual
 HTML = ROOT / "videos" / "user-guide" / "index.html"
 NARRATION = ROOT / "videos" / "user-guide" / "narration-en.json"
-OUT = ROOT / "docs" / "pocketbudjet" / "PocketBudJet_UserGuide.pdf"
+# Slide-deck print of the interactive user manual — NOT the written User Manual PDF.
+OUT = ROOT / "docs" / "pocketbudjet" / "PocketBudJet_SlideDeck.pdf"
+FORBIDDEN = [
+    ROOT / "docs" / "pocketbudjet" / "PocketBudJet_UserManual.pdf",
+    ROOT / "docs" / "pocketbudjet" / "PocketBudJet_UserGuide.pdf",  # legacy alias
+]
 
 
 def export_via_playwright(narrations: list[str]) -> int:
     from playwright.sync_api import sync_playwright
+
+    if OUT.resolve() in {p.resolve() for p in FORBIDDEN}:
+        print(f"Refusing to overwrite written user manual: {OUT}", file=sys.stderr)
+        return 2
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     file_url = HTML.resolve().as_uri() + "?record=1"
@@ -50,7 +69,7 @@ def export_via_playwright(narrations: list[str]) -> int:
              img {{ max-width: 100%; height: auto; max-height: 7.5in; }}
              p {{ font-size: 13px; line-height: 1.45; margin-top: 12px; max-width: 7in; margin-left:auto; margin-right:auto; }}
             </style></head><body>
-            <div class="hdr"><span>PocketBudJet User Manual</span><span>Slide {i + 1} / {n}</span></div>
+            <div class="hdr"><span>PocketBudJet Slide Deck</span><span>Slide {i + 1} / {n}</span></div>
             <img src="data:image/png;base64,{__import__('base64').b64encode(shot).decode()}" alt="">
             <p>{narr}</p></body></html>"""
 
@@ -83,6 +102,7 @@ def export_via_playwright(narrations: list[str]) -> int:
         browser.close()
 
     print(f"Wrote {OUT} ({OUT.stat().st_size} bytes, {n} slides)")
+    print("NOTE: Written User Manual remains at PocketBudJet_UserManual.pdf (not overwritten).")
     return 0
 
 

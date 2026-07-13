@@ -1,5 +1,10 @@
 # PocketBudJet User Manual — Coverage Inventory
 
+**Terminology:** **User Manual** = detailed how-to (this deck + written PDF + ~12 min MP4).
+**Walkthrough** = short overview at `/videos/pocketbudjet/partner-showcase/` (not a how-to).
+Do not call the user manual a “guide” in user-facing copy.
+**Legacy URL path:** `/videos/user-guide/` (see `videos/user-guide/LEGACY-PATH.md`).
+
 **Generated:** build-user-manual-slides.py  
 **Live URL:** https://josspatech.github.io/videos/user-guide/  
 **Slide count:** 120 (indices 0–119)  
@@ -203,8 +208,11 @@ These screens exist in screenRegistry but are grouped or deferred:
 cd josspatech.github.io
 python scripts/gen-pbj-manual-missing-slides.py
 python scripts/build-user-manual-slides.py
-python scripts/build-pbj-user-guide-pdf.py
+python scripts/build-pbj-slide-deck-pdf.py
+# → writes docs/pocketbudjet/PocketBudJet_SlideDeck.pdf ONLY
+# Do NOT overwrite PocketBudJet_UserManual.pdf (written 16-page user manual). Legacy alias: PocketBudJet_UserGuide.pdf.
 python scripts/gen-user-guide-en-audio.py --force
 node scripts/render-user-guide-video.js
 ```
+
 

@@ -38,6 +38,6 @@ It finds and lists recurring subscriptions from their spending. A convenient can
 
 Bank sync, tax exports, rules, web companion, eleven languages. Depth you list when the screen is not the story.
 
-## 11. Built to win (CLOSE)
+## 11. PocketBudJet (CLOSE)
 
 Seven highlights on screen. 102 highly useful features inside. PocketBudJet.

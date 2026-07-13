@@ -196,7 +196,7 @@ Use this checklist when building a partner showcase like PBJ’s. **PBJ is the r
 |----------|------|
 | `HostedFiles/videos/{app}/partner-showcase/` | **Canonical source** |
 | GitHub mirror | `videos/{app}/partner-showcase/` — push for Pages |
-| NAS archive | `\\10.0.0.252\MobileApps\WebSite\VideoArchive\pbj\videos\` (per-app subfolder) |
+| NAS archive | `\\10.0.0.2\MobileApps\WebSite\VideoArchive\pbj\videos\` (per-app subfolder) |
 | Homepage embed | `#intro-tour` iframe: `src="/videos/.../partner-showcase/?embed=1"`, height **`min(960px, 92vh)`** |
 | Hash routing | `#intro-tour` must call `showPage('{app-page}')` + scroll — anchor lives inside hidden `.page` otherwise iframe is **0×0** |
 | Boot script | Inline `<head>` script: `boot-pbj` (etc.) so refresh doesn’t flash company homepage |

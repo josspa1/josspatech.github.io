@@ -574,7 +574,7 @@ def write_coverage() -> None:
         "cd josspatech.github.io",
         "python scripts/gen-pbj-manual-missing-slides.py",
         "python scripts/build-user-manual-slides.py",
-        "python scripts/build-pbj-user-guide-pdf.py",
+        "python scripts/build-pbj-slide-deck-pdf.py",
         "python scripts/gen-user-guide-en-audio.py --force",
         "node scripts/render-user-guide-video.js",
         "```",

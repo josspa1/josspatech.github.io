@@ -47,6 +47,12 @@ REDIRECTS: dict[str, str] = {
 
 def html_for(target: str, title: str) -> str:
     safe = target.replace('"', "&quot;")
+    if "partner-showcase" in target:
+        label = "PocketBudJet intro walkthrough"
+    elif "user-guide" in target:
+        label = "PocketBudJet user manual"
+    else:
+        label = "updated PocketBudJet page"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +64,7 @@ def html_for(target: str, title: str) -> str:
   <script>location.replace("{safe}");</script>
 </head>
 <body style="font-family:system-ui,sans-serif;padding:2rem;text-align:center;color:#1A4F7A;">
-  <p>This guide moved to the <a href="{safe}">PocketBudJet user manual</a>.</p>
+  <p>This page moved to the <a href="{safe}">{label}</a>.</p>
 </body>
 </html>
 """
