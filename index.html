@@ -1313,7 +1313,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hhh-card rv d2">
         <div class="hhh-badge">
           <div class="hhh-badge-dot"></div>
-          Internal testing · v1.0.12 (build 13)
+          Internal testing · v1.0.29 (build 52)
         </div>
         <div class="hhh-name">Handy Horology<br><span>Helper</span>™</div>
         <div class="hhh-tagline">AI identification, collection manager &amp; Web Companion on your LAN</div>
@@ -1559,14 +1559,25 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 }
 .pbj-shot-center img {
   width: 240px;
-  transform: translateY(-12px);
+  /* No translateY — hero overflow:hidden was clipping the center phone */
 }
 .pbj-shot-side img {
-  opacity: 0.85;
+  opacity: 0.92;
 }
 @media (max-width: 720px) {
   .pbj-shot-side { display: none; }
-  .pbj-shot-center img { width: 280px; transform: none; }
+  .pbj-shot-center img { width: 280px; }
+}
+/* HHH/CVC hero strips need room for 3 phones without wrap/clip */
+#page-hhh .hero-inner,
+#page-cvc .hero-inner,
+#page-pbj .hero-inner {
+  max-width: 920px;
+}
+#page-hhh .hero,
+#page-cvc .hero,
+#page-pbj .hero {
+  padding-bottom: 56px;
 }
 
 /* PAL — product page (mirrors HHH layout, sage/gold palette) */
@@ -2309,23 +2320,26 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#c8aa6e;">JosspaTech</a><span style="color:rgba(200,170,110,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Handy Horology Helper</span></div>
-      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>Internal testing · v1.0.12 (build 13) &middot; iOS &amp; Android</div>
+      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>Internal testing · v1.0.29 (build 52) &middot; iOS &amp; Android</div>
       <h1 class="hero-h1" style="color:#fff;">Know your timepiece.<br><em style="color:#c8aa6e;">Know its worth.</em></h1>
       <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your AI-powered horology identification, collection &amp; financial companion</p>
       <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with full profit/loss tracking, Clockworks parts wizard, eBay hunt alerts, and a <strong>Web Companion</strong> that runs on your phone and opens in any PC browser on the same WiFi. Full UI in <strong>7 languages</strong>.</p>
       <div class="hero-acts">
-        <span class="btn-primary" style="background:rgba(200,170,110,0.15);color:#c8aa6e;border:1px solid rgba(200,170,110,0.25);box-shadow:none;cursor:default;">Internal testing v1.0.12 (build 13) &mdash; not public on Play</span>
+        <span class="btn-primary" style="background:rgba(200,170,110,0.15);color:#c8aa6e;border:1px solid rgba(200,170,110,0.25);box-shadow:none;cursor:default;">Internal testing v1.0.29 (build 52) &mdash; not public on Play</span>
       </div>
     </div>
+    <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
+         NEVER use Android launcher / home / app-drawer dumps (Calendar/Gmail grids, truncated "Handy Horol…").
+         See docs/SCREENSHOT_AUDIT_HHH.md. -->
     <div class="pbj-hero-shots" aria-label="Handy Horology Helper screenshots">
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/hhh/02-ai-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/hhh/intro/01-command-center.png" alt="Command Center home screen" loading="eager" width="220" height="478">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img src="assets/screenshots/hhh/01-home-museum.png" alt="My Museum collection gallery" loading="lazy" width="240" height="427">
+        <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="My Museum collection gallery" loading="eager" width="240" height="521">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/hhh/03-clockworks-wizard.png" alt="Clockworks parts wizard" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/hhh/intro/03-piece-detail.png" alt="Piece detail with value tracking" loading="eager" width="220" height="478">
       </div>
     </div>
   </div>
@@ -2623,7 +2637,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <span class="section-eyebrow" style="color:#c8aa6e;border-color:rgba(200,170,110,0.18);background:rgba(200,170,110,0.06);">Stay Updated</span>
     <h2 class="section-title" style="color:#fff;font-size:28px;">Want to know when<br><em style="color:#c8aa6e;">we launch?</em></h2>
-    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Handy Horology Helper v1.0.12 (build 13) is in <strong>internal testing</strong> on Google Play — not a public listing. Web Companion runs on your LAN (Tools &rarr; Web Companion), not at josspatech.com/hhh/. Drop us an email for early access.</p>
+    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;">Handy Horology Helper v1.0.29 (build 52) is in <strong>internal testing</strong> on Google Play — not a public listing. Web Companion runs on your LAN (Tools &rarr; Web Companion), not at josspatech.com/hhh/. Drop us an email for early access.</p>
     <a href="mailto:support@josspatech.com" style="display:inline-flex;align-items:center;gap:8px;background:rgba(200,170,110,0.12);color:#c8aa6e;font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(200,170,110,0.22);transition:all .18s;">
       Get Notified
       <span>&rarr;</span>
