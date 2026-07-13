@@ -13,7 +13,7 @@ ROOTS = [
 REDIRECTS: dict[str, str] = {
     "videos/import": "/videos/user-guide/#chapter=54",
     "videos/quick-start": "/getting-started/",
-    "gary-demo": "/#intro-tour",
+    "gary-demo": "/videos/pocketbudjet/partner-showcase/",
     "videos/user-guide-hhh": "/how-to/",
     "videos/pocketbudjet/share-statements": "/videos/user-guide/#chapter=54",
     "videos/pocketbudjet/digital-receipt-import": "/videos/user-guide/#chapter=54",
