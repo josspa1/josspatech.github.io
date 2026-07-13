@@ -10,5 +10,7 @@ bookmarks into the interactive deck.
 When writing user-facing copy, use **User Manual** / **user manual**.
 Do not call this the Walkthrough — that is `videos/pocketbudjet/partner-showcase/`.
 
-Canonical written PDF: `/docs/pocketbudjet/PocketBudJet_UserManual.pdf`
-(legacy alias: `PocketBudJet_UserGuide.pdf`).
+Canonical written manual:
+- Web (clickable TOC): `/docs/pocketbudjet/PocketBudJet_UserManual.html`
+- PDF: `/docs/pocketbudjet/PocketBudJet_UserManual.pdf`
+(legacy PDF alias: `PocketBudJet_UserGuide.pdf`).

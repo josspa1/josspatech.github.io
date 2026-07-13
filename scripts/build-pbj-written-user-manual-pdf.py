@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Build the written PocketBudJet User Manual PDF (prose, ~16 pages).
+"""Build the written PocketBudJet User Manual (PDF + HTML).
 
 This is NOT the slide-deck builder. Output:
   docs/pocketbudjet/PocketBudJet_UserManual.pdf   (canonical)
   docs/pocketbudjet/PocketBudJet_UserGuide.pdf    (legacy alias, same bytes)
+  docs/pocketbudjet/PocketBudJet_UserManual.html  (web TOC + sections)
 
-TOC entries are internal PDF links; document outline/bookmarks are included.
+PDF TOC entries are internal links; HTML TOC entries are in-page anchors
+(plus optional Watch deep-links into /videos/user-guide/#chapter=N).
 """
 from __future__ import annotations
 
@@ -20,6 +22,38 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT_DIR = ROOT / "docs" / "pocketbudjet"
 CANONICAL = OUT_DIR / "PocketBudJet_UserManual.pdf"
 LEGACY_ALIAS = OUT_DIR / "PocketBudJet_UserGuide.pdf"
+HTML_OUT = OUT_DIR / "PocketBudJet_UserManual.html"
+
+# Interactive player chapter starts for "Watch" deep-links (videos/user-guide/#chapter=N)
+INTERACTIVE_CHAPTER: dict[str, int] = {
+    "Getting Started": 0,
+    "Dashboard Overview": 27,
+    "Adding Transactions": 48,
+    "Importing Data": 54,
+    "Scanning Documents": 62,
+    "Budget Management": 33,
+    "Bills & Recurring Transactions": 67,
+    "Savings & Goals": 39,
+    "Debt Management": 74,
+    "Investments & Net Worth": 84,
+    "Reports & Analytics": 78,
+    "AI Financial Coach": 44,
+    "AI Assistant": 44,
+    "Search": 113,
+    "Export & Sharing": 86,
+    "PC Web Dashboard": 110,
+    "Tax Features": 89,
+    "Household Sync": 111,
+    "Calendar View": 67,
+    "Transaction Bookmarks & Rules": 101,
+    "Accessibility": 117,
+    "Mindful Features": 108,
+    "Retirement Planning": 106,
+    "Voice Shortcuts": 104,
+    "Pricing": 15,
+    "Privacy & Security": 117,
+    "Data & Storage Management": 117,
+}
 
 # Brand colors (navy / gold — match site, not purple defaults)
 NAVY = (26, 54, 93)
@@ -634,10 +668,200 @@ def build() -> Path:
     return CANONICAL
 
 
+def _slug(title: str) -> str:
+    out = []
+    for ch in title.lower():
+        if ch.isalnum():
+            out.append(ch)
+        elif ch in (" ", "&", "-", "/"):
+            out.append("-")
+    slug = "".join(out)
+    while "--" in slug:
+        slug = slug.replace("--", "-")
+    return slug.strip("-")
+
+
+def _esc(text: str) -> str:
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+    )
+
+
+def build_html() -> Path:
+    """Write web User Manual with clickable TOC (parity with PDF chapters)."""
+    toc_items: list[tuple[str, str, str]] = []
+    for i, (title, _intro, _bullets) in enumerate(SECTIONS):
+        slug = _slug(title)
+        toc_items.append((f"{i + 1}. {_esc(title)}", f"#{slug}", title))
+    toc_items.append(("Need Help?", "#need-help", "Need Help?"))
+
+    toc_html = "\n".join(
+        f'      <li><a href="{href}">{label}</a>'
+        + (
+            f' <a class="watch" href="/videos/user-guide/#chapter={INTERACTIVE_CHAPTER[title]}">Watch</a>'
+            if title in INTERACTIVE_CHAPTER
+            else ""
+        )
+        + "</li>"
+        for label, href, title in toc_items
+    )
+
+    body_parts: list[str] = []
+    for i, (title, intro, bullets) in enumerate(SECTIONS):
+        slug = _slug(title)
+        body_parts.append(f'  <section id="{slug}">')
+        body_parts.append(f"    <h2>{i + 1}. {_esc(title)}</h2>")
+        body_parts.append(f"    <p>{_esc(intro)}</p>")
+        if title == "Data & Storage Management":
+            for sub_title, sub_bullets in DATA_SUBSECTIONS:
+                body_parts.append(f"    <h3>{_esc(sub_title)}</h3>")
+                body_parts.append("    <ul>")
+                for b in sub_bullets:
+                    body_parts.append(f"      <li>{_esc(b)}</li>")
+                body_parts.append("    </ul>")
+        else:
+            body_parts.append("    <ul>")
+            for b in bullets:
+                body_parts.append(f"      <li>{_esc(b)}</li>")
+            body_parts.append("    </ul>")
+        if title == "Privacy & Security":
+            body_parts.append(f"    <h3>{_esc(APP_LOCK[0])}</h3>")
+            body_parts.append(f"    <p>{_esc(APP_LOCK[1])}</p>")
+            body_parts.append("    <ul>")
+            for b in APP_LOCK[2]:
+                body_parts.append(f"      <li>{_esc(b)}</li>")
+            body_parts.append("    </ul>")
+        if title in INTERACTIVE_CHAPTER:
+            n = INTERACTIVE_CHAPTER[title]
+            body_parts.append(
+                f'    <p class="watch-line"><a href="/videos/user-guide/#chapter={n}">'
+                f"Open this chapter in the interactive User Manual →</a></p>"
+            )
+        body_parts.append("  </section>")
+
+    body_parts.append('  <section id="need-help">')
+    body_parts.append("    <h2>Need Help?</h2>")
+    body_parts.append(
+        '    <p>Email: <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>'
+    )
+    body_parts.append(
+        '    <p>Website: <a href="/how-to/">josspatech.com/how-to</a></p>'
+    )
+    body_parts.append(
+        '    <p class="watch-line"><a href="/videos/user-guide/#chapter=119">'
+        "Open Help in the interactive User Manual →</a></p>"
+    )
+    body_parts.append("  </section>")
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Manual — PocketBudJet by JosspaTech</title>
+<meta name="description" content="PocketBudJet User Manual — clickable table of contents covering every major feature.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+:root{{--navy:#1A4F7A;--navy-dark:#0C3358;--navy-mid:#2E6FA3;--gold:#E8A820;--slate:#5A7A9A;--light-slate:#8AAABB;--bg:#EDF2F7;--white:#FFFFFF;}}
+*{{box-sizing:border-box;margin:0;padding:0;}}
+body{{font-family:"Source Sans 3",sans-serif;background:var(--bg);color:#222;line-height:1.8;font-size:16px;}}
+header{{background:var(--navy-dark);padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold);}}
+.hdr-logo{{display:flex;align-items:center;gap:10px;text-decoration:none;}}
+.hdr-name{{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#fff;}}
+.hdr-name span{{color:var(--gold);}}
+.hdr-back{{font-size:14px;color:var(--light-slate);text-decoration:none;letter-spacing:0.5px;}}
+.hdr-back:hover{{color:var(--gold);}}
+.doc-hero{{background:var(--navy-dark);padding:48px 48px 36px;border-bottom:1px solid rgba(232,168,32,0.2);}}
+.doc-type{{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:10px;}}
+.doc-hero h1{{font-family:'Playfair Display',serif;font-size:40px;font-weight:900;color:#fff;margin-bottom:8px;}}
+.doc-meta{{font-size:15px;color:var(--light-slate);}}
+.doc-meta a{{color:var(--gold);}}
+main{{max-width:760px;margin:0 auto;padding:52px 24px 80px;}}
+.summary-box{{background:var(--navy-dark);color:#fff;border-radius:6px;padding:18px 22px;margin-bottom:40px;font-size:16px;line-height:1.7;border-left:3px solid var(--gold);}}
+.summary-box strong{{color:var(--gold);}}
+.summary-box a{{color:var(--gold);}}
+#toc{{margin-bottom:48px;}}
+#toc h2{{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:0 0 16px;padding-bottom:8px;border-bottom:2px solid var(--gold);}}
+#toc ol{{list-style:none;margin:0;padding:0;columns:1;}}
+@media(min-width:640px){{#toc ol{{columns:2;column-gap:2rem;}}}}
+#toc li{{break-inside:avoid;margin:0 0 8px;font-size:16px;}}
+#toc a{{color:var(--navy);font-weight:600;text-decoration:none;border-bottom:2px solid transparent;}}
+#toc a:hover{{border-bottom-color:var(--gold);}}
+#toc a.watch{{margin-left:8px;font-size:13px;font-weight:600;color:var(--navy-mid);border-bottom:none;}}
+#toc a.watch:hover{{color:var(--gold);}}
+section{{scroll-margin-top:24px;margin-bottom:36px;}}
+h2{{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy-dark);font-weight:700;margin:36px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--navy-mid);}}
+h3{{font-size:17px;color:var(--navy);font-weight:700;margin:18px 0 8px;}}
+p{{font-size:17px;margin-bottom:14px;}}
+ul{{margin:6px 0 14px 22px;}}
+li{{font-size:17px;margin-bottom:6px;}}
+.watch-line a{{color:var(--navy-mid);font-weight:700;text-decoration:none;border-bottom:2px solid var(--gold);}}
+.watch-line a:hover{{color:var(--navy-dark);}}
+.pdf-link{{margin-top:8px;display:inline-block;}}
+footer{{background:var(--navy-dark);border-top:1px solid rgba(232,168,32,0.2);padding:24px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}}
+footer p{{font-size:12px;color:var(--light-slate);}}
+footer a{{color:var(--gold);}}
+footer .fn{{font-family:'Playfair Display',serif;font-size:15px;color:#fff;}}
+footer .fn span{{color:var(--gold);}}
+@media(max-width:600px){{header,footer{{padding:0 20px;}}.doc-hero{{padding:36px 20px 28px;}}main{{padding:36px 20px 60px;}}.doc-hero h1{{font-size:30px;}}}}
+</style>
+</head>
+<body>
+<header>
+  <a class="hdr-logo" href="/#pbj">
+    <span class="hdr-name">Josspa<span>Tech</span>™</span>
+  </a>
+  <a class="hdr-back" href="/how-to/">← How To</a>
+</header>
+
+<div class="doc-hero">
+  <span class="doc-type">PocketBudJet · User Manual</span>
+  <h1>User Manual</h1>
+  <div class="doc-meta">
+    <span>Version 1.2 — April 2026</span>
+    <span><a href="/docs/pocketbudjet/PocketBudJet_UserManual.pdf">Download PDF</a></span>
+    <span><a href="/videos/user-guide/">Interactive presentation</a></span>
+  </div>
+</div>
+
+<main>
+  <div class="summary-box">
+    <strong>How to use this page:</strong> Tap any chapter in the Table of Contents to jump to that section.
+    Prefer screen-by-screen walkthroughs? Open the <a href="/videos/user-guide/">interactive User Manual</a>
+    or use the Watch links next to each chapter.
+  </div>
+
+  <nav id="toc" aria-label="Table of Contents">
+    <h2>Table of Contents</h2>
+    <ol>
+{toc_html}
+    </ol>
+  </nav>
+
+{chr(10).join(body_parts)}
+</main>
+
+<footer>
+  <p class="fn">Josspa<span>Tech</span>™</p>
+  <p>&copy; 2026 JosspaTech. All Rights Reserved. · <a href="/how-to/">How To</a> · <a href="/docs/pocketbudjet/PocketBudJet_UserManual.pdf">PDF</a></p>
+</footer>
+</body>
+</html>
+"""
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    HTML_OUT.write_text(html, encoding="utf-8")
+    return HTML_OUT
+
+
 def main() -> int:
     path = build()
     print(f"Wrote {path}")
     print(f"Legacy alias {LEGACY_ALIAS}")
+    html_path = build_html()
+    print(f"Wrote {html_path}")
     # Quick verify
     try:
         from pypdf import PdfReader
