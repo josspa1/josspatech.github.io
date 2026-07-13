@@ -18,17 +18,18 @@
   flex: 0 0 auto;
   width: auto;
   height: auto;
-  max-height: 100%;
+  max-height: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: visible;
 }
 
-/* A little bigger than the prior 400px phone */
+/* A little bigger than the prior 400px phone — fixed cap, not % of a scroll cage */
 .walkthrough-stage .phone-frame {
   width: 440px !important;
   height: auto !important;
-  max-height: min(820px, 100%) !important;
+  max-height: 820px !important;
   max-width: 100%;
   flex-shrink: 0;
 }
@@ -76,12 +77,13 @@
   max-width: none;
   height: auto !important;
   max-height: none !important;
+  overflow: visible !important;
 }
 
 .walkthrough .phone-frame,
 .walkthrough-stage .phone-frame {
   width: 440px !important;
-  max-height: min(820px, 100%) !important;
+  max-height: 820px !important;
 }
 
 .walkthrough .narration-panel,
@@ -118,7 +120,7 @@
   .walkthrough .phone-frame,
   .walkthrough-stage .phone-frame {
     width: min(320px, 88vw) !important;
-    max-height: min(70vh, 700px) !important;
+    max-height: 700px !important;
   }
 
   .walkthrough .narration-panel,
@@ -139,7 +141,7 @@
   .walkthrough .phone-frame,
   .walkthrough-stage .phone-frame {
     width: min(280px, 84vw) !important;
-    max-height: min(60vh, 560px) !important;
+    max-height: 560px !important;
   }
 }
 

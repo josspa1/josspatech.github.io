@@ -1774,21 +1774,26 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 .pbj-intro-embed {
   margin: 0 auto;
   border-radius: 16px;
-  overflow: hidden;
+  overflow: visible;
   box-shadow: 0 16px 48px rgba(12,51,88,0.18);
-  background: #0c1726;
+  background: #EDF2F7;
   line-height: 0;
   max-width: 1180px;
 }
 .pbj-intro-embed iframe {
   width: 100%;
-  height: min(900px, 90vh);
+  /* Tall enough for 440×820 phone + dots/controls/chapters — no nested iframe scroll */
+  height: 1180px;
   border: none;
+  border-radius: 16px;
   display: block;
-  background: #0c1726;
+  background: #EDF2F7;
 }
-@media (max-width: 640px) {
-  .pbj-intro-embed iframe { height: min(820px, 92vh); }
+@media (max-width: 768px) {
+  .pbj-intro-embed iframe { height: 980px; }
+}
+@media (max-width: 480px) {
+  .pbj-intro-embed iframe { height: 860px; }
 }
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet closed beta">
