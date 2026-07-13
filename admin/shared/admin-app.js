@@ -747,7 +747,7 @@ Generated ${new Date().toISOString()}.
       lastSubmitted: "2026-06-20",
       bundleId: "com.josspatech.pocketbudjet",
       appStoreId: "6761077263",
-      notes: "Build 271 — closed testing (alpha), 21-day trial, shopping intelligence, Web Companion, SCHEMA v78+"
+      notes: "Build 271 — closed testing (alpha), 15-Day trial, shopping intelligence, Web Companion, SCHEMA v78+"
     },
     {
       app: "Handy Horology Helper (HHH)",

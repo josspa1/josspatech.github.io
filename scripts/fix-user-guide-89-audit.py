@@ -31,7 +31,7 @@ RECORD_NOW_DRAWER = """<!-- RECORD_NOW: wayfinding/drawer-open.png — swipe fro
 RECORD_NOW_SUBSCRIPTION = """<!-- RECORD_NOW: cold-start/subscription-intro.png — Choose Your Plan -->
 <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#0C3358 0%,#1A4F7A 100%);color:#fff;padding:1.5rem;text-align:center;">
 <p style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;">Choose Your Plan</p>
-<p style="font-size:0.85rem;line-height:1.5;color:rgba(255,255,255,0.92);">21-day Premium trial — full access, no card required. Or continue free.</p>
+<p style="font-size:0.85rem;line-height:1.5;color:rgba(255,255,255,0.92);">15-Day Premium trial — full access, no card required. Or continue free.</p>
 </div>"""
 
 # (index, img_src or None for placeholder, tap attrs dict or None for data-tap-none)

@@ -90,7 +90,7 @@ SLIDES: list[dict] = [
     S("Wayfinding", "Quick-add", "Landmark five: the quick-add button logs a transaction, category, or goal depending on your tab. Tap Done to finish the tour.",
       "/assets/screenshots/wayfinding/wayfinding-quick-add.png", "OK", "Wayfinding — quick-add FAB", (88, 78, "Quick-add")),
     # ── Trial (15) ──
-    S("Trial", "Subscription intro", "On your second app open — or after five transactions — you may see Choose Your Plan. Start the 21-day Premium trial with no card, or continue free.",
+    S("Trial", "Subscription intro", "On your second app open — or after five transactions — you may see Choose Your Plan. Start the 15-Day Premium trial with no card, or continue free.",
       SUB_INTRO, "OK", "Choose Your Plan — subscription intro", (50, 90, "Continue")),
     # ── Notifications (16) ──
     S("Notifications", "Notification opt-in", "After onboarding, PocketBudJet may ask to send bill reminders and spending alerts. Allow notifications to stay ahead of due dates.",
@@ -275,7 +275,7 @@ SLIDES: list[dict] = [
     S("Settings", "How PBJ learns", "How PBJ Learns explains crowd-consensus categorization — your data stays private on-device.",
       "/assets/screenshots/settings/how-pbj-learns.png", "OK", "How PBJ learns"),
     # ── Connect Bank (98–100) ──
-    S("Connect Bank", "Requirements", "Bank sync connects US institutions only via Teller. Requires paid Premium — not included in the 21-day trial. Two banks included; each extra is $3.99 per month.",
+    S("Connect Bank", "Requirements", "Bank sync connects US institutions only via Teller. Requires paid Premium — not included in the 15-Day trial. Two banks included; each extra is $3.99 per month.",
       BANK_SYNC, "interim", "Connect Bank requirements"),
     S("Connect Bank", "Link bank", "In Settings, tap Connect Bank. Search for your US bank. PocketBudJet never stores your bank password — Teller handles sign-in.",
       BANK_SYNC, "interim", "Tap Connect Bank", (50, 45, "Connect Bank")),

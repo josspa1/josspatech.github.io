@@ -391,7 +391,7 @@ def build(locale: str) -> str:
         html = html.replace(f'>{fr_btn}</button>', f'>{loc_btn}</button>', 1)
 
     fr_timeline = [
-        ("Premiers pas", "Téléchargement, assistant, essai 21 jours"),
+        ("Premiers pas", "Téléchargement, assistant, essai 15 jours"),
         ("Tableau de bord", "Votre aperçu financier en un coup d'œil"),
         ("Transactions", "Suivre, rechercher et catégoriser chaque dollar"),
         ("Import", "Relevés CSV, OFX, QFX, QIF, XLSX, PDF — sans connexion bancaire"),
@@ -415,7 +415,7 @@ def build(locale: str) -> str:
         ("Mindful", "Mode coût en temps et bilans bien-être"),
         ("Retraite", "Calculateur FIRE et suivi des jalons"),
         ("Voix", "Raccourcis Siri et Google Assistant"),
-        ("Tarifs", "Essai 21 jours, puis mensuel ou annuel ; sync bancaire US = Premium payant"),
+        ("Tarifs", "Essai 15 jours, puis mensuel ou annuel ; sync bancaire US = Premium payant"),
         ("Confidentialité", "Chiffrement sur l'appareil, cloud facultatif"),
         ("Données", "Rétention des sauvegardes, historique local, reçus"),
         ("Aide", "Support par courriel et commentaires intégrés"),

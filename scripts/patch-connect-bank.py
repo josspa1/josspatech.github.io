@@ -14,7 +14,7 @@ html = html.replace(
 )
 html = html.replace(
     "<p class=\"subheader\">Pick a template, customize your categories, add your accounts, and start tracking. No spreadsheets. No stress.</p>",
-    "<p class=\"subheader\">Automatic bank sync for <strong>US institutions only</strong> — paid Premium required (not included in the 21-day trial). Two banks included; $3.99/mo per extra bank. Connections disconnect if your subscription lapses.</p>",
+    "<p class=\"subheader\">Automatic bank sync for <strong>US institutions only</strong> — paid Premium required (not included in the 15-Day trial). Two banks included; $3.99/mo per extra bank. Connections disconnect if your subscription lapses.</p>",
 )
 html = html.replace("<h2>Watch It in Action</h2>", "<h2>How to connect a bank</h2>")
 
@@ -85,7 +85,7 @@ narration = '''                <div class="narration-panel" id="narrationPanel">
                     <div class="narration-card" data-index="0">
                         <span class="narration-step-badge">Step 1 of 7</span>
                         <h3>Before you connect</h3>
-                        <p>Bank sync connects to <strong>US institutions only</strong> through Teller — not available in the EU. It requires a <strong>paid Premium subscription</strong>; it is <strong>not</strong> included in the 21-day trial. You can still import statements without any bank login during the trial. Premium includes two linked banks; each additional bank is $3.99 per month. If your subscription lapses, bank connections disconnect automatically.</p>
+                        <p>Bank sync connects to <strong>US institutions only</strong> through Teller — not available in the EU. It requires a <strong>paid Premium subscription</strong>; it is <strong>not</strong> included in the 15-Day trial. You can still import statements without any bank login during the trial. Premium includes two linked banks; each additional bank is $3.99 per month. If your subscription lapses, bank connections disconnect automatically.</p>
                         <div class="narration-timer"></div>
                     </div>
                     <div class="narration-card" data-index="1">
@@ -136,7 +136,7 @@ html = re.sub(
 
 html = html.replace("<h2>Your Budget Setup Steps</h2>", "<h2>Connect Bank checklist</h2>")
 html = html.replace("Enter Your Income", "Confirm Premium (paid)")
-html = html.replace("Tell us what you earn each month", "Bank sync is not on the 21-day trial")
+html = html.replace("Tell us what you earn each month", "Bank sync is not on the 15-Day trial")
 html = html.replace("Pick a Template", "Open Settings")
 html = html.replace("Zero-Based, 50/30/20, Envelope, or custom", "Gear icon, top-right from Home")
 html = html.replace("Customize Categories", "Connect Bank")

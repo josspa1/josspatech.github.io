@@ -376,9 +376,9 @@ SECTIONS: list[tuple[str, str, list[str]]] = [
     ),
     (
         "Pricing",
-        "Flexible pricing plans to match your needs. Start free with a 21-day trial — no credit card required.",
+        "Flexible pricing plans to match your needs. Start free with a 15-Day trial — no credit card required.",
         [
-            "21-day free trial — full app access, no credit card needed",
+            "15-Day free trial — full app access, no credit card needed",
             "Monthly: $9.99/month with auto-renew",
             "Annual: $74.99/year (37% off monthly rate)",
             "3-Year: $149.99/three years (58% off monthly rate, no auto-renew)",
