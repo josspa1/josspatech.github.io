@@ -210,7 +210,9 @@ python scripts/gen-pbj-manual-missing-slides.py
 python scripts/build-user-manual-slides.py
 python scripts/build-pbj-slide-deck-pdf.py
 # → writes docs/pocketbudjet/PocketBudJet_SlideDeck.pdf ONLY
-# Do NOT overwrite PocketBudJet_UserManual.pdf (written 16-page user manual). Legacy alias: PocketBudJet_UserGuide.pdf.
+# Written prose User Manual (clickable TOC + bookmarks). Also writes legacy alias PocketBudJet_UserGuide.pdf.
+python scripts/build-pbj-written-user-manual-pdf.py
+# Do NOT overwrite UserManual/UserGuide with the slide-deck builder (build-pbj-slide-deck-pdf.py).
 python scripts/gen-user-guide-en-audio.py --force
 node scripts/render-user-guide-video.js
 ```
