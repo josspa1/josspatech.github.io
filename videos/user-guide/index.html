@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
@@ -78,22 +78,22 @@
  body.record-mode .cta-section, body.record-mode footer { display: none !important; }
  body.record-mode .walkthrough { padding: 1.5rem 2rem; min-height: 100vh; background: var(--background); }
  .video-wrapper {
- display: flex; gap: 0.75rem; align-items: center; justify-content: center;
- flex-wrap: nowrap; flex-direction: column; width: 100%;
+ display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
+ flex-wrap: nowrap; width: 100%;
  }
  .phone-column {
- flex-shrink: 0; width: 100%; max-width: 520px;
+ flex-shrink: 0; width: 420px; max-width: 100%;
  display: flex; flex-direction: column; align-items: center;
  }
  .phone-viewport {
- flex-shrink: 0; overflow: hidden; border-radius: 40px;
+ flex-shrink: 0; overflow: hidden; border-radius: 24px;
  }
  .phone-frame {
- width: min(460px, 88vw); position: relative;
- border: 3px solid #1a2744; border-radius: 40px;
- overflow: hidden; background: #0c1726;
+ width: 400px; position: relative;
+ border: 3px solid #1a2744; border-radius: 24px;
+ overflow: hidden; background: #000;
  box-shadow: 0 16px 48px rgba(12,51,88,0.22);
- aspect-ratio: 9 / 19.5; max-height: min(78vh, 900px);
+ aspect-ratio: 9 / 19.5; max-height: 760px;
  }
  .phone-frame::before { display: none; }
  .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; background: #000; }
@@ -106,19 +106,19 @@
  .slide img {
  width: 100%; height: 100%; display: block;
  object-fit: contain; object-position: center center;
- background: #0c1726;
+ background: var(--background);
  }
  .slide img[src$=".svg"] {
  object-fit: contain; object-position: top center;
  background: #000;
  }
- /* Phone-first sizing inside same-screen stage */
+ /* Match import sizing inside same-screen stage (no height:100% stretch) */
  .walkthrough-stage .phone-viewport {
  flex: 0 0 auto; width: auto; height: auto; max-height: 100%;
  display: flex; align-items: center; justify-content: center;
  }
  .walkthrough-stage .phone-frame {
- width: min(460px, 88vw); height: auto; max-height: min(78vh, 900px);
+ width: 400px; height: auto; max-height: min(760px, 100%);
  flex-shrink: 0;
  }
  .tap-indicator {
@@ -171,9 +171,15 @@
  background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
  }
  .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
- /* Transcript kept for narration sync JS; hidden in phone-first UI */
+ /* Plain transcript column beside phone (Joe UX ? no narration cards) */
  .narration-panel {
- display: none !important;
+ flex: 1; min-width: 280px; min-height: 0;
+ max-height: 760px; overflow-y: auto;
+ padding: 0.25rem 0.5rem 0.25rem 0; align-self: stretch;
+ }
+ .narration-panel::-webkit-scrollbar { width: 6px; }
+ .narration-panel::-webkit-scrollbar-thumb {
+ background: rgba(26,79,122,0.25); border-radius: 3px;
  }
  .narration-panel-heading {
  font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
@@ -304,14 +310,14 @@
  <div class="hero">
  <div class="container">
  <h1>PocketBudJet User Manual</h1>
- <p class="subheader">Detailed user manual — cold launch through every major feature in app order. Imperative tap steps, real PNGs where captured, gold pulse guides.</p>
+ <p class="subheader">Detailed user manual ? cold launch through every major feature in app order. Imperative tap steps, real PNGs where captured, gold pulse guides.</p>
  </div>
  </div>
 
  <section class="walkthrough">
  <div class="container">
  <h2>Master Manual</h2>
- <p class="section-sub">120 slides with synced narration and gold tap guides — cold launch through every major feature. Use the chapter pills to jump. Prefer reading? <a href="/docs/pocketbudjet/PocketBudJet_UserManual.html" style="color:var(--navy-medium);font-weight:700;">Open the written User Manual</a> (clickable table of contents).</p>
+ <p class="section-sub">120 slides with synced narration and gold tap guides ? cold launch through every major feature. Use the 32 chapter pills to jump, or read along in the scrolling transcript beside the phone. Prefer reading? <a href="/docs/pocketbudjet/PocketBudJet_UserManual.html" style="color:var(--navy-medium);font-weight:700;">Open the written User Manual</a> (clickable table of contents).</p>
 
  <div class="walkthrough-stage">
  <div class="video-wrapper">
@@ -324,364 +330,364 @@
  <div class="tap-to-start-label">Tap to play</div>
  </div>
  <div class="slide active" data-index="0" data-tap-none>
- <img src="/assets/screenshots/cold-start/splash.png?v=20260713" alt="Splash screen on cold launch" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/splash.png?v=20260713" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="1" data-tap-x="50" data-tap-y="88" data-tap-label="Next">
- <img src="/assets/screenshots/cold-start/showcase-1.png?v=20260713" alt="Feature showcase slide 1" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/showcase-1.png?v=20260713" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="2" data-tap-x="50" data-tap-y="88" data-tap-label="Next">
- <img src="/assets/screenshots/cold-start/showcase-2.png?v=20260713" alt="Feature showcase slide 2 — AI coach" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/showcase-2.png?v=20260713" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="3" data-tap-x="50" data-tap-y="88" data-tap-label="Next">
- <img src="/assets/screenshots/cold-start/showcase-3.png?v=20260713" alt="Feature showcase slide 3 — debt tools" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/showcase-3.png?v=20260713" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="4" data-tap-x="50" data-tap-y="88" data-tap-label="Get Started">
- <img src="/assets/screenshots/cold-start/showcase-4.png?v=20260713" alt="Feature showcase slide 4 — privacy" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/showcase-4.png?v=20260713" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="5" data-tap-none>
- <img src="/assets/screenshots/cold-start/onboarding-terms-tab-initial.png?v=20260626" alt="Terms — Terms of Service tab open, badge 1, I Accept disabled" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/onboarding-terms-tab-initial.png?v=20260626" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="6" data-tap-x="72" data-tap-y="18" data-tap-label="Disclaimer">
- <img src="/assets/screenshots/cold-start/onboarding-disclaimer-tab.png?v=20260626" alt="Terms — Disclaimer tab active, badge 2, scroll warning" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/onboarding-disclaimer-tab.png?v=20260626" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="7" data-tap-x="50" data-tap-y="92" data-tap-label="Accept">
- <img src="/assets/screenshots/cold-start/onboarding-terms-both-complete.png?v=20260626" alt="Terms — both tabs checked, I Accept enabled" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/onboarding-terms-both-complete.png?v=20260626" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="8" data-tap-x="50" data-tap-y="90" data-tap-label="Continue">
- <img src="/assets/screenshots/cold-start/security-setup.png" alt="Secure Your Data" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/security-setup.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="9" data-tap-none>
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Home after first launch" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="10" data-tap-x="50" data-tap-y="94" data-tap-label="Tab bar">
- <img src="/assets/screenshots/wayfinding/wayfinding-tab-bar.png" alt="Wayfinding — tab bar" loading="eager" decoding="async">
+ <img src="/assets/screenshots/wayfinding/wayfinding-tab-bar.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="11" data-tap-x="82" data-tap-y="7" data-tap-label="Search &amp; Coach">
- <img src="/assets/screenshots/wayfinding/wayfinding-header.png" alt="Wayfinding — header search and Coach" loading="eager" decoding="async">
+ <img src="/assets/screenshots/wayfinding/wayfinding-header.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="12" data-tap-x="12" data-tap-y="24" data-tap-label="Open menu">
- <img src="/assets/screenshots/wayfinding/wayfinding-drawer.png" alt="Navigation drawer" loading="eager" decoding="async">
+ <img src="/assets/screenshots/wayfinding/wayfinding-drawer.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="13" data-tap-x="72" data-tap-y="7" data-tap-label="Toolbox">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Toolbox / Import Center" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="14" data-tap-x="88" data-tap-y="78" data-tap-label="Quick-add">
- <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="Wayfinding — quick-add FAB" loading="eager" decoding="async">
+ <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="15" data-tap-x="50" data-tap-y="90" data-tap-label="Continue">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Choose Your Plan — subscription intro</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Choose Your Plan ? subscription intro</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="16" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Notification opt-in screen</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Notification opt-in screen</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="17" data-tap-x="91" data-tap-y="8" data-tap-label="Settings">
- <img src="/assets/screenshots/import/step-9-settings-export.png" alt="Settings — open Setup Wizard" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-9-settings-export.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="18" data-tap-x="50" data-tap-y="38" data-tap-label="Name">
- <img src="/assets/screenshots/budget-setup/step-1-name.png" alt="Wizard step 1 — display name" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-1-name.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="19" data-tap-x="50" data-tap-y="42" data-tap-label="Currency">
- <img src="/assets/screenshots/cold-start/wizard-currency.png" alt="Wizard step 2 — home currency" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/wizard-currency.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="20" data-tap-x="50" data-tap-y="55" data-tap-label="Add account">
- <img src="/assets/screenshots/budget-setup/step-5-accounts.png" alt="Wizard step 3 — accounts" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-5-accounts.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="21" data-tap-x="50" data-tap-y="42" data-tap-label="Income">
- <img src="/assets/screenshots/budget-setup/step-2-income.png" alt="Wizard step 4 — income" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-2-income.png" alt="" loading="eager" decoding="async">
  </div>
  <div class="slide" data-index="22" data-tap-x="50" data-tap-y="50" data-tap-label="Add bill">
- <img src="/assets/screenshots/cold-start/wizard-bills.png" alt="Wizard step 5 — recurring bills" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/wizard-bills.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="23" data-tap-x="50" data-tap-y="48" data-tap-label="Goal">
- <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Wizard step 6 — main goal" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="24" data-tap-x="50" data-tap-y="55" data-tap-label="Style">
- <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="Wizard step 7 — budgeting style" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="25" data-tap-x="50" data-tap-y="55" data-tap-label="Continue">
- <img src="/assets/screenshots/cold-start/wizard-accessibility.png" alt="Wizard step 8 — accessibility" loading="eager" decoding="async">
+ <img src="/assets/screenshots/cold-start/wizard-accessibility.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="26" data-tap-none>
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Wizard step 9 — personalized reveal" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="27" data-tap-none>
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Home dashboard overview" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="28" data-tap-x="12" data-tap-y="94" data-tap-label="Activity">
- <img src="/assets/screenshots/activity/activity-tab.png" alt="Tap Activity tab" loading="eager" decoding="async">
+ <img src="/assets/screenshots/activity/activity-tab.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="29" data-tap-none>
- <img src="/assets/screenshots/activity/activity-transaction-list.png" alt="Activity — transaction list" loading="eager" decoding="async">
+ <img src="/assets/screenshots/activity/activity-transaction-list.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="30" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Activity — filters and running balances</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Activity ? filters and running balances</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="31" data-tap-none>
- <img src="/assets/screenshots/activity/activity-transaction-detail.png" alt="Transaction detail screen" loading="eager" decoding="async">
+ <img src="/assets/screenshots/activity/activity-transaction-detail.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="32" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Approve Transactions screen</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Approve Transactions screen</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="33" data-tap-x="38" data-tap-y="94" data-tap-label="Budget">
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Tap Budget tab" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="34" data-tap-none>
- <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="Budget envelopes" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="35" data-tap-x="50" data-tap-y="50" data-tap-label="Category">
- <img src="/assets/screenshots/budget-setup/step-4-categories.png" alt="Edit category limit" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-4-categories.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="36" data-tap-x="50" data-tap-y="55" data-tap-label="Template">
- <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="Change budget template" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="37" data-tap-none>
- <img src="/assets/screenshots/budget/category-manager.png" alt="Category Manager" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget/category-manager.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="38" data-tap-none>
- <img src="/assets/screenshots/budget/spending-plan.png" alt="Spending Plan screen" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget/spending-plan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="39" data-tap-x="62" data-tap-y="94" data-tap-label="Goals">
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Tap Goals tab" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="40" data-tap-none>
- <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Savings goals overview" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="41" data-tap-x="50" data-tap-y="35" data-tap-label="New goal">
- <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Create a savings goal" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="42" data-tap-x="50" data-tap-y="55" data-tap-label="Sinking fund">
- <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Sinking funds and wishlist" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="43" data-tap-none>
- <img src="/assets/screenshots/goals/purchase-wishlist.png" alt="Purchase Wishlist" loading="eager" decoding="async">
+ <img src="/assets/screenshots/goals/purchase-wishlist.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="44" data-tap-x="88" data-tap-y="94" data-tap-label="Coach">
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Tap Coach tab" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="45" data-tap-none>
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Coach Today segment" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="46" data-tap-x="85" data-tap-y="24" data-tap-label="Ask">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Ask the Coach" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="47" data-tap-none>
- <img src="/assets/screenshots/coach/weekly-recap.png" alt="Weekly Recap" loading="eager" decoding="async">
+ <img src="/assets/screenshots/coach/weekly-recap.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="48" data-tap-none>
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Activity list for manual entry" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="49" data-tap-x="85" data-tap-y="82" data-tap-label="Gold +">
- <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="Tap gold plus button" loading="eager" decoding="async">
+ <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="50" data-tap-x="50" data-tap-y="30" data-tap-label="Amount">
- <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="Enter amount first" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="51" data-tap-x="50" data-tap-y="50" data-tap-label="Category">
- <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="Pick category and account" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="52" data-tap-x="50" data-tap-y="65" data-tap-label="Split">
- <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="Split across categories" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="53" data-tap-x="50" data-tap-y="92" data-tap-label="Save">
- <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="Save transaction" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="54" data-tap-x="50" data-tap-y="28" data-tap-label="Import">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Import Center" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="55" data-tap-x="50" data-tap-y="40" data-tap-label="Share">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Share from bank app" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="56" data-tap-x="50" data-tap-y="55" data-tap-label="PocketBudJet">
- <img src="/assets/screenshots/import/step-5-confirm-import.png" alt="Share sheet to PocketBudJet" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-5-confirm-import.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="57" data-tap-x="50" data-tap-y="65" data-tap-label="Browse files">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Import from file" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="58" data-tap-x="50" data-tap-y="91" data-tap-label="Confirm">
- <img src="/assets/screenshots/import/step-5-confirm-import.png" alt="Confirm import draft" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-5-confirm-import.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="59" data-tap-x="50" data-tap-y="45" data-tap-label="Date range">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Import at least three months" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="60" data-tap-x="50" data-tap-y="72" data-tap-label="PDF">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Digital PDF receipt import" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="61" data-tap-none>
- <img src="/assets/screenshots/import/import-history.png" alt="Import History" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/import-history.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="62" data-tap-x="50" data-tap-y="22" data-tap-label="Scan">
- <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Receipt scanner camera" loading="eager" decoding="async">
+ <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="63" data-tap-x="50" data-tap-y="45" data-tap-label="Save">
- <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="OCR auto-fill on save" loading="eager" decoding="async">
+ <img src="/assets/screenshots/budget-setup/step-6-scan.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="64" data-tap-x="50" data-tap-y="48" data-tap-label="WiFi ADF">
- <img src="/assets/screenshots/scanner.png" alt="WiFi ADF batch scanner" loading="eager" decoding="async">
+ <img src="/assets/screenshots/scanner.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="65" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Batch scan complete</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Batch scan complete</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="66" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Universal Document Scan</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Universal Document Scan</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="67" data-tap-none>
- <img src="/assets/screenshots/bills/bills-calendar.png" alt="Bills calendar" loading="eager" decoding="async">
+ <img src="/assets/screenshots/bills/bills-calendar.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="68" data-tap-x="50" data-tap-y="70" data-tap-label="Mark paid">
- <img src="/assets/screenshots/bills.png" alt="Add or mark bill paid" loading="eager" decoding="async">
+ <img src="/assets/screenshots/bills.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="69" data-tap-none>
- <img src="/assets/screenshots/bills/subscription-tracker.png" alt="Subscription Tracker" loading="eager" decoding="async">
+ <img src="/assets/screenshots/bills/subscription-tracker.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="70" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Recurring Transactions hub</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Recurring Transactions hub</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="71" data-tap-none>
- <img src="/assets/screenshots/income/recurring-income.png" alt="Recurring Income" loading="eager" decoding="async">
+ <img src="/assets/screenshots/income/recurring-income.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="72" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Pay Stub Review</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Pay Stub Review</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="73" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Direct Deposit Advisor</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Direct Deposit Advisor</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="74" data-tap-none>
- <img src="/assets/screenshots/debt/debt-planner.png" alt="Debt payoff planner" loading="eager" decoding="async">
+ <img src="/assets/screenshots/debt/debt-planner.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="75" data-tap-none>
- <img src="/assets/screenshots/debt/debt-strategy.png" alt="Avalanche vs snowball" loading="eager" decoding="async">
+ <img src="/assets/screenshots/debt/debt-strategy.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="76" data-tap-none>
- <img src="/assets/screenshots/debt/loan-calculator.png" alt="Loan Calculator" loading="eager" decoding="async">
+ <img src="/assets/screenshots/debt/loan-calculator.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="77" data-tap-none>
- <img src="/assets/screenshots/debt/debt-progress.png" alt="Debt Progress Report" loading="eager" decoding="async">
+ <img src="/assets/screenshots/debt/debt-progress.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="78" data-tap-x="50" data-tap-y="18" data-tap-label="Reports">
- <img src="/assets/screenshots/reports/reports-hub.png" alt="Coach Reports segment" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/reports-hub.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="79" data-tap-none>
- <img src="/assets/screenshots/reports/spending-trends.png" alt="Spending trends" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/spending-trends.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="80" data-tap-none>
- <img src="/assets/screenshots/reports/category-breakdown.png" alt="Category breakdown" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/category-breakdown.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="81" data-tap-none>
- <img src="/assets/screenshots/reports/merchant-analysis.png" alt="Merchant Analysis" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/merchant-analysis.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="82" data-tap-none>
- <img src="/assets/screenshots/reports/financial-health-score.png" alt="Financial Health Score" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/financial-health-score.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="83" data-tap-none>
- <img src="/assets/screenshots/reports/custom-report-builder.png" alt="Custom Report Builder" loading="eager" decoding="async">
+ <img src="/assets/screenshots/reports/custom-report-builder.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="84" data-tap-none>
- <img src="/assets/screenshots/net-worth/net-worth-hub.png" alt="Net worth tracker" loading="eager" decoding="async">
+ <img src="/assets/screenshots/net-worth/net-worth-hub.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="85" data-tap-none>
- <img src="/assets/screenshots/net-worth/investment-portfolio.png" alt="Investment Portfolio" loading="eager" decoding="async">
+ <img src="/assets/screenshots/net-worth/investment-portfolio.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="86" data-tap-x="50" data-tap-y="35" data-tap-label="Export">
- <img src="/assets/screenshots/export/export-hub.png" alt="Import and Export settings" loading="eager" decoding="async">
+ <img src="/assets/screenshots/export/export-hub.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="87" data-tap-x="50" data-tap-y="55" data-tap-label="Format">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Choose export format</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Choose export format</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="88" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Tax Filing Export</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Tax Filing Export</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="89" data-tap-none>
- <img src="/assets/screenshots/tax/tax-center.png" alt="Tax Center" loading="eager" decoding="async">
+ <img src="/assets/screenshots/tax/tax-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="90" data-tap-none>
- <img src="/assets/screenshots/tax/mileage-log.png" alt="Mileage Log" loading="eager" decoding="async">
+ <img src="/assets/screenshots/tax/mileage-log.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="91" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Deduction Breakdown</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Deduction Breakdown</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="92" data-tap-x="91" data-tap-y="8" data-tap-label="Settings">
- <img src="/assets/screenshots/settings/settings-open.png" alt="Open Settings" loading="eager" decoding="async">
+ <img src="/assets/screenshots/settings/settings-open.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="93" data-tap-none>
- <img src="/assets/screenshots/settings/profile-accounts.png" alt="Profile and Accounts" loading="eager" decoding="async">
+ <img src="/assets/screenshots/settings/profile-accounts.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="94" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Subscription management</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Subscription management</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="95" data-tap-x="50" data-tap-y="40" data-tap-label="Backup">
- <img src="/assets/screenshots/settings/privacy-backup.png" alt="Privacy and backup" loading="eager" decoding="async">
+ <img src="/assets/screenshots/settings/privacy-backup.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="96" data-tap-x="50" data-tap-y="50" data-tap-label="Storage">
- <img src="/assets/screenshots/import/step-4-import-center.png" alt="Data and storage management" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-4-import-center.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="97" data-tap-none>
- <img src="/assets/screenshots/settings/how-pbj-learns.png" alt="How PBJ learns" loading="eager" decoding="async">
+ <img src="/assets/screenshots/settings/how-pbj-learns.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="98" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Connect Bank requirements</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Connect Bank requirements</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="99" data-tap-x="50" data-tap-y="45" data-tap-label="Connect Bank">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Tap Connect Bank</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Tap Connect Bank</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="100" data-tap-x="50" data-tap-y="70" data-tap-label="Confirm">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Select linked accounts</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Select linked accounts</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="101" data-tap-none>
- <img src="/assets/screenshots/rules/transaction-rules.png" alt="Transaction rules" loading="eager" decoding="async">
+ <img src="/assets/screenshots/rules/transaction-rules.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="102" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Create a rule</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Create a rule</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="103" data-tap-none>
- <img src="/assets/screenshots/rules/bookmarks.png" alt="Bookmarks for review" loading="eager" decoding="async">
+ <img src="/assets/screenshots/rules/bookmarks.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="104" data-tap-x="50" data-tap-y="50" data-tap-label="Voice">
- <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="Add transaction by voice" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="105" data-tap-none>
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Check budget by voice" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="106" data-tap-x="50" data-tap-y="40" data-tap-label="Retirement">
- <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="Retirement planning target" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="107" data-tap-x="50" data-tap-y="55" data-tap-label="Projection">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Retirement gap analysis</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Retirement gap analysis</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="108" data-tap-x="50" data-tap-y="50" data-tap-label="Mindful">
- <img src="/assets/screenshots/pbj/04-shopping-intelligence.png" alt="Mindful spending tools" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/04-shopping-intelligence.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="109" data-tap-none>
- <img src="/assets/screenshots/pbj/04-shopping-intelligence.png" alt="Shopping Intelligence" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/04-shopping-intelligence.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="110" data-tap-none>
- <img src="/assets/screenshots/pbj/07-web-companion.png" alt="PC Web Companion" loading="eager" decoding="async">
+ <img src="/assets/screenshots/pbj/07-web-companion.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="111" data-tap-x="50" data-tap-y="55" data-tap-label="Pair">
- <img src="/assets/screenshots/household-sync/household-sync.png" alt="Household sync QR pair" loading="eager" decoding="async">
+ <img src="/assets/screenshots/household-sync/household-sync.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="112" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Couples Dashboard</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Couples Dashboard</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="113" data-tap-x="72" data-tap-y="8" data-tap-label="Search">
- <img src="/assets/screenshots/import/step-9-settings-export.png" alt="Universal Search" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-9-settings-export.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="114" data-tap-none>
- <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="Combine search filters" loading="eager" decoding="async">
+ <img src="/assets/screenshots/import/step-10-home-dashboard.png" alt="" loading="lazy" decoding="async">
  </div>
  <div class="slide" data-index="115" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Notification Capture</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Notification Capture</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="116" data-tap-none>
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Widgets & Watch</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Widgets & Watch</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="117" data-tap-x="50" data-tap-y="35" data-tap-label="App lock">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">App lock and recovery key</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">App lock and recovery key</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="118" data-tap-x="50" data-tap-y="60" data-tap-label="Cloud">
- <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Encrypted cloud backup</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending — narration describes this screen.</p></div>
+ <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#EDF2F7;color:#1A4F7A;padding:1.5rem;text-align:center;"><p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin-bottom:0.5rem;">Encrypted cloud backup</p><p style="font-size:0.82rem;line-height:1.5;color:#5A7A9A;">Screenshot pending ? narration describes this screen.</p></div>
  </div>
  <div class="slide" data-index="119" data-tap-none>
- <img src="/assets/screenshots/help/help-support.png" alt="Help and support" loading="eager" decoding="async">
+ <img src="/assets/screenshots/help/help-support.png" alt="" loading="lazy" decoding="async">
  </div>
  </div>
  </div>
@@ -729,8 +735,8 @@
 </div>
  </div>
 
- <div class="narration-panel" id="narrationPanel" hidden aria-hidden="true">
- <p class="narration-panel-heading">Transcript — read along as you watch</p>
+ <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript ? read along as you watch</p>
  <div class="transcript-body" id="transcriptBody"></div>
  </div>
  </div>
@@ -741,7 +747,7 @@
  <div class="cta-section">
  <div class="container">
  <h2>Ready to Take Control of Your Finances?</h2>
- <p>Download PocketBudJet and follow this manual from slide one — cold launch through every major screen.</p>
+ <p>Download PocketBudJet and follow this manual from slide one ? cold launch through every major screen.</p>
  <a href="#" class="download-button">Get the App</a>
  </div>
  </div>
@@ -777,103 +783,103 @@
  "Open PocketBudJet after install. The splash screen appears while the app loads your local database.",
  "Swipe the feature showcase. Slide one: control your money with envelopes, bills, and goals on your phone. Tap Next.",
  "Slide two: your AI financial coach learns your patterns and flags unusual spending. Tap Next.",
- "Slide three: crush your debt — watch loan progress and your debt-free date on the Quick Tour. Tap Next.",
- "Slide four: your data stays on your device — privacy first. Tap Get Started.",
+ "Slide three: crush your debt ? watch loan progress and your debt-free date on the Quick Tour. Tap Next.",
+ "Slide four: your data stays on your device ? privacy first. Tap Get Started.",
  "On first launch, open the Terms of Service tab and scroll to the bottom.",
  "Tap Disclaimer and scroll that tab to the bottom too.",
- "When both tabs are reviewed, tap I Accept — Continue.",
+ "When both tabs are reviewed, tap I Accept ? Continue.",
  "On Secure Your Data, toggle app lock if you want PIN or biometrics, then tap Continue to Home.",
  "You land on Home. Income, spending, and net cards sit at the top with widgets below.",
- "The wayfinding tour opens on first launch. Landmark one: the tab bar — Home, Activity, Budget, Goals, and Coach. Tap Next.",
- "Landmark two: the header — Universal Search and the Coach button on every screen. Tap Next.",
- "Landmark three: the drawer — swipe from the left for Settings, Help, and the full nav map. Tap Next.",
- "Landmark four: the Toolbox — import, export, scanners, and utilities in one place. Tap Next.",
+ "The wayfinding tour opens on first launch. Landmark one: the tab bar ? Home, Activity, Budget, Goals, and Coach. Tap Next.",
+ "Landmark two: the header ? Universal Search and the Coach button on every screen. Tap Next.",
+ "Landmark three: the drawer ? swipe from the left for Settings, Help, and the full nav map. Tap Next.",
+ "Landmark four: the Toolbox ? import, export, scanners, and utilities in one place. Tap Next.",
  "Landmark five: the quick-add button logs a transaction, category, or goal depending on your tab. Tap Done to finish the tour.",
- "On your second app open — or after five transactions — you may see Choose Your Plan. Start the 21-day Premium trial with no card, or continue free.",
+ "On your second app open ? or after five transactions ? you may see Choose Your Plan. Start the 15-Day Premium trial with no card, or continue free.",
  "After onboarding, PocketBudJet may ask to send bill reminders and spending alerts. Allow notifications to stay ahead of due dates.",
  "Setup is optional and not shown by default. Tap the gear icon, open Settings, then tap Set Up PocketBudJet to launch the wizard any time.",
  "Wizard step one: enter your display name and tap Next.",
  "Wizard step two: choose your home currency and tap Next.",
- "Wizard step three: add checking, savings, credit, or cash accounts — or tap Skip.",
+ "Wizard step three: add checking, savings, credit, or cash accounts ? or tap Skip.",
  "Wizard step four: enter gross pay and take-home pay. The difference becomes paycheck deductions you can itemize later.",
- "Wizard step five: add recurring bills with name, amount, and due day — or tap Skip.",
+ "Wizard step five: add recurring bills with name, amount, and due day ? or tap Skip.",
  "Wizard step six: pick your main financial goal to personalize the dashboard.",
- "Wizard step seven: choose a budgeting style — 50/30/20, Envelope, Zero-Based, or another template.",
+ "Wizard step seven: choose a budgeting style ? 50/30/20, Envelope, Zero-Based, or another template.",
  "Wizard step eight: answer the colorblind-accessibility question so charts use friendly palettes.",
  "Wizard step nine: review your personalized summary, then tap Finish. Your dashboard is configured.",
  "On Home, scan hero cards for income, spending, and net worth. Widgets below show spending pace, bills due, and goal progress.",
- "Tap the Activity tab — wallet icon at bottom left — to see every transaction.",
+ "Tap the Activity tab ? wallet icon at bottom left ? to see every transaction.",
  "Activity lists income and expenses grouped by date. Use search and filters to narrow by merchant, category, or amount.",
  "Tap the filter icon to stack date, category, and account filters. Running balances update per account as you scroll.",
- "Tap any row to open Transaction Detail — edit category, split, add notes, or attach a receipt.",
+ "Tap any row to open Transaction Detail ? edit category, split, add notes, or attach a receipt.",
  "When imports add uncertain rows, open Approve Transactions to accept or fix them before they hit your budget.",
- "Tap the Budget tab — calendar icon — for envelope limits and monthly progress.",
+ "Tap the Budget tab ? calendar icon ? for envelope limits and monthly progress.",
  "Budget shows category envelopes with color-coded progress bars and rollover amounts.",
  "Tap any category row to rename it or change the monthly limit.",
  "Tap Change Template to switch frameworks like 50/30/20, Envelope, or Zero-Based.",
  "Open Category Manager from Settings or Budget to add, merge, or hide categories and sub-categories.",
- "Spending Plan shows how much is left per envelope after bills and goals — your safe-to-spend number.",
- "Tap the Goals tab — trending-up icon — for savings targets and sinking funds.",
+ "Spending Plan shows how much is left per envelope after bills and goals ? your safe-to-spend number.",
+ "Tap the Goals tab ? trending-up icon ? for savings targets and sinking funds.",
  "Goals tracks targets with progress rings, wishlist cool-offs, and sinking funds for irregular expenses.",
  "Tap the plus button. Enter a name, target amount, and date. PocketBudJet calculates your monthly contribution.",
  "Add sinking funds for annual expenses like insurance. Use the wishlist to cool off on impulse buys before committing.",
  "Purchase Wishlist lets you queue wants with a cooling-off timer before money leaves your account.",
- "Tap the Coach tab — sparkles icon — for insights, reports, and AI chat.",
+ "Tap the Coach tab ? sparkles icon ? for insights, reports, and AI chat.",
  "Coach's Today segment highlights anomalies, bill reminders, and nudges based on your data.",
- "Tap Ask to chat in plain English — try \"How much did I spend on dining last month?\"",
- "Weekly Recap summarizes income, spending, and wins — open it from Coach or your notification.",
+ "Tap Ask to chat in plain English ? try \"How much did I spend on dining last month?\"",
+ "Weekly Recap summarizes income, spending, and wins ? open it from Coach or your notification.",
  "To log spending manually, open Activity or tap the gold plus button from any screen.",
  "Tap the gold plus button at bottom center. You can finish in under ten seconds.",
  "Enter the amount first while it is fresh. Amount is the one field you must not forget.",
- "Type the merchant name consistently. Pick a category — PocketBudJet learns and suggests over time. Select the account.",
- "For multi-category receipts, tap Split. Assign portions to Groceries, Household, or other categories — total stays locked.",
- "Tap Save. Your budget category, account balance, and dashboard update immediately — no sync wait.",
+ "Type the merchant name consistently. Pick a category ? PocketBudJet learns and suggests over time. Select the account.",
+ "For multi-category receipts, tap Split. Assign portions to Groceries, Household, or other categories ? total stays locked.",
+ "Tap Save. Your budget category, account balance, and dashboard update immediately ? no sync wait.",
  "Open the Toolbox or Import Center to bring in bank history without a bank login.",
- "Fastest path: in your bank app, open the statement and tap Share, then PocketBudJet. Six taps total — no Downloads folder.",
+ "Fastest path: in your bank app, open the statement and tap Share, then PocketBudJet. Six taps total ? no Downloads folder.",
  "Tap the PocketBudJet icon on the share sheet. After the first pick, Android pins it near the top.",
  "Or tap Import from file for CSV, OFX, QFX, QIF, XLSX, or PDF. Smart Mapper detects columns automatically.",
- "Review the draft — green rows are confident; flagged rows need a quick look. Tap Confirm when ready.",
- "Grab at least three months of history — six months or a year is better. More data means smarter AI and sharper reports.",
- "Premium: when a store emails a PDF receipt, download it to your phone and import — no inbox access required.",
- "Import History lists every file you brought in — re-open drafts or audit what changed.",
+ "Review the draft ? green rows are confident; flagged rows need a quick look. Tap Confirm when ready.",
+ "Grab at least three months of history ? six months or a year is better. More data means smarter AI and sharper reports.",
+ "Premium: when a store emails a PDF receipt, download it to your phone and import ? no inbox access required.",
+ "Import History lists every file you brought in ? re-open drafts or audit what changed.",
  "Tap Scan Receipt and snap a photo. OCR fills merchant, amount, and date.",
  "Review OCR fields, pick a category if needed, then tap Save. Line items parse when visible on the receipt.",
  "For stacks of paper, tap WiFi ADF Scanner. Connect your home document feeder over the network.",
- "Load bank statements or receipts and walk away — every page gets read, categorized, and added to Activity.",
- "Universal Scan handles statements, invoices, and mixed documents — crop corners and review before import.",
+ "Load bank statements or receipts and walk away ? every page gets read, categorized, and added to Activity.",
+ "Universal Scan handles statements, invoices, and mixed documents ? crop corners and review before import.",
  "Open Bills from the drawer or Plan tab. The calendar shows due dates with payday markers and a 30-day cash flow forecast.",
  "Tap Add Bill for subscriptions and recurring payments. Tap a due date to mark paid or snooze a reminder.",
- "Subscription Tracker surfaces recurring charges you might have forgotten — cancel leaks before they compound.",
+ "Subscription Tracker surfaces recurring charges you might have forgotten ? cancel leaks before they compound.",
  "Recurring Transactions links bills and income on one timeline for cash-flow planning.",
  "Recurring Income stores paychecks and side gigs so forecasts know when money arrives.",
- "Import or photograph a pay stub — Pay Stub Review splits gross, taxes, and deductions automatically.",
+ "Import or photograph a pay stub ? Pay Stub Review splits gross, taxes, and deductions automatically.",
  "Direct Deposit Advisor suggests how to split paychecks across accounts and envelopes.",
  "Open Debt from Goals or the drawer. Enter balances, APR, and minimum payments.",
- "Choose avalanche — highest interest first — or snowball — smallest balance first. See your debt-free date and interest saved.",
+ "Choose avalanche ? highest interest first ? or snowball ? smallest balance first. See your debt-free date and interest saved.",
  "Loan Calculator models extra payments, refi scenarios, and payoff timelines.",
  "Debt Progress Report charts how fast balances are falling month over month.",
  "In Coach, switch to Reports for spending by category, income vs expenses, and custom layouts.",
  "Tap Spending Trends to compare month over month. Spot seasonal spikes before they become habits.",
  "Category Breakdown shows where money went. Export any report segment as CSV or PDF from the share icon.",
- "Merchant Analysis ranks stores by spend — great for cutting subscriptions and dining.",
+ "Merchant Analysis ranks stores by spend ? great for cutting subscriptions and dining.",
  "Financial Health Score grades savings rate, debt load, and budget adherence in one number.",
- "Report Builder lets you save custom filters — reuse them for monthly reviews.",
+ "Report Builder lets you save custom filters ? reuse them for monthly reviews.",
  "Open Net Worth from the Toolbox or drawer. Track accounts, investments, property, and liabilities in one view.",
  "My Assets and Investment Portfolio track property, brokerage, and retirement accounts alongside cash.",
  "Tap the gear icon, then Import and Export. Back up encrypted files or export CSV, XLSX, OFX, PDF, and JSON.",
  "Premium exports include CSV, JSON, PDF, Excel, Word, OFX, and HTML. Files land in your Export folder for 30 days.",
  "Tax Filing Export bundles categories and mileage for your accountant or tax software.",
  "Tax Center groups mileage logs, deduction breakdowns, and annual summaries in one place.",
- "Mileage Log tracks business miles with IRS-ready totals — start trips from the Toolbox or a widget.",
+ "Mileage Log tracks business miles with IRS-ready totals ? start trips from the Toolbox or a widget.",
  "Deduction Breakdown summarizes tax-prep categories pulled from your categorized transactions.",
  "Tap the gear icon for accounts, privacy, backups, data retention, and the setup wizard.",
  "My Profile and Accounts manage display name, institutions, and account types.",
  "Subscription shows trial days left, Premium features, and bank-sync add-ons.",
  "In Privacy and Backup, turn on encrypted cloud backup, set retention, and control app lock.",
  "Under Data Management, set how much history lives on-device, manage receipt image storage, and archive old years.",
- "How PBJ Learns explains crowd-consensus categorization — your data stays private on-device.",
- "Bank sync connects US institutions only via Teller. Requires paid Premium — not included in the 21-day trial. Two banks included; each extra is $3.99 per month.",
- "In Settings, tap Connect Bank. Search for your US bank. PocketBudJet never stores your bank password — Teller handles sign-in.",
+ "How PBJ Learns explains crowd-consensus categorization ? your data stays private on-device.",
+ "Bank sync connects US institutions only via Teller. Requires paid Premium ? not included in the 15-Day trial. Two banks included; each extra is $3.99 per month.",
+ "In Settings, tap Connect Bank. Search for your US bank. PocketBudJet never stores your bank password ? Teller handles sign-in.",
  "Choose checking, savings, or credit accounts to link. New transactions sync automatically and honor your categorization rules.",
  "Open Activity, tap a transaction, then Transaction Rules. Automate categorization for repeat merchants.",
  "Set a rule: when merchant contains \"Coffee Shop\", assign Dining. Rules auto-apply to future imports and manual entries.",
@@ -881,17 +887,17 @@
  "Say \"Hey Siri, log $12 coffee in PocketBudJet\" or use Google Assistant shortcuts. Hands-free entry while driving or cooking.",
  "Ask \"How much is left in Groceries?\" or \"What's my net worth?\" Voice works for budgets, balances, and Coach questions.",
  "Open Retirement Planning from the Toolbox. Enter your target age, desired income, and current savings.",
- "See your projection and gap analysis — how much more to save each month to close the shortfall.",
+ "See your projection and gap analysis ? how much more to save each month to close the shortfall.",
  "In Settings, enable Mindful Features: spending pause, impulse check, cooling-off periods, and a mindful score before big purchases.",
  "Shopping Intelligence compares prices, tracks UPC history, and flags impulse patterns at checkout.",
- "Launch PC Web Companion from Toolbox. Scan the QR code to pair over your LAN — drag-and-drop import on a full-size screen.",
- "Under Household Sync, pair family devices with QR for joint budgets over WiFi or Bluetooth — no cloud account.",
- "Couples Dashboard merges shared envelopes and shows who spent what — still stored locally on each phone.",
- "Tap Universal Search in the header. Find transactions by merchant or amount — or search features like \"mileage\" or \"voice.\"",
+ "Launch PC Web Companion from Toolbox. Scan the QR code to pair over your LAN ? drag-and-drop import on a full-size screen.",
+ "Under Household Sync, pair family devices with QR for joint budgets over WiFi or Bluetooth ? no cloud account.",
+ "Couples Dashboard merges shared envelopes and shows who spent what ? still stored locally on each phone.",
+ "Tap Universal Search in the header. Find transactions by merchant or amount ? or search features like \"mileage\" or \"voice.\"",
  "Stack filters: merchant contains \"Amazon\", category is Dining, date last 30 days. Export results directly from the screen.",
- "Notification Capture reads bank alerts from your notification shade and drafts transactions — opt in from Settings.",
- "Widgets and Watch complications show safe-to-spend, bills due, and quick-add — configure slots from Settings.",
- "Set biometric or passcode lock in Privacy settings. Generate your recovery key once — store it safely offline.",
+ "Notification Capture reads bank alerts from your notification shade and drafts transactions ? opt in from Settings.",
+ "Widgets and Watch complications show safe-to-spend, bills due, and quick-add ? configure slots from Settings.",
+ "Set biometric or passcode lock in Privacy settings. Generate your recovery key once ? store it safely offline.",
  "Connect Google Drive, OneDrive, Dropbox, or iCloud for encrypted backup. Your cloud, your account, your control.",
  "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature."
 
@@ -1112,6 +1118,7 @@
  dotsContainer.appendChild(dot);
  });
 
+
  function preloadSlideImages(centerIdx) {
  for (var p = Math.max(0, centerIdx - 1); p <= Math.min(LAST_SLIDE, centerIdx + 2); p++) {
  var img = slides[p] && slides[p].querySelector('img');
@@ -1222,25 +1229,23 @@
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
 <link rel="stylesheet" href="walkthrough.css">
 <style>
-/* Final override — phone-first, no transcript column */
-.walkthrough-stage .video-wrapper {
- display: flex !important;
- flex-direction: column !important;
- align-items: center !important;
- grid-template-columns: none !important;
+/* After shared + local walkthrough.css ? keep large phone beside transcript */
+.walkthrough-stage .phone-viewport {
+ flex: 0 0 auto; width: auto; height: auto; max-height: 100%;
+ display: flex; align-items: center; justify-content: center;
 }
-.walkthrough-stage .narration-panel,
-#narrationPanel { display: none !important; }
 .walkthrough-stage .phone-frame {
- width: min(460px, 88vw) !important;
+ width: 400px !important;
  height: auto !important;
- max-height: min(78vh, 900px) !important;
+ max-height: min(760px, 100%) !important;
  flex-shrink: 0;
 }
-.walkthrough-stage .slide img {
- background: #0c1726;
- object-fit: contain;
+.walkthrough-stage .narration-panel,
+#narrationPanel {
+ display: block !important;
 }
+.slide-title, .slide-label, .slide-caption { display: none !important; }
+.slide img { color: transparent; font-size: 0; }
 </style>
 <script src="/videos/shared/walkthrough.js" defer></script>
 </body>

@@ -1,68 +1,26 @@
 /**
- * PBJ User Manual — phone-first layout (Joe UX Jul 2026)
- * No right-side transcript. Larger phone is the only stage focus.
+ * User Guide walkthrough layout (Joe preference)
+ * Desktop ≥1200px: side-by-side — transcript beside phone (import pattern)
+ * Below 1200px: letterbox — phone on top, scrolling transcript below, both on one screen
  */
 
 .walkthrough-stage {
   width: 100%;
 }
 
-.walkthrough .section-sub {
-  max-width: 42rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Force single-column phone stage (overrides shared 45/55 grid) */
-.walkthrough-stage .video-wrapper,
-.walkthrough .video-wrapper {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  grid-template-columns: none !important;
-  grid-template-rows: none !important;
-  gap: 0.75rem !important;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-}
-
-.walkthrough-stage .phone-column,
-.walkthrough .phone-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 520px;
-  height: auto;
-  max-height: 100%;
-  min-height: 0;
-  flex: 0 0 auto;
-}
-
-.walkthrough-stage .phone-viewport,
-.walkthrough .phone-viewport {
+/* Larger phone beside transcript (restored layout + size bump) */
+.walkthrough-stage .phone-viewport {
   flex: 0 0 auto;
   width: auto;
   height: auto;
   max-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 40px;
 }
 
-/* Bigger phone — dominate the stage */
-.walkthrough-stage .phone-frame,
-.walkthrough .phone-frame {
-  width: min(460px, 88vw) !important;
-  height: auto !important;
-  max-height: min(78vh, 900px) !important;
-  max-width: 100%;
+.walkthrough-stage .phone-frame {
+  width: 400px;
+  height: auto;
+  max-height: min(760px, 100%);
   flex-shrink: 0;
-  aspect-ratio: 9 / 19.5;
 }
 
 .walkthrough .slideshow {
@@ -71,60 +29,141 @@
   overflow: hidden;
 }
 
-/* Hide transcript / right-side copy entirely */
-.walkthrough-stage .narration-panel,
-.walkthrough .narration-panel,
-#narrationPanel {
+/* Never paint slide titles / alt chrome as on-screen labels */
+.slide-title,
+.slide-label,
+.slide-caption {
   display: none !important;
 }
 
-.walkthrough-stage .progress-dots,
-.walkthrough-stage .playback-controls,
-.walkthrough-stage .chapter-nav {
-  width: 100%;
-  max-width: min(520px, 96vw);
+.slide img {
+  color: transparent;
+  font-size: 0;
 }
 
-.walkthrough-stage .chapter-nav {
-  margin-top: 0.45rem;
-  max-height: 7.5rem;
-  overflow-x: auto;
-  overflow-y: hidden;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
+/* ---- Desktop: side-by-side ---- */
+@media (min-width: 1200px) {
+  .walkthrough .video-wrapper {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .walkthrough .phone-column {
+    flex-shrink: 0;
+    width: 420px;
+    max-width: none;
+  }
+
+  .walkthrough .narration-panel {
+    flex: 1;
+    min-width: 280px;
+    min-height: 0;
+    max-height: 760px;
+    height: auto;
+    overflow-y: auto;
+    align-self: stretch;
+  }
 }
 
-/* Full screenshot visible (no gray letterbox feel while loading) */
-.walkthrough-stage .slide img {
-  object-fit: contain;
-  object-position: center center;
-  background: #0c1726;
+/* ---- Letterbox fallback (<1200px) ---- */
+@media (max-width: 1199px) {
+  .walkthrough {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .walkthrough h2 {
+    margin-bottom: 0.35rem;
+  }
+
+  .walkthrough .section-sub {
+    margin-bottom: 1.25rem;
+    font-size: 0.98rem;
+  }
+
+  .walkthrough .video-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    max-height: 90vh;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .walkthrough .phone-column {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .walkthrough .phone-frame {
+    width: min(380px, 58vw);
+    max-height: min(58vh, 700px);
+  }
+
+  .walkthrough .progress-dots {
+    margin-top: 0.65rem;
+  }
+
+  .walkthrough .playback-controls {
+    margin-top: 0.5rem;
+  }
+
+  /* Chapter pills under phone — scroll if many, don't steal transcript space */
+  .walkthrough .chapter-nav {
+    margin-top: 0.65rem;
+    max-width: 100%;
+    max-height: 10vh;
+    overflow-y: auto;
+    flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Fixed-height transcript band; sentences scroll inside */
+  .walkthrough .narration-panel {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+    min-height: 0;
+    height: 32vh;
+    max-height: 35vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    align-self: stretch;
+    scroll-behavior: smooth;
+  }
 }
 
 @media (max-width: 480px) {
-  .walkthrough-stage .phone-frame,
   .walkthrough .phone-frame {
-    width: min(360px, 92vw) !important;
-    max-height: min(72vh, 760px) !important;
+    width: min(300px, 72vw);
+    max-height: min(50vh, 520px);
+  }
+
+  .walkthrough .narration-panel {
+    height: 30vh;
+    max-height: 30vh;
+  }
+
+  .walkthrough .chapter-nav {
+    max-height: 8vh;
   }
 }
 
-@media (max-height: 740px) {
-  .walkthrough-stage .phone-frame,
-  .walkthrough .phone-frame {
-    max-height: min(68vh, 640px) !important;
-  }
-}
-
-/* Record mode: maximize phone, still no transcript */
+/* Record mode: use full viewport for letterbox stage */
 body.record-mode .walkthrough-stage {
-  height: min(94vh, calc(100dvh - 1rem));
-  max-height: min(94vh, calc(100dvh - 1rem));
+  height: min(90vh, calc(100dvh - 2rem));
+  max-height: min(90vh, calc(100dvh - 2rem));
 }
 
 body.record-mode .walkthrough,
 body.record-mode .video-section.walkthrough {
-  padding: 0.75rem 1rem;
+  padding: 1.5rem 2rem;
   min-height: 100vh;
 }
 
@@ -135,61 +174,19 @@ body.record-mode .video-section.walkthrough .section-sub {
   display: none;
 }
 
-body.record-mode .walkthrough-stage .phone-frame,
-body.record-mode .walkthrough .phone-frame {
-  width: min(480px, 70vh * 9 / 19.5) !important;
-  max-height: min(88vh, 960px) !important;
+body.record-mode .walkthrough .video-wrapper {
+  max-height: calc(100vh - 3rem);
 }
 
-/* Embed mode (homepage iframe ?embed=1) — phone only */
-html.embed-mode nav,
-html.embed-mode .breadcrumbs,
-html.embed-mode .hero,
-html.embed-mode .cta-section,
-html.embed-mode footer,
-html.embed-mode .walkthrough h2,
-html.embed-mode .walkthrough .section-sub {
-  display: none !important;
+@media (min-width: 1200px) {
+  body.record-mode .walkthrough .video-wrapper {
+    max-height: calc(100vh - 3rem);
+  }
 }
 
-html.embed-mode,
-html.embed-mode body {
-  height: 100%;
-  margin: 0;
-  overflow: hidden;
-  background: #0c1726;
-}
-
-html.embed-mode .walkthrough {
-  padding: 0.5rem 0.75rem 0.75rem;
-  min-height: 100vh;
-  background: #0c1726;
-}
-
-html.embed-mode .walkthrough .container {
-  max-width: none;
-  margin: 0 auto;
-}
-
-html.embed-mode .walkthrough-stage {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 1rem);
-  max-height: calc(100vh - 1rem);
-  margin-top: 0;
-}
-
-html.embed-mode .walkthrough-stage .phone-frame,
-html.embed-mode .walkthrough .phone-frame {
-  width: min(440px, 56vh * 9 / 19.5, 90vw) !important;
-  max-height: min(72vh, 860px) !important;
-}
-
-html.embed-mode .walkthrough-stage .chapter-nav {
-  max-height: 4.5rem;
-}
-
-html.embed-mode .chapter-btn {
-  padding: 0.3rem 0.65rem;
-  font-size: 0.68rem;
+/* Full screenshot visible inside phone frame (no cover crop) */
+.walkthrough-stage .slide img {
+  object-fit: contain;
+  object-position: center center;
+  background: var(--background, #EDF2F7);
 }
