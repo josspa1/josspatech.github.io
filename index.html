@@ -1776,13 +1776,17 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   box-shadow: 0 16px 48px rgba(12,51,88,0.18);
   background: #0c1726;
   line-height: 0;
+  max-width: 980px;
 }
 .pbj-intro-embed iframe {
   width: 100%;
-  height: min(960px, 92vh);
+  height: min(920px, 88vh);
   border: none;
   display: block;
   background: #0c1726;
+}
+@media (max-width: 640px) {
+  .pbj-intro-embed iframe { height: min(780px, 92vh); }
 }
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet closed beta">
@@ -1963,14 +1967,14 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <a href="how-to/" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:#1A4F7A;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;border:2px solid #1A4F7A;transition:all .18s;" onmouseover="this.style.background='#1A4F7A';this.style.color='#fff';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='transparent';this.style.color='#1A4F7A';this.style.transform='none'">How To &amp; Help</a>
       <a href="#pricing" style="display:inline-flex;align-items:center;gap:8px;background:#F0C040;color:#0C3358;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;box-shadow:0 4px 16px rgba(232,168,32,0.32);transition:all .18s;" onmouseover="this.style.background='#f5d060';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#F0C040';this.style.transform='none'">See pricing &amp; plans &rarr;</a>
     </div>
-    <div class="rv d2" style="max-width:900px;margin:32px auto 0;text-align:center;">
+    <div class="rv d2" style="max-width:980px;margin:32px auto 0;text-align:center;">
       <span class="sec-ey">User Manual</span>
       <h3 class="sec-ti" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">Watch the full user manual <em>(~12 min)</em></h3>
-      <p class="sec-su" style="margin-bottom:16px;">89 slides with narration — cold start through every major feature. Or open the <a href="/videos/user-guide/" style="color:var(--navy);font-weight:700;">interactive manual</a> for chapter jumps.</p>
-      <video controls preload="metadata" playsinline poster="assets/screenshots/cold-start/splash.png" style="width:100%;max-width:860px;border-radius:16px;box-shadow:0 16px 48px rgba(12,51,88,0.18);background:#0c1726;">
-        <source src="videos/user-guide/pocketbudjet-user-guide.mp4" type="video/mp4">
-        Your browser does not support HTML5 video. <a href="videos/user-guide/pocketbudjet-user-guide.mp4">Download the MP4</a>.
-      </video>
+      <p class="sec-su" style="margin-bottom:16px;">Interactive phone walkthrough — cold start through every major feature. <a href="/videos/user-guide/" style="color:var(--navy);font-weight:700;">Open full screen</a> for chapter jumps.</p>
+      <div class="pbj-intro-embed">
+        <iframe src="/videos/user-guide/?embed=1" title="PocketBudJet interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <p style="margin-top:12px;font-size:13px;color:var(--slate);">Prefer a single file? <a href="videos/user-guide/pocketbudjet-user-guide.mp4" style="color:var(--navy);font-weight:600;">Download the MP4</a>.</p>
     </div>
   </div>
 </section>
