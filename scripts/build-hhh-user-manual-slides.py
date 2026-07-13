@@ -73,7 +73,8 @@ def _meta(img, status="OK", alt="", tap=None):
 STEP_META: dict[str, list[dict]] = {
     "UM-H01": [
         _meta(PLAY_INSTALL, "OK", "Google Play internal testing install", (50, 88, "Install")),
-        _meta(TESTFLIGHT, "OK", "TestFlight install", (50, 88, "Install")),
+        # TestFlight PNG blocked until iPhone capture — reuse Play install as interim
+        _meta(PLAY_INSTALL, "interim", "TestFlight install", (50, 88, "Install")),
     ],
     "UM-H02": [
         _meta(WELCOME, "OK", "Welcome carousel", (65, 92, "Continue")),
@@ -121,13 +122,14 @@ STEP_META: dict[str, list[dict]] = {
         _meta(ID_CAM, "OK", "Identify this timepiece", (50, 95, "Identify")),
     ],
     "UM-H08": [
-        _meta(ID_RES, "OK", "Top match confidence", (50, 40, "Top match")),
-        _meta(ID_RES, "OK", "This is correct", (50, 55, "This is correct")),
-        _meta(ID_RES, "interim", "Add detail photos", (50, 70, "Detail photos")),
-        _meta(ID_RES, "interim", "Edit clues", (50, 62, "What I know")),
-        _meta(ID_RES, "OK", "Save to Collection", (50, 82, "Save")),
-        _meta(ID_RES, "interim", "Find parts on Clockworks", (50, 90, "Find parts")),
-        _meta(OFFLINE_QUEUE, "OK", "Offline identify queue"),
+        # Identify results + offline queue PNGs blocked (API / UI disabled) — reuse camera interim
+        _meta(ID_CAM, "interim", "Top match confidence", (50, 40, "Top match")),
+        _meta(ID_CAM, "interim", "This is correct", (50, 55, "This is correct")),
+        _meta(ID_CAM, "interim", "Add detail photos", (50, 70, "Detail photos")),
+        _meta(ID_CAM, "interim", "Edit clues", (50, 62, "What I know")),
+        _meta(ID_CAM, "interim", "Save to Collection", (50, 82, "Save")),
+        _meta(ID_CAM, "interim", "Find parts on Clockworks", (50, 90, "Find parts")),
+        _meta(ID_CAM, "interim", "Offline identify queue"),
     ],
     "UM-H09": [
         _meta(CLOCK_SYM, "interim", "Home Fix clock", (38, 24, "Fix clock")),
