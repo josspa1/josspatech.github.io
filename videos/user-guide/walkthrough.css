@@ -1,25 +1,35 @@
 /**
  * User Guide walkthrough layout (Joe preference)
- * Desktop ≥1200px: side-by-side — transcript beside phone (import pattern)
- * Below 1200px: letterbox — phone on top, scrolling transcript below, both on one screen
+ * Desktop: side-by-side — phone left, scrolling transcript right
+ * Mobile (≤768px): stack — phone then transcript (no letterbox cage)
  */
 
 .walkthrough-stage {
   width: 100%;
+  /* Defeat shared sticky scroll-frame cage */
+  position: static !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
 }
 
-/* Larger phone beside transcript (restored layout + size bump) */
 .walkthrough-stage .phone-viewport {
   flex: 0 0 auto;
   width: auto;
   height: auto;
   max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* A little bigger than the prior 400px phone */
 .walkthrough-stage .phone-frame {
-  width: 400px;
-  height: auto;
-  max-height: min(760px, 100%);
+  width: 440px !important;
+  height: auto !important;
+  max-height: min(820px, 100%) !important;
+  max-width: 100%;
   flex-shrink: 0;
 }
 
@@ -41,124 +51,102 @@
   font-size: 0;
 }
 
-/* ---- Desktop: side-by-side ---- */
-@media (min-width: 1200px) {
-  .walkthrough .video-wrapper {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    max-height: none;
-    overflow: visible;
-  }
-
-  .walkthrough .phone-column {
-    flex-shrink: 0;
-    width: 420px;
-    max-width: none;
-  }
-
-  .walkthrough .narration-panel {
-    flex: 1;
-    min-width: 280px;
-    min-height: 0;
-    max-height: 760px;
-    height: auto;
-    overflow-y: auto;
-    align-self: stretch;
-  }
+/* ---- Desktop / tablet: side-by-side (phone | transcript) ---- */
+.walkthrough .video-wrapper,
+.walkthrough-stage .video-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 2.5rem;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
 }
 
-/* ---- Letterbox fallback (<1200px) ---- */
-@media (max-width: 1199px) {
-  .walkthrough {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+.walkthrough .phone-column,
+.walkthrough-stage .phone-column {
+  flex-shrink: 0;
+  width: 460px;
+  max-width: none;
+  height: auto !important;
+  max-height: none !important;
+}
+
+.walkthrough .phone-frame,
+.walkthrough-stage .phone-frame {
+  width: 440px !important;
+  max-height: min(820px, 100%) !important;
+}
+
+.walkthrough .narration-panel,
+.walkthrough-stage .narration-panel,
+#narrationPanel {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 280px;
+  min-height: 0;
+  width: auto;
+  max-width: none;
+  max-height: 820px;
+  height: auto !important;
+  overflow-y: auto;
+  align-self: stretch;
+}
+
+/* ---- Mobile only: stack ---- */
+@media (max-width: 768px) {
+  .walkthrough .video-wrapper,
+  .walkthrough-stage .video-wrapper {
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 1.5rem;
   }
 
-  .walkthrough h2 {
-    margin-bottom: 0.35rem;
-  }
-
-  .walkthrough .section-sub {
-    margin-bottom: 1.25rem;
-    font-size: 0.98rem;
-  }
-
-  .walkthrough .video-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.65rem;
-    max-height: 90vh;
-    min-height: 0;
+  .walkthrough .phone-column,
+  .walkthrough-stage .phone-column {
     width: 100%;
-    overflow: hidden;
+    max-width: 340px;
   }
 
-  .walkthrough .phone-column {
-    flex: 0 0 auto;
+  .walkthrough .phone-frame,
+  .walkthrough-stage .phone-frame {
+    width: min(320px, 88vw) !important;
+    max-height: min(70vh, 700px) !important;
+  }
+
+  .walkthrough .narration-panel,
+  .walkthrough-stage .narration-panel,
+  #narrationPanel {
+    max-width: 100%;
+    max-height: 360px;
     width: 100%;
-    max-width: 400px;
+    flex: none !important;
   }
 
-  .walkthrough .phone-frame {
-    width: min(380px, 58vw);
-    max-height: min(58vh, 700px);
-  }
-
-  .walkthrough .progress-dots {
-    margin-top: 0.65rem;
-  }
-
-  .walkthrough .playback-controls {
-    margin-top: 0.5rem;
-  }
-
-  /* Chapter pills under phone — scroll if many, don't steal transcript space */
   .walkthrough .chapter-nav {
-    margin-top: 0.65rem;
     max-width: 100%;
-    max-height: 10vh;
-    overflow-y: auto;
-    flex-shrink: 0;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Fixed-height transcript band; sentences scroll inside */
-  .walkthrough .narration-panel {
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: 100%;
-    min-height: 0;
-    height: 32vh;
-    max-height: 35vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    align-self: stretch;
-    scroll-behavior: smooth;
   }
 }
 
 @media (max-width: 480px) {
-  .walkthrough .phone-frame {
-    width: min(300px, 72vw);
-    max-height: min(50vh, 520px);
-  }
-
-  .walkthrough .narration-panel {
-    height: 30vh;
-    max-height: 30vh;
-  }
-
-  .walkthrough .chapter-nav {
-    max-height: 8vh;
+  .walkthrough .phone-frame,
+  .walkthrough-stage .phone-frame {
+    width: min(280px, 84vw) !important;
+    max-height: min(60vh, 560px) !important;
   }
 }
 
-/* Record mode: use full viewport for letterbox stage */
+/* Record mode keeps side-by-side when wide enough */
 body.record-mode .walkthrough-stage {
-  height: min(90vh, calc(100dvh - 2rem));
-  max-height: min(90vh, calc(100dvh - 2rem));
+  height: auto !important;
+  max-height: none !important;
 }
 
 body.record-mode .walkthrough,
@@ -172,16 +160,6 @@ body.record-mode .walkthrough .section-sub,
 body.record-mode .video-section.walkthrough h2,
 body.record-mode .video-section.walkthrough .section-sub {
   display: none;
-}
-
-body.record-mode .walkthrough .video-wrapper {
-  max-height: calc(100vh - 3rem);
-}
-
-@media (min-width: 1200px) {
-  body.record-mode .walkthrough .video-wrapper {
-    max-height: calc(100vh - 3rem);
-  }
 }
 
 /* Full screenshot visible inside phone frame (no cover crop) */

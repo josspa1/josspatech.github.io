@@ -82,18 +82,18 @@
  flex-wrap: nowrap; width: 100%;
  }
  .phone-column {
- flex-shrink: 0; width: 420px; max-width: 100%;
+ flex-shrink: 0; width: 460px; max-width: 100%;
  display: flex; flex-direction: column; align-items: center;
  }
  .phone-viewport {
  flex-shrink: 0; overflow: hidden; border-radius: 24px;
  }
  .phone-frame {
- width: 400px; position: relative;
+ width: 440px; position: relative;
  border: 3px solid #1a2744; border-radius: 24px;
  overflow: hidden; background: #000;
  box-shadow: 0 16px 48px rgba(12,51,88,0.22);
- aspect-ratio: 9 / 19.5; max-height: 760px;
+ aspect-ratio: 9 / 19.5; max-height: 820px;
  }
  .phone-frame::before { display: none; }
  .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; background: #000; }
@@ -118,7 +118,7 @@
  display: flex; align-items: center; justify-content: center;
  }
  .walkthrough-stage .phone-frame {
- width: 400px; height: auto; max-height: min(760px, 100%);
+ width: 440px; height: auto; max-height: min(820px, 100%);
  flex-shrink: 0;
  }
  .tap-indicator {
@@ -174,7 +174,7 @@
  /* Plain transcript column beside phone (Joe UX ? no narration cards) */
  .narration-panel {
  flex: 1; min-width: 280px; min-height: 0;
- max-height: 760px; overflow-y: auto;
+ max-height: 820px; overflow-y: auto;
  padding: 0.25rem 0.5rem 0.25rem 0; align-self: stretch;
  }
  .narration-panel::-webkit-scrollbar { width: 6px; }
@@ -278,11 +278,17 @@
  nav .nav-links { gap: 1rem; font-size: 0.85rem; }
  .hero h1 { font-size: 2rem; }
  .hero .subheader { font-size: 1rem; }
+ .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+ .phone-column { width: 100%; max-width: 340px; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
+ .phone-frame { width: 320px; max-height: 700px; }
+ .chapter-nav { max-width: 100%; }
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
  nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  .hero h1 { font-size: 1.5rem; }
+ .phone-frame { width: 280px; }
  .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  }
  </style>
@@ -692,7 +698,6 @@
  </div>
  </div>
  </div>
- </div>
  <div class="progress-dots" id="dots"></div>
  <div class="playback-controls">
  <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause walkthrough">&#10074;&#10074;</button>
@@ -731,8 +736,7 @@
  <button class="chapter-btn" data-slide="116">Widgets</button>
  <button class="chapter-btn" data-slide="117">Privacy</button>
  <button class="chapter-btn" data-slide="119">Help</button>
-
-</div>
+ </div>
  </div>
 
  <div class="narration-panel" id="narrationPanel">
@@ -781,10 +785,10 @@
  const audioPaths = [];
  const NARRATION = [
  "Open PocketBudJet after install. The splash screen appears while the app loads your local database.",
- "Swipe the feature showcase. Slide one: control your money with envelopes, bills, and goals on your phone. Tap Next.",
- "Slide two: your AI financial coach learns your patterns and flags unusual spending. Tap Next.",
- "Slide three: crush your debt ? watch loan progress and your debt-free date on the Quick Tour. Tap Next.",
- "Slide four: your data stays on your device ? privacy first. Tap Get Started.",
+ "Swipe the feature showcase. Control your money with envelopes, bills, and goals on your phone. Tap Next.",
+ "Your AI financial coach learns your patterns and flags unusual spending. Tap Next.",
+ "Crush your debt ? watch loan progress and your debt-free date on the Quick Tour. Tap Next.",
+ "Your data stays on your device ? privacy first. Tap Get Started.",
  "On first launch, open the Terms of Service tab and scroll to the bottom.",
  "Tap Disclaimer and scroll that tab to the bottom too.",
  "When both tabs are reviewed, tap I Accept ? Continue.",
@@ -1229,23 +1233,48 @@
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
 <link rel="stylesheet" href="walkthrough.css">
 <style>
-/* After shared + local walkthrough.css ? keep large phone beside transcript */
+/* After shared + local walkthrough.css ? keep phone | transcript side-by-side (no cage) */
+.walkthrough-stage {
+ position: static !important;
+ height: auto !important;
+ max-height: none !important;
+ overflow: visible !important;
+}
+.walkthrough-stage .video-wrapper {
+ display: flex !important;
+ flex-direction: row !important;
+ flex-wrap: nowrap !important;
+ height: auto !important;
+ max-height: none !important;
+ overflow: visible !important;
+ grid-template-columns: none !important;
+ grid-template-rows: none !important;
+}
 .walkthrough-stage .phone-viewport {
  flex: 0 0 auto; width: auto; height: auto; max-height: 100%;
  display: flex; align-items: center; justify-content: center;
 }
 .walkthrough-stage .phone-frame {
- width: 400px !important;
+ width: 440px !important;
  height: auto !important;
- max-height: min(760px, 100%) !important;
+ max-height: min(820px, 100%) !important;
  flex-shrink: 0;
 }
 .walkthrough-stage .narration-panel,
 #narrationPanel {
  display: block !important;
+ flex: 1 1 auto !important;
+ max-height: 820px;
+ height: auto !important;
+ overflow-y: auto;
 }
 .slide-title, .slide-label, .slide-caption { display: none !important; }
 .slide img { color: transparent; font-size: 0; }
+@media (max-width: 768px) {
+ .walkthrough-stage .video-wrapper { flex-direction: column !important; }
+ .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; }
+ .walkthrough-stage .narration-panel, #narrationPanel { max-height: 360px; width: 100%; flex: none !important; }
+}
 </style>
 <script src="/videos/shared/walkthrough.js" defer></script>
 </body>
