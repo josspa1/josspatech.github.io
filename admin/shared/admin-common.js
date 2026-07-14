@@ -1056,19 +1056,28 @@
       ));
       parts.push(card(
         "Top traffic source · 24h",
-        "Where today's visitors came from: direct URL, search engine, social link, or another site.",
+        "Where today's visitors came from: direct, search, social, external, or Clockworks UTM (source=clockworks).",
         (topSource[0] === "—") ? "—" : `${topSource[0]} (${topSource[1]})`,
         sortedSources.length > 1
           ? sortedSources.slice(1, 4).map(([s, c]) => `${s}:${c}`).join(" · ")
-          : "Install the site-visit tracker snippet on josspatech.com to populate this card."
+          : "Open /admin/traffic.html for JJ / UTM detail + free SaaS setup."
+      ));
+      const clockworksToday = sourceCounts.clockworks || 0;
+      parts.push(card(
+        "Clockworks / JJ · 24h",
+        "Visits with utm_source=clockworks (JJ plaque). Detail: admin → Traffic.",
+        clockworksToday,
+        clockworksToday > 0
+          ? "Plaque UTM is landing."
+          : "No Clockworks-tagged hits yet today."
       ));
       parts.push(card(
         "Most-visited page · 24h",
-        "Which page on the site got the most loads today.",
+        "Which page on the site got the most loads today (includes ?utm_* and #hhh).",
         (topPage[0] === "—") ? "—" : topPage[0],
         topPage[1] > 0
           ? `${topPage[1]} loads · ${sortedPages.length} unique pages visited`
-          : "Tracking snippet not active yet — see site_visit_tracker.html in ClaudeFiles."
+          : "Tracking snippet inactive — check index.html footer tracker."
       ));
       paint();
 

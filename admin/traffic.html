@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>JosspaTech — Site Traffic</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "traffic";</script>
+</head>
+<body>
+  <div id="login">
+    <div class="login-head">
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Site traffic · josspatech.com</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account.</p>
+    <input type="email" id="email" placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <h1>
+          Site Traffic
+          <span class="subtitle">josspatech.com · JJ / Clockworks · free SaaS enhancers</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main">
+      <section>
+        <h2>First-party tracking (already live)</h2>
+        <p class="section-explainer">
+          <code>index.html</code> posts each visit to PocketBase <code>_site_visits</code>
+          (path + UTM query + hash). Flywheel Control Center also shows a 24h summary.
+          Click <strong>Refresh</strong> here for JJ / Clockworks-focused rollups.
+        </p>
+        <div class="ref-actions">
+          <button type="button" class="m-btn accent" onclick="trRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+        </div>
+        <div class="ref-status" id="trStatus">Sign in, then Refresh.</div>
+        <div id="trCards" class="wm-summary-row"></div>
+        <div id="trTables"></div>
+      </section>
+
+      <section>
+        <h2>JJ / Clockworks link checklist</h2>
+        <p class="section-explainer">
+          Plaque should open the HHH product page with UTMs <em>before</em> <code>#hhh</code>, then visitor taps Android Open or iOS TestFlight.
+        </p>
+        <ul style="line-height:1.8;color:var(--text);max-width:52rem;">
+          <li><strong>JJ plaque URL:</strong>
+            <code style="word-break:break-all;">https://josspatech.com/?utm_source=clockworks&amp;utm_medium=site&amp;utm_campaign=recently_viewed_plaque#hhh</code>
+          </li>
+          <li><strong>Android Open:</strong>
+            <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" target="_blank" rel="noopener">play.google.com/apps/testing/…handyhorology</a>
+          </li>
+          <li><strong>iOS TestFlight:</strong>
+            <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener">testflight.apple.com/join/AcmCPPVC</a>
+            (external build must be Apple-approved)
+          </li>
+          <li>After a visit from that URL, Refresh above — <code>source</code> should show <strong>clockworks</strong>.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Free SaaS enhancers (optional)</h2>
+        <p class="section-explainer">
+          These add nicer dashboards (referrers, countries, devices) on top of PocketBase.
+          Privacy-friendly / cookieless — usually no GDPR banner. Edit
+          <code>window.JOSSPATECH_ANALYTICS</code> near the bottom of <code>index.html</code>
+          (and redeploy Pages) after you create an account.
+        </p>
+        <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;">
+          <h3 style="margin:0 0 0.5rem;">1. Cloudflare Web Analytics — free forever</h3>
+          <p style="margin:0 0 0.5rem;color:var(--text-dim);font-size:14px;">
+            Best if you already have a Cloudflare account. Standalone beacon works on GitHub Pages (no DNS proxy required).
+          </p>
+          <ol style="margin:0;padding-left:1.25rem;font-size:14px;line-height:1.7;">
+            <li>Open <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener">Cloudflare dashboard</a> → Analytics &amp; logs → Web Analytics → Add a site (manual).</li>
+            <li>Hostname: <code>josspatech.com</code></li>
+            <li>Copy the token → set <code>cloudflareToken</code> in <code>JOSSPATECH_ANALYTICS</code> on the site.</li>
+            <li>View stats in the Cloudflare Web Analytics UI (not pulled into this admin yet).</li>
+          </ol>
+        </div>
+        <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;">
+          <h3 style="margin:0 0 0.5rem;">2. GoatCounter — free hosted (great for GH Pages)</h3>
+          <p style="margin:0 0 0.5rem;color:var(--text-dim);font-size:14px;">
+            Tiny script (~1KB), UTM/campaign friendly, open source. Free for normal public sites.
+          </p>
+          <ol style="margin:0;padding-left:1.25rem;font-size:14px;line-height:1.7;">
+            <li>Sign up at <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">goatcounter.com</a>.</li>
+            <li>Create site → copy count endpoint like <code>https://YOURCODE.goatcounter.com/count</code>.</li>
+            <li>Set <code>goatcounter</code> in <code>JOSSPATECH_ANALYTICS</code> on the site → push Pages.</li>
+            <li>Dashboard lives on GoatCounter; good cross-check against PocketBase.</li>
+          </ol>
+        </div>
+        <div class="card" style="padding:1rem 1.25rem;">
+          <h3 style="margin:0 0 0.5rem;">Skip for now</h3>
+          <p style="margin:0;color:var(--text-dim);font-size:14px;">
+            Plausible / Umami Cloud are nicer UIs but paid or need self-hosting.
+            PostHog free tier is overkill for a marketing landing page.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+  <script>
+    async function trRefresh() {
+      const status = document.getElementById('trStatus');
+      const cards = document.getElementById('trCards');
+      const tables = document.getElementById('trTables');
+      status.textContent = 'Loading…';
+      cards.innerHTML = '';
+      tables.innerHTML = '';
+      try {
+        const weekAgo = new Date(Date.now() - 7 * 864e5).toISOString().replace('T', ' ');
+        const dayAgo = new Date(Date.now() - 864e5).toISOString().replace('T', ' ');
+        const [rows7, rows1] = await Promise.all([
+          listAllRecords('_site_visits', `created >= "${weekAgo}"`),
+          listAllRecords('_site_visits', `created >= "${dayAgo}"`),
+        ]);
+        const bySource = (rows) => rows.reduce((a, r) => {
+          const s = r.source || 'unknown';
+          a[s] = (a[s] || 0) + 1;
+          return a;
+        }, {});
+        const s7 = bySource(rows7);
+        const s1 = bySource(rows1);
+        const clock7 = s7.clockworks || 0;
+        const clock1 = s1.clockworks || 0;
+        const sess7 = new Set(rows7.map(r => r.session_id).filter(Boolean)).size;
+        const sess1 = new Set(rows1.map(r => r.session_id).filter(Boolean)).size;
+        const jjPages = rows7.filter(r =>
+          /utm_source=clockworks/i.test(r.page || '') ||
+          /utm:clockworks/i.test(r.referrer_raw || '') ||
+          r.source === 'clockworks'
+        );
+
+        function card(title, value, note) {
+          return `<div class="card"><div class="card-label">${title}</div><div class="card-value">${value}</div><div class="card-note">${note}</div></div>`;
+        }
+        cards.innerHTML =
+          card('Visits · 24h', String(rows1.length), `${sess1} sessions`) +
+          card('Visits · 7d', String(rows7.length), `${sess7} sessions`) +
+          card('Clockworks / JJ · 24h', String(clock1), 'source=clockworks') +
+          card('Clockworks / JJ · 7d', String(clock7), `${jjPages.length} rows with UTM or source`);
+
+        const srcRows = Object.entries(s7).sort((a, b) => b[1] - a[1])
+          .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">(none)</td></tr>';
+        tables.innerHTML = `
+          <h3 style="margin-top:1.5rem;">Sources · 7 days</h3>
+          <table class="data"><thead><tr><th>Source</th><th>Visits</th></tr></thead><tbody>${srcRows}</tbody></table>
+          <h3 style="margin-top:1.5rem;">Latest Clockworks-tagged hits</h3>
+          <table class="data"><thead><tr><th>When</th><th>Page</th><th>Source</th></tr></thead><tbody>
+            ${jjPages.slice(0, 25).map(r =>
+              `<tr><td>${(r.created || '').slice(0, 19)}</td><td style="word-break:break-all;max-width:28rem;">${(r.page || '').replace(/</g, '&lt;')}</td><td>${r.source || ''}</td></tr>`
+            ).join('') || '<tr><td colspan="3">No Clockworks hits yet — open the plaque URL once to verify.</td></tr>'}
+          </tbody></table>`;
+        status.textContent = `Loaded ${rows7.length} visits (7d). Data as of ${new Date().toLocaleTimeString()}.`;
+        document.getElementById('pulse').classList.remove('stale');
+        document.getElementById('lastRefresh').textContent = `updated ${new Date().toLocaleTimeString()}`;
+      } catch (e) {
+        status.textContent = 'Error: ' + (e.message || e);
+        document.getElementById('pulse').classList.add('stale');
+      }
+    }
+  </script>
+</body>
+</html>
