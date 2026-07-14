@@ -72,7 +72,7 @@ def _meta(img, status="OK", alt="", tap=None):
 # Per-topic step metadata (index aligns with parsed What to do steps)
 STEP_META: dict[str, list[dict]] = {
     "UM-H01": [
-        _meta(PLAY_INSTALL, "OK", "Google Play internal testing install", (50, 88, "Install")),
+        _meta(PLAY_INSTALL, "OK", "Google Play open testing install", (50, 88, "Install")),
         # TestFlight PNG blocked until iPhone capture — reuse Play install as interim
         _meta(PLAY_INSTALL, "interim", "TestFlight install", (50, 88, "Install")),
     ],
@@ -530,7 +530,7 @@ def build_html() -> str:
             <li><a href="/">Home</a></li>
             <li><a href="/#hhh">Handy Horology Helper</a></li>
             <li><a href="/docs/handyhorology/HandyHorology_UserGuide.pdf">PDF</a></li>
-            <li><a href="https://play.google.com/apps/internaltest/4701583732703251381" class="cta-button">Get the App</a></li>
+            <li><a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" class="cta-button">Get the App</a></li>
            </ul>
           </div>
          </nav>
@@ -586,8 +586,8 @@ def build_html() -> str:
          <section class="cta-section">
           <div class="container">
            <h2>Ready to identify your first timepiece?</h2>
-           <p>Try HHH free for 14 days on Google Play internal testing or request iOS TestFlight from josspatech.com.</p>
-           <a href="https://play.google.com/apps/internaltest/4701583732703251381" class="download-button">Get HHH on Google Play</a>
+           <p>Try HHH free for 14 days on Google Play open testing or request iOS TestFlight from josspatech.com.</p>
+           <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" class="download-button">Get HHH on Google Play</a>
           </div>
          </section>
          <footer>
