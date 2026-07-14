@@ -3425,62 +3425,11 @@ function toggleFT(b) {
 
 </script>
 
-<!-- ============================================================
-     Site visit tracker → PocketBase _site_visits.
-     Keeps ?utm_* before #hash so Clockworks (JJ) plaque traffic is countable.
-     Admin: /admin/traffic.html + Flywheel “Site Traffic”.
-     Optional free SaaS: GoatCounter / Cloudflare Web Analytics (see traffic admin).
-     ============================================================ -->
-<script>
-(function () {
-  try {
-    var PB = 'https://josspatech.pockethost.io';
-    var VISIT_COL = '_site_visits';
-    var sid = sessionStorage.getItem('pbj_visit_sid');
-    if (!sid) {
-      sid = (Math.random().toString(36).slice(2, 10)) + Date.now().toString(36);
-      sessionStorage.setItem('pbj_visit_sid', sid);
-    }
-    var params = new URLSearchParams(location.search || '');
-    var utmSource = (params.get('utm_source') || '').slice(0, 80);
-    var utmMedium = (params.get('utm_medium') || '').slice(0, 80);
-    var utmCampaign = (params.get('utm_campaign') || '').slice(0, 80);
-    var ref = document.referrer || '';
-    var refHost = '';
-    try { refHost = ref ? new URL(ref).hostname : ''; } catch (e) {}
-    var source;
-    if (utmSource) {
-      source = (/clockworks/i.test(utmSource) ? 'clockworks' : utmSource).slice(0, 40);
-    } else if (!refHost) source = 'direct';
-    else if (refHost === location.hostname) source = 'internal';
-    else if (/google|bing|duckduckgo|yahoo|ecosia|brave\.com|search\.|startpage/i.test(refHost)) source = 'search';
-    else if (/facebook|twitter|x\.com|instagram|linkedin|reddit|youtube|tiktok|pinterest|mastodon|threads/i.test(refHost)) source = 'social';
-    else source = 'external';
-    // pathname + search + hash — UTMs live in search; product pages use #hhh
-    var page = (location.pathname + location.search + location.hash).slice(0, 400);
-    var utmTag = [utmSource, utmMedium, utmCampaign].filter(Boolean).join('|').slice(0, 200);
-    fetch(PB + '/api/collections/' + VISIT_COL + '/records', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        page: page,
-        referrer_host: refHost.slice(0, 120),
-        referrer_raw:  (utmTag ? ('utm:' + utmTag + ' | ') : '') + ref.slice(0, 400),
-        user_agent:    (navigator.userAgent || '').slice(0, 300),
-        session_id:    sid,
-        source:        source,
-      }),
-      keepalive: true,
-    }).catch(function () {});
-  } catch (e) {}
-})();
-</script>
-<!-- Free SaaS enhancers (no-op until you set code on /admin/traffic.html) -->
+<!-- Analytics: PocketBase _site_visits + GoatCounter + Cloudflare (see /scripts/site-analytics-saas.js).
+     Path includes ?utm_* and #hhh/#pbj/#cvc. Admin: /admin/traffic.html -->
 <script>
 window.JOSSPATECH_ANALYTICS = window.JOSSPATECH_ANALYTICS || {
-  // GoatCounter: create free site at https://www.goatcounter.com/ → paste count URL below
   goatcounter: 'https://josspatech.goatcounter.com/count',
-  // Cloudflare Web Analytics (standalone beacon): https://dash.cloudflare.com → Analytics & logs → Web Analytics
   cloudflareToken: 'c09b026e6da640a981afc2f3c5a470fd'
 };
 </script>

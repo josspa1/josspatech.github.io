@@ -40,8 +40,9 @@
       <section>
         <h2>First-party tracking (already live)</h2>
         <p class="section-explainer">
-          <code>index.html</code> posts each visit to PocketBase <code>_site_visits</code>
-          (path + UTM query + hash). Flywheel Control Center also shows a 24h summary.
+          <code>/scripts/site-analytics-saas.js</code> (homepage + key marketing pages) posts
+          each visit to PocketBase <code>_site_visits</code> (path + UTM query + hash).
+          Hash changes to <code>#hhh</code> / <code>#pbj</code> / <code>#cvc</code> also count.
           Click <strong>Refresh</strong> here for JJ / Clockworks-focused rollups.
         </p>
         <div class="ref-actions">
@@ -76,9 +77,9 @@
         <h2>Free SaaS enhancers (optional)</h2>
         <p class="section-explainer">
           These add nicer dashboards (referrers, countries, devices) on top of PocketBase.
-          Privacy-friendly / cookieless — usually no GDPR banner. Edit
-          <code>window.JOSSPATECH_ANALYTICS</code> near the bottom of <code>index.html</code>
-          (and redeploy Pages) after you create an account.
+          Privacy-friendly / cookieless — usually no GDPR banner. Defaults live in
+          <code>/scripts/site-analytics-saas.js</code>; optional override via
+          <code>window.JOSSPATECH_ANALYTICS</code> before that script.
         </p>
         <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;">
           <h3 style="margin:0 0 0.5rem;">1. Cloudflare Web Analytics — free forever</h3>
