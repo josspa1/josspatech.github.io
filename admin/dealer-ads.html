@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="referrer"              content="no-referrer">
+  <title>JosspaTech — HHH Dealer Ads editor</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "dealer-ads";</script>
+  <style>
+    /* ─── Dealer Ads editor (scoped) ─────────────────────────── */
+    #dealerAds .da-explainer { margin-bottom: 16px; }
+    #dealerAds .da-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { #dealerAds .da-grid { grid-template-columns: 1fr; } }
+    #dealerAds .da-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    #dealerAds .da-panel h3 {
+      font-size: 14px;
+      margin: 0 0 12px;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    #dealerAds label.da-field {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    #dealerAds label.da-field .da-hint {
+      display: block;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-size: 11px;
+    }
+    #dealerAds input[type="text"],
+    #dealerAds input[type="email"],
+    #dealerAds input[type="url"],
+    #dealerAds input[type="date"],
+    #dealerAds textarea,
+    #dealerAds select {
+      display: block;
+      width: 100%;
+      margin-top: 5px;
+      padding: 9px 11px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    #dealerAds input:focus,
+    #dealerAds textarea:focus,
+    #dealerAds select:focus {
+      outline: 0;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-soft);
+    }
+    #dealerAds input.da-invalid,
+    #dealerAds textarea.da-invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.1);
+    }
+    #dealerAds .da-toggles { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 14px; }
+    #dealerAds .da-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    #dealerAds .da-toggle input { width: auto; margin: 0; }
+    #dealerAds .da-slot {
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+      background: var(--surface);
+    }
+    #dealerAds .da-slot-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+    #dealerAds .da-slot-head strong { font-size: 13px; color: var(--primary); }
+    #dealerAds .da-slot-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 560px) { #dealerAds .da-slot-2col { grid-template-columns: 1fr; } }
+    #dealerAds .da-btn {
+      padding: 8px 14px;
+      background: var(--primary);
+      color: #fff;
+      border: 0;
+      border-radius: 7px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    #dealerAds .da-btn:hover { background: var(--primary-dark); }
+    #dealerAds .da-btn.accent { background: var(--accent); color: var(--primary); }
+    #dealerAds .da-btn.accent:hover { background: #D9AE38; }
+    #dealerAds .da-btn.ghost {
+      background: transparent;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+    #dealerAds .da-btn.ghost:hover { background: var(--surface-alt); }
+    #dealerAds .da-btn.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); padding: 5px 10px; font-size: 12px; }
+    #dealerAds .da-btn.danger:hover { background: rgba(192, 57, 43, 0.06); }
+    #dealerAds .da-btn.tiny { padding: 4px 9px; font-size: 12px; }
+    #dealerAds .da-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+    #dealerAds .da-status {
+      font-size: 12px;
+      color: var(--text-dim);
+      min-height: 18px;
+      margin: 8px 0;
+    }
+    #dealerAds .da-status.ok { color: var(--success); }
+    #dealerAds .da-status.err { color: var(--danger); }
+    #dealerAds .da-validation {
+      background: rgba(192, 57, 43, 0.06);
+      border: 1px solid var(--danger);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+    #dealerAds .da-validation.ok {
+      background: rgba(39, 174, 96, 0.07);
+      border-color: var(--success);
+      color: var(--success);
+    }
+    #dealerAds .da-validation ul { margin: 6px 0 0; padding-left: 18px; }
+    #dealerAds pre.da-json {
+      background: #0f2233;
+      color: #d7e6f2;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.5;
+      overflow: auto;
+      max-height: 460px;
+      white-space: pre;
+    }
+    /* Live phone-style preview card */
+    #dealerAds .da-preview-wrap { display: flex; flex-direction: column; gap: 12px; }
+    #dealerAds .da-preview-note {
+      font-size: 11px;
+      color: var(--disclaimer-txt);
+      background: var(--disclaimer);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    #dealerAds .da-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: var(--surface);
+    }
+    #dealerAds .da-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    #dealerAds .da-card-name { font-weight: 700; font-size: 14px; color: var(--text); }
+    #dealerAds .da-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      background: var(--accent-soft);
+      color: var(--disclaimer-txt);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    #dealerAds .da-card-line { font-size: 12px; color: var(--text-dim); margin-top: 3px; }
+    #dealerAds .da-card-cta { font-size: 12px; color: var(--primary); margin-top: 6px; word-break: break-all; }
+    #dealerAds .da-empty-preview {
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    #dealerAds .da-commit {
+      background: var(--surface-alt);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    #dealerAds .da-commit code {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: var(--mono);
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+  <div id="login">
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">HHH Dealer Ads · editor</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          HHH Dealer Ads <span class="subtitle">Handy Horology Helper · remote dealer/ad editor</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main">
+      <section id="dealerAds">
+        <h2>Dealer Ads — remote JSON editor</h2>
+        <p class="section-explainer da-explainer">
+          Edits the <strong>one remote file</strong> the app reads at
+          <code>https://josspatech.com/hhh/dealer-ads.json</code>. This is a
+          <strong>static, no-write-API editor</strong>: it loads the live file, lets you edit it,
+          validates against the app's schema, then gives you <strong>Copy JSON</strong> /
+          <strong>Download</strong> so you can commit <code>hhh/dealer-ads.json</code> to the site repo to publish.
+          Advertising only — a dealer directory, not a marketplace. Contact for listings:
+          <strong>support@josspatech.com</strong>.
+        </p>
+
+        <div class="da-actions">
+          <button type="button" class="da-btn ghost" id="daReloadBtn" onclick="daReload()">Reload live JSON</button>
+          <button type="button" class="da-btn ghost" id="daAddSlotBtn" onclick="daAddSlot()">+ Add ad slot</button>
+          <button type="button" class="da-btn accent" id="daCopyBtn" onclick="daCopyJson()">Copy JSON</button>
+          <button type="button" class="da-btn" id="daDownloadBtn" onclick="daDownloadJson()">Download dealer-ads.json</button>
+        </div>
+        <div class="da-status" id="daStatus">Loading current dealer-ads.json…</div>
+
+        <div id="daValidation" class="da-validation ok" style="display:none"></div>
+
+        <div class="da-grid">
+          <div>
+            <div class="da-panel">
+              <h3>Unit settings</h3>
+              <div class="da-toggles">
+                <label class="da-toggle"><input type="checkbox" id="daEnabled" onchange="daOnChange()"> Enabled</label>
+                <label class="da-toggle"><input type="checkbox" id="daComingSoon" onchange="daOnChange()"> Coming soon</label>
+                <label class="da-toggle"><input type="checkbox" id="daHideForPro" onchange="daOnChange()"> Hide for Pro</label>
+              </div>
+              <label class="da-field">Headline
+                <span class="da-hint">Section title (optional, ≤120 chars).</span>
+                <input type="text" id="daHeadline" maxlength="120" oninput="daOnChange()">
+              </label>
+              <label class="da-field">Note / disclosure
+                <span class="da-hint">Shown as the ad-disclosure line (optional, ≤200 chars).</span>
+                <textarea id="daNote" rows="2" maxlength="200" oninput="daOnChange()"></textarea>
+              </label>
+              <label class="da-field">Updated at
+                <span class="da-hint">Your own tracking date (optional). Set to today on download.</span>
+                <input type="date" id="daUpdatedAt" oninput="daOnChange()">
+              </label>
+            </div>
+
+            <div class="da-panel" style="margin-top:16px;">
+              <h3>Ad slots <span class="da-hint" id="daSlotCount" style="font-weight:400;color:var(--text-muted)"></span></h3>
+              <div id="daSlots"></div>
+              <button type="button" class="da-btn ghost" onclick="daAddSlot()">+ Add ad slot</button>
+            </div>
+          </div>
+
+          <div>
+            <div class="da-panel">
+              <h3>Live preview</h3>
+              <div class="da-preview-wrap" id="daPreview"></div>
+            </div>
+            <div class="da-panel" style="margin-top:16px;">
+              <h3>Output JSON</h3>
+              <pre class="da-json" id="daJsonOut">{}</pre>
+              <div class="da-commit">
+                <strong>To publish:</strong> replace <code>hhh/dealer-ads.json</code> in the
+                <code>josspatech.github.io</code> repo with this JSON and commit + push to <code>main</code>.
+                GitHub Pages serves it at <code>/hhh/dealer-ads.json</code> within ~1 minute. The app re-fetches
+                at most every 6 hours (cached on-device between fetches).
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+
+  <script>
+  /* ─── HHH Dealer Ads editor — client-only, no write API ─────────
+     Mirrors the app's sanitize() rules in src/services/remoteAds.ts so the
+     JSON we emit is exactly what the app will accept. Save UX is Copy/Download
+     + commit instructions — there is intentionally NO live PUT endpoint. */
+  (function () {
+    var LIVE_URL = "../hhh/dealer-ads.json";
+    var TRADE = ["", "clocks", "watches", "both"];
+    var CAPS = { headline: 120, note: 200, businessName: 80, tagline: 120, cityRegion: 60, contactEmail: 120, contactPhone: 40 };
+
+    // Working state
+    var state = {
+      enabled: true, comingSoon: false, hideForPro: false,
+      headline: "", note: "", updatedAt: "",
+      slots: [],
+    };
+
+    function el(id) { return document.getElementById(id); }
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+    function isHttps(u) { return typeof u === "string" && /^https:\/\//i.test(u.trim()); }
+    function cap(s, n) { return String(s == null ? "" : s).trim().slice(0, n); }
+    function todayIso() {
+      var d = new Date();
+      return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
+    }
+    function newId() { return "slot-" + Math.random().toString(36).slice(2, 8); }
+
+    function setStatus(msg, cls) {
+      var s = el("daStatus");
+      if (!s) return;
+      s.textContent = msg;
+      s.className = "da-status" + (cls ? " " + cls : "");
+    }
+
+    // ── Load live JSON ──────────────────────────────────────────
+    async function loadLive() {
+      setStatus("Loading current dealer-ads.json…");
+      try {
+        var r = await fetch(LIVE_URL + "?t=" + Date.now(), { cache: "no-store" });
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        var j = await r.json();
+        adopt(j);
+        setStatus("Loaded live dealer-ads.json (" + state.slots.length + " slot(s)). Edit, then Copy / Download.", "ok");
+      } catch (e) {
+        adopt(null);
+        setStatus("Couldn't load live JSON (" + (e.message || e) + "). Starting from a blank template — edit and download.", "err");
+      }
+      renderAll();
+    }
+
+    function adopt(raw) {
+      raw = raw && typeof raw === "object" ? raw : {};
+      state.enabled = raw.enabled === true;
+      state.comingSoon = raw.comingSoon === true;
+      state.hideForPro = raw.hideForPro === true;
+      state.headline = typeof raw.headline === "string" ? raw.headline : "";
+      state.note = typeof raw.note === "string" ? raw.note : "";
+      state.updatedAt = typeof raw.updatedAt === "string" ? raw.updatedAt : "";
+      var slotsIn = Array.isArray(raw.slots) ? raw.slots : [];
+      state.slots = slotsIn.map(function (s) {
+        s = s && typeof s === "object" ? s : {};
+        return {
+          _uid: newId(),
+          id: typeof s.id === "string" ? s.id : "",
+          businessName: typeof s.businessName === "string" ? s.businessName : "",
+          tagline: typeof s.tagline === "string" ? s.tagline : "",
+          tradeFocus: (s.tradeFocus === "clocks" || s.tradeFocus === "watches" || s.tradeFocus === "both") ? s.tradeFocus : "",
+          cityRegion: typeof s.cityRegion === "string" ? s.cityRegion : "",
+          url: typeof s.url === "string" ? s.url : "",
+          contactEmail: typeof s.contactEmail === "string" ? s.contactEmail : "",
+          contactPhone: typeof s.contactPhone === "string" ? s.contactPhone : "",
+          sponsored: s.sponsored === true,
+        };
+      });
+    }
+
+    // ── Sync DOM inputs → state ─────────────────────────────────
+    function syncTopFromDom() {
+      state.enabled = el("daEnabled").checked;
+      state.comingSoon = el("daComingSoon").checked;
+      state.hideForPro = el("daHideForPro").checked;
+      state.headline = el("daHeadline").value;
+      state.note = el("daNote").value;
+      state.updatedAt = el("daUpdatedAt").value;
+    }
+    function syncSlotsFromDom() {
+      state.slots.forEach(function (slot) {
+        var root = document.querySelector('[data-uid="' + slot._uid + '"]');
+        if (!root) return;
+        slot.businessName = root.querySelector('[data-f="businessName"]').value;
+        slot.tagline = root.querySelector('[data-f="tagline"]').value;
+        slot.tradeFocus = root.querySelector('[data-f="tradeFocus"]').value;
+        slot.cityRegion = root.querySelector('[data-f="cityRegion"]').value;
+        slot.url = root.querySelector('[data-f="url"]').value;
+        slot.contactEmail = root.querySelector('[data-f="contactEmail"]').value;
+        slot.contactPhone = root.querySelector('[data-f="contactPhone"]').value;
+        slot.id = root.querySelector('[data-f="id"]').value;
+        slot.sponsored = root.querySelector('[data-f="sponsored"]').checked;
+      });
+    }
+
+    window.daOnChange = function () {
+      syncTopFromDom();
+      syncSlotsFromDom();
+      renderDerived();
+    };
+
+    // ── Build clean payload (matches app sanitize) ──────────────
+    function buildPayload(forDownload) {
+      var slots = state.slots
+        .filter(function (s) { return s.businessName && s.businessName.trim(); })
+        .slice(0, 20)
+        .map(function (s, i) {
+          var out = {
+            id: s.id && s.id.trim() ? s.id.trim() : "slot_" + i,
+            businessName: cap(s.businessName, CAPS.businessName),
+          };
+          if (s.tagline && s.tagline.trim()) out.tagline = cap(s.tagline, CAPS.tagline);
+          if (s.tradeFocus) out.tradeFocus = s.tradeFocus;
+          if (s.cityRegion && s.cityRegion.trim()) out.cityRegion = cap(s.cityRegion, CAPS.cityRegion);
+          if (isHttps(s.url)) out.url = s.url.trim();
+          if (s.contactEmail && s.contactEmail.trim()) out.contactEmail = cap(s.contactEmail, CAPS.contactEmail);
+          if (s.contactPhone && s.contactPhone.trim()) out.contactPhone = cap(s.contactPhone, CAPS.contactPhone);
+          if (s.sponsored) out.sponsored = true;
+          return out;
+        });
+      var payload = { enabled: !!state.enabled };
+      if (state.comingSoon) payload.comingSoon = true;
+      if (state.hideForPro) payload.hideForPro = true;
+      if (state.headline && state.headline.trim()) payload.headline = cap(state.headline, CAPS.headline);
+      if (state.note && state.note.trim()) payload.note = cap(state.note, CAPS.note);
+      payload.updatedAt = forDownload ? todayIso() : (state.updatedAt || todayIso());
+      payload.slots = slots;
+      return payload;
+    }
+
+    // ── Validation (advisory — mirrors what the app would drop) ─
+    function validate() {
+      var errs = [];
+      var warns = [];
+      if (state.headline && state.headline.length > CAPS.headline) warns.push("Headline over " + CAPS.headline + " chars — will be truncated.");
+      if (state.note && state.note.length > CAPS.note) warns.push("Note over " + CAPS.note + " chars — will be truncated.");
+      var kept = 0;
+      state.slots.forEach(function (s, i) {
+        var n = i + 1;
+        if (!s.businessName || !s.businessName.trim()) {
+          errs.push("Slot " + n + ": missing Business name — this slot will be DROPPED by the app.");
+          return;
+        }
+        kept++;
+        if (s.url && s.url.trim() && !isHttps(s.url)) warns.push("Slot " + n + " (" + s.businessName.trim() + "): URL is not https:// — it will be ignored.");
+        if (s.businessName.length > CAPS.businessName) warns.push("Slot " + n + ": Business name over " + CAPS.businessName + " chars — truncated.");
+      });
+      if (kept > 20) warns.push("More than 20 valid slots — only the first 20 are rendered by the app.");
+      if (state.enabled && kept === 0) warns.push('Enabled but no valid slots — the app shows the honest "coming soon" screen (no fake inventory).');
+      return { errs: errs, warns: warns, kept: kept };
+    }
+
+    function renderValidation() {
+      var v = validate();
+      var box = el("daValidation");
+      if (!box) return v;
+      if (!v.errs.length && !v.warns.length) {
+        box.style.display = "block";
+        box.className = "da-validation ok";
+        box.innerHTML = "Valid — " + v.kept + " slot(s) will render. Ready to Copy / Download.";
+        return v;
+      }
+      box.style.display = "block";
+      box.className = "da-validation" + (v.errs.length ? "" : " ok");
+      var html = "";
+      if (v.errs.length) html += "<strong>Issues:</strong><ul>" + v.errs.map(function (e) { return "<li>" + esc(e) + "</li>"; }).join("") + "</ul>";
+      if (v.warns.length) html += "<strong>Heads up:</strong><ul>" + v.warns.map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("") + "</ul>";
+      box.innerHTML = html;
+      return v;
+    }
+
+    // ── Rendering ───────────────────────────────────────────────
+    function slotRow(slot, i) {
+      var opts = TRADE.map(function (t) {
+        var label = t === "" ? "— (unspecified)" : t;
+        return '<option value="' + t + '"' + (slot.tradeFocus === t ? " selected" : "") + ">" + label + "</option>";
+      }).join("");
+      return '' +
+        '<div class="da-slot" data-uid="' + slot._uid + '">' +
+          '<div class="da-slot-head">' +
+            '<strong>Slot ' + (i + 1) + '</strong>' +
+            '<span>' +
+              '<button type="button" class="da-btn ghost tiny" onclick="daMoveSlot(\'' + slot._uid + '\',-1)" title="Move up">↑</button> ' +
+              '<button type="button" class="da-btn ghost tiny" onclick="daMoveSlot(\'' + slot._uid + '\',1)" title="Move down">↓</button> ' +
+              '<button type="button" class="da-btn danger" onclick="daRemoveSlot(\'' + slot._uid + '\')">Remove</button>' +
+            '</span>' +
+          '</div>' +
+          '<label class="da-field">Business name <span class="da-hint">Required. ≤80 chars. Slots without it are dropped.</span>' +
+            '<input type="text" data-f="businessName" maxlength="80" value="' + esc(slot.businessName) + '" oninput="daOnChange()">' +
+          '</label>' +
+          '<label class="da-field">Tagline <span class="da-hint">≤120 chars.</span>' +
+            '<input type="text" data-f="tagline" maxlength="120" value="' + esc(slot.tagline) + '" oninput="daOnChange()">' +
+          '</label>' +
+          '<div class="da-slot-2col">' +
+            '<label class="da-field">Trade focus' +
+              '<select data-f="tradeFocus" onchange="daOnChange()">' + opts + '</select>' +
+            '</label>' +
+            '<label class="da-field">City / region <span class="da-hint">≤60 chars.</span>' +
+              '<input type="text" data-f="cityRegion" maxlength="60" value="' + esc(slot.cityRegion) + '" oninput="daOnChange()">' +
+            '</label>' +
+          '</div>' +
+          '<label class="da-field">Website URL <span class="da-hint">Must start with https:// or it is ignored. Tap priority: URL → email → phone.</span>' +
+            '<input type="url" data-f="url" value="' + esc(slot.url) + '" placeholder="https://" oninput="daOnChange()">' +
+          '</label>' +
+          '<div class="da-slot-2col">' +
+            '<label class="da-field">Contact email <span class="da-hint">e.g. support@josspatech.com</span>' +
+              '<input type="email" data-f="contactEmail" maxlength="120" value="' + esc(slot.contactEmail) + '" oninput="daOnChange()">' +
+            '</label>' +
+            '<label class="da-field">Contact phone <span class="da-hint">Optional. ≤40 chars.</span>' +
+              '<input type="text" data-f="contactPhone" maxlength="40" value="' + esc(slot.contactPhone) + '" oninput="daOnChange()">' +
+            '</label>' +
+          '</div>' +
+          '<div class="da-slot-2col">' +
+            '<label class="da-field">Slot id <span class="da-hint">Stable unique id (optional; auto if blank).</span>' +
+              '<input type="text" data-f="id" value="' + esc(slot.id) + '" placeholder="' + esc("slot_" + i) + '" oninput="daOnChange()">' +
+            '</label>' +
+            '<label class="da-field" style="display:flex;align-items:center;gap:8px;margin-top:22px;">' +
+              '<input type="checkbox" data-f="sponsored" style="width:auto;margin:0;"' + (slot.sponsored ? " checked" : "") + ' onchange="daOnChange()"> Sponsored (shows "Ad" label)' +
+            '</label>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function renderSlots() {
+      var host = el("daSlots");
+      if (!host) return;
+      host.innerHTML = state.slots.map(slotRow).join("");
+      var cnt = el("daSlotCount");
+      if (cnt) cnt.textContent = "· " + state.slots.length + " total";
+    }
+
+    function renderPreview() {
+      var host = el("daPreview");
+      if (!host) return;
+      var payload = buildPayload(false);
+      var parts = [];
+      if (!payload.enabled) {
+        parts.push('<div class="da-empty-preview">Unit <strong>disabled</strong> — nothing renders. The Dealer Ads screen shows "Coming soon" + waitlist.</div>');
+      } else if (!payload.slots.length) {
+        parts.push('<div class="da-empty-preview">Enabled but no valid slots — app shows the honest "Coming soon" screen, never fake inventory.</div>');
+      } else {
+        if (payload.headline) parts.push('<div style="font-weight:700;color:var(--primary);font-size:14px;">' + esc(payload.headline) + '</div>');
+        payload.slots.forEach(function (s) {
+          var contact = s.url ? s.url : (s.contactEmail ? "mailto:" + s.contactEmail : (s.contactPhone ? "tel:" + s.contactPhone : ""));
+          var meta = [s.tradeFocus, s.cityRegion].filter(Boolean).join(" · ");
+          parts.push('' +
+            '<div class="da-card">' +
+              '<div class="da-card-top">' +
+                '<span class="da-card-name">' + esc(s.businessName) + '</span>' +
+                (s.sponsored ? '<span class="da-badge">Ad</span>' : '') +
+              '</div>' +
+              (s.tagline ? '<div class="da-card-line">' + esc(s.tagline) + '</div>' : '') +
+              (meta ? '<div class="da-card-line">' + esc(meta) + '</div>' : '') +
+              (contact ? '<div class="da-card-cta">' + esc(contact) + '</div>' : '') +
+            '</div>');
+        });
+        if (payload.note) parts.push('<div class="da-preview-note">' + esc(payload.note) + '</div>');
+      }
+      host.innerHTML = '<div class="da-preview-wrap">' + parts.join("") + '</div>';
+    }
+
+    function renderJson() {
+      var out = el("daJsonOut");
+      if (out) out.textContent = JSON.stringify(buildPayload(false), null, 2);
+    }
+
+    function renderDerived() {
+      renderValidation();
+      renderPreview();
+      renderJson();
+    }
+
+    function renderTop() {
+      el("daEnabled").checked = state.enabled;
+      el("daComingSoon").checked = state.comingSoon;
+      el("daHideForPro").checked = state.hideForPro;
+      el("daHeadline").value = state.headline || "";
+      el("daNote").value = state.note || "";
+      el("daUpdatedAt").value = state.updatedAt || "";
+    }
+
+    function renderAll() {
+      if (!el("daSlots")) return;
+      renderTop();
+      renderSlots();
+      renderDerived();
+    }
+
+    // ── Public actions ──────────────────────────────────────────
+    window.daReload = function () { loadLive(); };
+
+    window.daAddSlot = function () {
+      syncTopFromDom(); syncSlotsFromDom();
+      state.slots.push({
+        _uid: newId(), id: "", businessName: "", tagline: "", tradeFocus: "",
+        cityRegion: "", url: "", contactEmail: "support@josspatech.com",
+        contactPhone: "", sponsored: true,
+      });
+      renderSlots();
+      renderDerived();
+    };
+
+    window.daRemoveSlot = function (uid) {
+      syncTopFromDom(); syncSlotsFromDom();
+      state.slots = state.slots.filter(function (s) { return s._uid !== uid; });
+      renderSlots();
+      renderDerived();
+    };
+
+    window.daMoveSlot = function (uid, dir) {
+      syncTopFromDom(); syncSlotsFromDom();
+      var i = state.slots.findIndex(function (s) { return s._uid === uid; });
+      if (i < 0) return;
+      var j = i + dir;
+      if (j < 0 || j >= state.slots.length) return;
+      var tmp = state.slots[i];
+      state.slots[i] = state.slots[j];
+      state.slots[j] = tmp;
+      renderSlots();
+      renderDerived();
+    };
+
+    window.daCopyJson = function () {
+      var json = JSON.stringify(buildPayload(true), null, 2);
+      var done = function () { setStatus("Copied JSON to clipboard (updatedAt set to today). Paste into hhh/dealer-ads.json and commit.", "ok"); };
+      var fail = function () {
+        // Fallback for older browsers / file:// origins.
+        var ta = document.createElement("textarea");
+        ta.value = json; document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); done(); }
+        catch (e) { setStatus("Copy failed — select the Output JSON manually.", "err"); }
+        document.body.removeChild(ta);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(json).then(done).catch(fail);
+      } else { fail(); }
+    };
+
+    window.daDownloadJson = function () {
+      var json = JSON.stringify(buildPayload(true), null, 2);
+      var blob = new Blob([json], { type: "application/json" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = "dealer-ads.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      setStatus("Downloaded dealer-ads.json (updatedAt set to today). Replace hhh/dealer-ads.json in the repo and commit to publish.", "ok");
+    };
+
+    // Build the editor on load. Data is the public JSON; the PocketBase login
+    // (shared admin scripts) just gates the dashboard view.
+    window.addEventListener("DOMContentLoaded", loadLive);
+  })();
+  </script>
+</body>
+</html>
