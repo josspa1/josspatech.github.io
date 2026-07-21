@@ -266,6 +266,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .product-tagline{
   font-size:14px;color:rgba(255,255,255,0.45);
   font-style:italic;margin-bottom:24px;line-height:1.5;
+  flex:1;
 }
 .product-features{
   list-style:none;display:flex;flex-direction:column;
@@ -362,6 +363,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .hhh-tagline{
   font-size:14px;color:rgba(255,255,255,0.40);
   font-style:italic;margin-bottom:24px;line-height:1.5;
+  flex:1;
 }
 .hhh-features{
   list-style:none;display:flex;flex-direction:column;
@@ -450,6 +452,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .cvc-tagline{
   font-size:14px;color:rgba(255,255,255,0.40);
   font-style:italic;margin-bottom:24px;line-height:1.5;
+  flex:1;
 }
 .cvc-features{
   list-style:none;display:flex;flex-direction:column;
@@ -538,6 +541,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .pal-tagline{
   font-size:1.125rem;color:rgba(255,255,255,0.58);
   font-style:italic;margin-bottom:26px;line-height:1.55;
+  flex:1;
 }
 .pal-features{
   list-style:none;display:flex;flex-direction:column;
@@ -1276,7 +1280,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 
     <div class="products-grid">
 
-      <!-- PocketBudJet card -->
+      <!-- PocketBudJet card — link only; detail on #page-pbj -->
       <div role="button" tabindex="0" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="product-card rv d1">
         <div class="product-badge">
           <div class="product-badge-dot"></div>
@@ -1284,19 +1288,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
         <div class="product-name">Pocket<span>BudJet</span>™</div>
         <div class="product-tagline">because your finances should go together as smoothly as PB&amp;J</div>
-        <ul class="product-features">
-          <li><div class="pf-check"></div><span class="pf-text"><strong>15-day Premium trial</strong> &mdash; full Premium access, no card required (bank sync excluded during trial)</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Then subscribe</strong> at $9.99/mo or $74.99/yr &mdash; or lose access to Premium features when the trial ends. Import and manual budgeting stay free.</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Plan:</strong> advanced budgets &amp; savings pots (basic budgets &amp; goals stay free), bills &amp; recurring, subscription tracker, spending forecast, annual budget, retirement &amp; FIRE planner</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Track:</strong> net worth, financial health score, custom reports, merchant &amp; year-over-year analysis, spending anomaly alerts, credit-card intelligence</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Import:</strong> PDF bank statements, receipt &amp; pay-stub scan, screenshot OCR, notification capture (Android), email forwarding &mdash; share-sheet, CSV, OFX, QFX, QIF, XLSX</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Coach:</strong> AI Financial Coach, Ask PBJ chat, weekly recap, natural-language search, financial literacy</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Tools:</strong> debt payoff engine, shopping intelligence &amp; price watch, tax &amp; pro exports (PDF, Excel, Word, OFX), household &amp; partner sync, widgets, optional bank sync (Teller), and 40+ Toolbox tools</span></li>
-          <li><div class="pf-check"></div><span class="pf-text">Private by design &mdash; no account, no personal info; data stays on your phone by default</span></li>
-          <li><div class="pf-check"></div><span class="pf-text">Hand clean data to your accountant or planner &mdash; PDF, Excel, Word, OFX, HTML. <a href="/for-professionals/" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(240,192,64,0.4);">For pros &rarr;</a></span></li>
-          <li><div class="pf-check"></div><span class="pf-text">Optional bank sync via Teller &mdash; US financial institutions only; paid Premium subscribers only (not included in trial)</span></li>
-          <li><div class="pf-check"></div><span class="pf-text">63 currencies &middot; cancel anytime &middot; no contract</span></li>
-        </ul>
         <div class="product-cta">
           See PocketBudJet
           <span class="product-cta-arrow">→</span>
@@ -1309,49 +1300,32 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
       </div>
 
-      <!-- Handy Horology Helper card -->
-      <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="product-card rv d2">
-        <div class="product-badge">
-          <div class="product-badge-dot"></div>
-          Open testing · v1.0.65 (build 91)
+      <!-- Handy Horology Helper card — link only; detail on #page-hhh -->
+      <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hhh-card rv d2">
+        <div class="hhh-badge">
+          <div class="hhh-badge-dot"></div>
+          Open testing · v1.0.68 (build 94)
         </div>
-        <div class="product-name">Handy Horology<br><span>Helper</span>™</div>
-        <div class="product-tagline">Identify, collect, repair clocks — and exchange want cards offline</div>
-        <ul class="product-features">
-          <li><div class="pf-check"></div><span class="pf-text"><strong>AI Identify</strong> for watches &amp; clocks</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>My Museum</strong> — owned, wish list, for sale</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Demand Rolodex</strong> — QR + Bluetooth want cards at shows</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>Clock Repair Help</strong> + Clockworks parts</span></li>
-          <li><div class="pf-check"></div><span class="pf-text"><strong>eBay Hunt</strong> alerts · 8 languages · $9.99/mo</span></li>
-        </ul>
-        <div class="product-cta">
-          See Handy Horology Helper
-          <span class="product-cta-arrow">→</span>
+        <div class="hhh-name">Handy Horology<br><span>Helper</span>™</div>
+        <div class="hhh-tagline">Identify, collect, repair clocks — and exchange want cards offline</div>
+        <div class="hhh-cta">
+          Learn More
+          <span class="hhh-cta-arrow">→</span>
         </div>
-        <div class="product-platforms">
-          <div class="platform-pill free">Open testing</div>
-          <div class="platform-pill">iOS</div>
-          <div class="platform-pill">Android</div>
+        <div class="hhh-platforms">
+          <div class="hhh-pill dev">Open testing</div>
+          <div class="hhh-pill">iOS</div>
+          <div class="hhh-pill">Android</div>
         </div>
       </div>
 
-      <!-- Pocket Allowance Ledger card -->
+      <!-- Pocket Allowance Ledger card — link only; detail on #page-pal -->
       <div role="button" tabindex="0" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="pal-card rv d3">
         <div class="pal-badge">
           Parent app &middot; ages 6+
         </div>
         <div class="pal-name">Pocket Allowance<br><span>Ledger</span>™</div>
         <div class="pal-tagline">A home token economy for families — parent-led rewards, not kid banking</div>
-        <ul class="pal-features">
-          <li><div class="pf-icon"></div>Parent-managed gold tokens and approved rewards — you set the contracts</li>
-          <li><div class="pf-icon"></div>Log behavior in one tap from a home screen built for busy evenings</li>
-          <li><div class="pf-icon"></div>Parents manage in the app; kids use the companion from any browser on home Wi&#8209;Fi</li>
-          <li><div class="pf-icon"></div>See token balances and assignments for every kid in the household</li>
-          <li><div class="pf-icon"></div>Coaching cards and trend reports — guide kids toward better habits</li>
-          <li><div class="pf-icon"></div>Your family&rsquo;s data stays on your phone — not in our cloud</li>
-          <li><div class="pf-icon"></div>Not Greenlight — no debit card, no custodial account</li>
-          <li><div class="pf-icon"></div>15&#8209;day free trial &middot; no card required &middot; Pro $9.99/mo or $74.99/yr</li>
-        </ul>
         <div class="pal-cta">
           Learn More
           <span class="pal-cta-arrow">→</span>
@@ -1362,7 +1336,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
 
 
-      <!-- Curator's Vault: Classics card -->
+      <!-- Curator's Vault: Classics card — link only; detail on #page-cvc -->
       <div role="button" tabindex="0" onclick="showPage('cvc');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('cvc');}" class="cvc-card rv d3">
         <div class="cvc-badge">
           <div class="cvc-badge-dot"></div>
@@ -1370,16 +1344,6 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
         </div>
         <div class="cvc-name">Curator's Vault:<br><span>Classics</span>™</div>
         <div class="cvc-tagline">your AI-powered collecting companion for US coins, paper money, stamps, trading cards &amp; lighters</div>
-        <ul class="cvc-features">
-          <li><div class="cvf-icon"></div>Snap a photo &mdash; identify US coins, paper money, stamps &amp; trading cards (lighters tracked by hand)</li>
-          <li><div class="cvf-icon"></div>Official grading &mdash; Sheldon scale, PSA, BGS, PMG, Scott catalog &amp; more</li>
-          <li><div class="cvf-icon"></div>Track your collection, wish list, budget &amp; profit in one place</li>
-          <li><div class="cvf-icon"></div>Five collectible categories &mdash; choose any combination at setup</li>
-          <li><div class="cvf-icon"></div>Find shows, expos &amp; fairs near you for all your collecting interests</li>
-          <li><div class="cvf-icon"></div>Share with nearby collectors at shows &mdash; no internet needed</li>
-          <li><div class="cvf-icon"></div>Wish-list hunting &mdash; eBay scans, price-drop alerts &amp; flea-market notifications</li>
-          <li><div class="cvf-icon"></div>15-day trial &middot; Pro $9.99/mo &middot; $74.99/yr &mdash; data stays on your device by default</li>
-        </ul>
         <div class="cvc-cta">
           Learn More
           <span class="cvc-cta-arrow">→</span>
@@ -2329,7 +2293,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Handy Horology Helper</span></div>
-      <div class="hero-eyebrow"><div class="hero-dot"></div>Open testing · v1.0.65 (build 91) &middot; Android Open &amp; iOS TestFlight</div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Open testing · v1.0.68 (build 94) &middot; Android Open &amp; iOS TestFlight</div>
       <h1 class="hero-h1">Know your timepiece.<br><em>Know its worth.</em></h1>
       <p class="hero-tagline">AI identification, collection manager &amp; offline Demand Rolodex</p>
       <p class="hero-sub">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with gains tracking, Clockworks parts help, eBay Hunts, and a Demand Rolodex for flea-market want lists &mdash; even with no cell signal. Full UI in <strong>8 languages</strong>.</p>
@@ -2607,7 +2571,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <!-- HHH Walkthrough + User Manual -->
-<section class="sec" style="background:#0a1520;padding:72px 24px;border-top:1px solid rgba(240,192,64,0.08);">
+<section class="sec" style="background:var(--navy-dk);padding:72px 24px;border-top:1px solid rgba(240,192,64,0.08);">
   <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
     <span class="section-eyebrow rv" style="color:var(--gold);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);">Videos</span>
     <h2 class="section-title rv" style="color:#fff;font-size:clamp(22px,3vw,28px);margin-bottom:10px;">Walkthrough &amp; <em style="color:var(--gold);">User Manual</em></h2>
@@ -2625,7 +2589,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <!-- Pricing Section -->
-<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(240,192,64,0.08);">
+<section class="sec" style="background:var(--navy-dk);padding:80px 24px;border-top:1px solid rgba(240,192,64,0.08);">
   <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
     <span class="section-eyebrow rv" style="color:var(--gold);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);">Pricing</span>
     <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:var(--gold);">Then Pro.</em></h2>
@@ -2665,7 +2629,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" style="background:#0a1520;padding:48px 24px;text-align:center;border-top:1px solid rgba(240,192,64,0.08);">
+<section class="sec" style="background:var(--navy-dk);padding:48px 24px;text-align:center;border-top:1px solid rgba(240,192,64,0.08);">
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Beta Feedback</p>
     <h2 style="color:#fff;font-family:'Playfair Display',serif;font-size:24px;margin-bottom:12px;">Help Us Build a<br><em style="color:var(--gold);">Better App</em></h2>
@@ -2678,7 +2642,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" style="background:#0a1520;padding:60px 24px;text-align:center;">
+<section class="sec" style="background:var(--navy-dk);padding:60px 24px;text-align:center;">
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <span class="section-eyebrow" style="color:var(--gold);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);" id="hhh-stay-updated">Open testing</span>
     <h2 class="section-title" style="color:#fff;font-size:28px;">Try Handy Horology Helper<br><em style="color:var(--gold);">Android &amp; iOS</em></h2>
@@ -2919,7 +2883,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(232,184,74,0.08);">
+<section class="sec" style="background:var(--navy-dk);padding:80px 24px;border-top:1px solid rgba(232,184,74,0.08);">
   <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
     <span class="section-eyebrow rv" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Pricing</span>
     <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:#E8B84A;">Then Pro.</em></h2>
@@ -2964,7 +2928,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   </div>
 </section>
 
-<section class="sec" style="background:#0a1520;padding:60px 24px;text-align:center;">
+<section class="sec" style="background:var(--navy-dk);padding:60px 24px;text-align:center;">
   <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
     <span class="section-eyebrow" style="color:#E8B84A;border-color:rgba(232,184,74,0.18);background:rgba(232,184,74,0.06);">Get in touch</span>
     <h2 class="section-title" style="color:#fff;font-size:28px;">Questions about<br><em style="color:#E8B84A;">Pocket Allowance Ledger?</em></h2>
@@ -3208,7 +3172,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
 </section>
 
 <!-- CVC Pricing -->
-<section class="sec" style="background:#0a1520;padding:80px 24px;border-top:1px solid rgba(212,168,83,0.08);">
+<section class="sec" style="background:var(--navy-dk);padding:80px 24px;border-top:1px solid rgba(212,168,83,0.08);">
   <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
     <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Pricing</span>
     <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:#D4A853;">Then Pro.</em></h2>
