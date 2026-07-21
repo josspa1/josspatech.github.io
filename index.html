@@ -1313,7 +1313,7 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       <div role="button" tabindex="0" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hhh-card rv d2">
         <div class="hhh-badge">
           <div class="hhh-badge-dot"></div>
-          Open testing · v1.0.30 (build 54)
+          Open testing · v1.0.65 (build 91)
         </div>
         <div class="hhh-name">Handy Horology<br><span>Helper</span>™</div>
         <div class="hhh-tagline">AI identification &amp; collection manager for watches and clocks</div>
@@ -1321,10 +1321,11 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
           <li><div class="hf-icon"></div>AI identification with confidence scoring &mdash; snap a photo, get brand, model &amp; era</li>
           <li><div class="hf-icon"></div>My Museum gallery &mdash; collection, wish list &amp; for-sale segments</li>
           <li><div class="hf-icon"></div>Parts database &mdash; symptom to parts lookup for clock repair</li>
-          <li><div class="hf-icon"></div>Wish-list eBay hunt alerts &amp; affiliate listing search</li>
+          <li><div class="hf-icon"></div>eBay Hunts &mdash; watch listings over time and get match alerts</li>
+          <li><div class="hf-icon"></div>Demand Rolodex &mdash; send a want list to a dealer offline (no cell needed)</li>
           <li><div class="hf-icon"></div>Insurance-ready reports, wear log &amp; service tracker</li>
           <li><div class="hf-icon"></div>Watches &amp; clocks &mdash; wrist, pocket, mantel, grandfather &amp; cuckoo</li>
-          <li><div class="hf-icon"></div>7 languages &mdash; English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, Italiano</li>
+          <li><div class="hf-icon"></div>8 languages &mdash; English, Espa&ntilde;ol, Deutsch, Fran&ccedil;ais, Portugu&ecirc;s, &#20013;&#25991;, Italiano, Hindi</li>
           <li><div class="hf-icon"></div>15-day trial &middot; Pro $9.99/mo &middot; $74.99/yr &mdash; unlimited AI, alerts, cloud sync</li>
           <li style="margin-top:8px;"><div class="hf-icon"></div>Visit our friends at <span onclick="event.preventDefault();event.stopPropagation();window.open('https://www.clockworks.com','_blank');" style="color:#c8aa6e;cursor:pointer;border-bottom:1px solid rgba(200,170,110,0.3);">Clockworks.com</span></li>
         </ul>
@@ -2333,10 +2334,10 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#c8aa6e;">JosspaTech</a><span style="color:rgba(200,170,110,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Handy Horology Helper</span></div>
-      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>Open testing · v1.0.30 (build 54) &middot; Android Open &amp; iOS TestFlight</div>
+      <div class="hero-eyebrow" style="background:rgba(200,170,110,0.08);border-color:rgba(200,170,110,0.18);color:#c8aa6e;"><div class="hero-dot" style="background:#c8aa6e;"></div>Open testing · v1.0.65 (build 91) &middot; Android Open &amp; iOS TestFlight</div>
       <h1 class="hero-h1" style="color:#fff;">Know your timepiece.<br><em style="color:#c8aa6e;">Know its worth.</em></h1>
       <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your AI-powered horology identification, collection &amp; financial companion</p>
-      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with full profit/loss tracking, Clockworks parts wizard, and eBay hunt alerts. Full UI in <strong>7 languages</strong>.</p>
+      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Point your camera at any watch or clock and get an instant AI identification with brand, model, era, and estimated market value. Manage your collection with gains tracking, Clockworks parts help, eBay Hunts, and a Demand Rolodex for flea-market want lists &mdash; even with no cell signal. Full UI in <strong>8 languages</strong>.</p>
       <div class="hero-acts">
         <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="background:rgba(200,170,110,0.18);color:#c8aa6e;border:1px solid rgba(200,170,110,0.35);box-shadow:none;text-decoration:none;">Get HHH &mdash; Android Open</a>
         <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-primary" style="background:rgba(200,170,110,0.18);color:#c8aa6e;border:1px solid rgba(200,170,110,0.35);box-shadow:none;text-decoration:none;">Get HHH &mdash; iOS TestFlight</a>
@@ -2574,11 +2575,16 @@ body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--nav
       </div>
       <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128241;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Keep track of every watch you're hunting for. Set priorities, share what you're looking for with other collectors, and check eBay prices with a single tap.</p>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List &amp; Hunts</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Save pieces you want someday. Start an eBay Hunt to watch listings over time and get match alerts &mdash; or Search now for a one-time look in your browser.</p>
       </div>
+      <div class="rv d3" style="background:rgba(156,39,176,0.06);border:1px solid rgba(156,39,176,0.15);border-radius:16px;padding:32px;">
+        <div style="font-size:28px;margin-bottom:12px;">&#128101;</div>
+        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Demand Rolodex</h3>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a flea market with no signal? Dealers say &ldquo;Got HHH? Send me your wishlist.&rdquo; Buyers send a want list with contact info &mdash; no prices. Dealers get a demand board by make and model, then call when they find a match.</p>
+      </div>
+    </div>
     <!-- Smart Experience -->
-    <h3 class="rv" style="color:#c8aa6e;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Smart Experience</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
       <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
         <div style="font-size:28px;margin-bottom:12px;">&#128075;</div>
