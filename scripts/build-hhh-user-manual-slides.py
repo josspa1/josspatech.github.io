@@ -218,6 +218,16 @@ STEP_META: dict[str, list[dict]] = {
         _meta(HOME, "interim", "Help and support"),
         _meta(HOME, "interim", "User manual link"),
     ],
+    "UM-H21": [
+        _meta(WISH, "interim", "Demand Rolodex — send from Wish", (50, 22, "Wish")),
+        _meta(TOOLS, "interim", "Buyer contact for dealers", (50, 40, "Contact")),
+        _meta(WISH, "interim", "Select wants to share", (50, 45, "Share all")),
+        _meta(TOOLS, "interim", "Send want list PIN and QR", (50, 70, "Send")),
+        _meta(TOOLS, "interim", "Dealer Demand Rolodex Receive", (TAB_TOOLS, TAB_Y, "Tools")),
+        _meta(TOOLS, "interim", "Paste QR or Nearby Bluetooth", (50, 55, "Receive")),
+        _meta(TOOLS, "interim", "Demand board by make and model", (50, 45, "Board")),
+        _meta(TOOLS, "interim", "Private contact rating 1–10", (50, 70, "Rating")),
+    ],
 }
 
 TOPIC_CHAPTER: dict[str, str] = {
@@ -241,6 +251,7 @@ TOPIC_CHAPTER: dict[str, str] = {
     "UM-H18": "Trial",
     "UM-H19": "Tools",
     "UM-H20": "Help",
+    "UM-H21": "Demand Rolodex",
 }
 
 

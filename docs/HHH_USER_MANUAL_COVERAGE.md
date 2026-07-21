@@ -3,25 +3,25 @@
 **Generated:** build-hhh-user-manual-slides.py  
 **Live URL:** https://josspatech.com/videos/user-guide-hhh/  
 **PDF:** https://josspatech.com/docs/handyhorology/HandyHorology_UserGuide.pdf  
-**Slide count:** 105 (indices 0–104)  
-**Chapter pills:** 15  
+**Slide count:** 113 (indices 0–112)  
+**Chapter pills:** 16  
 **Source:** `C:\Users\jossp\Documents\MobileApps\HHH\SourceCode\docs\users-manual`  
 
 ## Summary
 
 | Metric | Count |
 |--------|------:|
-| Slides with voice + narration | 105 |
-| PNG OK | 42 |
-| PNG interim (reuse / mockup) | 63 |
+| Slides with voice + narration | 113 |
+| PNG OK | 37 |
+| PNG interim (reuse / mockup) | 76 |
 | PNG missing (placeholder) | 0 |
 
 ## Slide inventory
 
 | Slide | Topic | Chapter | Feature | PNG |
 |------:|-------|---------|---------|:---:|
-| 0 | UM-H01 | Install | Google Play internal testing install | OK |
-| 1 | UM-H01 | Install | TestFlight install | OK |
+| 0 | UM-H01 | Install | Google Play open testing install | OK |
+| 1 | UM-H01 | Install | TestFlight install | interim |
 | 2 | UM-H02 | Onboarding | Welcome carousel | OK |
 | 3 | UM-H02 | Onboarding | Welcome — Get Started | interim |
 | 4 | UM-H02 | Onboarding | Sample vs own piece choice | OK |
@@ -55,13 +55,13 @@
 | 32 | UM-H07 | Identify | Manual clue fields | interim |
 | 33 | UM-H07 | Identify | Item type toggle | interim |
 | 34 | UM-H07 | Identify | Identify this timepiece | OK |
-| 35 | UM-H08 | Identify | Top match confidence | OK |
-| 36 | UM-H08 | Identify | This is correct | OK |
+| 35 | UM-H08 | Identify | Top match confidence | interim |
+| 36 | UM-H08 | Identify | This is correct | interim |
 | 37 | UM-H08 | Identify | Add detail photos | interim |
 | 38 | UM-H08 | Identify | Edit clues | interim |
-| 39 | UM-H08 | Identify | Save to Collection | OK |
+| 39 | UM-H08 | Identify | Save to Collection | interim |
 | 40 | UM-H08 | Identify | Find parts on Clockworks | interim |
-| 41 | UM-H08 | Identify | Offline identify queue | OK |
+| 41 | UM-H08 | Identify | Offline identify queue | interim |
 | 42 | UM-H09 | Clock Repair | Home Fix clock | interim |
 | 43 | UM-H09 | Clock Repair | Tools Clock Repair Help | interim |
 | 44 | UM-H09 | Clock Repair | Symptom list | OK |
@@ -97,34 +97,42 @@
 | 74 | UM-H17 | Settings | Language picker | interim |
 | 75 | UM-H17 | Settings | App lock | interim |
 | 76 | UM-H17 | Settings | Notification preferences | interim |
-| 77 | UM-H18 | Trial | Trial intro | OK |
-| 78 | UM-H18 | Trial | Subscribe to Pro | OK |
-| 79 | UM-H18 | Trial | Manage subscription | interim |
-| 80 | UM-H19 | Tools | Tools tab | OK |
-| 81 | UM-H19 | Tools | What's It Worth Pro | interim |
-| 82 | UM-H19 | Tools | Compare two pieces | OK |
-| 83 | UM-H19 | Tools | Condition Assessment | interim |
-| 84 | UM-H19 | Tools | Collection Value trend | interim |
-| 85 | UM-H19 | Tools | Trade Analyzer Pro | interim |
-| 86 | UM-H19 | Tools | Ask the Expert Pro | interim |
-| 87 | UM-H19 | Tools | Photo Studio Pro | interim |
-| 88 | UM-H19 | Tools | Digital ID Card Pro | interim |
-| 89 | UM-H19 | Tools | Scan Barcode | interim |
-| 90 | UM-H19 | Tools | Scan Papers | interim |
-| 91 | UM-H19 | Tools | Complication calculator | interim |
-| 92 | UM-H19 | Tools | Accuracy tracker | interim |
-| 93 | UM-H19 | Tools | Rotation planner | interim |
-| 94 | UM-H19 | Tools | Warranty tracker | interim |
-| 95 | UM-H19 | Tools | Event calendar | interim |
-| 96 | UM-H19 | Tools | Exact Time atomic clock | OK |
-| 97 | UM-H19 | Tools | Moon Phase tool | OK |
-| 98 | UM-H19 | Tools | Print and Export List | interim |
-| 99 | UM-H19 | Tools | Nearby Finds Pro | interim |
-| 100 | UM-H19 | Tools | BLE Share Pro | interim |
-| 101 | UM-H19 | Tools | LAN Report big screen | interim |
-| 102 | UM-H19 | Tools | Movement to Parts tool | interim |
+| 77 | UM-H17 | Settings | Notification preferences | interim |
+| 78 | UM-H18 | Trial | Trial intro | OK |
+| 79 | UM-H18 | Trial | Subscribe to Pro | OK |
+| 80 | UM-H18 | Trial | Manage subscription | interim |
+| 81 | UM-H19 | Tools | Tools tab | OK |
+| 82 | UM-H19 | Tools | What's It Worth Pro | interim |
+| 83 | UM-H19 | Tools | Compare two pieces | OK |
+| 84 | UM-H19 | Tools | Condition Assessment | interim |
+| 85 | UM-H19 | Tools | Collection Value trend | interim |
+| 86 | UM-H19 | Tools | Trade Analyzer Pro | interim |
+| 87 | UM-H19 | Tools | Ask the Expert Pro | interim |
+| 88 | UM-H19 | Tools | Photo Studio Pro | interim |
+| 89 | UM-H19 | Tools | Digital ID Card Pro | interim |
+| 90 | UM-H19 | Tools | Scan Barcode | interim |
+| 91 | UM-H19 | Tools | Scan Papers | interim |
+| 92 | UM-H19 | Tools | Complication calculator | interim |
+| 93 | UM-H19 | Tools | Accuracy tracker | interim |
+| 94 | UM-H19 | Tools | Rotation planner | interim |
+| 95 | UM-H19 | Tools | Warranty tracker | interim |
+| 96 | UM-H19 | Tools | Event calendar | interim |
+| 97 | UM-H19 | Tools | Exact Time atomic clock | OK |
+| 98 | UM-H19 | Tools | Moon Phase tool | OK |
+| 99 | UM-H19 | Tools | Print and Export List | interim |
+| 100 | UM-H19 | Tools | Nearby Finds Pro | interim |
+| 101 | UM-H19 | Tools | BLE Share Pro | interim |
+| 102 | UM-H19 | Tools | LAN Report big screen | interim |
 | 103 | UM-H20 | Help | Help and support | interim |
 | 104 | UM-H20 | Help | User manual link | interim |
+| 105 | UM-H21 | Demand Rolodex | Demand Rolodex — send from Wish | interim |
+| 106 | UM-H21 | Demand Rolodex | Buyer contact for dealers | interim |
+| 107 | UM-H21 | Demand Rolodex | Select wants to share | interim |
+| 108 | UM-H21 | Demand Rolodex | Send want list PIN and QR | interim |
+| 109 | UM-H21 | Demand Rolodex | Dealer Demand Rolodex Receive | interim |
+| 110 | UM-H21 | Demand Rolodex | Paste QR or Nearby Bluetooth | interim |
+| 111 | UM-H21 | Demand Rolodex | Demand board by make and model | interim |
+| 112 | UM-H21 | Demand Rolodex | Private contact rating 1–10 | interim |
 
 ## Regenerate
 
