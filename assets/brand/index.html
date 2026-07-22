@@ -4,80 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>JosspaTech Brand — Logo System</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#0C3358;--navy-md:#1A4F7A;--gold:#F0C040;--cyan:#5DADE2;--paper:#f4f7fa;}
+  :root{--navy:#0C3358;--navy-md:#1A4F7A;--gold:#F0C040;--paper:#f4f7fa;}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Manrope,system-ui,sans-serif;background:var(--paper);color:var(--navy);line-height:1.5}
-  header{background:linear-gradient(165deg,#06111c,#0C3358 55%,#1A4F7A);color:#fff;padding:72px 32px 64px;text-align:center}
-  header img.hero{width:min(420px,88vw);height:auto;margin:0 auto 28px;display:block;filter:drop-shadow(0 24px 48px rgba(0,0,0,.4))}
-  header h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,5vw,48px);letter-spacing:-1px;margin-bottom:10px}
-  header p{opacity:.65;max-width:40rem;margin:0 auto;font-size:16px}
-  main{max-width:1080px;margin:0 auto;padding:56px 24px 96px}
-  h2{font-family:'Playfair Display',Georgia,serif;font-size:28px;margin:48px 0 8px;letter-spacing:-.5px}
-  .lead{color:#5a7390;margin-bottom:28px;max-width:40rem}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-  .card{border-radius:20px;padding:32px 24px;border:1px solid rgba(12,51,88,.1);background:#fff;box-shadow:0 12px 32px rgba(12,51,88,.06)}
+  header{background:linear-gradient(165deg,#06111c,#0C3358 55%,#1A4F7A);color:#fff;padding:64px 24px 56px;text-align:center}
+  header img.hero{width:min(200px,46vw);height:auto;margin:0 auto 24px;display:block;border-radius:36px;box-shadow:0 24px 48px rgba(0,0,0,.35)}
+  header h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,5vw,44px);letter-spacing:-1px;margin-bottom:10px}
+  header p{opacity:.65;max-width:36rem;margin:0 auto;font-size:15px}
+  main{max-width:960px;margin:0 auto;padding:40px 18px 80px}
+  h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;margin:36px 0 8px}
+  .lead{color:#5a7390;margin-bottom:22px}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
+  .card{border-radius:18px;padding:28px 22px;border:1px solid rgba(12,51,88,.1);background:#fff}
   .card.dark{background:linear-gradient(160deg,#0C3358,#1A4F7A);border-color:rgba(255,255,255,.08)}
-  .card h3{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;color:#5a7390}
+  .card h3{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;color:#5a7390}
   .card.dark h3{color:rgba(240,192,64,.85)}
   .card img{display:block;margin:0 auto;max-width:100%;height:auto}
-  .card code{display:block;margin-top:18px;font-size:11px;color:#7a93a8;word-break:break-all}
-  .card.dark code{color:rgba(255,255,255,.4)}
-  .swatches{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
-  .swatch{width:120px;border-radius:14px;overflow:hidden;border:1px solid rgba(12,51,88,.1);background:#fff}
-  .swatch i{display:block;height:64px}
-  .swatch span{display:block;padding:10px 12px;font-size:12px;font-weight:700}
-  .swatch small{display:block;padding:0 12px 12px;font-size:11px;color:#7a93a8;font-family:ui-monospace,monospace}
-  a.back{display:inline-block;margin-top:40px;color:var(--navy-md);font-weight:700;text-decoration:none}
-  a.back:hover{color:var(--navy)}
+  .card code{display:block;margin-top:16px;font-size:11px;color:#7a93a8;word-break:break-all}
+  .card.dark code{color:rgba(255,255,255,.45)}
+  a.back{display:inline-block;margin-top:32px;color:var(--navy-md);font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
 <header>
-  <img class="hero" src="josspatech-logo-stacked.svg" alt="JosspaTech logo">
+  <img class="hero" src="./josspatech-mark-app.svg" alt="JosspaTech mark">
   <h1>JosspaTech logo system</h1>
-  <p>Polar Diamond mark — a cut gem and north star. Precision, guidance, and a small constellation of private tools.</p>
+  <p>Signature JT — a bold J with a gold T-bar. Clean, app-native, built from scratch (not the old diamond).</p>
 </header>
 <main>
   <h2>Primary assets</h2>
-  <p class="lead">Use these files in apps, store listings, docs, and the site. SVGs scale cleanly; the app mark is built for 16–1024px.</p>
+  <p class="lead">Relative paths on this page. SVGs scale cleanly for store listings and the site.</p>
   <div class="grid">
     <div class="card dark">
       <h3>Mark — dark UI</h3>
-      <img src="josspatech-mark.svg" alt="Mark" width="140" height="140">
+      <img src="./josspatech-mark.svg" alt="Mark" width="120" height="120">
       <code>josspatech-mark.svg</code>
     </div>
     <div class="card">
       <h3>App icon / favicon</h3>
-      <img src="josspatech-mark-app.svg" alt="App mark" width="140" height="140" style="border-radius:28px">
+      <img src="./josspatech-mark-app.svg" alt="App mark" width="120" height="120" style="border-radius:28px">
       <code>josspatech-mark-app.svg</code>
     </div>
     <div class="card dark">
       <h3>Horizontal lockup</h3>
-      <img src="josspatech-logo.svg" alt="Logo lockup" width="280">
+      <img src="./josspatech-logo.svg" alt="Logo lockup" width="280">
       <code>josspatech-logo.svg</code>
     </div>
     <div class="card">
       <h3>Light lockup</h3>
-      <img src="josspatech-logo-light.svg" alt="Light logo" width="280">
+      <img src="./josspatech-logo-light.svg" alt="Light logo" width="280">
       <code>josspatech-logo-light.svg</code>
     </div>
+    <div class="card dark" style="grid-column:1/-1">
+      <h3>Stacked</h3>
+      <img src="./josspatech-logo-stacked.svg" alt="Stacked logo" width="220">
+      <code>josspatech-logo-stacked.svg</code>
+    </div>
   </div>
-
-  <h2>Color</h2>
-  <p class="lead">Pulled from the live site system — navy field, cyan facet, gold north star.</p>
-  <div class="swatches">
-    <div class="swatch"><i style="background:#0C3358"></i><span>Navy Deep</span><small>#0C3358</small></div>
-    <div class="swatch"><i style="background:#1A4F7A"></i><span>Navy</span><small>#1A4F7A</small></div>
-    <div class="swatch"><i style="background:#5DADE2"></i><span>Facet Cyan</span><small>#5DADE2</small></div>
-    <div class="swatch"><i style="background:#F0C040"></i><span>North Gold</span><small>#F0C040</small></div>
-  </div>
-
-  <h2>Meaning</h2>
-  <p class="lead">The diamond is a cut tool — not decoration. Facets = craft. The gold star = true north (fewer apps, better apps). Orbit dots = the product constellation without crowding the mark.</p>
-
   <a class="back" href="/">← Back to josspatech.com</a>
 </main>
 </body>
