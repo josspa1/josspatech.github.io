@@ -230,39 +230,71 @@ html.boot-cvc #page-cvc { display:block !important; }
   border-bottom:1px solid rgba(240,192,64,0.1);
 }
 .hero.hub-hero{
-  min-height:min(88vh,820px);
+  min-height:min(92vh,900px);
   display:flex;align-items:center;justify-content:center;
   padding:120px 48px 110px;
 }
 .hero.hub-hero::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(240,192,64,0.08), transparent 70%),
-    linear-gradient(180deg, transparent 55%, rgba(7,24,40,0.55) 100%);
+    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(240,192,64,0.1), transparent 70%),
+    linear-gradient(180deg, transparent 50%, rgba(7,24,40,0.65) 100%);
   z-index:0;
 }
 .hub-hero .hero-inner{text-align:center;}
-.hub-hero .hero-h1{
-  font-size:clamp(48px,8vw,76px);
-  font-weight:900;
-  letter-spacing:-2px;
-  line-height:0.98;
-  max-width:14ch;
-  margin-left:auto;margin-right:auto;
+.hub-mark{
+  width:76px;height:76px;margin:0 auto 28px;
+  animation:hubMarkIn 1.1s var(--ease) both;
 }
+.hub-mark svg{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 28px rgba(93,173,226,0.25));}
+@keyframes hubMarkIn{
+  from{opacity:0;transform:scale(0.88) translateY(12px)}
+  to{opacity:1;transform:none}
+}
+.hub-hero .hero-brand{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,9vw,92px);
+  font-weight:900;
+  letter-spacing:-2.5px;
+  line-height:0.95;
+  color:#fff;
+  margin:0 auto 18px;
+  animation:hubFadeUp .95s var(--ease) both;
+}
+.hub-hero .hero-brand span{color:var(--gold);}
+.hub-hero .hero-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,3.8vw,40px);
+  font-weight:700;
+  letter-spacing:-0.8px;
+  line-height:1.15;
+  max-width:18ch;
+  margin:0 auto 20px;
+  color:rgba(255,255,255,0.92);
+}
+.hub-hero .hero-h1 em{color:var(--gold);font-style:italic;}
 .hub-hero .hero-sub{
   font-size:17px;font-weight:400;letter-spacing:0.01em;
-  color:rgba(255,255,255,0.58);
-  max-width:34rem;
-}
-.hub-hero .hero-eyebrow{
-  margin-bottom:22px;
-  letter-spacing:3px;
+  color:rgba(255,255,255,0.55);
+  max-width:32rem;
+  margin:0 auto 36px;
 }
 .hub-rule{
-  width:48px;height:1px;margin:0 auto 28px;
+  width:0;height:1px;margin:0 auto 26px;
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:hubFadeUp .9s var(--ease) .05s both;
+  animation:hubRuleDraw 1s var(--ease) .2s forwards;
+}
+@keyframes hubRuleDraw{to{width:56px}}
+.hub-hero .hero-actions .btn-primary{
+  box-shadow:0 10px 32px rgba(240,192,64,0.28);
+}
+.hub-hero .hero-actions .btn-ghost{
+  border-color:rgba(255,255,255,0.22);
+  color:rgba(255,255,255,0.82);
+}
+.hub-hero .hero-actions .btn-ghost:hover{
+  border-color:rgba(240,192,64,0.45);
+  color:#fff;
 }
 #page-company .section.content{
   background:
@@ -302,9 +334,13 @@ html.boot-cvc #page-cvc { display:block !important; }
 .hub-name{font-size:clamp(26px,2.6vw,32px);}
 .hub-tagline{font-size:15.5px;line-height:1.6;color:rgba(255,255,255,0.55);}
 .hub-cta{
-  border-radius:999px;padding:13px 22px;
+  border-radius:12px;padding:13px 22px;
   letter-spacing:0.02em;
   box-shadow:0 8px 24px rgba(240,192,64,0.22);
+}
+#page-company .hub-meta{display:none;}
+#page-company .privacy-strip{
+  display:none; /* hub first scroll stays brand + products — values live in principles */
 }
 .quote-bar{
   position:relative;overflow:hidden;
@@ -315,11 +351,16 @@ html.boot-cvc #page-cvc { display:block !important; }
     var(--navy-dk);
 }
 .quote-bar blockquote{
-  font-size:clamp(26px,3.4vw,40px);
+  font-size:clamp(28px,3.6vw,44px);
   font-weight:700;
   max-width:780px;
-  letter-spacing:-0.6px;
+  letter-spacing:-0.8px;
   position:relative;z-index:1;
+  line-height:1.2;
+}
+.quote-bar::after{
+  content:'';position:absolute;left:50%;bottom:36px;transform:translateX(-50%);
+  width:40px;height:1px;background:rgba(240,192,64,0.45);
 }
 #page-company .principles{
   background:
@@ -352,7 +393,8 @@ html.boot-cvc #page-cvc { display:block !important; }
   .hero.hub-hero{min-height:auto;padding:88px 24px 72px;}
 }
 @media (prefers-reduced-motion:reduce){
-  .hub-hero .hero-h1,.hub-hero .hero-sub,.hub-hero .hero-actions,.hub-rule{animation:none;}
+  .hub-hero .hero-brand,.hub-hero .hero-h1,.hub-hero .hero-sub,.hub-hero .hero-actions,.hub-rule,.hub-mark{animation:none;}
+  .hub-rule{width:56px;}
   .hub-card{transition:none;}
 }
 
@@ -1536,9 +1578,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <!-- ══ HERO ══ -->
 <section class="hero hub-hero" aria-label="Hero">
   <div class="hero-inner">
-    <!-- Universe starburst logo -->
-    <div style="margin-bottom:14px;">
-      <svg width="70" height="70" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:block;margin:0 auto;">
+    <div class="hub-mark" aria-hidden="true">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
         <line x1="40" y1="40" x2="76" y2="10" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
         <line x1="40" y1="40" x2="4" y2="68" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
         <line x1="40" y1="40" x2="78" y2="52" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
@@ -1556,14 +1597,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <circle cx="8" cy="18" r="2.5" fill="rgba(240,192,64,0.5)"/>
       </svg>
     </div>
-    <div class="hero-eyebrow">
-      <div class="hero-eyebrow-dot"></div>
-      JosspaTech
-    </div>
-    <h1 class="hero-h1">
-      Fewer apps.<br>
-      <em>Better apps.</em>
-    </h1>
+    <h1 class="hero-brand">Josspa<span>Tech</span>™</h1>
+    <div class="hub-rule" aria-hidden="true"></div>
+    <p class="hero-h1">Fewer apps.<br><em>Better apps.</em></p>
     <p class="hero-sub">
       A small studio building private, useful mobile tools — then getting out of your way.
     </p>
@@ -1609,7 +1645,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       </div>
 
       <div role="button" tabindex="0" data-app="hhh" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hub-card rv d2"><span class="hub-index" aria-hidden="true">02</span>
-        <div class="hub-badge"><div class="hub-badge-dot"></div>Open testing · v1.0.86</div>
+        <div class="hub-badge"><div class="hub-badge-dot"></div>Open testing · v1.0.88</div>
         <div class="hub-name">Handy Horology<br><em>Helper</em>™</div>
         <p class="hub-tagline">Identify timepieces, run your museum, repair clocks, and sync to a PC on your Wi‑Fi — built for collectors.</p>
         <div class="hub-cta">Open Handy Horology Helper <span>→</span></div>
