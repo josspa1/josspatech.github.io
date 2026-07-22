@@ -30,7 +30,8 @@ const portArg = args.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4174;
 
 const SLIDE_COUNT = preview ? 27 : 120;
-const SLIDE_SEC = fast ? 2 : 8;
+const FALLBACK_SLIDE_SEC = fast ? 2 : 8;
+const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.18;
 
 function resolveFfmpeg() {
   const fromEnv = process.env.FFMPEG_PATH;
@@ -102,16 +103,32 @@ function probeDuration(ffmpeg, filePath) {
   return parseInt(m[1], 10) * 3600 + parseInt(m[2], 10) * 60 + parseFloat(m[3]);
 }
 
-function buildSlideAudioTrack(ffmpeg, audioDir, slideCount, slideSec, outPath) {
-  const tmpDir = path.join(audioDir, '_mux_tmp');
-  fs.mkdirSync(tmpDir, { recursive: true });
-  const segPaths = [];
-
+function getSlideDurations(ffmpeg, audioDir, slideCount) {
+  const durations = [];
   for (let i = 0; i < slideCount; i++) {
     const mp3 = path.join(audioDir, `slide-${i}.mp3`);
     if (!fs.existsSync(mp3)) {
       throw new Error(`Missing narration MP3: slide-${i}.mp3 (run: npm run gen:user-guide-audio)`);
     }
+    if (fast) {
+      durations.push(FALLBACK_SLIDE_SEC);
+      continue;
+    }
+    const narrationSec = probeDuration(ffmpeg, mp3);
+    if (narrationSec == null) throw new Error(`Could not probe duration for slide-${i}.mp3`);
+    durations.push(Math.max(0.5, narrationSec + CHANGE_BUFFER_SEC));
+  }
+  return durations;
+}
+
+function buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, outPath) {
+  const tmpDir = path.join(audioDir, '_mux_tmp');
+  fs.mkdirSync(tmpDir, { recursive: true });
+  const segPaths = [];
+
+  for (let i = 0; i < slideDurations.length; i++) {
+    const slideSec = slideDurations[i];
+    const mp3 = path.join(audioDir, `slide-${i}.mp3`);
     const seg = path.join(tmpDir, `seg-${String(i).padStart(3, '0')}.m4a`);
     runFfmpeg(ffmpeg, [
       '-y', '-i', mp3,
@@ -140,16 +157,16 @@ function buildSlideAudioTrack(ffmpeg, audioDir, slideCount, slideSec, outPath) {
   } catch { /* ignore */ }
 }
 
-function buildVideoFromScreenshots(ffmpeg, shotDir, slideCount, slideSec, outPath) {
+function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, outPath) {
   const listFile = path.join(shotDir, 'frames.txt');
   const lines = [];
-  for (let i = 0; i < slideCount; i++) {
+  for (let i = 0; i < slideDurations.length; i++) {
     const png = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
     if (!fs.existsSync(png)) throw new Error(`Missing screenshot: ${png}`);
     lines.push(`file '${png.replace(/\\/g, '/').replace(/'/g, "'\\''")}'`);
-    lines.push(`duration ${slideSec}`);
+    lines.push(`duration ${slideDurations[i]}`);
   }
-  const lastPng = path.join(shotDir, `frame-${String(slideCount - 1).padStart(3, '0')}.png`);
+  const lastPng = path.join(shotDir, `frame-${String(slideDurations.length - 1).padStart(3, '0')}.png`);
   lines.push(`file '${lastPng.replace(/\\/g, '/').replace(/'/g, "'\\''")}'`);
   fs.writeFileSync(listFile, lines.join('\n'), 'utf8');
 
@@ -164,13 +181,13 @@ function buildVideoFromScreenshots(ffmpeg, shotDir, slideCount, slideSec, outPat
 }
 
 function muxVideoAudio(ffmpeg, videoPath, audioPath, outPath) {
+  // Copy video — re-encoding here drifts A/V vs padded narration.
   const tmpOut = outPath + '.muxing.mp4';
   runFfmpeg(ffmpeg, [
     '-y', '-i', videoPath, '-i', audioPath,
     '-map', '0:v:0', '-map', '1:a:0',
-    '-c:v', 'libx264', '-preset', 'fast', '-crf', '22',
-    '-c:a', 'aac', '-b:a', '128k',
-    '-pix_fmt', 'yuv420p', '-movflags', '+faststart',
+    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k',
+    '-shortest', '-movflags', '+faststart',
     tmpOut,
   ]);
   fs.renameSync(tmpOut, outPath);
@@ -214,7 +231,10 @@ async function main() {
   const videoOnlyPath = outPath + '.video-only.mp4';
   const combinedAudio = path.join(OUT_DIR, '_combined-narration.m4a');
 
-  console.log(`[render] mode=${preview ? 'preview' : 'full'} slides=${SLIDE_COUNT} slideSec=${SLIDE_SEC}`);
+  const audioDir = path.join(OUT_DIR, 'audio');
+  const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT);
+  const totalSec = slideDurations.reduce((a, b) => a + b, 0);
+  console.log(`[render] mode=${preview ? 'preview' : 'full'} slides=${SLIDE_COUNT} totalSec=${totalSec.toFixed(1)} (audio-timed)`);
 
   const server = await startStaticServer(ROOT, PORT);
   const recordUrl = `http://127.0.0.1:${PORT}/videos/user-guide/?record=1${preview ? '&preview=1' : ''}`;
@@ -248,11 +268,10 @@ async function main() {
   }
 
   console.log('[render] building video from frames …');
-  buildVideoFromScreenshots(ffmpeg, shotDir, SLIDE_COUNT, SLIDE_SEC, videoOnlyPath);
+  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, videoOnlyPath);
 
-  const audioDir = path.join(OUT_DIR, 'audio');
-  console.log(`[render] building ${SLIDE_COUNT}-slide narration track (${SLIDE_SEC}s/slide) …`);
-  buildSlideAudioTrack(ffmpeg, audioDir, SLIDE_COUNT, SLIDE_SEC, combinedAudio);
+  console.log(`[render] building ${SLIDE_COUNT}-slide narration track (per-audio durations) …`);
+  buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, combinedAudio);
 
   console.log('[render] muxing video + narration …');
   muxVideoAudio(ffmpeg, videoOnlyPath, combinedAudio, outPath);
@@ -278,7 +297,7 @@ async function main() {
     sizeMb: (stat.size / (1024 * 1024)).toFixed(2),
     durationSec: duration ? Math.round(duration) : null,
     slides: SLIDE_COUNT,
-    slideSec: SLIDE_SEC,
+    totalSec: Math.round(totalSec),
     hasAudio,
     preview,
   }, null, 2));
