@@ -1005,6 +1005,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px;}
 a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 
+/* ══ Declutter catalog numbering ═══════════════════════════════════════════ */
+.hub-index,.section-num,.vol-num,.catalog-cell .cell-num{display:none !important;}
+#page-company .section-lead{gap:0;}
+.vol-kicker{margin-bottom:14px;}
+.hub-card-shot-token{flex-direction:column;gap:10px;}
+.hub-card-shot-token .token-caption{
+  font-family:var(--mono,'IBM Plex Mono',monospace);
+  font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
+  color:rgba(232,184,74,0.85);text-align:center;margin:0;
+}
 /* ══ PRODUCT PAGE DYNAMITE — match hub craft ═══════════════════════════════ */
 #page-pbj .hero,
 #page-hhh .hero,
@@ -2555,7 +2565,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="section content" id="products">
   <div class="section-inner">
     <div class="rv section-lead">
-      <span class="section-num" aria-hidden="true">01</span>
       <div>
         <span class="section-eyebrow">The lineup</span>
         <h2 class="section-title">Software you can<br><em>actually finish.</em></h2>
@@ -2567,7 +2576,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
       <div role="button" tabindex="0" data-app="pbj" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="hub-card hub-card-featured rv d1">
         <div class="hub-card-body">
-          <span class="hub-index" aria-hidden="true">Vol. 01</span>
           <div class="hub-name">Pocket<em>BudJet</em>™</div>
           <p class="hub-tagline">Budgeting that never leaves your phone. Import. Plan. Coach. Zero ads. Zero data games.</p>
           <div class="hub-cta">Open PocketBudJet <span>→</span></div>
@@ -2579,7 +2587,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
       <div role="button" tabindex="0" data-app="hhh" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hub-card hub-card-featured rv d2">
         <div class="hub-card-body">
-          <span class="hub-index" aria-hidden="true">Vol. 02</span>
           <div class="hub-name">Handy Horology<br><em>Helper</em>™</div>
           <p class="hub-tagline">Snap a timepiece. Build a museum. Repair with confidence. Live companion on home Wi‑Fi.</p>
           <div class="hub-cta">Open HHH <span>→</span></div>
@@ -2591,36 +2598,37 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
       <div role="button" tabindex="0" data-app="pal" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="hub-card rv d3">
         <div class="hub-card-body">
-          <span class="hub-index" aria-hidden="true">Vol. 03</span>
           <div class="hub-name">Pocket Allowance<br><em>Ledger</em>™</div>
           <p class="hub-tagline">Gold tokens. Parent-approved rewards. A family economy that is not a bank.</p>
           <div class="hub-cta">Open PAL <span>→</span></div>
         </div>
         <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
-          <svg viewBox="0 0 64 64" width="120" height="120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="120" height="120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gold token">
             <defs>
-              <radialGradient id="hub-pal-face" cx="0.38" cy="0.32" r="0.72">
-                <stop offset="0%" stop-color="#E8C547"/>
-                <stop offset="45%" stop-color="#C9A227"/>
+              <radialGradient id="hub-pal-face" cx="0.35" cy="0.3" r="0.75">
+                <stop offset="0%" stop-color="#FFE08A"/>
+                <stop offset="40%" stop-color="#E8B84A"/>
                 <stop offset="100%" stop-color="#9A7A1A"/>
               </radialGradient>
               <linearGradient id="hub-pal-rim" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#B8921F"/>
+                <stop offset="0%" stop-color="#F0D070"/>
                 <stop offset="100%" stop-color="#7A6112"/>
               </linearGradient>
             </defs>
-            <circle cx="32" cy="32" r="30" fill="url(#hub-pal-rim)"/>
-            <circle cx="32" cy="32" r="26" fill="url(#hub-pal-face)"/>
-            <circle cx="32" cy="32" r="22" fill="none" stroke="#B8921F" stroke-width="1.5" opacity="0.45"/>
-            <path d="M 18 22 Q 32 12 46 22" fill="none" stroke="#FFF8E0" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
-            <circle cx="32" cy="34" r="5" fill="none" stroke="#8A6E15" stroke-width="1.25" opacity="0.35"/>
+            <circle cx="60" cy="60" r="56" fill="url(#hub-pal-rim)"/>
+            <circle cx="60" cy="60" r="48" fill="url(#hub-pal-face)"/>
+            <circle cx="60" cy="60" r="42" fill="none" stroke="#B8921F" stroke-width="2" opacity="0.55"/>
+            <path d="M38 40 Q60 28 82 40" fill="none" stroke="#FFF8E0" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+            <!-- star = reward token -->
+            <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
+            <text x="60" y="92" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="11" font-weight="800" letter-spacing="2" fill="#6B5210">TOKEN</text>
           </svg>
+          <p class="token-caption">Gold token</p>
         </figure>
       </div>
 
       <div role="button" tabindex="0" data-app="cvc" onclick="showPage('cvc');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('cvc');}" class="hub-card rv d4">
         <div class="hub-card-body">
-          <span class="hub-index" aria-hidden="true">Vol. 04</span>
           <div class="hub-name">Curator's Vault:<br><em>Classics</em>™</div>
           <p class="hub-tagline">Coins, cards, stamps, paper, lighters — photograph, organize, value. Your vault. Your rules.</p>
           <div class="hub-cta">Open Curator's Vault <span>→</span></div>
@@ -2643,7 +2651,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="section principles" id="principles">
   <div class="section-inner">
     <div class="rv section-lead">
-      <span class="section-num" aria-hidden="true">02</span>
       <div>
         <span class="section-eyebrow">How We Build</span>
         <h2 class="section-title">Three things we<br><em>don't compromise on.</em></h2>
@@ -2724,8 +2731,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 01</span></div>
-      <div class="vol-kicker"><span class="vol-num">Vol. 01</span><span class="vol-name">Pocket<em>BudJet</em>™</span></div>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
+      <div class="vol-kicker"><span class="vol-name">Pocket<em>BudJet</em>™</span></div>
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing · iOS &amp; Android</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it private.</em></h1>
@@ -3551,8 +3558,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 02</span></div>
-      <div class="vol-kicker"><span class="vol-num">Vol. 02</span><span class="vol-name">Handy Horology <em>Helper</em>™</span></div>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Handy Horology Helper</span></div>
+      <div class="vol-kicker"><span class="vol-name">Handy Horology <em>Helper</em>™</span></div>
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Open testing · v1.0.88 &middot; Android &amp; iOS</div>
       <h1 class="hero-h1">Know your timepiece.<br><em>Know its worth.</em></h1>
@@ -3970,8 +3977,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero" >
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 03</span></div>
-      <div class="vol-kicker"><span class="vol-num">Vol. 03</span><span class="vol-name">Pocket Allowance <em>Ledger</em>™</span></div>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Pocket Allowance Ledger</span></div>
+      <div class="vol-kicker"><span class="vol-name">Pocket Allowance <em>Ledger</em>™</span></div>
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Parent app · Android · ages 6+</div>
       <h1 class="hero-h1">Run a home token economy.<br><em>Parent-led coaching.</em></h1>
@@ -3985,47 +3992,47 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <figure class="pal-hero-visual" aria-label="PAL token economy">
       <span class="hhh-platform-label">Parent-managed</span>
       <div class="pal-brand-stack">
-        <svg class="pal-coin-sm pal-coin-a" viewBox="0 0 64 64" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="pal-coin-sm pal-coin-a" viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
-            <radialGradient id="pal-coin-sm pal-coin-a-face" cx="0.38" cy="0.32" r="0.72">
-              <stop offset="0%" stop-color="#E8C547"/><stop offset="45%" stop-color="#C9A227"/><stop offset="100%" stop-color="#9A7A1A"/>
+            <radialGradient id="pal-coin-a-face" cx="0.35" cy="0.3" r="0.75">
+              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
             </radialGradient>
-            <linearGradient id="pal-coin-sm pal-coin-a-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#B8921F"/><stop offset="100%" stop-color="#7A6112"/>
+            <linearGradient id="pal-coin-a-rim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
             </linearGradient>
           </defs>
-          <circle cx="32" cy="32" r="30" fill="url(#pal-coin-sm pal-coin-a-rim)"/>
-          <circle cx="32" cy="32" r="26" fill="url(#pal-coin-sm pal-coin-a-face)"/>
-          <circle cx="32" cy="32" r="22" fill="none" stroke="#B8921F" stroke-width="1.5" opacity="0.45"/>
-          <path d="M 18 22 Q 32 12 46 22" fill="none" stroke="#FFF8E0" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+          <circle cx="60" cy="60" r="56" fill="url(#pal-coin-a-rim)"/>
+          <circle cx="60" cy="60" r="48" fill="url(#pal-coin-a-face)"/>
+          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
         </svg>
-        <svg class="pal-coin-sm pal-coin-b" viewBox="0 0 64 64" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="pal-coin-sm pal-coin-b" viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
-            <radialGradient id="pal-coin-sm pal-coin-b-face" cx="0.38" cy="0.32" r="0.72">
-              <stop offset="0%" stop-color="#E8C547"/><stop offset="45%" stop-color="#C9A227"/><stop offset="100%" stop-color="#9A7A1A"/>
+            <radialGradient id="pal-coin-b-face" cx="0.35" cy="0.3" r="0.75">
+              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
             </radialGradient>
-            <linearGradient id="pal-coin-sm pal-coin-b-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#B8921F"/><stop offset="100%" stop-color="#7A6112"/>
+            <linearGradient id="pal-coin-b-rim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
             </linearGradient>
           </defs>
-          <circle cx="32" cy="32" r="30" fill="url(#pal-coin-sm pal-coin-b-rim)"/>
-          <circle cx="32" cy="32" r="26" fill="url(#pal-coin-sm pal-coin-b-face)"/>
-          <circle cx="32" cy="32" r="22" fill="none" stroke="#B8921F" stroke-width="1.5" opacity="0.45"/>
-          <path d="M 18 22 Q 32 12 46 22" fill="none" stroke="#FFF8E0" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+          <circle cx="60" cy="60" r="56" fill="url(#pal-coin-b-rim)"/>
+          <circle cx="60" cy="60" r="48" fill="url(#pal-coin-b-face)"/>
+          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
         </svg>
-        <svg class="pal-coin-lg" viewBox="0 0 64 64" width="112" height="112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="pal-coin-lg" viewBox="0 0 120 120" width="112" height="112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
-            <radialGradient id="pal-coin-lg-face" cx="0.38" cy="0.32" r="0.72">
-              <stop offset="0%" stop-color="#E8C547"/><stop offset="45%" stop-color="#C9A227"/><stop offset="100%" stop-color="#9A7A1A"/>
+            <radialGradient id="pal-hero-face" cx="0.35" cy="0.3" r="0.75">
+              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
             </radialGradient>
-            <linearGradient id="pal-coin-lg-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#B8921F"/><stop offset="100%" stop-color="#7A6112"/>
+            <linearGradient id="pal-hero-rim" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
             </linearGradient>
           </defs>
-          <circle cx="32" cy="32" r="30" fill="url(#pal-coin-lg-rim)"/>
-          <circle cx="32" cy="32" r="26" fill="url(#pal-coin-lg-face)"/>
-          <circle cx="32" cy="32" r="22" fill="none" stroke="#B8921F" stroke-width="1.5" opacity="0.45"/>
-          <path d="M 18 22 Q 32 12 46 22" fill="none" stroke="#FFF8E0" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
+          <circle cx="60" cy="60" r="56" fill="url(#pal-hero-rim)"/>
+          <circle cx="60" cy="60" r="48" fill="url(#pal-hero-face)"/>
+          <circle cx="60" cy="60" r="42" fill="none" stroke="#B8921F" stroke-width="2" opacity="0.55"/>
+          <path d="M38 40 Q60 28 82 40" fill="none" stroke="#FFF8E0" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
+          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
+          <text x="60" y="92" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="11" font-weight="800" letter-spacing="2" fill="#6B5210">TOKEN</text>
         </svg>
         <p class="pal-brand-stack-title">Tokens for behavior.<br>Rewards you approve.</p>
         <p class="pal-brand-stack-sub">Parents manage in the app. Kids use the companion from any browser on home Wi&#8209;Fi.</p>
@@ -4291,8 +4298,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero" >
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 04</span></div>
-      <div class="vol-kicker"><span class="vol-num">Vol. 04</span><span class="vol-name">Curator's Vault: <em>Classics</em>™</span></div>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Curator's Vault</span></div>
+      <div class="vol-kicker"><span class="vol-name">Curator's Vault: <em>Classics</em>™</span></div>
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing · iOS &amp; Android</div>
       <h1 class="hero-h1">Catalog your collections.<br><em>Track their value.</em></h1>
@@ -4615,14 +4622,7 @@ function elevateFeatureGrids() {
     var n = 0;
     page.querySelectorAll('div[style*="border-radius:16px"]').forEach(function(el) {
       el.classList.add('catalog-cell');
-      if (!el.querySelector('.cell-num')) {
-        n += 1;
-        var num = document.createElement('span');
-        num.className = 'cell-num';
-        num.setAttribute('aria-hidden', 'true');
-        num.textContent = (n < 10 ? '0' : '') + n;
-        el.insertBefore(num, el.firstChild);
-      }
+      /* catalog cell numbers removed — product pages are not a numbered catalog */
     });
     page.dataset.cellsReady = '1';
   });
