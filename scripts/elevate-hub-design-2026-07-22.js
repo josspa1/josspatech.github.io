@@ -194,25 +194,15 @@ if (!html.includes('hub-rule')) {
   );
 }
 
-// Numbered hub cards
-const indexes = ['01', '02', '03', '04'];
-let idx = 0;
-html = html.replace(/class="hub-card rv d(\d)"/g, (m, d) => {
-  const n = indexes[idx++] || '0' + d;
-  return `class="hub-card rv d${d}"><span class="hub-index" aria-hidden="true">${n}</span`;
-});
-// Fix accidental double-open: hub-card"><span...><div  — need closing after span self-contained
-// Current replace produces: class="hub-card rv d1"><span class="hub-index"...></span  MISSING >
-// Actually I produced: `class="hub-card rv d1"><span class="hub-index" aria-hidden="true">01</span`
-// then next char is still `>` from original? Original was `class="hub-card rv d1">` so replace removes the closing >
-// Result: class="hub-card rv d1"><span...>01</span<div class="hub-badge"
-// That's valid HTML if span is closed. Good - but we lost the `>` after class... wait:
-// Original: class="hub-card rv d1">
-// Replace match: class="hub-card rv d1"
-// Replacement: class="hub-card rv d1"><span...>01</span
-// Remaining after match: >
-// So: class="hub-card rv d1"><span...>01</span>
-// Perfect.
+// Numbered hub cards (idempotent)
+if (!html.includes('class="hub-index"')) {
+  const indexes = ['01', '02', '03', '04'];
+  let idx = 0;
+  html = html.replace(/class="hub-card rv d(\d)"/g, (m, d) => {
+    const n = indexes[idx++] || '0' + d;
+    return `class="hub-card rv d${d}"><span class="hub-index" aria-hidden="true">${n}</span`;
+  });
+}
 
 fs.writeFileSync(FILE, html);
 console.log('Elevated design written', fs.statSync(FILE).size);
