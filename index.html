@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="JosspaTech — Fewer apps. Better apps. Private mobile tools for budgeting, horology, family rewards, and collecting.">
 <title>JosspaTech — Mobile Software</title>
+<link rel="icon" href="assets/brand/josspatech-mark-app.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/josspatech-mark-app.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600" rel="stylesheet">
@@ -243,10 +245,12 @@ html.boot-cvc #page-cvc { display:block !important; }
 }
 .hub-hero .hero-inner{text-align:center;}
 .hub-mark{
-  width:76px;height:76px;margin:0 auto 28px;
+  width:96px;height:96px;margin:0 auto 28px;
   animation:hubMarkIn 1.1s var(--ease) both;
 }
-.hub-mark svg{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 28px rgba(93,173,226,0.25));}
+.hub-mark svg,.hub-mark img{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 28px rgba(93,173,226,0.25));}
+img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-shadow(0 2px 8px rgba(93,173,226,0.25));}
+/* logo system wire */
 @keyframes hubMarkIn{
   from{opacity:0;transform:scale(0.88) translateY(12px)}
   to{opacity:1;transform:none}
@@ -2471,24 +2475,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
   <a class="nav-logo" href="#" onclick="showPage('company');return false;" aria-label="JosspaTech home">
-    <svg class="nav-spade" width="36" height="36" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- Universe starburst — light on dark -->
-      <line x1="40" y1="40" x2="76" y2="10" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-      <line x1="40" y1="40" x2="4" y2="68" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-      <line x1="40" y1="40" x2="78" y2="52" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-      <line x1="40" y1="40" x2="6" y2="16" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-      <line x1="40" y1="40" x2="40" y2="2" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-      <line x1="40" y1="40" x2="40" y2="78" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-      <polygon points="40,18 58,40 40,62 22,40" fill="rgba(93,173,226,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
-      <polygon points="40,25 51,40 40,55 29,40" fill="rgba(93,173,226,0.25)" stroke="#5DADE2" stroke-width="1"/>
-      <polygon points="40,31 46,40 40,49 34,40" fill="#5DADE2" opacity="0.85"/>
-      <line x1="40" y1="18" x2="29" y2="40" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-      <line x1="40" y1="18" x2="51" y2="40" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-      <circle cx="74" cy="12" r="5" fill="#F0C040"/>
-      <circle cx="6" cy="66" r="4" fill="#5DADE2"/>
-      <circle cx="76" cy="50" r="3" fill="rgba(93,173,226,0.6)"/>
-      <circle cx="8" cy="18" r="2.5" fill="rgba(240,192,64,0.5)"/>
-    </svg>
+    <img class="nav-spade" src="assets/brand/josspatech-mark.svg" width="36" height="36" alt="" aria-hidden="true">
     <div class="nav-wordmark">
       <div class="nav-name">Josspa<span>Tech</span>™</div>
       <div class="nav-tagline">Fewer Apps. Better Apps.</div>
@@ -2524,23 +2511,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero hub-hero" aria-label="Hero">
   <div class="hero-inner">
     <div class="hub-mark" aria-hidden="true">
-      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-        <line x1="40" y1="40" x2="76" y2="10" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-        <line x1="40" y1="40" x2="4" y2="68" stroke="rgba(255,255,255,0.15)" stroke-width="1.2"/>
-        <line x1="40" y1="40" x2="78" y2="52" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-        <line x1="40" y1="40" x2="6" y2="16" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-        <line x1="40" y1="40" x2="40" y2="2" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <line x1="40" y1="40" x2="40" y2="78" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-        <polygon points="40,18 58,40 40,62 22,40" fill="rgba(93,173,226,0.1)" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/>
-        <polygon points="40,25 51,40 40,55 29,40" fill="rgba(93,173,226,0.25)" stroke="#5DADE2" stroke-width="1"/>
-        <polygon points="40,31 46,40 40,49 34,40" fill="#5DADE2" opacity="0.85"/>
-        <line x1="40" y1="18" x2="29" y2="40" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-        <line x1="40" y1="18" x2="51" y2="40" stroke="rgba(255,255,255,0.25)" stroke-width="0.7"/>
-        <circle cx="74" cy="12" r="5" fill="#F0C040"/>
-        <circle cx="6" cy="66" r="4" fill="#5DADE2"/>
-        <circle cx="76" cy="50" r="3" fill="rgba(93,173,226,0.6)"/>
-        <circle cx="8" cy="18" r="2.5" fill="rgba(240,192,64,0.5)"/>
-      </svg>
+      <img src="assets/brand/josspatech-mark.svg" width="96" height="96" alt="">
     </div>
     <h1 class="hero-brand">Josspa<span>Tech</span>™</h1>
     <div class="hub-rule" aria-hidden="true"></div>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="JosspaTech">
+  <defs>
+    <linearGradient id="jt-facet" x1="0.15" y1="0.1" x2="0.9" y2="0.95">
+      <stop offset="0%" stop-color="#9AD4F0"/>
+      <stop offset="42%" stop-color="#5DADE2"/>
+      <stop offset="100%" stop-color="#2E7EB0"/>
+    </linearGradient>
+    <linearGradient id="jt-core" x1="0.3" y1="0.2" x2="0.75" y2="0.9">
+      <stop offset="0%" stop-color="#7EC8EB"/>
+      <stop offset="100%" stop-color="#3A90C4"/>
+    </linearGradient>
+    <radialGradient id="jt-star" cx="0.35" cy="0.3" r="0.7">
+      <stop offset="0%" stop-color="#FFE08A"/>
+      <stop offset="55%" stop-color="#F0C040"/>
+      <stop offset="100%" stop-color="#C99212"/>
+    </radialGradient>
+    <filter id="jt-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="b"/>
+      <feOffset dy="1" result="o"/>
+      <feColorMatrix in="o" type="matrix" values="0 0 0 0 0.05  0 0 0 0 0.15  0 0 0 0 0.28  0 0 0 0.35 0" result="s"/>
+      <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Soft navigation ring -->
+  <circle cx="64" cy="64" r="58" fill="none" stroke="#5DADE2" stroke-width="0.75" opacity="0.22"/>
+  <circle cx="64" cy="64" r="58" fill="none" stroke="#F0C040" stroke-width="0.5" opacity="0.18" stroke-dasharray="2 6"/>
+
+  <!-- Constellation rays  sparse, intentional -->
+  <g stroke="#FFFFFF" stroke-linecap="round" opacity="0.16">
+    <line x1="64" y1="64" x2="112" y2="28" stroke-width="1.1"/>
+    <line x1="64" y1="64" x2="16" y2="100" stroke-width="1.1"/>
+    <line x1="64" y1="64" x2="118" y2="78" stroke-width="0.8"/>
+    <line x1="64" y1="64" x2="14" y2="36" stroke-width="0.8"/>
+    <line x1="64" y1="64" x2="64" y2="8" stroke-width="0.7"/>
+    <line x1="64" y1="64" x2="64" y2="120" stroke-width="0.7"/>
+  </g>
+
+  <!-- Outer diamond (cut edge) -->
+  <g filter="url(#jt-soft)">
+    <polygon points="64,18 102,64 64,110 26,64" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.4"/>
+    <polygon points="64,26 94,64 64,102 34,64" fill="url(#jt-facet)" opacity="0.22" stroke="#5DADE2" stroke-width="1.15"/>
+    <polygon points="64,36 84,64 64,92 44,64" fill="url(#jt-core)" stroke="#7EC8EB" stroke-width="0.9"/>
+    <!-- Facet brilliance -->
+    <polygon points="64,36 84,64 64,64" fill="#FFFFFF" opacity="0.18"/>
+    <polygon points="64,36 44,64 64,64" fill="#FFFFFF" opacity="0.08"/>
+    <polygon points="64,64 84,64 64,92" fill="#0C3358" opacity="0.18"/>
+    <!-- Inner spark -->
+    <polygon points="64,46 74,64 64,82 54,64" fill="#5DADE2"/>
+    <polygon points="64,50 70,64 64,78 58,64" fill="#9AD4F0" opacity="0.9"/>
+  </g>
+
+  <!-- Facet guides -->
+  <g stroke="rgba(255,255,255,0.28)" stroke-width="0.7">
+    <line x1="64" y1="36" x2="54" y2="64"/>
+    <line x1="64" y1="36" x2="74" y2="64"/>
+  </g>
+
+  <!-- North star (brand gold) -->
+  <g transform="translate(64 16)">
+    <circle cx="0" cy="0" r="7.5" fill="url(#jt-star)"/>
+    <path d="M0,-6.2 L1.4,-1.6 L6.2,0 L1.4,1.6 L0,6.2 L-1.4,1.6 L-6.2,0 L-1.4,-1.6 Z" fill="#FFF6D0" opacity="0.95"/>
+    <circle cx="0" cy="0" r="1.6" fill="#FFFFFF" opacity="0.85"/>
+  </g>
+
+  <!-- Orbit companions -->
+  <circle cx="112" cy="30" r="3.2" fill="#F0C040"/>
+  <circle cx="18" cy="98" r="2.6" fill="#5DADE2"/>
+  <circle cx="114" cy="76" r="1.8" fill="#5DADE2" opacity="0.7"/>
+  <circle cx="20" cy="34" r="1.5" fill="#F0C040" opacity="0.65"/>
+</svg>
