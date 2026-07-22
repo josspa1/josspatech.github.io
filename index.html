@@ -1010,6 +1010,11 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-company .section-lead{gap:0;}
 .vol-kicker{margin-bottom:14px;}
 .hub-card-shot-token{flex-direction:column;gap:10px;}
+#page-company .hub-card-shot-token img{
+  width:92%;height:auto;display:block;margin:0 auto;
+  filter:drop-shadow(0 10px 22px rgba(201,162,39,0.55));
+  aspect-ratio:auto !important;object-fit:contain;padding:0;background:transparent;border-radius:0;
+}
 .hub-card-shot-token .token-caption{
   font-family:var(--mono,'IBM Plex Mono',monospace);
   font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
@@ -2603,27 +2608,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <div class="hub-cta">Open PAL <span>→</span></div>
         </div>
         <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
-          <svg viewBox="0 0 120 120" width="120" height="120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gold token">
-            <defs>
-              <radialGradient id="hub-pal-face" cx="0.35" cy="0.3" r="0.75">
-                <stop offset="0%" stop-color="#FFE08A"/>
-                <stop offset="40%" stop-color="#E8B84A"/>
-                <stop offset="100%" stop-color="#9A7A1A"/>
-              </radialGradient>
-              <linearGradient id="hub-pal-rim" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#F0D070"/>
-                <stop offset="100%" stop-color="#7A6112"/>
-              </linearGradient>
-            </defs>
-            <circle cx="60" cy="60" r="56" fill="url(#hub-pal-rim)"/>
-            <circle cx="60" cy="60" r="48" fill="url(#hub-pal-face)"/>
-            <circle cx="60" cy="60" r="42" fill="none" stroke="#B8921F" stroke-width="2" opacity="0.55"/>
-            <path d="M38 40 Q60 28 82 40" fill="none" stroke="#FFF8E0" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
-            <!-- star = reward token -->
-            <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
-            <text x="60" y="92" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="11" font-weight="800" letter-spacing="2" fill="#6B5210">TOKEN</text>
-          </svg>
-          <p class="token-caption">Gold token</p>
+          <img src="assets/brand/pal-coin.svg" alt="Gold Spanish doubloon" width="120" height="120" loading="lazy">
+          <p class="token-caption">Gold doubloon</p>
         </figure>
       </div>
 
@@ -3992,48 +3978,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <figure class="pal-hero-visual" aria-label="PAL token economy">
       <span class="hhh-platform-label">Parent-managed</span>
       <div class="pal-brand-stack">
-        <svg class="pal-coin-sm pal-coin-a" viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <radialGradient id="pal-coin-a-face" cx="0.35" cy="0.3" r="0.75">
-              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
-            </radialGradient>
-            <linearGradient id="pal-coin-a-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="56" fill="url(#pal-coin-a-rim)"/>
-          <circle cx="60" cy="60" r="48" fill="url(#pal-coin-a-face)"/>
-          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
-        </svg>
-        <svg class="pal-coin-sm pal-coin-b" viewBox="0 0 120 120" width="48" height="48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <radialGradient id="pal-coin-b-face" cx="0.35" cy="0.3" r="0.75">
-              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
-            </radialGradient>
-            <linearGradient id="pal-coin-b-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="56" fill="url(#pal-coin-b-rim)"/>
-          <circle cx="60" cy="60" r="48" fill="url(#pal-coin-b-face)"/>
-          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
-        </svg>
-        <svg class="pal-coin-lg" viewBox="0 0 120 120" width="112" height="112" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <radialGradient id="pal-hero-face" cx="0.35" cy="0.3" r="0.75">
-              <stop offset="0%" stop-color="#FFE08A"/><stop offset="40%" stop-color="#E8B84A"/><stop offset="100%" stop-color="#9A7A1A"/>
-            </radialGradient>
-            <linearGradient id="pal-hero-rim" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#F0D070"/><stop offset="100%" stop-color="#7A6112"/>
-            </linearGradient>
-          </defs>
-          <circle cx="60" cy="60" r="56" fill="url(#pal-hero-rim)"/>
-          <circle cx="60" cy="60" r="48" fill="url(#pal-hero-face)"/>
-          <circle cx="60" cy="60" r="42" fill="none" stroke="#B8921F" stroke-width="2" opacity="0.55"/>
-          <path d="M38 40 Q60 28 82 40" fill="none" stroke="#FFF8E0" stroke-width="3" stroke-linecap="round" opacity="0.65"/>
-          <path d="M60 42l5.2 10.6 11.7 1.7-8.45 8.2 2 11.6L60 68.6l-10.45 5.5 2-11.6-8.45-8.2 11.7-1.7z" fill="#6B5210" opacity="0.85"/>
-          <text x="60" y="92" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="11" font-weight="800" letter-spacing="2" fill="#6B5210">TOKEN</text>
-        </svg>
+        <img class="pal-coin-sm pal-coin-a" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-sm pal-coin-b" src="assets/brand/pal-coin.svg" alt="" aria-hidden="true" width="48" height="48">
+        <img class="pal-coin-lg" src="assets/brand/pal-coin.svg" alt="Gold Spanish doubloon token" width="120" height="120">
         <p class="pal-brand-stack-title">Tokens for behavior.<br>Rewards you approve.</p>
         <p class="pal-brand-stack-sub">Parents manage in the app. Kids use the companion from any browser on home Wi&#8209;Fi.</p>
       </div>
