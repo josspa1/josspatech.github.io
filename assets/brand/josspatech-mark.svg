@@ -1,9 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="JosspaTech">
-  <!-- Live polish: flat orbit with gap, smaller star seated on path, flat sun -->
-  <g transform="rotate(-28 64 64)" stroke="#5DADE2" stroke-width="4.5" stroke-linecap="round">
-    <!-- gap under star (~param -38° to -2°) -->
-    <path d="M108.1 55.4 A56 14 0 1 1 120 63.5"/>
-  </g>
+  <!-- Live: full closed orbit around the sun + seated star -->
+  <ellipse cx="64" cy="64" rx="56" ry="14" stroke="#5DADE2" stroke-width="4.5" transform="rotate(-28 64 64)"/>
   <circle cx="64" cy="64" r="17" fill="#F0C040"/>
   <path d="M108.2,26.1 111.4,31.9 117.2,35.1 111.4,38.3 108.2,44.1 105.0,38.3 99.2,35.1 105.0,31.9 Z" fill="#7EC8EB"/>
 </svg>

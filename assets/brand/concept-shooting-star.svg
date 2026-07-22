@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="JosspaTech shooting star concept">
+  <!-- Alt: sun + star off-side on a straight shooting-star path (no orbit curve) -->
+  <circle cx="52" cy="72" r="18" fill="#F0C040"/>
+  <!-- tapered trail: three straight strokes aiming at the star -->
+  <g stroke="#5DADE2" stroke-linecap="round">
+    <line x1="18" y1="102" x2="88" y2="42" stroke-width="4.5"/>
+    <line x1="28" y1="108" x2="86" y2="48" stroke-width="2.8" opacity="0.75"/>
+    <line x1="12" y1="94" x2="84" y2="38" stroke-width="2.2" opacity="0.55"/>
+  </g>
+  <path d="M96,28 100,36.5 108.5,40.5 100,44.5 96,53 92,44.5 83.5,40.5 92,36.5 Z" fill="#7EC8EB"/>
+</svg>
