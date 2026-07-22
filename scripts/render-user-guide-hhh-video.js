@@ -19,8 +19,8 @@ const fast = process.argv.includes('--fast');
 const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4175;
 const SLIDE_COUNT = JSON.parse(fs.readFileSync(NARRATION_JSON, 'utf8')).length;
-const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.4;
-const SAME_BUFFER_SEC = fast ? 0.05 : 0.1;
+const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.18;
+const SAME_BUFFER_SEC = fast ? 0.05 : 0.06;
 const INDEX_HTML = path.join(OUT_DIR, 'index.html');
 
 function parseSlideImageKeys(htmlPath) {
@@ -180,10 +180,11 @@ function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, tapMeta, out
 }
 
 function muxVideoAudio(ffmpeg, videoPath, audioPath, outPath) {
+  // Copy video — re-encoding here was a common source of A/V drift vs padded narration.
   const tmpOut = outPath + '.muxing.mp4';
   runFfmpeg(ffmpeg, ['-y', '-i', videoPath, '-i', audioPath, '-map', '0:v:0', '-map', '1:a:0',
-    '-c:v', 'libx264', '-preset', 'fast', '-crf', '22', '-c:a', 'aac', '-b:a', '128k',
-    '-pix_fmt', 'yuv420p', '-movflags', '+faststart', tmpOut]);
+    '-c:v', 'copy', '-c:a', 'aac', '-b:a', '128k', '-shortest',
+    '-movflags', '+faststart', tmpOut]);
   fs.renameSync(tmpOut, outPath);
 }
 

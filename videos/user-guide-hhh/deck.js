@@ -4,8 +4,9 @@
   var voiceEnabled = true;
   var slideAudio = null;
   var timer = null;
-  var CHANGE_BUFFER_MS = 400;
-  var SAME_BUFFER_MS = 100;
+  // Keep buffers tiny — large post-audio gaps feel like A/V drift in the interactive player.
+  var CHANGE_BUFFER_MS = 180;
+  var SAME_BUFFER_MS = 60;
   var FALLBACK_WPM_MS = 380;
   var MIN_FALLBACK_MS = 1500;
   var MAX_FALLBACK_MS = 12000;
