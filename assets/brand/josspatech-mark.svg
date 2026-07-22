@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="JosspaTech">
-  <!-- One straight shooting-star trail. No curves. No orbit. -->
-  <line x1="10" y1="112" x2="88" y2="40" stroke="#5DADE2" stroke-width="5" stroke-linecap="round"/>
-  <line x1="18" y1="118" x2="86" y2="46" stroke="#5DADE2" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
-  <circle cx="56" cy="72" r="24" fill="#F0C040"/>
-  <path d="M96,26 100.5,35.5 110,40 100.5,44.5 96,54 91.5,44.5 82,40 91.5,35.5 Z" fill="#7EC8EB"/>
+  <!-- Live: cosmos — flat orbit + 4-point star (chosen) -->
+  <ellipse cx="64" cy="64" rx="56" ry="14" stroke="#5DADE2" stroke-width="4.5" transform="rotate(-28 64 64)"/>
+  <circle cx="64" cy="64" r="15" fill="#F0C040"/>
+  <path d="M108.2,26.1 111.4,31.9 117.2,35.1 111.4,38.3 108.2,44.1 105.0,38.3 99.2,35.1 105.0,31.9 Z" fill="#7EC8EB"/>
 </svg>
