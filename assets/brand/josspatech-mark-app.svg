@@ -1,6 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="JosspaTech">
   <rect width="128" height="128" rx="28" fill="#0C3358"/>
-  <ellipse cx="64" cy="64" rx="50" ry="12.5" fill="none" stroke="#5DADE2" stroke-width="4" transform="rotate(-28 64 64)"/>
-  <circle cx="64" cy="64" r="15" fill="#F0C040"/>
-  <path d="M103.5,30.2 106.3,35.4 111.5,38.2 106.3,41.0 103.5,46.2 100.7,41.0 95.5,38.2 100.7,35.4 Z" fill="#7EC8EB"/>
+  <g stroke="#5DADE2" stroke-linecap="round">
+    <line x1="14" y1="108" x2="92" y2="36" stroke-width="4"/>
+    <line x1="22" y1="114" x2="90" y2="42" stroke-width="2.4" opacity="0.7"/>
+    <line x1="8" y1="100" x2="88" y2="32" stroke-width="1.8" opacity="0.45"/>
+  </g>
+  <circle cx="58" cy="68" r="22" fill="#F0C040"/>
+  <path d="M98,24 102,33 111,37 102,41 98,50 94,41 85,37 94,33 Z" fill="#7EC8EB"/>
 </svg>
