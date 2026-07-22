@@ -21,8 +21,8 @@
 /* ═══════════════════════════════════
    PAGE SWITCHING
 ═══════════════════════════════════ */
-.page{ display:none; }
-.page.active{ display:block; }
+.page{ display:none !important; visibility:hidden; }
+.page.active{ display:block !important; visibility:visible; }
 html.boot-pbj #page-company,
 html.boot-hhh #page-company,
 html.boot-cvc #page-company { display:none !important; }
@@ -2834,7 +2834,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Every collector deserves a great experience. Colorblind-friendly palettes (protanopia, deuteranopia, tritanopia), adjustable text scaling, high contrast mode, and comfortable touch targets throughout &mdash; all free, all opt-in.</p>
       </div>
     </div>
-    </div>
   </div>
 </section>
 
@@ -3506,10 +3505,20 @@ function showPage(id, opts) {
   opts = opts || {};
   document.documentElement.classList.remove('boot-pbj', 'boot-hhh', 'boot-cvc');
   document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
+    var on = p.id === 'page-' + id;
+    p.classList.toggle('active', on);
+    if (on) p.removeAttribute('inert');
+    else p.setAttribute('inert', '');
+    // Keep product embeds from painting/loading on the company hub.
+    p.querySelectorAll('iframe[src], iframe[data-src]').forEach(function(frame) {
+      if (!frame.getAttribute('data-src')) frame.setAttribute('data-src', frame.getAttribute('src') || '');
+      if (on) {
+        if (!frame.getAttribute('src')) frame.setAttribute('src', frame.getAttribute('data-src'));
+      } else {
+        frame.removeAttribute('src');
+      }
+    });
   });
-  var target = document.getElementById('page-' + id);
-  if (target) target.classList.add('active');
   if (!opts.skipScrollTop) window.scrollTo(0, 0);
   if (opts.anchor) {
     history.replaceState(null, '', '#' + opts.anchor);
