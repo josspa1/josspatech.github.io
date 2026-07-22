@@ -1,29 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="JosspaTech">
   <!--
-    POLAR — primary mark
-    Built from iconic-logo common traits:
-    1) One silhouette (drawable from memory)
-    2) One signature detail (gold apex)
-    3) Scales to 16px without losing identity
-    4) Works in mono (navy or white)
-    5) Timeless geometry, not trend ornament
+    Cosmos - stylized solar system.
+    Origin story: universe -> solar system -> diamond bodies instead of orbs.
+    Iconic rules: few shapes, clear silhouette, one gold sun as the signature.
   -->
   <defs>
-    <linearGradient id="p-body" x1="0.2" y1="0.05" x2="0.85" y2="0.95">
-      <stop offset="0%" stop-color="#2E6FA3"/>
-      <stop offset="45%" stop-color="#1A4F7A"/>
-      <stop offset="100%" stop-color="#0C3358"/>
-    </linearGradient>
-    <linearGradient id="p-gold" x1="0.25" y1="0" x2="0.8" y2="1">
+    <radialGradient id="sun" cx="0.35" cy="0.32" r="0.7">
       <stop offset="0%" stop-color="#FFE08A"/>
-      <stop offset="50%" stop-color="#F0C040"/>
+      <stop offset="55%" stop-color="#F0C040"/>
       <stop offset="100%" stop-color="#C99212"/>
+    </radialGradient>
+    <linearGradient id="body" x1="0.2" y1="0.1" x2="0.9" y2="0.95">
+      <stop offset="0%" stop-color="#5DADE2"/>
+      <stop offset="100%" stop-color="#1A4F7A"/>
     </linearGradient>
   </defs>
-  <!-- Body diamond -->
-  <polygon points="64,14 116,64 64,114 12,64" fill="url(#p-body)"/>
-  <!-- Soft facet highlight (still one silhouette) -->
-  <polygon points="64,14 116,64 64,64" fill="#FFFFFF" opacity="0.12"/>
-  <!-- Signature gold apex diamond -->
-  <polygon points="64,8 78,28 64,36 50,28" fill="url(#p-gold)"/>
+  <!-- Orbital path -->
+  <ellipse cx="64" cy="64" rx="48" ry="30" fill="none" stroke="#2E6FA3" stroke-width="3.5" transform="rotate(-28 64 64)"/>
+  <!-- Outer faint ring (universe scale) -->
+  <circle cx="64" cy="64" r="56" fill="none" stroke="#1A4F7A" stroke-width="1.5" opacity="0.35"/>
+  <!-- Stylized diamond planet on the orbit (not a ball) -->
+  <g transform="translate(98 42) rotate(18)">
+    <polygon points="0,-11 11,0 0,11 -11,0" fill="url(#body)"/>
+  </g>
+  <!-- Central sun -->
+  <circle cx="64" cy="64" r="16" fill="url(#sun)"/>
+  <circle cx="60" cy="60" r="4" fill="#FFF6D0" opacity="0.55"/>
 </svg>
