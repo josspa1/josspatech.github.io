@@ -10,69 +10,55 @@
   :root{--navy:#0C3358;--gold:#F0C040;--cyan:#5DADE2;--paper:#f3f6f9}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Manrope,system-ui,sans-serif;background:var(--paper);color:var(--navy);line-height:1.5}
-  .hero{background:linear-gradient(165deg,#06111c 0%,#0C3358 50%,#1A4F7A 100%);color:#fff;padding:56px 24px 48px;text-align:center}
-  .hero .tag{font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(240,192,64,.85);margin-bottom:14px}
-  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(32px,5vw,48px);margin-bottom:8px}
+  .hero{background:linear-gradient(165deg,#06111c 0%,#0C3358 50%,#1A4F7A 100%);color:#fff;padding:72px 24px 64px;text-align:center}
+  .hero-mark{width:160px;height:160px;margin:0 auto 28px;display:block}
+  .hero .tag{font-size:12px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:rgba(240,192,64,.85);margin-bottom:18px}
+  .hero h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(34px,6vw,52px);letter-spacing:-1.5px;margin-bottom:8px}
   .hero h1 span{color:var(--gold)}
-  .hero p{max-width:34rem;margin:0 auto;color:rgba(255,255,255,.62)}
-  .hero a{color:#7EC8EB;font-weight:700}
-  main{max-width:880px;margin:0 auto;padding:36px 18px 80px}
+  .hero p{max-width:30rem;margin:0 auto;color:rgba(255,255,255,.62);font-size:16px}
+  main{max-width:880px;margin:0 auto;padding:40px 18px 80px}
   h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;margin:0 0 10px}
   .lead{color:#5a7390;margin-bottom:22px}
-  .duo{display:grid;gap:14px;grid-template-columns:1fr}
-  @media(min-width:720px){.duo{grid-template-columns:1fr 1fr}}
-  .card{border-radius:18px;padding:22px 16px;text-align:center}
-  .card.dark{background:#0C3358;color:#fff;box-shadow:0 0 0 2px var(--gold)}
-  .card.alt{background:#fff;border:1px solid rgba(12,51,88,.12);box-shadow:0 0 0 2px #5DADE2}
-  .card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;margin-bottom:14px}
-  .card.dark h3{color:rgba(240,192,64,.85)}
-  .card.alt h3{color:#1A4F7A}
+  .card{background:#0C3358;border-radius:18px;padding:28px 16px;text-align:center;color:#fff;margin-bottom:18px;box-shadow:0 0 0 2px var(--gold)}
+  .card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:rgba(240,192,64,.85);margin-bottom:16px}
   .card svg{width:112px;height:112px;display:block;margin:0 auto}
-  .card p{font-size:13px;margin-top:14px}
-  .card.dark p{color:rgba(255,255,255,.62)}
-  .card.alt p{color:#5a7390}
+  .card p{font-size:13px;color:rgba(255,255,255,.62);margin-top:14px}
   .lockup{margin-top:14px;background:#0C3358;border-radius:18px;padding:28px;text-align:center}
   .lockup.light{background:#fff;border:1px solid rgba(12,51,88,.1)}
   .lockup svg{width:min(420px,100%);height:auto}
-  a.back{display:inline-block;margin-top:28px;font-weight:700;color:#1A4F7A;text-decoration:none}
+  .note{font-size:13px;color:#5a7390;margin:8px 0 0}
+  a.back{display:inline-block;margin-top:32px;font-weight:700;color:#1A4F7A;text-decoration:none}
 </style>
 </head>
 <body>
 <section class="hero">
-  <div class="tag">Keeper + contender</div>
+  <svg class="hero-mark" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="64" cy="64" r="16" fill="#F0C040"/>
+    <ellipse cx="64" cy="64" rx="44" ry="15" stroke="#5DADE2" stroke-width="4.5" transform="rotate(-28 64 64)"/>
+    <path d="M97.4,31.9 100.3,37.0 105.4,39.9 100.3,42.8 97.4,47.9 94.5,42.8 89.4,39.9 94.5,37.0 Z" fill="#7EC8EB"/>
+  </svg>
+  <div class="tag">Final mark · cosmos</div>
   <h1>Josspa<span>Tech</span></h1>
-  <p>Cosmos is the default. Shooting star is the straight-line contender — trail in front of the sun. <a href="/shooting.html">Open side-by-side →</a></p>
+  <p>Sun. Streamlined orbit in front. Four-point star on the path.</p>
 </section>
 <main>
-  <h2>Compare</h2>
-  <p class="lead">A stays live unless B wins.</p>
-  <div class="duo">
-    <div class="card dark">
-      <h3>A — Cosmos (live)</h3>
-      <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="64" cy="64" r="16" fill="#F0C040"/>
-        <ellipse cx="64" cy="64" rx="44" ry="15" stroke="#5DADE2" stroke-width="4.5" transform="rotate(-28 64 64)"/>
-        <path d="M97.4,31.9 100.3,37.0 105.4,39.9 100.3,42.8 97.4,47.9 94.5,42.8 89.4,39.9 94.5,37.0 Z" fill="#7EC8EB"/>
-      </svg>
-      <p>Streamlined orbit in front of the sun.</p>
-    </div>
-    <div class="card alt">
-      <h3>B — Shooting star</h3>
-      <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="78" cy="52" r="24" fill="#F0C040"/>
-        <line x1="10" y1="114" x2="49" y2="76" stroke="#1A4F7A" stroke-width="5" stroke-linecap="round"/>
-        <line x1="18" y1="118" x2="51" y2="82" stroke="#1A4F7A" stroke-width="2.5" stroke-linecap="round" opacity="0.55"/>
-        <path d="M54.9,62.1 58.1,67.9 63.9,71.1 58.1,74.3 54.9,80.1 51.7,74.3 45.9,71.1 51.7,67.9 Z" fill="#2E6FA3"/>
-      </svg>
-      <p>Straight trail. Star about to pass the sun — not already gone.</p>
-    </div>
+  <h2>Primary mark</h2>
+  <p class="lead">Chosen. Live on josspatech.com — nav, favicon, and lockups.</p>
+  <div class="card">
+    <h3>josspatech-mark.svg</h3>
+    <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="64" cy="64" r="16" fill="#F0C040"/>
+      <ellipse cx="64" cy="64" rx="44" ry="15" stroke="#5DADE2" stroke-width="4.5" transform="rotate(-28 64 64)"/>
+      <path d="M97.4,31.9 100.3,37.0 105.4,39.9 100.3,42.8 97.4,47.9 94.5,42.8 89.4,39.9 94.5,37.0 Z" fill="#7EC8EB"/>
+    </svg>
+    <p>Final cosmos mark.</p>
   </div>
-
-  <h2 style="margin-top:36px">Lockups (cosmos)</h2>
+  <h2>Lockups</h2>
   <div class="lockup">
     <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JosspaTech">
       <g transform="translate(12 14)">
         <circle cx="56" cy="56" r="14" fill="#F0C040"/>
+        <circle cx="52" cy="52" r="3" fill="#FFF3C4" opacity="0.65"/>
         <ellipse cx="56" cy="56" rx="40" ry="13.5" fill="none" stroke="#5DADE2" stroke-width="4" transform="rotate(-28 56 56)"/>
         <path d="M86.4,26.9 89.0,31.5 93.6,34.1 89.0,36.7 86.4,41.3 83.8,36.7 79.2,34.1 83.8,31.5 Z" fill="#7EC8EB"/>
       </g>
@@ -90,6 +76,7 @@
       <text x="150" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" letter-spacing="-1.2" fill="#0C3358">Josspa<tspan fill="#C99212">Tech</tspan></text>
       <text x="152" y="104" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="3.4" fill="#5A7390">FEWER APPS. BETTER APPS.</text>
     </svg>
+    <p class="note">Light: smaller cooler sun so it doesn’t go sunny-side-up.</p>
   </div>
   <a class="back" href="/">Back to josspatech.com</a>
 </main>
