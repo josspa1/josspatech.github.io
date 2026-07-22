@@ -566,6 +566,237 @@ html.boot-cvc #page-cvc { display:block !important; }
   #page-company .quote-bar{padding:88px 24px;}
 }
 
+/* ══ App volumes — each product is its own book in the catalog ═══════════════ */
+body[data-app="pbj"] .site-nav{
+  background:rgba(12,51,88,0.97);
+  border-bottom-color:rgba(240,192,64,0.22);
+}
+body[data-app="hhh"] .site-nav{
+  background:rgba(61,21,34,0.97);
+  border-bottom-color:rgba(200,170,110,0.28);
+}
+body[data-app="hhh"] .nav-name span{color:#C8AA6E;}
+body[data-app="hhh"] .nav-cta{color:#3D1522;background:#C8AA6E;}
+body[data-app="hhh"] .nav-cta:hover{background:#d4b87e;}
+body[data-app="pal"] .site-nav{
+  background:rgba(26,46,34,0.97);
+  border-bottom-color:rgba(232,184,74,0.28);
+}
+body[data-app="pal"] .nav-name span{color:#E8B84A;}
+body[data-app="pal"] .nav-cta{color:#1A2E22;background:#E8B84A;}
+body[data-app="pal"] .nav-cta:hover{background:#f0c66a;}
+body[data-app="cvc"] .site-nav{
+  background:rgba(15,46,37,0.97);
+  border-bottom-color:rgba(212,168,83,0.28);
+}
+body[data-app="cvc"] .nav-name span{color:#D4A853;}
+body[data-app="cvc"] .nav-cta{color:#0F2E25;background:#D4A853;}
+body[data-app="cvc"] .nav-cta:hover{background:#e0b86a;}
+body[data-app="hhh"] .nav-mobile-menu{background:rgba(61,21,34,0.98);}
+body[data-app="pal"] .nav-mobile-menu{background:rgba(26,46,34,0.98);}
+body[data-app="cvc"] .nav-mobile-menu{background:rgba(15,46,37,0.98);}
+
+#page-pbj .hero,
+#page-hhh .hero,
+#page-pal .hero,
+#page-cvc .hero{
+  text-align:left;
+  min-height:min(88vh,860px);
+  display:flex;align-items:center;
+  padding:72px 48px 64px;
+  background:
+    radial-gradient(ellipse 55% 50% at 90% 20%, var(--mesh-b), transparent 55%),
+    radial-gradient(ellipse 45% 40% at 10% 90%, var(--mesh-a), transparent 50%),
+    linear-gradient(155deg, var(--brand-dk) 0%, var(--brand) 55%, var(--surface-deep) 100%);
+}
+#page-pbj .hero::before,
+#page-hhh .hero::before,
+#page-pal .hero::before,
+#page-cvc .hero::before{display:none;}
+#page-pbj .hero-inner,
+#page-hhh .hero-inner,
+#page-cvc .hero-inner{
+  max-width:1180px;width:100%;margin:0 auto;
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(280px,0.95fr);
+  gap:clamp(28px,4vw,56px);
+  align-items:center;
+  text-align:left;
+}
+#page-pbj .hero-text,
+#page-hhh .hero-text,
+#page-cvc .hero-text{text-align:left;}
+#page-pbj .hero-bc,
+#page-hhh .hero-bc,
+#page-cvc .hero-bc,
+#page-pal .hero-bc{
+  justify-content:flex-start;
+  margin-bottom:18px;
+  font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+  color:rgba(255,255,255,0.35);
+}
+#page-pbj .hero-bc a,
+#page-hhh .hero-bc a,
+#page-cvc .hero-bc a{color:var(--brand-accent);}
+.vol-kicker{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:20px;
+}
+.vol-num{
+  font-family:'Playfair Display',serif;
+  font-size:12px;font-weight:700;letter-spacing:0.28em;
+  color:var(--brand-accent);
+  border-top:1px solid var(--brand-accent);
+  padding-top:10px;line-height:1;
+}
+.vol-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,3.4vw,40px);
+  font-weight:900;letter-spacing:-1px;line-height:1;
+  color:#fff;
+}
+.vol-name em{font-style:normal;color:var(--brand-accent);}
+.vol-rule{
+  width:48px;height:1px;background:var(--brand-accent);
+  margin:0 0 22px;opacity:0.7;
+}
+#page-pbj .hero-h1,
+#page-hhh .hero-h1,
+#page-pal .hero-h1,
+#page-cvc .hero-h1{
+  font-size:clamp(34px,4.6vw,54px);
+  letter-spacing:-1.4px;
+  max-width:16ch;
+  margin-bottom:16px;
+}
+#page-pbj .hero-h1 em,
+#page-hhh .hero-h1 em,
+#page-pal .hero-h1 em,
+#page-cvc .hero-h1 em{color:var(--brand-accent);}
+#page-pbj .hero-tagline,
+#page-hhh .hero-tagline,
+#page-pal .hero-tagline,
+#page-cvc .hero-tagline{
+  font-size:14px;font-style:normal;font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:rgba(255,255,255,0.42);
+  margin-bottom:14px;
+}
+#page-pbj .hero-sub,
+#page-hhh .hero-sub,
+#page-pal .hero-sub,
+#page-cvc .hero-sub{
+  font-size:16px;line-height:1.65;
+  max-width:36rem;margin:0 0 28px;
+  color:rgba(255,255,255,0.62);
+}
+#page-pbj .hero-acts,
+#page-hhh .hero-acts,
+#page-cvc .hero-acts{
+  justify-content:flex-start;gap:10px 18px;align-items:center;
+}
+#page-pbj .btn-primary,
+#page-hhh .btn-primary,
+#page-pal .btn-primary,
+#page-cvc .btn-primary{
+  background:var(--brand-accent);
+  color:var(--brand-dk);
+  box-shadow:none;border-radius:8px;
+}
+#page-pbj .btn-ghost,
+#page-hhh .btn-ghost,
+#page-pal .btn-ghost,
+#page-cvc .btn-ghost{
+  background:transparent;
+  border:none;
+  color:rgba(255,255,255,0.62);
+  padding:8px 4px;
+  font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+}
+#page-pbj .btn-ghost:hover,
+#page-hhh .btn-ghost:hover,
+#page-pal .btn-ghost:hover,
+#page-cvc .btn-ghost:hover{
+  color:var(--brand-accent);transform:none;background:transparent;
+}
+#page-pbj .pbj-hero-shots,
+#page-hhh .pbj-hero-shots,
+#page-cvc .pbj-hero-shots{
+  margin-top:0;justify-content:flex-end;
+}
+#page-pbj .pbj-shot,
+#page-hhh .pbj-shot,
+#page-cvc .pbj-shot{
+  border-radius:22px;
+  box-shadow:0 20px 48px rgba(0,0,0,0.4);
+  border:1px solid rgba(255,255,255,0.1);
+}
+#page-pbj .pstrip,
+#page-hhh .pstrip,
+#page-pal .pstrip,
+#page-cvc .pstrip{
+  background:var(--brand-dk);
+  border-top:1px solid rgba(255,255,255,0.06);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  justify-content:flex-start;
+  gap:28px;
+  padding:16px clamp(24px,6vw,48px);
+  max-width:1180px;margin:0 auto;
+  box-sizing:content-box;
+}
+#page-pbj .psi,
+#page-hhh .psi,
+#page-pal .psi,
+#page-cvc .psi{color:rgba(255,255,255,0.5);}
+#page-pbj .psd,
+#page-hhh .psd,
+#page-pal .psd,
+#page-cvc .psd{background:var(--brand-accent);}
+#page-hhh .hero-eyebrow,
+#page-pbj .hero-eyebrow,
+#page-pal .hero-eyebrow,
+#page-cvc .hero-eyebrow{
+  background:transparent;border:none;padding:0;margin-bottom:10px;
+  color:rgba(255,255,255,0.4);letter-spacing:0.16em;
+}
+#page-hhh .hero-dot,
+#page-pbj .hero-dot,
+#page-pal .hero-dot,
+#page-cvc .hero-dot{background:var(--brand-accent);}
+@media (max-width:960px){
+  #page-pbj .hero-inner,
+  #page-hhh .hero-inner,
+  #page-cvc .hero-inner{
+    grid-template-columns:1fr;
+    text-align:center;
+  }
+  #page-pbj .hero-text,
+  #page-hhh .hero-text,
+  #page-cvc .hero-text,
+  #page-pbj .hero-acts,
+  #page-hhh .hero-acts,
+  #page-cvc .hero-acts{text-align:center;justify-content:center;}
+  #page-pbj .hero-bc,
+  #page-hhh .hero-bc,
+  #page-cvc .hero-bc{justify-content:center;}
+  #page-pbj .vol-kicker,
+  #page-hhh .vol-kicker,
+  #page-cvc .vol-kicker{justify-content:center;}
+  #page-pbj .vol-rule,
+  #page-hhh .vol-rule,
+  #page-cvc .vol-rule{margin-left:auto;margin-right:auto;}
+  #page-pbj .hero-h1,
+  #page-hhh .hero-h1,
+  #page-cvc .hero-h1{margin-left:auto;margin-right:auto;}
+  #page-pbj .pbj-hero-shots,
+  #page-hhh .pbj-hero-shots,
+  #page-cvc .pbj-hero-shots{justify-content:center;}
+  #page-pbj .hero,
+  #page-hhh .hero,
+  #page-pal .hero,
+  #page-cvc .hero{min-height:auto;padding:56px 24px 48px;}
+}
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
@@ -1940,16 +2171,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
-      <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing · v1.0.0 (build 312) &middot; iOS &amp; Android</div>
-      <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it all private.</em></h1>
-      <p class="hero-tagline">because your finances should go together as smoothly as PB&amp;J</p>
-      <p class="hero-sub">Start with a <strong>15-day Premium trial</strong> &mdash; no card required, bank sync excluded. Then subscribe at $9.99/mo or $74.99/yr, or lose access to Premium features (import and manual budgeting stay free). No account and no personal info required. Import statements manually or connect a bank with paid Premium &mdash; your call. <strong>Free to download. Cancel anytime.</strong></p>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 01</span></div>
+      <div class="vol-kicker"><span class="vol-num">Vol. 01</span><span class="vol-name">Pocket<em>BudJet</em>™</span></div>
+      <div class="vol-rule" aria-hidden="true"></div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing · iOS &amp; Android</div>
+      <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it private.</em></h1>
+      <p class="hero-tagline">Private budgeting on your device</p>
+      <p class="hero-sub">15-day Premium trial, no card required. Import, plan, and coach without ads or data games. <strong>Free to download. Cancel anytime.</strong></p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Start 15-Day Trial &#8594;</a>
-        <a href="/videos/pocketbudjet/partner-showcase/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">Watch demo</a>
-        <a href="/how-to/" class="btn-ghost" style="border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.85);">How To &amp; Help</a>
-        <a href="#pricing" class="btn-ghost">See pricing</a>
+        <a href="/videos/pocketbudjet/partner-showcase/" class="btn-ghost">Watch demo</a>
+        <a href="/how-to/" class="btn-ghost">How To</a>
+        <a href="#pricing" class="btn-ghost">Pricing</a>
       </div>
     </div>
 
@@ -2008,16 +2241,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   .pbj-shot-side { display: none; }
   .pbj-shot-center img { width: 280px; }
 }
-/* HHH/CVC hero strips need room for 3 phones without wrap/clip */
-#page-hhh .hero-inner,
-#page-cvc .hero-inner,
-#page-pbj .hero-inner {
-  max-width: 920px;
-}
+/* Volume heroes: layout owned by app-volume CSS above — keep phones from clipping */
 #page-hhh .hero,
 #page-cvc .hero,
 #page-pbj .hero {
-  padding-bottom: 56px;
+  overflow: visible;
 }
 
 /* PAL — product page (mirrors HHH layout, sage/gold palette) */
@@ -2770,16 +2998,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Handy Horology Helper</span></div>
-      <div class="hero-eyebrow"><div class="hero-dot"></div>Open testing · v1.0.86 (build 112) &middot; Android Open &amp; iOS TestFlight</div>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 02</span></div>
+      <div class="vol-kicker"><span class="vol-num">Vol. 02</span><span class="vol-name">Handy Horology <em>Helper</em>™</span></div>
+      <div class="vol-rule" aria-hidden="true"></div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Open testing · v1.0.88 &middot; Android &amp; iOS</div>
       <h1 class="hero-h1">Know your timepiece.<br><em>Know its worth.</em></h1>
-      <p class="hero-tagline">Identify · Museum · Clock DIY · Web Companion</p>
-      <p class="hero-sub">Snap a photo to identify watches and clocks, keep a private museum with honest confidence scores, fix clocks with Clockworks-ready guidance, and open a live Web Companion on your home Wi‑Fi with a short pairing code. Full UI in <strong>8 languages</strong>.</p>
+      <p class="hero-tagline">Identify · Museum · Repair · Companion</p>
+      <p class="hero-sub">Snap to identify watches and clocks, keep a private museum with honest confidence scores, and open a live Web Companion on your home Wi‑Fi. Full UI in <strong>8 languages</strong>.</p>
       <div class="hero-acts">
-        <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Get HHH &mdash; Android Open</a>
-        <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Get HHH &mdash; iOS TestFlight</a>
-        <a href="/videos/hhh/walkthrough/" class="btn-ghost">Watch walkthrough</a>
-        <a href="/videos/hhh/user-manual/" class="btn-ghost">User Manual</a>
+        <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Get on Android</a>
+        <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-ghost">iOS TestFlight</a>
+        <a href="/videos/hhh/walkthrough/" class="btn-ghost">Walkthrough</a>
+        <a href="/videos/hhh/user-manual/" class="btn-ghost">Manual</a>
       </div>
     </div>
     <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
@@ -3176,14 +3406,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero" >
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#E8B84A;">JosspaTech</a><span style="color:rgba(232,184,74,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Pocket Allowance Ledger</span></div>
-      <div class="hero-eyebrow" style="background:rgba(232,184,74,0.08);border-color:rgba(232,184,74,0.18);color:#E8B84A;"><div class="hero-dot" style="background:#E8B84A;"></div>v0.1.0 &middot; Parent app &middot; Android &middot; ages 6+</div>
-      <h1 class="hero-h1" style="color:#fff;text-align:inherit;">Run a home token economy.<br><em style="color:#E8B84A;">Parent-led coaching.</em></h1>
-      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);text-align:inherit;">A parent tool for building habits with gold tokens and approved rewards.</p>
-      <p class="hero-sub" style="color:rgba(255,255,255,0.6);text-align:inherit;">Pocket Allowance Ledger (PAL) helps families run a home token system with gold tokens and parent-approved rewards. This is <strong>not</strong> kid banking &mdash; no debit card, no custodial account.</p>
-      <div class="hero-acts" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
-        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-primary" style="background:#E8B84A;color:var(--navy-dk);text-decoration:none;border:none;">Email for access &rarr;</a>
-        <a href="#products" onclick="navTo('products');return false;" class="btn-ghost" style="border:1px solid rgba(232,184,74,0.35);color:#E8B84A;text-decoration:none;">All products</a>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 03</span></div>
+      <div class="vol-kicker"><span class="vol-num">Vol. 03</span><span class="vol-name">Pocket Allowance <em>Ledger</em>™</span></div>
+      <div class="vol-rule" aria-hidden="true"></div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Parent app · Android · ages 6+</div>
+      <h1 class="hero-h1">Run a home token economy.<br><em>Parent-led coaching.</em></h1>
+      <p class="hero-tagline">Gold tokens. Approved rewards.</p>
+      <p class="hero-sub">A parent tool for habits — not kid banking. No debit card, no custodial account. Kids use the companion on home Wi‑Fi.</p>
+      <div class="hero-acts">
+        <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-primary">Email for access &rarr;</a>
+        <a href="#products" onclick="navTo('products');return false;" class="btn-ghost">All products</a>
       </div>
     </div>
     <figure class="pal-hero-visual" aria-label="PAL token economy">
@@ -3456,14 +3688,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="hero" >
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;" style="color:#D4A853;">JosspaTech</a><span style="color:rgba(212,168,83,0.5);">/</span><span style="color:rgba(255,255,255,0.7);">Curator's Vault: Classics</span></div>
-      <div class="hero-eyebrow" style="background:rgba(212,168,83,0.08);border-color:rgba(212,168,83,0.18);color:#D4A853;"><div class="hero-dot" style="background:#D4A853;"></div>Internal testing · v1.0.1 (build 43) &middot; iOS &amp; Android</div>
-      <h1 class="hero-h1" style="color:#fff;">Catalog your collections.<br><em style="color:#D4A853;">Track their value.</em></h1>
-      <p class="hero-tagline" style="color:rgba(255,255,255,0.45);">your comprehensive cataloging companion for US coins, trading cards, stamps, paper money, and lighters</p>
-      <p class="hero-sub" style="color:rgba(255,255,255,0.6);">Photograph, organize, and value your prized collections across <strong>five categories</strong> with AI-powered identification for coins, trading cards, stamps, and paper money &mdash; lighters tracked by hand. Pens, knives, and watches belong in other JosspaTech apps &mdash; not CVC. Full UI in <strong>7 languages</strong>. <strong>15-day free trial</strong>, then Pro at <strong>$9.99/mo &middot; $74.99/yr</strong>.</p>
+      <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Catalog · 04</span></div>
+      <div class="vol-kicker"><span class="vol-num">Vol. 04</span><span class="vol-name">Curator's Vault: <em>Classics</em>™</span></div>
+      <div class="vol-rule" aria-hidden="true"></div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Internal testing · iOS &amp; Android</div>
+      <h1 class="hero-h1">Catalog your collections.<br><em>Track their value.</em></h1>
+      <p class="hero-tagline">Coins · Cards · Stamps · Paper · Lighters</p>
+      <p class="hero-sub">Photograph, organize, and value five collectible categories with AI-assisted ID. Your vault, your rules. Full UI in <strong>7 languages</strong>.</p>
       <div class="hero-acts">
-        <span class="btn-primary" style="background:rgba(212,168,83,0.15);color:#D4A853;border:1px solid rgba(212,168,83,0.25);box-shadow:none;cursor:default;">Internal testing v1.0.1 (build 43) &mdash; not public on Play</span>
-        <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" class="btn-ghost" style="border-color:rgba(212,168,83,0.25);color:#D4A853;">Privacy Policy</a>
+        <span class="btn-primary" style="cursor:default;opacity:0.9;">Internal testing</span>
+        <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" class="btn-ghost">Privacy Policy</a>
       </div>
     </div>
     <div class="pbj-hero-shots" aria-label="Curator's Vault screenshots">
@@ -3714,6 +3948,7 @@ function scrollToAnchor(id, behavior) {
 function showPage(id, opts) {
   opts = opts || {};
   document.documentElement.classList.remove('boot-pbj', 'boot-hhh', 'boot-cvc');
+  document.body.setAttribute('data-app', id === 'company' ? 'hub' : id);
   document.querySelectorAll('.page').forEach(function(p) {
     var on = p.id === 'page-' + id;
     p.classList.toggle('active', on);
@@ -3774,6 +4009,7 @@ function navTo(section) {
 document.addEventListener('DOMContentLoaded', function () {
   if (!window.location.hash) showPage('company', { skipScrollTop: true });
   else routeFromHash();
+  if (!document.body.getAttribute('data-app')) document.body.setAttribute('data-app', 'hub');
 });
 window.addEventListener('hashchange', routeFromHash);
 
