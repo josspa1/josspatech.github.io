@@ -398,6 +398,93 @@ html.boot-cvc #page-cvc { display:block !important; }
   .hub-card{transition:none;}
 }
 
+/* ══ Research pass Jul 22 — Stripe bento + Linear edges + editorial hairlines ══
+   Sources: Awwwards SOTD restraint winners, Stripe multi-product, Linear chrome,
+   Exhibition/Franco Maria Ricci hairline systems, CSSDA oversized type. */
+#page-company .hub-grid{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:18px;
+  margin-top:56px;
+}
+/* Uneven columns = Stripe-style scan hierarchy (not equal dashboard tiles) */
+#page-company .hub-card[data-app="pbj"]{grid-column:span 7;min-height:288px;}
+#page-company .hub-card[data-app="hhh"]{grid-column:span 5;min-height:288px;}
+#page-company .hub-card[data-app="pal"]{grid-column:span 5;min-height:228px;padding:36px 32px 32px;}
+#page-company .hub-card[data-app="cvc"]{grid-column:span 7;min-height:228px;padding:36px 32px 32px;}
+#page-company .hub-card[data-app="pal"] .hub-name,
+#page-company .hub-card[data-app="cvc"] .hub-name{
+  font-size:clamp(22px,2.2vw,26px);
+}
+#page-company .hub-card[data-app="pal"] .hub-tagline,
+#page-company .hub-card[data-app="cvc"] .hub-tagline{
+  font-size:14.5px;
+  margin-bottom:22px;
+}
+/* Linear / Josephmark: structure from 1px borders, not stacked drop shadows */
+#page-company .hub-card{
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,0.1);
+  box-shadow:none;
+  background:#0c2d4a;
+  transition:border-color .28s var(--ease), transform .28s var(--ease), background .28s var(--ease);
+}
+#page-company .hub-card:hover{
+  transform:translateY(-3px);
+  box-shadow:none;
+  border-color:rgba(240,192,64,0.38);
+  background:#0e3558;
+}
+#page-company .hub-card::after{opacity:0.05;}
+#page-company .hub-card:hover::after{opacity:0.1;}
+#page-company .hub-cta{
+  box-shadow:none;
+  border-radius:8px;
+  padding:12px 18px;
+}
+#page-company .hub-index{
+  font-size:11px;
+  letter-spacing:3px;
+  color:rgba(240,192,64,0.35);
+}
+/* Editorial section lead — magazine number + gold hairline */
+#page-company .section-lead{
+  display:flex;align-items:flex-start;gap:28px;
+}
+#page-company .section-num{
+  font-family:'Playfair Display',serif;
+  font-size:13px;font-weight:700;letter-spacing:3px;
+  color:var(--gold-dk,#b8860b);
+  padding-top:6px;flex-shrink:0;
+  border-top:1px solid var(--gold);
+  width:48px;text-align:center;line-height:1;
+  padding-top:14px;
+}
+#page-company .section-lead .section-eyebrow{margin-bottom:10px;}
+#page-company .section-lead .section-title{
+  font-size:clamp(40px,5.5vw,56px);
+  letter-spacing:-1.6px;
+}
+#page-company .section-lead .section-sub{
+  max-width:36rem;margin-top:14px;
+}
+#page-company .quote-bar{
+  background:var(--navy-dk);
+}
+#page-company .quote-bar::before{
+  content:'';position:absolute;left:50%;top:36px;transform:translateX(-50%);
+  width:40px;height:1px;background:rgba(240,192,64,0.45);
+}
+@media (max-width:820px){
+  #page-company .hub-grid{grid-template-columns:1fr;gap:14px;}
+  #page-company .hub-card[data-app="pbj"],
+  #page-company .hub-card[data-app="hhh"],
+  #page-company .hub-card[data-app="pal"],
+  #page-company .hub-card[data-app="cvc"]{
+    grid-column:auto;min-height:0;
+  }
+  #page-company .section-lead{flex-direction:column;gap:16px;}
+}
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -1624,15 +1711,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <!-- ══ PRODUCTS ══ -->
 <section class="section content" id="products">
   <div class="section-inner">
-    <div class="rv">
-      <span class="section-eyebrow">Our Products</span>
-      <h2 class="section-title">Four apps.<br><em>One studio.</em></h2>
-      <p class="section-sub" style="margin-top:12px;max-width:520px;">Pick a product to open its own area — features, guides, and downloads live there, not on this hub.</p>
+    <div class="rv section-lead">
+      <span class="section-num" aria-hidden="true">01</span>
+      <div>
+        <span class="section-eyebrow">Our Products</span>
+        <h2 class="section-title">Four apps.<br><em>One studio.</em></h2>
+        <p class="section-sub">Pick a product to open its own area — features, guides, and downloads live there, not on this hub.</p>
+      </div>
     </div>
 
     <div class="hub-grid">
 
-      <div role="button" tabindex="0" data-app="pbj" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="hub-card rv d1"><span class="hub-index" aria-hidden="true">01</span>
+      <div role="button" tabindex="0" data-app="pbj" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="hub-card hub-card-featured rv d1"><span class="hub-index" aria-hidden="true">01</span>
         <div class="hub-badge"><div class="hub-badge-dot"></div>Internal testing</div>
         <div class="hub-name">Pocket<em>BudJet</em>™</div>
         <p class="hub-tagline">Private budgeting that stays on your device — import, plan, and coach without ads or data games.</p>
@@ -1644,7 +1734,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </div>
       </div>
 
-      <div role="button" tabindex="0" data-app="hhh" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hub-card rv d2"><span class="hub-index" aria-hidden="true">02</span>
+      <div role="button" tabindex="0" data-app="hhh" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hub-card hub-card-featured rv d2"><span class="hub-index" aria-hidden="true">02</span>
         <div class="hub-badge"><div class="hub-badge-dot"></div>Open testing · v1.0.88</div>
         <div class="hub-name">Handy Horology<br><em>Helper</em>™</div>
         <p class="hub-tagline">Identify timepieces, run your museum, repair clocks, and sync to a PC on your Wi‑Fi — built for collectors.</p>
@@ -1688,10 +1778,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <!-- ══ PRINCIPLES ══ -->
 <section class="section principles" id="principles">
   <div class="section-inner">
-    <div class="rv">
-      <span class="section-eyebrow">How We Build</span>
-      <h2 class="section-title">Three things we<br><em>don't compromise on.</em></h2>
-      <p class="section-sub">Every product decision runs through the same filter.</p>
+    <div class="rv section-lead">
+      <span class="section-num" aria-hidden="true">02</span>
+      <div>
+        <span class="section-eyebrow">How We Build</span>
+        <h2 class="section-title">Three things we<br><em>don't compromise on.</em></h2>
+        <p class="section-sub">Every product decision runs through the same filter.</p>
+      </div>
     </div>
 
     <div class="principles-grid">
