@@ -1,22 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="JosspaTech">
-  <!-- Signature JT — all-new mark. Not a diamond/star/gem. -->
+  <!--
+    POLAR — primary mark
+    Built from iconic-logo common traits:
+    1) One silhouette (drawable from memory)
+    2) One signature detail (gold apex)
+    3) Scales to 16px without losing identity
+    4) Works in mono (navy or white)
+    5) Timeless geometry, not trend ornament
+  -->
   <defs>
-    <linearGradient id="jt-face" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#163F66"/>
+    <linearGradient id="p-body" x1="0.2" y1="0.05" x2="0.85" y2="0.95">
+      <stop offset="0%" stop-color="#2E6FA3"/>
+      <stop offset="45%" stop-color="#1A4F7A"/>
       <stop offset="100%" stop-color="#0C3358"/>
     </linearGradient>
-    <linearGradient id="jt-gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F5D060"/>
-      <stop offset="100%" stop-color="#E8A820"/>
+    <linearGradient id="p-gold" x1="0.25" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#FFE08A"/>
+      <stop offset="50%" stop-color="#F0C040"/>
+      <stop offset="100%" stop-color="#C99212"/>
     </linearGradient>
   </defs>
-  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#jt-face)"/>
-  <rect x="8" y="8" width="112" height="112" rx="28" fill="none" stroke="#F0C040" stroke-width="1.25" opacity="0.35"/>
-  <!-- J stem + bowl -->
-  <path d="M70 34 V78 C70 90 62 98 50 98 C40 98 34 93 31 86"
-        fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Gold T crossbar (reads JT) -->
-  <rect x="34" y="30" width="60" height="11" rx="3.5" fill="url(#jt-gold)"/>
-  <!-- Fine highlight on bar -->
-  <rect x="38" y="32" width="28" height="2.5" rx="1.2" fill="#FFF6D0" opacity="0.55"/>
+  <!-- Body diamond -->
+  <polygon points="64,14 116,64 64,114 12,64" fill="url(#p-body)"/>
+  <!-- Soft facet highlight (still one silhouette) -->
+  <polygon points="64,14 116,64 64,64" fill="#FFFFFF" opacity="0.12"/>
+  <!-- Signature gold apex diamond -->
+  <polygon points="64,8 78,28 64,36 50,28" fill="url(#p-gold)"/>
 </svg>

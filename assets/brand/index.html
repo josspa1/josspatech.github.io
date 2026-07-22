@@ -3,68 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JosspaTech Brand — Logo System</title>
+<title>JosspaTech Brand - Logo System</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--navy:#0C3358;--navy-md:#1A4F7A;--gold:#F0C040;--paper:#f4f7fa;}
+  :root{--navy:#0C3358;--gold:#F0C040;--paper:#f4f7fa;--slate:#5a7390}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:Manrope,system-ui,sans-serif;background:var(--paper);color:var(--navy);line-height:1.5}
-  header{background:linear-gradient(165deg,#06111c,#0C3358 55%,#1A4F7A);color:#fff;padding:64px 24px 56px;text-align:center}
-  header img.hero{width:min(200px,46vw);height:auto;margin:0 auto 24px;display:block;border-radius:36px;box-shadow:0 24px 48px rgba(0,0,0,.35)}
-  header h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,5vw,44px);letter-spacing:-1px;margin-bottom:10px}
-  header p{opacity:.65;max-width:36rem;margin:0 auto;font-size:15px}
-  main{max-width:960px;margin:0 auto;padding:40px 18px 80px}
-  h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;margin:36px 0 8px}
-  .lead{color:#5a7390;margin-bottom:22px}
-  .grid{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
-  .card{border-radius:18px;padding:28px 22px;border:1px solid rgba(12,51,88,.1);background:#fff}
-  .card.dark{background:linear-gradient(160deg,#0C3358,#1A4F7A);border-color:rgba(255,255,255,.08)}
-  .card h3{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px;color:#5a7390}
+  body{font-family:Manrope,system-ui,sans-serif;background:var(--paper);color:var(--navy);line-height:1.55}
+  header{background:linear-gradient(165deg,#06111c,#0C3358 55%,#1A4F7A);color:#fff;padding:56px 20px 48px;text-align:center}
+  header .mark{width:96px;height:96px;margin:0 auto 20px;display:block}
+  header h1{font-family:'Playfair Display',Georgia,serif;font-size:clamp(28px,5vw,42px);letter-spacing:-1px;margin-bottom:10px}
+  header p{opacity:.68;max-width:34rem;margin:0 auto;font-size:15px}
+  main{max-width:920px;margin:0 auto;padding:36px 18px 72px}
+  h2{font-family:'Playfair Display',Georgia,serif;font-size:24px;margin:36px 0 10px}
+  .lead{color:var(--slate);margin-bottom:18px;max-width:40rem}
+  .principles{display:grid;gap:10px;margin:18px 0 8px}
+  .principles li{list-style:none;background:#fff;border:1px solid rgba(12,51,88,.1);border-radius:12px;padding:14px 16px;font-size:14px}
+  .principles strong{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#8aa0b5;margin-bottom:4px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
+  .card{border-radius:16px;padding:22px 16px;border:1px solid rgba(12,51,88,.1);background:#fff;text-align:center}
+  .card.pick{outline:2px solid var(--gold);outline-offset:2px}
+  .card.dark{background:linear-gradient(160deg,#0C3358,#1A4F7A);border-color:rgba(255,255,255,.08);color:#fff}
+  .card h3{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;color:#8aa0b5}
   .card.dark h3{color:rgba(240,192,64,.85)}
-  .card img{display:block;margin:0 auto;max-width:100%;height:auto}
-  .card code{display:block;margin-top:16px;font-size:11px;color:#7a93a8;word-break:break-all}
-  .card.dark code{color:rgba(255,255,255,.45)}
-  a.back{display:inline-block;margin-top:32px;color:var(--navy-md);font-weight:700;text-decoration:none}
+  .card img{display:block;margin:0 auto;width:88px;height:88px}
+  .card p{font-size:13px;color:var(--slate);margin-top:12px}
+  .card.dark p{color:rgba(255,255,255,.6)}
+  .card code{display:block;margin-top:10px;font-size:10px;color:#9aafc0;word-break:break-all}
+  .wide{margin-top:12px}
+  .wide img{width:min(320px,100%);height:auto}
+  a.back{display:inline-block;margin-top:28px;color:#1A4F7A;font-weight:700;text-decoration:none}
 </style>
 </head>
 <body>
 <header>
-  <img class="hero" src="./josspatech-mark-app.svg" alt="JosspaTech mark">
+  <img class="mark" src="./josspatech-mark.svg" alt="JosspaTech Polar mark">
   <h1>JosspaTech logo system</h1>
-  <p>Signature JT - a bold J with a gold T-bar. Clean, app-native, built from scratch (not the old diamond).</p>
+  <p>Built from what iconic logos share - not from a template, and not locked to the old mark.</p>
 </header>
 <main>
-  <h2>Primary assets</h2>
-  <p class="lead">Relative paths on this page. SVGs scale cleanly for store listings and the site.</p>
+  <h2>What iconic logos share</h2>
+  <p class="lead">Nike, Apple, Target, Shell, Adidas - different industries, same underlying craft rules.</p>
+  <ul class="principles">
+    <li><strong>1. One silhouette</strong> Drawable from memory. If you need a paragraph to describe it, it is too complex.</li>
+    <li><strong>2. One signature detail</strong> Apple's bite, FedEx's arrow, Target's center. One clever move - not twelve.</li>
+    <li><strong>3. Scales hard</strong> Still reads at favicon size. Ornament dies first; geometry survives.</li>
+    <li><strong>4. Works in mono</strong> Full color is a luxury. Black or white must still be the brand.</li>
+    <li><strong>5. Timeless geometry</strong> Avoid trend chrome. Clean shape outlives style cycles.</li>
+  </ul>
+
+  <h2>Three concepts from those rules</h2>
+  <p class="lead">A is live on the site. B and C are kept as alternate directions if you want to switch.</p>
   <div class="grid">
-    <div class="card dark">
-      <h3>Mark — dark UI</h3>
-      <img src="./josspatech-mark.svg" alt="Mark" width="120" height="120">
+    <div class="card dark pick">
+      <h3>A - Polar (chosen)</h3>
+      <img src="./josspatech-mark.svg" alt="Polar">
+      <p>One diamond + gold apex. Precision, north-star meaning, your brand colors.</p>
       <code>josspatech-mark.svg</code>
     </div>
     <div class="card">
-      <h3>App icon / favicon</h3>
-      <img src="./josspatech-mark-app.svg" alt="App mark" width="120" height="120" style="border-radius:28px">
-      <code>josspatech-mark-app.svg</code>
-    </div>
-    <div class="card dark">
-      <h3>Horizontal lockup</h3>
-      <img src="./josspatech-logo.svg" alt="Logo lockup" width="280">
-      <code>josspatech-logo.svg</code>
+      <h3>B - Focus</h3>
+      <img src="./concept-focus.svg" alt="Focus">
+      <p>Concentric rings + gold center. "Fewer apps" as literal focus.</p>
+      <code>concept-focus.svg</code>
     </div>
     <div class="card">
-      <h3>Light lockup</h3>
-      <img src="./josspatech-logo-light.svg" alt="Light logo" width="280">
-      <code>josspatech-logo-light.svg</code>
-    </div>
-    <div class="card dark" style="grid-column:1/-1">
-      <h3>Stacked</h3>
-      <img src="./josspatech-logo-stacked.svg" alt="Stacked logo" width="220">
-      <code>josspatech-logo-stacked.svg</code>
+      <h3>C - Node</h3>
+      <img src="./concept-node.svg" alt="Node">
+      <p>One ring, one companion. Product constellation reduced to a sentence.</p>
+      <code>concept-node.svg</code>
     </div>
   </div>
-  <a class="back" href="/">← Back to josspatech.com</a>
+
+  <h2>Lockups</h2>
+  <div class="grid" style="grid-template-columns:1fr">
+    <div class="card dark wide">
+      <h3>Horizontal</h3>
+      <img src="./josspatech-logo.svg" alt="Horizontal lockup">
+      <code>josspatech-logo.svg</code>
+    </div>
+    <div class="card wide">
+      <h3>Light / print</h3>
+      <img src="./josspatech-logo-light.svg" alt="Light lockup">
+      <code>josspatech-logo-light.svg</code>
+    </div>
+  </div>
+
+  <a class="back" href="/">Back to josspatech.com</a>
 </main>
 </body>
 </html>
