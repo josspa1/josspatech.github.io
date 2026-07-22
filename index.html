@@ -7,7 +7,7 @@
 <title>JosspaTech — Mobile Software</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@400;500;600;700;800" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600" rel="stylesheet">
 <script>
 (function () {
   var h = (location.hash || '').replace('#', '');
@@ -564,6 +564,118 @@ html.boot-cvc #page-cvc { display:block !important; }
   #page-company .hub-card[data-app="cvc"]{border-bottom:none;}
   #page-company .section-lead{flex-direction:column;gap:16px;}
   #page-company .quote-bar{padding:88px 24px;}
+}
+
+/* ══ Top-5 craft system (Jul 22) — motion, mono, frames, catalog cells ═══════ */
+:root{
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --motion-fast:180ms;
+  --motion-page:280ms;
+}
+#page-veil{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;
+  background:var(--navy-dk);
+  opacity:0;transition:opacity var(--motion-page) var(--ease);
+}
+#page-veil.on{opacity:1;}
+body[data-app="hhh"] #page-veil{background:#3D1522;}
+body[data-app="pal"] #page-veil{background:#1A2E22;}
+body[data-app="cvc"] #page-veil{background:#0F2E25;}
+body[data-app="pbj"] #page-veil{background:#0C3358;}
+.vol-num,.hub-index,.section-num,.hero-bc,.hero-tagline,.hub-cta,
+#page-pbj .btn-ghost,#page-hhh .btn-ghost,#page-pal .btn-ghost,#page-cvc .btn-ghost{
+  font-family:var(--mono) !important;
+}
+.hub-cta{letter-spacing:0.16em;}
+/* Faster hero settle — motion budget */
+.hub-hero .hero-brand{animation-duration:.45s;}
+.hub-hero .hero-h1{animation-duration:.5s;animation-delay:.04s;}
+.hub-hero .hero-sub{animation-duration:.5s;animation-delay:.08s;}
+.hub-hero .hero-actions{animation-duration:.5s;animation-delay:.1s;}
+.hub-rule{animation-duration:.55s;animation-delay:.08s;}
+.hero-h1,.hero-tagline,.hero-sub,.hero-acts{animation-duration:.4s !important;}
+.hero-h1{animation-delay:.04s !important;}
+.hero-tagline{animation-delay:.08s !important;}
+.hero-sub{animation-delay:.1s !important;}
+.hero-acts{animation-delay:.14s !important;}
+.rv{transform:translateY(12px);transition:opacity .4s var(--ease),transform .4s var(--ease);}
+.rv.d1{transition-delay:0s;}.rv.d2{transition-delay:.05s;}.rv.d3{transition-delay:.1s;}.rv.d4{transition-delay:.12s;}
+/* Device frames */
+#page-pbj .pbj-shot,
+#page-hhh .pbj-shot,
+#page-cvc .pbj-shot{
+  position:relative;
+  border-radius:28px;
+  padding:10px 10px 14px;
+  background:linear-gradient(160deg,#1a1a1c 0%,#0d0d0f 100%);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 24px 56px rgba(0,0,0,0.45);
+}
+#page-pbj .pbj-shot::before,
+#page-hhh .pbj-shot::before,
+#page-cvc .pbj-shot::before{
+  content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);
+  width:68px;height:5px;border-radius:999px;background:rgba(0,0,0,0.55);
+}
+#page-pbj .pbj-shot img,
+#page-hhh .pbj-shot img,
+#page-cvc .pbj-shot img{
+  border-radius:18px;
+  box-shadow:none;
+}
+#page-pbj .pbj-shot-side,
+#page-hhh .pbj-shot-side,
+#page-cvc .pbj-shot-side{transform:scale(0.92);opacity:0.88;}
+/* Catalog feature cells — replaces emoji card soup */
+.catalog-cell{
+  background:transparent !important;
+  border:1px solid rgba(255,255,255,0.1) !important;
+  border-radius:0 !important;
+  padding:28px 24px !important;
+  box-shadow:none !important;
+}
+.catalog-cell .cell-num{
+  display:block;
+  font-family:var(--mono);
+  font-size:11px;font-weight:600;letter-spacing:0.2em;
+  color:var(--brand-accent,#F0C040);
+  margin-bottom:14px;
+}
+#page-hhh .catalog-cell .cell-num{color:#C8AA6E;}
+#page-cvc .catalog-cell .cell-num{color:#D4A853;}
+.catalog-cell h3{margin-bottom:10px !important;}
+/* Scroll-pin proof band */
+.vol-pin{
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;
+  align-items:center;max-width:1100px;margin:0 auto;
+  padding:88px 48px;background:var(--brand-dk,#0C3358);
+}
+.vol-pin-copy .vol-pin-ey{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--brand-accent);margin-bottom:16px;display:block;
+}
+.vol-pin-copy h2{
+  font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,48px);
+  font-weight:900;color:#fff;letter-spacing:-1.2px;line-height:1.1;margin-bottom:16px;
+}
+.vol-pin-copy h2 em{font-style:italic;color:var(--brand-accent);}
+.vol-pin-copy p{font-size:16px;line-height:1.7;color:rgba(255,255,255,0.58);max-width:36ch;}
+.vol-pin-visual{position:sticky;top:96px;}
+.vol-pin-visual img{
+  width:min(280px,70vw);height:auto;display:block;margin:0 auto;
+  border-radius:22px;border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 28px 60px rgba(0,0,0,0.45);
+}
+@media(max-width:820px){
+  .vol-pin{grid-template-columns:1fr;padding:56px 24px;gap:32px;}
+  .vol-pin-visual{position:relative;top:auto;}
+}
+@media(prefers-reduced-motion:reduce){
+  #page-veil{transition:none;display:none;}
+  .hub-hero .hero-brand,.hub-hero .hero-h1,.hub-hero .hero-sub,.hub-hero .hero-actions,.hub-rule,
+  .hero-h1,.hero-tagline,.hero-sub,.hero-acts{animation:none !important;}
+  .rv{opacity:1;transform:none;transition:none;}
+  #page-pbj .pbj-shot-side,#page-hhh .pbj-shot-side,#page-cvc .pbj-shot-side{transform:none;}
 }
 
 /* ══ App volumes — each product is its own book in the catalog ═══════════════ */
@@ -1920,7 +2032,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 </script>
 
 </head>
-<body>
+<body data-app="hub">
+<div id="page-veil" aria-hidden="true"></div>
 
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
   <a class="nav-logo" href="#" onclick="showPage('company');return false;" aria-label="JosspaTech home">
@@ -3040,6 +3153,17 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="psi"><div class="psd"></div>15-day trial &middot; $9.99/mo &middot; $74.99/yr</div>
 </div>
 
+<section class="vol-pin" aria-label="Product proof">
+  <div class="vol-pin-copy rv">
+    <span class="vol-pin-ey">Proof</span>
+    <h2>Your museum,<br><em>on the phone.</em></h2>
+    <p>Command Center, My Museum, and piece detail — the real product, not a metaphor. Identify, value, and keep provenance in one private place.</p>
+  </div>
+  <div class="vol-pin-visual rv d1">
+    <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="My Museum in Handy Horology Helper" width="280" height="608" loading="lazy">
+  </div>
+</section>
+
 <section class="sec" style="background:var(--brand-dk);padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
     <span class="section-eyebrow rv" style="color:var(--brand-accent);border-color:rgba(200,170,110,0.22);background:rgba(200,170,110,0.08);">Core Features</span>
@@ -3722,6 +3846,17 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Internal testing</div>
 </div>
 
+<section class="vol-pin" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;" aria-label="Product proof">
+  <div class="vol-pin-copy rv">
+    <span class="vol-pin-ey">Proof</span>
+    <h2>Five categories.<br><em>One vault.</em></h2>
+    <p>Identify, gallery, and analytics — the real Curator's Vault UI. Coins, cards, stamps, paper, and lighters under your rules.</p>
+  </div>
+  <div class="vol-pin-visual rv d1">
+    <img src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery in Curator's Vault" width="280" height="498" loading="lazy">
+  </div>
+</section>
+
 <section class="sec" style="background:var(--navy-dk);padding:80px 24px;">
   <div class="section-inner" style="max-width:900px;margin:0 auto;">
     <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Core Features</span>
@@ -3945,7 +4080,7 @@ function scrollToAnchor(id, behavior) {
   if (el) el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
 }
 
-function showPage(id, opts) {
+function applyPage(id, opts) {
   opts = opts || {};
   document.documentElement.classList.remove('boot-pbj', 'boot-hhh', 'boot-cvc');
   document.body.setAttribute('data-app', id === 'company' ? 'hub' : id);
@@ -3954,7 +4089,6 @@ function showPage(id, opts) {
     p.classList.toggle('active', on);
     if (on) p.removeAttribute('inert');
     else p.setAttribute('inert', '');
-    // Keep product embeds from painting/loading on the company hub.
     p.querySelectorAll('iframe[src], iframe[data-src]').forEach(function(frame) {
       if (!frame.getAttribute('data-src')) frame.setAttribute('data-src', frame.getAttribute('src') || '');
       if (on) {
@@ -3973,8 +4107,46 @@ function showPage(id, opts) {
   } else {
     history.replaceState(null, '', '#' + id);
   }
-  // re-run reveal observers on the new page
+  elevateFeatureGrids();
   document.querySelectorAll('.rv:not(.on)').forEach(function(el) { rvObs.observe(el); });
+}
+
+function showPage(id, opts) {
+  opts = opts || {};
+  var veil = document.getElementById('page-veil');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!veil || reduce || opts.skipVeil) {
+    applyPage(id, opts);
+    return;
+  }
+  veil.classList.add('on');
+  setTimeout(function() {
+    applyPage(id, opts);
+    requestAnimationFrame(function() {
+      setTimeout(function() { veil.classList.remove('on'); }, 40);
+    });
+  }, 160);
+}
+
+function elevateFeatureGrids() {
+  ['page-hhh', 'page-cvc'].forEach(function(pid) {
+    var page = document.getElementById(pid);
+    if (!page || page.dataset.cellsReady === '1') return;
+    page.querySelectorAll('div[style*="font-size:28px"]').forEach(function(el) { el.remove(); });
+    var n = 0;
+    page.querySelectorAll('div[style*="border-radius:16px"]').forEach(function(el) {
+      el.classList.add('catalog-cell');
+      if (!el.querySelector('.cell-num')) {
+        n += 1;
+        var num = document.createElement('span');
+        num.className = 'cell-num';
+        num.setAttribute('aria-hidden', 'true');
+        num.textContent = (n < 10 ? '0' : '') + n;
+        el.insertBefore(num, el.firstChild);
+      }
+    });
+    page.dataset.cellsReady = '1';
+  });
 }
 
 function routeFromHash() {
@@ -4007,8 +4179,11 @@ function navTo(section) {
 
 /* ── INIT ── */
 document.addEventListener('DOMContentLoaded', function () {
-  if (!window.location.hash) showPage('company', { skipScrollTop: true });
+  var hash = (window.location.hash || '').replace('#', '');
+  if (!hash) showPage('company', { skipScrollTop: true, skipVeil: true });
+  else if (document.getElementById('page-' + hash)) showPage(hash, { skipVeil: true });
   else routeFromHash();
+  elevateFeatureGrids();
   if (!document.body.getAttribute('data-app')) document.body.setAttribute('data-app', 'hub');
 });
 window.addEventListener('hashchange', routeFromHash);
