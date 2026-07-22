@@ -20,97 +20,93 @@
   .hero p{max-width:28rem;margin:0 auto;color:rgba(255,255,255,.62);font-size:16px}
   main{max-width:880px;margin:0 auto;padding:40px 18px 80px}
   h2{font-family:'Playfair Display',Georgia,serif;font-size:26px;margin:0 0 10px}
-  .lead{color:#5a7390;margin-bottom:22px;max-width:40rem}
-  .row{display:grid;gap:14px;grid-template-columns:1fr}
-  @media(min-width:720px){.row{grid-template-columns:1fr 1fr 1fr}}
+  .lead{color:#5a7390;margin-bottom:22px;max-width:42rem}
+  .duo{display:grid;gap:14px;grid-template-columns:1fr;margin-bottom:28px}
+  @media(min-width:720px){.duo{grid-template-columns:1fr 1fr}}
   .card{background:#fff;border:1px solid rgba(12,51,88,.1);border-radius:18px;padding:22px 16px;text-align:center}
   .card.dark{background:#0C3358;border-color:rgba(255,255,255,.08);color:#fff}
+  .card.pick{box-shadow:0 0 0 2px var(--gold)}
   .card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800;color:#8aa0b5;margin-bottom:16px}
   .card.dark h3{color:rgba(240,192,64,.85)}
-  .card svg{width:88px;height:88px;display:block;margin:0 auto}
+  .card svg{width:96px;height:96px;display:block;margin:0 auto}
   .card p{font-size:13px;color:#5a7390;margin-top:14px}
   .card.dark p{color:rgba(255,255,255,.62)}
+  .badge{display:inline-block;margin-top:10px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+  .badge.live{background:rgba(240,192,64,.18);color:#F0C040}
+  .badge.alt{background:rgba(12,51,88,.08);color:#1A4F7A}
   .lockup{margin-top:14px;background:#0C3358;border-radius:18px;padding:28px;text-align:center}
   .lockup.light{background:#fff;border:1px solid rgba(12,51,88,.1)}
-  .lockup img,.lockup svg{width:min(420px,100%);height:auto}
+  .lockup svg{width:min(420px,100%);height:auto}
   a.back{display:inline-block;margin-top:32px;font-weight:700;color:#1A4F7A;text-decoration:none}
 </style>
 </head>
 <body>
 
 <section class="hero">
-  <!-- Inline so it always shows -->
   <svg class="hero-mark" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <ellipse cx="64" cy="64" rx="46" ry="28" stroke="#5DADE2" stroke-width="4" transform="rotate(-32 64 64)"/>
-    <polygon points="102,38 114,50 102,62 90,50" fill="#7EC8EB"/>
     <circle cx="64" cy="64" r="18" fill="#F0C040"/>
     <circle cx="59" cy="59" r="5" fill="#FFF3C4" opacity="0.7"/>
+    <path d="M102 32 L106 44 L118 48 L106 52 L102 64 L98 52 L86 48 L98 44 Z" fill="#7EC8EB"/>
   </svg>
-  <div class="tag">JosspaTech mark</div>
+  <div class="tag">Live mark</div>
   <h1>Josspa<span>Tech</span></h1>
-  <p>Sun. Orbit. Diamond world. A solar system - stylized the way you meant it.</p>
+  <p>Sun. Orbit. Four-point star. Same cosmos — north-star satellite.</p>
 </section>
 
 <main>
-  <h2>The iconic mark</h2>
-  <p class="lead">Three shapes only: gold sun, navy orbit, cyan diamond planet. Universe idea, solar-system read, diamond bodies instead of orbs. Drawable from memory.</p>
+  <h2>Shortlist, side by side</h2>
+  <p class="lead">Live mark on the left. Square-satellite favorite kept on the right so you can flip anytime.</p>
 
+  <div class="duo">
+    <div class="card dark pick">
+      <h3>Live — Cosmos + star</h3>
+      <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="64" cy="64" rx="46" ry="28" stroke="#5DADE2" stroke-width="4" transform="rotate(-32 64 64)"/>
+        <circle cx="64" cy="64" r="18" fill="#F0C040"/>
+        <circle cx="59" cy="59" r="5" fill="#FFF3C4" opacity="0.7"/>
+        <path d="M102 32 L106 44 L118 48 L106 52 L102 64 L98 52 L86 48 L98 44 Z" fill="#7EC8EB"/>
+      </svg>
+      <p>Gold sun, cyan orbit, 4-point star on the path.</p>
+      <div class="badge live">Live · josspatech-mark.svg</div>
+    </div>
+    <div class="card">
+      <h3>Favorite — Cosmos + square</h3>
+      <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="64" cy="64" rx="46" ry="28" stroke="#1A4F7A" stroke-width="4" transform="rotate(-32 64 64)"/>
+        <circle cx="64" cy="64" r="18" fill="#E8A820"/>
+        <circle cx="59" cy="59" r="5" fill="#FFF3C4" opacity="0.75"/>
+        <rect x="92" y="36" width="20" height="20" fill="#2E6FA3"/>
+      </svg>
+      <p>Same system; square satellite instead of star.</p>
+      <div class="badge alt">Shortlist · concept-cosmos-square.svg</div>
+    </div>
+  </div>
+
+  <h2>Lockups</h2>
   <div class="lockup">
     <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JosspaTech">
       <g transform="translate(12 14)">
         <ellipse cx="56" cy="56" rx="42" ry="25" fill="none" stroke="#5DADE2" stroke-width="3.5" transform="rotate(-32 56 56)"/>
-        <polygon points="90,32 101,43 90,54 79,43" fill="#7EC8EB"/>
         <circle cx="56" cy="56" r="16" fill="#F0C040"/>
         <circle cx="52" cy="52" r="4.5" fill="#FFF3C4" opacity="0.7"/>
+        <path d="M90 26 L93.5 36 L103.5 39.5 L93.5 43 L90 53 L86.5 43 L76.5 39.5 L86.5 36 Z" fill="#7EC8EB"/>
       </g>
       <text x="150" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" letter-spacing="-1.2" fill="#FFFFFF">Josspa<tspan fill="#F0C040">Tech</tspan></text>
       <text x="152" y="104" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="3.4" fill="rgba(255,255,255,0.55)">FEWER APPS. BETTER APPS.</text>
     </svg>
   </div>
-
   <div class="lockup light" style="margin-top:12px">
     <svg viewBox="0 0 560 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JosspaTech light">
       <g transform="translate(12 14)">
         <ellipse cx="56" cy="56" rx="42" ry="25" fill="none" stroke="#1A4F7A" stroke-width="3.5" transform="rotate(-32 56 56)"/>
-        <polygon points="90,32 101,43 90,54 79,43" fill="#2E6FA3"/>
         <circle cx="56" cy="56" r="16" fill="#E8A820"/>
         <circle cx="52" cy="52" r="4.5" fill="#FFF3C4" opacity="0.75"/>
+        <path d="M90 26 L93.5 36 L103.5 39.5 L93.5 43 L90 53 L86.5 43 L76.5 39.5 L86.5 36 Z" fill="#2E6FA3"/>
       </g>
       <text x="150" y="72" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" letter-spacing="-1.2" fill="#0C3358">Josspa<tspan fill="#C99212">Tech</tspan></text>
       <text x="152" y="104" font-family="Manrope, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="3.4" fill="#5A7390">FEWER APPS. BETTER APPS.</text>
     </svg>
-  </div>
-
-  <h2 style="margin-top:40px">Also explored</h2>
-  <p class="lead">Inlined below so nothing depends on a separate file load.</p>
-  <div class="row">
-    <div class="card dark">
-      <h3>A - Cosmos</h3>
-      <svg viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="64" cy="64" rx="46" ry="28" stroke="#5DADE2" stroke-width="4" transform="rotate(-32 64 64)"/>
-        <polygon points="102,38 114,50 102,62 90,50" fill="#7EC8EB"/>
-        <circle cx="64" cy="64" r="18" fill="#F0C040"/>
-        <circle cx="59" cy="59" r="5" fill="#FFF3C4" opacity="0.7"/>
-      </svg>
-      <p>Live mark. Sun + orbit + diamond world.</p>
-    </div>
-    <div class="card">
-      <h3>B - Focus</h3>
-      <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="64" cy="64" r="50" fill="none" stroke="#0C3358" stroke-width="9"/>
-        <circle cx="64" cy="64" r="30" fill="none" stroke="#0C3358" stroke-width="9"/>
-        <circle cx="64" cy="64" r="13" fill="#F0C040"/>
-      </svg>
-      <p>Rings + center. Fewer apps as focus.</p>
-    </div>
-    <div class="card">
-      <h3>C - Node</h3>
-      <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="64" cy="64" r="40" fill="none" stroke="#0C3358" stroke-width="8"/>
-        <circle cx="94" cy="38" r="13" fill="#F0C040"/>
-      </svg>
-      <p>One ring, one companion.</p>
-    </div>
   </div>
 
   <a class="back" href="/">Back to josspatech.com</a>
