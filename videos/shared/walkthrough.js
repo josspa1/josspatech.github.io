@@ -1,4 +1,4 @@
-﻿/**
+/**
  * PocketBudJet video walkthrough helpers ΓÇö tech-support mode.
  */
 (function () {
@@ -129,11 +129,11 @@
         var text = p.textContent.trim();
         var parts = text.split(/(?<=[.!?])\s+/);
         for (var i = 0; i < parts.length; i++) {
-            if (/\b(tap|open|choose|select|go to|scroll|scan|enter)\b/i.test(parts[i])) {
+            if (/\b(tap|open|choose|select|go to|scroll|scan|enter|switch|swipe|fill|install|manage|allow|use|browse|expand)\b/i.test(parts[i])) {
                 return parts[i];
             }
         }
-        if (/\b(tap|open)\b/i.test(text) && text.length < 240) return text;
+        if (/\b(tap|open|switch|scroll|swipe|fill|install|manage)\b/i.test(text) && text.length < 240) return text;
         return '';
     }
 
