@@ -1153,19 +1153,27 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-pbj .pbj-hero-shots,
 #page-hhh .pbj-hero-shots,
 #page-cvc .pbj-hero-shots{
-  gap:14px;perspective:900px;
-  max-width:100%;
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:flex-end;
+  justify-content:center;
+  gap:0;
+  perspective:900px;
+  max-width:380px;
+  width:100%;
   min-width:0;
   justify-self:end;
+  margin:0;
 }
 #page-pbj .pbj-shot,
 #page-hhh .pbj-shot,
 #page-cvc .pbj-shot{
-  width:220px;
-  max-width:100%;
+  width:168px;
+  max-width:46%;
+  flex:0 0 auto;
   box-sizing:border-box;
   border-radius:28px !important;
-  padding:11px 11px 16px !important;
+  padding:10px 10px 14px !important;
   background:linear-gradient(165deg,#2a2a2e 0%, #0c0c0e 100%) !important;
   border:1px solid rgba(255,255,255,0.18) !important;
   box-shadow:
@@ -1178,7 +1186,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-cvc .pbj-shot::before{
   top:5px;width:48px;height:5px;background:rgba(0,0,0,0.6);
 }
-/* width:100% alone blew up native PNGs — frames must cap size first */
+/* Frames cap size — never let native PNG dimensions win */
 #page-pbj .pbj-shot img,
 #page-hhh .pbj-shot img,
 #page-cvc .pbj-shot img{
@@ -1191,30 +1199,43 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-pbj .pbj-shot-center,
 #page-hhh .pbj-shot-center,
 #page-cvc .pbj-shot-center{
-  width:248px;
-  transform:translateY(-8px) scale(1.04);
-  z-index:2;
+  width:200px;
+  max-width:54%;
+  transform:translateY(-10px);
+  z-index:3;
+  margin:0 -36px;
 }
 #page-pbj .pbj-shot-side,
 #page-hhh .pbj-shot-side,
 #page-cvc .pbj-shot-side{
-  width:200px;
-  transform:scale(0.9);opacity:0.9;
+  width:158px;
+  z-index:1;
+  opacity:0.92;
+}
+#page-pbj .pbj-shot-side:first-child,
+#page-hhh .pbj-shot-side:first-child,
+#page-cvc .pbj-shot-side:first-child{
+  transform:rotate(-6deg) translateY(8px);
+}
+#page-pbj .pbj-shot-side:last-child,
+#page-hhh .pbj-shot-side:last-child,
+#page-cvc .pbj-shot-side:last-child{
+  transform:rotate(6deg) translateY(8px);
 }
 #page-pbj .hero:hover .pbj-shot-center,
 #page-hhh .hero:hover .pbj-shot-center,
 #page-cvc .hero:hover .pbj-shot-center{
-  transform:translateY(-14px) scale(1.05);
+  transform:translateY(-16px);
 }
 #page-pbj .hero:hover .pbj-shot-side:first-child,
 #page-hhh .hero:hover .pbj-shot-side:first-child,
 #page-cvc .hero:hover .pbj-shot-side:first-child{
-  transform:scale(0.92) rotate(-3deg) translateY(-4px);
+  transform:rotate(-8deg) translateY(2px);
 }
 #page-pbj .hero:hover .pbj-shot-side:last-child,
 #page-hhh .hero:hover .pbj-shot-side:last-child,
 #page-cvc .hero:hover .pbj-shot-side:last-child{
-  transform:scale(0.92) rotate(3deg) translateY(-4px);
+  transform:rotate(8deg) translateY(2px);
 }
 /* Full-bleed trust strip under hero */
 #page-pbj .pstrip,
