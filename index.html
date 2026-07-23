@@ -496,15 +496,16 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
   background-size:200px 200px;
 }
 #page-company.catalog-hub .section-inner{max-width:1180px;position:relative;z-index:1;}
-#page-company.catalog-hub .section-eyebrow{
+/* Dark-section type only — do not leak onto light sections (e.g. .principles). */
+#page-company.catalog-hub .section.content .section-eyebrow{
   font-family:var(--mono,'IBM Plex Mono',monospace);
   color:rgba(240,192,64,0.88);
   letter-spacing:0.24em;
   font-size:12px;
 }
-#page-company.catalog-hub .section-title{color:#fff;}
-#page-company.catalog-hub .section-title em{color:var(--gold);}
-#page-company.catalog-hub .section-sub{color:rgba(255,255,255,0.55);font-size:17px;line-height:1.7;}
+#page-company.catalog-hub .section.content .section-title{color:#fff;}
+#page-company.catalog-hub .section.content .section-title em{color:var(--gold);}
+#page-company.catalog-hub .section.content .section-sub{color:rgba(255,255,255,0.55);font-size:17px;line-height:1.7;}
 #page-company .section-lead{display:flex;align-items:flex-start;gap:28px;}
 #page-company .section-num{
   font-family:var(--mono,'IBM Plex Mono',monospace);
