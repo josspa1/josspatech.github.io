@@ -1040,6 +1040,95 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;
   color:rgba(232,184,74,0.85);text-align:center;margin:0;
 }
+
+/* ══ Product story beats (HHH / CVC elevate) ═══════════════════════════════ */
+.prod-beat{
+  padding:clamp(64px,8vw,104px) clamp(24px,5vw,48px);
+  background:
+    radial-gradient(ellipse 55% 70% at 85% 20%, var(--mesh-b, rgba(200,170,110,0.18)), transparent 55%),
+    var(--brand-dk, #3D1522);
+  border-top:1px solid rgba(255,255,255,0.05);
+}
+.prod-beat-flip{background:
+  radial-gradient(ellipse 50% 60% at 15% 30%, var(--mesh-a, rgba(91,35,51,0.45)), transparent 55%),
+  color-mix(in srgb, var(--brand-dk) 88%, #000);
+}
+.prod-beat-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(32px,5vw,64px);
+  align-items:center;
+}
+.prod-beat-flip .prod-beat-inner{grid-template-columns:0.95fr 1.05fr;}
+.prod-beat-flip .prod-beat-copy{order:2;}
+.prod-beat-flip .prod-beat-visual{order:1;}
+.prod-beat-ey{
+  display:block;font-family:var(--mono,'IBM Plex Mono',monospace);
+  font-size:11px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--brand-accent);margin-bottom:16px;
+}
+.prod-beat-copy h2,.prod-toolkit h2,.prod-media h2,.prod-pricing h2,.prod-aside h2,.prod-close h2{
+  font-family:'Playfair Display',serif;font-weight:900;color:#fff;
+  font-size:clamp(32px,4.2vw,48px);letter-spacing:-0.03em;line-height:1.08;margin:0 0 16px;
+}
+.prod-beat-copy h2 em,.prod-toolkit h2 em,.prod-media h2 em,.prod-pricing h2 em,.prod-aside h2 em,.prod-close h2 em{
+  font-style:italic;color:var(--brand-accent);
+}
+.prod-beat-copy p,.prod-toolkit p,.prod-media p,.prod-pricing p,.prod-aside p,.prod-close p{
+  font-size:17px;line-height:1.7;color:rgba(255,255,255,0.58);max-width:36ch;margin:0;
+}
+.prod-beat-visual{margin:0;justify-self:center;}
+.prod-beat-visual img{
+  width:min(280px,70vw);height:auto;display:block;
+  padding:10px 10px 14px;border-radius:26px;
+  background:linear-gradient(165deg,#2a2a2e,#0c0c0e);
+  border:1px solid rgba(255,255,255,0.16);
+  box-shadow:0 32px 72px rgba(0,0,0,0.5);
+}
+.prod-toolkit,.prod-media,.prod-pricing,.prod-aside,.prod-close{
+  padding:clamp(56px,7vw,88px) clamp(24px,5vw,48px);
+  background:color-mix(in srgb, var(--brand-dk) 92%, #000);
+  border-top:1px solid rgba(255,255,255,0.05);
+  text-align:center;
+}
+.prod-toolkit-inner,.prod-media-inner,.prod-pricing-inner,.prod-aside-inner,.prod-close-inner{
+  max-width:720px;margin:0 auto;
+}
+.prod-toolkit-list{
+  list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;
+  margin:36px auto 0;padding:0;max-width:520px;text-align:left;
+}
+.prod-toolkit-list li{
+  font-size:15px;color:rgba(255,255,255,0.72);padding:12px 0 12px 18px;
+  border-left:2px solid color-mix(in srgb, var(--brand-accent) 55%, transparent);
+}
+.prod-media-acts,.prod-close .prod-media-acts{
+  display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px;
+}
+.prod-media p,.prod-pricing p,.prod-aside p,.prod-close p{margin:0 auto;max-width:40ch;}
+.prod-aside a{color:var(--brand-accent);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(200,170,110,0.35);}
+.prod-price-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:560px;margin:36px auto 0;text-align:left;}
+.prod-price-card{
+  position:relative;padding:28px 24px;border-radius:16px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);
+}
+.prod-price-card-hi{border-color:color-mix(in srgb, var(--brand-accent) 45%, transparent);background:color-mix(in srgb, var(--brand-accent) 8%, transparent);}
+.prod-price-badge{
+  position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+  background:var(--brand-accent);color:var(--brand-dk,#3D1522);
+  font-size:10px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;
+  padding:4px 12px;border-radius:999px;white-space:nowrap;
+}
+.prod-price-label{display:block;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--brand-accent);margin-bottom:8px;}
+.prod-price-card strong{display:block;font-family:'Playfair Display',serif;font-size:36px;color:#fff;font-weight:900;}
+.prod-price-sub{display:block;margin-top:6px;font-size:13px;color:rgba(255,255,255,0.45);}
+@media (max-width:820px){
+  .prod-beat-inner,.prod-beat-flip .prod-beat-inner{grid-template-columns:1fr;text-align:center;}
+  .prod-beat-flip .prod-beat-copy,.prod-beat-flip .prod-beat-visual{order:unset;}
+  .prod-beat-copy p{margin-left:auto;margin-right:auto;}
+  .prod-beat-visual{justify-self:center;}
+  .prod-toolkit-list,.prod-price-row{grid-template-columns:1fr;}
+}
+
 /* ══ PRODUCT PAGE DYNAMITE — match hub craft ═══════════════════════════════ */
 #page-pbj .hero,
 #page-hhh .hero,
@@ -4002,340 +4091,122 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="psi"><div class="psd"></div>15-day trial &middot; $9.99/mo &middot; $74.99/yr</div>
 </div>
 
-<section class="vol-pin" aria-label="Product proof">
-  <div class="vol-pin-copy rv">
-    <span class="vol-pin-ey">Proof</span>
-    <h2>Your museum,<br><em>on the phone.</em></h2>
-    <p>Command Center, My Museum, and piece detail — the real product, not a metaphor. Identify, value, and keep provenance in one private place.</p>
-  </div>
-  <div class="vol-pin-visual rv d1">
-    <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="My Museum in Handy Horology Helper" width="280" height="608" loading="lazy">
+
+<!-- HHH story beats — elevate craft; restore from SourceBackup if needed -->
+<section class="prod-beat" aria-label="Identify">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Identify</span>
+      <h2>Snap it.<br><em>Know it.</em></h2>
+      <p>Photograph a watch or clock. Get brand, model, era, and an honest confidence score — with alternatives and evidence, not fake certainty.</p>
+    </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/hhh/intro/04-ai-identify.png" alt="AI identification result in Handy Horology Helper" width="280" height="608" loading="lazy">
+    </figure>
   </div>
 </section>
 
-<section class="sec" style="background:var(--brand-dk);padding:80px 24px;">
-  <div class="section-inner" style="max-width:900px;margin:0 auto;">
-    <span class="section-eyebrow rv" style="color:var(--brand-accent);border-color:rgba(200,170,110,0.22);background:rgba(200,170,110,0.08);">Core Features</span>
-    <h2 class="section-title rv" style="color:#fff;">Identify. Collect.<br><em style="color:var(--brand-accent);">Repair.</em></h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Visual Identification</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any watch or clock and know what it is in seconds &mdash; brand, model, era, and what it's worth. Web-verified against authoritative horological sources so you can buy with confidence.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128269;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Type what you know &mdash; a serial number, case back markings, or just "gold Omega from the 1960s" &mdash; and get the right answer fast.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Pricing</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know what a piece is worth before you buy, sell, or insure it. Pricing adjusted for condition so you negotiate from a position of knowledge.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128190;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Manager</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every piece you own, in one place &mdash; photos, condition, provenance, service history, and what you paid. Generate insurance-ready reports when you need them.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127919;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Honest ID Trust</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">No fake "100% genuine" theater. Every identification shows a confidence score, ranked alternatives, and the evidence behind it &mdash; movement stamps, serial-era hints, and OCR of case-back markings &mdash; so you decide with clear eyes.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9201;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Watches &amp; Clocks</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Full support for wristwatches, pocket watches, wall clocks, grandfather clocks, cuckoo clocks, mantle clocks, and more &mdash; with type-specific metadata, winding reminders, and clock-aware maintenance tracking.</p>
-      </div>
+<section class="prod-beat prod-beat-flip" aria-label="Museum">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Museum</span>
+      <h2>Your private<br><em>collection.</em></h2>
+      <p>My Museum keeps photos, value, provenance, and service history on the device. Insurance-ready records when you need them — not a social feed.</p>
     </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="My Museum collection gallery" width="280" height="608" loading="lazy">
+    </figure>
+  </div>
+</section>
 
-    <!-- Financial Tools -->
-    <h3 class="rv" style="color:var(--brand-accent);font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Financial Tools</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128200;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Profit &amp; Loss Dashboard</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See exactly where you stand &mdash; what you've spent, what it's worth now, and where the profit is. Every cost counted, every gain tracked, per piece and across your whole collection.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(255,152,0,0.06);border:1px solid rgba(255,152,0,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128178;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Budget Tracker</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know exactly how much you can spend on your next piece. One number that factors in your budget, what you've sold, and what's left in the period &mdash; so you never overshoot.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(0,137,123,0.06);border:1px solid rgba(0,137,123,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cost of Ownership</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Find out what each piece really costs you per day &mdash; purchase, repairs, insurance, everything. See which watches earn their keep and which are quietly draining your wallet.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128184;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Price Alerts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your price, go about your day. When that grail watch drops below your target, you'll be the first to know.</p>
-      </div>
+<section class="prod-beat" aria-label="Repair and companion">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Repair · Companion</span>
+      <h2>Fix with confidence.<br><em>See it on the desk.</em></h2>
+      <p>Clockworks-ready repair help for stopped clocks. On home Wi‑Fi, start Web Companion — a short pairing code unlocks a live dashboard on your PC.</p>
     </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/hhh/intro/05-clockworks-repair.png" alt="Clock repair help in Handy Horology Helper" width="280" height="608" loading="lazy">
+    </figure>
+  </div>
+</section>
 
-    <!-- Collection Intelligence -->
-    <h3 class="rv" style="color:var(--brand-accent);font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collection Intelligence</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(126,87,194,0.06);border:1px solid rgba(126,87,194,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128161;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Insights</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Discover patterns you'd never spot on your own &mdash; which dealers give you the best deals, where your collection is lopsided, and which pieces deserve more attention.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Analytics</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See your collection's total value at a glance, broken down by brand, type, and condition. Watch it grow over time like an investment portfolio.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128336;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Timeline</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Scroll through the story of your collection &mdash; every acquisition, sale, service, and milestone on a visual timeline. Watch your hobby grow.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Export &amp; Print</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Print professional reports from any list &mdash; pick your fields, choose portrait or landscape, and get a clean PDF. Export to CSV for your records or insurance-ready documentation for your agent.</p>
-      </div>
-    </div>
+<section class="prod-toolkit" aria-label="Also in the toolkit">
+  <div class="prod-toolkit-inner rv">
+    <span class="prod-beat-ey">Also in the toolkit</span>
+    <h2>The rest,<br><em>without the clutter.</em></h2>
+    <ul class="prod-toolkit-list">
+      <li>Web Companion &amp; Device Sync</li>
+      <li>eBay Hunt &amp; Wish List</li>
+      <li>Demand Rolodex at shows</li>
+      <li>Finances, P&amp;L, budget</li>
+      <li>Offline Show Pack</li>
+      <li>File backup (.hhh)</li>
+      <li>8 languages</li>
+      <li>Photo Coach</li>
+    </ul>
+  </div>
+</section>
 
-    <!-- Trading & Marketplace -->
-    <h3 class="rv" style="color:var(--brand-accent);font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Trading &amp; Marketplace</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128225;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Swap Meet Sharing</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a swap meet with no signal? Share watch details &mdash; including photos &mdash; with the collector next to you over Bluetooth. No internet, no accounts, just a quick PIN and the data is on their phone.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">For Sale List</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Ready to sell? List watches from your collection with an asking price and share them with buyers nearby. Keep your collection, wish list, and for-sale items organized in separate lists.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(92,107,192,0.06);border:1px solid rgba(92,107,192,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#129309;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collector Network</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Remember who sold you that Seiko at the flea market. Track your contacts &mdash; dealers, watchmakers, collectors &mdash; and know who gives you the best deals.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128722;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Integration</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Check eBay prices for watches on your wish list. When you're ready to sell from your collection, list directly on eBay with all specs pre-filled.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128270;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Flea Market Alerts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a local opportunity. Find nearby flea markets, estate sales, and antique shows with driving distance and dates so you can plan your weekends.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128230;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Estate Intake</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Inherited a box of watches and clocks? Photograph the whole lot in one session, then work through the queue &mdash; identify each piece, save it to your collection, and build an insurance-ready record without missing a thing.</p>
-      </div>
+<section class="prod-media" aria-label="Walkthrough and manual">
+  <div class="prod-media-inner">
+    <span class="prod-beat-ey rv">Videos</span>
+    <h2 class="rv">Walkthrough &amp; <em>User Manual</em></h2>
+    <p class="rv">Short overview, then the interactive how-to. English now.</p>
+    <div class="prod-media-acts rv">
+      <a class="btn-primary" href="/videos/hhh/walkthrough/" style="text-decoration:none;">Walkthrough</a>
+      <a class="btn-ghost" href="/videos/hhh/user-manual/" style="text-decoration:none;">User Manual</a>
+      <a class="btn-ghost" href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="text-decoration:none;">PDF</a>
     </div>
+  </div>
+</section>
 
-    <!-- Horology Tools -->
-    <h3 class="rv" style="color:var(--brand-accent);font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Horology Tools</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9202;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Atomic Clock</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your watch to the second. Measure its accuracy against an atomic reference and track drift over time to know exactly how your movement performs.</p>
+<section class="prod-pricing" aria-label="Pricing">
+  <div class="prod-pricing-inner rv">
+    <span class="prod-beat-ey">Pricing</span>
+    <h2>15-day free trial.<br><em>Then Pro.</em></h2>
+    <p>$9.99/mo or $74.99/yr after trial — cancel anytime. Same shelf as PocketBudJet.</p>
+    <div class="prod-price-row">
+      <div class="prod-price-card">
+        <span class="prod-price-label">Monthly</span>
+        <strong>$9.99</strong>
+        <span class="prod-price-sub">per month</span>
       </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127769;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Moon Phase</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Set your moonphase complication perfectly every time. Animated display shows exactly where the moon is today and when the next phases arrive.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128260;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wear Tracker</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Log which watch you wear each day and see your rotation stats &mdash; most worn, longest neglected, and streaks. Make sure every piece in your collection gets the wrist time it deserves.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128203;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Warranty Tracker</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a warranty claim window again. Automatic alerts when warranties are expiring so you can get service covered while it's still free.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Photo Coach</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Guided dial, caseback, and movement shots for listing-ready photos — a coach for the angles that matter, not a generic camera.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128196;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Watch Passport</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">A shareable digital identity card for any piece &mdash; photos, specs, service history, and provenance all in one place. Hand it to a buyer or show it at a meetup.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128295;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Clock Repair Bench</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Free for everyone. Walk a stopped or misbehaving clock through a symptom wizard to the likely fix and the exact Clockworks parts &mdash; plus DIY helpers for beat setting, strike counts, gear ratios, and moon-dial sync. Print or share the repair sheet.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128244;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Offline Show Pack</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Heading to a flea market or show with no signal? Download a reference pack ahead of time and keep identifying on the floor &mdash; with honest confidence caps offline. Anything you can't finish is queued and completed automatically when you're back online.</p>
-      </div>
-    </div>
-
-    <!-- Personal Growth & Community -->
-    <h3 class="rv" style="color:var(--brand-accent);font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Personal Growth &amp; Community</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127942;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">In-App Coach</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Level up from Novice to Grand Collector through 37 real challenges. Catalog, network, trade, and master your hobby &mdash; with celebrations at every milestone to keep you going.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Event Calendar</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Auctions, watch fairs, meetups, and your service due dates &mdash; all in one calendar with reminders. Never miss an event or a maintenance window.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9729;&#65039;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cloud Sync</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Optional Pro cloud sync when you want it — your museum still lives on the device first. Prefer LAN Device Sync or a .hhh file backup when you want full control.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128101;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Device Sync</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Move pieces between your own phones or tablets on the same Wi‑Fi — a private LAN sync for your museum, not a social network.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128187;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Web Companion</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">On the same Wi‑Fi, open Tools → Web Companion → Start. Your phone shows an address like <strong>http://10.0.0.50:8771</strong> and a large <strong>4-digit pairing code</strong>. Type that code on the PC to unlock the live dashboard — no public cloud site.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128190;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Backup &amp; Restore</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Open <strong>File backup</strong>, tap <strong>Save a Copy</strong> for a portable .hhh file, then <strong>Bring a Copy Back</strong> on another device. Prefer Device Sync on the same Wi‑Fi when you want a live phone-to-phone transfer.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128241;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List &amp; Hunts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Save pieces you want someday. Start an eBay Hunt to watch listings over time and get match alerts &mdash; or Search now for a one-time look in your browser.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(156,39,176,0.06);border:1px solid rgba(156,39,176,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128101;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Demand Rolodex</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a flea market with no signal? Dealers say &ldquo;Got HHH? Send me your wishlist.&rdquo; Buyers send a want list with contact info &mdash; no prices. Dealers get a demand board by make and model, then call when they find a match.</p>
-      </div>
-    </div>
-    <!-- Smart Experience -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128075;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Guided Onboarding</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Identify your first watch in under a minute. A 5-step welcome gets you up and running fast &mdash; no manuals, no confusion, just results from the start.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#127919;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Confidence Scores</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Every identification tells you how confident the AI is &mdash; in plain English. You'll know whether to trust the result or take a better photo and try again.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128161;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Prompts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Helpful nudges exactly when you need them &mdash; a service reminder, a price drop on your wish list, or a gentle push to fill in missing details. Like a knowledgeable friend looking over your shoulder.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(200,170,110,0.05);border:1px solid rgba(200,170,110,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Accessibility First</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Every collector deserves a great experience. Colorblind-friendly palettes (protanopia, deuteranopia, tritanopia), adjustable text scaling, high contrast mode, and comfortable touch targets throughout &mdash; all free, all opt-in.</p>
+      <div class="prod-price-card prod-price-card-hi">
+        <span class="prod-price-badge">Best value</span>
+        <span class="prod-price-label">Annual</span>
+        <strong>$74.99</strong>
+        <span class="prod-price-sub">$6.25 / month equivalent</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HHH Walkthrough + User Manual -->
-<section class="sec" style="background:var(--navy-dk);padding:72px 24px;border-top:1px solid rgba(240,192,64,0.08);">
-  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
-    <span class="section-eyebrow rv" style="color:var(--brand-accent);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);">Videos</span>
-    <h2 class="section-title rv" style="color:#fff;font-size:clamp(22px,3vw,28px);margin-bottom:10px;">Walkthrough &amp; <em style="color:var(--brand-accent);">User Manual</em></h2>
-    <p class="rv" style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:28px;max-width:640px;margin-left:auto;margin-right:auto;">Short product overview first, then the detailed interactive how-to — phone on the left, transcript on the right. English now; more languages as HHH ships.</p>
-    <div class="rv" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:28px;">
-      <a href="/videos/hhh/walkthrough/" style="display:inline-flex;align-items:center;gap:8px;background:#5B2333;color:#fff;font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;border:1px solid rgba(200,170,110,0.35);">&#9654; Walkthrough</a>
-      <a href="/videos/hhh/user-manual/" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--brand-accent);font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;text-decoration:none;border:2px solid rgba(240,192,64,0.45);">User Manual</a>
-      <a href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,0.7);font-size:14px;font-weight:600;padding:11px 18px;border-radius:9px;text-decoration:none;border:1px solid rgba(255,255,255,0.15);">PDF</a>
-    </div>
-    <div class="rv" style="border-radius:16px;overflow:hidden;border:1px solid rgba(240,192,64,0.18);background:var(--navy-dk);aspect-ratio:16/10;max-width:820px;margin:0 auto;">
-      <iframe data-src="/videos/user-guide-hhh/?embed=1" title="Handy Horology Helper interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade" style="width:100%;height:100%;border:0;display:block;"></iframe>
-    </div>
-    <p class="rv" style="margin-top:14px;font-size:13px;color:rgba(255,255,255,0.4);"><a href="/videos/hhh/user-manual/" style="color:var(--brand-accent);font-weight:600;">Open full screen</a> for chapter jumps · <a href="/videos/hhh/" style="color:rgba(240,192,64,0.85);">All HHH videos</a></p>
+<section class="prod-aside" aria-label="Friends of Horology">
+  <div class="prod-aside-inner rv">
+    <span class="prod-beat-ey">Friends of Horology</span>
+    <p>Looking for clock parts or expert repair? Our friends at <a href="https://www.clockworks.com" target="_blank" rel="noopener">Clockworks.com</a> have been supplying collectors and shops for over 100 years.</p>
   </div>
 </section>
 
-<!-- Pricing Section -->
-<section class="sec" style="background:var(--navy-dk);padding:80px 24px;border-top:1px solid rgba(240,192,64,0.08);">
-  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
-    <span class="section-eyebrow rv" style="color:var(--brand-accent);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);">Pricing</span>
-    <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:var(--brand-accent);">Then Pro.</em></h2>
-    <p class="rv" style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:24px;">Try full Pro access free for 15 days. After the trial, subscribe at <strong>$9.99/mo</strong> or <strong>$74.99/yr</strong> &mdash; cancel anytime. Same shelf as PocketBudJet.</p>
-    <div class="rv" style="background:rgba(240,192,64,0.08);border:1px solid rgba(240,192,64,0.25);border-radius:12px;padding:14px 22px;margin-bottom:32px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.55;"><strong style="color:var(--brand-accent);">15-day free trial</strong> &mdash; full Pro features during trial. Subscription required after trial ends.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto;">
-      <div class="rv d1" style="background:rgba(240,192,64,0.06);border:1px solid rgba(240,192,64,0.18);border-radius:16px;padding:32px;text-align:left;">
-        <div style="color:var(--brand-accent);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Monthly</div>
-        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$9.99</div>
-        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:20px;">per month &middot; cancel anytime</div>
-        <div style="border-top:1px solid rgba(200,170,110,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
-          Unlimited AI identifications<br>
-          eBay hunt alerts &amp; portfolio analytics<br>
-          Cloud sync &amp; premium tools
-        </div>
-      </div>
-      <div class="rv d2" style="background:rgba(240,192,64,0.08);border:2px solid rgba(200,170,110,0.30);border-radius:16px;padding:32px;text-align:left;position:relative;">
-        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dk);font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;">BEST VALUE</div>
-        <div style="color:var(--brand-accent);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Annual</div>
-        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$74.99</div>
-        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:4px;">per year &middot; save 37% vs monthly</div>
-        <div style="color:var(--brand-accent);font-size:12px;margin-bottom:20px;">$6.25 / month equivalent</div>
-        <div style="border-top:1px solid rgba(200,170,110,0.15);padding-top:16px;color:rgba(255,255,255,0.55);font-size:13px;line-height:2;">
-          Everything in Pro Monthly<br>
-          Insurance reports &amp; full backup<br>
-          Priority support
-        </div>
-      </div>
-    </div>
+<section class="prod-aside" aria-label="Feedback">
+  <div class="prod-aside-inner rv">
+    <span class="prod-beat-ey">Feedback</span>
+    <h2>Help us build a<br><em>better app.</em></h2>
+    <p>Bug, feature, or need <strong>iOS</strong>? Tell us — every report is reviewed personally.</p>
+    <a class="btn-ghost" href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;">Send Feedback →</a>
   </div>
 </section>
 
-<section class="sec" style="background:var(--navy-dk);padding:48px 24px;text-align:center;border-top:1px solid rgba(240,192,64,0.08);">
-  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
-    <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Friends of Horology</p>
-    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;">Looking for clock parts, movements, or expert repair? Our friends at <a href="https://www.clockworks.com" target="_blank" rel="noopener" style="color:var(--brand-accent);text-decoration:none;font-weight:600;border-bottom:1px solid rgba(240,192,64,0.3);transition:border-color .18s;">Clockworks.com</a> have been supplying collectors and repair shops for over 100 years.</p>
-  </div>
-</section>
-
-<section class="sec" style="background:var(--navy-dk);padding:48px 24px;text-align:center;border-top:1px solid rgba(240,192,64,0.08);">
-  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
-    <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Feedback</p>
-    <h2 style="color:#fff;font-family:'Playfair Display',serif;font-size:24px;margin-bottom:12px;">Help Us Build a<br><em style="color:var(--brand-accent);">Better App</em></h2>
-    <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:24px;">Found a bug? Want a feature? Need <strong>iOS</strong>? Tell us — your feedback shapes what we ship next. Every report is reviewed personally.</p>
-    <a href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(240,192,64,0.12);color:var(--brand-accent);font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(240,192,64,0.22);transition:all .18s;">
-      &#128172; Send Feedback (Handy Horology Helper)
-      <span>&rarr;</span>
-    </a>
-    <p style="color:rgba(255,255,255,0.3);font-size:12px;margin-top:12px;">Feedback is tagged to Handy Horology Helper automatically.</p>
-  </div>
-</section>
-
-<section class="sec" style="background:var(--navy-dk);padding:60px 24px;text-align:center;">
-  <div class="section-inner rv" style="max-width:600px;margin:0 auto;">
-    <span class="section-eyebrow" style="color:var(--brand-accent);border-color:rgba(240,192,64,0.18);background:rgba(240,192,64,0.06);" id="hhh-stay-updated">Android live · iOS coming</span>
-    <h2 class="section-title" style="color:#fff;font-size:28px;">Get Handy Horology Helper<br><em style="color:var(--brand-accent);">on Android today</em></h2>
-    <p style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:28px;"><strong>v1.0.88</strong> is <strong>live on Google Play</strong> (US). The App Store build is next — early iOS testers can join <strong>TestFlight</strong>. Want public iOS sooner? Say so in feedback.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-    <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:rgba(240,192,64,0.12);color:var(--brand-accent);font-size:14px;font-weight:700;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(240,192,64,0.22);">
-      Get HHH on Google Play
-      <span>&rarr;</span>
-    </a>
-    <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(255,255,255,0.75);font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;text-decoration:none;border:1px solid rgba(255,255,255,0.18);">
-      iOS early access (TestFlight)
-      <span>&rarr;</span>
-    </a>
+<section class="prod-close" aria-label="Get HHH" id="hhh-stay-updated">
+  <div class="prod-close-inner rv">
+    <span class="prod-beat-ey">Android live · iOS coming</span>
+    <h2>Get Handy Horology Helper<br><em>on Android today.</em></h2>
+    <p><strong>v1.0.88</strong> is live on Google Play (US). Early iOS via TestFlight.</p>
+    <div class="prod-media-acts">
+      <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" style="text-decoration:none;">Get HHH on Google Play →</a>
+      <a class="btn-ghost" href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" style="text-decoration:none;">iOS early access (TestFlight)</a>
     </div>
   </div>
 </section>
@@ -4695,198 +4566,91 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="psi" style="color:#D4A853;"><div class="psd" style="background:#D4A853;"></div>Internal testing</div>
 </div>
 
-<section class="vol-pin" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;" aria-label="Product proof">
-  <div class="vol-pin-copy rv">
-    <span class="vol-pin-ey">Proof</span>
-    <h2>Five categories.<br><em>One vault.</em></h2>
-    <p>Identify, gallery, and analytics — the real Curator's Vault UI. Coins, cards, stamps, paper, and lighters under your rules.</p>
-  </div>
-  <div class="vol-pin-visual rv d1">
-    <img src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery in Curator's Vault" width="280" height="498" loading="lazy">
-  </div>
-</section>
 
-<section class="sec" style="background:var(--navy-dk);padding:80px 24px;">
-  <div class="section-inner" style="max-width:900px;margin:0 auto;">
-    <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Core Features</span>
-    <h2 class="section-title rv" style="color:#fff;">Identify. Organize.<br><em style="color:#D4A853;">Invest.</em></h2>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px;">
-      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">📸</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">AI Visual Identification</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Snap a photo of any US coin, bill, stamp, trading card, or lighter and get instant AI identification with series, era, rarity, and grading guidance. Verified against authoritative reference databases (PCGS, NGC, PSA, Scott catalog, and more).</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">🔍</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Smart Search</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Type what you know — year, mintmark, denomination, or design elements — and find the exact item in seconds. Powerful filters for type, condition, and rarity.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">💰</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Real-Time Valuation</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Know what each item is worth before you buy, sell, or insure. Pricing adjusted for condition and market trends so you always negotiate from a position of strength.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">📋</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Manager</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Everything about every item you own, in one place — photos, condition notes, provenance, purchase history, and current value. Generate insurance-ready catalogs instantly.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">🏆</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Grading &amp; Condition</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Understand grading standards across all five categories &mdash; Sheldon scale for coins, PSA/BGS/CGC for trading cards, Scott/PSE for stamps, and PMG for paper money. Confidently describe items for sale or insurance.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">🌍</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Multi-Collection Support</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">US coins, paper money, stamps, trading cards, lighters, or a mix of everything &mdash; pick any combination of five categories at setup. Each with its own grading, metadata, and reference data.</p>
-      </div>
+<!-- CVC story beats — elevate craft; restore from SourceBackup if needed -->
+<section class="prod-beat" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;--mesh-a:rgba(15,46,37,0.55);--mesh-b:rgba(212,168,83,0.16);" aria-label="Identify">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Identify</span>
+      <h2>Snap it.<br><em>Catalog it.</em></h2>
+      <p>AI ID for coins, cards, stamps, and paper money — with series, era, and grading cues. Lighters you enter by hand. Honest confidence, not theater.</p>
     </div>
-
-    <!-- Investment Tools -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Investment Tools</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">📊</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Portfolio Dashboard</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See your total collection value at a glance. Track growth over time, identify your most valuable items, and analyze performance across different categories.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(255,152,0,0.06);border:1px solid rgba(255,152,0,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">💵</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Cost Basis Tracking</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Track every purchase with cost, date, and seller. Know exactly what you paid and how much profit you've made on each item when it's time to sell.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(0,137,123,0.06);border:1px solid rgba(0,137,123,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">📈</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Market Trends</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">See which items are gaining or losing value in real time. Understand market demand, rarity premiums, and seasonal trends to make smarter buying and selling decisions.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">🎯</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Wish List &amp; Targets</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build your want list with target prices. Get price drop alerts when items you're hunting reach your price target.</p>
-      </div>
-    </div>
-
-    <!-- Collection Intelligence -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collection Intelligence</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(126,87,194,0.06);border:1px solid rgba(126,87,194,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">💡</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collection Insights</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Discover patterns you'd never spot on your own — gaps in your collection, overweight categories, and which items deserve more attention or selling.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">📱</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Offline Access</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Your collection data is stored on your device, not in the cloud. Full access even when you're offline — at a show, at home, or anywhere you collect.</p>
-      </div>
-    </div>
-
-    <!-- Trading & Marketplace -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Trading &amp; Marketplace</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(33,150,243,0.06);border:1px solid rgba(33,150,243,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128225;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Show Floor Sharing</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">At a coin show with no signal? Share item details &mdash; including photos &mdash; with the collector next to you over Bluetooth. No internet, no accounts, just a quick PIN and the data is on their phone.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(76,175,80,0.06);border:1px solid rgba(76,175,80,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128176;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">For Sale List</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Ready to sell? List items from your collection with an asking price and share them with buyers nearby. Keep your collection, wish list, and for-sale items organized in separate lists.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(92,107,192,0.06);border:1px solid rgba(92,107,192,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#129309;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Collector Network</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Remember who sold you that Walking Liberty at the flea market. Track your contacts &mdash; dealers, appraisers, fellow collectors &mdash; and know who gives you the best deals.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128722;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">eBay Integration</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Check live eBay prices for items on your wish list or collection. See what similar items are selling for right now so you always know what yours are worth before you buy or sell.</p>
-      </div>
-      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128270;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Local Event Alerts</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Never miss a local opportunity. Find nearby coin shows, card expos, estate sales, and antique fairs with driving distance and dates so you can plan your weekends.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(255,193,7,0.06);border:1px solid rgba(255,193,7,0.15);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9878;&#65039;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Trade Analyzer</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Thinking about a trade? Get an instant fairness verdict with estimated cash-to-boot so you never walk away from a bad deal &mdash; or miss a great one.</p>
-      </div>
-    </div>
-
-    <!-- Collector Tools -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Collector Tools</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128247;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Photo Studio</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Build a professional photo gallery for each item with guided shot positions tailored to each category. Perfect photos for insurance claims, resale listings, or just showing off your collection.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128196;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Digital Passport</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">A shareable digital identity card for any collectible &mdash; photos, specs, provenance, and condition all in one place. Hand it to a buyer or share it at a meetup.</p>
-      </div>
-      <div class="rv d3" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128197;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Event Calendar</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Coin shows, card expos, stamp exhibitions, estate sales, and your own reminders &mdash; all in one calendar so you never miss an event.</p>
-      </div>
-      <div class="rv d4" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128202;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Export &amp; Print</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Print professional reports from any list &mdash; pick your fields, choose portrait or landscape, and get a clean PDF. Generate insurance-ready documentation with photos, values, and cert numbers.</p>
-      </div>
-    </div>
-
-    <!-- Privacy & Accessibility -->
-    <h3 class="rv" style="color:#D4A853;font-family:'Playfair Display',serif;font-size:22px;margin-top:56px;margin-bottom:24px;text-align:center;">Privacy &amp; Accessibility</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-      <div class="rv d1" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#128274;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Your Data, Your Device</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Stored in the app&rsquo;s private storage on your device. No account required. Backups and optional cloud sync are always AES-256 encrypted with a key only you know &mdash; your cloud provider can&rsquo;t read it.</p>
-      </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.05);border:1px solid rgba(212,168,83,0.12);border-radius:16px;padding:32px;">
-        <div style="font-size:28px;margin-bottom:12px;">&#9855;</div>
-        <h3 style="color:#fff;font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px;">Built for Everyone</h3>
-        <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.7;">Colorblind-friendly palettes, adjustable text scaling (1.0x &ndash; 1.5x), and high contrast mode &mdash; all free, all opt-in. Your collection app should work for you, not the other way around.</p>
-      </div>
-    </div>
-
-    <!-- Curator's Vault Badge -->
-    <div class="rv" style="text-align:center;margin-top:64px;">
-      <div style="font-size:14px;color:rgba(255,255,255,0.45);font-style:italic;">Internal testing on Google Play &middot; not a public listing</div>
-      <div style="font-size:28px;margin-top:16px;color:#D4A853;">★ ★ ★</div>
-    </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/cvc/03-identify.png" alt="AI identification in Curator's Vault" width="280" height="498" loading="lazy">
+    </figure>
   </div>
 </section>
 
-<!-- CVC Pricing -->
-<section class="sec" style="background:var(--navy-dk);padding:80px 24px;border-top:1px solid rgba(212,168,83,0.08);">
-  <div class="section-inner" style="max-width:900px;margin:0 auto;text-align:center;">
-    <span class="section-eyebrow rv" style="color:#D4A853;border-color:rgba(212,168,83,0.18);background:rgba(212,168,83,0.06);">Pricing</span>
-    <h2 class="section-title rv" style="color:#fff;font-size:28px;">15-Day Free Trial.<br><em style="color:#D4A853;">Then Pro.</em></h2>
-    <p class="rv" style="color:rgba(255,255,255,0.5);font-size:15px;line-height:1.7;margin-top:16px;margin-bottom:24px;">Curator's Vault: Classics is in <strong>internal testing</strong> on Google Play (<code>com.josspatech.cts</code>). Try free for <strong>15 days</strong>, then Pro at <strong>$9.99/mo &middot; $74.99/yr</strong> &mdash; cancel anytime.</p>
-    <div class="rv" style="background:rgba(212,168,83,0.08);border:1px solid rgba(212,168,83,0.25);border-radius:12px;padding:14px 22px;margin-bottom:32px;font-size:14px;color:rgba(255,255,255,0.75);line-height:1.55;"><strong style="color:#D4A853;">15-day free trial</strong> &mdash; full Pro features during trial. Subscription required after trial ends.</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:640px;margin:0 auto;">
-      <div class="rv d1" style="background:rgba(212,168,83,0.06);border:1px solid rgba(212,168,83,0.18);border-radius:16px;padding:32px;text-align:left;">
-        <div style="color:#D4A853;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Monthly</div>
-        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$9.99</div>
-        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:16px;">per month &middot; cancel anytime</div>
+<section class="prod-beat prod-beat-flip" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;--mesh-a:rgba(15,46,37,0.55);--mesh-b:rgba(212,168,83,0.16);" aria-label="Vault">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Vault</span>
+      <h2>Five categories.<br><em>One private vault.</em></h2>
+      <p>Coins, cards, stamps, paper, lighters — photos, condition, provenance, and value on the device. Insurance-ready when you need the paperwork.</p>
+    </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery in Curator's Vault" width="280" height="498" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="prod-beat" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;--mesh-a:rgba(15,46,37,0.55);--mesh-b:rgba(212,168,83,0.16);" aria-label="Value">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Value</span>
+      <h2>Know the number.<br><em>Track the trend.</em></h2>
+      <p>Portfolio view, cost basis, and market cues so you buy, sell, or insure from a clearer position — not a spreadsheet scavenger hunt.</p>
+    </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/cvc/04-analytics.png" alt="Collection analytics in Curator's Vault" width="280" height="498" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="prod-toolkit" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;" aria-label="Also in the toolkit">
+  <div class="prod-toolkit-inner rv">
+    <span class="prod-beat-ey">Also in the toolkit</span>
+    <h2>The rest,<br><em>without the clutter.</em></h2>
+    <ul class="prod-toolkit-list">
+      <li>Wish list &amp; targets</li>
+      <li>Show-floor Bluetooth share</li>
+      <li>For-sale list</li>
+      <li>Collector contacts</li>
+      <li>eBay price checks</li>
+      <li>Trade analyzer</li>
+      <li>Photo studio &amp; passport</li>
+      <li>Export &amp; print</li>
+    </ul>
+  </div>
+</section>
+
+<section class="prod-pricing" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;" aria-label="Pricing">
+  <div class="prod-pricing-inner rv">
+    <span class="prod-beat-ey">Pricing</span>
+    <h2>15-day free trial.<br><em>Then Pro.</em></h2>
+    <p>Internal testing on Google Play (<code>com.josspatech.cts</code>). $9.99/mo or $74.99/yr after trial — cancel anytime.</p>
+    <div class="prod-price-row">
+      <div class="prod-price-card">
+        <span class="prod-price-label">Monthly</span>
+        <strong>$9.99</strong>
+        <span class="prod-price-sub">per month</span>
       </div>
-      <div class="rv d2" style="background:rgba(212,168,83,0.08);border:2px solid rgba(212,168,83,0.30);border-radius:16px;padding:32px;text-align:left;position:relative;">
-        <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#D4A853;color:var(--navy-dk);font-size:11px;font-weight:700;padding:4px 16px;border-radius:20px;letter-spacing:0.5px;">BEST VALUE</div>
-        <div style="color:#D4A853;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Pro Annual</div>
-        <div style="color:#fff;font-size:32px;font-weight:700;font-family:'Playfair Display',serif;">$74.99</div>
-        <div style="color:rgba(255,255,255,0.4);font-size:13px;margin-bottom:16px;">per year &middot; save 37% vs monthly</div>
+      <div class="prod-price-card prod-price-card-hi">
+        <span class="prod-price-badge">Best value</span>
+        <span class="prod-price-label">Annual</span>
+        <strong>$74.99</strong>
+        <span class="prod-price-sub">save ~37% vs monthly</span>
       </div>
     </div>
-    <p class="rv" style="color:rgba(255,255,255,0.35);font-size:12px;margin-top:24px;"><a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" style="color:#D4A853;">Privacy Policy</a> · Pricing subject to change before public launch</p>
+    <p style="margin-top:28px;font-size:13px;"><a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" style="color:var(--brand-accent);">Privacy Policy</a> · Pricing subject to change before public launch</p>
+  </div>
+</section>
+
+<section class="prod-close" style="--brand-dk:#0F2E25;--brand-accent:#D4A853;" aria-label="Status">
+  <div class="prod-close-inner rv">
+    <span class="prod-beat-ey">Internal testing</span>
+    <h2>Curator's Vault is<br><em>not public on Play yet.</em></h2>
+    <p>iOS &amp; Android builds for testers. Pens, knives, and watches live in other JosspaTech apps.</p>
   </div>
 </section>
 
