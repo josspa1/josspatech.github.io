@@ -10,6 +10,12 @@ BUST = "?v=keeper-remap-2026-07-23"
 
 # Only overrides that improve match with existing keepers / reviewed phone shots.
 OVERRIDES = {
+    32: f"{M}07-identify-results.png",
+    33: f"{M}07-identify-results.png",
+    34: f"{M}07-identify-results.png",
+    35: f"{M}07-identify-results.png",
+    36: f"{M}07-identify-results.png",
+    37: f"{M}07-identify-results.png",
     4: f"{M}19-sample-loading.png",  # Ludwig sample active / load confirm
     5: f"{M}19-sample-loading.png",
     6: f"{M}26-clear-ludwig-sample.png",
