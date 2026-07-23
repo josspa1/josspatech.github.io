@@ -266,6 +266,22 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
   animation:hubFadeUp .95s var(--ease) both;
 }
 .hub-hero .hero-brand span{color:var(--gold);}
+.hub-hero .hero-pronounce{
+  margin:-6px auto 18px;
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.42);
+  animation:hubFadeUp .95s var(--ease) .06s both;
+}
+.hub-hero .hero-pronounce em{
+  font-style:normal;
+  font-weight:700;
+  letter-spacing:0.16em;
+  color:rgba(240,192,64,0.72);
+}
 .hub-hero .hero-h1{
   font-family:'Playfair Display',serif;
   font-size:clamp(26px,3.8vw,40px);
@@ -2868,7 +2884,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <div id="page-veil" aria-hidden="true"></div>
 
 <nav class="site-nav" role="navigation" aria-label="Main navigation">
-  <a class="nav-logo" href="#" onclick="showPage('company');return false;" aria-label="JosspaTech home">
+  <a class="nav-logo" href="#" onclick="showPage('company');return false;" aria-label="JosspaTech home — pronounced JOSS-pa-tek">
     <img class="nav-spade" src="assets/brand/josspatech-mark.svg?v=final1" width="36" height="36" alt="" aria-hidden="true">
     <div class="nav-wordmark">
       <div class="nav-name">Josspa<span>Tech</span>™</div>
@@ -2908,6 +2924,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <img src="assets/brand/josspatech-mark.svg?v=final1" width="96" height="96" alt="">
     </div>
     <h1 class="hero-brand">Josspa<span>Tech</span>™</h1>
+    <p class="hero-pronounce" aria-label="Pronounced JOSS-pa-tek, short o — not Joe-spa-tech">Pronounced <em>JOSS-pa-tek</em></p>
     <div class="hub-rule" aria-hidden="true"></div>
     <p class="hero-h1">Fewer apps.<br><em>Better apps.</em></p>
     <p class="hero-sub">
@@ -3051,7 +3068,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="footer-top">
     <div>
       <div class="footer-brand-name">Josspa<span>Tech</span>™</div>
-      <p class="footer-brand-sub">Fewer apps. Better apps.</p>
+      <p class="footer-brand-sub">JOSS-pa-tek · Fewer apps. Better apps.</p>
     </div>
     <div class="footer-cols">
       <div class="footer-col">
