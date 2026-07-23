@@ -39,7 +39,10 @@ OVERRIDES = {
 
 
 def main() -> None:
-    html = HTML.read_text(encoding="utf-8")
+    try:
+        html = HTML.read_text(encoding="utf-8")
+    except UnicodeDecodeError:
+        html = HTML.read_bytes().decode("cp1252")
     changed = []
 
     def repl_slide(m: re.Match) -> str:
