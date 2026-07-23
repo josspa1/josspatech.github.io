@@ -8,14 +8,27 @@ HTML = ROOT / "videos" / "user-guide-hhh" / "index.html"
 M = "/assets/screenshots/hhh/manual/"
 BUST = "?v=keeper-remap-2026-07-23"
 
-# Only overrides that improve match with existing keepers.
+# Only overrides that improve match with existing keepers / reviewed phone shots.
 OVERRIDES = {
-    94: f"{M}17-atomic-clock.png",  # Exact Time (was tools-hub; moon/atomic were shifted)
-    95: f"{M}18-moon-phase.png",  # Moon Phase
-    96: f"{M}08-tools-hub.png",  # Print / Export (until dedicated shot)
-    98: f"{M}10-settings.png",  # Offline Show Pack under Settings
-    99: f"{M}09-web-companion.png",  # Big Screen / LAN — closest keeper
-    100: f"{M}06-clockworks-parts.png",  # Movement to Parts
+    4: f"{M}19-sample-loading.png",  # Ludwig sample active / load confirm
+    5: f"{M}19-sample-loading.png",
+    6: f"{M}26-clear-ludwig-sample.png",
+    10: f"{M}19-sample-loading.png",  # shows 4-tab bar
+    69: f"{M}24-device-sync.png",
+    94: f"{M}17-atomic-clock.png",
+    95: f"{M}18-moon-phase.png",
+    96: f"{M}08-tools-hub.png",
+    98: f"{M}25-offline-show-pack.png",
+    99: f"{M}09-web-companion.png",
+    100: f"{M}06-clockworks-parts.png",
+    103: f"{M}21-demand-rolodex-send.png",
+    104: f"{M}21-demand-rolodex-send.png",
+    105: f"{M}21-demand-rolodex-send.png",
+    106: f"{M}21-demand-rolodex-send.png",
+    107: f"{M}22-demand-rolodex-receive.png",
+    108: f"{M}22-demand-rolodex-receive.png",
+    109: f"{M}23-demand-rolodex-board.png",
+    110: f"{M}23-demand-rolodex-board.png",
 }
 
 
@@ -73,7 +86,7 @@ def main() -> None:
     HTML.write_text(html2, encoding="utf-8")
     print(f"pattern hits~{n}; updated {len(changed)} slides:")
     for idx, old, new in changed:
-        print(f"  {idx:03d}: {old} → {new}")
+        print(f"  {idx:03d}: {old} -> {new}")
 
 
 if __name__ == "__main__":
