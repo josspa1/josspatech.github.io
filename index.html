@@ -840,7 +840,7 @@ body[data-app="cvc"] .nav-mobile-menu{background:rgba(15,46,37,0.98);}
 #page-cvc .hero-inner{
   max-width:1180px;width:100%;margin:0 auto;
   display:grid;
-  grid-template-columns:minmax(0,1.05fr) minmax(280px,0.95fr);
+  grid-template-columns:minmax(0,1.05fr) minmax(0,420px);
   gap:clamp(28px,4vw,56px);
   align-items:center;
   text-align:left;
@@ -1154,10 +1154,16 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-hhh .pbj-hero-shots,
 #page-cvc .pbj-hero-shots{
   gap:14px;perspective:900px;
+  max-width:100%;
+  min-width:0;
+  justify-self:end;
 }
 #page-pbj .pbj-shot,
 #page-hhh .pbj-shot,
 #page-cvc .pbj-shot{
+  width:220px;
+  max-width:100%;
+  box-sizing:border-box;
   border-radius:28px !important;
   padding:11px 11px 16px !important;
   background:linear-gradient(165deg,#2a2a2e 0%, #0c0c0e 100%) !important;
@@ -1172,20 +1178,27 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-cvc .pbj-shot::before{
   top:5px;width:48px;height:5px;background:rgba(0,0,0,0.6);
 }
+/* width:100% alone blew up native PNGs — frames must cap size first */
 #page-pbj .pbj-shot img,
 #page-hhh .pbj-shot img,
 #page-cvc .pbj-shot img{
-  border-radius:18px !important;display:block;width:100%;height:auto;
+  border-radius:18px !important;
+  display:block;
+  width:100% !important;
+  max-width:100% !important;
+  height:auto !important;
 }
 #page-pbj .pbj-shot-center,
 #page-hhh .pbj-shot-center,
 #page-cvc .pbj-shot-center{
+  width:248px;
   transform:translateY(-8px) scale(1.04);
   z-index:2;
 }
 #page-pbj .pbj-shot-side,
 #page-hhh .pbj-shot-side,
 #page-cvc .pbj-shot-side{
+  width:200px;
   transform:scale(0.9);opacity:0.9;
 }
 #page-pbj .hero:hover .pbj-shot-center,
@@ -3169,11 +3182,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   .pbj-shot-side { display: none; }
   .pbj-shot-center img { width: 280px; }
 }
-/* Volume heroes: layout owned by app-volume CSS above — keep phones from clipping */
+/* Volume heroes: allow slight phone lift without letting frames escape the viewport story */
 #page-hhh .hero,
 #page-cvc .hero,
 #page-pbj .hero {
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* PAL — product page (mirrors HHH layout, espresso/gold palette) */
