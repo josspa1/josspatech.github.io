@@ -3,8 +3,9 @@
  * Keeps HHH timed tap pulses via shared walkthrough.js.
  */
 (function () {
-  var CHANGE_BUFFER_MS = 180;
-  var SAME_BUFFER_MS = 60;
+  // Longer gaps so viewers can follow taps / reorient between steps.
+  var CHANGE_BUFFER_MS = 900;
+  var SAME_BUFFER_MS = 450;
   var FALLBACK_WPM_MS = 380;
   var MIN_FALLBACK_MS = 1500;
   var MAX_FALLBACK_MS = 12000;
@@ -14,6 +15,8 @@
   var dotsContainer = document.getElementById('dots');
   var playBtn = document.getElementById('playPauseBtn');
   var voiceBtn = document.getElementById('voiceBtn');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
   var speedLabel = document.getElementById('speedLabel');
   var tapStart = document.getElementById('tapToStart');
   var narrationPanel = document.getElementById('narrationPanel');
@@ -367,14 +370,46 @@
     btn.addEventListener('click', function () {
       var idx = parseInt(btn.getAttribute('data-slide'), 10);
       if (isNaN(idx)) return;
-      if (!audioUnlocked) startPlayback();
-      else goTo(idx);
+      jumpToSlide(idx);
     });
   });
 
+  function jumpToSlide(idx) {
+    idx = Math.max(0, Math.min(idx, lastSlide));
+    if (!audioUnlocked || !playing) {
+      current = idx;
+      startPlayback();
+      return;
+    }
+    goTo(idx);
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function () {
+      jumpToSlide(current - 1);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function () {
+      jumpToSlide(current + 1);
+    });
+  }
+
+  if (transcriptBody) {
+    transcriptBody.addEventListener('click', function (e) {
+      var target = e.target;
+      if (!target || !target.closest) return;
+      var slideEl = target.closest('[data-slide]');
+      if (!slideEl || !transcriptBody.contains(slideEl)) return;
+      var idx = parseInt(slideEl.getAttribute('data-slide'), 10);
+      if (isNaN(idx)) return;
+      jumpToSlide(idx);
+    });
+  }
+
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') goTo(current + 1);
-    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') jumpToSlide(current + 1);
+    if (e.key === 'ArrowLeft') jumpToSlide(current - 1);
     if (e.key === ' ') {
       e.preventDefault();
       if (playBtn) playBtn.click();

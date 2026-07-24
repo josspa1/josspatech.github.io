@@ -19,8 +19,8 @@ const fast = process.argv.includes('--fast');
 const portArg = process.argv.find((a) => a.startsWith('--port='));
 const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4175;
 const SLIDE_COUNT = JSON.parse(fs.readFileSync(NARRATION_JSON, 'utf8')).length;
-const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.18;
-const SAME_BUFFER_SEC = fast ? 0.05 : 0.06;
+const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.9;
+const SAME_BUFFER_SEC = fast ? 0.05 : 0.45;
 const INDEX_HTML = path.join(OUT_DIR, 'index.html');
 
 function parseSlideImageKeys(htmlPath) {
