@@ -127,50 +127,46 @@
       cards.innerHTML = '';
       tables.innerHTML = '';
       try {
-        const weekAgo = new Date(Date.now() - 7 * 864e5).toISOString().replace('T', ' ');
-        const dayAgo = new Date(Date.now() - 864e5).toISOString().replace('T', ' ');
-        const [rows7, rows1] = await Promise.all([
-          listAllRecords('_site_visits', `created >= "${weekAgo}"`),
-          listAllRecords('_site_visits', `created >= "${dayAgo}"`),
-        ]);
-        const bySource = (rows) => rows.reduce((a, r) => {
+        // _site_visits was created without PocketBase created/updated autodates,
+        // so created>= filters 400. Load all rows and roll up all-time until schema is fixed.
+        const rows = await listAllRecords('_site_visits');
+        const bySource = (list) => list.reduce((a, r) => {
           const s = r.source || 'unknown';
           a[s] = (a[s] || 0) + 1;
           return a;
         }, {});
-        const s7 = bySource(rows7);
-        const s1 = bySource(rows1);
-        const clock7 = s7.clockworks || 0;
-        const clock1 = s1.clockworks || 0;
-        const sess7 = new Set(rows7.map(r => r.session_id).filter(Boolean)).size;
-        const sess1 = new Set(rows1.map(r => r.session_id).filter(Boolean)).size;
-        const jjPages = rows7.filter(r =>
+        const sources = bySource(rows);
+        const clock = sources.clockworks || 0;
+        const sessions = new Set(rows.map(r => r.session_id).filter(Boolean)).size;
+        const jjPages = rows.filter(r =>
           /utm_source=clockworks/i.test(r.page || '') ||
           /utm:clockworks/i.test(r.referrer_raw || '') ||
           r.source === 'clockworks'
         );
+        const hhhPages = rows.filter(r => /#hhh\b/i.test(r.page || '')).length;
 
         function card(title, value, note) {
           return `<div class="card"><div class="card-label">${title}</div><div class="card-value">${value}</div><div class="card-note">${note}</div></div>`;
         }
         cards.innerHTML =
-          card('Visits · 24h', String(rows1.length), `${sess1} sessions`) +
-          card('Visits · 7d', String(rows7.length), `${sess7} sessions`) +
-          card('Clockworks / JJ · 24h', String(clock1), 'source=clockworks') +
-          card('Clockworks / JJ · 7d', String(clock7), `${jjPages.length} rows with UTM or source`);
+          card('Visits · all time', String(rows.length), `${sessions} sessions`) +
+          card('HHH hash pages', String(hhhPages), 'page contains #hhh') +
+          card('Clockworks / JJ', String(clock), 'source=clockworks') +
+          card('Clockworks UTM rows', String(jjPages.length), 'UTM or source tag');
 
-        const srcRows = Object.entries(s7).sort((a, b) => b[1] - a[1])
+        const srcRows = Object.entries(sources).sort((a, b) => b[1] - a[1])
           .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">(none)</td></tr>';
         tables.innerHTML = `
-          <h3 style="margin-top:1.5rem;">Sources · 7 days</h3>
+          <p class="section-explainer" style="margin-top:1rem;">24h/7d windows need a <code>created</code> autoday on <code>_site_visits</code> — showing all-time until that schema fix lands.</p>
+          <h3 style="margin-top:1.5rem;">Sources · all time</h3>
           <table class="data"><thead><tr><th>Source</th><th>Visits</th></tr></thead><tbody>${srcRows}</tbody></table>
-          <h3 style="margin-top:1.5rem;">Latest Clockworks-tagged hits</h3>
-          <table class="data"><thead><tr><th>When</th><th>Page</th><th>Source</th></tr></thead><tbody>
+          <h3 style="margin-top:1.5rem;">Clockworks-tagged hits</h3>
+          <table class="data"><thead><tr><th>Id</th><th>Page</th><th>Source</th></tr></thead><tbody>
             ${jjPages.slice(0, 25).map(r =>
-              `<tr><td>${(r.created || '').slice(0, 19)}</td><td style="word-break:break-all;max-width:28rem;">${(r.page || '').replace(/</g, '&lt;')}</td><td>${r.source || ''}</td></tr>`
+              `<tr><td>${(r.id || '').slice(0, 12)}</td><td style="word-break:break-all;max-width:28rem;">${(r.page || '').replace(/</g, '&lt;')}</td><td>${r.source || ''}</td></tr>`
             ).join('') || '<tr><td colspan="3">No Clockworks hits yet — open the plaque URL once to verify.</td></tr>'}
           </tbody></table>`;
-        status.textContent = `Loaded ${rows7.length} visits (7d). Data as of ${new Date().toLocaleTimeString()}.`;
+        status.textContent = `Loaded ${rows.length} visits (all time). Data as of ${new Date().toLocaleTimeString()}.`;
         document.getElementById('pulse').classList.remove('stale');
         document.getElementById('lastRefresh').textContent = `updated ${new Date().toLocaleTimeString()}`;
       } catch (e) {
