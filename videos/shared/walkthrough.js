@@ -161,6 +161,29 @@
         return { showAtMs: showAt * 1000, durationMs: duration * 1000 };
     }
 
+    /** Optional multi-tap sequence: data-taps='[{"x":14,"y":46,"at":0.2,"dur":2,"label":"Hunt"}, ...]' */
+    function parseTapSequence(slide) {
+        var raw = slide.getAttribute('data-taps');
+        if (!raw) return null;
+        try {
+            var parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed) || !parsed.length) return null;
+            return parsed.filter(function (t) {
+                return t && t.x != null && t.y != null;
+            }).map(function (t) {
+                return {
+                    x: String(t.x),
+                    y: String(t.y),
+                    label: t.label || '',
+                    at: typeof t.at === 'number' ? t.at : 0.3,
+                    dur: typeof t.dur === 'number' ? t.dur : 2.5
+                };
+            });
+        } catch (e) {
+            return null;
+        }
+    }
+
     function setTapVisible(slide, visible) {
         if (!slide) return;
         var ind = slide.querySelector('.tap-indicator');
@@ -169,10 +192,32 @@
         if (hi) hi.classList.toggle('tap-visible', visible);
     }
 
+    function setSequenceTapVisible(slide, stepIndex, visible) {
+        if (!slide) return;
+        var ind = slide.querySelector('.tap-indicator[data-tap-step="' + stepIndex + '"]');
+        if (ind) ind.classList.toggle('tap-visible', visible);
+    }
+
     function scheduleTapPulse(slideIndex) {
         clearTapPulse();
         var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
         if (!slide || slide.hasAttribute('data-tap-none')) return;
+
+        var seq = parseTapSequence(slide);
+        if (seq && seq.length) {
+            seq.forEach(function (step, i) {
+                var showMs = step.at * 1000;
+                var hideMs = showMs + step.dur * 1000;
+                tapTimers.push(setTimeout(function () {
+                    setSequenceTapVisible(slide, i, true);
+                }, showMs));
+                tapTimers.push(setTimeout(function () {
+                    setSequenceTapVisible(slide, i, false);
+                }, hideMs));
+            });
+            return;
+        }
+
         if (!slide.getAttribute('data-tap-x') || !slide.getAttribute('data-tap-y')) return;
 
         var timing = getTapTiming(slide);
@@ -189,35 +234,56 @@
         clearTapPulse();
         var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
         if (!slide || slide.hasAttribute('data-tap-none')) return;
+        var seq = parseTapSequence(slide);
+        if (seq && seq.length) {
+            setSequenceTapVisible(slide, 0, true);
+            return;
+        }
         if (!slide.getAttribute('data-tap-x')) return;
         setTapVisible(slide, true);
     }
 
     function hideTapNow(slideIndex) {
         var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
-        setTapVisible(slide, false);
+        if (!slide) return;
+        slide.querySelectorAll('.tap-indicator').forEach(function (el) {
+            el.classList.remove('tap-visible');
+        });
+        var hi = slide.querySelector('.slide-highlight');
+        if (hi) hi.classList.remove('tap-visible');
+    }
+
+    function mountTapIndicator(slide, x, y, label, stepIndex) {
+        var ind = buildTapIndicator(slide, x, y, label);
+        if (stepIndex != null) ind.setAttribute('data-tap-step', String(stepIndex));
+        var overlay = slide.querySelector('.slide-overlay');
+        if (overlay) slide.insertBefore(ind, overlay);
+        else slide.appendChild(ind);
+        return ind;
     }
 
     function initSlides() {
         document.querySelectorAll('.slide').forEach(function (slide) {
-            slide.querySelectorAll(':scope > .tap-ring-outer, :scope > .tap-finger, :scope > .tap-ring').forEach(function (el) {
+            slide.querySelectorAll(':scope > .tap-indicator, :scope > .tap-ring-outer, :scope > .tap-finger, :scope > .tap-ring').forEach(function (el) {
                 el.remove();
             });
 
             if (slide.hasAttribute('data-tap-none')) return;
 
-            var x = slide.getAttribute('data-tap-x');
-            var y = slide.getAttribute('data-tap-y');
-            var label = slide.getAttribute('data-tap-label') || '';
+            var seq = parseTapSequence(slide);
+            if (seq && seq.length) {
+                seq.forEach(function (step, i) {
+                    mountTapIndicator(slide, step.x, step.y, step.label, i);
+                });
+            } else {
+                var x = slide.getAttribute('data-tap-x');
+                var y = slide.getAttribute('data-tap-y');
+                var label = slide.getAttribute('data-tap-label') || '';
 
-            // Gold pulse only when explicit tap coords are set (never infer or default).
-            if (!x || !y) return;
+                // Gold pulse only when explicit tap coords are set (never infer or default).
+                if (!x || !y) return;
 
-            if (!slide.querySelector('.tap-indicator')) {
-                var ind = buildTapIndicator(slide, x, y, label);
-                var overlay = slide.querySelector('.slide-overlay');
-                if (overlay) slide.insertBefore(ind, overlay);
-                else slide.appendChild(ind);
+                mountTapIndicator(slide, x, y, label, null);
             }
 
             if (!slide.querySelector('.slide-highlight')) {
@@ -254,7 +320,7 @@
     function initLegend() {
         var controls = document.querySelector('.playback-controls');
         if (!controls || document.querySelector('.walkthrough-legend')) return;
-        if (!document.querySelector('.slide[data-tap-x]')) return;
+        if (!document.querySelector('.slide[data-tap-x], .slide[data-taps]')) return;
 
         var legend = document.createElement('p');
         legend.className = 'walkthrough-legend';
