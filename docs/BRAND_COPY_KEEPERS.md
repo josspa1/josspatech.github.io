@@ -35,10 +35,15 @@ Reference after marketing research + Joe review. Public site sells **end results
 - PAL: Kids practice money — parents stay in charge.
 - PBJ: soft — clarity first; direction still open. (site: Import. Plan. Coach. Money clarity — on your terms.)
 
+## Product toolkit sections
+- HHH: More of the craft. Same app.
+- CVC: Ready when you need it.
+
 ## Do not use on site
 - Fewer apps / Better apps / Four private tools / not to farm
 - Fair pricing (as brand line)
 - We don't farm you / We study the field / Craft over catalog + field-study pairs (process / internals)
+- The rest, without the clutter (sells the edit, not the result)
 - App counts that age out
 - Hardcoded version numbers on marketing pages
 
