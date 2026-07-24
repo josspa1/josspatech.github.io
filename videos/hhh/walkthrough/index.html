@@ -106,6 +106,7 @@
       <button type="button" class="btn" id="prevBtn" aria-label="Previous slide">← Prev</button>
       <button type="button" class="btn gold" id="playBtn" aria-label="Play walkthrough">▶ Play</button>
       <button type="button" class="btn" id="nextBtn" aria-label="Next slide">Next →</button>
+      <button type="button" class="btn" id="voiceBtn" aria-label="Toggle narration" title="Narration on/off">🔊</button>
     </div>
     <div class="links">
       <a href="/videos/hhh/user-manual/">Open User Manual →</a>
@@ -175,8 +176,11 @@
     var dotsEl = document.getElementById('dots');
     var current = 0;
     var playing = false;
+    var voiceOn = true;
     var timer = null;
-    var DWELL_MS = 5200;
+    var audioEl = null;
+    var FALLBACK_MS = 6500;
+    var POST_AUDIO_MS = 600;
 
     SLIDES.forEach(function (s, i) {
       var slide = document.createElement('div');
@@ -191,43 +195,87 @@
       dot.type = 'button';
       dot.className = 'dot' + (i === 0 ? ' active' : '');
       dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-      dot.addEventListener('click', function () { goTo(i); stopPlay(); });
+      dot.addEventListener('click', function () { stopPlay(); goTo(i); });
       dotsEl.appendChild(dot);
     });
 
     var slides = stage.querySelectorAll('.slide');
     var dots = dotsEl.querySelectorAll('.dot');
     var playBtn = document.getElementById('playBtn');
+    var voiceBtn = document.getElementById('voiceBtn');
 
-    function goTo(i) {
+    function stopAudio() {
+      if (audioEl) {
+        audioEl.onended = null;
+        audioEl.onerror = null;
+        try { audioEl.pause(); } catch (_) {}
+        audioEl = null;
+      }
+    }
+
+    function playNarration(i, onDone) {
+      stopAudio();
+      if (!voiceOn) {
+        timer = setTimeout(onDone, FALLBACK_MS);
+        return;
+      }
+      var src = 'audio/slide-' + i + '.mp3';
+      var a = new Audio(src);
+      audioEl = a;
+      var finished = false;
+      function finish() {
+        if (finished) return;
+        finished = true;
+        clearTimeout(timer);
+        timer = setTimeout(onDone, POST_AUDIO_MS);
+      }
+      a.onended = finish;
+      a.onerror = function () {
+        clearTimeout(timer);
+        timer = setTimeout(onDone, FALLBACK_MS);
+      };
+      // Safety if metadata missing / stalled
+      timer = setTimeout(finish, FALLBACK_MS + 4000);
+      var p = a.play();
+      if (p && typeof p.catch === 'function') {
+        p.catch(function () {
+          clearTimeout(timer);
+          timer = setTimeout(onDone, FALLBACK_MS);
+        });
+      }
+    }
+
+    function goTo(i, opts) {
+      opts = opts || {};
       current = (i + SLIDES.length) % SLIDES.length;
       slides.forEach(function (el, j) { el.classList.toggle('active', j === current); });
       dots.forEach(function (el, j) { el.classList.toggle('active', j === current); });
+      if (opts.fromPlay) return;
+      stopAudio();
+      clearTimeout(timer);
     }
 
     function stopPlay() {
       playing = false;
       clearTimeout(timer);
+      stopAudio();
       playBtn.textContent = '▶ Play';
     }
 
-    function scheduleNext() {
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        if (!playing) return;
-        if (current >= SLIDES.length - 1) {
-          stopPlay();
-          return;
-        }
-        goTo(current + 1);
-        scheduleNext();
-      }, DWELL_MS);
+    function advanceFromPlay() {
+      if (!playing) return;
+      if (current >= SLIDES.length - 1) {
+        stopPlay();
+        return;
+      }
+      goTo(current + 1, { fromPlay: true });
+      playNarration(current, advanceFromPlay);
     }
 
     function startPlay() {
       playing = true;
       playBtn.textContent = '❚❚ Pause';
-      scheduleNext();
+      playNarration(current, advanceFromPlay);
     }
 
     document.getElementById('prevBtn').addEventListener('click', function () {
@@ -241,6 +289,12 @@
     playBtn.addEventListener('click', function () {
       if (playing) stopPlay();
       else startPlay();
+    });
+    voiceBtn.addEventListener('click', function () {
+      voiceOn = !voiceOn;
+      voiceBtn.textContent = voiceOn ? '🔊' : '🔇';
+      voiceBtn.title = voiceOn ? 'Narration on' : 'Narration off';
+      if (!voiceOn) stopAudio();
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowRight') { stopPlay(); goTo(current + 1); }
