@@ -3524,10 +3524,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 16px 48px rgba(12,51,88,0.18);
-  background: #EDF2F7;
+  background: #F7F1EA;
   line-height: 0;
   max-width: 960px;
-  height: 640px;
+  /* Fits phone + controls + chapter row; transcript scrolls inside the iframe */
+  height: 560px;
 }
 .pbj-intro-embed iframe {
   width: 100%;
@@ -3535,13 +3536,15 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   border: none;
   border-radius: 16px;
   display: block;
-  background: #EDF2F7;
+  background: #F7F1EA;
 }
+#page-pbj .pbj-intro-embed,
+#page-pbj .pbj-intro-embed iframe { background: #EDF2F7; }
 @media (max-width: 768px) {
-  .pbj-intro-embed { height: 560px; }
+  .pbj-intro-embed { height: 640px; }
 }
 @media (max-width: 480px) {
-  .pbj-intro-embed { height: 520px; }
+  .pbj-intro-embed { height: 680px; }
 }
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet internal testing">
@@ -4190,13 +4193,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </div>
 </section>
 
-<section class="prod-media" aria-label="User manual">
+<section class="prod-media" aria-label="User manual" style="padding-top:clamp(40px,5vw,64px);padding-bottom:clamp(40px,5vw,64px);">
   <div class="prod-media-inner prod-media-inner--manual">
     <span class="prod-beat-ey rv">User Manual</span>
     <h2 class="rv">Interactive <em>user manual</em></h2>
-    <p class="rv" style="max-width:48ch;">Phone + synced transcript (~14 min). Play, pause, step, or jump by chapter under the video.</p>
-    <div class="pbj-intro-embed rv" style="margin-top:28px;text-align:center;">
-      <iframe data-src="/videos/user-guide-hhh/?embed=1" title="Handy Horology Helper interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <p class="rv" style="max-width:48ch;margin-bottom:0;">Phone + synced transcript (~14 min). Play, pause, step, or jump by chapter under the video.</p>
+    <div class="pbj-intro-embed rv" style="margin-top:22px;text-align:center;">
+      <iframe data-src="/videos/user-guide-hhh/?embed=1&v=embed-fit-2026-07-27" title="Handy Horology Helper interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
     <div class="prod-media-acts rv" style="margin-top:20px;">
       <a class="btn-primary" href="/videos/user-guide-hhh/" target="_blank" rel="noopener" style="text-decoration:none;">Open full screen</a>

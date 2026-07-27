@@ -1215,50 +1215,100 @@
 .slide-title, .slide-label, .slide-caption { display: none !important; }
 .slide img { color: transparent; font-size: 0; }
 
-/* Embed on homepage: strip chrome, grow to phone+controls, defeat letterbox cage */
+/* Product-page embed: one player view — only the transcript scrolls */
 html.embed-mode,
 html.embed-mode body {
  margin: 0 !important;
  padding: 0 !important;
- height: auto !important;
- max-height: none !important;
- overflow: visible !important;
+ width: 100% !important;
+ height: 100% !important;
+ overflow: hidden !important;
  background: var(--background, #EDF2F7) !important;
 }
 html.embed-mode nav,
 html.embed-mode .breadcrumbs,
 html.embed-mode .hero,
 html.embed-mode .cta-section,
-html.embed-mode footer {
+html.embed-mode footer,
+html.embed-mode .jt-site-footer {
  display: none !important;
 }
 html.embed-mode .walkthrough {
- padding: 1rem 1.25rem !important;
+ padding: 12px 14px 10px !important;
+ height: 100% !important;
  min-height: 0 !important;
+ box-sizing: border-box !important;
+ display: flex !important;
+ flex-direction: column !important;
+}
+html.embed-mode .walkthrough .container {
+ max-width: none !important;
+ width: 100% !important;
+ height: 100% !important;
+ min-height: 0 !important;
+ display: flex !important;
+ flex-direction: column !important;
 }
 html.embed-mode .walkthrough h2,
-html.embed-mode .walkthrough .section-sub {
+html.embed-mode .walkthrough .section-sub,
+html.embed-mode .walkthrough .prod-media-langs,
+html.embed-mode .progress-dots {
  display: none !important;
 }
-html.embed-mode .walkthrough-stage,
-html.embed-mode .walkthrough-stage .video-wrapper,
-html.embed-mode .walkthrough-stage .phone-column,
+html.embed-mode .walkthrough-stage {
+ width: 100% !important;
+ flex: 1 1 auto !important;
+ min-height: 0 !important;
+ display: flex !important;
+ flex-direction: column !important;
+ gap: 8px !important;
+}
+html.embed-mode .walkthrough-stage .video-wrapper {
+ display: flex !important;
+ flex-direction: row !important;
+ flex-wrap: nowrap !important;
+ align-items: stretch !important;
+ gap: 14px !important;
+ flex: 1 1 auto !important;
+ min-height: 0 !important;
+}
+html.embed-mode .walkthrough-stage .phone-column {
+ flex: 0 0 auto !important;
+ width: 230px !important;
+}
 html.embed-mode .walkthrough-stage .phone-viewport {
+ width: 100% !important;
  height: auto !important;
- max-height: none !important;
- overflow: visible !important;
 }
 html.embed-mode .walkthrough-stage .phone-frame {
- width: 240px !important;
- height: 480px !important;
- max-height: 480px !important;
+ width: 220px !important;
+ height: 440px !important;
+ max-height: 440px !important;
  aspect-ratio: auto !important;
+}
+html.embed-mode .walkthrough-stage .narration-panel,
+html.embed-mode #narrationPanel {
+ flex: 1 1 auto !important;
+ min-width: 0 !important;
+ max-height: none !important;
+ overflow-y: auto !important;
+}
+html.embed-mode .chapter-nav {
+ flex: 0 0 auto !important;
+ margin-top: 0 !important;
+ justify-content: flex-start !important;
+ flex-wrap: nowrap !important;
+ overflow-x: auto !important;
+ max-height: 44px !important;
 }
 @media (max-width: 768px) {
  .walkthrough-stage .video-wrapper { flex-direction: column !important; }
  .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; }
  .walkthrough-stage .narration-panel, #narrationPanel { max-height: 360px; width: 100%; flex: none !important; }
- html.embed-mode .walkthrough-stage .phone-frame { width: 200px !important; height: 400px !important; max-height: 400px !important; }
+ html.embed-mode .walkthrough-stage .video-wrapper { flex-direction: column !important; align-items: center !important; }
+ html.embed-mode .walkthrough-stage .phone-frame { width: 180px !important; height: 360px !important; max-height: 360px !important; }
+ html.embed-mode .walkthrough-stage .narration-panel,
+ html.embed-mode #narrationPanel { max-height: 180px !important; width: 100% !important; }
 }
 </style>
 <script src="/videos/shared/walkthrough.js" defer></script>
