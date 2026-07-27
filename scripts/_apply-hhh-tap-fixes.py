@@ -10,10 +10,9 @@ HTML = Path(__file__).resolve().parents[1] / "videos" / "user-guide-hhh" / "inde
 # Measured on 1440x3120 keepers (app tab bar ~y92; system nav is ~y98).
 # None = data-tap-none (tool not visible on the slide screenshot).
 FIXES: dict[int, tuple[int, int, str] | None] = {
-    6: (82, 16, "Clear samples"),
-    8: (14, 43, "Hunt"),
-    9: (50, 58, "Path card"),
-    10: (10, 92, "Home"),
+    6: (80, 12, "Clear samples"),
+    # 8 / 10 use data-taps multi — do not overwrite with single-tap
+    9: None,  # path cards not reliably on hub shot
     11: (30, 92, "My Museum"),
     12: (20, 44, "Owned"),
     14: (50, 56, "Search"),
@@ -27,7 +26,7 @@ FIXES: dict[int, tuple[int, int, str] | None] = {
     27: (27, 50, "Photo 1: Dial"),
     28: (73, 50, "Choose Photo"),
     32: None,  # Identify CTA not on results screenshot (y=95 was tab label)
-    37: (50, 82, "Save"),
+    37: (30, 85, "Save to Museum"),
     40: (50, 18, "Symptom"),
     47: (50, 44, "Wish"),
     48: (50, 52, "Add wishes"),
@@ -40,7 +39,7 @@ FIXES: dict[int, tuple[int, int, str] | None] = {
     82: (25, 48, "Condition"),
     83: (50, 40, "Value trend"),
     84: None,  # Trade not on hub screenshot
-    85: (88, 82, "Ask Expert"),
+    85: (45, 82, "Ask Expert"),
     86: (50, 48, "Photo Coach"),
     87: (50, 32, "ID Card"),
     88: None,  # Barcode not on hub screenshot
@@ -51,11 +50,11 @@ FIXES: dict[int, tuple[int, int, str] | None] = {
     93: None,  # Warranty not on hub screenshot
     94: (50, 40, "Exact Time"),
     95: (50, 40, "Moon Phase"),
-    96: (50, 45, "Print"),
-    97: (50, 42, "Share Nearby"),
-    98: (50, 40, "Offline pack"),
-    99: (50, 40, "Big Screen"),
-    100: (50, 50, "Movement to Parts"),
+    96: (18, 35, "My Museum list"),
+    97: (50, 66, "Share QR"),
+    98: (85, 80, "Offline pack"),
+    99: (50, 25, "Big Screen"),
+    100: (50, 48, "Movement to Parts"),
     103: (50, 18, "Send"),
     104: (50, 25, "Name"),
     105: (87, 56, "Share all"),
@@ -63,7 +62,7 @@ FIXES: dict[int, tuple[int, int, str] | None] = {
     107: (50, 48, "Scan nearby"),
     108: (72, 74, "Accept card"),
     109: (88, 32, "Board group"),
-    110: (50, 55, "Rating"),
+    110: None,  # phone/email/rating not on board shot
 }
 
 # Also keep early onboarding taps accurate when re-applying
@@ -83,6 +82,9 @@ def main() -> None:
         full = m.group(0)
         idx = int(m.group(1))
         if idx not in FIXES:
+            return full
+        if "data-taps=" in full:
+            print(f"  slide {idx} skipped (multi-tap)")
             return full
         fix = FIXES[idx]
         show = re.search(r'data-tap-show-at="([^"]+)"', full)

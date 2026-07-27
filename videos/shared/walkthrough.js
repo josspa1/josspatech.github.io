@@ -243,6 +243,21 @@
         setTapVisible(slide, true);
     }
 
+    /** Show one step of a data-taps sequence (for MP4 frame capture). */
+    function showTapStep(slideIndex, stepIndex) {
+        clearTapPulse();
+        var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
+        if (!slide || slide.hasAttribute('data-tap-none')) return;
+        var seq = parseTapSequence(slide);
+        if (seq && seq.length) {
+            var i = Math.max(0, Math.min(stepIndex, seq.length - 1));
+            setSequenceTapVisible(slide, i, true);
+            return;
+        }
+        if (!slide.getAttribute('data-tap-x')) return;
+        setTapVisible(slide, true);
+    }
+
     function hideTapNow(slideIndex) {
         var slide = document.querySelector('.slide[data-index="' + slideIndex + '"]');
         if (!slide) return;
@@ -344,6 +359,7 @@
     window.PBJWalkthrough.clearTapPulse = clearTapPulse;
     window.PBJWalkthrough.scheduleTapPulse = scheduleTapPulse;
     window.PBJWalkthrough.showTapNow = showTapNow;
+    window.PBJWalkthrough.showTapStep = showTapStep;
     window.PBJWalkthrough.hideTapNow = hideTapNow;
     window.initWalkthroughSlides = init;
     window.syncTranscriptSlide = syncTranscriptSlide;
