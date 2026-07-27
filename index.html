@@ -3522,26 +3522,26 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 .pbj-intro-embed {
   margin: 0 auto;
   border-radius: 16px;
-  overflow: visible;
+  overflow: hidden;
   box-shadow: 0 16px 48px rgba(12,51,88,0.18);
   background: #EDF2F7;
   line-height: 0;
-  max-width: 1180px;
+  max-width: 960px;
+  height: 640px;
 }
 .pbj-intro-embed iframe {
   width: 100%;
-  /* Tall enough for 440×820 phone + dots/controls/chapters — no nested iframe scroll */
-  height: 1180px;
+  height: 100%;
   border: none;
   border-radius: 16px;
   display: block;
   background: #EDF2F7;
 }
 @media (max-width: 768px) {
-  .pbj-intro-embed iframe { height: 980px; }
+  .pbj-intro-embed { height: 560px; }
 }
 @media (max-width: 480px) {
-  .pbj-intro-embed iframe { height: 860px; }
+  .pbj-intro-embed { height: 520px; }
 }
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet internal testing">

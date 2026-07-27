@@ -1249,14 +1249,16 @@ html.embed-mode .walkthrough-stage .phone-viewport {
  overflow: visible !important;
 }
 html.embed-mode .walkthrough-stage .phone-frame {
- width: 440px !important;
- max-height: 820px !important;
+ width: 240px !important;
+ height: 480px !important;
+ max-height: 480px !important;
+ aspect-ratio: auto !important;
 }
 @media (max-width: 768px) {
  .walkthrough-stage .video-wrapper { flex-direction: column !important; }
  .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; }
  .walkthrough-stage .narration-panel, #narrationPanel { max-height: 360px; width: 100%; flex: none !important; }
- html.embed-mode .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; max-height: 700px !important; }
+ html.embed-mode .walkthrough-stage .phone-frame { width: 200px !important; height: 400px !important; max-height: 400px !important; }
 }
 </style>
 <script src="/videos/shared/walkthrough.js" defer></script>
