@@ -1,0 +1,172 @@
+/**
+ * User Guide walkthrough layout (Joe preference)
+ * Desktop: side-by-side — phone left, scrolling transcript right
+ * Mobile (≤768px): stack — phone then transcript (no letterbox cage)
+ */
+
+.walkthrough-stage {
+  width: 100%;
+  /* Defeat shared sticky scroll-frame cage */
+  position: static !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.walkthrough-stage .phone-viewport {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  max-height: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+/* A little bigger than the prior 400px phone — fixed cap, not % of a scroll cage */
+.walkthrough-stage .phone-frame {
+  width: 440px !important;
+  height: auto !important;
+  max-height: 820px !important;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
+.walkthrough .slideshow {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Never paint slide titles / alt chrome as on-screen labels */
+.slide-title,
+.slide-label,
+.slide-caption {
+  display: none !important;
+}
+
+.slide img {
+  color: transparent;
+  font-size: 0;
+}
+
+/* ---- Desktop / tablet: side-by-side (phone | transcript) ---- */
+.walkthrough .video-wrapper,
+.walkthrough-stage .video-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 2.5rem;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+}
+
+.walkthrough .phone-column,
+.walkthrough-stage .phone-column {
+  flex-shrink: 0;
+  width: 460px;
+  max-width: none;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.walkthrough .phone-frame,
+.walkthrough-stage .phone-frame {
+  width: 440px !important;
+  max-height: 820px !important;
+}
+
+.walkthrough .narration-panel,
+.walkthrough-stage .narration-panel,
+#narrationPanel {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 280px;
+  min-height: 0;
+  width: auto;
+  max-width: none;
+  max-height: 820px;
+  height: auto !important;
+  overflow-y: auto;
+  align-self: stretch;
+}
+
+/* ---- Mobile only: stack ---- */
+@media (max-width: 768px) {
+  .walkthrough .video-wrapper,
+  .walkthrough-stage .video-wrapper {
+    flex-direction: column !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 1.5rem;
+  }
+
+  .walkthrough .phone-column,
+  .walkthrough-stage .phone-column {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .walkthrough .phone-frame,
+  .walkthrough-stage .phone-frame {
+    width: min(320px, 88vw) !important;
+    max-height: 700px !important;
+  }
+
+  .walkthrough .narration-panel,
+  .walkthrough-stage .narration-panel,
+  #narrationPanel {
+    max-width: 100%;
+    max-height: 360px;
+    width: 100%;
+    flex: none !important;
+  }
+
+  .walkthrough .chapter-nav {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .walkthrough .phone-frame,
+  .walkthrough-stage .phone-frame {
+    width: min(280px, 84vw) !important;
+    max-height: 560px !important;
+  }
+}
+
+/* Record mode keeps side-by-side when wide enough */
+body.record-mode .walkthrough-stage {
+  height: auto !important;
+  max-height: none !important;
+}
+
+body.record-mode .walkthrough,
+body.record-mode .video-section.walkthrough {
+  padding: 1.5rem 2rem;
+  min-height: 100vh;
+}
+
+body.record-mode .walkthrough h2,
+body.record-mode .walkthrough .section-sub,
+body.record-mode .video-section.walkthrough h2,
+body.record-mode .video-section.walkthrough .section-sub {
+  display: none;
+}
+
+/* Full screenshot visible inside phone frame (no cover crop) */
+.walkthrough-stage .slide img {
+  object-fit: contain;
+  object-position: center center;
+  background: var(--background, #EDF2F7);
+}

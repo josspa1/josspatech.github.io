@@ -3,8 +3,9 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Guida utente completa - PocketBudJet | JosspaTech</title>
+ <title>Manuale utente PocketBudJet | JosspaTech</title>
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="walkthrough.css">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -18,8 +19,6 @@
  font-family: 'Source Sans 3', sans-serif;
  color: var(--navy); background-color: var(--white); line-height: 1.6;
  }
-
- /* Navigation */
  nav {
  position: sticky; top: 0; z-index: 1000;
  background-color: var(--navy); padding: 1rem 2rem;
@@ -45,20 +44,14 @@
  transition: background-color 0.3s ease;
  }
  nav .cta-button:hover { background-color: var(--gold-dark); }
-
- /* Breadcrumbs */
  .breadcrumbs {
  max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
  font-size: 0.9rem; color: var(--slate);
  }
- .breadcrumbs a {
- color: var(--navy-medium); text-decoration: none; font-weight: 500;
- }
+ .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
  .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
  .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
  .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
-
- /* Hero */
  .hero {
  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
  color: var(--white); padding: 2rem 2rem; text-align: center;
@@ -69,98 +62,108 @@
  font-weight: 900; margin-bottom: 1rem; line-height: 1.2;
  }
  .hero .subheader {
- font-size: 1.25rem; font-weight: 300; max-width: 700px;
+ font-size: 1.25rem; font-weight: 300; max-width: 760px;
  margin: 0 auto; color: rgba(255,255,255,0.95);
  }
- /* Video Section */
- .video-section { background-color: var(--background); padding: 4rem 2rem; }
- .video-section .container { max-width: 1200px; margin: 0 auto; }
- .video-section h2 {
+ .walkthrough { background-color: var(--background); padding: 4rem 2rem; }
+ .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+ .walkthrough h2 {
  font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
  text-align: center; margin-bottom: 0.5rem; color: var(--navy);
  }
- .video-section .section-sub {
- text-align: center; color: var(--slate); margin-bottom: 2.5rem; font-size: 1.05rem;
+ .walkthrough .section-sub {
+ text-align: center; color: var(--slate); margin-bottom: 1rem; font-size: 1.05rem;
  }
+ body.record-mode nav, body.record-mode .breadcrumbs, body.record-mode .hero,
+ body.record-mode .cta-section, body.record-mode footer { display: none !important; }
+ body.record-mode .walkthrough { padding: 1.5rem 2rem; min-height: 100vh; background: var(--background); }
  .video-wrapper {
- display: flex; gap: 3rem; align-items: flex-start;
- justify-content: center; flex-wrap: wrap;
+ display: flex; gap: 2.5rem; align-items: flex-start; justify-content: flex-start;
+ flex-wrap: nowrap; width: 100%;
  }
-
- /* Phone viewport for zoom */
+ .phone-column {
+ flex-shrink: 0; width: 460px; max-width: 100%;
+ display: flex; flex-direction: column; align-items: center;
+ }
  .phone-viewport {
- flex-shrink: 0; overflow: hidden; border-radius: 40px;
+ flex-shrink: 0; overflow: hidden; border-radius: 24px;
  }
-
- /* Phone frame */
  .phone-frame {
- width: 320px; position: relative;
- border: 10px solid var(--navy-dark); border-radius: 40px;
+ width: 440px; position: relative;
+ border: 3px solid #1a2744; border-radius: 24px;
  overflow: hidden; background: #000;
- box-shadow: 0 20px 60px rgba(12,51,88,0.2), inset 0 0 0 2px rgba(255,255,255,0.1);
- aspect-ratio: 9 / 19.5;
-            max-height: 580px; }
- .phone-frame::before {
- content: ''; position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
- width: 80px; height: 24px; background: var(--navy-dark); border-radius: 0 0 14px 14px;
- z-index: 20;
+ box-shadow: 0 16px 48px rgba(12,51,88,0.22);
+ aspect-ratio: 9 / 19.5; max-height: 820px;
  }
- .slideshow {
- width: 100%; height: 100%; position: relative; overflow: hidden;
- }
+ .phone-frame::before { display: none; }
+ .slideshow { width: 100%; height: 100%; position: relative; overflow: hidden; background: #000; }
  .slide {
  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
  opacity: 0; transition: opacity 0.8s ease-in-out;
  }
- .slide.active { opacity: 1; }
+ .slide.active { opacity: 1; pointer-events: auto; }
+ .slide:not(.active) { pointer-events: none; }
  .slide img {
- width: 100%; height: 100%; object-fit: cover; object-position: top;
+ width: 100%; height: 100%; display: block;
+ object-fit: contain; object-position: center center;
+ background: var(--background);
  }
-
- /* Tap indicator — pulsing ring + finger icon */
+ .slide img[src$=".svg"] {
+ object-fit: contain; object-position: top center;
+ background: #000;
+ }
+ /* Match import sizing inside same-screen stage (no height:100% stretch) */
+ .walkthrough-stage .phone-viewport {
+ flex: 0 0 auto; width: auto; height: auto; max-height: none;
+ display: flex; align-items: center; justify-content: center;
+ overflow: visible;
+ }
+ .walkthrough-stage .phone-frame {
+ width: 440px; height: auto; max-height: 820px;
+ flex-shrink: 0;
+ }
  .tap-indicator {
-     position: absolute; z-index: 15; pointer-events: none;
-     transform: translate(-50%, -50%);
-     opacity: 0; transition: opacity 0.4s ease 0.3s;
+ position: absolute; z-index: 15; pointer-events: none;
+ transform: translate(-50%, -50%);
+ opacity: 0; transition: opacity 0.4s ease 0.3s;
  }
  .slide.active .tap-indicator { opacity: 1; }
  .tap-ring {
-     width: 44px; height: 44px; border-radius: 50%;
-     border: 3px solid var(--gold);
-     animation: tap-pulse 1.8s ease-out infinite;
-     box-shadow: 0 0 12px rgba(240,192,64,0.4);
+ width: 44px; height: 44px; border-radius: 50%;
+ border: 3px solid var(--gold);
+ animation: tap-pulse 1.8s ease-out infinite;
+ box-shadow: 0 0 12px rgba(240,192,64,0.4);
  }
  .tap-ring-outer {
-     position: absolute; top: 50%; left: 50%;
-     width: 44px; height: 44px;
-     transform: translate(-50%, -50%);
-     border: 2px solid rgba(240,192,64,0.6);
-     border-radius: 50%;
-     animation: tap-ripple 1.8s ease-out infinite 0.2s;
+ position: absolute; top: 50%; left: 50%;
+ width: 44px; height: 44px;
+ transform: translate(-50%, -50%);
+ border: 2px solid rgba(240,192,64,0.6); border-radius: 50%;
+ animation: tap-ripple 1.8s ease-out infinite 0.2s;
  }
  .tap-finger {
-     position: absolute; bottom: -18px; right: -14px;
-     font-size: 22px;
-     filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
-     animation: tap-bounce 1.8s ease-in-out infinite;
+ position: absolute; top: 50%; left: 50%;
+ font-size: 22px; line-height: 1;
+ filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+ transform: translate(-42%, -78%) rotate(-15deg);
+ transform-origin: 50% 100%;
+ animation: tap-bounce 1.8s ease-in-out infinite;
  }
  @keyframes tap-pulse {
-     0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
-     70% { transform: scale(1.4); opacity: 0; box-shadow: 0 0 0 rgba(240,192,64,0); }
-     100% { transform: scale(1.4); opacity: 0; }
+ 0% { transform: scale(1); opacity: 0.9; box-shadow: 0 0 12px rgba(240,192,64,0.4); }
+ 70% { transform: scale(1.4); opacity: 0; box-shadow: 0 0 0 rgba(240,192,64,0); }
+ 100% { transform: scale(1.4); opacity: 0; }
  }
  @keyframes tap-ripple {
-     0% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
-     20% { opacity: 0.5; }
-     100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
+ 0% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+ 20% { opacity: 0.5; }
+ 100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
  }
  @keyframes tap-bounce {
-     0%, 100% { transform: translateY(0) rotate(-15deg); }
-     40% { transform: translateY(-5px) rotate(-15deg); }
-     60% { transform: translateY(2px) rotate(-15deg); }
+ 0%, 100% { transform: translate(-42%, -78%) rotate(-15deg); }
+ 40% { transform: translate(-42%, -86%) rotate(-15deg); }
+ 60% { transform: translate(-42%, -74%) rotate(-15deg); }
  }
-
- /* Progress dots */
  .progress-dots {
  display: flex; justify-content: center; gap: 8px; margin-top: 1.2rem;
  }
@@ -169,44 +172,43 @@
  background: rgba(26,79,122,0.2); transition: all 0.3s ease; cursor: pointer;
  }
  .dot.active { background: var(--gold); width: 28px; border-radius: 5px; }
-
- /* Narration panel */
+ /* Plain transcript column beside phone (Joe UX ? no narration cards) */
  .narration-panel {
- max-width: 450px; flex: 1; min-width: 300px; position: relative;
+ flex: 1; min-width: 280px; min-height: 0;
+ max-height: 820px; overflow-y: auto;
+ padding: 0.25rem 0.5rem 0.25rem 0; align-self: stretch;
  }
- .narration-card {
- background: var(--white); border-radius: 16px; padding: 2rem;
- box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-left: 5px solid var(--gold);
- margin-bottom: 1rem; opacity: 0; transform: translateY(10px);
- transition: opacity 0.5s ease, transform 0.5s ease;
- position: absolute; top: 0; left: 0; width: 100%;
- pointer-events: none;
+ .narration-panel::-webkit-scrollbar { width: 6px; }
+ .narration-panel::-webkit-scrollbar-thumb {
+ background: rgba(26,79,122,0.25); border-radius: 3px;
  }
- .narration-card.active {
- opacity: 1; transform: translateY(0);
- position: relative;
- pointer-events: auto;
+ .narration-panel-heading {
+ font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700;
+ color: var(--navy); margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+ border-bottom: 2px solid var(--gold);
  }
- .narration-step-badge {
- display: inline-block; background: var(--navy); color: white;
- font-weight: 700; font-size: 0.8rem; padding: 4px 12px; border-radius: 20px;
- margin-bottom: 0.6rem;
+ .transcript-body { font-size: 1rem; line-height: 1.75; color: var(--slate); }
+ .transcript-para {
+ margin: 0 0 1.1rem 0; padding: 0.35rem 0.5rem 0.35rem 0.75rem;
+ border-left: 3px solid transparent; border-radius: 4px;
+ transition: border-color 0.25s ease, background-color 0.25s ease;
  }
- .narration-card h3 {
- font-family: 'Playfair Display', serif; font-size: 1.3rem;
- font-weight: 700; color: var(--navy); margin-bottom: 0.8rem;
+ .transcript-para:last-child { margin-bottom: 0; }
+ .transcript-para.current {
+ border-left-color: var(--gold);
+ background: rgba(240, 192, 64, 0.08);
  }
- .narration-card p { color: var(--slate); font-size: 1rem; line-height: 1.7; }
- .narration-timer {
- height: 3px; background: var(--gold); border-radius: 2px;
- margin-top: 1rem; width: 0%; transition: width linear;
+ .transcript-sentence {
+ transition: color 0.2s ease, font-weight 0.2s ease;
  }
- .narration-card.active .narration-timer { width: 100%; }
-
- /* Chapter navigation */
+ .transcript-sentence.active {
+ color: var(--navy); font-weight: 600;
+ }
+ .transcript-sentence.past { color: var(--navy); }
+ .transcript-body a { color: var(--navy-medium); font-weight: 600; text-decoration: underline; }
  .chapter-nav {
- display: flex; justify-content: center; gap: 0.8rem; margin-top: 2rem;
- flex-wrap: wrap; align-items: center;
+ display: flex; justify-content: center; gap: 0.5rem;
+ margin-top: 1.5rem; padding: 0; width: 100%;
  }
  .chapter-btn {
  background: var(--navy); color: white; border: 2px solid var(--navy);
@@ -215,85 +217,40 @@
  }
  .chapter-btn:hover { background: var(--navy-medium); border-color: var(--navy-medium); }
  .chapter-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
-
- /* Playback controls */
  .playback-controls {
- display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;
- align-items: center;
+ display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center;
  }
- .play-pause-btn {
+ .speed-label { font-size: 0.85rem; color: var(--slate); font-weight: 600; }
+ .play-pause-btn, .voice-btn {
  background: var(--navy); color: white; border: none; border-radius: 50%;
- width: 44px; height: 44px; cursor: pointer; font-size: 1.1rem;
- display: flex; align-items: center; justify-content: center;
- transition: background 0.3s;
+ width: 44px; height: 44px; cursor: pointer;
+ display: flex; align-items: center; justify-content: center; transition: background 0.3s;
  }
- .play-pause-btn:hover { background: var(--navy-medium); }
- .voice-btn {
- background: var(--navy); color: white; border: none; border-radius: 50%;
- width: 44px; height: 44px; cursor: pointer; font-size: 1.2rem;
- display: flex; align-items: center; justify-content: center;
- transition: background 0.3s, opacity 0.3s;
+ .play-pause-btn { font-size: 1.1rem; }
+ .voice-btn { font-size: 1.2rem; }
+ .nav-step-btn {
+ background: var(--navy); color: white; border: 1px solid var(--navy); border-radius: 20px;
+ padding: 0.45rem 0.9rem; cursor: pointer; font-size: 0.9rem;
  }
- .voice-btn:hover { background: var(--navy-medium); }
+ .nav-step-btn:hover { background: var(--navy-medium); }
+ .play-pause-btn:hover, .voice-btn:hover { background: var(--navy-medium); }
  .voice-btn.muted { opacity: 0.5; }
-        /* Tap-to-start overlay — shown on load, hidden after first user gesture */
-        .tap-to-start {
-            position: absolute; inset: 0; z-index: 20;
-            background: rgba(10, 26, 57, 0.72);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            border-radius: inherit;
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        .tap-to-start.hidden { opacity: 0; pointer-events: none; }
-        .tap-to-start-icon {
-            width: 56px; height: 56px; border-radius: 50%;
-            background: var(--gold); color: var(--navy-dark);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin-bottom: 0.6rem;
-        }
-        .tap-to-start-label {
-            font-family: 'Source Sans 3', sans-serif;
-            font-size: 0.9rem; font-weight: 700;
-            color: white; letter-spacing: 0.05em;
-        }
-
- /* Timeline Steps */
- .steps-section { background-color: var(--white); padding: 4rem 2rem; }
- .steps-section .container { max-width: 1200px; margin: 0 auto; }
- .steps-section h2 {
- font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900;
- text-align: center; margin-bottom: 3rem; color: var(--navy);
+ .tap-to-start {
+ position: absolute; inset: 0; z-index: 30;
+ background: rgba(10, 26, 57, 0.72);
+ display: flex; flex-direction: column; align-items: center; justify-content: center;
+ border-radius: inherit; cursor: pointer; transition: opacity 0.3s;
  }
- .timeline { max-width: 900px; margin: 0 auto; position: relative; }
- .timeline::before {
- content: ''; position: absolute; left: 50%; transform: translateX(-50%);
- width: 4px; height: 100%; background-color: var(--gold);
- }
- .timeline-step { margin-bottom: 3rem; position: relative; z-index: 1; }
- .timeline-step:nth-child(odd) { text-align: right; padding-right: calc(50% + 40px); }
- .timeline-step:nth-child(even) { text-align: left; padding-left: calc(50% + 40px); }
- .timeline-marker {
- position: absolute; left: 50%; transform: translateX(-50%); top: 0;
- width: 50px; height: 50px; background-color: var(--gold);
- border: 4px solid var(--white); border-radius: 50%;
+ .tap-to-start.hidden { opacity: 0; pointer-events: none; }
+ .tap-to-start-icon {
+ width: 56px; height: 56px; border-radius: 50%;
+ background: var(--gold); color: var(--navy-dark);
  display: flex; align-items: center; justify-content: center;
- font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
- color: var(--navy); box-shadow: 0 4px 12px rgba(240,192,64,0.3);
+ font-size: 1.5rem; margin-bottom: 0.6rem;
  }
- .timeline-content {
- background-color: var(--background); padding: 2rem; border-radius: 12px;
- border-left: 5px solid var(--gold);
+ .tap-to-start-label {
+ font-size: 0.9rem; font-weight: 700; color: white; letter-spacing: 0.05em;
  }
- .timeline-step:nth-child(odd) .timeline-content { border-right: 5px solid var(--gold); border-left: none; }
- .timeline-content h3 {
- font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
- color: var(--navy); margin-bottom: 0.75rem;
- }
- .timeline-content p { color: var(--slate); font-size: 0.95rem; line-height: 1.7; }
-
- /* CTA */
  .cta-section {
  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
  padding: 4rem 2rem; text-align: center;
@@ -317,53 +274,28 @@
  background-color: var(--gold-dark); transform: translateY(-2px);
  box-shadow: 0 8px 25px rgba(240,192,64,0.4);
  }
-
- /* Footer */
  footer {
  background-color: var(--navy-dark); color: var(--white);
  padding: 2rem; text-align: center; font-size: 0.9rem;
  }
  footer a { color: var(--gold); text-decoration: none; }
  footer a:hover { color: var(--gold-dark); }
-
- /* Responsive */
  @media (max-width: 768px) {
  nav .nav-links { gap: 1rem; font-size: 0.85rem; }
  .hero h1 { font-size: 2rem; }
  .hero .subheader { font-size: 1rem; }
- .video-wrapper { flex-direction: column; gap: 2rem; }
- .phone-frame { width: 280px; }
- .narration-panel { max-width: 100%; }
- .chapter-nav { gap: 0.6rem; margin-top: 1.5rem; }
- .chapter-btn { padding: 0.5rem 1rem; font-size: 0.85rem; }
- .timeline::before { left: 25px; }
- .timeline-step:nth-child(odd), .timeline-step:nth-child(even) {
- text-align: left; padding-right: 0; padding-left: 90px;
- }
- .timeline-marker { left: 0; transform: translateX(0); }
- .timeline-content, .timeline-step:nth-child(odd) .timeline-content {
- border-left: 5px solid var(--gold); border-right: none;
- }
- .steps-section h2 { font-size: 1.8rem; }
+ .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+ .phone-column { width: 100%; max-width: 340px; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
+ .phone-frame { width: 320px; max-height: 700px; }
+ .chapter-nav { max-width: 100%; }
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
- nav .nav-links { gap: 0.5rem; font-size: 0.75rem; }
-nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
- .hero { padding: 2.5rem 1rem; }
+ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  .hero h1 { font-size: 1.5rem; }
- .breadcrumbs { padding: 0.8rem 1rem 0; font-size: 0.8rem; }
- .phone-frame { width: 240px; }
- .video-section { padding: 2.5rem 1rem; }
- .chapter-nav { gap: 0.5rem; margin-top: 1.2rem; }
- .chapter-btn { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
- .steps-section { padding: 2.5rem 1rem; }
- .steps-section h2 { font-size: 1.5rem; }
- .timeline-step { padding-left: 70px !important; margin-bottom: 2rem; }
- .timeline-marker { width: 40px; height: 40px; font-size: 1.1rem; }
- .narration-card { padding: 1.5rem; }
- .narration-card h3 { font-size: 1.1rem; }
- .narration-card p { font-size: 0.9rem; }
+ .phone-frame { width: 280px; }
+ .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  }
  </style>
 </head>
@@ -373,762 +305,1023 @@ nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
  <a href="/" class="logo">JosspaTech</a>
  <ul class="nav-links">
  <li><a href="/">Home</a></li>
- <li><a href="/#products">Prodotti</a></li>
- <li><a href="/how-to/">Guide</a></li>
- <li><a href="#" class="cta-button">Scarica</a></li>
+ <li><a href="/#pbj">PocketBudJet</a></li>
+ <li><a href="/#hhh">Handy Horology Helper</a></li>
+ <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+ <li><a href="/#cvc">Curator's Vault</a></li>
+ <li><a href="/how-to/">How To</a></li>
  </ul>
  </div>
  </nav>
 
  <div class="breadcrumbs">
- <a href="/">Home</a>
- <span class="sep">/</span>
- <a href="/#pbj">PocketBudJet</a>
- <span class="sep">/</span>
- <a href="/how-to/">Guide</a>
- <span class="sep">/</span>
- <span class="current">Guida utente</span>
+ <a href="/">Home</a><span class="sep">/</span>
+ <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+ <span class="current">User Manual</span>
  </div>
 
  <div class="hero">
  <div class="container">
- <h1>La guida completa a PocketBudJet</h1>
- <p class="subheader">Ogni schermata. Ogni funzione. Ogni impostazione. Un tour visivo di tutto ciò che PocketBudJet può fare per le tue finanze — per le comunità italiane negli Stati Uniti.</p>
+ <h1>Manuale utente PocketBudJet</h1>
+ <p class="subheader">Detailed user manual ? cold launch through every major feature in app order. Imperative tap steps, real PNGs where captured, gold pulse guides.</p>
  </div>
  </div>
 
- <div class="video-section">
+ <section class="walkthrough">
  <div class="container">
- <h2>Guarda il tour completo</h2>
- <p class="section-sub">Schermate reali, impulso dorato dove toccare, narrazione passo passo.</p>
+ <h2>Master Manual</h2>
+ <p class="section-sub">120 slides with synced narration and gold tap guides ? cold launch through every major feature. Use the 32 chapter pills to jump, or read along in the scrolling transcript beside the phone. Prefer reading? <a href="/docs/pocketbudjet/PocketBudJet_UserManual.html" style="color:var(--navy-medium);font-weight:700;">Open the written User Manual</a> (clickable table of contents).</p>
+ <ul class="prod-media-langs" aria-label="User manual languages" style="display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 1.25rem;padding:0;list-style:none;">
+ <li><a href="/videos/user-guide/" style="color:var(--navy-medium);font-weight:600;">US English</a></li>
+ <li><a href="/videos/user-guide-zh/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Chinese (Simplified)</a></li>
+ <li><a href="/videos/user-guide-fr/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">French</a></li>
+ <li><a href="/videos/user-guide-de/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">German</a></li>
+ <li><a href="/videos/user-guide-hi/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Hindi</a></li>
+ <li><a href="/videos/user-guide-it/" style="color:var(--navy);font-weight:700;">Italian</a></li>
+ <li><a href="/videos/user-guide-pt/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Portuguese</a></li>
+ <li><a href="/videos/user-guide-es/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Spanish</a></li>
+ </ul>
+
+ <div class="walkthrough-stage">
  <div class="video-wrapper">
+ <div class="phone-column">
  <div class="phone-viewport">
  <div class="phone-frame">
- <div class="slideshow">
- <div class="slide active">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png?v=smsfix1" alt="Dashboard">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/01-home-dashboard.png?v=smsfix1" alt="Dashboard">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="88">
- <img src="/assets/screenshots/transactions.png?v=smsfix1" alt="Transactions">
-
- </div>
- <div class="slide" data-tap-x="85" data-tap-y="8">
- <img src="/assets/screenshots/pbj/02-import-center.png?v=smsfix1" alt="Scanning">
-
- </div>
- <div class="slide" data-tap-x="85" data-tap-y="8">
- <img src="/assets/screenshots/pbj/03-budget-envelopes.png?v=smsfix1" alt="Budgets">
-
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="95">
- <img src="/assets/screenshots/bills.png?v=smsfix1" alt="Bills & Recurring">
-
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/06-goals-languages.png?v=smsfix1" alt="Savings & Goals">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/debt.png?v=smsfix1" alt="Debt">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="45">
- <img src="/assets/screenshots/pbj/06-goals-languages.png?v=smsfix1" alt="Investments">
-
- </div>
- <div class="slide">
- <img src="/assets/screenshots/dashboard.png?v=smsfix1" alt="Reports">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/05-ai-coach.png?v=smsfix1" alt="AI Coach">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/05-ai-coach.png?v=smsfix1" alt="AI Assistant">
-
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="15">
- <img src="/assets/screenshots/pbj/01-home-dashboard.png?v=smsfix1" alt="Search">
-
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="15">
- <img src="/assets/screenshots/privacy.png?v=smsfix1" alt="Export">
-
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/07-web-companion.png?v=smsfix1" alt="PC Dashboard">
-
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/02-import-center.png?v=smsfix1" alt="Import Flexibility">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="50">
- <img src="/assets/screenshots/pbj/07-web-companion.png?v=smsfix1" alt="Household Sync">
-
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/bills.png?v=smsfix1" alt="Calendar View">
-
- </div>
- <div class="slide">
- <img src="/assets/screenshots/transactions.png?v=smsfix1" alt="Rules">
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png?v=smsfix1" alt="Accessibility">
-
- </div>
- <div class="slide" data-tap-x="90" data-tap-y="8">
- <img src="/assets/screenshots/pbj/06-goals-languages.png?v=smsfix1" alt="Mindful Features">
-
- </div>
- <div class="slide" data-tap-x="80" data-tap-y="45">
- <img src="/assets/screenshots/pbj/06-goals-languages.png?v=smsfix1" alt="Retirement">
-
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/05-ai-coach.png?v=smsfix1" alt="Voice Shortcuts">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png?v=smsfix1" alt="Pricing">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/privacy.png?v=smsfix1" alt="Privacy & Security">
- </div>
- <div class="slide">
- <img src="/assets/screenshots/pbj/02-import-center.png?v=smsfix1" alt="Data & Storage Management">
- </div>
- <div class="slide" data-tap-x="50" data-tap-y="75">
- <img src="/assets/screenshots/budget-setup/step-7-dashboard.png?v=smsfix1" alt="Help">
-
- </div>
+ <div class="slideshow" id="slideshow">
  <div class="tap-to-start" id="tapToStart">
  <div class="tap-to-start-icon">&#9654;</div>
- <div class="tap-to-start-label">Tocca per riprodurre</div>
+ <div class="tap-to-start-label">Tap to play</div>
+ </div>
+ <div class="slide active" data-index="0" data-tap-none>
+ <img src="/assets/screenshots/cold-start/splash.png" alt="Splash" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="1" data-tap-x="50" data-tap-y="88" data-tap-label="Next" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/cold-start/showcase-1.png" alt="Showcase 1" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="2" data-tap-x="50" data-tap-y="88" data-tap-label="Next" data-tap-show-at="4.3" data-tap-duration="1.4">
+ <img src="/assets/screenshots/cold-start/showcase-2.png" alt="Showcase 2" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="3" data-tap-x="50" data-tap-y="88" data-tap-label="Next" data-tap-show-at="0.2" data-tap-duration="2.9">
+ <img src="/assets/screenshots/cold-start/showcase-3.png" alt="Showcase 3" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="4" data-tap-x="50" data-tap-y="88" data-tap-label="Get Started" data-tap-show-at="3.1" data-tap-duration="1.4">
+ <img src="/assets/screenshots/cold-start/showcase-4.png" alt="Showcase 4" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="5" data-tap-x="28" data-tap-y="18" data-tap-label="Terms" data-tap-show-at="0.3" data-tap-duration="3.0">
+ <img src="/assets/screenshots/cold-start/onboarding-terms-tab-initial.png" alt="Onboarding Terms Tab Initial" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="6" data-tap-x="72" data-tap-y="18" data-tap-label="Disclaimer" data-tap-show-at="0.2" data-tap-duration="1.6">
+ <img src="/assets/screenshots/cold-start/onboarding-disclaimer-tab.png" alt="Onboarding Disclaimer Tab" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="7" data-tap-x="50" data-tap-y="92" data-tap-label="Accept" data-tap-show-at="1.8" data-tap-duration="1.4">
+ <img src="/assets/screenshots/cold-start/onboarding-terms-both-complete.png" alt="Onboarding Terms Both Complete" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="8" data-tap-x="50" data-tap-y="90" data-tap-label="Continue" data-tap-show-at="4.6" data-tap-duration="1.4">
+ <img src="/assets/screenshots/cold-start/security-setup.png" alt="Security Setup" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="9" data-tap-none>
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="10" data-taps='[{"x":10,"y":94,"at":1.2,"dur":1.3,"label":"Home"},{"x":30,"y":94,"at":2.6,"dur":1.3,"label":"Activity"},{"x":50,"y":94,"at":4.0,"dur":1.3,"label":"Budget"},{"x":70,"y":94,"at":5.4,"dur":1.3,"label":"Goals"},{"x":90,"y":94,"at":6.8,"dur":1.3,"label":"Coach"},{"x":50,"y":88,"at":8.3,"dur":1.3,"label":"Next"}]'>
+ <img src="/assets/screenshots/wayfinding/wayfinding-tab-bar.png" alt="Wayfinding Tab Bar" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="11" data-taps='[{"x":78,"y":7,"at":1.0,"dur":2.0,"label":"Search"},{"x":91,"y":7,"at":3.2,"dur":1.8,"label":"Coach"},{"x":50,"y":88,"at":5.2,"dur":1.4,"label":"Next"}]'>
+ <img src="/assets/screenshots/wayfinding/wayfinding-header.png" alt="Wayfinding Header" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="12" data-tap-x="12" data-tap-y="24" data-tap-label="Open menu" data-tap-show-at="1.9" data-tap-duration="3.1">
+ <img src="/assets/screenshots/wayfinding/wayfinding-drawer.png" alt="Wayfinding Drawer" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="13" data-tap-x="50" data-tap-y="40" data-tap-label="Toolbox" data-tap-show-at="5.9" data-tap-duration="1.4">
+ <img src="/assets/screenshots/wayfinding/wayfinding-toolbox.png" alt="Wayfinding Toolbox" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="14" data-tap-x="88" data-tap-y="78" data-tap-label="Quick-add" data-tap-show-at="5.7" data-tap-duration="1.4">
+ <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="Wayfinding Quick Add" loading="eager" decoding="async">
+</div>
+ <div class="slide" data-index="15" data-tap-x="50" data-tap-y="78" data-tap-label="Start trial" data-tap-show-at="1.3" data-tap-duration="3.2">
+ <img src="/assets/screenshots/cold-start/subscription-intro.png" alt="Subscription Intro" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="16" data-tap-x="50" data-tap-y="78" data-tap-label="Allow" data-tap-show-at="1.6" data-tap-duration="3.2">
+ <img src="/assets/screenshots/pbj/manual/notification-opt-in.png" alt="Notification Opt In" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="17" data-tap-x="91" data-tap-y="8" data-tap-label="Settings" data-tap-show-at="2.9" data-tap-duration="3.2">
+ <img src="/assets/screenshots/settings/settings-open.png" alt="Settings Open" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="18" data-tap-x="50" data-tap-y="38" data-tap-label="Name" data-tap-show-at="1" data-tap-duration="1.5">
+ <img src="/assets/screenshots/budget-setup/step-1-name.png" alt="Step 1 Name" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="19" data-tap-x="50" data-tap-y="42" data-tap-label="Currency" data-tap-show-at="1.1" data-tap-duration="1.5">
+ <img src="/assets/screenshots/cold-start/wizard-currency.png" alt="Wizard Currency" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="20" data-tap-x="50" data-tap-y="55" data-tap-label="Add account" data-tap-show-at="5.2" data-tap-duration="1.4">
+ <img src="/assets/screenshots/budget-setup/step-5-accounts.png" alt="Step 5 Accounts" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="21" data-tap-x="50" data-tap-y="42" data-tap-label="Income" data-tap-show-at="1.1" data-tap-duration="3.2">
+ <img src="/assets/screenshots/budget-setup/step-2-income.png" alt="Step 2 Income" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="22" data-tap-x="50" data-tap-y="50" data-tap-label="Add bill" data-tap-show-at="5.2" data-tap-duration="1.4">
+ <img src="/assets/screenshots/cold-start/wizard-bills.png" alt="Wizard Bills" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="23" data-tap-x="50" data-tap-y="48" data-tap-label="Goal" data-tap-show-at="1.1" data-tap-duration="2.1">
+ <img src="/assets/screenshots/cold-start/wizard-goals.png" alt="Wizard Goals" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="24" data-tap-x="50" data-tap-y="55" data-tap-label="Style" data-tap-show-at="1.7" data-tap-duration="3.2">
+ <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="Step 3 Templates" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="25" data-tap-x="50" data-tap-y="55" data-tap-label="Continue" data-tap-show-at="0.3" data-tap-duration="3.1">
+ <img src="/assets/screenshots/cold-start/wizard-accessibility.png" alt="Wizard Accessibility" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="26" data-tap-x="50" data-tap-y="90" data-tap-label="Finish" data-tap-show-at="1.3" data-tap-duration="2.9">
+ <img src="/assets/screenshots/budget-setup/step-7-dashboard.png" alt="Step 7 Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="27" data-tap-none>
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="28" data-tap-x="12" data-tap-y="94" data-tap-label="Activity" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/activity/activity-tab.png" alt="Activity Tab" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="29" data-tap-none>
+ <img src="/assets/screenshots/activity/activity-transaction-list.png" alt="Activity Transaction List" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="30" data-tap-x="88" data-tap-y="8" data-tap-label="Filters" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/pbj/manual/activity-filters.png" alt="Activity Filters" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="31" data-tap-x="50" data-tap-y="35" data-tap-label="Row" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/activity/activity-transaction-detail.png" alt="Activity Transaction Detail" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="32" data-tap-x="50" data-tap-y="88" data-tap-label="Approve" data-tap-show-at="1.8" data-tap-duration="2.8">
+ <img src="/assets/screenshots/import/step-5-confirm-import.png" alt="Step 5 Confirm Import" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="33" data-tap-x="38" data-tap-y="94" data-tap-label="Budget" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="34" data-tap-none>
+ <img src="/assets/screenshots/pbj/03-budget-envelopes.png" alt="03 Budget Envelopes" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="35" data-tap-x="50" data-tap-y="50" data-tap-label="Category" data-tap-show-at="0.2" data-tap-duration="2.1">
+ <img src="/assets/screenshots/budget-setup/step-4-categories.png" alt="Step 4 Categories" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="36" data-tap-x="50" data-tap-y="55" data-tap-label="Template" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/budget-setup/step-3-templates.png" alt="Step 3 Templates" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="37" data-tap-none>
+ <img src="/assets/screenshots/budget/category-manager.png" alt="Category Manager" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="38" data-tap-none>
+ <img src="/assets/screenshots/budget/spending-plan.png" alt="Spending Plan" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="39" data-tap-x="62" data-tap-y="94" data-tap-label="Goals" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="40" data-tap-none>
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="06 Goals Languages" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="41" data-tap-x="88" data-tap-y="88" data-tap-label="Plus" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="06 Goals Languages" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="42" data-tap-none>
+ <img src="/assets/screenshots/pbj/06-goals-languages.png" alt="06 Goals Languages" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="43" data-tap-none>
+ <img src="/assets/screenshots/goals/purchase-wishlist.png" alt="Purchase Wishlist" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="44" data-tap-x="88" data-tap-y="94" data-tap-label="Coach" data-tap-show-at="0.2" data-tap-duration="3">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="45" data-tap-none>
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="05 AI Coach" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="46" data-tap-x="85" data-tap-y="24" data-tap-label="Ask" data-tap-show-at="0.2" data-tap-duration="2.5">
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="05 AI Coach" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="47" data-tap-none>
+ <img src="/assets/screenshots/coach/weekly-recap.png" alt="Weekly Recap" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="48" data-tap-x="50" data-tap-y="88" data-tap-label="Gold +" data-tap-show-at="1.4" data-tap-duration="2.2">
+ <img src="/assets/screenshots/pbj/01-home-dashboard.png" alt="01 Home Dashboard" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="49" data-tap-x="85" data-tap-y="82" data-tap-label="Gold +" data-tap-show-at="0.2" data-tap-duration="2.6">
+ <img src="/assets/screenshots/wayfinding/wayfinding-quick-add.png" alt="Wayfinding Quick Add" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="50" data-tap-x="50" data-tap-y="24" data-tap-label="Amount" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/manual/add-transaction-amount.png" alt="Transaction Hub amount" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="51" data-taps='[{"x":50,"y":37,"at":0.3,"dur":1.6,"label":"Merchant"},{"x":22,"y":43,"at":2.1,"dur":1.6,"label":"Category"}]' data-tap-x="50" data-tap-y="37" data-tap-label="Merchant" data-tap-show-at="0.3" data-tap-duration="1.6">
+ <img src="/assets/screenshots/pbj/manual/add-transaction-merchant-category.png" alt="Merchant and category" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="52" data-tap-x="86" data-tap-y="35" data-tap-label="Split" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/manual/add-transaction-split.png" alt="Split across categories" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="53" data-tap-x="64" data-tap-y="90" data-tap-label="Save" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/manual/add-transaction-save.png" alt="Save transaction" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="54" data-tap-x="50" data-tap-y="28" data-tap-label="Import Center" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/import/01-toolbox-import-center.png" alt="Toolbox Import Center" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="55" data-tap-x="32" data-tap-y="52" data-tap-label="Show me how" data-tap-show-at="0.4" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/import/02-import-idle.png" alt="Import Center idle" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="56" data-tap-x="50" data-tap-y="94" data-tap-label="Got it" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/import/03-share-howto.png" alt="Share statement how-to" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="57" data-tap-none>
+ <img src="/assets/screenshots/pbj/import/02-import-idle.png" alt="Import loading after share" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="58" data-tap-x="50" data-tap-y="90" data-tap-label="Import transactions" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/pbj/import/07-review-import.png" alt="Review import draft" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="59" data-tap-none>
+ <img src="/assets/screenshots/pbj/import/02-import-idle.png" alt="Import Center idle" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="60" data-tap-none>
+ <img src="/assets/screenshots/pbj/import/08-import-done.png" alt="Import complete" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="61" data-tap-x="50" data-tap-y="32" data-tap-label="History row" data-tap-show-at="0.3" data-tap-duration="3.0">
+ <img src="/assets/screenshots/pbj/import/10-import-history.png" alt="Import History" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="62" data-tap-x="50" data-tap-y="22" data-tap-label="Scan" data-tap-show-at="0.2" data-tap-duration="2.9">
+ <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Receipt Scan" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="63" data-tap-x="50" data-tap-y="88" data-tap-label="Save" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/receipt-scanning/receipt-scan.png" alt="Receipt Scan" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="64" data-tap-x="50" data-tap-y="48" data-tap-label="Scanner" data-tap-show-at="1.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/scanner.png" alt="Scanner" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="65" data-tap-none>
+ <img src="/assets/screenshots/scanner.png" alt="Scanner" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="66" data-tap-none>
+ <img src="/assets/screenshots/scanner.png" alt="Scanner" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="67" data-tap-none>
+ <img src="/assets/screenshots/bills/bills-calendar.png" alt="Bills Calendar" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="68" data-tap-x="50" data-tap-y="70" data-tap-label="Mark paid" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/bills.png" alt="Bills" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="69" data-tap-none>
+ <img src="/assets/screenshots/bills/subscription-tracker.png" alt="Subscription Tracker" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="70" data-tap-none>
+ <img src="/assets/screenshots/bills/bills-calendar.png" alt="Bills Calendar" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="71" data-tap-none>
+ <img src="/assets/screenshots/income/recurring-income.png" alt="Recurring Income" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="72" data-tap-none>
+ <img src="/assets/screenshots/pbj/manual/pay-stub-review.png" alt="Pay Stub Review" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="73" data-tap-none>
+ <img src="/assets/screenshots/pbj/manual/direct-deposit-advisor.png" alt="Direct Deposit Advisor" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="74" data-tap-none>
+ <img src="/assets/screenshots/debt/debt-planner.png" alt="Debt Planner" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="75" data-tap-x="32" data-tap-y="42" data-tap-label="Avalanche" data-tap-show-at="0.3" data-tap-duration="3.0">
+ <img src="/assets/screenshots/debt/debt-strategy.png" alt="Debt Strategy" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="76" data-tap-none>
+ <img src="/assets/screenshots/debt/loan-calculator.png" alt="Loan Calculator" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="77" data-tap-none>
+ <img src="/assets/screenshots/debt/debt-progress.png" alt="Debt Progress" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="78" data-tap-x="50" data-tap-y="18" data-tap-label="Reports" data-tap-show-at="0.8" data-tap-duration="3.1">
+ <img src="/assets/screenshots/reports/reports-hub.png" alt="Reports Hub" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="79" data-tap-none>
+ <img src="/assets/screenshots/reports/spending-trends.png" alt="Spending Trends" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="80" data-tap-none>
+ <img src="/assets/screenshots/reports/category-breakdown.png" alt="Category Breakdown" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="81" data-tap-none>
+ <img src="/assets/screenshots/reports/merchant-analysis.png" alt="Merchant Analysis" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="82" data-tap-none>
+ <img src="/assets/screenshots/reports/financial-health-score.png" alt="Financial Health Score" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="83" data-tap-none>
+ <img src="/assets/screenshots/reports/custom-report-builder.png" alt="Custom Report Builder" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="84" data-tap-none>
+ <img src="/assets/screenshots/net-worth/net-worth-hub.png" alt="Net Worth Hub" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="85" data-tap-none>
+ <img src="/assets/screenshots/settings/how-pbj-learns.png" alt="How PBJ Learns" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="86" data-tap-x="50" data-tap-y="82" data-tap-label="Connect" data-tap-show-at="0.5" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/connect-bank/bank-sync-premium-gate.png" alt="Bank sync Premium gate" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="87" data-tap-x="50" data-tap-y="39" data-tap-label="Search" data-tap-show-at="0.4" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/connect-bank/connect-bank-search.png" alt="Connect bank search" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="88" data-tap-none>
+ <img src="/assets/screenshots/tax/tax-center.png" alt="Tax Center" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="89" data-tap-none>
+ <img src="/assets/screenshots/tax/tax-center.png" alt="Tax Center" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="90" data-tap-none>
+ <img src="/assets/screenshots/tax/mileage-log.png" alt="Mileage Log" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="91" data-tap-none>
+ <img src="/assets/screenshots/tax/tax-center.png" alt="Tax Center" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="92" data-tap-x="91" data-tap-y="8" data-tap-label="Settings" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/settings/settings-open.png" alt="Settings Open" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="93" data-tap-none>
+ <img src="/assets/screenshots/settings/profile-accounts.png" alt="Profile Accounts" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="94" data-tap-none>
+ <img src="/assets/screenshots/household-sync/household-sync.png" alt="Household Sync" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="95" data-tap-x="50" data-tap-y="40" data-tap-label="Backup" data-tap-show-at="3.7" data-tap-duration="1.4">
+ <img src="/assets/screenshots/settings/privacy-backup.png" alt="Privacy Backup" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="96" data-tap-x="14" data-tap-y="22" data-tap-label="Storage" data-tap-show-at="0.4" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/settings/data-management-storage.png" alt="Storage Management" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="97" data-tap-none>
+ <img src="/assets/screenshots/settings/how-pbj-learns.png" alt="How PBJ Learns" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="98" data-tap-x="50" data-tap-y="82" data-tap-label="Connect" data-tap-show-at="0.4" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/connect-bank/bank-sync-premium-gate.png" alt="Bank sync Premium gate" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="99" data-tap-x="50" data-tap-y="39" data-tap-label="Search" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/connect-bank/connect-bank-search.png" alt="Connect bank search" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="100" data-tap-x="50" data-tap-y="79" data-tap-label="Continue" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/connect-bank/connect-bank-pick-accounts.png" alt="Select accounts to sync" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="101" data-tap-x="50" data-tap-y="40" data-tap-label="Rules" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/rules/transaction-rules.png" alt="Transaction Rules" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="102" data-tap-none>
+ <img src="/assets/screenshots/rules/transaction-rules.png" alt="Transaction Rules" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="103" data-tap-none>
+ <img src="/assets/screenshots/rules/bookmarks.png" alt="Bookmarks" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="104" data-tap-none>
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="05 AI Coach" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="105" data-tap-none>
+ <img src="/assets/screenshots/pbj/05-ai-coach.png" alt="05 AI Coach" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="106" data-tap-x="15" data-tap-y="60" data-tap-label="Target age" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/retirement/retirement-planning.png" alt="Retirement and FIRE planner" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="107" data-tap-none>
+ <img src="/assets/screenshots/household-sync/household-sync.png" alt="Household Sync" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="108" data-tap-x="51" data-tap-y="69" data-tap-label="Add Item" data-tap-show-at="0.4" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/settings/mindful-features.png" alt="Purchase Wishlist" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="109" data-tap-none>
+ <img src="/assets/screenshots/pbj/04-shopping-intelligence.png" alt="04 Shopping Intelligence" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="110" data-tap-x="51" data-tap-y="57" data-tap-label="QR code" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/07-web-companion.png" alt="Web Companion running" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="111" data-tap-none>
+ <img src="/assets/screenshots/pbj/manual/notification-opt-in.png" alt="Notification Opt In" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="112" data-tap-none>
+ <img src="/assets/screenshots/household-sync/household-sync.png" alt="Household Sync" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="113" data-tap-x="50" data-tap-y="8" data-tap-label="Search" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/wayfinding/wayfinding-header.png" alt="Wayfinding Header" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="114" data-tap-none>
+ <img src="/assets/screenshots/settings/privacy-backup.png" alt="Privacy Backup" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="115" data-tap-none>
+ <img src="/assets/screenshots/pbj/manual/notification-opt-in.png" alt="Notification Opt In" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="116" data-tap-none>
+ <img src="/assets/screenshots/pbj/manual/widgets-watch.png" alt="Widgets Watch" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="117" data-tap-x="88" data-tap-y="60" data-tap-label="App unlock" data-tap-show-at="0.3" data-tap-duration="2.8">
+ <img src="/assets/screenshots/pbj/settings/app-lock.png" alt="Require app unlock" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="118" data-tap-none>
+ <img src="/assets/screenshots/settings/privacy-backup.png" alt="Privacy Backup" loading="lazy" decoding="async">
+</div>
+ <div class="slide" data-index="119" data-tap-none>
+ <img src="/assets/screenshots/help/help-support.png" alt="Help Support" loading="lazy" decoding="async">
  </div>
  </div>
  </div>
  </div>
- <div class="progress-dots">
- <span class="dot active" data-slide="0"></span>
- <span class="dot" data-slide="1"></span>
- <span class="dot" data-slide="2"></span>
- <span class="dot" data-slide="3"></span>
- <span class="dot" data-slide="4"></span>
- <span class="dot" data-slide="5"></span>
- <span class="dot" data-slide="6"></span>
- <span class="dot" data-slide="7"></span>
- <span class="dot" data-slide="8"></span>
- <span class="dot" data-slide="9"></span>
- <span class="dot" data-slide="10"></span>
- <span class="dot" data-slide="11"></span>
- <span class="dot" data-slide="12"></span>
- <span class="dot" data-slide="13"></span>
- <span class="dot" data-slide="14"></span>
- <span class="dot" data-slide="15"></span>
- <span class="dot" data-slide="16"></span>
- <span class="dot" data-slide="17"></span>
- <span class="dot" data-slide="18"></span>
- <span class="dot" data-slide="19"></span>
- <span class="dot" data-slide="20"></span>
- <span class="dot" data-slide="21"></span>
- <span class="dot" data-slide="22"></span>
- <span class="dot" data-slide="23"></span>
- <span class="dot" data-slide="24"></span>
- <span class="dot" data-slide="25"></span>
- <span class="dot" data-slide="26"></span>
- <span class="dot" data-slide="27"></span>
- </div>
-
- <div class="narration-panel">
- <div class="narration-card active">
- <span class="narration-step-badge">Slide 1 di 28</span>
- <h3>Benvenuto e configurazione</h3>
- <p>Scarica PocketBudJet, segui la procedura guidata, crea il tuo primo conto e avvia la prova Premium di 21 giorni — senza carta. Dopo la prova, abbonati mensile o annuale per mantenere l'accesso. La procedura guidata copre nome, valuta, conti, reddito (lordo e netto), bollette, obiettivi e stile di budget.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 2 di 28</span>
- <h3>La tua dashboard</h3>
- <p>Schede reddito, spese e saldo in alto. L'indicatore del ritmo di spesa mostra se sei in linea. Widget per azioni rapide. Avvisi di anomalia segnalano transazioni insolite.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 3 di 28</span>
- <h3>Aggiungere transazioni</h3>
- <p>Tocca +, inserisci l'importo, scegli una categoria — fatto. Dividi transazioni su più categorie. Allega foto di scontrini. Usa modelli per voci ricorrenti. Suggerimento: scrivi i nomi dei commercianti sempre allo stesso modo per raggrupparli correttamente nei report.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 4 di 28</span>
- <h3>Importare dati</h3>
- <p>Importa estratti CSV, OFX, QFX, QIF, XLSX o PDF — nessun login bancario. Smart Mapper rileva le colonne. Rilevamento duplicati evita conteggi doppi. Importa almeno tre mesi di storico. Sincronizzazione bancaria automatica (solo USA, via Teller) è opzionale con Premium a pagamento — non durante la prova di 21 giorni. Vedi il <a href="/videos/user-guide/#chapter=54" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">capitolo Importa</a> nel manuale.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 5 di 28</span>
- <h3>Scansionare documenti</h3>
- <p>Scansiona scontrini con la fotocamera. OCR legge commerciante, importo e data. Supporto scanner WiFi per elaborazione batch. Legge anche la scrittura a mano. PocketBudJet è l'unica app di budget con supporto scanner WiFi che conosciamo.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 6 di 28</span>
- <h3>Gestire i budget</h3>
- <p>Cinque modelli di budget o crea il tuo. Limiti per categoria con barre colorate. Trasferisci budget non usato. Panoramica salute mostra la tua posizione.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 7 di 28</span>
- <h3>Bollette e ricorrenti</h3>
- <p>Calendario visivo delle bollette con scadenze. Punti verdi segnano i giorni di paga. Configura entrate e uscite ricorrenti. Previsione intelligente stima le bollette future.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 8 di 28</span>
- <h3>Risparmio e obiettivi</h3>
- <p>Imposta obiettivi di risparmio con date target. Crea fondi di riserva. Lista desideri con riflessione di 30 giorni. Calcolatore «e se» mostra i compromessi.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 9 di 28</span>
- <h3>Eliminare i debiti</h3>
- <p>Traccia tutti i debiti in un unico posto. Scegli avalancha (tasso più alto) o palla di neve (saldo minore). Vedi la data di libertà dal debito. Scenari «e se» mostrano come pagamenti extra accelerano il rimborso.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 10 di 28</span>
- <h3>Investimenti e patrimonio netto</h3>
- <p>Traccia azioni, crypto (19 valute) e valore immobiliare via stime Zillow. Monitora il punteggio di credito. Visualizza polizze assicurative accanto agli asset.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 11 di 28</span>
- <h3>Report e analisi</h3>
- <p>Oltre 10 tipi di report: spese per categoria, entrate vs. uscite, confronti anno su anno, dashboard anomalie, trend patrimonio netto e report personalizzati.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 12 di 28</span>
- <h3>Coach finanziario IA</h3>
- <p>Insight personalizzati basati sulle tue abitudini di spesa. Solo con opt-in. Rileva tendenze, avvisa attività insolite e invia riepilogo settimanale.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 13 di 28</span>
- <h3>Assistente IA</h3>
- <p>Fai domande sul tuo denaro in linguaggio naturale. «Quanto ho speso al ristorante il mese scorso?» Undici tipi di query, tutto elaborato sul dispositivo.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 14 di 28</span>
- <h3>Trovare qualsiasi funzione</h3>
- <p>PocketBudJet ha decine di funzioni. Cerca transazioni per importo o commerciante. Cerca funzioni: prova «chilometraggio», «voce», «pensione» o «daltonismo».</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 15 di 28</span>
- <h3>Esporta e condividi</h3>
- <p>Esporta in sei formati: CSV, XLSX, OFX, PDF, JSON e backup crittografato. Genera report pronto per il commercialista. Avvia server LAN per trasferire file al computer.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 16 di 28</span>
- <h3>Dashboard Web PC</h3>
- <p>Accedi a PocketBudJet da qualsiasi browser sulla rete locale. Scansiona QR per accoppiare. Cinque schede: Dashboard, Transazioni, Budget, Report, Impostazioni. CRUD completo. Sincronizzazione in tempo reale con il telefono.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 17 di 28</span>
- <h3>Flessibilità di importazione</h3>
- <p>Importa da CSV, OFX, QIF e PDF — senza connessione bancaria. Scansiona scontrini cartacei. Trasferisci ricevute digitali dall'email. Trascina file nella dashboard PC. Sync bancaria (solo USA) opzionale con Premium a pagamento.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 18 di 28</span>
- <h3>Sincronizzazione familiare</h3>
- <p>Sincronizza con familiari via WiFi o Bluetooth — senza internet. Accoppia con QR. Budget condivisi con visibilità individuale. Risoluzione automatica conflitti.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 19 di 28</span>
- <h3>Vista calendario</h3>
- <p>Calendario mensile con punti transazione ogni giorno. Scadenze bollette e giorni di paga. Codificato per categoria. Tocca un giorno per vedere le transazioni.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 20 di 28</span>
- <h3>Preferiti e regole</h3>
- <p>Segna transazioni importanti. Crea regole di categorizzazione automatica per commerciante. Modifica più transazioni in batch.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 21 di 28</span>
- <h3>Accessibilità</h3>
- <p>Modalità scura, alto contrasto e palette per daltonici. Blocco biometrico. Testo ingrandito. Compatibile con screen reader.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 22 di 28</span>
- <h3>Funzioni mindful</h3>
- <p>Vista mindful rimuove i numeri e mostra anelli di progresso. Modalità costo in tempo converte i prezzi in ore di lavoro. Una cena da 50 $ diventa «2,5 ore di lavoro».</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 23 di 28</span>
- <h3>Pianificazione pensione</h3>
- <p>Traccia traguardi risparmio Fidelity. Calcolatore FIRE. Proiezioni tasso di prelievo sicuro. Stimatore reddito pensionistico.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 24 di 28</span>
- <h3>Scorciatoie vocali</h3>
- <p>Funziona con Siri e Google Assistant. Sei scorciatoie integrate. Crea scorciatoie vocali personalizzate.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 25 di 28</span>
- <h3>Prezzi</h3>
- <p>Inizia con prova Premium di 21 giorni — accesso completo, senza carta. Sincronizzazione bancaria (solo USA, via Teller) richiede abbonamento Premium a pagamento — non durante la prova. Poi abbonati mensile o annuale. Cancella quando vuoi. Niente pubblicità, niente vendita dati.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 26 di 28</span>
- <h3>Privacy e sicurezza</h3>
- <p>I tuoi dati restano nello storage privato di PocketBudJet sul dispositivo. Nessuna credenziale bancaria memorizzata. Backup e cloud opzionali — crittografia AES-256 con chiave solo tua. Sync bancaria opzionale (solo USA) via Teller su Premium a pagamento.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 27 di 28</span>
- <h3>Gestione dati e storage</h3>
- <p>Definisci quanto tempo il backup conserva i dettagli completi, quanti mesi restano sul telefono per accesso offline e come le immagini degli scontrini sono distribuite. Tocca Rivedi e libera spazio per anteprima prima di agire.</p>
- <div class="narration-timer"></div>
- </div>
- <div class="narration-card">
- <span class="narration-step-badge">Slide 28 di 28</span>
- <h3>Serve aiuto?</h3>
- <p>Scrivi a support@josspatech.com — rispondiamo entro 24 ore. Usa il modulo feedback nell'app. Visita <a href="/how-to/" style="color: #1A4F7A; font-weight: 600; text-decoration: underline;">josspatech.com/how-to</a> per guide video su importazione, budget, debiti, scansione e altro.</p>
- <div class="narration-timer"></div>
- </div>
-
+ <div class="progress-dots" id="dots"></div>
  <div class="playback-controls">
- <button class="play-pause-btn" id="playPauseBtn" title="Riproduci/Pausa">▶</button>
- </div>
- </div>
- </div>
-
- <div class="chapter-nav">
- <button class="chapter-btn active" data-slide="0">Primi passi</button>
- <button class="chapter-btn" data-slide="1">Dashboard</button>
- <button class="chapter-btn" data-slide="2">Transazioni</button>
- <button class="chapter-btn" data-slide="3">Importa</button>
- <button class="chapter-btn" data-slide="4">Scansione</button>
- <button class="chapter-btn" data-slide="5">Budget</button>
- <button class="chapter-btn" data-slide="6">Bollette</button>
- <button class="chapter-btn" data-slide="7">Risparmio</button>
- <button class="chapter-btn" data-slide="8">Debiti</button>
- <button class="chapter-btn" data-slide="9">Investimenti</button>
- <button class="chapter-btn" data-slide="10">Report</button>
- <button class="chapter-btn" data-slide="11">Coach IA</button>
- <button class="chapter-btn" data-slide="12">Assistente IA</button>
- <button class="chapter-btn" data-slide="13">Cerca</button>
- <button class="chapter-btn" data-slide="14">Esporta</button>
- <button class="chapter-btn" data-slide="15">Dashboard PC</button>
- <button class="chapter-btn" data-slide="16">Importa</button>
- <button class="chapter-btn" data-slide="17">Famiglia</button>
- <button class="chapter-btn" data-slide="18">Calendario</button>
- <button class="chapter-btn" data-slide="19">Regole</button>
- <button class="chapter-btn" data-slide="20">Accessibilità</button>
- <button class="chapter-btn" data-slide="21">Mindful</button>
- <button class="chapter-btn" data-slide="22">Pensione</button>
- <button class="chapter-btn" data-slide="23">Voce</button>
- <button class="chapter-btn" data-slide="24">Prezzi</button>
- <button class="chapter-btn" data-slide="25">Privacy</button>
- <button class="chapter-btn" data-slide="26">Dati</button>
- <button class="chapter-btn" data-slide="27">Aiuto</button>
- </div>
+ <button class="nav-step-btn" id="prevBtn" title="Previous step" aria-label="Previous step">&#9664;</button>
+ <button class="play-pause-btn" id="playPauseBtn" aria-label="Pause walkthrough">&#10074;&#10074;</button>
+ <button class="nav-step-btn" id="nextBtn" title="Next step" aria-label="Next step">&#9654;&#9654;</button>
+ <span class="speed-label" id="speedLabel">Auto-playing</span>
  </div>
  </div>
 
- <div class="steps-section">
- <div class="container">
- <h2>Il tour completo — 28 capitoli</h2>
- <div class="timeline">
- <div class="timeline-step">
- <div class="timeline-marker">1</div>
- <div class="timeline-content">
- <h3>Primi passi</h3>
- <p>Download, procedura guidata, prova 21 giorni</p>
+ <div class="narration-panel" id="narrationPanel">
+ <p class="narration-panel-heading">Transcript — read along as you watch</p>
+ <div class="transcript-body" id="transcriptBody"></div>
  </div>
  </div>
- <div class="timeline-step">
- <div class="timeline-marker">2</div>
- <div class="timeline-content">
- <h3>Dashboard</h3>
- <p>Panoramica finanziaria</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">3</div>
- <div class="timeline-content">
- <h3>Transazioni</h3>
- <p>Traccia, cerca e categorizza ogni dollaro</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">4</div>
- <div class="timeline-content">
- <h3>Importa</h3>
- <p>CSV, OFX, QFX, QIF, XLSX, PDF — senza login bancario</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">5</div>
- <div class="timeline-content">
- <h3>Scansione</h3>
- <p>Fotocamera, scanner WiFi, OCR</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">6</div>
- <div class="timeline-content">
- <h3>Budget</h3>
- <p>Modelli, limiti, monitoraggio</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">7</div>
- <div class="timeline-content">
- <h3>Bollette</h3>
- <p>Calendario visivo e ricorrenti</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">8</div>
- <div class="timeline-content">
- <h3>Risparmio</h3>
- <p>Obiettivi, riserve, lista desideri</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">9</div>
- <div class="timeline-content">
- <h3>Debiti</h3>
- <p>Palla di neve o avalancha con data libertà</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">10</div>
- <div class="timeline-content">
- <h3>Investimenti</h3>
- <p>Azioni, crypto, immobili, credit score</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">11</div>
- <div class="timeline-content">
- <h3>Report</h3>
- <p>Oltre 10 tipi e personalizzati</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">12</div>
- <div class="timeline-content">
- <h3>Coach IA</h3>
- <p>Insight e riepiloghi settimanali</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">13</div>
- <div class="timeline-content">
- <h3>Assistente IA</h3>
- <p>Domande in linguaggio naturale</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">14</div>
- <div class="timeline-content">
- <h3>Cerca</h3>
- <p>Transazioni e funzioni istantaneamente</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">15</div>
- <div class="timeline-content">
- <h3>Esporta</h3>
- <p>Sei formati più backup crittografato</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">16</div>
- <div class="timeline-content">
- <h3>Dashboard PC</h3>
- <p>Accesso browser in rete locale</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">17</div>
- <div class="timeline-content">
- <h3>Importa</h3>
- <p>CSV, OFX, QIF, PDF, scontrini</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">18</div>
- <div class="timeline-content">
- <h3>Famiglia</h3>
- <p>Sync WiFi o Bluetooth</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">19</div>
- <div class="timeline-content">
- <h3>Calendario</h3>
- <p>Vista mensile con punti e scadenze</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">20</div>
- <div class="timeline-content">
- <h3>Regole</h3>
- <p>Categorizzazione automatica e batch</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">21</div>
- <div class="timeline-content">
- <h3>Accessibilità</h3>
- <p>Scuro, daltonico, screen reader</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">22</div>
- <div class="timeline-content">
- <h3>Mindful</h3>
- <p>Costo in tempo e benessere</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">23</div>
- <div class="timeline-content">
- <h3>Pensione</h3>
- <p>FIRE e traguardi</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">24</div>
- <div class="timeline-content">
- <h3>Voce</h3>
- <p>Siri e Google Assistant</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">25</div>
- <div class="timeline-content">
- <h3>Prezzi</h3>
- <p>Prova 21 giorni; sync bancaria USA = Premium a pagamento</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">26</div>
- <div class="timeline-content">
- <h3>Privacy</h3>
- <p>Crittografia on-device, cloud opzionale</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">27</div>
- <div class="timeline-content">
- <h3>Données et stockage</h3>
- <p>Rétention des sauvegardes, historique local, niveaux de reçus</p>
- </div>
- </div>
- <div class="timeline-step">
- <div class="timeline-marker">28</div>
- <div class="timeline-content">
- <h3>Aiuto</h3>
- <p>Email e feedback in-app</p>
+ <div class="chapter-nav" id="chapterNav" aria-label="Chapter index">
+ <button class="chapter-btn active" data-slide="0">Cold Start</button>
+ <button class="chapter-btn" data-slide="10">Wayfinding</button>
+ <button class="chapter-btn" data-slide="15">Trial</button>
+ <button class="chapter-btn" data-slide="16">Notifications</button>
+ <button class="chapter-btn" data-slide="17">Wizard</button>
+ <button class="chapter-btn" data-slide="27">Home</button>
+ <button class="chapter-btn" data-slide="28">Activity</button>
+ <button class="chapter-btn" data-slide="33">Budget</button>
+ <button class="chapter-btn" data-slide="39">Goals</button>
+ <button class="chapter-btn" data-slide="44">Coach</button>
+ <button class="chapter-btn" data-slide="48">Transactions</button>
+ <button class="chapter-btn" data-slide="54">Import</button>
+ <button class="chapter-btn" data-slide="62">Scan</button>
+ <button class="chapter-btn" data-slide="67">Bills</button>
+ <button class="chapter-btn" data-slide="71">Income</button>
+ <button class="chapter-btn" data-slide="74">Debt</button>
+ <button class="chapter-btn" data-slide="78">Reports</button>
+ <button class="chapter-btn" data-slide="84">Net Worth</button>
+ <button class="chapter-btn" data-slide="86">Export</button>
+ <button class="chapter-btn" data-slide="89">Tax</button>
+ <button class="chapter-btn" data-slide="92">Settings</button>
+ <button class="chapter-btn" data-slide="98">Connect Bank</button>
+ <button class="chapter-btn" data-slide="101">Rules</button>
+ <button class="chapter-btn" data-slide="104">Voice</button>
+ <button class="chapter-btn" data-slide="106">Retirement</button>
+ <button class="chapter-btn" data-slide="108">Mindful</button>
+ <button class="chapter-btn" data-slide="110">Web</button>
+ <button class="chapter-btn" data-slide="111">Household</button>
+ <button class="chapter-btn" data-slide="113">Search</button>
+ <button class="chapter-btn" data-slide="116">Widgets</button>
+ <button class="chapter-btn" data-slide="117">Privacy</button>
+ <button class="chapter-btn" data-slide="119">Help</button>
  </div>
  </div>
  </div>
- </div>
- </div>
+ </section>
 
  <div class="cta-section">
  <div class="container">
- <h2>Pronto a riprendere il controllo delle tue finanze?</h2>
- <p>Scarica PocketBudJet oggi e inizia con il tour della guida completa integrata nell'app.</p>
- <a href="#" class="download-button">Scarica</a>
+ <h2>Ready to Take Control of Your Finances?</h2>
+ <p>Download PocketBudJet and follow this manual from slide one ? cold launch through every major screen.</p>
+ <a href="#" class="download-button">Get the App</a>
  </div>
  </div>
 
- <footer>
- <p>&copy; 2026 JosspaTech. All Rights Reserved. | <a href="/">Home</a> | <a href="/#products">Prodotti</a></p>
+ <footer class="jt-site-footer">
+ <ul class="jt-products" aria-label="JosspaTech products">
+ <li><a href="/">Home</a></li>
+ <li><a href="/#pbj">PocketBudJet</a></li>
+ <li><a href="/#hhh">Handy Horology Helper</a></li>
+ <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+ <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+ </ul>
+ <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved. | <a href="/how-to/">How To</a></p>
+ <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
  </footer>
+ <link rel="stylesheet" href="/videos/shared/site-chrome.css">
 
  <script>
+ var goTo;
+ (function() {
+ var recordParams = new URLSearchParams(location.search);
+ var recordMode = recordParams.get('record') === '1';
+ var previewMode = recordParams.get('preview') === '1';
+ var fastMode = recordParams.get('fast') === '1';
+ var embedMode = recordParams.get('embed') === '1';
+ if (recordMode) document.body.classList.add('record-mode');
+ if (embedMode) document.documentElement.classList.add('embed-mode');
+ const SLIDE_DURATION = fastMode ? 2000 : 8000;
+ const LAST_SLIDE = previewMode ? 26 : 119;
+ const CHAPTER_STARTS = [0, 10, 15, 16, 17, 27, 28, 33, 39, 44, 48, 54, 62, 67, 71, 74, 78, 84, 86, 89, 92, 98, 101, 104, 106, 108, 110, 111, 113, 116, 117, 119];
  const slides = document.querySelectorAll('.slide');
- const dots = document.querySelectorAll('.dot');
- const narrationCards = document.querySelectorAll('.narration-card');
+ const dotsContainer = document.getElementById('dots');
  const playPauseBtn = document.getElementById('playPauseBtn');
+ const prevBtn = document.getElementById('prevBtn');
+ const nextBtn = document.getElementById('nextBtn');
+ const speedLabel = document.getElementById('speedLabel');
+ const tapToStart = document.getElementById('tapToStart');
+ const narrationPanel = document.getElementById('narrationPanel');
+ const transcriptBody = document.getElementById('transcriptBody');
  const chapterBtns = document.querySelectorAll('.chapter-btn');
 
- let currentSlide = 0;
- let isPlaying = true;
-let audioUnlocked = false;
- let slideTimer = null;
- const SLIDE_DURATION = 8000;
- let audioElement = null, voiceEnabled = true, advanceTimeout = null;
+ const audioPaths = [];
+ const NARRATION = ["PocketBudJet si apre con una schermata iniziale dopo l'installazione. Aspetta che finisca, poi continua.", "Scorri la vetrina delle funzionalità. Controlla i tuoi soldi con buste, fatture e obiettivi sul tuo telefono. Tocca Avanti.", "Il tuo coach finanziario basato sull'intelligenza artificiale apprende i tuoi modelli e segnala le spese insolite. Tocca Avanti.", "Distruggi i tuoi debiti: osserva l'avanzamento del prestito e la data senza debiti nel Quick Tour. Tocca Avanti.", "I tuoi dati rimangono sul tuo dispositivo: la privacy prima di tutto. Tocca Inizia.", "Al primo avvio, la scheda Termini di servizio è aperta: scorri fino in fondo.", "Tocca Dichiarazione di non responsabilità e scorri anche quella scheda fino in fondo.", "Una volta esaminate entrambe le schede, tocca Accetto - Continua.", "Su Proteggi i tuoi dati, attiva il blocco dell'app se desideri PIN o dati biometrici, quindi tocca Continua su Home.", "Atterri su Casa. Entrate, spese e carte nette si trovano in alto con i widget sotto.", "Il tour di orientamento si apre al primo lancio. Punto di riferimento uno: la barra delle schede: Home, Attività, Budget, Obiettivi e Coach. Tocca Avanti.", "Punto di riferimento due: l'intestazione: Ricerca universale e il pulsante Coach su ogni schermata. Tocca Avanti.", "Punto di riferimento tre: il cassetto: scorri da sinistra per Impostazioni, Guida e la mappa di navigazione completa. Tocca Avanti.", "Punto di riferimento quattro: Toolbox: importazione, esportazione, scanner e utilità in un unico posto. Tocca Avanti.", "Punto di riferimento cinque: il pulsante di aggiunta rapida registra una transazione, una categoria o un obiettivo a seconda della scheda. Tocca Fine per terminare il tour.", "Alla seconda app aperta, o dopo cinque transazioni, potresti visualizzare Scegli il tuo piano. Inizia la prova Premium di 15 giorni senza carta o continua gratuitamente.", "Dopo l'onboarding, PocketBudJet potrebbe chiedere di inviare promemoria di fatture e avvisi di spesa. Consenti alle notifiche di anticipare le date di scadenza.", "La configurazione è facoltativa e non viene visualizzata per impostazione predefinita. Tocca l'icona a forma di ingranaggio, apri Impostazioni, quindi tocca Configura PocketBudJet per avviare la procedura guidata in qualsiasi momento.", "Primo passaggio della procedura guidata: inserisci il nome visualizzato e tocca Avanti.", "Fase due della procedura guidata: scegli la valuta del tuo paese e tocca Avanti.", "Passaggio tre della procedura guidata: aggiungi conti correnti, di risparmio, di credito o di cassa oppure tocca Salta.", "Passaggio quattro della procedura guidata: tocca Reddito e inserisci la retribuzione lorda e la retribuzione da portare a casa. La differenza diventa detrazioni sullo stipendio che puoi dettagliare in seguito.", "Passaggio cinque della procedura guidata: aggiungi fatture ricorrenti con nome, importo e giorno di scadenza oppure tocca Salta.", "Sesto passaggio della procedura guidata: scegli il tuo obiettivo finanziario principale per personalizzare la dashboard.", "Passaggio sette della procedura guidata: scegli uno stile di budget: 50/30/20, Busta, Base zero o un altro modello.", "Passaggio otto della procedura guidata: rispondi alla domanda sull'accessibilità daltonica, quindi tocca Continua in modo che i grafici utilizzino tavolozze intuitive.", "Passaggio nove della procedura guidata: rivedi il riepilogo personalizzato, quindi tocca Fine. La tua dashboard è configurata.", "Nella Home, scansiona le carte eroe per entrate, spese e patrimonio netto. I widget sottostanti mostrano il ritmo di spesa, le fatture in scadenza e i progressi verso gli obiettivi.", "Tocca la scheda Attività (icona del portafoglio in basso a sinistra) per vedere ogni transazione.", "L'attività elenca le entrate e le spese raggruppate per data. Utilizza la ricerca e i filtri per restringere la ricerca per commerciante, categoria o importo.", "Tocca l'icona del filtro per impilare i filtri di data, categoria e account. Aggiornamento dei saldi correnti per account mentre scorri.", "Tocca qualsiasi riga per aprire i dettagli della transazione: modifica la categoria, dividi, aggiungi note o allega una ricevuta.", "Quando le importazioni aggiungono righe incerte, apri Approva transazioni per accettarle o correggerle prima che raggiungano il budget.", "Tocca la scheda Budget (icona del calendario) per i limiti delle buste e i progressi mensili.", "Il budget mostra le buste delle categorie con barre di avanzamento codificate a colori e importi di rollover.", "Tocca qualsiasi riga di categoria per rinominarla o modificare il limite mensile.", "Tocca Cambia modello per cambiare framework come 50/30/20, Envelope o Zero-Based.", "Gestione categorie ti consente di aggiungere, unire o nascondere categorie e sottocategorie.", "Il piano di spesa mostra quanto rimane per busta dopo le fatture e gli obiettivi: il tuo numero di spesa sicura.", "Tocca la scheda Obiettivi (icona di tendenza) per obiettivi di risparmio e fondi di ammortamento.", "Gli obiettivi tengono traccia degli obiettivi con anelli di avanzamento, periodi di sospensione della lista dei desideri e fondi di ammortamento per spese irregolari.", "Tocca il pulsante più. Inserisci un nome, un importo target e una data. PocketBudJet calcola il tuo contributo mensile.", "Aggiungi fondi di ammortamento per le spese annuali come l'assicurazione. Utilizza la lista dei desideri per rinfrescarti gli acquisti d'impulso prima di impegnarti.", "La lista dei desideri di acquisto ti consente di mettere in coda i desideri con un timer di riflessione prima che il denaro lasci il tuo account.", "Tocca la scheda Coach (icona con scintillii) per approfondimenti, report e chat AI.", "Il segmento Oggi del Coach evidenzia anomalie, promemoria di fatture e solleciti basati sui tuoi dati.", "Tocca Chiedi per chattare in un inglese semplice: prova \"Quanto ho speso per cenare il mese scorso?\"", "Il riepilogo settimanale riassume entrate, spese e vincite dal Coach o dalla tua notifica.", "Per registrare manualmente le spese, apri Attività o tocca il pulsante dorato più da qualsiasi schermata.", "Tocca il pulsante più dorato in basso al centro. Puoi finire in meno di dieci secondi.", "Tocca Importo e inseriscilo prima mentre è fresco. L'importo è l'unico campo da non dimenticare.", "Digita il nome del commerciante in modo coerente. Scegli una categoria: PocketBudJet apprende e suggerisce nel tempo. Seleziona l'account.", "Per ricevute multicategoria, tocca Dividi. Assegna porzioni a Generi alimentari, Casa o altre categorie: il totale rimane bloccato.", "Tocca Salva. La categoria di budget, il saldo dell'account e la dashboard si aggiornano immediatamente, senza attendere la sincronizzazione.", "Apri Casella degli strumenti, quindi Centro importazione. Condividi un estratto conto in PocketBudJet: non è richiesto l'accesso alla banca.", "Condividere dall'app della tua banca è il percorso. I passaggi sono simili ovunque, ma le etichette e i menu variano a seconda della banca. Tocca Mostrami come per il flusso tipico.", "Nell'app della tua banca, trova Estratti conto o Centro documenti (o come lo chiama la tua banca): apri un estratto conto, tocca Condividi. Se PocketBudJet non è nella prima riga delle app, tocca Altro o i puntini di sospensione, trova PocketBudJet, quindi Importa lo prende da lì.", "PocketBudJet apre Importa con il tuo estratto conto e crea una bozza. Attendi che venga visualizzato l'elenco.", "Rivedi la bozza. Le file sicure sono pronte; le righe contrassegnate necessitano di una rapida occhiata. Tocca Importa N nuove transazioni quando l'elenco sembra corretto.", "Condividi almeno tre mesi di dichiarazioni: sei mesi o un anno è meglio. Più cronologia significa report più chiari e un migliore coaching sulla Home.", "Al termine dell'importazione, le tue transazioni saranno su Home e Attività. Importa un'altra istruzione nello stesso modo in qualsiasi momento.", "La cronologia delle importazioni conserva le condivisioni precedenti se è necessario riaprire un batch in un secondo momento.", "Tocca Scansione ricevuta e scatta una foto. L'OCR inserisce commerciante, importo e data.", "Esamina i campi OCR, scegli una categoria se necessario, quindi tocca Salva. Gli elementi pubblicitari vengono analizzati quando visibili sulla ricevuta.", "Per le risme di carta, aprire lo scanner per documenti nella Casella degli strumenti e seguire i passaggi visualizzati sullo schermo per caricare le pagine.", "Carica una pila di ricevute e vai via: ogni pagina viene letta, classificata e aggiunta all'Attività.", "Universal Scan funziona con estratti conto, fatture e documenti misti: ritaglia gli angoli, rivedi e quindi importa.", "Su Fatture, il calendario mostra le date di scadenza con indicatori del giorno di paga e una previsione del flusso di cassa a 30 giorni.", "Tocca Aggiungi fattura per abbonamenti e pagamenti ricorrenti. Tocca una data di scadenza per contrassegnare come pagato o posticipare un promemoria.", "Il monitoraggio degli abbonamenti rileva addebiti ricorrenti che potresti aver dimenticato: annulla le perdite prima che si aggravino.", "Le transazioni ricorrenti collegano fatture e entrate su un'unica sequenza temporale per la pianificazione del flusso di cassa.", "Il reddito ricorrente memorizza buste paga e impegni secondari in modo che le previsioni sappiano quando arriva il denaro.", "Importa o fotografa una busta paga: Pay Stub Review suddivide automaticamente lordo, tasse e detrazioni.", "Direct Deposit Advisor suggerisce come suddividere le buste paga tra conti e buste.", "In Debito, inserisci i saldi, il TAEG e i pagamenti minimi.", "Scegli valanga (prima l'interesse più alto) o palla di neve (prima il saldo più piccolo). Visualizza la data senza debiti e gli interessi risparmiati.", "Il calcolatore del prestito modella pagamenti extra, scenari di rifinanziamento e tempistiche di rimborso.", "Il rapporto sull'avanzamento del debito mostra la velocità con cui i saldi diminuiscono mese dopo mese.", "In Coach, tocca Report per la spesa per categoria, entrate/uscite e layout personalizzati.", "L'andamento della spesa viene confrontato mese dopo mese. Individua i picchi stagionali prima che diventino abitudini.", "La suddivisione per categorie mostra dove sono finiti i soldi. Esporta qualsiasi segmento del report come CSV o PDF dall'icona di condivisione.", "L'analisi del commerciante classifica i negozi in base alla spesa: ottimo per ridurre gli abbonamenti e i pasti.", "Il Financial Health Score valuta il tasso di risparmio, il carico di debito e il rispetto del budget in un unico numero.", "Report Builder ti consente di salvare filtri personalizzati e riutilizzarli per le revisioni mensili.", "Il patrimonio netto tiene traccia di conti, investimenti, proprietà e passività in un'unica visualizzazione.", "How PocketBudJet Learns mostra come le categorie migliorano man mano che le correggi: i tuoi numeri rimangono sul tuo telefono.", "La sincronizzazione bancaria è per le banche statunitensi con Premium a pagamento, non inclusa nella prova gratuita. Sono incluse due banche; ogni banca aggiuntiva è un componente aggiuntivo. Tocca Connetti per iniziare.", "In Impostazioni, tocca Connetti banca. Cerca la tua banca statunitense e accedi in modo sicuro: PocketBudJet non memorizza mai la password della tua banca.", "Esportazione di dichiarazioni fiscali Categorie di pacchetti di esportazione e chilometraggio per il tuo commercialista o software fiscale.", "Tax Center raggruppa i registri dei chilometri, i dettagli delle detrazioni e i riepiloghi annuali in un unico posto.", "Il registro miglia tiene traccia delle miglia aziendali con i totali pronti per l'IRS: avvia i viaggi dalla casella degli strumenti o da un widget.", "La ripartizione delle deduzioni riassume le categorie di preparazione fiscale estratte dalle transazioni categorizzate.", "Tocca l'icona a forma di ingranaggio per account, privacy, backup, conservazione dei dati e configurazione guidata.", "Il mio profilo e i miei account gestiscono il nome visualizzato, le istituzioni e i tipi di account.", "La sincronizzazione del nucleo familiare ti consente di condividere un budget con un partner sullo stesso piano. Segui i passaggi dell'invito su ciascun telefono.", "In Privacy e backup, tocca Backup per attivare il backup cloud crittografato, impostare la conservazione e controllare il blocco delle app.", "In Gestione dati, tocca Archiviazione per impostare la quantità di cronologia memorizzata sul dispositivo, gestire l'archiviazione delle immagini delle ricevute e archiviare gli anni precedenti.", "Come PBJ Learns spiega la categorizzazione basata sul consenso del pubblico: i tuoi dati rimangono privati ​​sul dispositivo.", "La sincronizzazione bancaria collega le istituzioni statunitensi solo tramite Teller. Richiede Premium a pagamento, non incluso nella prova di 15 giorni. Due banche incluse; ogni extra è 0,99 al mese. Tocca Connetti per iniziare.", "In Impostazioni, tocca Connetti banca. Cerca la tua banca statunitense. PocketBudJet non memorizza mai la password della tua banca: l'accesso è gestito da Teller.", "Scegli i conti correnti, di risparmio o di credito da collegare. Le nuove transazioni si sincronizzano automaticamente e rispettano le regole di categorizzazione.", "Apri Attività, tocca una transazione, quindi Regole transazione. Automatizza la categorizzazione per i commercianti abituali.", "Imposta una regola: quando il commerciante contiene \"Caffetteria\", assegna il Pranzo. Le regole si applicano automaticamente alle importazioni future e agli inserimenti manuali.", "Contrassegna righe insolite con i segnalibri. Filtra l'attività nei segnalibri solo durante la riconciliazione a fine mese.", "Dì \"Ehi Siri, registra un caffè da $ 12 in PocketBudJet\" o utilizza le scorciatoie dell'Assistente Google. Accesso a mani libere durante la guida o la cottura.", "Chiedi \"Quanto resta nella spesa?\" o \"Qual è il mio patrimonio netto?\" La voce funziona per budget, saldi e domande del Coach.", "La pianificazione pensionistica richiede l'età target, le spese annuali e il portafoglio attuale. Tocca Età pensionabile target, quindi compila il resto per visualizzare il tuo numero FIRE.", "La dashboard delle coppie mostra le buste condivise e chi ha speso cosa: ogni telefono conserva comunque la propria copia locale.", "In Impostazioni, apri la Lista dei desideri di acquisto. Tocca Aggiungi articolo per rinfrescarti prima di grandi acquisti: attendi trenta giorni e, se lo desideri ancora, ne vale la pena.", "Shopping Intelligence confronta i prezzi, tiene traccia della cronologia UPC e segnala i modelli di impulso al momento del pagamento.", "Avvia PC Web Companion da Toolbox. Quando è in esecuzione, scansiona il codice QR o apri il collegamento magico su un PC sulla stessa Wi‑Fi.", "Notification Capture può trasformare gli avvisi bancari in bozze di transazioni: attivalo in Impostazioni se lo desideri.", "La dashboard per coppie unisce le buste condivise e mostra chi ha speso cosa, ancora archiviato localmente su ciascun telefono.", "Tocca Ricerca universale nell'intestazione. Trova le transazioni per commerciante o importo oppure cerca funzioni come \"chilometraggio\" o \"voce\".", "Collega Google Drive, OneDrive, Dropbox o iCloud per il backup crittografato. Il tuo account cloud, il tuo controllo.", "Notification Capture legge gli avvisi bancari dall'area notifiche e crea bozze di transazioni: accedi da Impostazioni.", "I widget e le complicazioni dell'orologio mostrano la spesa sicura, le fatture in scadenza e l'aggiunta rapida: configura gli slot dalle Impostazioni.", "In Impostazioni in Dati e privacy, tocca Richiedi sblocco app per attivare il blocco biometrico o con codice prima che vengano visualizzate le transazioni.", "Collega Google Drive, OneDrive, Dropbox o iCloud per il backup crittografato. Il tuo cloud, il tuo account, il tuo controllo.", "Hai bisogno di aiuto? Invia un'e-mail a support@josspatech.com o utilizza il feedback in-app. Questo manuale su josspatech.com/videos/user-guide/ copre tutte le funzionalità."];
+ NARRATION.forEach(function(_, i) { audioPaths.push('audio/slide-' + i + '.mp3'); });
 
- // MP3 audio paths (pre-generated via edge-tts, it-IT-ElsaNeural)
- const audioPaths = [
- 'audio/slide-0.mp3', 'audio/slide-1.mp3', 'audio/slide-2.mp3', 'audio/slide-3.mp3',
- 'audio/slide-4.mp3', 'audio/slide-5.mp3', 'audio/slide-6.mp3', 'audio/slide-7.mp3',
- 'audio/slide-8.mp3', 'audio/slide-9.mp3', 'audio/slide-10.mp3', 'audio/slide-11.mp3',
- 'audio/slide-12.mp3', 'audio/slide-13.mp3', 'audio/slide-14.mp3', 'audio/slide-15.mp3',
- 'audio/slide-16.mp3', 'audio/slide-17.mp3', 'audio/slide-18.mp3', 'audio/slide-19.mp3',
- 'audio/slide-20.mp3', 'audio/slide-21.mp3', 'audio/slide-22.mp3', 'audio/slide-23.mp3',
- 'audio/slide-24.mp3', 'audio/slide-25.mp3',
- 'audio/slide-26.mp3', 'audio/slide-27.mp3'
- ];
- for (let i = 0; i < 28; i++) {
- const origins = [[50,25],[50,40],[50,35],[50,50],[50,55],[50,45],[50,30],[50,60],[50,38],[50,42]];
- const [ox,oy] = origins[i % 10];
+ const slideSentences = [];
+ let allSentences = [];
+ let current = 0;
+ let currentSentenceIdx = 0;
+ let playing = recordMode;
+ let audioUnlocked = false;
+ let timer = null;
+ let audioElement = null;
+ let voiceEnabled = true;
+ let advanceTimeout = null;
+ let sentenceInterval = null;
+ let audioHighlightReady = false;
+ let userScrolling = false;
+ let scrollIdleTimer = null;
+
+ function splitSentences(text) {
+ return text.split(/(?<=[.!?])\s+/).map(function(s) { return s.trim(); }).filter(Boolean);
  }
 
- // Voice toggle button
+ function buildTranscript() {
+ NARRATION.forEach(function(text, slideIdx) {
+ var para = document.createElement('p');
+ para.className = 'transcript-para';
+ para.setAttribute('data-slide', String(slideIdx));
+ para.setAttribute('data-index', String(slideIdx));
+ splitSentences(text).forEach(function(part, si) {
+ appendSentenceSpan(para, part, slideIdx, si);
+ });
+ transcriptBody.appendChild(para);
+ slideSentences[slideIdx] = Array.from(para.querySelectorAll('.transcript-sentence'));
+ allSentences = allSentences.concat(slideSentences[slideIdx]);
+ });
+ }
+
+ function appendSentenceSpan(para, text, slideIdx, sentIdx) {
+ if (sentIdx > 0) para.appendChild(document.createTextNode(' '));
+ var span = document.createElement('span');
+ span.className = 'transcript-sentence';
+ span.setAttribute('data-slide', String(slideIdx));
+ span.setAttribute('data-sentence', String(sentIdx));
+ span.textContent = text;
+ para.appendChild(span);
+ }
+
+ buildTranscript();
+
+ narrationPanel.addEventListener('scroll', function() {
+ userScrolling = true;
+ clearTimeout(scrollIdleTimer);
+ scrollIdleTimer = setTimeout(function() { userScrolling = false; }, 2500);
+ }, { passive: true });
+
  const voiceBtn = document.createElement('button');
  voiceBtn.className = 'voice-btn';
  voiceBtn.innerHTML = '&#128264;';
- voiceBtn.title = 'Attiva/disattiva narrazione vocale';
- voiceBtn.setAttribute('aria-label', 'Attiva/disattiva narrazione vocale');
+ voiceBtn.title = 'Toggle voice narration';
+ voiceBtn.setAttribute('aria-label', 'Toggle voice narration');
  document.querySelector('.playback-controls').appendChild(voiceBtn);
 
- voiceBtn.addEventListener('click', () => {
+ voiceBtn.addEventListener('click', function() {
  voiceEnabled = !voiceEnabled;
  voiceBtn.innerHTML = voiceEnabled ? '&#128264;' : '&#128263;';
  voiceBtn.classList.toggle('muted', !voiceEnabled);
- if (!voiceEnabled) { stopAudio(); if (isPlaying) startAutoPlay(); }
- else { stopAutoPlay(); playSlideAudio(currentSlide); }
+ if (!voiceEnabled) { stopAudio(); if (playing) resetTimer(); }
+ else { clearInterval(timer); playSlideAudio(current); }
  });
 
+ function updateChapterActive(slideIdx) {
+ chapterBtns.forEach(function(btn) { btn.classList.remove('active'); });
+ var active = chapterBtns[0];
+ for (var i = CHAPTER_STARTS.length - 1; i >= 0; i--) {
+ if (slideIdx >= CHAPTER_STARTS[i]) { active = chapterBtns[i]; break; }
+ }
+ if (active) active.classList.add('active');
+ try {
+ if (window.parent && window.parent !== window) {
+ window.parent.postMessage({
+ type: 'jt-guide-chapter',
+ slide: slideIdx,
+ label: active ? (active.textContent || '').trim() : ''
+ }, '*');
+ }
+ } catch (e) { /* ignore */ }
+ }
+
+ function stopSentenceTimer() { clearInterval(sentenceInterval); sentenceInterval = null; }
+
  function stopAudio() {
- if (audioElement) { audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null; }
- clearTimeout(advanceTimeout);
+ if (audioElement) {
+ audioElement.onended = null; audioElement.onerror = null; audioElement.ontimeupdate = null;
+ audioElement.pause(); audioElement.removeAttribute('src'); audioElement.load(); audioElement = null;
+ }
+ clearTimeout(advanceTimeout); stopSentenceTimer();
+ }
+
+ function stopAllAudio() { stopAudio(); clearInterval(timer); timer = null; }
+
+ function resetSlideSentences(slideIdx) {
+ allSentences.forEach(function(span) {
+ span.classList.remove('active');
+ var s = parseInt(span.getAttribute('data-slide'), 10);
+ if (s < slideIdx) span.classList.add('past'); else span.classList.remove('past');
+ });
+ currentSentenceIdx = 0;
+ }
+
+ function setActiveSentence(slideIdx, sentIdx) {
+ allSentences.forEach(function(span) {
+ span.classList.remove('active');
+ var s = parseInt(span.getAttribute('data-slide'), 10);
+ var n = parseInt(span.getAttribute('data-sentence'), 10);
+ if (s < slideIdx || (s === slideIdx && n < sentIdx)) span.classList.add('past');
+ else span.classList.remove('past');
+ });
+ var spans = slideSentences[slideIdx];
+ if (!spans || !spans.length) return;
+ currentSentenceIdx = Math.min(sentIdx, spans.length - 1);
+ var active = spans[currentSentenceIdx];
+ active.classList.add('active');
+ if (!userScrolling && narrationPanel) {
+ var panelRect = narrationPanel.getBoundingClientRect();
+ var elRect = active.getBoundingClientRect();
+ if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
+ active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+ }
+ }
+ }
+
+ function syncSentenceToAudio(slideIdx) {
+ if (!audioElement || !audioElement.duration || !playing || !audioHighlightReady) return;
+ var spans = slideSentences[slideIdx];
+ if (!spans || !spans.length) return;
+ var idx = Math.min(Math.floor(audioElement.currentTime / audioElement.duration * spans.length), spans.length - 1);
+ setActiveSentence(slideIdx, idx);
+ }
+
+ function startSentenceSync(slideIdx, durationMs) {
+ stopSentenceTimer();
+ var spans = slideSentences[slideIdx];
+ if (!spans || !spans.length) return;
+ var idx = 0; var perMs = durationMs / spans.length;
+ setActiveSentence(slideIdx, 0);
+ sentenceInterval = setInterval(function() {
+ if (!playing) return;
+ idx++;
+ if (idx >= spans.length) { stopSentenceTimer(); return; }
+ setActiveSentence(slideIdx, idx);
+ }, perMs);
  }
 
  function playSlideAudio(index) {
- stopAudio();
- if (!voiceEnabled) return;
- const src = audioPaths[index]; if (!src) return;
+ stopAudio(); audioHighlightReady = false;
+ if (!voiceEnabled) {
+ startSentenceSync(index, SLIDE_DURATION);
+ advanceTimeout = setTimeout(function() {
+ if (!playing) return;
+ if (current < LAST_SLIDE) next();
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
+ }, SLIDE_DURATION);
+ return;
+ }
+ if (!playing) return;
+ var src = audioPaths[index];
+ if (!src) {
+ startSentenceSync(index, SLIDE_DURATION);
+ advanceTimeout = setTimeout(function() {
+ if (!playing) return;
+ if (current < LAST_SLIDE) next();
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
+ }, SLIDE_DURATION);
+ return;
+ }
+ // Estimate sentence pacing until real duration is known — never force-advance on a fixed clock.
+ startSentenceSync(index, SLIDE_DURATION);
  audioElement = new Audio(src);
+ audioElement.loop = false;
  audioElement.volume = 1.0;
- audioElement.onended = () => {
- if (isPlaying && voiceEnabled) {
- advanceTimeout = setTimeout(() => {
- if (currentSlide < slides.length - 1) nextSlide();
- else { isPlaying = false; playPauseBtn.textContent = '\u25B6'; }
- }, 1200);
- }
+ audioElement.ontimeupdate = function() {
+ audioHighlightReady = true;
+ syncSentenceToAudio(index);
  };
- audioElement.onerror = () => { if (isPlaying) advanceTimeout = setTimeout(() => { if (currentSlide < slides.length - 1) nextSlide(); }, SLIDE_DURATION); };
-
-        const _p = audioElement.play();
-        if (_p !== undefined) {
-            _p.then(() => {
-                if (!audioUnlocked) {
-                    audioUnlocked = true;
-                    tapToStart.classList.add('hidden');
-                    playPauseBtn.innerHTML = '&#10074;&#10074;';
-                }
-            }).catch(() => {
-                if (!audioUnlocked) {
-                    isPlaying = false;
-                    playPauseBtn.innerHTML = '&#9654;';
-                } else if (isPlaying) {
-                    advanceTimeout = setTimeout(() => {
-                        if (currentSlide < slides.length - 1) nextSlide();
-                    }, SLIDE_DURATION);
-                }
-            });
-        }
+ audioElement.onloadedmetadata = function() {
+ if (!audioElement || !audioElement.duration || !isFinite(audioElement.duration)) return;
+ startSentenceSync(index, Math.max(1500, audioElement.duration * 1000));
+ };
+ audioElement.onended = function() {
+ if (!playing || !voiceEnabled) return;
+ // Advance only when narration finishes (HHH parity). The old 8s timeout caused skips.
+ advanceTimeout = setTimeout(function() {
+ if (!playing || !voiceEnabled) return;
+ if (current < LAST_SLIDE) next();
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
+ }, 180);
+ };
+ audioElement.onerror = function() {
+ if (!playing) return;
+ advanceTimeout = setTimeout(function() {
+ if (!playing) return;
+ if (current < LAST_SLIDE) next();
+ }, SLIDE_DURATION);
+ };
+ var _p = audioElement.play();
+ if (_p !== undefined) {
+ _p.then(function() {
+ if (!audioUnlocked) {
+ audioUnlocked = true;
+ if (tapToStart) tapToStart.classList.add('hidden');
+ playPauseBtn.innerHTML = '&#10074;&#10074;';
+ speedLabel.textContent = 'Auto-playing';
+ }
+ audioHighlightReady = true;
+ }).catch(function() {
+ if (!audioUnlocked) {
+ playing = false;
+ playPauseBtn.innerHTML = '&#9654;';
+ speedLabel.textContent = 'Tap to play';
+ } else if (playing) {
+ advanceTimeout = setTimeout(function() {
+ if (!playing) return;
+ if (current < LAST_SLIDE) next();
+ }, SLIDE_DURATION);
+ }
+ });
+ }
  }
 
- function showSlide(index) {
- slides.forEach(slide => slide.classList.remove('active'));
- dots.forEach(dot => dot.classList.remove('active'));
- narrationCards.forEach(card => card.classList.remove('active'));
- chapterBtns.forEach(btn => btn.classList.remove('active'));
+ slides.forEach(function(_, i) {
+ var dot = document.createElement('div');
+ dot.className = 'dot' + (i === 0 ? ' active' : '');
+ dot.addEventListener('click', function() { goTo(i); });
+ dotsContainer.appendChild(dot);
+ });
 
- if (slides[index]) slides[index].classList.add('active');
- if (dots[index]) dots[index].classList.add('active');
- if (narrationCards[index]) narrationCards[index].classList.add('active');
- if (chapterBtns[index]) chapterBtns[index].classList.add('active');
 
- currentSlide = index;
-
- if (voiceEnabled) { stopAutoPlay(); playSlideAudio(index); }
- else if (isPlaying) { startAutoPlay(); }
+ function preloadSlideImages(centerIdx) {
+ for (var p = Math.max(0, centerIdx - 1); p <= Math.min(LAST_SLIDE, centerIdx + 2); p++) {
+ var img = slides[p] && slides[p].querySelector('img');
+ if (!img || !img.getAttribute('src')) continue;
+ if (img.dataset.preloaded === '1') continue;
+ img.loading = 'eager';
+ if (!img.complete) {
+ var warm = new Image();
+ warm.src = img.currentSrc || img.src;
+ }
+ img.dataset.preloaded = '1';
+ }
  }
 
- function nextSlide() {
- if (currentSlide < slides.length - 1) { showSlide(currentSlide + 1); }
- else { isPlaying = false; playPauseBtn.textContent = '\u25B6'; stopAudio(); stopAutoPlay(); }
+ function goTo(index) {
+ slides[current].classList.remove('active');
+ dotsContainer.children[current].classList.remove('active');
+ current = index;
+ slides[current].classList.add('active');
+ dotsContainer.children[current].classList.add('active');
+ updateChapterActive(current);
+ resetSlideSentences(current);
+ preloadSlideImages(current);
+ if (window.PBJWalkthrough && window.PBJWalkthrough.syncTranscriptSlide) {
+ window.PBJWalkthrough.syncTranscriptSlide(current);
+ }
+ if (playing && audioUnlocked && current === LAST_SLIDE) speedLabel.textContent = 'Last step';
+ else if (playing && audioUnlocked) speedLabel.textContent = 'Auto-playing';
+ else if (!audioUnlocked) speedLabel.textContent = embedMode ? 'Click to play' : 'Tap to play';
+ if (playing && audioUnlocked) {
+ if (voiceEnabled) { clearInterval(timer); playSlideAudio(current); }
+ else resetTimer();
+ } else {
+ stopAudio(); clearInterval(timer);
+ }
  }
 
- function startAutoPlay() {
- stopAutoPlay(); clearTimeout(advanceTimeout);
- slideTimer = setInterval(() => {
- if (currentSlide < slides.length - 1) nextSlide();
- else { clearInterval(slideTimer); slideTimer = null; isPlaying = false; playPauseBtn.textContent = '\u25B6'; }
+ function next() {
+ if (current < LAST_SLIDE) goTo(current + 1);
+ else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; stopAudio(); clearInterval(timer); }
+ }
+
+ function resetTimer() {
+ clearInterval(timer); clearTimeout(advanceTimeout);
+ startSentenceSync(current, SLIDE_DURATION);
+ timer = setInterval(function() {
+ if (current < LAST_SLIDE) next();
+ else { clearInterval(timer); playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; }
  }, SLIDE_DURATION);
  }
 
- function stopAutoPlay() {
- if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
- }
+ chapterBtns.forEach(function(btn) {
+ btn.addEventListener('click', function() {
+ var idx = parseInt(btn.getAttribute('data-slide'), 10);
+ if (!isNaN(idx)) goTo(idx);
+ });
+ });
 
- function togglePlayPause() {
- isPlaying = !isPlaying;
- playPauseBtn.textContent = isPlaying ? '\u23F8' : '\u25B6';
- if (isPlaying) {
- if (voiceEnabled) { playSlideAudio(currentSlide); } else { startAutoPlay(); }
+ playPauseBtn.addEventListener('click', function() {
+ if (!audioUnlocked) { startPlayback(); return; }
+ playing = !playing;
+ if (playing) {
+ playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) playSlideAudio(current); else resetTimer();
  } else {
- stopAudio(); stopAutoPlay();  }
+ playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Paused';
+ stopAudio(); clearInterval(timer);
+ }
+ });
+
+ function jumpToSlide(idx) {
+ idx = Math.max(0, Math.min(idx, LAST_SLIDE));
+ if (!audioUnlocked) {
+ current = idx;
+ startPlayback();
+ return;
+ }
+ goTo(idx);
+ }
+ if (prevBtn) prevBtn.addEventListener('click', function() { jumpToSlide(current - 1); });
+ if (nextBtn) nextBtn.addEventListener('click', function() { jumpToSlide(current + 1); });
+ document.addEventListener('keydown', function(e) {
+ if (e.key === 'ArrowLeft') jumpToSlide(current - 1);
+ if (e.key === 'ArrowRight') jumpToSlide(current + 1);
+ if (e.key === ' ') {
+ e.preventDefault();
+ playPauseBtn.click();
+ }
+ });
+
+ function startPlayback() {
+ if (audioUnlocked) return;
+ audioUnlocked = true; tapToStart.classList.add('hidden');
+ playing = true; playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ playSlideAudio(current);
+ }
+ tapToStart.addEventListener('click', startPlayback);
+
+ if (window.PBJWalkthrough && window.PBJWalkthrough.registerTeardown) {
+ window.PBJWalkthrough.registerTeardown(stopAllAudio);
+ } else {
+ window.__pbjTeardownQueue = window.__pbjTeardownQueue || [];
+ window.__pbjTeardownQueue.push(stopAllAudio);
  }
 
- // Dot click handlers
- dots.forEach((dot, index) => {
- dot.addEventListener('click', () => { stopAutoPlay(); showSlide(index); });
+ function jumpFromHash() {
+ var hash = location.hash || '';
+ var m = hash.match(/^#chapter=(\d+)$/);
+ if (m) {
+ var slide = parseInt(m[1], 10);
+ if (!isNaN(slide) && slide >= 0 && slide <= LAST_SLIDE) {
+ if (!audioUnlocked) startPlayback();
+ goTo(slide);
+ }
+ }
+ }
+ window.addEventListener('hashchange', jumpFromHash);
+
+ goTo(0);
+ jumpFromHash();
+ if (recordMode && !audioUnlocked) startPlayback();
+ else if (recordMode && playing) {
+ playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
+ if (voiceEnabled) playSlideAudio(current); else resetTimer();
+ }
+
+ window.addEventListener('message', function (e) {
+ var data = e && e.data;
+ if (!data || data.type !== 'jt-guide-goto') return;
+ var idx = parseInt(data.slide, 10);
+ if (isNaN(idx)) return;
+ jumpToSlide(idx);
  });
-
- // Chapter button click handlers
- chapterBtns.forEach((btn, index) => {
- btn.addEventListener('click', () => { stopAutoPlay(); showSlide(index); });
- });
-
- playPauseBtn.addEventListener('click', togglePlayPause);
-
- // Initialize
-        const tapToStart = document.getElementById('tapToStart');
-        function startPlayback() {
-            if (audioUnlocked) return;
-            audioUnlocked = true;
-            tapToStart.classList.add('hidden');
-            isPlaying = true;
-            playPauseBtn.innerHTML = '&#10074;&#10074;';
-            playSlideAudio(currentSlide);
-        }
-        tapToStart.addEventListener('click', startPlayback);
-
-        // Desktop: autoplay without requiring a tap (mobile keeps the tap-to-start overlay)
-        if (!navigator.maxTouchPoints) {
-            audioUnlocked = true;
-            if (tapToStart) tapToStart.classList.add('hidden');
-        }
-
- showSlide(0);
- if (!voiceEnabled) startAutoPlay();
+ })();
  </script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+<link rel="stylesheet" href="walkthrough.css">
+<style>
+/* After shared + local walkthrough.css ? keep phone | transcript side-by-side (no cage) */
+.walkthrough-stage {
+ position: static !important;
+ height: auto !important;
+ max-height: none !important;
+ overflow: visible !important;
+}
+.walkthrough-stage .video-wrapper {
+ display: flex !important;
+ flex-direction: row !important;
+ flex-wrap: nowrap !important;
+ height: auto !important;
+ max-height: none !important;
+ overflow: visible !important;
+ grid-template-columns: none !important;
+ grid-template-rows: none !important;
+}
+.walkthrough-stage .phone-column {
+ height: auto !important;
+ max-height: none !important;
+ overflow: visible !important;
+}
+.walkthrough-stage .phone-viewport {
+ flex: 0 0 auto; width: auto; height: auto; max-height: none;
+ display: flex; align-items: center; justify-content: center;
+ overflow: visible;
+}
+.walkthrough-stage .phone-frame {
+ width: 440px !important;
+ height: auto !important;
+ max-height: 820px !important;
+ flex-shrink: 0;
+}
+.walkthrough-stage .narration-panel,
+#narrationPanel {
+ display: block !important;
+ flex: 1 1 auto !important;
+ max-height: 820px;
+ height: auto !important;
+ overflow-y: auto;
+}
+.slide-title, .slide-label, .slide-caption { display: none !important; }
+.slide img { color: transparent; font-size: 0; }
+
+/* Product-page embed: one player view — only the transcript scrolls */
+html.embed-mode,
+html.embed-mode body {
+ margin: 0 !important;
+ padding: 0 !important;
+ width: 100% !important;
+ height: 100% !important;
+ overflow: hidden !important;
+ background: var(--background, #EDF2F7) !important;
+}
+html.embed-mode nav,
+html.embed-mode .breadcrumbs,
+html.embed-mode .hero,
+html.embed-mode .cta-section,
+html.embed-mode footer,
+html.embed-mode .jt-site-footer {
+ display: none !important;
+}
+html.embed-mode .walkthrough {
+ padding: 12px 14px 10px !important;
+ height: 100% !important;
+ min-height: 0 !important;
+ box-sizing: border-box !important;
+ display: flex !important;
+ flex-direction: column !important;
+}
+html.embed-mode .walkthrough .container {
+ max-width: none !important;
+ width: 100% !important;
+ height: 100% !important;
+ min-height: 0 !important;
+ display: flex !important;
+ flex-direction: column !important;
+}
+html.embed-mode .walkthrough h2,
+html.embed-mode .walkthrough .section-sub,
+html.embed-mode .walkthrough .prod-media-langs,
+html.embed-mode .progress-dots,
+html.embed-mode .chapter-nav {
+ display: none !important;
+}
+html.embed-mode .walkthrough-stage {
+ width: 100% !important;
+ flex: 1 1 auto !important;
+ min-height: 0 !important;
+ display: flex !important;
+ flex-direction: column !important;
+ gap: 8px !important;
+}
+html.embed-mode .walkthrough-stage .video-wrapper {
+ display: flex !important;
+ flex-direction: row !important;
+ flex-wrap: nowrap !important;
+ align-items: stretch !important;
+ gap: 14px !important;
+ flex: 1 1 auto !important;
+ min-height: 0 !important;
+}
+html.embed-mode .walkthrough-stage .phone-column {
+ flex: 0 0 auto !important;
+ width: 230px !important;
+}
+html.embed-mode .walkthrough-stage .phone-viewport {
+ width: 100% !important;
+ height: auto !important;
+}
+html.embed-mode .walkthrough-stage .phone-frame {
+ width: 220px !important;
+ height: 440px !important;
+ max-height: 440px !important;
+ aspect-ratio: auto !important;
+}
+html.embed-mode .walkthrough-stage .narration-panel,
+html.embed-mode #narrationPanel {
+ flex: 1 1 auto !important;
+ min-width: 0 !important;
+ max-height: none !important;
+ overflow-y: auto !important;
+}
+@media (max-width: 768px) {
+ .walkthrough-stage .video-wrapper { flex-direction: column !important; }
+ .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; }
+ .walkthrough-stage .narration-panel, #narrationPanel { max-height: 360px; width: 100%; flex: none !important; }
+ html.embed-mode .walkthrough-stage .video-wrapper { flex-direction: column !important; align-items: center !important; }
+ html.embed-mode .walkthrough-stage .phone-frame { width: 180px !important; height: 360px !important; max-height: 360px !important; }
+ html.embed-mode .walkthrough-stage .narration-panel,
+ html.embed-mode #narrationPanel { max-height: 180px !important; width: 100% !important; }
+}
+</style>
 <script src="/videos/shared/walkthrough.js" defer></script>
+<script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>

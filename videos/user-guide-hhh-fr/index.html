@@ -1,0 +1,724 @@
+﻿        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Manuel utilisateur Handy Horology Helper | JosspaTech</title>
+         <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
+         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+         <link rel="stylesheet" href="walkthrough.css">
+         <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+         <style>
+         * { margin: 0; padding: 0; box-sizing: border-box; }
+         html { scroll-behavior: smooth; }
+         body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--white); }
+         nav { position: sticky; top: 0; z-index: 1000; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+         nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+         nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+         nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; }
+         nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; }
+         .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.9rem; color: var(--slate); }
+         .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+         .hero { color: var(--white); padding: 2rem; text-align: center; }
+         .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.75rem; }
+         .hero .subheader { font-size: 1.1rem; max-width: 760px; margin: 0 auto; opacity: 0.95; }
+         .walkthrough { padding: 3rem 2rem; }
+         .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+         .walkthrough h2 { font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 0.5rem; }
+         .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; }
+         .video-wrapper { display: flex; gap: 2rem; align-items: flex-start; }
+         .phone-column { flex-shrink: 0; width: 360px; }
+         .phone-frame { width: 340px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; max-height: 640px; position: relative; }
+         .slideshow { width: 100%; height: 100%; position: relative; }
+         .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+         .slide.active { opacity: 1; }
+         .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+         .progress-dots { display: flex; justify-content: center; gap: 8px; margin-top: 1rem; flex-wrap: wrap; max-height: 48px; overflow-y: auto; }
+         .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(91,35,51,0.2); cursor: pointer; flex-shrink: 0; }
+         .playback-controls { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; align-items: center; }
+         .play-pause-btn, .voice-btn { color: white; border: none; border-radius: 50%; width: 44px; height: 44px; cursor: pointer; }
+         .narration-panel { flex: 1; max-height: 580px; overflow-y: auto; padding: 0.5rem; }
+         .chapter-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.5rem; }
+         .chapter-btn { padding: 0.55rem 1rem; border-radius: 20px; cursor: pointer; font-size: 0.88rem; }
+         .cta-section { padding: 3rem 2rem; text-align: center; color: white; }
+         .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.75rem; }
+         .download-button { display: inline-block; padding: 0.9rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; margin-top: 1rem; }
+         footer { padding: 2rem; text-align: center; color: white; font-size: 0.9rem; }
+         body.record-mode nav, body.record-mode .breadcrumbs, body.record-mode .hero, body.record-mode .cta-section, body.record-mode footer { display: none !important; }
+         :root {
+           --navy: #5B2333; --navy-dark: #3D1522; --navy-medium: #7A3A4F;
+           --gold: #C8AA6E; --gold-dark: #A8884A;
+           --slate: #8A7070; --slate-light: #A89890;
+           --background: #F5EDE4; --white: #FFFFFF;
+         }
+         nav { background-color: var(--navy-dark); }
+         nav .cta-button { background-color: var(--gold); color: var(--navy-dark); }
+         .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%); }
+         .walkthrough h2, .narration-panel-heading, .transcript-sentence.active { color: var(--navy); }
+         .chapter-btn { background: var(--navy); border-color: var(--navy); color: var(--white); border: 1px solid var(--navy); }
+         .chapter-btn.active { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
+         .nav-step-btn { background: var(--navy); color: var(--white); border: 1px solid var(--navy); border-radius: 20px; padding: 0.45rem 0.85rem; cursor: pointer; font-size: 0.85rem; }
+         .nav-step-btn:hover { background: var(--navy-medium); }
+         .transcript-para { cursor: pointer; }
+         .transcript-para:hover { background: rgba(200,170,110,0.08); }
+         .transcript-sentence { cursor: pointer; }
+         .dot.active { background: var(--gold); }
+         .play-pause-btn, .voice-btn { background: var(--navy); }
+         .phone-frame { border-color: var(--navy-dark); box-shadow: 0 16px 48px rgba(61,21,34,0.22); }
+         .tap-ring { border-color: var(--gold); box-shadow: 0 0 12px rgba(200,170,110,0.45); }
+         .tap-finger { display: none !important; }
+         .transcript-para.current { border-left-color: var(--gold); background: rgba(200,170,110,0.1); }
+
+         .transcript-sentence { transition: color 0.2s ease, font-weight 0.2s ease; }
+         .transcript-sentence.active { color: var(--navy); font-weight: 600; }
+         .transcript-sentence.past { color: var(--navy); opacity: 0.75; }
+
+         .narration-panel-heading { border-bottom-color: var(--gold); }
+         .download-button { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
+         footer { background: var(--navy-dark); }
+         footer a { color: var(--gold); }
+         body { color: var(--navy); }
+         .walkthrough { background: var(--background); }
+         .slide img { background: var(--background); }
+         </style>
+        </head>
+        <body>
+         <nav>
+          <div class="container">
+           <a href="/" class="logo">JosspaTech</a>
+           <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#hhh">Handy Horology Helper</a></li>
+            <li><a href="/#pbj">PocketBudJet</a></li>
+            <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+            <li><a href="/#cvc">Curator's Vault</a></li>
+            <li><a href="/docs/handyhorology/HandyHorology_UserGuide.pdf">PDF</a></li>
+           </ul>
+          </div>
+         </nav>
+         <div class="breadcrumbs">
+          <a href="/">Home</a><span class="sep">/</span>
+          <a href="/#hhh">Handy Horology Helper</a><span class="sep">/</span>
+          <span class="current">User Manual</span>
+         </div>
+         <div class="hero">
+          <div class="container">
+           <h1>Manuel utilisateur Handy Horology Helper</h1>
+           <p class="subheader">Detailed user manual â€” post-post-post-install through every shipped v1 feature in app order. Imperative tap steps, real PNGs where captured, gold pulse guides.</p>
+          </div>
+         </div>
+         <section class="user-manual walkthrough">
+          <div class="container">
+           <h2>Interactive User Manual</h2>
+           <p class="section-sub">111 slides with synced narration and gold tap guides — a detailed walkthrough of every major feature. Use the chapter pills to jump ahead, Previous/Next (or ← →) to re-listen a step, or tap any sentence in the transcript. Prefer reading? <a href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="color:var(--navy-medium);font-weight:700;">Download PDF</a></p>
+           <ul class="prod-media-langs" aria-label="User manual languages" style="display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 1.25rem;padding:0;list-style:none;">
+            <li><a href="/videos/user-guide-hhh/" style="color:var(--navy);font-weight:700;">US English</a></li>
+            <li><a href="/videos/user-guide-hhh-zh/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Chinese (Simplified)</a></li>
+            <li><a class="is-current" href="/videos/user-guide-hhh-fr/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">French</a></li>
+            <li><a href="/videos/user-guide-hhh-de/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">German</a></li>
+            <li><a href="/videos/user-guide-hhh-hi/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Hindi</a></li>
+            <li><a href="/videos/user-guide-hhh-it/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Italian</a></li>
+            <li><a href="/videos/user-guide-hhh-pt/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Portuguese</a></li>
+            <li><a href="/videos/user-guide-hhh-es/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Spanish</a></li>
+           </ul>
+           <div class="user-manual-stage walkthrough-stage">
+            <div class="video-wrapper">
+             <div class="phone-column">
+              <div class="phone-viewport">
+               <div class="phone-frame">
+                <div class="slideshow" id="slideshow">
+                 <div class="tap-to-start" id="tapToStart">
+                  <div class="tap-to-start-icon">&#9654;</div>
+                  <div class="tap-to-start-label">Tap to play</div>
+                 </div>
+ <div class="slide active" data-index="0" data-tap-x="50" data-tap-y="90" data-tap-label="Continue" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/13-onboarding-welcome.png?v=taps-qa-2026-07-27" alt="Welcome carousel" loading="eager">
+ </div>
+ <div class="slide" data-index="1" data-tap-x="50" data-tap-y="90" data-tap-label="Get Started" data-tap-show-at="1.3" data-tap-duration="1.8">
+ <img src="/assets/screenshots/hhh/manual/13-onboarding-welcome.png?v=taps-qa-2026-07-27" alt="Welcome — Get Started" loading="eager">
+ </div>
+ <div class="slide" data-index="2" data-tap-x="50" data-tap-y="74" data-tap-label="Sample collection" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/14-onboarding-path.png?v=taps-qa-2026-07-27" alt="Sample vs own piece choice" loading="lazy">
+ </div>
+ <div class="slide" data-index="3" data-tap-x="50" data-tap-y="61" data-tap-label="Own piece" data-tap-show-at="0.2" data-tap-duration="2.6">
+ <img src="/assets/screenshots/hhh/manual/14-onboarding-path.png?v=taps-qa-2026-07-27" alt="Start with my own piece" loading="lazy">
+ </div>
+ <div class="slide" data-index="4" data-tap-x="50" data-tap-y="72" data-tap-label="Get Started" data-tap-show-at="4.4" data-tap-duration="1.5">
+ <img src="/assets/screenshots/hhh/manual/19-sample-loading.png?v=taps-qa-2026-07-27" alt="Sample collection loading" loading="lazy">
+ </div>
+ <div class="slide" data-index="5" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/19-sample-home-banner.png?v=taps-qa-2026-07-27" alt="Sample mode banner" loading="lazy">
+ </div>
+ <div class="slide" data-index="6" data-tap-x="80" data-tap-y="12" data-tap-label="Clear samples" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Clear sample data" loading="lazy">
+ </div>
+ <div class="slide" data-index="7" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Command Center home screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="8" data-taps='[{"x":15,"y":44,"at":0.2,"dur":2.2,"label":"Hunt"},{"x":37,"y":44,"at":2.6,"dur":2.2,"label":"Fix clock"},{"x":61,"y":44,"at":5.0,"dur":2.0,"label":"Add Watch"},{"x":84,"y":44,"at":7.2,"dur":1.8,"label":"Tools"}]'>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Quick commands row" loading="lazy">
+ </div>
+ <div class="slide" data-index="9" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Getting started path cards" loading="lazy">
+ </div>
+ <div class="slide" data-index="10" data-taps='[{"x":10,"y":92,"at":1.6,"dur":1.3,"label":"Home"},{"x":30,"y":92,"at":3.1,"dur":1.3,"label":"My Museum"},{"x":50,"y":92,"at":4.6,"dur":1.3,"label":"Tools"},{"x":70,"y":92,"at":6.1,"dur":1.3,"label":"Collectors"},{"x":90,"y":92,"at":7.6,"dur":1.6,"label":"Settings"}]'>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Bottom tab bar" loading="lazy">
+ </div>
+ <div class="slide" data-index="11" data-tap-x="30" data-tap-y="92" data-tap-label="My Museum" data-tap-show-at="0.2" data-tap-duration="2.4">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Tap My Museum tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="12" data-tap-x="20" data-tap-y="44" data-tap-label="Owned" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Owned Wish For Sale tabs" loading="lazy">
+ </div>
+ <div class="slide" data-index="13" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Portfolio value hero card" loading="lazy">
+ </div>
+ <div class="slide" data-index="14" data-tap-x="50" data-tap-y="56" data-tap-label="Search" data-tap-show-at="0.2" data-tap-duration="2.6">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Search collection" loading="lazy">
+ </div>
+ <div class="slide" data-index="15" data-tap-x="50" data-tap-y="68" data-tap-label="Piece row" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Tap piece in list" loading="lazy">
+ </div>
+ <div class="slide" data-index="16" data-tap-x="50" data-tap-y="32" data-tap-label="Photos" data-tap-show-at="1.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png?v=taps-qa-2026-07-27" alt="Piece detail overview" loading="lazy">
+ </div>
+ <div class="slide" data-index="17" data-tap-x="92" data-tap-y="8" data-tap-label="More" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png?v=taps-qa-2026-07-27" alt="Provenance section" loading="lazy">
+ </div>
+ <div class="slide" data-index="18" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png?v=taps-qa-2026-07-27" alt="Service history" loading="lazy">
+ </div>
+ <div class="slide" data-index="19" data-tap-x="50" data-tap-y="44" data-tap-label="Wish" data-tap-show-at="0.2" data-tap-duration="2.5">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png?v=taps-qa-2026-07-27" alt="Wish list segment" loading="lazy">
+ </div>
+ <div class="slide" data-index="20" data-tap-x="80" data-tap-y="44" data-tap-label="For Sale" data-tap-show-at="0.2" data-tap-duration="2.4">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png?v=taps-qa-2026-07-27" alt="For Sale segment" loading="lazy">
+ </div>
+ <div class="slide" data-index="21" data-tap-x="88" data-tap-y="60" data-tap-label="More" data-tap-show-at="1.3" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="My Museum More menu" loading="lazy">
+ </div>
+ <div class="slide" data-index="22" data-tap-x="50" data-tap-y="83" data-tap-label="Add" data-tap-show-at="0.7" data-tap-duration="2.4">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Tap Add on action bar" loading="lazy">
+ </div>
+ <div class="slide" data-index="23" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Tap Manual entry" loading="lazy">
+ </div>
+ <div class="slide" data-index="24" data-tap-x="25" data-tap-y="84" data-tap-label="Brand" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Fill manual fields" loading="lazy">
+ </div>
+ <div class="slide" data-index="25" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Tap Save" loading="lazy">
+ </div>
+ <div class="slide" data-index="26" data-tap-x="20" data-tap-y="83" data-tap-label="Identify" data-tap-show-at="1.3" data-tap-duration="2.9">
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Tap Identify" loading="lazy">
+ </div>
+ <div class="slide" data-index="27" data-tap-x="27" data-tap-y="50" data-tap-label="Photo 1: Dial" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Take Photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="28" data-tap-x="73" data-tap-y="50" data-tap-label="Choose Photo" data-tap-show-at="0.2" data-tap-duration="2.9">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Choose Photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="29" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Optional movement photo" loading="lazy">
+ </div>
+ <div class="slide" data-index="30" data-tap-x="25" data-tap-y="84" data-tap-label="Brand guess" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Manual clue fields" loading="lazy">
+ </div>
+ <div class="slide" data-index="31" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07a-identify-camera.png?v=taps-qa-2026-07-27" alt="Item type toggle" loading="lazy">
+ </div>
+ <div class="slide" data-index="32" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png?v=taps-qa-2026-07-27" alt="Identify this timepiece" loading="lazy">
+ </div>
+ <div class="slide" data-index="33" data-tap-x="50" data-tap-y="40" data-tap-label="Top match" data-tap-show-at="4.7" data-tap-duration="1.4">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png?v=taps-qa-2026-07-27" alt="Top match confidence" loading="lazy">
+ </div>
+ <div class="slide" data-index="34" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/07d-identify-insights.png?v=taps-qa-2026-07-27" alt="This is correct" loading="lazy">
+ </div>
+ <div class="slide" data-index="35" data-tap-x="50" data-tap-y="65" data-tap-label="Detail photos" data-tap-show-at="1.6" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07c-identify-confidence.png?v=taps-qa-2026-07-27" alt="Add detail photos" loading="lazy">
+ </div>
+ <div class="slide" data-index="36" data-tap-x="25" data-tap-y="68" data-tap-label="What I know" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07b-identify-review.png?v=taps-qa-2026-07-27" alt="Edit clues" loading="lazy">
+ </div>
+ <div class="slide" data-index="37" data-tap-x="30" data-tap-y="85" data-tap-label="Save to Museum" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/07-identify-results.png?v=taps-qa-2026-07-27" alt="Save to Collection" loading="lazy">
+ </div>
+ <div class="slide" data-index="38" data-tap-x="25" data-tap-y="68" data-tap-label="Find parts" data-tap-show-at="1.4" data-tap-duration="2.9">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Find parts on Clockworks" loading="lazy">
+ </div>
+ <div class="slide" data-index="39" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/25-offline-show-pack.png?v=taps-qa-2026-07-27" alt="Offline identify queue" loading="lazy">
+ </div>
+ <div class="slide" data-index="40" data-tap-x="50" data-tap-y="18" data-tap-label="Symptom" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/06a-clock-repair-symptoms.png?v=taps-qa-2026-07-27" alt="Home Fix clock" loading="lazy">
+ </div>
+ <div class="slide" data-index="41" data-tap-x="25" data-tap-y="68" data-tap-label="Find Clock Parts" data-tap-show-at="0.2" data-tap-duration="2">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Tools Clock Repair Help" loading="lazy">
+ </div>
+ <div class="slide" data-index="42" data-tap-x="50" data-tap-y="12" data-tap-label="Symptom" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/06a-clock-repair-symptoms.png?v=taps-qa-2026-07-27" alt="Symptom list" loading="lazy">
+ </div>
+ <div class="slide" data-index="43" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png?v=taps-qa-2026-07-27" alt="Repair guidance steps" loading="lazy">
+ </div>
+ <div class="slide" data-index="44" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png?v=taps-qa-2026-07-27" alt="Suggested parts list" loading="lazy">
+ </div>
+ <div class="slide" data-index="45" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png?v=taps-qa-2026-07-27" alt="Shop on Clockworks" loading="lazy">
+ </div>
+ <div class="slide" data-index="46" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png?v=taps-qa-2026-07-27" alt="Clockworks checkout in browser" loading="lazy">
+ </div>
+ <div class="slide" data-index="47" data-tap-x="50" data-tap-y="44" data-tap-label="Wish" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png?v=taps-qa-2026-07-27" alt="Hunt quick command" loading="lazy">
+ </div>
+ <div class="slide" data-index="48" data-tap-x="50" data-tap-y="52" data-tap-label="Add wishes" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/04-wishlist-grails.png?v=taps-qa-2026-07-27" alt="Add wish list item" loading="lazy">
+ </div>
+ <div class="slide" data-index="49" data-tap-x="50" data-tap-y="28" data-tap-label="Wish row" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png?v=taps-qa-2026-07-27" alt="Grail Radar screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="50" data-tap-x="82" data-tap-y="36" data-tap-label="Edit rules" data-tap-show-at="2.9" data-tap-duration="1.4">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png?v=taps-qa-2026-07-27" alt="Hunt rules editor" loading="lazy">
+ </div>
+ <div class="slide" data-index="51" data-tap-x="16" data-tap-y="54" data-tap-label="Check now" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png?v=taps-qa-2026-07-27" alt="Check now" loading="lazy">
+ </div>
+ <div class="slide" data-index="52" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png?v=taps-qa-2026-07-27" alt="Open eBay listing" loading="lazy">
+ </div>
+ <div class="slide" data-index="53" data-tap-x="50" data-tap-y="9" data-tap-label="Notification" data-tap-show-at="3.3" data-tap-duration="2.2">
+ <img src="/assets/screenshots/hhh/manual/05b-ebay-match-notification.png?v=taps-qa-2026-07-27" alt="eBay match notification" loading="lazy">
+ </div>
+ <div class="slide" data-index="54" data-tap-x="50" data-tap-y="32" data-tap-label="eBay Listings" data-tap-show-at="0.6" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/28-ebay-listings.png?v=taps-qa-2026-07-27" alt="eBay Listings tool" loading="lazy">
+ </div>
+ <div class="slide" data-index="55" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/05-ebay-grail-radar.png?v=taps-qa-2026-07-27" alt="eBay search results" loading="lazy">
+ </div>
+ <div class="slide" data-index="56" data-tap-x="28" data-tap-y="15" data-tap-label="Finances" data-tap-show-at="1.1" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png?v=taps-qa-2026-07-27" alt="Finances menu" loading="lazy">
+ </div>
+ <div class="slide" data-index="57" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png?v=taps-qa-2026-07-27" alt="P/L portfolio dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="58" data-tap-x="40" data-tap-y="59" data-tap-label="Purchase price" data-tap-show-at="2.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png?v=taps-qa-2026-07-27" alt="Enter purchase price" loading="lazy">
+ </div>
+ <div class="slide" data-index="59" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/03-piece-detail.png?v=taps-qa-2026-07-27" alt="Add service expense" loading="lazy">
+ </div>
+ <div class="slide" data-index="60" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/02-museum-collection.png?v=taps-qa-2026-07-27" alt="Insurance Report" loading="lazy">
+ </div>
+ <div class="slide" data-index="61" data-tap-x="72" data-tap-y="15" data-tap-label="Budget" data-tap-show-at="2.5" data-tap-duration="1.4">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png?v=taps-qa-2026-07-27" alt="Budget Tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="62" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png?v=taps-qa-2026-07-27" alt="Budget progress" loading="lazy">
+ </div>
+ <div class="slide" data-index="63" data-tap-x="50" data-tap-y="48" data-tap-label="Web Companion" data-tap-show-at="0.6" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png?v=taps-qa-2026-07-27" alt="Web Companion screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="64" data-tap-x="50" data-tap-y="72" data-tap-label="Pairing code" data-tap-show-at="2" data-tap-duration="2.5">
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png?v=taps-qa-2026-07-27" alt="Pairing code on phone" loading="lazy">
+ </div>
+ <div class="slide" data-index="65" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/09-web-companion.png?v=taps-qa-2026-07-27" alt="PC companion dashboard" loading="lazy">
+ </div>
+ <div class="slide" data-index="66" data-tap-x="50" data-tap-y="57" data-tap-label="Backup" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png?v=taps-qa-2026-07-27" alt="Backup and Restore" loading="lazy">
+ </div>
+ <div class="slide" data-index="67" data-tap-x="50" data-tap-y="57" data-tap-label="Save a Copy" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png?v=taps-qa-2026-07-27" alt="Save a Copy" loading="lazy">
+ </div>
+ <div class="slide" data-index="68" data-tap-x="50" data-tap-y="70" data-tap-label="Bring a Copy Back" data-tap-show-at="1" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/11-backup-restore.png?v=taps-qa-2026-07-27" alt="Bring a Copy Back" loading="lazy">
+ </div>
+ <div class="slide" data-index="69" data-tap-x="50" data-tap-y="55" data-tap-label="Device Sync" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/24-device-sync.png?v=taps-qa-2026-07-27" alt="Device Sync option" loading="lazy">
+ </div>
+ <div class="slide" data-index="70" data-tap-x="90" data-tap-y="92" data-tap-label="Settings" data-tap-show-at="0.2" data-tap-duration="1.6">
+ <img src="/assets/screenshots/hhh/manual/10-settings.png?v=taps-qa-2026-07-27" alt="Settings tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="71" data-tap-x="50" data-tap-y="47" data-tap-label="Theme" data-tap-show-at="0.2" data-tap-duration="2.2">
+ <img src="/assets/screenshots/hhh/manual/10c-settings-theme-detail.png?v=taps-qa-2026-07-27" alt="Theme Light Dark System" loading="lazy">
+ </div>
+ <div class="slide" data-index="72" data-tap-x="50" data-tap-y="42" data-tap-label="Language" data-tap-show-at="0.2" data-tap-duration="2.9">
+ <img src="/assets/screenshots/hhh/manual/10d-settings-language.png?v=taps-qa-2026-07-27" alt="Language picker" loading="lazy">
+ </div>
+ <div class="slide" data-index="73" data-tap-x="88" data-tap-y="18" data-tap-label="App lock" data-tap-show-at="0.2" data-tap-duration="2.8">
+ <img src="/assets/screenshots/hhh/manual/10e-settings-security.png?v=taps-qa-2026-07-27" alt="App lock Security" loading="lazy">
+ </div>
+ <div class="slide" data-index="74" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/10e-settings-security.png?v=taps-qa-2026-07-27" alt="Database encryption status" loading="lazy">
+ </div>
+ <div class="slide" data-index="75" data-tap-x="50" data-tap-y="9" data-tap-label="Notification" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/05b-ebay-match-notification.png?v=taps-qa-2026-07-27" alt="eBay Grail Radar match notification" loading="lazy">
+ </div>
+ <div class="slide" data-index="76" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png?v=taps-qa-2026-07-27" alt="Trial intro" loading="lazy">
+ </div>
+ <div class="slide" data-index="77" data-tap-x="50" data-tap-y="73" data-tap-label="Subscribe" data-tap-show-at="1.2" data-tap-duration="2.9">
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png?v=taps-qa-2026-07-27" alt="Subscribe to Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="78" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/12-trial-subscription.png?v=taps-qa-2026-07-27" alt="Manage subscription" loading="lazy">
+ </div>
+ <div class="slide" data-index="79" data-tap-x="50" data-tap-y="92" data-tap-label="Tools" data-tap-show-at="0.2" data-tap-duration="2.2">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Tools tab" loading="lazy">
+ </div>
+ <div class="slide" data-index="80" data-tap-x="25" data-tap-y="30" data-tap-label="Worth" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="What's It Worth Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="81" data-tap-x="32" data-tap-y="55" data-tap-label="Compare" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/16-compare.png?v=taps-qa-2026-07-27" alt="Compare two pieces" loading="lazy">
+ </div>
+ <div class="slide" data-index="82" data-tap-x="25" data-tap-y="48" data-tap-label="Condition" data-tap-show-at="0.2" data-tap-duration="2.6">
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Condition Assessment" loading="lazy">
+ </div>
+ <div class="slide" data-index="83" data-tap-x="50" data-tap-y="40" data-tap-label="Value trend" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/15-finances-pl.png?v=taps-qa-2026-07-27" alt="Collection Value trend" loading="lazy">
+ </div>
+ <div class="slide" data-index="84" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Trade Analyzer Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="85" data-tap-x="45" data-tap-y="82" data-tap-label="Ask Expert" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/30-ai-chat.png?v=taps-qa-2026-07-27" alt="Ask the Expert AI Chat" loading="lazy">
+ </div>
+ <div class="slide" data-index="86" data-tap-x="50" data-tap-y="48" data-tap-label="Photo Coach" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/31-photo-coach.png?v=taps-qa-2026-07-27" alt="Photo Coach Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="87" data-tap-x="50" data-tap-y="32" data-tap-label="ID Card" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/32-digital-id-card.png?v=taps-qa-2026-07-27" alt="Digital ID Card Pro" loading="lazy">
+ </div>
+ <div class="slide" data-index="88" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Scan Barcode" loading="lazy">
+ </div>
+ <div class="slide" data-index="89" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Scan Papers" loading="lazy">
+ </div>
+ <div class="slide" data-index="90" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Complication calculator" loading="lazy">
+ </div>
+ <div class="slide" data-index="91" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Accuracy tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="92" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Rotation planner" loading="lazy">
+ </div>
+ <div class="slide" data-index="93" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/08-tools-hub.png?v=taps-qa-2026-07-27" alt="Warranty tracker" loading="lazy">
+ </div>
+ <div class="slide" data-index="94" data-tap-x="50" data-tap-y="40" data-tap-label="Exact Time" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/17-atomic-clock.png?v=taps-qa-2026-07-27" alt="Exact Time atomic clock" loading="lazy">
+ </div>
+ <div class="slide" data-index="95" data-tap-x="50" data-tap-y="40" data-tap-label="Moon Phase" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/18-moon-phase.png?v=taps-qa-2026-07-27" alt="Moon Phase tool" loading="lazy">
+ </div>
+ <div class="slide" data-index="96" data-tap-x="18" data-tap-y="35" data-tap-label="My Museum list" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/33-print-export.png?v=taps-qa-2026-07-27" alt="Print and Export List" loading="lazy">
+ </div>
+ <div class="slide" data-index="97" data-tap-x="50" data-tap-y="66" data-tap-label="Share QR" data-tap-show-at="0.2" data-tap-duration="2.6">
+ <img src="/assets/screenshots/hhh/manual/27b-share-nearby-active.png?v=taps-qa-2026-07-27" alt="Share Nearby PIN and QR" loading="lazy">
+ </div>
+ <div class="slide" data-index="98" data-tap-x="85" data-tap-y="80" data-tap-label="Offline pack" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/25-offline-show-pack.png?v=taps-qa-2026-07-27" alt="Offline Show Pack" loading="lazy">
+ </div>
+ <div class="slide" data-index="99" data-tap-x="50" data-tap-y="25" data-tap-label="Big Screen" data-tap-show-at="0.2" data-tap-duration="2.7">
+ <img src="/assets/screenshots/hhh/manual/34-lan-report.png?v=taps-qa-2026-07-27" alt="LAN Report big screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="100" data-tap-x="50" data-tap-y="48" data-tap-label="Movement to Parts" data-tap-show-at="0.7" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/06-clockworks-parts.png?v=taps-qa-2026-07-27" alt="LAN Report big screen" loading="lazy">
+ </div>
+ <div class="slide" data-index="101" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="Help and support" loading="lazy">
+ </div>
+ <div class="slide" data-index="102" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/01-home-command-center.png?v=taps-qa-2026-07-27" alt="User manual link" loading="lazy">
+ </div>
+ <div class="slide" data-index="103" data-tap-x="50" data-tap-y="18" data-tap-label="Send" data-tap-show-at="0.2" data-tap-duration="3.1">
+ <img src="/assets/screenshots/hhh/manual/21-demand-rolodex-send.png?v=taps-qa-2026-07-27" alt="Demand Rolodex â€” send from Wish" loading="lazy">
+ </div>
+ <div class="slide" data-index="104" data-tap-x="50" data-tap-y="25" data-tap-label="Name" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/21-demand-rolodex-send.png?v=taps-qa-2026-07-27" alt="Buyer contact for dealers" loading="lazy">
+ </div>
+ <div class="slide" data-index="105" data-tap-x="87" data-tap-y="56" data-tap-label="Share all" data-tap-show-at="1.9" data-tap-duration="2.5">
+ <img src="/assets/screenshots/hhh/manual/21-demand-rolodex-send.png?v=taps-qa-2026-07-27" alt="Select wants to share" loading="lazy">
+ </div>
+ <div class="slide" data-index="106" data-tap-x="50" data-tap-y="67" data-tap-label="Send nearby" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/21b-demand-pin-qr.png?v=taps-qa-2026-07-27" alt="Send want list PIN and QR" loading="lazy">
+ </div>
+ <div class="slide" data-index="107" data-tap-x="50" data-tap-y="48" data-tap-label="Scan nearby" data-tap-show-at="1.1" data-tap-duration="1.7">
+ <img src="/assets/screenshots/hhh/manual/22-demand-rolodex-receive.png?v=taps-qa-2026-07-27" alt="Dealer Demand Rolodex Receive" loading="lazy">
+ </div>
+ <div class="slide" data-index="108" data-tap-x="72" data-tap-y="74" data-tap-label="Accept card" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/22-demand-rolodex-receive.png?v=taps-qa-2026-07-27" alt="Paste QR or Nearby Bluetooth" loading="lazy">
+ </div>
+ <div class="slide" data-index="109" data-tap-x="88" data-tap-y="32" data-tap-label="Board group" data-tap-show-at="0.2" data-tap-duration="3.2">
+ <img src="/assets/screenshots/hhh/manual/23-demand-rolodex-board.png?v=taps-qa-2026-07-27" alt="Demand board by make and model" loading="lazy">
+ </div>
+ <div class="slide" data-index="110" data-tap-none>
+ <img src="/assets/screenshots/hhh/manual/23-demand-rolodex-board.png?v=taps-qa-2026-07-27" alt="Demand board contact rating" loading="lazy">
+ </div>
+                </div>
+               </div>
+              </div>
+              <div class="progress-dots" id="progressDots">
+         <span class="dot active" data-slide="0"></span>
+         <span class="dot" data-slide="1"></span>
+         <span class="dot" data-slide="2"></span>
+         <span class="dot" data-slide="3"></span>
+         <span class="dot" data-slide="4"></span>
+         <span class="dot" data-slide="5"></span>
+         <span class="dot" data-slide="6"></span>
+         <span class="dot" data-slide="7"></span>
+         <span class="dot" data-slide="8"></span>
+         <span class="dot" data-slide="9"></span>
+         <span class="dot" data-slide="10"></span>
+         <span class="dot" data-slide="11"></span>
+         <span class="dot" data-slide="12"></span>
+         <span class="dot" data-slide="13"></span>
+         <span class="dot" data-slide="14"></span>
+         <span class="dot" data-slide="15"></span>
+         <span class="dot" data-slide="16"></span>
+         <span class="dot" data-slide="17"></span>
+         <span class="dot" data-slide="18"></span>
+         <span class="dot" data-slide="19"></span>
+         <span class="dot" data-slide="20"></span>
+         <span class="dot" data-slide="21"></span>
+         <span class="dot" data-slide="22"></span>
+         <span class="dot" data-slide="23"></span>
+         <span class="dot" data-slide="24"></span>
+         <span class="dot" data-slide="25"></span>
+         <span class="dot" data-slide="26"></span>
+         <span class="dot" data-slide="27"></span>
+         <span class="dot" data-slide="28"></span>
+         <span class="dot" data-slide="29"></span>
+         <span class="dot" data-slide="30"></span>
+         <span class="dot" data-slide="31"></span>
+         <span class="dot" data-slide="32"></span>
+         <span class="dot" data-slide="33"></span>
+         <span class="dot" data-slide="34"></span>
+         <span class="dot" data-slide="35"></span>
+         <span class="dot" data-slide="36"></span>
+         <span class="dot" data-slide="37"></span>
+         <span class="dot" data-slide="38"></span>
+         <span class="dot" data-slide="39"></span>
+         <span class="dot" data-slide="40"></span>
+         <span class="dot" data-slide="41"></span>
+         <span class="dot" data-slide="42"></span>
+         <span class="dot" data-slide="43"></span>
+         <span class="dot" data-slide="44"></span>
+         <span class="dot" data-slide="45"></span>
+         <span class="dot" data-slide="46"></span>
+         <span class="dot" data-slide="47"></span>
+         <span class="dot" data-slide="48"></span>
+         <span class="dot" data-slide="49"></span>
+         <span class="dot" data-slide="50"></span>
+         <span class="dot" data-slide="51"></span>
+         <span class="dot" data-slide="52"></span>
+         <span class="dot" data-slide="53"></span>
+         <span class="dot" data-slide="54"></span>
+         <span class="dot" data-slide="55"></span>
+         <span class="dot" data-slide="56"></span>
+         <span class="dot" data-slide="57"></span>
+         <span class="dot" data-slide="58"></span>
+         <span class="dot" data-slide="59"></span>
+         <span class="dot" data-slide="60"></span>
+         <span class="dot" data-slide="61"></span>
+         <span class="dot" data-slide="62"></span>
+         <span class="dot" data-slide="63"></span>
+         <span class="dot" data-slide="64"></span>
+         <span class="dot" data-slide="65"></span>
+         <span class="dot" data-slide="66"></span>
+         <span class="dot" data-slide="67"></span>
+         <span class="dot" data-slide="68"></span>
+         <span class="dot" data-slide="69"></span>
+         <span class="dot" data-slide="70"></span>
+         <span class="dot" data-slide="71"></span>
+         <span class="dot" data-slide="72"></span>
+         <span class="dot" data-slide="73"></span>
+         <span class="dot" data-slide="74"></span>
+         <span class="dot" data-slide="75"></span>
+         <span class="dot" data-slide="76"></span>
+         <span class="dot" data-slide="77"></span>
+         <span class="dot" data-slide="78"></span>
+         <span class="dot" data-slide="79"></span>
+         <span class="dot" data-slide="80"></span>
+         <span class="dot" data-slide="81"></span>
+         <span class="dot" data-slide="82"></span>
+         <span class="dot" data-slide="83"></span>
+         <span class="dot" data-slide="84"></span>
+         <span class="dot" data-slide="85"></span>
+         <span class="dot" data-slide="86"></span>
+         <span class="dot" data-slide="87"></span>
+         <span class="dot" data-slide="88"></span>
+         <span class="dot" data-slide="89"></span>
+         <span class="dot" data-slide="90"></span>
+         <span class="dot" data-slide="91"></span>
+         <span class="dot" data-slide="92"></span>
+         <span class="dot" data-slide="93"></span>
+         <span class="dot" data-slide="94"></span>
+         <span class="dot" data-slide="95"></span>
+         <span class="dot" data-slide="96"></span>
+         <span class="dot" data-slide="97"></span>
+         <span class="dot" data-slide="98"></span>
+         <span class="dot" data-slide="99"></span>
+         <span class="dot" data-slide="100"></span>
+         <span class="dot" data-slide="101"></span>
+         <span class="dot" data-slide="102"></span>
+         <span class="dot" data-slide="103"></span>
+         <span class="dot" data-slide="104"></span>
+         <span class="dot" data-slide="105"></span>
+         <span class="dot" data-slide="106"></span>
+         <span class="dot" data-slide="107"></span>
+         <span class="dot" data-slide="108"></span>
+         <span class="dot" data-slide="109"></span>
+         <span class="dot" data-slide="110"></span>
+        </div>
+              <div class="playback-controls">
+               <button class="nav-step-btn" id="prevBtn" title="Previous step" aria-label="Previous step">&#9664;</button>
+               <button class="voice-btn" id="voiceBtn" title="Toggle narration" aria-label="Toggle narration">&#128266;</button>
+               <button class="play-pause-btn" id="playPauseBtn" title="Play/Pause">&#9654;</button>
+               <button class="nav-step-btn" id="nextBtn" title="Next step" aria-label="Next step">&#9654;&#9654;</button>
+               <span class="speed-label" id="speedLabel">Tap play to start</span>
+              </div>
+             </div>
+             <div class="narration-panel" id="narrationPanel">
+              <div class="narration-panel-heading">Transcript</div>
+        <div class="transcript-body" id="transcriptBody">
+        </div>
+             </div>
+            </div>
+           </div>
+           <div class="chapter-nav" id="chapterNav">
+         <button class="chapter-btn active" data-slide="0">Onboarding</button>
+         <button class="chapter-btn" data-slide="7">Home</button>
+         <button class="chapter-btn" data-slide="11">My Museum</button>
+         <button class="chapter-btn" data-slide="22">Add Watch</button>
+         <button class="chapter-btn" data-slide="26">Identify</button>
+         <button class="chapter-btn" data-slide="40">Clock Repair</button>
+         <button class="chapter-btn" data-slide="47">Grail Radar</button>
+         <button class="chapter-btn" data-slide="56">Finances</button>
+         <button class="chapter-btn" data-slide="63">Web Companion</button>
+         <button class="chapter-btn" data-slide="66">Backup</button>
+         <button class="chapter-btn" data-slide="70">Settings</button>
+         <button class="chapter-btn" data-slide="76">Trial</button>
+         <button class="chapter-btn" data-slide="79">Tools</button>
+         <button class="chapter-btn" data-slide="101">Help</button>
+         <button class="chapter-btn" data-slide="103">Share Wish List</button>
+        </div>
+          </div>
+         </section>
+         <section class="cta-section">
+          <div class="container">
+           <h2>Ready to identify your first timepiece?</h2>
+           <p>Try HHH free for 15 days on Google Play, or join iOS early access on TestFlight from josspatech.com.</p>
+           <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" class="download-button">Get HHH on Google Play</a>
+          </div>
+         </section>
+         <footer class="jt-site-footer">
+          <ul class="jt-products" aria-label="JosspaTech products">
+           <li><a href="/">Home</a></li>
+           <li><a href="/#pbj">PocketBudJet</a></li>
+           <li><a href="/#hhh">Handy Horology Helper</a></li>
+           <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+           <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+          </ul>
+          <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+          <p class="jt-legal">
+           <a href="/docs/handyhorology/HandyHorology_PrivacyPolicy.html">Privacy</a> ·
+           <a href="/docs/handyhorology/HandyHorologyHelper_TermsOfService.html">Terms</a> ·
+           <a href="mailto:support@josspatech.com">support@josspatech.com</a>
+          </p>
+         </footer>
+         <link rel="stylesheet" href="/videos/shared/site-chrome.css">
+         <script>
+         const NARRATION = ["Ouvrez Handy Horology Helper. Faites glisser les diapositives de bienvenue : identifiez les pièces, suivez votre collection, chassez sur eBay. Appuyez sur Continuer sur chaque diapositive.", "Sur la dernière diapositive de bienvenue, appuyez sur Commencer. Vous arrivez sur Comment voulez-vous commencer ?", "Appuyez sur Explorer avec la collection d'échantillons pour visiter la galerie de démonstration de Ludwig — recommandée pour le premier lancement.", "Ou appuyez sur Commencer avec ma propre pièce pour ajouter votre première montre à partir de l'appareil photo ou d'une saisie manuelle.", "Si vous avez choisi la collecte d'échantillons, attendez que les montres de démonstration de Ludwig se chargent, puis appuyez sur Commencer sur l'écran de confirmation.", "Lorsque les exemples de données sont actifs, remarquez la bannière vous rappelant qu'il s'agit de pièces de démonstration.", "Appuyez sur Effacer les échantillons sur la bannière d'accueil lorsque vous êtes prêt à créer votre propre musée.", "Vous atterrissez sur Accueil – le centre de commande. La ligne d'état indique le nombre de pièces et la taille de la liste de souhaits.", "Appuyez sur Hunt sur la ligne de commande rapide pour les Graals eBay. Fix Clock ouvre l'aide de réparation d'horloge. Ajouter une montre ouvre Mon musée. Outils ouvre la boîte à outils.", "Les cartes de parcours de démarrage permettent d'accéder directement à Hunt sur eBay, à dépanner une horloge, à démarrer votre musée ou à identifier une pièce.", "La barre d'onglets inférieure comporte cinq onglets : Accueil, Mon musée, Outils, Collectionneurs et Paramètres. Appuyez sur n’importe quel onglet pour changer.", "Appuyez sur l'onglet Mon musée (deuxième icône en partant de la gauche) pour ouvrir votre collection.", "Appuyez sur Propriété en haut pour voir votre collection. Wish détient des cibles du Graal ; À vendre répertorie les pièces que vous vendez.", "La carte du héros affiche la valeur totale estimée, la ligne de gain ou de perte et une courbe de la valeur de la collection au fil du temps.", "Appuyez sur le champ de recherche et saisissez une marque ou un modèle. La liste est filtrée au fur et à mesure que vous tapez.", "Appuyez sur n'importe quelle ligne pour ouvrir les détails de la pièce : photos, provenance, historique d'entretien et valeur estimée.", "Sur Piece Detail, faites glisser la galerie de photos. La marque, le modèle, la référence et la valeur estimée se trouvent sous les photos.", "Appuyez sur Provenance pour enregistrer l'endroit où vous avez acheté la pièce, les numéros de série et les notes de collection.", "Les réparations et les services enregistrent les nettoyages, les réparations et les coûts : chaque entrée met à jour votre base de coûts.", "Appuyez sur le segment Wish pour voir les cibles du Graal liées aux règles de chasse du Graal Radar.", "Appuyez sur À vendre pour répertorier les pièces que vous vendez activement avec le prix demandé et les notes.", "Sur Mes pièces, appuyez sur Plus pour la chronologie, les finances, le rapport d'assurance, le suivi des services et les alertes de correspondance eBay.", "Sur Mes pièces, appuyez sur le bouton doré Ajouter dans la barre d'action, au centre de la barre inférieure.", "La saisie manuelle vous permet de remplir vous-même les détails au lieu d'exécuter AI Ensure.", "Appuyez sur le champ Marque et remplissez la marque, le modèle, la référence, le numéro de série, le prix d'achat et les notes facultatives.", "Enregistrer ajoute immédiatement la pièce à votre collection Possédée.", "Pour ajouter avec l'IA, appuyez sur Identifier dans la barre d'action Mon musée - ou ouvrez Outils et appuyez sur Identifier.", "Appuyez sur Prendre une photo. Cadrez le cadran directement avec une lumière uniforme : une photo claire suffit pour commencer.", "Ou appuyez sur Choisir une photo pour choisir dans votre galerie – utile pour les photos d'une exposition ou d'une vente immobilière.", "Lorsque vous y êtes invité, ajoutez une photo de mouvement pour une meilleure précision – ou ignorez Identifier maintenant pour procéder à la numérotation uniquement.", "Faites défiler jusqu'à Que savez-vous ? Appuyez sur Devinez la marque et saisissez des indices de modèle, de référence, de série ou de texte libre.", "La montre-bracelet, la montre de poche ou l'horloge corrigent le type lorsque la détection automatique est erronée.", "Identifier lit votre photo et recherche les bases de données de référence – attendez pendant que cela fonctionne.", "Sur l’écran des résultats, appuyez sur la meilleure correspondance pour vérifier la confiance. Autres possibilités répertorie les alternatives lorsque vous souhaitez comparer.", "Si la meilleure correspondance semble correcte, conservez-la. Sinon, une autre possibilité de la liste ci-dessous pourrait mieux convenir.", "Lorsque la confiance est faible, appuyez sur Ajouter des photos détaillées pour le texte du cadre, les logos ou les gros plans en série, puis appuyez à nouveau sur Identifier.", "Appuyez sur Ce que je sais pour corriger la marque ou le modèle avant de réexécuter. Vos modifications remplacent la supposition de l'IA lors du prochain passage.", "Appuyez sur Enregistrer dans la collection. HHH crée une entrée de musée avec des photos, une marque, un modèle et une valeur estimée pré-remplies.", "Après avoir enregistré une horloge, appuyez sur Rechercher des pièces sur Clockworks pour passer à la recherche de pièces sensible au mouvement à partir de cette identification.", "Sans connexion, HHH met votre identification en file d'attente et l'exécute lorsque vous êtes de nouveau en ligne – vérifiez la bannière sur Accueil.", "Appuyez sur Aide à la réparation de l'horloge sur la ligne des commandes rapides d'accueil. L'assistant d'aide à la réparation de l'horloge s'ouvre.", "Ou appuyez sur Outils, faites défiler jusqu'à Aide sur la réparation de l'horloge et appuyez sur la carte.", "Choisissez le symptôme qui correspond : ne sonne pas, le pendule s'arrête, les mains glissent ou une autre option dans la liste.", "Passez en revue les étapes de réparation en langage simple suggérées par HHH pour votre symptôme. Suivez les consignes de sécurité avant d’ouvrir le boîtier.", "Faites défiler jusqu'à Pièces suggérées sur Clockworks. Les SKU et les noms de produits apparaissent lorsque le catalogue est connecté.", "Une ligne de produit ou une boutique sur Clockworks ouvre l'article dans votre navigateur.", "Terminez le paiement sur Clockworks.com — HHH ne traite pas les paiements pour les pièces.", "Appuyez sur Hunt sur Accueil – ou ouvrez Mes pièces et passez au segment Wish – pour voir les cibles du Graal.", "Appuyez sur le bouton plus sur la liste de souhaits. Entrez la marque, le modèle et un prix cible que vous êtes prêt à payer.", "Appuyez sur une ligne de liste de souhaits pour ouvrir Grail Radar pour ce Graal. Les règles de chasse et l'heure du dernier contrôle apparaissent en haut.", "Modifiez les mots-clés et le prix maximum sous les règles de chasse. Appuyez sur Enregistrer les règles de chasse lorsque vous avez terminé.", "Appuyez sur Vérifier maintenant pour effectuer une recherche sur eBay immédiatement. Les correspondances apparaissent avec le titre, le prix et le lien de l'annonce.", "Toute correspondance ouvre l'annonce eBay dans votre navigateur.", "Lorsqu'un nouveau match arrive, HHH envoie une notification. Appuyez dessus pour accéder directement à l'écran Graal Radar de ce Graal.", "Dans Outils, ouvrez les Annonces eBay pour rechercher les annonces vendues et actives par marque et modèle.", "Entrez la marque et le modèle, puis examinez les compositions actives et vendues avant de vous engager dans un achat.", "Sur Mes pièces, appuyez sur Plus, puis sur Finances – ou Gains et pertes – pour les profits et pertes au niveau du portefeuille.", "Le tableau de bord affiche le coût total de base, la valeur estimée et le gain ou la perte net pour toutes les pièces possédées.", "Sur n'importe quel écran de détail de la pièce, appuyez sur Modifier et saisissez le prix d'achat. HHH recalcule le gain ou la perte par rapport à la valeur estimée.", "Sous Réparations et service, Ajouter une entrée prend en compte la date, le fournisseur et le coût : les dépenses de service s'ajoutent à votre base de coût.", "À partir de Plus, Insurance Report crée un résumé prêt au format PDF des éléments, des valeurs et des photos pour votre assureur.", "Dans le menu Finances ou Plus, ouvrez Budget Tracker.", "Définissez un budget d'acquisition mensuel ou annuel et suivez les dépenses au fur et à mesure que vous ajoutez des pièces.", "Dans Outils, ouvrez Web Companion et appuyez sur Démarrer. Votre téléphone affiche une adresse locale et un grand code de couplage à quatre chiffres.", "Sur un PC connecté au même réseau Wi-Fi, ouvrez cette adresse dans un navigateur, puis saisissez le code à quatre chiffres affiché sur le téléphone.", "Sur le tableau de bord du PC, parcourez les pièces, ajoutez des montres et gérez les chasses : les modifications sont synchronisées avec le téléphone via votre réseau domestique.", "Ouvrez Paramètres, puis Sauvegarde de fichiers – ou ouvrez Sauvegarde de fichiers à partir des Outils – pour gérer votre sauvegarde portable .hhh.", "Appuyez sur Enregistrer une copie. Choisissez Drive, Fichiers, e-mail ou une autre destination de partage pour le fichier .hhh.", "Sur un autre téléphone, appuyez sur Rapporter une copie et choisissez votre fichier .hhh. Confirmez avant d’ajouter ou de remplacer les données du musée.", "Facultatif : appuyez sur Device Sync pour déplacer des éléments entre vos propres téléphones ou tablettes sur le même réseau Wi-Fi. La synchronisation cloud professionnelle reste facultative : votre musée vit d'abord sur l'appareil.", "Appuyez sur l'onglet Paramètres - icône d'engrenage en bas à droite.", "Appuyez sur Thème et changez de Clair ou de Foncé. L'application se met à jour immédiatement.", "Appuyez sur Langue. HHH prend en charge sept langues d'affichage : choisissez-en une et confirmez.", "Ouvrez Sécurité et verrouillage des applications. Si votre appareil a enregistré des données biométriques, authentifiez-vous une fois pour activer le verrouillage et choisissez le délai d'attente en arrière-plan. L'annulation ou l'échec de l'authentification maintient HHH verrouillé ; l'invite de l'appareil peut revenir au code d'accès de votre appareil.", "Le chiffrement de la base de données est affiché comme Non disponible. HHH n'utilise actuellement pas SQLCipher, donc le fichier SQLite local n'est pas chiffré au repos par ce paramètre.", "Lorsqu'un match Grail Radar arrive, HHH peut envoyer une notification système - appuyez dessus pour accéder directement à ce Graal. Autorisez les notifications lorsqu'Android ou iOS le demande, afin que les alertes de chasse et les rappels de service puissent vous joindre.", "HHH comprend un essai Pro de 15 jours avec accès complet – aucune carte de crédit requise. Annulez à tout moment.", "Après l'essai, appuyez sur Mettre à niveau dans Paramètres. Choisissez 9.99 $ par mois ou 74.99 $ par an.", "Gérez les annulations ou les modifications de votre abonnement via Google Play ou l'App Store.", "Appuyez sur l'onglet Outils - icône centrale - pour ouvrir la grille de la boîte à outils d'horlogerie.", "Appuyez sur Qu'est-ce que ça vaut pour obtenir des conseils sur le prix de l'IA sur une pièce – Fonction Pro.", "Appuyez sur Comparer. Choisissez deux pièces de votre musée pour voir côte à côte les spécifications, la valeur et les photos.", "Appuyez sur Évaluation de l'état. Répondez aux questions de la liste de contrôle sur le boîtier, le cadran et l'état du mouvement.", "Appuyez sur Valeur de collection pour voir comment la valeur estimée de votre portefeuille a changé au fil du temps.", "Trade Analyzer modélise une transaction - votre pièce plus de l'argent par rapport à la leur - fonctionnalité Pro. Trouvez-le plus bas dans la liste des outils.", "Appuyez sur Demander à l'expert un chat IA sur des questions d'horlogerie - Fonctionnalité Pro.", "Appuyez sur Photo Coach pour des prises de vue guidées étape par étape — cadran, fond du boîtier, mouvement — fonction Pro.", "Appuyez sur Carte d'identité numérique pour générer une carte de preuve de propriété avec des photos et des détails clés – fonctionnalité Pro.", "Scan Barcode pointe l'appareil photo vers un UPC ou un QR sur l'emballage ou les documents. Trouvez-le plus bas dans la liste des outils.", "Scan Papers photographie les reçus, les certificats ou les documents d'évaluation et les attache à une pièce. Trouvez-le plus bas dans la liste des outils.", "Dans quelle mesure est-il complexe ? évalue la complexité du mouvement à partir des complications que vous marquez. Trouvez-le plus bas dans la liste des outils.", "Is It Accurate enregistre les vérifications du temps par rapport à une référence et suit le taux quotidien au fil des semaines. Trouvez-le plus bas dans la liste des outils.", "Quoi porter – Rotation Planner – attribue des pièces pour la semaine afin que rien ne reste trop longtemps non porté. Trouvez-le plus bas dans la liste des outils.", "Les garanties stockent les dates d’expiration – HHH vous le rappelle avant qu’elles n’expirent. Trouvez-le plus bas dans la liste des outils.", "Appuyez sur Heure exacte. HHH affiche l'heure de référence de l'horloge atomique : utilisez-la pour régler votre montre ou vérifier la fréquence.", "Tap Moon Phase. Découvrez la phase de lune de ce soir et réglez votre cadran de complication de phase de lune.", "Dans Imprimer et exporter la liste, appuyez sur Mon musée, Liste de souhaits ou À vendre, puis définissez les colonnes et générez un PDF.", "Appuyez sur le QR Partager à proximité pour afficher le résumé de l'article : le code PIN est ci-dessus ; Bluetooth is optional. Pro feature.", "Appuyez sur Pack de spectacles hors ligne sous Paramètres avant un marché aux puces ou un spectacle sans signal. L'identification avec Internet est toujours plus précise : utilisez le pack uniquement hors ligne.", "Appuyez sur Afficher sur grand écran pour un diaporama LAN de votre collection sur un téléviseur ou un projecteur.", "Dans Outils, ouvrez Mouvement vers Pièces pour effectuer une recherche dans le catalogue Clockworks à partir d’une photo de mouvement ou d’une pièce d’identité.", "Des questions ? Envoyez un e-mail à support@josspatech.com ou utilisez les commentaires dans l'application.", "Ce manuel d'utilisation détaillé sur josspatech.com/videos/user-guide-hhh couvre toutes les fonctionnalités v1 livrées.", "Partagez votre liste de souhaits avec des amis ou avec des revendeurs d'horlogerie. Les vendeurs peuvent ensuite parcourir une liste des pièces que leurs contacts souhaitent acheter. Ouvrez la liste de souhaits sous Mon musée ou appuyez sur Outils, puis sur Demander un Rolodex, puis sur Envoyer.", "Appuyez sur Contact et remplissez Votre contact - le nom est requis ; ajoutez un téléphone, un e-mail et un site Web facultatif. Ces coordonnées sont automatiquement incluses dans la liste des pièces que vous recherchez.", "Cochez les souhaits à partager ou appuyez sur Partager tout - jusqu'à dix souhaits. Les prix cibles ne quittent jamais votre téléphone ; vos amis et revendeurs ne voient que ce que vous voulez et comment vous joindre.", "Appuyez sur Envoyer la liste de souhaits, puis montrez-leur le code PIN et le QR à quatre chiffres, ou appuyez sur Envoyer à proximité via Bluetooth avec le même code PIN.", "En tant que revendeur ou vendeur, ouvrez Outils, puis Demandez Rolodex et appuyez sur Recevoir.", "Choisissez Coller QR ou Bluetooth à proximité, saisissez le code PIN à quatre chiffres de l'acheteur, puis appuyez sur Accepter la carte.", "Parcourez le tableau Demand Rolodex : rassemblez les informations que vos contacts ayant partagé des listes de souhaits souhaitent acheter, regroupées par marque et modèle. Appuyez sur un groupe du tableau pour les contacts, les spécifications et les notes – aucun prix sur la carte.", "Le téléphone ou l'e-mail parvient à l'acheteur. Une note privée de un à dix sur ce contact reste uniquement sur votre téléphone."];
+         const CHAPTER_STARTS = [0, 7, 11, 22, 26, 40, 47, 56, 63, 66, 70, 76, 79, 101, 103];
+         const LAST_SLIDE = 110;
+         const AUDIO_BASE = 'audio/';
+         </script>
+         <script>
+         (function () {
+           if (new URLSearchParams(location.search).get('embed') === '1') {
+             document.documentElement.classList.add('embed-mode');
+           }
+         })();
+         </script>
+         <script src="/videos/shared/walkthrough.js?v=taps-qa-2026-07-27" defer></script>
+         <script src="deck.js?v=chapters-below-2026-07-27" defer></script>
+         <style>
+         /* Product-page embed: one player view — only the transcript scrolls */
+         html.embed-mode, html.embed-mode body {
+           margin: 0 !important; padding: 0 !important;
+           width: 100% !important; height: 100% !important;
+           overflow: hidden !important;
+           background: #F7F1EA !important;
+         }
+         html.embed-mode nav,
+         html.embed-mode .breadcrumbs,
+         html.embed-mode .hero,
+         html.embed-mode .cta-section,
+         html.embed-mode footer,
+         html.embed-mode .jt-site-footer { display: none !important; }
+         html.embed-mode .walkthrough {
+           padding: 12px 14px 10px !important;
+           height: 100% !important; min-height: 0 !important;
+           background: #F7F1EA !important;
+           box-sizing: border-box !important;
+           display: flex !important; flex-direction: column !important;
+         }
+         html.embed-mode .walkthrough .container {
+           max-width: none !important; width: 100% !important;
+           height: 100% !important; min-height: 0 !important;
+           display: flex !important; flex-direction: column !important;
+         }
+         html.embed-mode .walkthrough h2,
+         html.embed-mode .walkthrough .section-sub,
+         html.embed-mode .walkthrough .prod-media-langs,
+         html.embed-mode .progress-dots,
+         html.embed-mode .chapter-nav { display: none !important; }
+         html.embed-mode .walkthrough-stage {
+           width: 100% !important; flex: 1 1 auto !important;
+           min-height: 0 !important;
+           display: flex !important; flex-direction: column !important;
+           gap: 8px !important;
+         }
+         html.embed-mode .video-wrapper {
+           display: flex !important; flex-direction: row !important;
+           flex-wrap: nowrap !important; align-items: stretch !important;
+           gap: 14px !important; flex: 1 1 auto !important; min-height: 0 !important;
+         }
+         html.embed-mode .phone-column {
+           flex: 0 0 auto !important; width: 230px !important;
+           display: flex !important; flex-direction: column !important;
+           justify-content: flex-start !important;
+         }
+         html.embed-mode .phone-viewport { width: 100% !important; height: auto !important; }
+         html.embed-mode .phone-frame {
+           width: 220px !important; height: 440px !important;
+           max-height: 440px !important; aspect-ratio: auto !important;
+         }
+         html.embed-mode .slideshow { width: 100% !important; height: 100% !important; }
+         html.embed-mode .playback-controls { margin-top: 10px !important; }
+         html.embed-mode .narration-panel {
+           flex: 1 1 auto !important; min-width: 0 !important;
+           max-height: none !important; height: auto !important;
+           overflow-y: auto !important; -webkit-overflow-scrolling: touch;
+           background: rgba(255,255,255,0.55); border-radius: 12px;
+           padding: 0.65rem 0.75rem !important;
+         }
+         @media (max-width: 640px) {
+           html.embed-mode .video-wrapper { flex-direction: column !important; align-items: center !important; }
+           html.embed-mode .phone-column { width: 200px !important; }
+           html.embed-mode .phone-frame { width: 180px !important; height: 360px !important; max-height: 360px !important; }
+           html.embed-mode .narration-panel { width: 100% !important; max-height: 180px !important; }
+         }
+         </style>
+        </body>
+        </html>
