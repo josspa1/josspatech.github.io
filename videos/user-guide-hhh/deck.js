@@ -99,6 +99,15 @@
       }
     }
     if (active) active.classList.add('active');
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({
+          type: 'jt-guide-chapter',
+          slide: slideIdx,
+          label: active ? (active.textContent || '').trim() : ''
+        }, '*');
+      }
+    } catch (e) { /* ignore */ }
   }
 
   function stopSentenceTimer() {
@@ -440,4 +449,12 @@
   jumpFromHash();
   if (window.initWalkthroughSlides) window.initWalkthroughSlides();
   if (recordMode) startPlayback();
+
+  window.addEventListener('message', function (e) {
+    var data = e && e.data;
+    if (!data || data.type !== 'jt-guide-goto') return;
+    var idx = parseInt(data.slide, 10);
+    if (isNaN(idx)) return;
+    jumpToSlide(idx);
+  });
 })();

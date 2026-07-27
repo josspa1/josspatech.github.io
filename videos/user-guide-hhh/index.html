@@ -651,7 +651,7 @@
          })();
          </script>
          <script src="/videos/shared/walkthrough.js?v=taps-qa-2026-07-27" defer></script>
-         <script src="deck.js?v=publish-embed-2026-07-27" defer></script>
+         <script src="deck.js?v=chapters-below-2026-07-27" defer></script>
          <style>
          /* Product-page embed: one player view — only the transcript scrolls */
          html.embed-mode, html.embed-mode body {
@@ -681,7 +681,8 @@
          html.embed-mode .walkthrough h2,
          html.embed-mode .walkthrough .section-sub,
          html.embed-mode .walkthrough .prod-media-langs,
-         html.embed-mode .progress-dots { display: none !important; }
+         html.embed-mode .progress-dots,
+         html.embed-mode .chapter-nav { display: none !important; }
          html.embed-mode .walkthrough-stage {
            width: 100% !important; flex: 1 1 auto !important;
            min-height: 0 !important;
@@ -712,14 +713,6 @@
            background: rgba(255,255,255,0.55); border-radius: 12px;
            padding: 0.65rem 0.75rem !important;
          }
-         html.embed-mode .chapter-nav {
-           flex: 0 0 auto !important; margin-top: 0 !important;
-           justify-content: flex-start !important;
-           flex-wrap: nowrap !important; overflow-x: auto !important;
-           overflow-y: hidden !important; max-height: 44px !important;
-           padding-bottom: 2px !important; gap: 0.4rem !important;
-         }
-         html.embed-mode .chapter-btn { white-space: nowrap !important; font-size: 12px !important; padding: 6px 10px !important; }
          @media (max-width: 640px) {
            html.embed-mode .video-wrapper { flex-direction: column !important; align-items: center !important; }
            html.embed-mode .phone-column { width: 200px !important; }

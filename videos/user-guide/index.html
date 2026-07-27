@@ -889,7 +889,16 @@
  for (var i = CHAPTER_STARTS.length - 1; i >= 0; i--) {
  if (slideIdx >= CHAPTER_STARTS[i]) { active = chapterBtns[i]; break; }
  }
- active.classList.add('active');
+ if (active) active.classList.add('active');
+ try {
+ if (window.parent && window.parent !== window) {
+ window.parent.postMessage({
+ type: 'jt-guide-chapter',
+ slide: slideIdx,
+ label: active ? (active.textContent || '').trim() : ''
+ }, '*');
+ }
+ } catch (e) { /* ignore */ }
  }
 
  function stopSentenceTimer() { clearInterval(sentenceInterval); sentenceInterval = null; }
@@ -1166,6 +1175,14 @@
  playPauseBtn.innerHTML = '&#10074;&#10074;'; speedLabel.textContent = 'Auto-playing';
  if (voiceEnabled) playSlideAudio(current); else resetTimer();
  }
+
+ window.addEventListener('message', function (e) {
+ var data = e && e.data;
+ if (!data || data.type !== 'jt-guide-goto') return;
+ var idx = parseInt(data.slide, 10);
+ if (isNaN(idx)) return;
+ jumpToSlide(idx);
+ });
  })();
  </script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
@@ -1252,7 +1269,8 @@ html.embed-mode .walkthrough .container {
 html.embed-mode .walkthrough h2,
 html.embed-mode .walkthrough .section-sub,
 html.embed-mode .walkthrough .prod-media-langs,
-html.embed-mode .progress-dots {
+html.embed-mode .progress-dots,
+html.embed-mode .chapter-nav {
  display: none !important;
 }
 html.embed-mode .walkthrough-stage {
@@ -1292,14 +1310,6 @@ html.embed-mode #narrationPanel {
  min-width: 0 !important;
  max-height: none !important;
  overflow-y: auto !important;
-}
-html.embed-mode .chapter-nav {
- flex: 0 0 auto !important;
- margin-top: 0 !important;
- justify-content: flex-start !important;
- flex-wrap: nowrap !important;
- overflow-x: auto !important;
- max-height: 44px !important;
 }
 @media (max-width: 768px) {
  .walkthrough-stage .video-wrapper { flex-direction: column !important; }
