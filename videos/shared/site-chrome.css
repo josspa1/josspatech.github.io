@@ -1,0 +1,41 @@
+/* Shared JosspaTech chrome for standalone guide / how-to pages */
+.jt-site-footer {
+  padding: 2rem 1.5rem 2.5rem;
+  text-align: center;
+  background: #0A1A39;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+}
+.jt-site-footer a {
+  color: #F0C040;
+  text-decoration: none;
+  font-weight: 600;
+}
+.jt-site-footer a:hover {
+  text-decoration: underline;
+}
+.jt-site-footer .jt-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1.1rem;
+  justify-content: center;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+.jt-site-footer .jt-products a {
+  color: #F0C040;
+}
+.jt-site-footer .jt-copy {
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+.jt-site-footer .jt-legal {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+}
+html.embed-mode .jt-site-footer,
+body.record-mode .jt-site-footer {
+  display: none !important;
+}
