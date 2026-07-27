@@ -1095,6 +1095,19 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 .prod-toolkit-inner,.prod-media-inner,.prod-pricing-inner,.prod-aside-inner,.prod-close-inner{
   max-width:720px;margin:0 auto;
 }
+.prod-media-inner.prod-media-inner--manual{
+  max-width:1180px;
+}
+.prod-media-langs{
+  display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;
+  margin:18px auto 0;padding:0;list-style:none;max-width:720px;
+}
+.prod-media-langs a{
+  color:var(--brand-accent);font-size:14px;font-weight:600;text-decoration:none;
+  border-bottom:1px solid rgba(200,170,110,0.35);
+}
+.prod-media-langs a:hover{border-bottom-color:var(--brand-accent);}
+.prod-media-langs .is-current{color:#fff;border-bottom-color:rgba(255,255,255,0.45);}
 .prod-toolkit-list{
   list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;
   margin:36px auto 0;padding:0;max-width:520px;text-align:left;
@@ -4075,8 +4088,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="hero-acts">
         <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Get HHH on Google Play</a>
         <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;">iOS early access (TestFlight)</a>
-        <a href="/videos/hhh/walkthrough/" class="btn-ghost">Walkthrough</a>
-        <a href="/videos/user-guide-hhh/" class="btn-ghost">Manual</a>
+        <a href="/videos/user-guide-hhh/" class="btn-ghost">User Manual</a>
       </div>
     </div>
     <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
@@ -4165,20 +4177,30 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </div>
 </section>
 
-<section class="prod-media" aria-label="Walkthrough and manual">
-  <div class="prod-media-inner">
-    <span class="prod-beat-ey rv">Videos</span>
-    <h2 class="rv">Walkthrough &amp; <em>User Manual</em></h2>
-    <p class="rv">Short overview, then the full interactive how-to (~14 min) with synced transcript, play/pause/step controls, and chapter jumps under the video.</p>
-    <div class="prod-media-acts rv" style="margin-bottom:20px;">
-      <a class="btn-primary" href="/videos/hhh/walkthrough/" style="text-decoration:none;">Short Walkthrough</a>
-      <a class="btn-ghost" href="/videos/user-guide-hhh/" style="text-decoration:none;">Open Manual Full Screen</a>
-      <a class="btn-ghost" href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="text-decoration:none;">PDF</a>
-    </div>
-    <div class="pbj-intro-embed rv" style="text-align:center;">
+<section class="prod-media" aria-label="User manual">
+  <div class="prod-media-inner prod-media-inner--manual">
+    <span class="prod-beat-ey rv">User Manual</span>
+    <h2 class="rv">Interactive <em>user manual</em></h2>
+    <p class="rv" style="max-width:48ch;">Phone + synced transcript (~14 min). Play, pause, step, or jump by chapter under the video.</p>
+    <div class="pbj-intro-embed rv" style="margin-top:28px;text-align:center;">
       <iframe data-src="/videos/user-guide-hhh/?embed=1" title="Handy Horology Helper interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    <p class="rv" style="margin-top:12px;font-size:13px;opacity:0.85;">Prefer a single file? <a href="/videos/user-guide-hhh/handy-horology-helper-user-guide.mp4" style="font-weight:600;">Download the MP4</a>.</p>
+    <div class="prod-media-acts rv" style="margin-top:20px;">
+      <a class="btn-primary" href="/videos/user-guide-hhh/" style="text-decoration:none;">Open full screen</a>
+      <a class="btn-ghost" href="/videos/user-guide-hhh/handy-horology-helper-user-guide.mp4" style="text-decoration:none;">Download MP4</a>
+      <a class="btn-ghost" href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="text-decoration:none;">PDF</a>
+    </div>
+    <p class="rv" style="margin-top:22px;max-width:none;opacity:0.9;">Languages</p>
+    <ul class="prod-media-langs rv" aria-label="User manual languages">
+      <li><a class="is-current" href="/videos/user-guide-hhh/">US English</a></li>
+      <li><a href="/videos/user-guide-hhh-zh/">Chinese (Simplified)</a></li>
+      <li><a href="/videos/user-guide-hhh-fr/">French</a></li>
+      <li><a href="/videos/user-guide-hhh-de/">German</a></li>
+      <li><a href="/videos/user-guide-hhh-hi/">Hindi</a></li>
+      <li><a href="/videos/user-guide-hhh-it/">Italian</a></li>
+      <li><a href="/videos/user-guide-hhh-pt/">Portuguese</a></li>
+      <li><a href="/videos/user-guide-hhh-es/">Spanish</a></li>
+    </ul>
   </div>
 </section>
 
