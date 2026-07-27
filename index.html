@@ -3519,80 +3519,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   .pbj-sticky-bar-text { font-size: 12px; }
   .pbj-sticky-bar-cta { padding: 8px 16px; font-size: 13px; }
 }
-.pbj-intro-embed {
-  margin: 0 auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(12,51,88,0.18);
-  background: #F7F1EA;
-  line-height: 0;
-  max-width: 960px;
-  /* Fits phone + controls; transcript scrolls inside; chapters sit below */
-  height: 520px;
-}
-.pbj-intro-embed iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 16px;
-  display: block;
-  background: #F7F1EA;
-}
-#page-pbj .pbj-intro-embed,
-#page-pbj .pbj-intro-embed iframe { background: #EDF2F7; }
-.manual-chapter-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin: 14px auto 0;
-  max-width: 960px;
-  padding: 0;
-  list-style: none;
-}
-.manual-chapter-nav button {
-  appearance: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 7px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(200,170,110,0.4);
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  line-height: 1.2;
-}
-.manual-chapter-nav button:hover {
-  border-color: var(--brand-accent, #C8AA6E);
-  color: var(--brand-accent, #C8AA6E);
-}
-.manual-chapter-nav button.is-active {
-  background: var(--brand-accent, #C8AA6E);
-  border-color: var(--brand-accent, #C8AA6E);
-  color: var(--brand-dk, #3D1522);
-}
-#page-pbj .manual-chapter-nav button {
-  border-color: rgba(26,79,122,0.25);
-  background: #fff;
-  color: var(--navy);
-  box-shadow: 0 1px 3px rgba(12,51,88,0.08);
-}
-#page-pbj .manual-chapter-nav button:hover {
-  border-color: var(--navy);
-  color: var(--navy);
-}
-#page-pbj .manual-chapter-nav button.is-active {
-  background: var(--navy);
-  border-color: var(--navy);
-  color: #fff;
-}
-@media (max-width: 768px) {
-  .pbj-intro-embed { height: 600px; }
-}
-@media (max-width: 480px) {
-  .pbj-intro-embed { height: 640px; }
-}
 </style>
 <div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet internal testing">
   <span class="pbj-sticky-bar-text">Internal testing &mdash; Android &amp; iOS</span>
@@ -3774,49 +3700,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
     <div class="rv d2" style="max-width:1180px;margin:32px auto 0;text-align:center;">
       <span class="sec-ey">User Manual</span>
-      <h3 class="sec-ti" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">Watch the full user manual <em>(~14 min)</em></h3>
-      <p class="sec-su" style="margin-bottom:16px;">Interactive walkthrough with phone + synced scrolling transcript — play, pause, step back/forward, and jump by chapter below. <a href="/videos/user-guide/" target="_blank" rel="noopener" style="color:var(--navy);font-weight:700;">Open full screen</a>.</p>
-      <div class="pbj-intro-embed">
-        <iframe data-src="/videos/user-guide/?embed=1&v=chapters-below-2026-07-27" title="PocketBudJet interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <div class="manual-chapter-nav" data-manual-iframe="pbj" aria-label="PocketBudJet user manual chapters">
-        <button type="button" class="is-active" data-slide="0">Cold Start</button>
-        <button type="button" data-slide="10">Wayfinding</button>
-        <button type="button" data-slide="15">Trial</button>
-        <button type="button" data-slide="16">Notifications</button>
-        <button type="button" data-slide="17">Wizard</button>
-        <button type="button" data-slide="27">Home</button>
-        <button type="button" data-slide="28">Activity</button>
-        <button type="button" data-slide="33">Budget</button>
-        <button type="button" data-slide="39">Goals</button>
-        <button type="button" data-slide="44">Coach</button>
-        <button type="button" data-slide="48">Transactions</button>
-        <button type="button" data-slide="54">Import</button>
-        <button type="button" data-slide="62">Scan</button>
-        <button type="button" data-slide="67">Bills</button>
-        <button type="button" data-slide="71">Income</button>
-        <button type="button" data-slide="74">Debt</button>
-        <button type="button" data-slide="78">Reports</button>
-        <button type="button" data-slide="84">Net Worth</button>
-        <button type="button" data-slide="86">Export</button>
-        <button type="button" data-slide="89">Tax</button>
-        <button type="button" data-slide="92">Settings</button>
-        <button type="button" data-slide="98">Connect Bank</button>
-        <button type="button" data-slide="101">Rules</button>
-        <button type="button" data-slide="104">Voice</button>
-        <button type="button" data-slide="106">Retirement</button>
-        <button type="button" data-slide="108">Mindful</button>
-        <button type="button" data-slide="110">Web</button>
-        <button type="button" data-slide="111">Household</button>
-        <button type="button" data-slide="113">Search</button>
-        <button type="button" data-slide="116">Widgets</button>
-        <button type="button" data-slide="117">Privacy</button>
-        <button type="button" data-slide="119">Help</button>
-      </div>
-      <p style="margin-top:12px;font-size:13px;color:var(--slate);">Prefer a single file? <a href="videos/user-guide/pocketbudjet-user-guide.mp4" style="color:var(--navy);font-weight:600;">Download the MP4</a>.</p>
-      <p style="margin-top:18px;font-size:14px;color:var(--navy);font-weight:600;">Languages</p>
+      <h3 class="sec-ti" style="font-size:clamp(22px,3vw,28px);margin-bottom:8px;">Interactive user manual <em>(~14 min)</em></h3>
+      <p class="sec-su" style="margin-bottom:16px;">Phone + synced transcript. Open a language below — works on PC and mobile.</p>
       <ul class="prod-media-langs" aria-label="PocketBudJet user manual languages" style="margin-top:10px;">
-        <li><a class="is-current" href="/videos/user-guide/" target="_blank" rel="noopener" style="color:var(--navy);">US English</a></li>
+        <li><a href="/videos/user-guide/" target="_blank" rel="noopener" style="color:var(--navy);">US English</a></li>
         <li><a href="/videos/user-guide-zh/" target="_blank" rel="noopener" style="color:var(--navy);">Chinese (Simplified)</a></li>
         <li><a href="/videos/user-guide-fr/" target="_blank" rel="noopener" style="color:var(--navy);">French</a></li>
         <li><a href="/videos/user-guide-de/" target="_blank" rel="noopener" style="color:var(--navy);">German</a></li>
@@ -3825,6 +3712,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <li><a href="/videos/user-guide-pt/" target="_blank" rel="noopener" style="color:var(--navy);">Portuguese</a></li>
         <li><a href="/videos/user-guide-es/" target="_blank" rel="noopener" style="color:var(--navy);">Spanish</a></li>
       </ul>
+      <p style="margin-top:16px;font-size:13px;color:var(--slate);">Prefer a single file? <a href="/videos/user-guide/pocketbudjet-user-guide.mp4" style="color:var(--navy);font-weight:600;">Download US English MP4</a>.</p>
     </div>
   </div>
 </section>
@@ -4278,35 +4166,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="prod-media-inner prod-media-inner--manual">
     <span class="prod-beat-ey rv">User Manual</span>
     <h2 class="rv">Interactive <em>user manual</em></h2>
-    <p class="rv" style="max-width:48ch;margin-bottom:0;">Phone + synced transcript (~14 min). Play, pause, step, or jump by chapter below.</p>
-    <div class="pbj-intro-embed rv" style="margin-top:22px;text-align:center;">
-      <iframe data-src="/videos/user-guide-hhh/?embed=1&v=chapters-below-2026-07-27" title="Handy Horology Helper interactive user manual" loading="lazy" allow="autoplay" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-    <div class="manual-chapter-nav rv" data-manual-iframe="hhh" aria-label="User manual chapters">
-      <button type="button" class="is-active" data-slide="0">Onboarding</button>
-      <button type="button" data-slide="7">Home</button>
-      <button type="button" data-slide="11">My Museum</button>
-      <button type="button" data-slide="22">Add Watch</button>
-      <button type="button" data-slide="26">Identify</button>
-      <button type="button" data-slide="40">Clock Repair</button>
-      <button type="button" data-slide="47">Grail Radar</button>
-      <button type="button" data-slide="56">Finances</button>
-      <button type="button" data-slide="63">Web Companion</button>
-      <button type="button" data-slide="66">Backup</button>
-      <button type="button" data-slide="70">Settings</button>
-      <button type="button" data-slide="76">Trial</button>
-      <button type="button" data-slide="79">Tools</button>
-      <button type="button" data-slide="101">Help</button>
-      <button type="button" data-slide="103">Share Wish List</button>
-    </div>
-    <div class="prod-media-acts rv" style="margin-top:20px;">
-      <a class="btn-primary" href="/videos/user-guide-hhh/" target="_blank" rel="noopener" style="text-decoration:none;">Open full screen</a>
-      <a class="btn-ghost" href="/videos/user-guide-hhh/handy-horology-helper-user-guide.mp4" style="text-decoration:none;">Download MP4</a>
-      <a class="btn-ghost" href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="text-decoration:none;">PDF</a>
-    </div>
-    <p class="rv" style="margin-top:22px;max-width:none;opacity:0.9;">Languages</p>
-    <ul class="prod-media-langs rv" aria-label="User manual languages">
-      <li><a class="is-current" href="/videos/user-guide-hhh/" target="_blank" rel="noopener">US English</a></li>
+    <p class="rv" style="max-width:48ch;margin-bottom:0;">Phone + synced transcript (~14 min). Open a language below — works on PC and mobile.</p>
+    <ul class="prod-media-langs rv" aria-label="User manual languages" style="margin-top:18px;">
+      <li><a href="/videos/user-guide-hhh/" target="_blank" rel="noopener">US English</a></li>
       <li><a href="/videos/user-guide-hhh-zh/" target="_blank" rel="noopener">Chinese (Simplified)</a></li>
       <li><a href="/videos/user-guide-hhh-fr/" target="_blank" rel="noopener">French</a></li>
       <li><a href="/videos/user-guide-hhh-de/" target="_blank" rel="noopener">German</a></li>
@@ -4315,6 +4177,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <li><a href="/videos/user-guide-hhh-pt/" target="_blank" rel="noopener">Portuguese</a></li>
       <li><a href="/videos/user-guide-hhh-es/" target="_blank" rel="noopener">Spanish</a></li>
     </ul>
+    <div class="prod-media-acts rv" style="margin-top:20px;">
+      <a class="btn-ghost" href="/videos/user-guide-hhh/handy-horology-helper-user-guide.mp4" style="text-decoration:none;">Download US English MP4</a>
+      <a class="btn-ghost" href="/docs/handyhorology/HandyHorology_UserGuide.pdf" style="text-decoration:none;">PDF</a>
+    </div>
   </div>
 </section>
 
@@ -5061,71 +4927,6 @@ function toggleFT(b) {
   });
 })();
 
-</script>
-
-<script>
-/* Chapter pills live below the embed window; talk to the iframe via postMessage */
-(function () {
-  function frameForNav(nav) {
-    var key = nav.getAttribute('data-manual-iframe');
-    var page = nav.closest('.page') || document;
-    var frame = page.querySelector('.pbj-intro-embed iframe');
-    if (!frame && key === 'pbj') frame = document.querySelector('#page-pbj .pbj-intro-embed iframe');
-    if (!frame && key === 'hhh') frame = document.querySelector('#page-hhh .pbj-intro-embed iframe');
-    return frame;
-  }
-
-  function setActive(nav, slide) {
-    var slideNum = parseInt(slide, 10);
-    var buttons = nav.querySelectorAll('button[data-slide]');
-    var active = buttons[0];
-    var starts = [];
-    buttons.forEach(function (btn) {
-      starts.push(parseInt(btn.getAttribute('data-slide'), 10) || 0);
-    });
-    for (var i = starts.length - 1; i >= 0; i--) {
-      if (!isNaN(slideNum) && slideNum >= starts[i]) {
-        active = buttons[i];
-        break;
-      }
-    }
-    buttons.forEach(function (btn) { btn.classList.toggle('is-active', btn === active); });
-  }
-
-  document.querySelectorAll('.manual-chapter-nav').forEach(function (nav) {
-    nav.addEventListener('click', function (e) {
-      var btn = e.target.closest('button[data-slide]');
-      if (!btn || !nav.contains(btn)) return;
-      var slide = parseInt(btn.getAttribute('data-slide'), 10);
-      if (isNaN(slide)) return;
-      nav.querySelectorAll('button[data-slide]').forEach(function (b) {
-        b.classList.toggle('is-active', b === btn);
-      });
-      var frame = frameForNav(nav);
-      if (!frame) return;
-      if (!frame.getAttribute('src') && frame.getAttribute('data-src')) {
-        frame.setAttribute('src', frame.getAttribute('data-src'));
-      }
-      function send() {
-        try {
-          frame.contentWindow.postMessage({ type: 'jt-guide-goto', slide: slide }, '*');
-        } catch (err) { /* ignore */ }
-      }
-      if (frame.contentWindow) send();
-      else frame.addEventListener('load', send, { once: true });
-    });
-  });
-
-  window.addEventListener('message', function (e) {
-    var data = e && e.data;
-    if (!data || data.type !== 'jt-guide-chapter') return;
-    document.querySelectorAll('.manual-chapter-nav').forEach(function (nav) {
-      var frame = frameForNav(nav);
-      if (!frame || !frame.contentWindow || e.source !== frame.contentWindow) return;
-      setActive(nav, data.slide);
-    });
-  });
-})();
 </script>
 
 <!-- Analytics: PocketBase _site_visits + GoatCounter + Cloudflare (see /scripts/site-analytics-saas.js).
