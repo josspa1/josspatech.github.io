@@ -1114,17 +1114,31 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;
   margin:36px auto 0;padding:0;max-width:520px;text-align:left;
 }
+#page-hhh .prod-toolkit-split{
+  display:grid;grid-template-columns:1fr 1fr;gap:36px 48px;
+  margin:36px auto 0;padding:0;max-width:980px;text-align:left;
+}
+#page-hhh .prod-toolkit-col-ey{
+  display:block;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--brand-accent);font-weight:700;margin:0 0 14px;
+}
 #page-hhh .prod-toolkit-list{
-  grid-template-columns:1fr 1fr;max-width:720px;gap:14px 28px;
+  grid-template-columns:1fr;max-width:none;gap:12px;margin:0;
 }
 #page-hhh .prod-toolkit-list li{
-  padding:12px 0 12px 16px;font-size:14px;display:flex;flex-direction:column;gap:4px;
+  padding:12px 0 12px 16px;font-size:14px;display:flex;flex-direction:column;gap:5px;
 }
 #page-hhh .prod-toolkit-list strong{
   color:#fff;font-size:14px;font-weight:700;line-height:1.3;
 }
 #page-hhh .prod-toolkit-list span{
-  color:rgba(255,255,255,0.55);font-size:13px;line-height:1.4;font-weight:400;
+  color:rgba(255,255,255,0.58);font-size:13px;line-height:1.45;font-weight:400;
+}
+#page-hhh .prod-toolkit-shared{
+  margin:40px auto 0;max-width:980px;text-align:left;
+}
+#page-hhh .prod-toolkit-shared .prod-toolkit-list{
+  grid-template-columns:1fr 1fr;gap:12px 28px;margin-top:14px;
 }
 .prod-toolkit-list li{
   font-size:15px;color:rgba(255,255,255,0.72);padding:12px 0 12px 18px;
@@ -1155,10 +1169,12 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   .prod-beat-flip .prod-beat-copy,.prod-beat-flip .prod-beat-visual{order:unset;}
   .prod-beat-copy p{margin-left:auto;margin-right:auto;}
   .prod-beat-visual{justify-self:center;}
-  .prod-toolkit-list,.prod-price-row,#page-hhh .prod-toolkit-list{grid-template-columns:1fr;}
+  .prod-toolkit-list,.prod-price-row,#page-hhh .prod-toolkit-list,#page-hhh .prod-toolkit-split,#page-hhh .prod-toolkit-shared .prod-toolkit-list{grid-template-columns:1fr;}
+  #page-hhh .prod-toolkit-split{gap:28px;}
 }
 @media (max-width:980px) and (min-width:821px){
-  #page-hhh .prod-toolkit-list{grid-template-columns:1fr 1fr;max-width:560px;}
+  #page-hhh .prod-toolkit-split{gap:28px 32px;max-width:720px;}
+  #page-hhh .prod-toolkit-shared .prod-toolkit-list{max-width:720px;}
 }
 
 /* ══ PRODUCT PAGE DYNAMITE — match hub craft ═══════════════════════════════ */
@@ -4195,45 +4211,61 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="prod-toolkit-inner rv">
     <span class="prod-beat-ey">And much more</span>
     <h2>Same pocket app.<br><em>The full toolkit.</em></h2>
-    <p style="max-width:48ch;margin:12px auto 0;color:rgba(255,255,255,0.62);font-size:15px;line-height:1.55;">Beyond Identify, collection, parts, Demand, and Hunt — everything else that ships in the app today.</p>
-    <ul class="prod-toolkit-list">
-      <li><strong>Barcode / UPC scan</strong><span>Read retail box codes into Identify or Museum</span></li>
-      <li><strong>Serial era dating</strong><span>Map a serial band to an approximate production era</span></li>
-      <li><strong>Identify history</strong><span>Reopen past IDs without re-photographing</span></li>
-      <li><strong>Photo Coach</strong><span>Guided multi-shot framing for listings and insurance</span></li>
-      <li><strong>Document scanner</strong><span>Capture papers, receipts, and certificates</span></li>
-      <li><strong>Wear log</strong><span>Track what you wore and keep automatics in rotation</span></li>
-      <li><strong>Service tracker</strong><span>Log repairs, intervals, and service reminders</span></li>
-      <li><strong>Warranty tracker</strong><span>Expiry dates, claims, and deadline alerts</span></li>
-      <li><strong>Watch Passport</strong><span>Digital ID with QR share and NFC tag write</span></li>
-      <li><strong>Condition assessment</strong><span>Grade dial, case, crystal, and movement over time</span></li>
-      <li><strong>Insurance reports</strong><span>Export a collection summary for coverage</span></li>
-      <li><strong>Estate intake</strong><span>Catalog a batch of pieces from an estate or buy</span></li>
-      <li><strong>Wish list &amp; for-sale</strong><span>Targets you want and pieces you’re ready to move</span></li>
-      <li><strong>Price alerts</strong><span>Notify when buy or sell targets move</span></li>
-      <li><strong>Budget, P&amp;L, finances</strong><span>Spending limits and collection profit &amp; loss</span></li>
-      <li><strong>Rotation planner</strong><span>Schedule which watch to wear next</span></li>
-      <li><strong>Accuracy tracker</strong><span>Log how a piece gains or loses time</span></li>
-      <li><strong>Compare pieces</strong><span>Side-by-side specs and trade fairness</span></li>
-      <li><strong>eBay listing checks</strong><span>See what similar pieces are asking now</span></li>
-      <li><strong>Value trends</strong><span>Watch museum value change over time</span></li>
-      <li><strong>Trade analyzer</strong><span>Weigh a swap before you shake on it</span></li>
-      <li><strong>Movement identify</strong><span>Read stamps and match the calibre</span></li>
-      <li><strong>Beat meter &amp; timegrapher</strong><span>Hear rate and beat error at the bench</span></li>
-      <li><strong>Pendulum calculator</strong><span>Length and rate math for pendulum clocks</span></li>
-      <li><strong>Movement reference &amp; parts</strong><span>Browse calibres and crosswalk replacement parts</span></li>
-      <li><strong>Strike helper</strong><span>Count and sync strike trains</span></li>
-      <li><strong>Complication calculator</strong><span>Moon, date, and complication set helpers</span></li>
-      <li><strong>Collector Coach</strong><span>Tips and challenges to use more of the app</span></li>
-      <li><strong>AI chat</strong><span>Ask horology questions with your collection context</span></li>
-      <li><strong>Web Companion</strong><span>Browse on a PC over home Wi‑Fi</span></li>
-      <li><strong>Device sync &amp; backup</strong><span>Mirror phones and save a file backup</span></li>
-      <li><strong>Show-floor BLE share</strong><span>Pass a piece to a nearby phone at a show</span></li>
-      <li><strong>Print &amp; export</strong><span>CSV, print lists, and shareable reports</span></li>
-      <li><strong>Offline Show Pack</strong><span>Identify without signal at flea markets</span></li>
-      <li><strong>Atomic clock &amp; moon phase</strong><span>Set accuracy and moonphase complications</span></li>
-      <li><strong>8 languages</strong><span>UI and manuals beyond English</span></li>
-    </ul>
+    <p style="max-width:52ch;margin:12px auto 0;color:rgba(255,255,255,0.62);font-size:15px;line-height:1.55;">Beyond Identify, collection, parts, Demand, and Hunt — watches on the left, clocks on the right, shared tools underneath.</p>
+
+    <div class="prod-toolkit-split">
+      <div>
+        <span class="prod-toolkit-col-ey">Watches</span>
+        <ul class="prod-toolkit-list">
+          <li><strong>Barcode / UPC scan</strong><span>Point at a retail box code to jump into Identify or add the piece to your museum — built for modern production watches, not just antiques.</span></li>
+          <li><strong>Serial era dating</strong><span>Enter a serial and get an approximate production era band from public charts (Rolex, Omega, Seiko, and more) — honest confidence, not a factory database.</span></li>
+          <li><strong>Identify history</strong><span>Reopen past IDs, photos, and confidence notes without re-shooting the piece at the flea or shop.</span></li>
+          <li><strong>Photo Coach</strong><span>Guided multi-shot framing for dial, caseback, and details — listings, insurance, and cleaner Identify results.</span></li>
+          <li><strong>Document scanner</strong><span>Capture papers, receipts, warranties, and certificates into the piece record.</span></li>
+          <li><strong>Wear log</strong><span>Log what you wore by day, keep automatics in rotation, and spot pieces that sit too long.</span></li>
+          <li><strong>Service tracker</strong><span>Full service and repair history with interval reminders so you don’t miss a service window.</span></li>
+          <li><strong>Warranty tracker</strong><span>Expiry dates, claim notes, and deadline alerts for brand or dealer warranties.</span></li>
+          <li><strong>Watch Passport</strong><span>Digital ID card with QR share plus write/read blank NFC stickers — on-device only, no cloud API. (Not brand authenticity chips.)</span></li>
+          <li><strong>Condition assessment</strong><span>Grade dial, case, crystal, and movement over time for insurance and resale honesty.</span></li>
+          <li><strong>Rotation planner</strong><span>Schedule which watch to wear next so the collection stays wound and evenly used.</span></li>
+          <li><strong>Accuracy tracker</strong><span>Log how a piece gains or loses seconds so you know when it’s time for regulation or service.</span></li>
+          <li><strong>Compare &amp; trade analyzer</strong><span>Side-by-side specs and a fairness read before you swap or buy up.</span></li>
+          <li><strong>Atomic clock &amp; moon phase</strong><span>NTP reference time and lunar phase helpers for setting complications accurately.</span></li>
+        </ul>
+      </div>
+      <div>
+        <span class="prod-toolkit-col-ey">Clocks</span>
+        <ul class="prod-toolkit-list">
+          <li><strong>Movement identify</strong><span>Read case stamps and plates, then match the calibre so you know what you’re repairing or ordering.</span></li>
+          <li><strong>Beat meter &amp; timegrapher</strong><span>Listen to rate and beat error at the bench — adjust before you chase parts.</span></li>
+          <li><strong>Pendulum calculator</strong><span>Length and rate math for pendulum clocks when the stick or bob needs a real number, not a guess.</span></li>
+          <li><strong>Movement reference &amp; parts</strong><span>Browse calibres and crosswalk replacement parts so the order matches the stamp on the plate.</span></li>
+          <li><strong>Strike helper</strong><span>Count and sync strike trains when the clock strikes the wrong hour or won’t settle.</span></li>
+          <li><strong>Complication calculator</strong><span>Moon, date, and set helpers for clocks with more than a single train.</span></li>
+          <li><strong>AI troubleshooting</strong><span>Walk a stopped or erratic clock through guided diagnosis, then jump to matching parts — already featured above as Parts · Troubleshoot.</span></li>
+          <li><strong>Gear teeth counter</strong><span>Count teeth from a photo or on-device estimate when catalogs list tooth counts, not just names.</span></li>
+          <li><strong>Clock repair projects</strong><span>Track a repair job against a museum piece so notes, parts, and progress stay with the clock.</span></li>
+          <li><strong>Offline Show Pack</strong><span>Download reference data before a no-signal flea or mart — Identify and look-ups keep working offline.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prod-toolkit-shared">
+      <span class="prod-toolkit-col-ey">Shared across watches &amp; clocks</span>
+      <ul class="prod-toolkit-list">
+        <li><strong>Insurance reports</strong><span>Export a collection summary with values and photos for coverage or claims.</span></li>
+        <li><strong>Estate intake</strong><span>Catalog a batch from an estate buy or inheritance without losing provenance notes.</span></li>
+        <li><strong>Wish list &amp; for-sale</strong><span>Targets you’re hunting and pieces you’re ready to move — feeds Demand and Hunt.</span></li>
+        <li><strong>Price alerts &amp; eBay checks</strong><span>Notify when buy/sell targets move; browse what similar listings are asking now.</span></li>
+        <li><strong>Budget, P&amp;L, value trends</strong><span>Spending limits, profit &amp; loss, and museum value over time.</span></li>
+        <li><strong>Collector Coach &amp; AI chat</strong><span>Tips to use more of the app, plus horology questions with your collection in context.</span></li>
+        <li><strong>Web Companion</strong><span>Browse the museum on a PC over home Wi‑Fi — same data, bigger screen.</span></li>
+        <li><strong>Device sync &amp; file backup</strong><span>Mirror phones/tablets and save a portable backup you control.</span></li>
+        <li><strong>Show-floor BLE share</strong><span>Pass a piece to a nearby phone at a show (QR/PIN primary; Bluetooth optional).</span></li>
+        <li><strong>Print &amp; export</strong><span>CSV, print lists, and shareable reports for dealers, insurers, or your files.</span></li>
+        <li><strong>8 languages</strong><span>UI and interactive manuals beyond English.</span></li>
+      </ul>
+    </div>
   </div>
 </section>
 
