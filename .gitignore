@@ -42,6 +42,18 @@ scripts/_patch*.py
 # Screenshot pipeline scratch
 assets/screenshots/**/_*.png
 assets/screenshots/**/*.fixed.png
+assets/screenshots/**/*.bak*
+*.bak
+*.bak-*
+index.html.bak*
+
+# Video mux / build scratch
+videos/**/_mux_tmp/
+videos/_build-logs/
+capture-log.txt
+
+# Local site zip backups (use NAS SourceBackups)
+SourceBackup/
 
 # JetBrains IDE
 .idea/
