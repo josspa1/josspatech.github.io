@@ -6,7 +6,7 @@
          <title>Manuale utente Handy Horology Helper | JosspaTech</title>
          <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
          <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
-         <link rel="stylesheet" href="walkthrough.css">
+         <link rel="stylesheet" href="walkthrough.css?v=layout-fix-2026-07-27">
          <link rel="stylesheet" href="/videos/shared/walkthrough.css">
          <style>
          * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,8 +17,11 @@
          nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
          nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; }
          nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; }
-         .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.9rem; color: var(--slate); }
-         .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
+         .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.95rem; color: var(--slate); }
+         .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
+         .breadcrumbs a:hover { color: var(--gold-dark); }
+         .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
+         .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
          .hero { color: var(--white); padding: 2rem; text-align: center; }
          .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; margin-bottom: 0.75rem; }
          .hero .subheader { font-size: 1.1rem; max-width: 760px; margin: 0 auto; opacity: 0.95; }
@@ -28,7 +31,7 @@
          .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; }
          .video-wrapper { display: flex; gap: 2rem; align-items: flex-start; }
          .phone-column { flex-shrink: 0; width: 360px; }
-         .phone-frame { width: 340px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; max-height: 640px; position: relative; }
+         .phone-frame { width: 340px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; max-height: none; position: relative; }
          .slideshow { width: 100%; height: 100%; position: relative; }
          .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
          .slide.active { opacity: 1; }
@@ -69,9 +72,14 @@
          .tap-finger { display: none !important; }
          .transcript-para.current { border-left-color: var(--gold); background: rgba(200,170,110,0.1); }
 
-         .transcript-sentence { transition: color 0.2s ease, font-weight 0.2s ease; }
-         .transcript-sentence.active { color: var(--navy); font-weight: 600; }
-         .transcript-sentence.past { color: var(--navy); opacity: 0.75; }
+         .transcript-sentence { transition: color 0.2s ease, background-color 0.2s ease, font-weight 0.2s ease; border-radius: 3px; }
+         .transcript-sentence.active {
+           color: var(--navy-dark); font-weight: 700;
+           background: rgba(200, 170, 110, 0.42);
+           box-decoration-break: clone; -webkit-box-decoration-break: clone;
+           padding: 0.05em 0.2em;
+         }
+         .transcript-sentence.past { color: var(--slate); opacity: 0.9; }
 
          .narration-panel-heading { border-bottom-color: var(--gold); }
          .download-button { background: var(--gold); color: var(--navy-dark); border-color: var(--gold); }
@@ -651,7 +659,7 @@
          })();
          </script>
          <script src="/videos/shared/walkthrough.js?v=taps-qa-2026-07-27" defer></script>
-         <script src="deck.js?v=chapters-below-2026-07-27" defer></script>
+         <script src="deck.js?v=layout-fix-2026-07-27" defer></script>
          <style>
          /* Product-page embed: one player view — only the transcript scrolls */
          html.embed-mode, html.embed-mode body {

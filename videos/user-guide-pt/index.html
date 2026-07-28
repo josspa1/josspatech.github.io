@@ -5,7 +5,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Manual do usuário PocketBudJet | JosspaTech</title>
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="walkthrough.css">
+ <link rel="stylesheet" href="walkthrough.css?v=layout-fix-2026-07-27">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -46,12 +46,12 @@
  nav .cta-button:hover { background-color: var(--gold-dark); }
  .breadcrumbs {
  max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
- font-size: 0.9rem; color: var(--slate);
+ font-size: 0.95rem; color: var(--slate);
  }
- .breadcrumbs a { color: var(--navy-medium); text-decoration: none; font-weight: 500; }
- .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
- .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
- .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+ .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
+ .breadcrumbs a:hover { color: var(--gold-dark); }
+ .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
+ .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
  .hero {
  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%);
  color: var(--white); padding: 2rem 2rem; text-align: center;
@@ -199,12 +199,16 @@
  background: rgba(240, 192, 64, 0.08);
  }
  .transcript-sentence {
- transition: color 0.2s ease, font-weight 0.2s ease;
+ transition: color 0.2s ease, background-color 0.2s ease, font-weight 0.2s ease;
+ border-radius: 3px;
  }
  .transcript-sentence.active {
- color: var(--navy); font-weight: 600;
+ color: var(--navy); font-weight: 700;
+ background: rgba(240, 192, 64, 0.42);
+ box-decoration-break: clone; -webkit-box-decoration-break: clone;
+ padding: 0.05em 0.2em;
  }
- .transcript-sentence.past { color: var(--navy); }
+ .transcript-sentence.past { color: var(--slate); opacity: 0.9; }
  .transcript-body a { color: var(--navy-medium); font-weight: 600; text-decoration: underline; }
  .chapter-nav {
  display: flex; justify-content: center; gap: 0.5rem;
