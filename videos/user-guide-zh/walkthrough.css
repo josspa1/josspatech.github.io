@@ -27,7 +27,7 @@
 
 /* A little bigger than the prior 400px phone — fixed cap, not % of a scroll cage */
 .walkthrough-stage .phone-frame {
-  width: 440px !important;
+  width: 320px !important;
   height: auto !important;
   max-height: none !important;
   max-width: 100%;
@@ -73,7 +73,7 @@
 .walkthrough .phone-column,
 .walkthrough-stage .phone-column {
   flex-shrink: 0;
-  width: 460px;
+  width: 340px;
   max-width: none;
   height: auto !important;
   max-height: none !important;
@@ -82,7 +82,7 @@
 
 .walkthrough .phone-frame,
 .walkthrough-stage .phone-frame {
-  width: 440px !important;
+  width: 320px !important;
   max-height: none !important;
 }
 

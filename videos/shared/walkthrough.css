@@ -177,7 +177,7 @@ body.record-mode .walkthrough .section-sub {
 }
 
 .walkthrough-stage .phone-frame {
-  width: 340px;
+  width: 300px;
   height: auto;
   max-height: none;
   max-width: 100%;
@@ -266,4 +266,18 @@ body.record-mode .walkthrough .section-sub {
         width: min(280px, 84vw);
         max-height: none;
     }
+}
+
+
+/* Chapter pills sit ABOVE the phone so they are never viewport-clipped under a tall frame */
+.walkthrough .chapter-nav,
+.user-manual .chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0.35rem 0 0.65rem;
+  overflow: visible;
+  max-height: none;
 }
