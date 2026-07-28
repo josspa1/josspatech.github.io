@@ -120,29 +120,16 @@
     60% { transform: translate(-42%, -74%) rotate(-15deg); }
 }
 
-/* === Same-screen viewport: phone + transcript visible together (Joe UX) === */
+/* === Manual stage: full phone visible (no sticky vh cage — that clipped bezels) === */
 
 .walkthrough-stage {
-    position: sticky;
-    top: 4.5rem;
-    --wt-stage-max: min(88vh, calc(100dvh - 5rem));
-    height: var(--wt-stage-max);
-    max-height: var(--wt-stage-max);
-    min-height: 280px;
-    overflow: hidden;
+    position: static;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
     margin-top: 0.75rem;
-    scroll-margin-top: 5rem;
     z-index: 2;
-}
-
-@media (max-height: 820px) {
-    .walkthrough-stage {
-        --wt-stage-max: min(82vh, calc(100dvh - 5.5rem));
-    }
-}
-
-body.record-mode .walkthrough-stage {
-    --wt-stage-max: min(90vh, calc(100dvh - 2rem));
 }
 
 body.record-mode .walkthrough h2,
@@ -151,13 +138,16 @@ body.record-mode .walkthrough .section-sub {
 }
 
 .walkthrough-stage .video-wrapper {
-    display: grid;
-    grid-template-columns: 45fr 55fr;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
     gap: 1.25rem;
-    height: 100%;
+    height: auto;
+    max-height: none;
     min-height: 0;
     width: 100%;
-    align-items: stretch;
+    overflow: visible;
 }
 
 .walkthrough-stage .phone-column {
@@ -167,7 +157,9 @@ body.record-mode .walkthrough .section-sub {
     justify-content: flex-start;
     min-height: 0;
     min-width: 0;
-    height: 100%;
+    height: auto;
+    max-height: none;
+    overflow: visible;
     width: auto;
     max-width: 100%;
 }
@@ -180,16 +172,14 @@ body.record-mode .walkthrough .section-sub {
     justify-content: center;
     width: auto;
     height: auto;
-    max-height: 100%;
-    overflow: hidden;
-    border-radius: 40px;
+    max-height: none;
+    overflow: visible;
 }
 
-/* Match import walkthrough: fixed 300px width, not height:100% stretch */
 .walkthrough-stage .phone-frame {
   width: 340px;
   height: auto;
-  max-height: min(640px, 100%);
+  max-height: none;
   max-width: 100%;
   flex-shrink: 0;
   aspect-ratio: 9 / 19.5;
@@ -240,44 +230,40 @@ body.record-mode .walkthrough .section-sub {
 }
 
 .walkthrough-stage .narration-panel {
-    height: 100%;
-    max-height: none;
+    height: auto;
+    max-height: 720px;
     min-height: 0;
     min-width: 0;
     overflow-y: auto;
     overflow-x: hidden;
     align-self: stretch;
-    flex: none;
+    flex: 1 1 auto;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
 }
 
-/* Layout B — letterbox: phone top, transcript bottom (narrow or short viewports) */
-@media (max-width: 900px), (max-height: 740px) {
+@media (max-width: 768px) {
     .walkthrough-stage .video-wrapper {
-        grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 58%) minmax(0, 42%);
-        gap: 0.65rem;
-    }
-
-    .walkthrough-stage .phone-column {
-        height: 100%;
-        max-height: 100%;
-        overflow: hidden;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
     }
 
     .walkthrough-stage .phone-frame {
-        max-height: min(55vh, 100%);
+        width: min(320px, 88vw);
+        max-height: none;
     }
 
     .walkthrough-stage .narration-panel {
-        height: 100%;
-        max-height: 100%;
+        width: 100%;
+        max-height: 360px;
+        flex: none;
     }
 }
 
 @media (max-width: 480px) {
     .walkthrough-stage .phone-frame {
-        max-height: min(50vh, 100%);
+        width: min(280px, 84vw);
+        max-height: none;
     }
 }

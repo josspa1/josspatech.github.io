@@ -5,7 +5,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Manual do usuário PocketBudJet | JosspaTech</title>
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="walkthrough.css?v=layout-fix-2026-07-27b">
+ <link rel="stylesheet" href="walkthrough.css?v=chrome-2026-07-28">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -48,7 +48,7 @@
  max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
  font-size: 0.95rem; color: var(--slate);
  }
- .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-underline-offset: 3px; font-weight: 700; }
+ .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; text-decoration-thickness: 2px; font-weight: 700; }
  .breadcrumbs a:hover { color: var(--gold-dark); }
  .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
  .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
@@ -296,14 +296,15 @@
  }
  @media (max-width: 480px) {
  nav { padding: 0.8rem 1rem; }
- nav .nav-links li:first-child, nav .nav-links li:nth-child(2) { display: none; }
+
  .hero h1 { font-size: 1.5rem; }
  .phone-frame { width: 280px; }
  .chapter-btn { padding: 0.45rem 0.8rem; font-size: 0.75rem; }
  }
  </style>
+ <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
 </head>
-<body>
+<body data-jt-product="pbj">
  <nav>
  <div class="container">
  <a href="/" class="logo">JosspaTech</a>
@@ -318,7 +319,7 @@
  </div>
  </nav>
 
- <div class="breadcrumbs">
+ <div class="breadcrumbs" aria-label="Breadcrumb">
  <a href="/">Home</a><span class="sep">/</span>
  <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
  <span class="current">User Manual</span>
@@ -780,18 +781,18 @@
  </div>
 
  <footer class="jt-site-footer">
- <ul class="jt-products" aria-label="JosspaTech products">
- <li><a href="/">Home</a></li>
- <li><a href="/#pbj">PocketBudJet</a></li>
- <li><a href="/#hhh">Handy Horology Helper</a></li>
- <li><a href="/#pal">Pocket Allowance Ledger</a></li>
- <li><a href="/#cvc">Curator's Vault: Classics</a></li>
- </ul>
- <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved. | <a href="/how-to/">How To</a></p>
- <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
- </footer>
- <link rel="stylesheet" href="/videos/shared/site-chrome.css">
-
+          <ul class="jt-products" aria-label="JosspaTech products">
+           <li><a href="/">Home</a></li>
+           <li><a href="/#pbj">PocketBudJet</a></li>
+           <li><a href="/#hhh">Handy Horology Helper</a></li>
+           <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+           <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+          </ul>
+          <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+          <p class="jt-legal">
+           <a href="mailto:support@josspatech.com">support@josspatech.com</a>
+          </p>
+         </footer>
  <script>
  var goTo;
  (function() {
@@ -1088,6 +1089,7 @@
  else resetTimer();
  } else {
  stopAudio(); clearInterval(timer);
+ setActiveSentence(current, 0);
  }
  }
 
@@ -1327,5 +1329,6 @@ html.embed-mode #narrationPanel {
 </style>
 <script src="/videos/shared/walkthrough.js" defer></script>
 <script src="/scripts/site-analytics-saas.js" defer></script>
+ <script src="/videos/shared/site-chrome.js?v=chrome-2026-07-28" defer></script>
 </body>
 </html>

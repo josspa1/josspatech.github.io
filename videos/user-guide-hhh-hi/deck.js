@@ -303,6 +303,8 @@
     } else {
       stopAudio();
       clearTimeout(timer);
+      // Keep the current sentence gold-highlighted while paused / on load
+      setActiveSentence(current, 0);
     }
   }
 
