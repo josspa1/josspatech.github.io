@@ -1114,6 +1114,18 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 28px;
   margin:36px auto 0;padding:0;max-width:520px;text-align:left;
 }
+#page-hhh .prod-toolkit-list{
+  grid-template-columns:1fr 1fr;max-width:720px;gap:14px 28px;
+}
+#page-hhh .prod-toolkit-list li{
+  padding:12px 0 12px 16px;font-size:14px;display:flex;flex-direction:column;gap:4px;
+}
+#page-hhh .prod-toolkit-list strong{
+  color:#fff;font-size:14px;font-weight:700;line-height:1.3;
+}
+#page-hhh .prod-toolkit-list span{
+  color:rgba(255,255,255,0.55);font-size:13px;line-height:1.4;font-weight:400;
+}
 .prod-toolkit-list li{
   font-size:15px;color:rgba(255,255,255,0.72);padding:12px 0 12px 18px;
   border-left:2px solid color-mix(in srgb, var(--brand-accent) 55%, transparent);
@@ -1143,7 +1155,10 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   .prod-beat-flip .prod-beat-copy,.prod-beat-flip .prod-beat-visual{order:unset;}
   .prod-beat-copy p{margin-left:auto;margin-right:auto;}
   .prod-beat-visual{justify-self:center;}
-  .prod-toolkit-list,.prod-price-row{grid-template-columns:1fr;}
+  .prod-toolkit-list,.prod-price-row,#page-hhh .prod-toolkit-list{grid-template-columns:1fr;}
+}
+@media (max-width:980px) and (min-width:821px){
+  #page-hhh .prod-toolkit-list{grid-template-columns:1fr 1fr;max-width:560px;}
 }
 
 /* ══ PRODUCT PAGE DYNAMITE — match hub craft ═══════════════════════════════ */
@@ -4176,18 +4191,48 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </div>
 </section>
 
-<section class="prod-toolkit" aria-label="And much more">
+<section class="prod-toolkit" aria-label="Full feature list">
   <div class="prod-toolkit-inner rv">
     <span class="prod-beat-ey">And much more</span>
-    <h2>Same pocket app.<br><em>More of the craft.</em></h2>
+    <h2>Same pocket app.<br><em>The full toolkit.</em></h2>
+    <p style="max-width:48ch;margin:12px auto 0;color:rgba(255,255,255,0.62);font-size:15px;line-height:1.55;">Beyond Identify, collection, parts, Demand, and Hunt — everything else that ships in the app today.</p>
     <ul class="prod-toolkit-list">
-      <li>Web Companion on home Wi‑Fi</li>
-      <li>Device Sync &amp; file backup</li>
-      <li>Finances, P&amp;L, budget</li>
-      <li>Offline Show Pack</li>
-      <li>8 languages</li>
-      <li>Photo Coach</li>
-      <li><a href="/videos/user-guide-hhh/" style="color:inherit;">Interactive user manual</a></li>
+      <li><strong>Barcode / UPC scan</strong><span>Read retail box codes into Identify or Museum</span></li>
+      <li><strong>Serial era dating</strong><span>Map a serial band to an approximate production era</span></li>
+      <li><strong>Identify history</strong><span>Reopen past IDs without re-photographing</span></li>
+      <li><strong>Photo Coach</strong><span>Guided multi-shot framing for listings and insurance</span></li>
+      <li><strong>Document scanner</strong><span>Capture papers, receipts, and certificates</span></li>
+      <li><strong>Wear log</strong><span>Track what you wore and keep automatics in rotation</span></li>
+      <li><strong>Service tracker</strong><span>Log repairs, intervals, and service reminders</span></li>
+      <li><strong>Warranty tracker</strong><span>Expiry dates, claims, and deadline alerts</span></li>
+      <li><strong>Watch Passport</strong><span>Digital ID with QR share and NFC tag write</span></li>
+      <li><strong>Condition assessment</strong><span>Grade dial, case, crystal, and movement over time</span></li>
+      <li><strong>Insurance reports</strong><span>Export a collection summary for coverage</span></li>
+      <li><strong>Estate intake</strong><span>Catalog a batch of pieces from an estate or buy</span></li>
+      <li><strong>Wish list &amp; for-sale</strong><span>Targets you want and pieces you’re ready to move</span></li>
+      <li><strong>Price alerts</strong><span>Notify when buy or sell targets move</span></li>
+      <li><strong>Budget, P&amp;L, finances</strong><span>Spending limits and collection profit &amp; loss</span></li>
+      <li><strong>Rotation planner</strong><span>Schedule which watch to wear next</span></li>
+      <li><strong>Accuracy tracker</strong><span>Log how a piece gains or loses time</span></li>
+      <li><strong>Compare pieces</strong><span>Side-by-side specs and trade fairness</span></li>
+      <li><strong>eBay listing checks</strong><span>See what similar pieces are asking now</span></li>
+      <li><strong>Value trends</strong><span>Watch museum value change over time</span></li>
+      <li><strong>Trade analyzer</strong><span>Weigh a swap before you shake on it</span></li>
+      <li><strong>Movement identify</strong><span>Read stamps and match the calibre</span></li>
+      <li><strong>Beat meter &amp; timegrapher</strong><span>Hear rate and beat error at the bench</span></li>
+      <li><strong>Pendulum calculator</strong><span>Length and rate math for pendulum clocks</span></li>
+      <li><strong>Movement reference &amp; parts</strong><span>Browse calibres and crosswalk replacement parts</span></li>
+      <li><strong>Strike helper</strong><span>Count and sync strike trains</span></li>
+      <li><strong>Complication calculator</strong><span>Moon, date, and complication set helpers</span></li>
+      <li><strong>Collector Coach</strong><span>Tips and challenges to use more of the app</span></li>
+      <li><strong>AI chat</strong><span>Ask horology questions with your collection context</span></li>
+      <li><strong>Web Companion</strong><span>Browse on a PC over home Wi‑Fi</span></li>
+      <li><strong>Device sync &amp; backup</strong><span>Mirror phones and save a file backup</span></li>
+      <li><strong>Show-floor BLE share</strong><span>Pass a piece to a nearby phone at a show</span></li>
+      <li><strong>Print &amp; export</strong><span>CSV, print lists, and shareable reports</span></li>
+      <li><strong>Offline Show Pack</strong><span>Identify without signal at flea markets</span></li>
+      <li><strong>Atomic clock &amp; moon phase</strong><span>Set accuracy and moonphase complications</span></li>
+      <li><strong>8 languages</strong><span>UI and manuals beyond English</span></li>
     </ul>
   </div>
 </section>
