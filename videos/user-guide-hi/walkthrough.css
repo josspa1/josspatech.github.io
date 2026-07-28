@@ -18,11 +18,11 @@
   flex: 0 0 auto;
   width: auto;
   height: auto;
-  max-height: none;
+  max-height: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: visible !important;
 }
 
 /* A little bigger than the prior 400px phone — fixed cap, not % of a scroll cage */

@@ -445,6 +445,7 @@
   window.addEventListener('hashchange', jumpFromHash);
 
   buildTranscript();
+  setActiveSentence(0, 0);
   goTo(0);
   jumpFromHash();
   if (window.initWalkthroughSlides) window.initWalkthroughSlides();
