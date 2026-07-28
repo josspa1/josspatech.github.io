@@ -3861,7 +3861,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="plan-future-desc">We're building more tools for the things you collect and care about. Premium members get first access as each app launches.</div>
         <div class="plan-div"></div>
         <ul class="plan-future-list">
-          <li>Handy Horology Helper &mdash; watch collection manager</li>
+          <li>Handy Horology Helper &mdash; watches and clocks</li>
           <li>Curator's Vault &mdash; collectibles tracker</li>
           <li>Cross-app data insights</li>
           <li>Pricing details announced at launch</li>
@@ -4099,7 +4099,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="hero-eyebrow"><div class="hero-dot"></div>Handy Horology Helper · new &amp; vintage watches and clocks</div>
       <h1 class="hero-h1">The details that turn<br>a hunch into a <em>decision.</em></h1>
       <p class="hero-tagline">New or vintage. Floor or bench. Confirm your suspicions.</p>
-      <p class="hero-sub"><strong>Handy Horology Helper</strong> for <strong>watches and clocks</strong> — pieces you just bought and pieces with decades on them. Confirm your suspicions from photos and the clues you already have, keep a private collection, hunt listings, share Demand with dealers, and troubleshoot clocks.</p>
+      <p class="hero-sub"><strong>Handy Horology Helper</strong> for <strong>watches and clocks</strong> — new pieces and pieces with decades on them. Confirm your suspicions from photos and the clues you already have. Collection, Demand, Hunt, and clock DIY when you need them.</p>
       <div class="hero-acts">
         <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Start free on Google Play · 15-day trial</a>
         <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;">iOS early access</a>
@@ -4107,16 +4107,17 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
     <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
          NEVER use Android launcher / home / app-drawer dumps (Calendar/Gmail grids, truncated "Handy Horol…").
-         See docs/SCREENSHOT_AUDIT_HHH.md. -->
+         See docs/SCREENSHOT_AUDIT_HHH.md.
+         Center = private collection (breadth); Identify + piece detail on the sides. -->
     <div class="pbj-hero-shots" aria-label="Handy Horology Helper app screenshots — watches and clocks">
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="Watch and clock collection in the HHH app" loading="eager" width="220" height="478">
+        <img src="assets/screenshots/hhh/intro/04-ai-identify.png" alt="Identify — confirm your suspicions from photos and clues" loading="eager" width="220" height="478">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img src="assets/screenshots/hhh/intro/04-ai-identify.png" alt="Identify — confirm your suspicions on the floor or bench" loading="eager" width="240" height="521">
+        <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="Private watch and clock collection in Handy Horology Helper" loading="eager" width="240" height="521">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/hhh/intro/03-piece-detail.png" alt="Piece detail for a timepiece in the HHH app" loading="eager" width="220" height="478">
+        <img src="assets/screenshots/hhh/intro/03-piece-detail.png" alt="Piece detail for a watch or clock in the HHH app" loading="eager" width="220" height="478">
       </div>
     </div>
   </div>
@@ -4125,9 +4126,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="psi"><div class="psd"></div>New or vintage</div>
   <div class="psi"><div class="psd"></div>Floor or bench</div>
   <div class="psi"><div class="psd"></div>Private collection</div>
-  <div class="psi"><div class="psd"></div>Clock DIY</div>
   <div class="psi"><div class="psd"></div>Demand for dealers</div>
   <div class="psi"><div class="psd"></div>Grail Radar hunts</div>
+  <div class="psi"><div class="psd"></div>Clock DIY</div>
   <div class="psi"><div class="psd"></div>15-day trial</div>
 </div>
 
@@ -4159,20 +4160,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </div>
 </section>
 
-<section class="prod-beat" aria-label="Parts and troubleshooting">
-  <div class="prod-beat-inner">
-    <div class="prod-beat-copy rv">
-      <span class="prod-beat-ey">Clock DIY</span>
-      <h2>Parts path.<br><em>AI troubleshooting.</em></h2>
-      <p>When a clock stops, walk the problem with guided help, then pull matching parts so you know what to order.</p>
-    </div>
-    <figure class="prod-beat-visual rv d1">
-      <img src="assets/screenshots/hhh/intro/05-clockworks-repair.png" alt="Clock parts database and AI troubleshooting in Handy Horology Helper" width="280" height="608" loading="lazy">
-    </figure>
-  </div>
-</section>
-
-<section class="prod-beat prod-beat-flip" aria-label="Demand for buyers and dealers" id="hhh-demand">
+<section class="prod-beat" aria-label="Demand for buyers and dealers" id="hhh-demand">
   <div class="prod-beat-inner">
     <div class="prod-beat-copy rv">
       <span class="prod-beat-ey">Demand</span>
@@ -4185,7 +4173,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </div>
 </section>
 
-<section class="prod-beat" aria-label="Grail Radar hunt alerts">
+<section class="prod-beat prod-beat-flip" aria-label="Grail Radar hunt alerts">
   <div class="prod-beat-inner">
     <div class="prod-beat-copy rv">
       <span class="prod-beat-ey">Hunt</span>
@@ -4194,6 +4182,19 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
     <figure class="prod-beat-visual rv d1">
       <img src="assets/screenshots/hhh/intro/06-grail-radar.png" alt="Grail Radar hunt rules and listing alerts in Handy Horology Helper" width="280" height="608" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="prod-beat" aria-label="Parts and troubleshooting">
+  <div class="prod-beat-inner">
+    <div class="prod-beat-copy rv">
+      <span class="prod-beat-ey">Clock DIY</span>
+      <h2>Parts path.<br><em>AI troubleshooting.</em></h2>
+      <p>When a clock stops, walk the problem with guided help, then pull matching parts so you know what to order.</p>
+    </div>
+    <figure class="prod-beat-visual rv d1">
+      <img src="assets/screenshots/hhh/intro/05-clockworks-repair.png" alt="Clock parts database and AI troubleshooting in Handy Horology Helper" width="280" height="608" loading="lazy">
     </figure>
   </div>
 </section>
@@ -4212,7 +4213,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="prod-toolkit-inner rv">
     <span class="prod-beat-ey">And much more</span>
     <h2>Same pocket app.<br><em>The full toolkit.</em></h2>
-    <p style="max-width:52ch;margin:12px auto 0;color:rgba(255,255,255,0.62);font-size:15px;line-height:1.55;">Beyond Identify, collection, parts, Demand, and Hunt — watches on the left, clocks on the right, shared tools underneath.</p>
+    <p style="max-width:52ch;margin:12px auto 0;color:rgba(255,255,255,0.62);font-size:15px;line-height:1.55;">Watches on the left, clocks on the right, shared tools underneath.</p>
 
     <div class="prod-toolkit-split">
       <div>
@@ -4604,7 +4605,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Pocket Allowance Ledger shares the same privacy-first philosophy as our other Pocket apps.</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
       <a href="#pbj" onclick="showPage('pbj');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
-      <a href="#hhh" onclick="showPage('hhh');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches</a>
+      <a href="#hhh" onclick="showPage('hhh');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches &amp; clocks</a>
       <a href="#cvc" onclick="showPage('cvc');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
     </div>
   </div>
