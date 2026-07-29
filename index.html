@@ -877,6 +877,13 @@ body[data-app="cvc"] .nav-mobile-menu{background:rgba(15,46,37,0.98);}
   display:flex;align-items:center;gap:14px;
   margin-bottom:20px;
 }
+.vol-app-icon{
+  display:block;flex:0 0 auto;
+  width:56px;height:56px;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow:0 8px 24px rgba(0,0,0,0.35);
+}
 .vol-num{
   font-family:'Playfair Display',serif;
   font-size:12px;font-weight:700;letter-spacing:0.28em;
@@ -4133,7 +4140,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="hero-inner">
     <div class="hero-text">
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>Handy Horology Helper</span></div>
-      <div class="vol-kicker"><span class="vol-name">Handy Horology <em>Helper</em>™</span></div>
+      <div class="vol-kicker">
+        <img class="vol-app-icon" src="assets/hhh/hhh-icon-512.png" width="56" height="56" alt="Handy Horology Helper app icon">
+        <span class="vol-name">Handy Horology <em>Helper</em>™</span>
+      </div>
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Handy Horology Helper · new &amp; vintage watches and clocks</div>
       <h1 class="hero-h1">Confirm your suspicions.<br><em>Watches and clocks.</em></h1>
