@@ -32,7 +32,7 @@ Reference after marketing research + Joe review. Public site sells **end results
 ## Product
 - HHH: Know your timepiece. Know its worth.
 - CVC: Your vault. Your rules.
-- PAL: Kids practice money — parents stay in charge.
+- PAL: Coach homework, chores, and habits — parents stay in charge. Gold tokens. Real habits.
 - PBJ: soft — clarity first; direction still open. (site: Import. Plan. Coach. Money clarity — on your terms.)
 
 ## Product toolkit sections

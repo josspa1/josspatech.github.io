@@ -144,6 +144,9 @@
         return { event: 'outbound-testflight-hhh', title: 'TestFlight · HHH' };
       }
       if (host === 'apps.apple.com') {
+        if (/handyhorology|6778570480|handy-horology/i.test(u.href)) {
+          return { event: 'outbound-appstore-hhh', title: 'App Store · HHH' };
+        }
         if (/pocketbudjet|pocket-budjet/i.test(u.href)) {
           return { event: 'outbound-appstore-pbj', title: 'App Store · PBJ' };
         }

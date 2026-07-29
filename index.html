@@ -919,6 +919,34 @@ body[data-app="cvc"] .nav-mobile-menu{background:rgba(15,46,37,0.98);}
 #page-cvc .hero-acts{
   justify-content:flex-start;gap:10px 18px;align-items:center;
 }
+/* Official Google Play + App Store badges (trust / anti-scam) */
+.store-badges{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+}
+.store-badges a{
+  display:inline-flex;line-height:0;text-decoration:none;
+  transition:opacity .18s ease, transform .18s ease;
+}
+.store-badges a:hover{opacity:0.92;transform:translateY(-1px);}
+.store-badges a:focus-visible{
+  outline:2px solid rgba(200,170,110,0.85);outline-offset:4px;border-radius:6px;
+}
+.store-badges img{
+  display:block;height:40px;width:auto;
+}
+/* Google's badge PNG includes large transparent padding — optical match to Apple 40px */
+.store-badges .store-badge-play img{
+  height:58px;margin:-9px -12px -9px -14px;
+}
+.store-badges-note{
+  width:100%;margin:6px 0 0;
+  font-size:12px;line-height:1.45;letter-spacing:0.02em;
+  color:rgba(255,255,255,0.48);
+}
+#page-hhh .prod-media-acts.store-badges,
+#page-hhh .prod-close-inner .store-badges{
+  justify-content:center;
+}
 #page-pbj .btn-primary,
 #page-hhh .btn-primary,
 #page-pal .btn-primary,
@@ -3171,7 +3199,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div role="button" tabindex="0" data-app="pal" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="hub-card rv d3">
         <div class="hub-card-body">
           <div class="hub-name">Pocket Allowance<br><em>Ledger</em>™</div>
-          <p class="hub-tagline">Kids practice money — parents stay in charge. Gold tokens. Real habits.</p>
+          <p class="hub-tagline">Coach homework, chores, and habits — parents stay in charge. Gold tokens. Real habits.</p>
           <div class="hub-cta">Open PAL <span>→</span></div>
         </div>
         <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
@@ -4100,9 +4128,14 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <h1 class="hero-h1">The details that turn<br>a hunch into a <em>decision.</em></h1>
       <p class="hero-tagline">New or vintage. Floor or bench. Confirm your suspicions.</p>
       <p class="hero-sub"><strong>Handy Horology Helper</strong> for <strong>watches and clocks</strong> — new pieces and pieces with decades on them. Confirm your suspicions from photos and the clues you already have. Collection, Demand, Hunt, and clock DIY when you need them.</p>
-      <div class="hero-acts">
-        <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" class="btn-primary" style="text-decoration:none;">Start free on Google Play · 15-day trial</a>
-        <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" class="btn-ghost" style="text-decoration:none;">iOS early access</a>
+      <div class="hero-acts store-badges" role="group" aria-label="Download Handy Horology Helper">
+        <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">
+          <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="eager">
+        </a>
+        <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">
+          <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="eager">
+        </a>
+        <p class="store-badges-note">Official stores · US · 15-day free trial</p>
       </div>
     </div>
     <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
@@ -4202,9 +4235,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <section class="prod-close prod-close-inline" aria-label="Try HHH" style="padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(28px,4vw,48px);">
   <div class="prod-close-inner rv">
     <p style="margin:0 0 1rem;max-width:36ch;">Ready for the next watch or clock — new or vintage.</p>
-    <div class="prod-media-acts" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-      <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" style="text-decoration:none;">Start free on Google Play →</a>
-      <a class="btn-ghost" href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" style="text-decoration:none;">iOS early access</a>
+    <div class="prod-media-acts store-badges" role="group" aria-label="Download Handy Horology Helper">
+      <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">
+        <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+      </a>
+      <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">
+        <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+      </a>
     </div>
   </div>
 </section>
@@ -4324,19 +4361,24 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="prod-aside-inner rv">
     <span class="prod-beat-ey">Feedback</span>
     <h2>Help us build a<br><em>better app.</em></h2>
-    <p>Bug, feature, or need <strong>iOS</strong>? Tell us — every report is reviewed personally.</p>
+    <p>Bug, feature idea, or store listing note — tell us. Every report is reviewed personally.</p>
     <a class="btn-ghost" href="https://forms.gle/uPD4V2kt9kiEWNvC7" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;">Send Feedback →</a>
   </div>
 </section>
 
 <section class="prod-close" aria-label="Get HHH" id="hhh-stay-updated">
   <div class="prod-close-inner rv">
-    <span class="prod-beat-ey">Android live · iOS coming</span>
-    <h2>Get Handy Horology Helper<br><em>on Android today.</em></h2>
-    <p>Live on Google Play (US). Early iOS via TestFlight.</p>
-    <div class="prod-media-acts">
-      <a class="btn-primary" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener" style="text-decoration:none;">Get HHH on Google Play →</a>
-      <a class="btn-ghost" href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener" style="text-decoration:none;">iOS early access (TestFlight)</a>
+    <span class="prod-beat-ey">Google Play · App Store</span>
+    <h2>Get Handy Horology Helper<br><em>on your phone.</em></h2>
+    <p>On Google Play and the App Store · US. Confirm your suspicions — new or vintage, floor or bench.</p>
+    <div class="prod-media-acts store-badges" role="group" aria-label="Download Handy Horology Helper">
+      <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">
+        <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+      </a>
+      <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">
+        <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+      </a>
+      <p class="store-badges-note">Official Google Play and App Store listings · US</p>
     </div>
   </div>
 </section>
@@ -4385,7 +4427,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Parent app · Android · ages 6+</div>
       <h1 class="hero-h1">Run a home token economy.<br><em>Parent-led coaching.</em></h1>
-      <p class="hero-tagline">Kids practice money. Parents stay in charge.</p>
+      <p class="hero-tagline">Coach the habits that matter. Parents stay in charge.</p>
       <p class="hero-sub">A home token economy: gold tokens, parent-approved rewards, habits that stick. <strong>Not</strong> kid banking — no debit card, no custodial account. Kids join on home Wi‑Fi.</p>
       <div class="hero-acts">
         <a href="mailto:support@josspatech.com?subject=Pocket%20Allowance%20Ledger" class="btn-primary">Email for access &rarr;</a>
