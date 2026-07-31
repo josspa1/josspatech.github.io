@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Get Handy Horology Helper</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0; min-height: 100dvh; display: grid; place-items: center;
+      font-family: Georgia, "Times New Roman", serif;
+      background: linear-gradient(160deg, #0c3358 0%, #1a4f7a 45%, #0a2438 100%);
+      color: #f7f1ea; padding: 24px; text-align: center;
+    }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 0 0 0.4rem; font-weight: 700; }
+    p { margin: 0 0 1.25rem; opacity: 0.85; font-family: system-ui, sans-serif; font-size: 0.95rem; }
+    .acts { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    a.btn {
+      display: inline-block; padding: 14px 22px; border-radius: 10px;
+      background: #f0c040; color: #0c3358; font-family: system-ui, sans-serif;
+      font-weight: 700; text-decoration: none; font-size: 0.95rem;
+    }
+    a.ghost {
+      background: transparent; color: #f7f1ea; border: 1px solid rgba(247,241,234,0.45);
+    }
+    .note { margin-top: 1.25rem; font-size: 0.8rem; opacity: 0.65; font-family: system-ui, sans-serif; }
+  </style>
+  <script>
+    (function () {
+      var PLAY = 'https://play.google.com/store/apps/details?id=com.josspatech.handyhorology';
+      var IOS = 'https://apps.apple.com/us/app/id6778570480';
+      var ua = navigator.userAgent || '';
+      var q = location.search || '';
+      // Preserve UTMs on store URLs when present
+      function withUtm(url) {
+        if (!q || q === '?') return url;
+        return url + (url.indexOf('?') >= 0 ? '&' : '?') + q.replace(/^\?/, '');
+      }
+      if (/Android/i.test(ua)) {
+        location.replace(withUtm(PLAY));
+        return;
+      }
+      if (/iPhone|iPad|iPod/i.test(ua)) {
+        location.replace(withUtm(IOS));
+        return;
+      }
+      window.__HHH_GET__ = { play: withUtm(PLAY), ios: withUtm(IOS) };
+    })();
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Handy Horology Helper</h1>
+    <p>Choose your store. Free trial — no credit card.</p>
+    <div class="acts">
+      <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology">Google Play</a>
+      <a class="btn" id="ios" href="https://apps.apple.com/us/app/id6778570480">App Store</a>
+      <a class="btn ghost" href="/#hhh">Learn more</a>
+    </div>
+    <p class="note">Meta paid traffic lands here · site stays for info &amp; search</p>
+  </main>
+  <script>
+    if (window.__HHH_GET__) {
+      document.getElementById('play').href = window.__HHH_GET__.play;
+      document.getElementById('ios').href = window.__HHH_GET__.ios;
+    }
+  </script>
+</body>
+</html>
