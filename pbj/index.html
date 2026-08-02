@@ -5,32 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PocketBudJet — Private Budgeting | JosspaTech</title>
 <meta name="description" content="PocketBudJet: import statements, plan spending, and coach yourself privately on your device. 15-day Premium trial. Ad-free. By JosspaTech (Joss-pah-tech).">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://josspatech.com/pbj/">
 <meta name="keywords" content="PocketBudJet, private budgeting, local-first budget app, statement import, JosspaTech">
 
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="PocketBudJet — Import. Plan. Coach.">
 <meta property="og:description" content="Private budgeting on your device. Import statements, plan spending, coach yourself. 15-day Premium trial.">
 <meta property="og:url" content="https://josspatech.com/pbj/">
 <meta property="og:site_name" content="JosspaTech">
-<meta property="og:image" content="https://josspatech.com/assets/screenshots/app-pbj-hero.png">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="PocketBudJet">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PocketBudJet — Import. Plan. Coach.">
 <meta name="twitter:description" content="Private budgeting on your device. Import statements, plan spending, coach yourself.">
-<meta name="twitter:image" content="https://josspatech.com/assets/screenshots/app-pbj-hero.png">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "PocketBudJet",
+  "alternateName": "PBJ",
   "description": "Personal budgeting app with statement import, spending analysis, debt tools, and AI coaching. Private on your device. 15-day Premium trial.",
   "url": "https://josspatech.com/pbj/",
+  "image": "https://josspatech.com/assets/brand/og-pbj.jpg",
   "applicationCategory": "FinanceApplication",
   "operatingSystem": ["Android", "iOS"],
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "15-Day Premium Trial",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    {
+      "@type": "Offer",
+      "name": "Monthly Subscription",
+      "price": "9.99",
+      "priceCurrency": "USD"
+    },
+    {
+      "@type": "Offer",
+      "name": "Annual Subscription",
+      "price": "74.99",
+      "priceCurrency": "USD"
+    }
+  ],
   "publisher": {
     "@type": "Organization",
     "name": "JosspaTech",
@@ -44,23 +70,47 @@
   var q = location.search || '';
   var target = '/#pbj';
   if (q) target = '/' + q + '#pbj';
-  var isBot = /bot|crawl|spider|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|preview/i.test(navigator.userAgent || '');
+  var isBot = /bot|crawl|spider|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|preview|googlebot|bingbot|yandex|duckduck/i.test(navigator.userAgent || '');
   if (!isBot) location.replace(target);
 })();
 </script>
 <style>
-  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#0a1520; color:#f4f0e8; display:grid; place-items:center; min-height:100vh; padding:24px; text-align:center; }
+  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#0a1520; color:#f4f0e8; min-height:100vh; padding:32px 24px; }
+  main { max-width:40rem; margin:0 auto; }
   a { color:#c8aa6e; }
-  h1 { font-size:1.75rem; margin:0 0 12px; color:#c8aa6e; }
-  p { opacity:.8; max-width:36rem; line-height:1.6; font-family: system-ui, sans-serif; }
+  h1 { font-size:1.85rem; margin:0 0 12px; color:#c8aa6e; }
+  h2 { font-size:1.1rem; margin:28px 0 10px; color:#e8d5a8; font-family: system-ui, sans-serif; font-weight:600; }
+  p, li { opacity:.88; line-height:1.65; font-family: system-ui, sans-serif; font-size:0.98rem; }
+  ul { padding-left:1.2rem; margin:0 0 8px; }
+  .lead { font-size:1.05rem; margin-bottom:8px; }
+  .actions { margin-top:28px; display:flex; flex-wrap:wrap; gap:14px 20px; }
 </style>
 </head>
 <body>
   <main>
     <h1>PocketBudJet</h1>
-    <p>Import. Plan. Coach. Private budgeting on your device.</p>
-    <p>15-day Premium trial via Apple or Google. Ad-free. Your data stays yours.</p>
-    <p><a href="/#pbj">Continue to PocketBudJet</a> · <a href="/">JosspaTech</a></p>
+    <p class="lead">Import. Plan. Coach. Money clarity — on your terms.</p>
+    <p>Private budgeting from JosspaTech (pronounced <em>Joss-pah-tech</em>). Import bank statements, plan spending, track debt, and coach yourself — data stays on your device. Ad-free.</p>
+
+    <h2>Highlights</h2>
+    <ul>
+      <li>Import CSV, OFX, QFX, QIF, XLSX, and PDF statements worldwide</li>
+      <li>Budgets, debt planner, reports, and AI coach</li>
+      <li>Optional US bank sync (Teller) on paid Premium — not in the trial</li>
+      <li>15-day Premium trial via Apple or Google; then $9.99/mo or $74.99/yr</li>
+      <li>Free tier keeps import and manual budgeting after the trial</li>
+    </ul>
+
+    <h2>Learn more</h2>
+    <p class="actions">
+      <a href="/#pbj">Full product page</a>
+      <a href="/getting-started/">Getting started</a>
+      <a href="/how-to/">Help center</a>
+      <a href="/how-to/faq/">FAQ</a>
+      <a href="/videos/user-guide/">User manual</a>
+      <a href="/for-professionals/">For professionals</a>
+      <a href="/">JosspaTech</a>
+    </p>
   </main>
 </body>
 </html>

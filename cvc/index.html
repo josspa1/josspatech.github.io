@@ -5,22 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Curator's Vault: Classics — Collectibles Catalog | JosspaTech</title>
 <meta name="description" content="Curator's Vault: Classics — photograph, organize, and value coins, cards, stamps, paper money, and lighters. Private collectibles catalog by JosspaTech (Joss-pah-tech).">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://josspatech.com/cvc/">
 <meta name="keywords" content="Curator's Vault, collectibles catalog, coin collection app, card collection, stamp collection, JosspaTech">
 
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="Curator's Vault: Classics — Your vault. Your rules.">
 <meta property="og:description" content="Photograph, organize, and value coins, cards, stamps, paper money, and lighters.">
 <meta property="og:url" content="https://josspatech.com/cvc/">
 <meta property="og:site_name" content="JosspaTech">
-<meta property="og:image" content="https://josspatech.com/assets/screenshots/app-cvc-hero.png">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Curator's Vault: Classics">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Curator's Vault: Classics — Your vault. Your rules.">
 <meta name="twitter:description" content="Photograph, organize, and value coins, cards, stamps, paper money, and lighters.">
-<meta name="twitter:image" content="https://josspatech.com/assets/screenshots/app-cvc-hero.png">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
 
 <script type="application/ld+json">
 {
@@ -30,6 +34,7 @@
   "alternateName": ["CVC", "Curator's Vault"],
   "description": "Collectibles catalog for coins, cards, stamps, paper money, and lighters — photograph, organize, and value your vault.",
   "url": "https://josspatech.com/cvc/",
+  "image": "https://josspatech.com/assets/brand/og-cvc.jpg",
   "applicationCategory": "LifestyleApplication",
   "operatingSystem": ["Android"],
   "publisher": {
@@ -45,23 +50,40 @@
   var q = location.search || '';
   var target = '/#cvc';
   if (q) target = '/' + q + '#cvc';
-  var isBot = /bot|crawl|spider|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|preview/i.test(navigator.userAgent || '');
+  var isBot = /bot|crawl|spider|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|preview|googlebot|bingbot|yandex|duckduck/i.test(navigator.userAgent || '');
   if (!isBot) location.replace(target);
 })();
 </script>
 <style>
-  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#0a1520; color:#f4f0e8; display:grid; place-items:center; min-height:100vh; padding:24px; text-align:center; }
+  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#0a1520; color:#f4f0e8; min-height:100vh; padding:32px 24px; }
+  main { max-width:40rem; margin:0 auto; }
   a { color:#c8aa6e; }
-  h1 { font-size:1.75rem; margin:0 0 12px; color:#c8aa6e; }
-  p { opacity:.8; max-width:36rem; line-height:1.6; font-family: system-ui, sans-serif; }
+  h1 { font-size:1.85rem; margin:0 0 12px; color:#c8aa6e; }
+  h2 { font-size:1.1rem; margin:28px 0 10px; color:#e8d5a8; font-family: system-ui, sans-serif; font-weight:600; }
+  p, li { opacity:.88; line-height:1.65; font-family: system-ui, sans-serif; font-size:0.98rem; }
+  ul { padding-left:1.2rem; margin:0 0 8px; }
+  .lead { font-size:1.05rem; margin-bottom:8px; }
+  .actions { margin-top:28px; display:flex; flex-wrap:wrap; gap:14px 20px; }
 </style>
 </head>
 <body>
   <main>
     <h1>Curator's Vault: Classics</h1>
-    <p>Photograph, organize, value. Coins, cards, stamps, paper money, lighters.</p>
-    <p>Your vault. Your rules.</p>
-    <p><a href="/#cvc">Continue to Curator's Vault</a> · <a href="/">JosspaTech</a></p>
+    <p class="lead">Your vault. Your rules.</p>
+    <p>Private collectibles catalog from JosspaTech (pronounced <em>Joss-pah-tech</em>). Photograph, organize, and value coins, cards, stamps, paper money, and lighters — without turning your collection into someone else's dataset.</p>
+
+    <h2>Built for collectors</h2>
+    <ul>
+      <li>AI-assisted identification from photos</li>
+      <li>Collection gallery organized your way</li>
+      <li>Analytics across categories and values</li>
+      <li>Coins, cards, stamps, paper money, and lighters</li>
+    </ul>
+
+    <p class="actions">
+      <a href="/#cvc">Full product page</a>
+      <a href="/">JosspaTech</a>
+    </p>
   </main>
 </body>
 </html>
