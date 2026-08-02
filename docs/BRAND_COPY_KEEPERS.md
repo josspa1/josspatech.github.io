@@ -2,6 +2,9 @@
 
 Reference after marketing research + Joe review. Public site sells **end results**, not internal process or strategy.
 
+## Pronunciation
+**JO-spah-tek** (matches Facebook Page name pronunciation)
+
 ## Hub hero (primary — approaching awesome)
 **Software that feels finished.**  
 **Private where it matters. Excellent where it shows.**
