@@ -4,6 +4,16 @@ Disallow: /admin/
 Disallow: /private/
 Disallow: /temp/
 
+# Link-preview crawlers (share cards) — keep allowed under *
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Facebot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
 # ─── AI training crawlers — fully blocked, not just /admin/ ───
 # These bots don't always honor the generic "User-agent: *" rules,
 # especially on the AI-training side (separate from search indexing).

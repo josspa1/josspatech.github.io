@@ -7,7 +7,9 @@
 <title>JosspaTech — Private Mobile Software</title>
 <meta name="keywords" content="JosspaTech, Joss-pah-tech, Handy Horology Helper, PocketBudJet, Curator's Vault, private mobile apps, local-first software, watch identification, budgeting app">
 <link rel="icon" href="assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/brand/josspatech-mark-app.svg?v=jt2star">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<meta name="theme-color" content="#0C3358">
+<meta name="author" content="JosspaTech">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600" rel="stylesheet">
@@ -3023,23 +3025,28 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 </style>
 
 <!-- SEO & Social Meta Tags -->
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <link rel="canonical" href="https://josspatech.com/">
 
 <!-- Open Graph Tags -->
 <meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="JosspaTech — Private Mobile Software">
 <meta property="og:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.">
 <meta property="og:url" content="https://josspatech.com/">
 <meta property="og:site_name" content="JosspaTech">
-<meta property="og:image" content="https://josspatech.com/JosspaTech_Logo_Primary.svg">
-<meta property="og:image:alt" content="JosspaTech Logo">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="JosspaTech — Private Mobile Software. Pronounced Joss-pah-tech.">
 
 <!-- Twitter Card Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="JosspaTech — Private Mobile Software">
 <meta name="twitter:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.">
-<meta name="twitter:image" content="https://josspatech.com/JosspaTech_Logo_Primary.svg">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-josspatech.png">
+<meta name="twitter:image:alt" content="JosspaTech — Private Mobile Software">
 
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
@@ -3050,34 +3057,70 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       "@type": "Organization",
       "@id": "https://josspatech.com/#organization",
       "name": "JosspaTech",
-      "alternateName": "Joss-pah-tech",
+      "alternateName": ["Joss-pah-tech", "Josspa Tech"],
       "url": "https://josspatech.com",
-      "logo": "https://josspatech.com/JosspaTech_Logo_Primary.svg",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://josspatech.com/assets/brand/josspatech-logo-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://josspatech.com/assets/brand/og-josspatech.png",
       "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault. Software that feels finished.",
+      "email": "support@josspatech.com",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@josspatech.com",
+        "contactType": "customer support",
+        "availableLanguage": ["English"]
+      },
       "sameAs": [
-        "https://josspatech.com",
         "https://www.facebook.com/profile.php?id=61592370030228"
       ]
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": "https://josspatech.com/#hhh",
-      "name": "Handy Horology Helper",
-      "alternateName": ["HHH", "Handy Horology Helper"],
-      "description": "New or vintage watches and clocks. Floor or bench. Confirm your suspicions — research, collection, Demand, Hunt, clock DIY.",
-      "url": "https://josspatech.com/hhh/",
-      "applicationCategory": "LifestyleApplication",
-      "operatingSystem": ["Android", "iOS"],
-      "publisher": {
-        "@id": "https://josspatech.com/#organization"
+      "@type": "WebSite",
+      "@id": "https://josspatech.com/#website",
+      "url": "https://josspatech.com",
+      "name": "JosspaTech",
+      "alternateName": "Joss-pah-tech",
+      "description": "Private, finished mobile software by JosspaTech.",
+      "publisher": { "@id": "https://josspatech.com/#organization" },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://josspatech.com/#webpage",
+      "url": "https://josspatech.com/",
+      "name": "JosspaTech — Private Mobile Software",
+      "isPartOf": { "@id": "https://josspatech.com/#website" },
+      "about": { "@id": "https://josspatech.com/#organization" },
+      "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.",
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://josspatech.com/assets/brand/og-josspatech.png"
       }
     },
     {
       "@type": "SoftwareApplication",
-      "@id": "https://josspatech.com/#pocketbudjet",
+      "@id": "https://josspatech.com/hhh/#app",
+      "name": "Handy Horology Helper",
+      "alternateName": ["HHH", "Handy Horology Helper"],
+      "description": "New or vintage watches and clocks. Floor or bench. Confirm your suspicions — research, collection, Demand, Hunt, clock DIY.",
+      "url": "https://josspatech.com/hhh/",
+      "image": "https://josspatech.com/assets/screenshots/app-hhh-hero.png",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": ["Android", "iOS"],
+      "publisher": { "@id": "https://josspatech.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://josspatech.com/pbj/#app",
       "name": "PocketBudJet",
+      "alternateName": "PBJ",
       "description": "Personal budgeting app with paycheck tracking, spending analysis, debt payoff tools, shopping intelligence, and AI-powered financial coaching. 15-day Premium trial, cancel anytime.",
-      "url": "https://josspatech.com/#pbj",
+      "url": "https://josspatech.com/pbj/",
+      "image": "https://josspatech.com/assets/screenshots/app-pbj-hero.png",
       "applicationCategory": "FinanceApplication",
       "operatingSystem": ["Android", "iOS"],
       "offers": [
@@ -3092,20 +3135,28 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           "@type": "Offer",
           "name": "Monthly Subscription",
           "priceCurrency": "USD",
-          "price": "9.99",
-          "billingDuration": "P1M"
+          "price": "9.99"
         },
         {
           "@type": "Offer",
           "name": "Annual Subscription",
           "priceCurrency": "USD",
-          "price": "74.99",
-          "billingDuration": "P1Y"
+          "price": "74.99"
         }
       ],
-      "publisher": {
-        "@id": "https://josspatech.com/#organization"
-      }
+      "publisher": { "@id": "https://josspatech.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://josspatech.com/cvc/#app",
+      "name": "Curator's Vault: Classics",
+      "alternateName": ["CVC", "Curator's Vault"],
+      "description": "Collectibles catalog for coins, cards, stamps, paper money, and lighters — photograph, organize, and value your vault.",
+      "url": "https://josspatech.com/cvc/",
+      "image": "https://josspatech.com/assets/screenshots/app-cvc-hero.png",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": ["Android"],
+      "publisher": { "@id": "https://josspatech.com/#organization" }
     }
   ]
 }
@@ -4740,13 +4791,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
     <div class="pbj-hero-shots" aria-label="Curator's Vault screenshots">
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/cvc/03-identify.png" alt="AI identification screen" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/cvc/03-identify.png" alt="Curator's Vault AI identification for collectibles" loading="lazy" width="220" height="391">
       </div>
       <div class="pbj-shot pbj-shot-center">
-        <img src="assets/screenshots/cvc/02-collection.png" alt="Collection gallery" loading="lazy" width="240" height="427">
+        <img src="assets/screenshots/cvc/02-collection.png" alt="Curator's Vault collection gallery" loading="lazy" width="240" height="427">
       </div>
       <div class="pbj-shot pbj-shot-side">
-        <img src="assets/screenshots/cvc/04-analytics.png" alt="Collection analytics" loading="lazy" width="220" height="391">
+        <img src="assets/screenshots/cvc/04-analytics.png" alt="Curator's Vault collection analytics" loading="lazy" width="220" height="391">
       </div>
     </div>
   </div>
@@ -4887,6 +4938,60 @@ function scrollToAnchor(id, behavior) {
   if (el) el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
 }
 
+var PAGE_SEO = {
+  company: {
+    title: 'JosspaTech — Private Mobile Software',
+    description: 'JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator\'s Vault. Ad-free. Your data stays yours.',
+    canonical: 'https://josspatech.com/',
+    ogTitle: 'JosspaTech — Private Mobile Software',
+    ogImage: 'https://josspatech.com/assets/brand/og-josspatech.png'
+  },
+  hhh: {
+    title: 'Handy Horology Helper — Confirm your suspicions | JosspaTech',
+    description: 'Handy Horology Helper for new or vintage watches and clocks. Floor or bench. Confirm your suspicions. Private horology app by JosspaTech (Joss-pah-tech).',
+    canonical: 'https://josspatech.com/hhh/',
+    ogTitle: 'Handy Horology Helper — Confirm your suspicions.',
+    ogImage: 'https://josspatech.com/assets/screenshots/app-hhh-hero.png'
+  },
+  pbj: {
+    title: 'PocketBudJet — Private Budgeting | JosspaTech',
+    description: 'PocketBudJet: import statements, plan spending, and coach yourself privately on your device. 15-day Premium trial. Ad-free. By JosspaTech (Joss-pah-tech).',
+    canonical: 'https://josspatech.com/pbj/',
+    ogTitle: 'PocketBudJet — Import. Plan. Coach.',
+    ogImage: 'https://josspatech.com/assets/screenshots/app-pbj-hero.png'
+  },
+  cvc: {
+    title: 'Curator\'s Vault: Classics — Collectibles Catalog | JosspaTech',
+    description: 'Curator\'s Vault: Classics — photograph, organize, and value coins, cards, stamps, paper money, and lighters. Private collectibles catalog by JosspaTech (Joss-pah-tech).',
+    canonical: 'https://josspatech.com/cvc/',
+    ogTitle: 'Curator\'s Vault: Classics — Your vault. Your rules.',
+    ogImage: 'https://josspatech.com/assets/screenshots/app-cvc-hero.png'
+  }
+};
+
+function applyPageSeo(id) {
+  var s = PAGE_SEO[id] || PAGE_SEO.company;
+  document.title = s.title;
+  var desc = document.querySelector('meta[name="description"]');
+  if (desc) desc.setAttribute('content', s.description);
+  var can = document.querySelector('link[rel="canonical"]');
+  if (can) can.setAttribute('href', s.canonical);
+  var ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute('content', s.ogTitle || s.title);
+  var ogDesc = document.querySelector('meta[property="og:description"]');
+  if (ogDesc) ogDesc.setAttribute('content', s.description);
+  var ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', s.canonical);
+  var ogImg = document.querySelector('meta[property="og:image"]');
+  if (ogImg) ogImg.setAttribute('content', s.ogImage);
+  var twTitle = document.querySelector('meta[name="twitter:title"]');
+  if (twTitle) twTitle.setAttribute('content', s.ogTitle || s.title);
+  var twDesc = document.querySelector('meta[name="twitter:description"]');
+  if (twDesc) twDesc.setAttribute('content', s.description);
+  var twImg = document.querySelector('meta[name="twitter:image"]');
+  if (twImg) twImg.setAttribute('content', s.ogImage);
+}
+
 function applyPage(id, opts) {
   opts = opts || {};
   document.documentElement.classList.remove('boot-pbj', 'boot-hhh', 'boot-cvc');
@@ -4905,6 +5010,7 @@ function applyPage(id, opts) {
       }
     });
   });
+  applyPageSeo(id);
   if (!opts.skipScrollTop) window.scrollTo(0, 0);
   if (opts.anchor) {
     history.replaceState(null, '', window.location.pathname + window.location.search + '#' + opts.anchor);
