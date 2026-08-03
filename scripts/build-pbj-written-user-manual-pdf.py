@@ -72,7 +72,7 @@ SECTIONS: list[tuple[str, str, list[str]]] = [
             "Enter your gross pay and take-home pay — the wizard automatically calculates your paycheck deductions",
             "Choose a budget template or create a custom budget",
             "Want to itemize deductions later? Tap any income transaction and choose Paycheck Breakdown",
-            "Enjoy a 35-day free trial with full app access — no credit card required",
+            "Enjoy a 15-day free trial with full app access — no credit card required",
         ],
     ),
     (
@@ -547,7 +547,7 @@ def build() -> Path:
     _add_fonts(pdf)
     pdf.set_title("PocketBudJet User Manual")
     pdf.set_author("JosspaTech")
-    pdf.set_subject("PocketBudJet User Manual v1.2")
+    pdf.set_subject("PocketBudJet User Manual v1.3")
     pdf.set_creator("scripts/build-pbj-written-user-manual-pdf.py")
 
     # Pre-create internal destinations for TOC + bookmarks
@@ -576,7 +576,7 @@ def build() -> Path:
     pdf.ln(8)
     pdf.set_font("Manual", "", 12)
     pdf.set_text_color(*MUTED)
-    pdf.cell(0, 7, "Version 1.2 — April 2026", align="C", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 7, "Version 1.3 — July 2026", align="C", new_x="LMARGIN", new_y="NEXT")
     pdf.ln(40)
     pdf.set_font("Manual", "", 10)
     pdf.cell(0, 6, "© 2026 JosspaTech. All Rights Reserved.", align="C", new_x="LMARGIN", new_y="NEXT")
@@ -821,7 +821,7 @@ footer .fn span{{color:var(--gold);}}
   <span class="doc-type">PocketBudJet · User Manual</span>
   <h1>User Manual</h1>
   <div class="doc-meta">
-    <span>Version 1.2 — April 2026</span>
+    <span>Version 1.3 — July 2026</span>
     <span><a href="/docs/pocketbudjet/PocketBudJet_UserManual.pdf">Download PDF</a></span>
     <span><a href="/videos/user-guide/">Interactive presentation</a></span>
   </div>

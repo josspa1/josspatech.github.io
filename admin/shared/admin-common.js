@@ -1071,6 +1071,18 @@
           ? "Plaque UTM is landing."
           : "No Clockworks-tagged hits yet today."
       ));
+      const storeClicksToday = visitsList.filter((v) => String(v.page || "").startsWith("outbound:")).length;
+      const playClicksToday = visitsList.filter((v) => String(v.page || "").includes("outbound-play-hhh")).length;
+      const appClicksToday = visitsList.filter((v) => String(v.page || "").includes("outbound-appstore-hhh")).length;
+      const tfClicksToday = visitsList.filter((v) => String(v.page || "").includes("outbound-testflight-hhh")).length;
+      parts.push(card(
+        "Store link clicks · 24h",
+        "Play / App Store / TestFlight badge taps on josspatech.com (outbound:* rows).",
+        storeClicksToday,
+        storeClicksToday > 0
+          ? `Play ${playClicksToday} · App Store ${appClicksToday} · TestFlight ${tfClicksToday}`
+          : "No store-badge taps yet today. Detail: admin → Traffic."
+      ));
       parts.push(card(
         "Most-visited page · 24h",
         "Which page on the site got the most loads today (includes ?utm_* and #hhh).",
@@ -1119,6 +1131,8 @@
     } else if (page === "hub") {
       const pulse = document.getElementById("pulse");
       if (pulse) pulse.classList.add("stale");
+    } else if (page === "traffic" && typeof window.trRefresh === "function") {
+      window.trRefresh();
     }
     mCheckMaintenanceFlag().catch(() => {});
     injectDataFreshnessBar();

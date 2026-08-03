@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advertise in Handy Horology Helper — JosspaTech</title>
+  <meta name="description" content="Request a monthly sponsored dealer listing in the Handy Horology Helper app. Applications and billing are handled on the web — not in the app.">
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --ink: #1a2332;
+      --muted: #5a6570;
+      --accent: #2c4a6e;
+      --card: #fffef9;
+      --line: #d8d2c4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(165deg, #ebe6db 0%, var(--bg) 40%, #e2ddd2 100%);
+      color: var(--ink);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    main {
+      max-width: 36rem;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.85rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .lede { color: var(--muted); margin: 0 0 1.75rem; font-size: 1.05rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1.25rem;
+    }
+    .card h2 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin: 0 0 0.65rem;
+      font-weight: 700;
+    }
+    ul { margin: 0; padding-left: 1.15rem; color: var(--ink); }
+    li { margin-bottom: 0.35rem; }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin: 0.85rem 0 0.3rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.55rem 0.65rem;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      font: inherit;
+      background: #fff;
+    }
+    textarea { min-height: 5rem; resize: vertical; }
+    .row { display: grid; gap: 0.75rem; }
+    @media (min-width: 520px) {
+      .row-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .actions { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 0.7rem 1.15rem;
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    button:hover { filter: brightness(1.06); }
+    .hint { font-size: 0.85rem; color: var(--muted); }
+    a { color: var(--accent); }
+    footer { margin-top: 2rem; font-size: 0.85rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Advertise in Handy Horology Helper</h1>
+    <p class="lede">
+      Sponsored dealer cards reach collectors in the HHH app. Applications and billing
+      stay on the web — the app only shows approved listings.
+    </p>
+
+    <div class="card">
+      <h2>How it works</h2>
+      <ul>
+        <li>Monthly listing until canceled (starter rate published when billing goes live).</li>
+        <li>We review your request, then invoice outside the app (Mercury / Stripe later).</li>
+        <li>Your ad goes live after the first payment and renews each paid month.</li>
+        <li>Price increases need notice and your acceptance; we don’t silently raise your rate.</li>
+        <li>If we cancel a paid month, you get a refund. Stopping after you’ve paid doesn’t.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Request a listing</h2>
+      <p class="hint" style="margin:0 0 0.5rem">
+        Full order history will live on our private systems after launch. For now this
+        form opens your email client with the details filled in.
+      </p>
+      <form id="advForm">
+        <div class="row row-2">
+          <div>
+            <label for="biz">Business name *</label>
+            <input id="biz" name="biz" required maxlength="80" autocomplete="organization">
+          </div>
+          <div>
+            <label for="contact">Contact name *</label>
+            <input id="contact" name="contact" required maxlength="80" autocomplete="name">
+          </div>
+        </div>
+        <div class="row row-2">
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required maxlength="120" autocomplete="email">
+          </div>
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" maxlength="40" autocomplete="tel">
+          </div>
+        </div>
+        <label for="web">Website (https)</label>
+        <input id="web" name="web" type="url" maxlength="200" placeholder="https://">
+        <div class="row row-2">
+          <div>
+            <label for="city">City / region</label>
+            <input id="city" name="city" maxlength="60">
+          </div>
+          <div>
+            <label for="focus">Trade focus</label>
+            <select id="focus" name="focus">
+              <option value="clocks">Clocks</option>
+              <option value="watches">Watches</option>
+              <option value="both">Both</option>
+            </select>
+          </div>
+        </div>
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" maxlength="500" placeholder="Specialty, hours, anything we should know"></textarea>
+        <div class="actions">
+          <button type="submit">Email request to JosspaTech</button>
+          <span class="hint">Opens mailto: support@josspatech.com</span>
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      <a href="https://josspatech.com">josspatech.com</a>
+      · Handy Horology Helper dealer ads
+      · Billing setup after app production launch
+    </footer>
+  </main>
+  <script>
+    document.getElementById("advForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var biz = document.getElementById("biz").value.trim();
+      var contact = document.getElementById("contact").value.trim();
+      var email = document.getElementById("email").value.trim();
+      if (!biz || !contact || !email) return;
+      var phone = document.getElementById("phone").value.trim();
+      var web = document.getElementById("web").value.trim();
+      var city = document.getElementById("city").value.trim();
+      var focus = document.getElementById("focus").value;
+      var notes = document.getElementById("notes").value.trim();
+      var subject = encodeURIComponent("HHH dealer ad request — " + biz);
+      var body = encodeURIComponent(
+        [
+          "HHH dealer ad listing request (website form).",
+          "Billing is off-app; listing goes live after first payment when billing is enabled.",
+          "",
+          "Business: " + biz,
+          "Contact: " + contact,
+          "Email: " + email,
+          phone ? "Phone: " + phone : null,
+          web ? "Website: " + web : null,
+          city ? "Area: " + city : null,
+          "Trade focus: " + focus,
+          notes ? "Notes: " + notes : null,
+        ].filter(Boolean).join("\n")
+      );
+      window.location.href = "mailto:support@josspatech.com?subject=" + subject + "&body=" + body;
+    });
+  </script>
+</body>
+</html>

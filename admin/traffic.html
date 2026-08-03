@@ -4,16 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <title>JosspaTech — Site Traffic</title>
+  <title>JosspaTech — Acquisition funnel</title>
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "traffic";</script>
+  <style>
+    .tr-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
+    .tr-range button {
+      border:1px solid var(--border); background:var(--surface); color:var(--text);
+      padding:8px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;
+    }
+    .tr-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .tr-funnel {
+      display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
+      margin:0.5rem 0 1.25rem;
+    }
+    @media (max-width:900px){ .tr-funnel { grid-template-columns:1fr 1fr; } }
+    .tr-step {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:14px 16px; position:relative;
+    }
+    .tr-step .lbl { font-size:12px; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:.03em; }
+    .tr-step .val { font-size:28px; font-weight:700; color:var(--primary); line-height:1.15; margin:4px 0; }
+    .tr-step .note { font-size:12px; color:var(--text-muted); }
+    .tr-step.loss { border-left:4px solid var(--danger); }
+    .tr-step.ok { border-left:4px solid var(--success); }
+    .tr-step.warn { border-left:4px solid var(--warning); }
+    .tr-drop {
+      font-size:13px; color:var(--danger); font-weight:600; margin:0 0 1rem;
+      padding:10px 12px; background:#FDECEA; border-radius:8px; border:1px solid #F5C6C0;
+    }
+    .tr-drop.good { color:#1E7A3F; background:#E8F7EE; border-color:#B7E0C5; }
+    .tr-bar-row { display:flex; align-items:center; gap:10px; margin:4px 0; }
+    .tr-bar-label { width:7.5rem; flex-shrink:0; font-size:13px; }
+    .tr-bar-track { flex:1; height:10px; background:var(--surface-alt); border-radius:999px; overflow:hidden; }
+    .tr-bar-fill { height:100%; background:var(--primary); border-radius:999px; }
+    .tr-bar-fill.click { background:var(--accent); }
+    .tr-bar-meta { width:9rem; flex-shrink:0; font-size:12px; color:var(--text-dim); text-align:right; }
+    table.data td.num, table.data th.num { text-align:right; font-variant-numeric:tabular-nums; }
+    table.data td.bad { color:var(--danger); font-weight:600; }
+    table.data td.ok { color:var(--success); font-weight:600; }
+  </style>
 </head>
 <body>
   <div id="login">
     <div class="login-head">
       <h1>
         <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
-        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Site traffic · josspatech.com</span>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Acquisition funnel · HHH</span>
       </h1>
     </div>
     <p>Log in with your PocketBase superuser account.</p>
@@ -26,8 +63,8 @@
     <header>
       <div class="brand">
         <h1>
-          Site Traffic
-          <span class="subtitle">josspatech.com · JJ / Clockworks · free SaaS enhancers</span>
+          Acquisition funnel
+          <span class="subtitle">Where traffic comes from · where we lose them · store clicks · installs</span>
         </h1>
       </div>
       <div class="controls">
@@ -38,83 +75,51 @@
     </header>
     <main class="page-main">
       <section>
-        <h2>First-party tracking (already live)</h2>
+        <h2>HHH path: source → site → store → install</h2>
         <p class="section-explainer">
-          <code>/scripts/site-analytics-saas.js</code> (homepage + key marketing pages) posts
-          each visit to PocketBase <code>_site_visits</code> (path + UTM query + hash).
-          Hash changes to <code>#hhh</code> / <code>#pbj</code> / <code>#cvc</code> also count.
-          <strong>Store outbound clicks</strong> (Play / TestFlight / App Store) post as
-          <code>outbound:outbound-play-hhh</code> etc. — also appear under GoatCounter
-          <strong>Events</strong> (<code>outbound-play-hhh</code>, <code>outbound-testflight-hhh</code>).
-          Click <strong>Refresh</strong> here for JJ / Clockworks-focused rollups.
+          Site landings and store-badge taps come from PocketBase <code>_site_visits</code>
+          (UTM / referrer + <code>outbound:*</code> clicks). Active installs come from app
+          heartbeats when the Worker key is saved on this browser (same key as Flywheel).
+          Play Console / App Store Connect remain the official new-install counts.
         </p>
+        <div class="tr-range" id="trRange">
+          <button type="button" data-range="today" class="active">Today</button>
+          <button type="button" data-range="7d">7 days</button>
+          <button type="button" data-range="30d">30 days</button>
+          <button type="button" data-range="all">All time</button>
+        </div>
         <div class="ref-actions">
           <button type="button" class="m-btn accent" onclick="trRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
         <div class="ref-status" id="trStatus">Sign in, then Refresh.</div>
-        <div id="trCards" class="wm-summary-row"></div>
+        <div id="trFunnel" class="tr-funnel"></div>
+        <div id="trDrop"></div>
+        <div id="trInstallCards" class="wm-summary-row"></div>
         <div id="trTables"></div>
       </section>
 
       <section>
-        <h2>JJ / Clockworks link checklist</h2>
+        <h2>Tracked sources</h2>
         <p class="section-explainer">
-          Plaque should open the HHH product page with UTMs <em>before</em> <code>#hhh</code>, then visitor taps Android Open or iOS TestFlight.
+          Plaque / ad URLs should carry UTMs <em>before</em> <code>#hhh</code>.
+          Store badges fire <code>outbound-play-hhh</code> / <code>outbound-appstore-hhh</code>.
         </p>
         <ul style="line-height:1.8;color:var(--text);max-width:52rem;">
-          <li><strong>JJ plaque URL:</strong>
+          <li><strong>Clockworks plaque:</strong>
             <code style="word-break:break-all;">https://josspatech.com/?utm_source=clockworks&amp;utm_medium=site&amp;utm_campaign=recently_viewed_plaque#hhh</code>
           </li>
-          <li><strong>Android Open:</strong>
-            <a href="https://play.google.com/apps/testing/com.josspatech.handyhorology" target="_blank" rel="noopener">play.google.com/apps/testing/…handyhorology</a>
+          <li><strong>Meta ads:</strong> keep <code>utm_source=facebook</code> (shown here as Meta) + campaign name.</li>
+          <li><strong>Play:</strong>
+            <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">store listing</a>
+            ·
+            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">Console statistics</a>
           </li>
-          <li><strong>iOS TestFlight:</strong>
-            <a href="https://testflight.apple.com/join/AcmCPPVC" target="_blank" rel="noopener">testflight.apple.com/join/AcmCPPVC</a>
-            (external build must be Apple-approved)
+          <li><strong>App Store:</strong>
+            <a href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">product page</a>
+            ·
+            <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">ASC metrics</a>
           </li>
-          <li>After a visit from that URL, Refresh above — <code>source</code> should show <strong>clockworks</strong>.</li>
         </ul>
-      </section>
-
-      <section>
-        <h2>Free SaaS enhancers (optional)</h2>
-        <p class="section-explainer">
-          These add nicer dashboards (referrers, countries, devices) on top of PocketBase.
-          Privacy-friendly / cookieless — usually no GDPR banner. Defaults live in
-          <code>/scripts/site-analytics-saas.js</code>; optional override via
-          <code>window.JOSSPATECH_ANALYTICS</code> before that script.
-        </p>
-        <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;">
-          <h3 style="margin:0 0 0.5rem;">1. Cloudflare Web Analytics — free forever</h3>
-          <p style="margin:0 0 0.5rem;color:var(--text-dim);font-size:14px;">
-            Best if you already have a Cloudflare account. Standalone beacon works on GitHub Pages (no DNS proxy required).
-          </p>
-          <ol style="margin:0;padding-left:1.25rem;font-size:14px;line-height:1.7;">
-            <li>Open <a href="https://dash.cloudflare.com/" target="_blank" rel="noopener">Cloudflare dashboard</a> → Analytics &amp; logs → Web Analytics → Add a site (manual).</li>
-            <li>Hostname: <code>josspatech.com</code></li>
-            <li>Copy the token → set <code>cloudflareToken</code> in <code>JOSSPATECH_ANALYTICS</code> on the site.</li>
-            <li>View stats in the Cloudflare Web Analytics UI (not pulled into this admin yet).</li>
-          </ol>
-        </div>
-        <div class="card" style="margin-bottom:1rem;padding:1rem 1.25rem;">
-          <h3 style="margin:0 0 0.5rem;">2. GoatCounter — free hosted (great for GH Pages)</h3>
-          <p style="margin:0 0 0.5rem;color:var(--text-dim);font-size:14px;">
-            Tiny script (~1KB), UTM/campaign friendly, open source. Free for normal public sites.
-          </p>
-          <ol style="margin:0;padding-left:1.25rem;font-size:14px;line-height:1.7;">
-            <li>Sign up at <a href="https://www.goatcounter.com/" target="_blank" rel="noopener">goatcounter.com</a>.</li>
-            <li>Create site → copy count endpoint like <code>https://YOURCODE.goatcounter.com/count</code>.</li>
-            <li>Set <code>goatcounter</code> in <code>JOSSPATECH_ANALYTICS</code> on the site → push Pages.</li>
-            <li>Dashboard lives on GoatCounter; good cross-check against PocketBase.</li>
-          </ol>
-        </div>
-        <div class="card" style="padding:1rem 1.25rem;">
-          <h3 style="margin:0 0 0.5rem;">Skip for now</h3>
-          <p style="margin:0;color:var(--text-dim);font-size:14px;">
-            Plausible / Umami Cloud are nicer UIs but paid or need self-hosting.
-            PostHog free tier is overkill for a marketing landing page.
-          </p>
-        </div>
       </section>
     </main>
   </div>
@@ -122,61 +127,344 @@
   <script src="shared/admin-common.js"></script>
   <script src="shared/admin-app.js"></script>
   <script>
-    async function trRefresh() {
-      const status = document.getElementById('trStatus');
-      const cards = document.getElementById('trCards');
-      const tables = document.getElementById('trTables');
-      status.textContent = 'Loading…';
-      cards.innerHTML = '';
-      tables.innerHTML = '';
+    const TR_WORKER = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
+    let trRange = "today";
+    let trCacheRows = null;
+
+    function trIsOutbound(r) {
+      return String(r.page || "").startsWith("outbound:");
+    }
+    function trDayKeyEt(iso) {
+      if (!iso) return "";
       try {
-        // _site_visits was created without PocketBase created/updated autodates,
-        // so created>= filters 400. Load all rows and roll up all-time until schema is fixed.
-        const rows = await listAllRecords('_site_visits');
-        const bySource = (list) => list.reduce((a, r) => {
-          const s = r.source || 'unknown';
-          a[s] = (a[s] || 0) + 1;
-          return a;
-        }, {});
-        const sources = bySource(rows);
-        const clock = sources.clockworks || 0;
-        const sessions = new Set(rows.map(r => r.session_id).filter(Boolean)).size;
-        const jjPages = rows.filter(r =>
-          /utm_source=clockworks/i.test(r.page || '') ||
-          /utm:clockworks/i.test(r.referrer_raw || '') ||
-          r.source === 'clockworks'
-        );
-        const hhhPages = rows.filter(r => /#hhh\b/i.test(r.page || '')).length;
-
-        function card(title, value, note) {
-          return `<div class="card"><div class="card-label">${title}</div><div class="card-value">${value}</div><div class="card-note">${note}</div></div>`;
-        }
-        cards.innerHTML =
-          card('Visits · all time', String(rows.length), `${sessions} sessions`) +
-          card('HHH hash pages', String(hhhPages), 'page contains #hhh') +
-          card('Clockworks / JJ', String(clock), 'source=clockworks') +
-          card('Clockworks UTM rows', String(jjPages.length), 'UTM or source tag');
-
-        const srcRows = Object.entries(sources).sort((a, b) => b[1] - a[1])
-          .map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('') || '<tr><td colspan="2">(none)</td></tr>';
-        tables.innerHTML = `
-          <p class="section-explainer" style="margin-top:1rem;">24h/7d windows need a <code>created</code> autoday on <code>_site_visits</code> — showing all-time until that schema fix lands.</p>
-          <h3 style="margin-top:1.5rem;">Sources · all time</h3>
-          <table class="data"><thead><tr><th>Source</th><th>Visits</th></tr></thead><tbody>${srcRows}</tbody></table>
-          <h3 style="margin-top:1.5rem;">Clockworks-tagged hits</h3>
-          <table class="data"><thead><tr><th>Id</th><th>Page</th><th>Source</th></tr></thead><tbody>
-            ${jjPages.slice(0, 25).map(r =>
-              `<tr><td>${(r.id || '').slice(0, 12)}</td><td style="word-break:break-all;max-width:28rem;">${(r.page || '').replace(/</g, '&lt;')}</td><td>${r.source || ''}</td></tr>`
-            ).join('') || '<tr><td colspan="3">No Clockworks hits yet — open the plaque URL once to verify.</td></tr>'}
-          </tbody></table>`;
-        status.textContent = `Loaded ${rows.length} visits (all time). Data as of ${new Date().toLocaleTimeString()}.`;
-        document.getElementById('pulse').classList.remove('stale');
-        document.getElementById('lastRefresh').textContent = `updated ${new Date().toLocaleTimeString()}`;
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/New_York",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date(iso));
       } catch (e) {
-        status.textContent = 'Error: ' + (e.message || e);
-        document.getElementById('pulse').classList.add('stale');
+        return String(iso).slice(0, 10);
       }
     }
+    function trInRange(r, range, todayKey) {
+      if (range === "all") return true;
+      if (!r.created) return false;
+      if (range === "today") return trDayKeyEt(r.created) === todayKey;
+      const ms = range === "7d" ? 7 * 864e5 : 30 * 864e5;
+      return new Date(r.created).getTime() >= Date.now() - ms;
+    }
+    function trNormSource(r) {
+      const page = r.page || "";
+      const ref = r.referrer_raw || "";
+      const blob = page + " " + ref;
+      const raw = String(r.source || "").toLowerCase();
+      if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
+      if (
+        raw === "facebook" ||
+        raw === "instagram" ||
+        /utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)
+      ) return "Meta";
+      if (raw === "search") return "Search";
+      if (raw === "direct" || raw === "internal") return "Direct";
+      if (raw === "social") return "Social";
+      if (raw === "external") return "External";
+      if (!raw || raw === "unknown") return "Unknown";
+      return String(r.source);
+    }
+    function trEventName(r) {
+      return String(r.page || "").replace(/^outbound:/, "") || "(blank)";
+    }
+    function trLabelEvent(ev) {
+      const map = {
+        "outbound-play-hhh": "Play · HHH",
+        "outbound-appstore-hhh": "App Store · HHH",
+        "outbound-testflight-hhh": "TestFlight · HHH",
+        "outbound-play-pbj": "Play · PBJ",
+        "outbound-appstore-pbj": "App Store · PBJ",
+        "outbound-play": "Play · other",
+        "outbound-appstore": "App Store · other",
+      };
+      return map[ev] || ev;
+    }
+    function trStorePlatform(ev) {
+      if (/play/i.test(ev)) return "Android";
+      if (/appstore|testflight/i.test(ev)) return "iOS";
+      return "Other";
+    }
+    function trUaPlatform(ua) {
+      const s = ua || "";
+      if (/iPhone|iPad|iPod/i.test(s)) return "iOS";
+      if (/Android/i.test(s)) return "Android";
+      return "Desktop";
+    }
+    function trPct(n, d) {
+      if (!d) return "—";
+      return ((100 * n) / d).toFixed(0) + "%";
+    }
+    function trEsc(s) {
+      return String(s || "").replace(/</g, "&lt;");
+    }
+
+    async function trFetchInstalls() {
+      const key = localStorage.getItem("pbj_shared_key") || "";
+      if (!key) {
+        return { ok: false, reason: "Save your Worker key on Flywheel (same browser) to load HHH heartbeats." };
+      }
+      try {
+        const r = await fetch(`${TR_WORKER}/ops/subscriptions`, {
+          headers: { "X-PBJ-Key": key },
+          signal: AbortSignal.timeout(12000),
+        });
+        if (!r.ok) return { ok: false, reason: `Worker HTTP ${r.status}` };
+        const j = await r.json();
+        const hhh = (j.apps || []).find((a) => a.app === "hhh");
+        return { ok: true, hhh, generated_at: j.generated_at };
+      } catch (e) {
+        return { ok: false, reason: String(e.message || e).slice(0, 120) };
+      }
+    }
+
+    function trRender(rows, installs) {
+      const todayKey = trDayKeyEt(new Date().toISOString());
+      const scoped = rows.filter((r) => trInRange(r, trRange, todayKey));
+      const pageviews = scoped.filter((r) => !trIsOutbound(r));
+      const outbound = scoped.filter(trIsOutbound);
+      const hhhOut = outbound.filter((r) => /hhh/i.test(trEventName(r)));
+
+      const sessions = new Set(pageviews.map((r) => r.session_id).filter(Boolean));
+      const clickSessions = new Set(hhhOut.map((r) => r.session_id).filter(Boolean));
+      const landed = sessions.size || pageviews.length;
+      const clicked = clickSessions.size || hhhOut.length;
+      const lost = Math.max(0, landed - clicked);
+      const clickRate = landed ? clicked / landed : 0;
+
+      // Per-source funnel (session-based when possible)
+      const bySource = {};
+      function ensure(src) {
+        if (!bySource[src]) {
+          bySource[src] = {
+            landSessions: new Set(),
+            clickSessions: new Set(),
+            landings: 0,
+            clicks: 0,
+            play: 0,
+            ios: 0,
+          };
+        }
+        return bySource[src];
+      }
+      for (const r of pageviews) {
+        const s = ensure(trNormSource(r));
+        s.landings += 1;
+        if (r.session_id) s.landSessions.add(r.session_id);
+      }
+      for (const r of hhhOut) {
+        const s = ensure(trNormSource(r));
+        s.clicks += 1;
+        if (r.session_id) s.clickSessions.add(r.session_id);
+        const plat = trStorePlatform(trEventName(r));
+        if (plat === "Android") s.play += 1;
+        else if (plat === "iOS") s.ios += 1;
+      }
+
+      const sourceRows = Object.entries(bySource)
+        .map(([name, s]) => {
+          const land = s.landSessions.size || s.landings;
+          const clk = s.clickSessions.size || s.clicks;
+          return {
+            name,
+            land,
+            clk,
+            lost: Math.max(0, land - clk),
+            rate: land ? clk / land : 0,
+            play: s.play,
+            ios: s.ios,
+          };
+        })
+        .sort((a, b) => b.land - a.land || b.clk - a.clk);
+
+      const uaLand = { Android: 0, iOS: 0, Desktop: 0 };
+      const uaClick = { Android: 0, iOS: 0, Desktop: 0 };
+      for (const r of pageviews) uaLand[trUaPlatform(r.user_agent)] = (uaLand[trUaPlatform(r.user_agent)] || 0) + 1;
+      for (const r of hhhOut) uaClick[trUaPlatform(r.user_agent)] = (uaClick[trUaPlatform(r.user_agent)] || 0) + 1;
+
+      const playClicks = hhhOut.filter((r) => trStorePlatform(trEventName(r)) === "Android").length;
+      const iosClicks = hhhOut.filter((r) => trStorePlatform(trEventName(r)) === "iOS").length;
+
+      const hb = installs?.ok ? installs.hhh?.heartbeats : null;
+      const plat = hb?.platforms || {};
+      const installAndroid = plat.android ?? null;
+      const installIos = plat.ios ?? null;
+      const installTotal = hb?.total_devices ?? null;
+
+      document.getElementById("trFunnel").innerHTML = `
+        <div class="tr-step ok">
+          <div class="lbl">1 · Landed on site</div>
+          <div class="val">${landed}</div>
+          <div class="note">${pageviews.length} pageviews · ${sessions.size} sessions</div>
+        </div>
+        <div class="tr-step ${clicked ? "ok" : "warn"}">
+          <div class="lbl">2 · Tapped store</div>
+          <div class="val">${clicked}</div>
+          <div class="note">${hhhOut.length} clicks · Play ${playClicks} · iOS ${iosClicks}</div>
+        </div>
+        <div class="tr-step loss">
+          <div class="lbl">Lost on site</div>
+          <div class="val">${lost}</div>
+          <div class="note">${trPct(lost, landed)} of landings never clicked a store badge</div>
+        </div>
+        <div class="tr-step ${installTotal ? "ok" : "warn"}">
+          <div class="lbl">3 · Active installs</div>
+          <div class="val">${installTotal != null ? installTotal : "—"}</div>
+          <div class="note">${
+            installTotal != null
+              ? `Android ${installAndroid ?? 0} · iOS ${installIos ?? 0} (HHH heartbeats · 30d)`
+              : "Worker key needed · or check Play / ASC links below"
+          }</div>
+        </div>`;
+
+      const dropEl = document.getElementById("trDrop");
+      if (!landed) {
+        dropEl.innerHTML = `<div class="tr-drop">No landings in this window — plaque/ads may be quiet, or UTMs missing.</div>`;
+      } else if (clickRate < 0.05) {
+        dropEl.innerHTML = `<div class="tr-drop">Biggest leak is on-site: only ${trPct(clicked, landed)} of visitors tap Play/App Store. Fix CTA / badge prominence before spending more on Meta.</div>`;
+      } else if (clickRate < 0.2) {
+        dropEl.innerHTML = `<div class="tr-drop">Moderate on-site conversion (${trPct(clicked, landed)} click store). Check which source drops hardest in the table below.</div>`;
+      } else {
+        dropEl.innerHTML = `<div class="tr-drop good">Healthy store-click rate (${trPct(clicked, landed)}). Next leak is listing → install (Play Console / ASC).</div>`;
+      }
+
+      const maxLand = Math.max(1, ...sourceRows.map((s) => s.land));
+      const bars = sourceRows
+        .slice(0, 8)
+        .map((s) => {
+          const wLand = Math.round((100 * s.land) / maxLand);
+          const wClick = s.land ? Math.round((100 * s.clk) / maxLand) : 0;
+          return `<div style="margin-bottom:10px;">
+            <div class="tr-bar-row">
+              <div class="tr-bar-label"><strong>${trEsc(s.name)}</strong></div>
+              <div class="tr-bar-track"><div class="tr-bar-fill" style="width:${wLand}%"></div></div>
+              <div class="tr-bar-meta">${s.land} land</div>
+            </div>
+            <div class="tr-bar-row">
+              <div class="tr-bar-label" style="color:var(--text-muted)">→ store</div>
+              <div class="tr-bar-track"><div class="tr-bar-fill click" style="width:${wClick}%"></div></div>
+              <div class="tr-bar-meta">${s.clk} click · ${trPct(s.clk, s.land)}</div>
+            </div>
+          </div>`;
+        })
+        .join("");
+
+      document.getElementById("trInstallCards").innerHTML = `
+        <div class="card"><div class="card-label">Store clicks · Android</div><div class="card-value">${playClicks}</div><div class="card-note">Play badge taps this window</div></div>
+        <div class="card"><div class="card-label">Store clicks · iOS</div><div class="card-value">${iosClicks}</div><div class="card-note">App Store / TestFlight taps</div></div>
+        <div class="card"><div class="card-label">Visitor devices</div><div class="card-value">${uaLand.Android}/${uaLand.iOS}/${uaLand.Desktop}</div><div class="card-note">Landings UA · Android / iOS / Desktop</div></div>
+        <div class="card"><div class="card-label">HHH installs (heartbeat)</div><div class="card-value">${installTotal != null ? `${installAndroid ?? 0} / ${installIos ?? 0}` : "—"}</div><div class="card-note">${installs?.ok ? "Android / iOS active devices · 30d" : trEsc(installs?.reason || "Unavailable")}</div></div>`;
+
+      const tableSrc = sourceRows
+        .map((s) => {
+          const lostCls = s.land && s.clk === 0 ? "bad" : s.rate >= 0.2 ? "ok" : "";
+          return `<tr>
+            <td>${trEsc(s.name)}</td>
+            <td class="num">${s.land}</td>
+            <td class="num">${s.clk}</td>
+            <td class="num ${lostCls}">${s.lost}</td>
+            <td class="num">${trPct(s.clk, s.land)}</td>
+            <td class="num">${s.play}</td>
+            <td class="num">${s.ios}</td>
+          </tr>`;
+        })
+        .join("") || `<tr><td colspan="7">No traffic in this window.</td></tr>`;
+
+      const recentOut = hhhOut
+        .slice()
+        .sort((a, b) => String(b.created).localeCompare(String(a.created)))
+        .slice(0, 20)
+        .map((r) => {
+          const from = ((r.referrer_raw || "").match(/from:([^|]+)/) || [])[1] || "";
+          return `<tr>
+            <td>${trEsc(r.created || "—")}</td>
+            <td>${trEsc(trNormSource(r))}</td>
+            <td>${trLabelEvent(trEventName(r))}</td>
+            <td>${trUaPlatform(r.user_agent)}</td>
+            <td style="word-break:break-all;max-width:18rem;">${trEsc(from)}</td>
+          </tr>`;
+        })
+        .join("") || `<tr><td colspan="5">No store clicks yet — tap a badge on josspatech.com/#hhh to verify tracking.</td></tr>`;
+
+      document.getElementById("trTables").innerHTML = `
+        <h3 style="margin-top:1.25rem;">Where they come from · where we lose them</h3>
+        <p class="section-explainer">Land = unique sessions (fallback: pageviews). Lost = landed with no HHH store-badge tap in the same session.</p>
+        ${bars || "<p class='section-explainer'>No sources yet.</p>"}
+        <table class="data" style="margin-top:1rem;">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th class="num">Landed</th>
+              <th class="num">Clicked store</th>
+              <th class="num">Lost on site</th>
+              <th class="num">Click rate</th>
+              <th class="num">Play</th>
+              <th class="num">iOS</th>
+            </tr>
+          </thead>
+          <tbody>${tableSrc}</tbody>
+        </table>
+
+        <h3 style="margin-top:1.5rem;">Recent store clicks</h3>
+        <table class="data">
+          <thead><tr><th>When</th><th>Source</th><th>Store</th><th>Device</th><th>From page</th></tr></thead>
+          <tbody>${recentOut}</tbody>
+        </table>
+
+        <h3 style="margin-top:1.5rem;">Install truth (outside the site)</h3>
+        <p class="section-explainer">
+          Heartbeats = devices that opened HHH in the last 30 days (not the same as new installs).
+          For new Android installs open
+          <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">Play statistics</a>;
+          for iOS use
+          <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">ASC metrics</a>
+          (App Store page is live only after approval).
+        </p>`;
+
+      const rangeLabel = { today: "today", "7d": "7d", "30d": "30d", all: "all-time" }[trRange];
+      document.getElementById("trStatus").textContent =
+        `${rangeLabel}: ${landed} landed · ${clicked} clicked store · ${lost} lost on site · ${new Date().toLocaleTimeString()}`;
+      document.getElementById("pulse").classList.remove("stale");
+      document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    async function trRefresh() {
+      const status = document.getElementById("trStatus");
+      status.textContent = "Loading…";
+      try {
+        if (!trCacheRows) trCacheRows = await listAllRecords("_site_visits");
+        else {
+          // soft refresh: reload
+          trCacheRows = await listAllRecords("_site_visits");
+        }
+        const installs = await trFetchInstalls();
+        trRender(trCacheRows, installs);
+      } catch (e) {
+        status.textContent = "Error: " + (e.message || e);
+        document.getElementById("pulse").classList.add("stale");
+      }
+    }
+
+    document.getElementById("trRange").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-range]");
+      if (!btn) return;
+      trRange = btn.getAttribute("data-range");
+      [...document.querySelectorAll("#trRange button")].forEach((b) => b.classList.toggle("active", b === btn));
+      if (trCacheRows) {
+        trFetchInstalls().then((installs) => trRender(trCacheRows, installs));
+      } else {
+        trRefresh();
+      }
+    });
+
+    window.trRefresh = trRefresh;
   </script>
 </body>
 </html>

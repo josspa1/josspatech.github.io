@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+"""Capture Demand Rolodex board / send / receive — in-app only, no OS contacts."""
+import os
+import re
+import sys
+import time
+from pathlib import Path
+from importlib.machinery import SourceFileLoader
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+os.environ["ANDROID_SERIAL"] = os.environ.get("ANDROID_SERIAL", "R5CXC2K4Z8F")
+mod = SourceFileLoader(
+    "cap",
+    str(Path(__file__).resolve().parent / "capture-hhh-phone-priority-shots.py"),
+).load_module()
+
+
+def abort_if_os() -> None:
+    if mod.has(r"All contacts|Contact details|com\.android\.contacts|com\.samsung\.android\.app\.contacts"):
+        raise SystemExit("OS contacts detected — abort")
+
+
+def tap_largest(needle: str) -> bool:
+    xml = mod.ui()
+    best = None
+    for node in re.findall(r"<node[^>]+>", xml):
+        text_m = re.search(r'text="([^"]*)"', node)
+        desc_m = re.search(r'content-desc="([^"]*)"', node)
+        hay = f"{text_m.group(1) if text_m else ''} {desc_m.group(1) if desc_m else ''}"
+        if needle.lower() not in hay.lower():
+            continue
+        # Never tap phone/email pickers
+        if re.search(r"pick contact|choose contact|from contacts", hay, re.I):
+            continue
+        m = re.search(r'bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"', node)
+        if not m:
+            continue
+        x1, y1, x2, y2 = map(int, m.groups())
+        area = (x2 - x1) * (y2 - y1)
+        if area < 4000 or y1 > 2700:
+            continue
+        score = area + (50000 if 'clickable="true"' in node else 0)
+        if best is None or score > best[0]:
+            best = (score, (x1 + x2) // 2, (y1 + y2) // 2)
+    if not best:
+        print(f"MISS {needle}")
+        return False
+    print(f"tap {needle!r} @ {best[1]},{best[2]}")
+    mod.tap(best[1], best[2], wait=1.8)
+    abort_if_os()
+    return True
+
+
+mod.wake_and_launch()
+ok, reason = mod.foreground_ok()
+print("start:", ok, reason)
+
+mod.tab("Tools")
+time.sleep(1.0)
+mod.swipe_down(4)
+for _ in range(16):
+    if mod.has(r"Demand Rolodex"):
+        break
+    mod.swipe_up(1)
+if not tap_largest("Demand Rolodex"):
+    raise SystemExit("Demand Rolodex missing")
+time.sleep(1.5)
+abort_if_os()
+
+# Board (dealer view with mock cards from Ludwig demo)
+p_board = mod.shot("23-demand-rolodex-board")
+print("board:", p_board)
+
+# Receive tab/button if present — do not open Bluetooth OS sheets if avoidable
+if tap_largest("Receive"):
+    time.sleep(1.2)
+    abort_if_os()
+    if mod.has(r"All contacts|ShareSheet"):
+        mod.back(1)
+    else:
+        p_recv = mod.shot("22-demand-rolodex-receive")
+        print("receive:", p_recv)
+        mod.back(1)
+else:
+    print("no Receive control — skip 22")
+
+# Send — Prefer in-app Send, avoid Contact picker fields
+if tap_largest("Send"):
+    time.sleep(1.2)
+    abort_if_os()
+    # If form asks for contact, shoot the form WITHOUT tapping phone/email pickers
+    p_send = mod.shot("21-demand-rolodex-send")
+    print("send:", p_send)
+    mod.back(1)
+else:
+    # Maybe Send is elsewhere — wish-list path
+    print("no Send on board — trying Share / want")
+    if tap_largest("Share") or tap_largest("want list") or tap_largest("Send want"):
+        abort_if_os()
+        p_send = mod.shot("21-demand-rolodex-send")
+        print("send:", p_send)
+
+mod.back(2)
+print("done")

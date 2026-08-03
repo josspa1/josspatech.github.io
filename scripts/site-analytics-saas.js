@@ -82,17 +82,26 @@
         (meta.utmTag ? 'utm:' + meta.utmTag + ' | ' : '') +
         (extraRef ? extraRef + ' | ' : '') +
         meta.ref;
-      fetch(PB + '/api/collections/' + VISIT_COL + '/records', {
+      var body = JSON.stringify({
+        page: String(page || fullPath()).slice(0, 400),
+        referrer_host: meta.refHost.slice(0, 120),
+        referrer_raw: refRaw.slice(0, 500),
+        user_agent: (navigator.userAgent || '').slice(0, 300),
+        session_id: sessionId(),
+        source: meta.source,
+      });
+      var url = PB + '/api/collections/' + VISIT_COL + '/records';
+      // sendBeacon first for store clicks / tab switches — fetch keepalive still fails often on mobile
+      if (navigator.sendBeacon) {
+        try {
+          var ok = navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
+          if (ok) return;
+        } catch (e) {}
+      }
+      fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          page: String(page || fullPath()).slice(0, 400),
-          referrer_host: meta.refHost.slice(0, 120),
-          referrer_raw: refRaw.slice(0, 500),
-          user_agent: (navigator.userAgent || '').slice(0, 300),
-          session_id: sessionId(),
-          source: meta.source,
-        }),
+        body: body,
         keepalive: true,
       }).catch(function () {});
     } catch (e) {}
@@ -156,30 +165,35 @@
     return null;
   }
 
+  var _lastStoreTrack = { href: '', t: 0 };
+
   function trackStoreOutbound(info, href) {
+    var now = Date.now();
+    // Dedupe pointerdown + click on the same badge
+    if (_lastStoreTrack.href === href && now - _lastStoreTrack.t < 1500) return;
+    _lastStoreTrack = { href: href, t: now };
     // GoatCounter Events tab (event:true — path is the event name)
     countGoat(info.event, { title: info.title, event: true, no_session: true });
     // PocketBase: filter page startsWith outbound:
     postPocketBase('outbound:' + info.event, 'href:' + String(href || '').slice(0, 200) + ' | from:' + fullPath());
   }
 
-  // Capture-phase so we still fire when the browser leaves for Play / TestFlight
-  document.addEventListener(
-    'click',
-    function (e) {
-      if (e.defaultPrevented) return;
-      if (e.button != null && e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      var el = e.target;
-      if (!el || !el.closest) return;
-      var a = el.closest('a[href]');
-      if (!a || !a.href) return;
-      var info = classifyStoreHref(a.href);
-      if (!info) return;
-      trackStoreOutbound(info, a.href);
-    },
-    true
-  );
+  function onStoreLinkIntent(e) {
+    if (e.defaultPrevented) return;
+    if (e.type === 'click' && e.button != null && e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var el = e.target;
+    if (!el || !el.closest) return;
+    var a = el.closest('a[href]');
+    if (!a || !a.href) return;
+    var info = classifyStoreHref(a.href);
+    if (!info) return;
+    trackStoreOutbound(info, a.href);
+  }
+
+  // pointerdown fires before navigation; click covers keyboard activation
+  document.addEventListener('pointerdown', onStoreLinkIntent, true);
+  document.addEventListener('click', onStoreLinkIntent, true);
 
   // GoatCounter: include hash so /#hhh and /?utm…#hhh are distinct paths
   try {

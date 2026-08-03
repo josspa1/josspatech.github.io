@@ -761,11 +761,11 @@ Generated ${new Date().toISOString()}.
     {
       app: "Curator's Vault: Classics (CVC)",
       ios:    { version: null,   build: null,  status: "notship" },
-      android:{ version: null,   build: null,  status: "notship" },
-      lastSubmitted: null,
-      bundleId: "com.josspatech.curatorsvault",   // Verify against actual bundle ID
+      android:{ version: "1.0.4", build: "45", status: "open" },
+      lastSubmitted: "2026-07-30",
+      bundleId: "com.josspatech.cts",
       appStoreId: null,
-      notes: "First-ever build owed — SetCompletion, GradingGuide, cert-verify, photo-studio camera all in source."
+      notes: "Open testing (US) v1.0.4 (build 45). Crashlytics wired under Handy Horology Helper Firebase — needs next AAB ship for live metrics. iOS not shipped."
     },
   ];
 
@@ -775,6 +775,7 @@ Generated ${new Date().toISOString()}.
     const statusLabel = (s) => ({
       live: "Live", review: "In Review", rejected: "Rejected",
       notship: "Not Shipped", testflight: "TestFlight / Closed Testing",
+      open: "Open Testing",
     }[s] || s);
     const cell = (s) => s.version
       ? `<span class="v-mono">${s.version} (${s.build})</span> <span class="v-status ${s.status}">${statusLabel(s.status)}</span>`
@@ -3930,6 +3931,11 @@ function wmOpenCostChart(chartId) {
             <div class="lbl">Trial ended, not paying</div>
             <div class="val">${hb.expired ?? 0}</div>
             <div class="hint">Trial over, still opening the app, has not subscribed.</div>
+          </div>
+          <div class="sub-users-metric">
+            <div class="lbl">Android / iOS</div>
+            <div class="val">${(hb.platforms && (hb.platforms.android != null || hb.platforms.ios != null)) ? `${hb.platforms.android ?? 0} / ${hb.platforms.ios ?? 0}` : "—"}</div>
+            <div class="hint">Active devices by platform from heartbeats (other: ${hb.platforms?.other ?? 0}).</div>
           </div>
         </div>
         <div class="sub-users-foot"><strong>RC:</strong> ${rcNote}<br><strong>Heartbeats:</strong> ${hbNote}</div>

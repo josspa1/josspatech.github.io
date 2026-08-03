@@ -16,6 +16,7 @@ while ((m = re.exec(html))) {
   const idx = Number((attrs.match(/data-index="(\d+)"/) || [])[1]);
   const chunk = html.slice(m.index, m.index + 900);
   const src = (chunk.match(/<img[^>]+src="([^"]+)"/) || [])[1] || null;
+  const multiRaw = (attrs.match(/data-taps='([^']+)'/) || [])[1];
   slides.push({
     idx,
     src,
@@ -24,6 +25,7 @@ while ((m = re.exec(html))) {
     tapY: (attrs.match(/data-tap-y="([^"]+)"/) || [])[1],
     label: (attrs.match(/data-tap-label="([^"]+)"/) || [])[1],
     showAt: Number((attrs.match(/data-tap-show-at="([^"]+)"/) || [])[1] || '0.3'),
+    multiTap: !!multiRaw,
   });
 }
 
@@ -49,7 +51,7 @@ const tapIssues = [];
 for (const s of slides) {
   const n = narr[s.idx] || '';
   const hasVerb = TAP_VERB.test(n);
-  const hasTap = !s.tapNone && s.tapX != null;
+  const hasTap = !s.tapNone && (s.tapX != null || s.multiTap);
   if (hasVerb && s.tapNone) tapIssues.push({ idx: s.idx, issue: 'verb+none', n: n.slice(0, 90) });
   if (hasVerb && !hasTap && !s.tapNone) tapIssues.push({ idx: s.idx, issue: 'verb+noCoords', n: n.slice(0, 90) });
   if (!hasVerb && hasTap) tapIssues.push({ idx: s.idx, issue: 'coords+noVerb', label: s.label, n: n.slice(0, 90) });

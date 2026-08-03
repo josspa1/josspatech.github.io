@@ -3,13 +3,14 @@
  * Render videos/user-guide/index.html to MP4 with muxed per-slide narration.
  *
  * Captures one viewport screenshot per slide (phone frame + transcript), then
- * assembles 8s/slide video via ffmpeg and muxes edge-tts MP3s from audio/.
+ * assembles video via ffmpeg with **per-slide duration = narration MP3 length
+ * + small buffer** (not a fixed 8s clock). Muxes edge-tts MP3s from audio/.
  *
  * Usage:
  *   node scripts/render-user-guide-video.js [--preview] [--port=4174] [--fast]
  *
  *   --preview   Slides 0–26 only
- *   --fast      2s/slide (smoke test)
+ *   --fast      2s/slide (smoke test; ignores real audio length)
  */
 'use strict';
 
@@ -32,6 +33,40 @@ const PORT = portArg ? parseInt(portArg.split('=')[1], 10) : 4174;
 const SLIDE_COUNT = preview ? 27 : 120;
 const FALLBACK_SLIDE_SEC = fast ? 2 : 8;
 const CHANGE_BUFFER_SEC = fast ? 0.1 : 0.18;
+const INDEX_HTML = path.join(OUT_DIR, 'index.html');
+
+function parseSlideTapMeta(htmlPath) {
+  const html = fs.readFileSync(htmlPath, 'utf8');
+  const meta = [];
+  const blocks = html.split(/<div class="slide(?:\s+active)?"/);
+  for (let i = 1; i < blocks.length; i++) {
+    const head = blocks[i].split('>')[0] || '';
+    const tapNone = /\bdata-tap-none\b/.test(head);
+    const tapX = head.match(/\bdata-tap-x="([^"]+)"/);
+    const showAt = head.match(/\bdata-tap-show-at="([^"]+)"/);
+    const duration = head.match(/\bdata-tap-duration="([^"]+)"/);
+    const multiRaw = (head.match(/\bdata-taps='([^']+)'/) || [])[1];
+    let sequence = null;
+    if (multiRaw) {
+      try {
+        sequence = JSON.parse(multiRaw).filter((t) => t && t.x != null && t.y != null).map((t) => ({
+          at: typeof t.at === 'number' ? t.at : 0.3,
+          dur: typeof t.dur === 'number' ? t.dur : 2.5,
+        }));
+      } catch {
+        sequence = null;
+      }
+    }
+    meta.push({
+      tapNone,
+      hasTap: !tapNone && (!!tapX || !!(sequence && sequence.length)),
+      showAt: showAt ? parseFloat(showAt[1]) : 0.3,
+      duration: duration ? parseFloat(duration[1]) : 2.5,
+      sequence,
+    });
+  }
+  return meta;
+}
 
 function resolveFfmpeg() {
   const fromEnv = process.env.FFMPEG_PATH;
@@ -157,17 +192,63 @@ function buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, outPath) {
   } catch { /* ignore */ }
 }
 
-function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, outPath) {
+function buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, tapMeta, outPath) {
   const listFile = path.join(shotDir, 'frames.txt');
   const lines = [];
+  const esc = (p) => p.replace(/\\/g, '/').replace(/'/g, "'\\''");
+
   for (let i = 0; i < slideDurations.length; i++) {
-    const png = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
-    if (!fs.existsSync(png)) throw new Error(`Missing screenshot: ${png}`);
-    lines.push(`file '${png.replace(/\\/g, '/').replace(/'/g, "'\\''")}'`);
-    lines.push(`duration ${slideDurations[i]}`);
+    const slideSec = slideDurations[i];
+    const meta = tapMeta[i] || { hasTap: false };
+    const pad = String(i).padStart(3, '0');
+    const prePng = path.join(shotDir, `frame-${pad}-pre.png`);
+    const tapPng = path.join(shotDir, `frame-${pad}-tap.png`);
+    const singlePng = path.join(shotDir, `frame-${pad}.png`);
+
+    if (meta.sequence && meta.sequence.length && fs.existsSync(prePng)) {
+      let cursor = 0;
+      for (let s = 0; s < meta.sequence.length; s++) {
+        const step = meta.sequence[s];
+        const stepPng = path.join(shotDir, `frame-${pad}-tap-${s}.png`);
+        if (!fs.existsSync(stepPng)) continue;
+        const at = Math.min(step.at, Math.max(0, slideSec - 0.2));
+        const preDur = Math.max(0, at - cursor);
+        if (preDur > 0.05) {
+          lines.push(`file '${esc(prePng)}'`, `duration ${preDur}`);
+        }
+        const tapDur = Math.min(step.dur, Math.max(0.25, slideSec - at));
+        lines.push(`file '${esc(stepPng)}'`, `duration ${tapDur}`);
+        cursor = at + tapDur;
+      }
+      const rest = Math.max(0.05, slideSec - cursor);
+      lines.push(`file '${esc(prePng)}'`, `duration ${rest}`);
+    } else if (meta.hasTap && fs.existsSync(prePng) && fs.existsSync(tapPng)) {
+      const showAt = Math.min(meta.showAt, Math.max(0, slideSec - meta.duration - 0.1));
+      const tapDur = Math.min(meta.duration, Math.max(0.3, slideSec - showAt));
+      const postDur = Math.max(0.05, slideSec - showAt - tapDur);
+      lines.push(`file '${esc(prePng)}'`, `duration ${showAt}`);
+      lines.push(`file '${esc(tapPng)}'`, `duration ${tapDur}`);
+      if (postDur > 0.05) lines.push(`file '${esc(prePng)}'`, `duration ${postDur}`);
+    } else {
+      const png = fs.existsSync(singlePng) ? singlePng : prePng;
+      if (!fs.existsSync(png)) throw new Error(`Missing screenshot: ${png}`);
+      lines.push(`file '${esc(png)}'`, `duration ${slideSec}`);
+    }
   }
-  const lastPng = path.join(shotDir, `frame-${String(slideDurations.length - 1).padStart(3, '0')}.png`);
-  lines.push(`file '${lastPng.replace(/\\/g, '/').replace(/'/g, "'\\''")}'`);
+
+  const lastIdx = slideDurations.length - 1;
+  const lastMeta = tapMeta[lastIdx] || { hasTap: false };
+  const lastPad = String(lastIdx).padStart(3, '0');
+  let lastPng = path.join(shotDir, `frame-${lastPad}.png`);
+  if (lastMeta.sequence && lastMeta.sequence.length) {
+    lastPng = path.join(shotDir, `frame-${lastPad}-pre.png`);
+  } else if (lastMeta.hasTap) {
+    const postDur = Math.max(0.05, slideDurations[lastIdx] - lastMeta.showAt - lastMeta.duration);
+    lastPng = postDur > 0.05
+      ? path.join(shotDir, `frame-${lastPad}-pre.png`)
+      : path.join(shotDir, `frame-${lastPad}-tap.png`);
+  }
+  lines.push(`file '${esc(lastPng)}'`);
   fs.writeFileSync(listFile, lines.join('\n'), 'utf8');
 
   runFfmpeg(ffmpeg, [
@@ -193,7 +274,7 @@ function muxVideoAudio(ffmpeg, videoPath, audioPath, outPath) {
   fs.renameSync(tmpOut, outPath);
 }
 
-async function captureSlideScreenshots(page, shotDir, slideCount) {
+async function captureSlideScreenshots(page, shotDir, slideCount, tapMeta) {
   fs.mkdirSync(shotDir, { recursive: true });
   await page.evaluate(() => {
     const tap = document.getElementById('tapToStart');
@@ -207,9 +288,55 @@ async function captureSlideScreenshots(page, shotDir, slideCount) {
       const dots = document.getElementById('dots');
       if (dots && dots.children[idx]) dots.children[idx].click();
     }, i);
-    await page.waitForTimeout(450);
-    const out = path.join(shotDir, `frame-${String(i).padStart(3, '0')}.png`);
-    await page.locator('.video-wrapper').screenshot({ path: out, type: 'png' });
+    await page.waitForTimeout(400);
+
+    const meta = tapMeta[i] || { hasTap: false };
+    const pad = String(i).padStart(3, '0');
+    const wrapper = page.locator('.video-wrapper');
+
+    if (meta.hasTap) {
+      await page.evaluate((idx) => {
+        if (window.PBJWalkthrough && window.PBJWalkthrough.hideTapNow) {
+          window.PBJWalkthrough.hideTapNow(idx);
+        }
+      }, i);
+      await page.waitForTimeout(150);
+      await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}-pre.png`), type: 'png' });
+
+      if (meta.sequence && meta.sequence.length) {
+        for (let s = 0; s < meta.sequence.length; s++) {
+          await page.evaluate(({ idx, step }) => {
+            if (window.PBJWalkthrough && window.PBJWalkthrough.showTapStep) {
+              window.PBJWalkthrough.showTapStep(idx, step);
+            } else if (window.PBJWalkthrough && window.PBJWalkthrough.showTapNow) {
+              window.PBJWalkthrough.showTapNow(idx);
+            }
+          }, { idx: i, step: s });
+          await page.waitForTimeout(200);
+          await wrapper.screenshot({
+            path: path.join(shotDir, `frame-${pad}-tap-${s}.png`),
+            type: 'png',
+          });
+        }
+      } else {
+        await page.evaluate((idx) => {
+          if (window.PBJWalkthrough && window.PBJWalkthrough.showTapNow) {
+            window.PBJWalkthrough.showTapNow(idx);
+          }
+        }, i);
+        await page.waitForTimeout(250);
+        await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}-tap.png`), type: 'png' });
+      }
+
+      await page.evaluate((idx) => {
+        if (window.PBJWalkthrough && window.PBJWalkthrough.hideTapNow) {
+          window.PBJWalkthrough.hideTapNow(idx);
+        }
+      }, i);
+    } else {
+      await wrapper.screenshot({ path: path.join(shotDir, `frame-${pad}.png`), type: 'png' });
+    }
+
     if ((i + 1) % 10 === 0 || i === slideCount - 1) {
       console.log(`[render] captured ${i + 1}/${slideCount} frames`);
     }
@@ -233,6 +360,7 @@ async function main() {
 
   const audioDir = path.join(OUT_DIR, 'audio');
   const slideDurations = getSlideDurations(ffmpeg, audioDir, SLIDE_COUNT);
+  const tapMeta = parseSlideTapMeta(INDEX_HTML);
   const totalSec = slideDurations.reduce((a, b) => a + b, 0);
   console.log(`[render] mode=${preview ? 'preview' : 'full'} slides=${SLIDE_COUNT} totalSec=${totalSec.toFixed(1)} (audio-timed)`);
 
@@ -260,7 +388,8 @@ async function main() {
     await page.goto(recordUrl, { waitUntil: 'networkidle', timeout: 120000 });
     await page.waitForSelector('.video-wrapper', { timeout: 30000 });
     console.log('[render] capturing slide screenshots …');
-    await captureSlideScreenshots(page, shotDir, SLIDE_COUNT);
+    console.log("[render] tap slides:", tapMeta.filter((t) => t.hasTap).length);
+    await captureSlideScreenshots(page, shotDir, SLIDE_COUNT, tapMeta);
   } finally {
     await context.close();
     await browser.close();
@@ -268,7 +397,7 @@ async function main() {
   }
 
   console.log('[render] building video from frames …');
-  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, videoOnlyPath);
+  buildVideoFromScreenshots(ffmpeg, shotDir, slideDurations, tapMeta, videoOnlyPath);
 
   console.log(`[render] building ${SLIDE_COUNT}-slide narration track (per-audio durations) …`);
   buildSlideAudioTrack(ffmpeg, audioDir, slideDurations, combinedAudio);

@@ -1,0 +1,842 @@
+[
+  {
+    "i": 0,
+    "n": "PocketBudJet opens with a splash screen after install. Wait for it to finish, then continue.",
+    "src": "/assets/screenshots/cold-start/splash.png",
+    "alt": "Splash",
+    "exists": true
+  },
+  {
+    "i": 1,
+    "n": "Swipe the feature showcase. Control your money with envelopes, bills, and goals on your phone. Tap Next.",
+    "src": "/assets/screenshots/cold-start/showcase-1.png",
+    "alt": "Showcase 1",
+    "exists": true
+  },
+  {
+    "i": 2,
+    "n": "Your AI financial coach learns your patterns and flags unusual spending. Tap Next.",
+    "src": "/assets/screenshots/cold-start/showcase-2.png",
+    "alt": "Showcase 2",
+    "exists": true
+  },
+  {
+    "i": 3,
+    "n": "Crush your debt — watch loan progress and your debt-free date on the Quick Tour. Tap Next.",
+    "src": "/assets/screenshots/cold-start/showcase-3.png",
+    "alt": "Showcase 3",
+    "exists": true
+  },
+  {
+    "i": 4,
+    "n": "Your data stays on your device — privacy first. Tap Get Started.",
+    "src": "/assets/screenshots/cold-start/showcase-4.png",
+    "alt": "Showcase 4",
+    "exists": true
+  },
+  {
+    "i": 5,
+    "n": "On first launch, the Terms of Service tab is open — scroll to the bottom.",
+    "src": "/assets/screenshots/cold-start/onboarding-terms-tab-initial.png",
+    "alt": "Onboarding terms tab initial",
+    "exists": true
+  },
+  {
+    "i": 6,
+    "n": "Tap Disclaimer and scroll that tab to the bottom too.",
+    "src": "/assets/screenshots/cold-start/onboarding-disclaimer-tab.png",
+    "alt": "Onboarding disclaimer tab",
+    "exists": true
+  },
+  {
+    "i": 7,
+    "n": "When both tabs are reviewed, tap I Accept — Continue.",
+    "src": "/assets/screenshots/cold-start/onboarding-terms-both-complete.png",
+    "alt": "Onboarding terms both complete",
+    "exists": true
+  },
+  {
+    "i": 8,
+    "n": "On Secure Your Data, toggle app lock if you want PIN or biometrics, then tap Continue to Home.",
+    "src": "/assets/screenshots/cold-start/security-setup.png",
+    "alt": "Security setup",
+    "exists": true
+  },
+  {
+    "i": 9,
+    "n": "You land on Home. Income, spending, and net cards sit at the top with widgets below.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "Wayfinding tab bar",
+    "exists": true
+  },
+  {
+    "i": 10,
+    "n": "The wayfinding tour opens on first launch. Landmark one: the tab bar — Home, Activity, Budget, Goals, and Coach. Tap Next.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-tab-bar.png",
+    "alt": "Wayfinding header",
+    "exists": true
+  },
+  {
+    "i": 11,
+    "n": "Landmark two: the header — Universal Search and the Coach button on every screen. Tap Next.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-header.png",
+    "alt": "Wayfinding drawer",
+    "exists": true
+  },
+  {
+    "i": 12,
+    "n": "Landmark three: the drawer — swipe from the left for Settings, Help, and the full nav map. Tap Next.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-drawer.png",
+    "alt": "Wayfinding toolbox",
+    "exists": true
+  },
+  {
+    "i": 13,
+    "n": "Landmark four: the Toolbox — import, export, scanners, and utilities in one place. Tap Next.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-toolbox.png",
+    "alt": "Wayfinding quick add",
+    "exists": true
+  },
+  {
+    "i": 14,
+    "n": "Landmark five: the quick-add button logs a transaction, category, or goal depending on your tab. Tap Done to finish the tour.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-quick-add.png",
+    "alt": "Subscription intro",
+    "exists": true
+  },
+  {
+    "i": 15,
+    "n": "On your second app open — or after five transactions — you may see Choose Your Plan. Start the 15-Day Premium trial with no card, or continue free.",
+    "src": "/assets/screenshots/cold-start/subscription-intro.png",
+    "alt": "Notification opt in",
+    "exists": true
+  },
+  {
+    "i": 16,
+    "n": "After onboarding, PocketBudJet may ask to send bill reminders and spending alerts. Allow notifications to stay ahead of due dates.",
+    "src": "/assets/screenshots/pbj/manual/notification-opt-in.png",
+    "alt": "Settings open",
+    "exists": true
+  },
+  {
+    "i": 17,
+    "n": "Setup is optional and not shown by default. Tap the gear icon, open Settings, then tap Set Up PocketBudJet to launch the wizard any time.",
+    "src": "/assets/screenshots/settings/settings-open.png",
+    "alt": "Step 1 name",
+    "exists": true
+  },
+  {
+    "i": 18,
+    "n": "Wizard step one: enter your display name and tap Next.",
+    "src": "/assets/screenshots/budget-setup/step-1-name.png",
+    "alt": "Wizard currency",
+    "exists": true
+  },
+  {
+    "i": 19,
+    "n": "Wizard step two: choose your home currency and tap Next.",
+    "src": "/assets/screenshots/cold-start/wizard-currency.png",
+    "alt": "Step 5 accounts",
+    "exists": true
+  },
+  {
+    "i": 20,
+    "n": "Wizard step three: add checking, savings, credit, or cash accounts — or tap Skip.",
+    "src": "/assets/screenshots/budget-setup/step-5-accounts.png",
+    "alt": "Step 2 income",
+    "exists": true
+  },
+  {
+    "i": 21,
+    "n": "Wizard step four: tap Income and enter gross pay and take-home pay. The difference becomes paycheck deductions you can itemize later.",
+    "src": "/assets/screenshots/budget-setup/step-2-income.png",
+    "alt": "Wizard bills",
+    "exists": true
+  },
+  {
+    "i": 22,
+    "n": "Wizard step five: add recurring bills with name, amount, and due day — or tap Skip.",
+    "src": "/assets/screenshots/cold-start/wizard-bills.png",
+    "alt": "Wizard goals",
+    "exists": true
+  },
+  {
+    "i": 23,
+    "n": "Wizard step six: pick your main financial goal to personalize the dashboard.",
+    "src": "/assets/screenshots/cold-start/wizard-goals.png",
+    "alt": "Step 3 templates",
+    "exists": true
+  },
+  {
+    "i": 24,
+    "n": "Wizard step seven: choose a budgeting style — 50/30/20, Envelope, Zero-Based, or another template.",
+    "src": "/assets/screenshots/budget-setup/step-3-templates.png",
+    "alt": "Step 7 dashboard",
+    "exists": true
+  },
+  {
+    "i": 25,
+    "n": "Wizard step eight: answer the colorblind-accessibility question, then tap Continue so charts use friendly palettes.",
+    "src": "/assets/screenshots/cold-start/wizard-accessibility.png",
+    "alt": "01 home dashboard",
+    "exists": true
+  },
+  {
+    "i": 26,
+    "n": "Wizard step nine: review your personalized summary, then tap Finish. Your dashboard is configured.",
+    "src": "/assets/screenshots/budget-setup/step-7-dashboard.png",
+    "alt": "Activity tab",
+    "exists": true
+  },
+  {
+    "i": 27,
+    "n": "On Home, scan hero cards for income, spending, and net worth. Widgets below show spending pace, bills due, and goal progress.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "Activity transaction list",
+    "exists": true
+  },
+  {
+    "i": 28,
+    "n": "Tap the Activity tab — wallet icon at bottom left — to see every transaction.",
+    "src": "/assets/screenshots/activity/activity-tab.png",
+    "alt": "Activity filters",
+    "exists": true
+  },
+  {
+    "i": 29,
+    "n": "Activity lists income and expenses grouped by date. Use search and filters to narrow by merchant, category, or amount.",
+    "src": "/assets/screenshots/activity/activity-transaction-list.png",
+    "alt": "Activity transaction detail",
+    "exists": true
+  },
+  {
+    "i": 30,
+    "n": "Tap the filter icon to stack date, category, and account filters. Running balances update per account as you scroll.",
+    "src": "/assets/screenshots/pbj/manual/activity-filters.png",
+    "alt": "Step 5 confirm import",
+    "exists": true
+  },
+  {
+    "i": 31,
+    "n": "Tap any row to open Transaction Detail — edit category, split, add notes, or attach a receipt.",
+    "src": "/assets/screenshots/activity/activity-transaction-detail.png",
+    "alt": "01 home dashboard",
+    "exists": true
+  },
+  {
+    "i": 32,
+    "n": "When imports add uncertain rows, open Approve Transactions to accept or fix them before they hit your budget.",
+    "src": "/assets/screenshots/import/step-5-confirm-import.png",
+    "alt": "03 budget envelopes",
+    "exists": true
+  },
+  {
+    "i": 33,
+    "n": "Tap the Budget tab — calendar icon — for envelope limits and monthly progress.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "Step 3 templates",
+    "exists": true
+  },
+  {
+    "i": 34,
+    "n": "Budget shows category envelopes with color-coded progress bars and rollover amounts.",
+    "src": "/assets/screenshots/pbj/03-budget-envelopes.png",
+    "alt": "03 budget envelopes",
+    "exists": true
+  },
+  {
+    "i": 35,
+    "n": "Tap any category row to rename it or change the monthly limit.",
+    "src": "/assets/screenshots/budget-setup/step-4-categories.png",
+    "alt": "Category manager",
+    "exists": true
+  },
+  {
+    "i": 36,
+    "n": "Tap Change Template to switch frameworks like 50/30/20, Envelope, or Zero-Based.",
+    "src": "/assets/screenshots/budget-setup/step-3-templates.png",
+    "alt": "01 home dashboard",
+    "exists": true
+  },
+  {
+    "i": 37,
+    "n": "Category Manager lets you add, merge, or hide categories and sub-categories.",
+    "src": "/assets/screenshots/budget/category-manager.png",
+    "alt": "06 goals languages",
+    "exists": true
+  },
+  {
+    "i": 38,
+    "n": "Spending Plan shows how much is left per envelope after bills and goals — your safe-to-spend number.",
+    "src": "/assets/screenshots/budget/spending-plan.png",
+    "alt": "06 goals languages",
+    "exists": true
+  },
+  {
+    "i": 39,
+    "n": "Tap the Goals tab — trending-up icon — for savings targets and sinking funds.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "06 goals languages",
+    "exists": true
+  },
+  {
+    "i": 40,
+    "n": "Goals tracks targets with progress rings, wishlist cool-offs, and sinking funds for irregular expenses.",
+    "src": "/assets/screenshots/pbj/06-goals-languages.png",
+    "alt": "Purchase wishlist",
+    "exists": true
+  },
+  {
+    "i": 41,
+    "n": "Tap the plus button. Enter a name, target amount, and date. PocketBudJet calculates your monthly contribution.",
+    "src": "/assets/screenshots/pbj/06-goals-languages.png",
+    "alt": "01 home dashboard",
+    "exists": true
+  },
+  {
+    "i": 42,
+    "n": "Add sinking funds for annual expenses like insurance. Use the wishlist to cool off on impulse buys before committing.",
+    "src": "/assets/screenshots/pbj/06-goals-languages.png",
+    "alt": "05 ai coach",
+    "exists": true
+  },
+  {
+    "i": 43,
+    "n": "Purchase Wishlist lets you queue wants with a cooling-off timer before money leaves your account.",
+    "src": "/assets/screenshots/goals/purchase-wishlist.png",
+    "alt": "Purchase wishlist",
+    "exists": true
+  },
+  {
+    "i": 44,
+    "n": "Tap the Coach tab — sparkles icon — for insights, reports, and AI chat.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "Weekly recap",
+    "exists": true
+  },
+  {
+    "i": 45,
+    "n": "Coach's Today segment highlights anomalies, bill reminders, and nudges based on your data.",
+    "src": "/assets/screenshots/pbj/05-ai-coach.png",
+    "alt": "05 ai coach",
+    "exists": true
+  },
+  {
+    "i": 46,
+    "n": "Tap Ask to chat in plain English — try \"How much did I spend on dining last month?\"",
+    "src": "/assets/screenshots/pbj/05-ai-coach.png",
+    "alt": "Wayfinding quick add",
+    "exists": true
+  },
+  {
+    "i": 47,
+    "n": "Weekly Recap summarizes income, spending, and wins from Coach or your notification.",
+    "src": "/assets/screenshots/coach/weekly-recap.png",
+    "alt": "Step 6 scan",
+    "exists": true
+  },
+  {
+    "i": 48,
+    "n": "To log spending manually, open Activity or tap the gold plus button from any screen.",
+    "src": "/assets/screenshots/pbj/01-home-dashboard.png",
+    "alt": "Step 6 scan",
+    "exists": true
+  },
+  {
+    "i": 49,
+    "n": "Tap the gold plus button at bottom center. You can finish in under ten seconds.",
+    "src": "/assets/screenshots/wayfinding/wayfinding-quick-add.png",
+    "alt": "Step 6 scan",
+    "exists": true
+  },
+  {
+    "i": 50,
+    "n": "Tap Amount and enter it first while it is fresh. Amount is the one field you must not forget.",
+    "src": "/assets/screenshots/pbj/manual/add-transaction-amount.png",
+    "alt": "Transaction Hub amount",
+    "exists": true
+  },
+  {
+    "i": 51,
+    "n": "Type the merchant name consistently. Pick a category — PocketBudJet learns and suggests over time. Select the account.",
+    "src": "/assets/screenshots/pbj/manual/add-transaction-merchant-category.png",
+    "alt": "Merchant and category",
+    "exists": true
+  },
+  {
+    "i": 52,
+    "n": "For multi-category receipts, tap Split. Assign portions to Groceries, Household, or other categories — total stays locked.",
+    "src": "/assets/screenshots/pbj/manual/add-transaction-split.png",
+    "alt": "Split across categories",
+    "exists": true
+  },
+  {
+    "i": 53,
+    "n": "Tap Save. Your budget category, account balance, and dashboard update immediately — no sync wait.",
+    "src": "/assets/screenshots/pbj/manual/add-transaction-save.png",
+    "alt": "Save transaction",
+    "exists": true
+  },
+  {
+    "i": 54,
+    "n": "Open Toolbox, then Import Center. Share a bank statement into PocketBudJet — no bank login required.",
+    "src": "/assets/screenshots/pbj/import/01-toolbox-import-center.png",
+    "alt": "Toolbox Import Center",
+    "exists": true
+  },
+  {
+    "i": 55,
+    "n": "Share from your bank app is the path. The steps look similar everywhere, but labels and menus vary by bank. Tap Show me how for the typical flow.",
+    "src": "/assets/screenshots/pbj/import/02-import-idle.png",
+    "alt": "Import Center idle",
+    "exists": true
+  },
+  {
+    "i": 56,
+    "n": "In your bank app, find Statements or Document Center — or whatever your bank calls it — open a statement, tap Share. If PocketBudJet is not in the first row of apps, tap More or the ellipsis, find PocketBudJet, then Import takes it from there.",
+    "src": "/assets/screenshots/pbj/import/03-share-howto.png",
+    "alt": "Share statement how-to",
+    "exists": true
+  },
+  {
+    "i": 57,
+    "n": "PocketBudJet opens Import with your statement and builds a draft. Wait for the list to appear.",
+    "src": "/assets/screenshots/pbj/import/02-import-idle.png",
+    "alt": "Import after share",
+    "exists": true
+  },
+  {
+    "i": 58,
+    "n": "Review the draft. Confident rows are ready; flagged rows need a quick look. Tap Import N new transactions when the list looks right.",
+    "src": "/assets/screenshots/pbj/import/07-review-import.png",
+    "alt": "Review import draft",
+    "exists": true
+  },
+  {
+    "i": 59,
+    "n": "Share at least three months of statements — six months or a year is better. More history means clearer reports and better coaching on Home.",
+    "src": "/assets/screenshots/pbj/import/02-import-idle.png",
+    "alt": "Import Center idle",
+    "exists": true
+  },
+  {
+    "i": 60,
+    "n": "When import finishes, your transactions are on Home and Activity. Import another statement the same way anytime.",
+    "src": "/assets/screenshots/pbj/import/08-import-done.png",
+    "alt": "Import complete",
+    "exists": true
+  },
+  {
+    "i": 61,
+    "n": "Import History keeps past shares if you need to re-open a batch later.",
+    "src": "/assets/screenshots/pbj/import/10-import-history.png",
+    "alt": "Import History",
+    "exists": true
+  },
+  {
+    "i": 62,
+    "n": "Tap Scan Receipt and snap a photo. OCR fills merchant, amount, and date.",
+    "src": "/assets/screenshots/receipt-scanning/receipt-scan.png",
+    "alt": "Scanner",
+    "exists": true
+  },
+  {
+    "i": 63,
+    "n": "Review OCR fields, pick a category if needed, then tap Save. Line items parse when visible on the receipt.",
+    "src": "/assets/screenshots/receipt-scanning/receipt-scan.png",
+    "alt": "Bills",
+    "exists": true
+  },
+  {
+    "i": 64,
+    "n": "For stacks of paper, open the document scanner in Toolbox and follow the on-screen steps to bring pages in.",
+    "src": "/assets/screenshots/scanner.png",
+    "alt": "Subscription tracker",
+    "exists": true
+  },
+  {
+    "i": 65,
+    "n": "Load a stack of receipts and walk away — every page gets read, categorized, and added to Activity.",
+    "src": "/assets/screenshots/scanner.png",
+    "alt": "Bills calendar",
+    "exists": true
+  },
+  {
+    "i": 66,
+    "n": "Universal Scan works for statements, invoices, and mixed documents — crop the corners, review, then import.",
+    "src": "/assets/screenshots/scanner.png",
+    "alt": "Pay stub review",
+    "exists": true
+  },
+  {
+    "i": 67,
+    "n": "On Bills, the calendar shows due dates with payday markers and a 30-day cash flow forecast.",
+    "src": "/assets/screenshots/bills/bills-calendar.png",
+    "alt": "Bills calendar",
+    "exists": true
+  },
+  {
+    "i": 68,
+    "n": "Tap Add Bill for subscriptions and recurring payments. Tap a due date to mark paid or snooze a reminder.",
+    "src": "/assets/screenshots/bills.png",
+    "alt": "Direct deposit advisor",
+    "exists": true
+  },
+  {
+    "i": 69,
+    "n": "Subscription Tracker surfaces recurring charges you might have forgotten — cancel leaks before they compound.",
+    "src": "/assets/screenshots/bills/subscription-tracker.png",
+    "alt": "Debt strategy",
+    "exists": true
+  },
+  {
+    "i": 70,
+    "n": "Recurring Transactions links bills and income on one timeline for cash-flow planning.",
+    "src": "/assets/screenshots/bills/bills-calendar.png",
+    "alt": "Loan calculator",
+    "exists": true
+  },
+  {
+    "i": 71,
+    "n": "Recurring Income stores paychecks and side gigs so forecasts know when money arrives.",
+    "src": "/assets/screenshots/income/recurring-income.png",
+    "alt": "Debt progress",
+    "exists": true
+  },
+  {
+    "i": 72,
+    "n": "Import or photograph a pay stub — Pay Stub Review splits gross, taxes, and deductions automatically.",
+    "src": "/assets/screenshots/pbj/manual/pay-stub-review.png",
+    "alt": "Reports hub",
+    "exists": true
+  },
+  {
+    "i": 73,
+    "n": "Direct Deposit Advisor suggests how to split paychecks across accounts and envelopes.",
+    "src": "/assets/screenshots/pbj/manual/direct-deposit-advisor.png",
+    "alt": "Direct deposit advisor",
+    "exists": true
+  },
+  {
+    "i": 74,
+    "n": "On Debt, enter balances, APR, and minimum payments.",
+    "src": "/assets/screenshots/debt/debt-planner.png",
+    "alt": "Spending trends",
+    "exists": true
+  },
+  {
+    "i": 75,
+    "n": "Choose avalanche — highest interest first — or snowball — smallest balance first. See your debt-free date and interest saved.",
+    "src": "/assets/screenshots/debt/debt-strategy.png",
+    "alt": "Category breakdown",
+    "exists": true
+  },
+  {
+    "i": 76,
+    "n": "Loan Calculator models extra payments, refi scenarios, and payoff timelines.",
+    "src": "/assets/screenshots/debt/loan-calculator.png",
+    "alt": "Financial health score",
+    "exists": true
+  },
+  {
+    "i": 77,
+    "n": "Debt Progress Report charts how fast balances are falling month over month.",
+    "src": "/assets/screenshots/debt/debt-progress.png",
+    "alt": "Custom report builder",
+    "exists": true
+  },
+  {
+    "i": 78,
+    "n": "In Coach, tap Reports for spending by category, income vs expenses, and custom layouts.",
+    "src": "/assets/screenshots/reports/reports-hub.png",
+    "alt": "Net worth hub",
+    "exists": true
+  },
+  {
+    "i": 79,
+    "n": "Spending Trends compares month over month. Spot seasonal spikes before they become habits.",
+    "src": "/assets/screenshots/reports/spending-trends.png",
+    "alt": "Bank sync",
+    "exists": true
+  },
+  {
+    "i": 80,
+    "n": "Category Breakdown shows where money went. Export any report segment as CSV or PDF from the share icon.",
+    "src": "/assets/screenshots/reports/category-breakdown.png",
+    "alt": "Bank sync",
+    "exists": true
+  },
+  {
+    "i": 81,
+    "n": "Merchant Analysis ranks stores by spend — great for cutting subscriptions and dining.",
+    "src": "/assets/screenshots/reports/merchant-analysis.png",
+    "alt": "Tax center",
+    "exists": true
+  },
+  {
+    "i": 82,
+    "n": "Financial Health Score grades savings rate, debt load, and budget adherence in one number.",
+    "src": "/assets/screenshots/reports/financial-health-score.png",
+    "alt": "Tax center",
+    "exists": true
+  },
+  {
+    "i": 83,
+    "n": "Report Builder lets you save custom filters — reuse them for monthly reviews.",
+    "src": "/assets/screenshots/reports/custom-report-builder.png",
+    "alt": "Mileage log",
+    "exists": true
+  },
+  {
+    "i": 84,
+    "n": "Net Worth tracks accounts, investments, property, and liabilities in one view.",
+    "src": "/assets/screenshots/net-worth/net-worth-hub.png",
+    "alt": "Tax center",
+    "exists": true
+  },
+  {
+    "i": 85,
+    "n": "How PocketBudJet Learns shows how categories improve as you correct them — your numbers stay on your phone.",
+    "src": "/assets/screenshots/settings/how-pbj-learns.png",
+    "alt": "Settings open",
+    "exists": true
+  },
+  {
+    "i": 86,
+    "n": "Bank sync is for US banks with paid Premium — not included in the free trial. Two banks are included; each extra bank is an add-on. Tap Connect to begin.",
+    "src": "/assets/screenshots/pbj/connect-bank/bank-sync-premium-gate.png",
+    "alt": "Bank sync Premium gate",
+    "exists": true
+  },
+  {
+    "i": 87,
+    "n": "In Settings, tap Connect Bank. Search for your US bank and sign in securely — PocketBudJet never stores your bank password.",
+    "src": "/assets/screenshots/pbj/connect-bank/connect-bank-search.png",
+    "alt": "Connect bank search",
+    "exists": true
+  },
+  {
+    "i": 88,
+    "n": "Tax Filing Export bundles categories and mileage for your accountant or tax software.",
+    "src": "/assets/screenshots/tax/tax-center.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 89,
+    "n": "Tax Center groups mileage logs, deduction breakdowns, and annual summaries in one place.",
+    "src": "/assets/screenshots/tax/tax-center.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 90,
+    "n": "Mileage Log tracks business miles with IRS-ready totals — start trips from the Toolbox or a widget.",
+    "src": "/assets/screenshots/tax/mileage-log.png",
+    "alt": "Mileage log",
+    "exists": true
+  },
+  {
+    "i": 91,
+    "n": "Deduction Breakdown summarizes tax-prep categories pulled from your categorized transactions.",
+    "src": "/assets/screenshots/tax/tax-center.png",
+    "alt": "How pbj learns",
+    "exists": true
+  },
+  {
+    "i": 92,
+    "n": "Tap the gear icon for accounts, privacy, backups, data retention, and the setup wizard.",
+    "src": "/assets/screenshots/settings/settings-open.png",
+    "alt": "Bank sync",
+    "exists": true
+  },
+  {
+    "i": 93,
+    "n": "My Profile and Accounts manage display name, institutions, and account types.",
+    "src": "/assets/screenshots/settings/profile-accounts.png",
+    "alt": "Profile accounts",
+    "exists": true
+  },
+  {
+    "i": 94,
+    "n": "Household sync lets you share a budget with a partner on the same plan. Follow the invite steps on each phone.",
+    "src": "/assets/screenshots/household-sync/household-sync.png",
+    "alt": "Bank sync",
+    "exists": true
+  },
+  {
+    "i": 95,
+    "n": "In Privacy and Backup, tap Backup to turn on encrypted cloud backup, set retention, and control app lock.",
+    "src": "/assets/screenshots/settings/privacy-backup.png",
+    "alt": "Transaction rules",
+    "exists": true
+  },
+  {
+    "i": 96,
+    "n": "Under Data Management, tap Storage to set how much history lives on-device, manage receipt image storage, and archive old years.",
+    "src": "/assets/screenshots/pbj/settings/data-management-storage.png",
+    "alt": "Storage Management",
+    "exists": true
+  },
+  {
+    "i": 97,
+    "n": "How PBJ Learns explains crowd-consensus categorization — your data stays private on-device.",
+    "src": "/assets/screenshots/settings/how-pbj-learns.png",
+    "alt": "05 ai coach",
+    "exists": true
+  },
+  {
+    "i": 98,
+    "n": "Bank sync connects US institutions only via Teller. Requires paid Premium — not included in the 15-Day trial. Two banks included; each extra is .99 per month. Tap Connect to begin.",
+    "src": "/assets/screenshots/pbj/connect-bank/bank-sync-premium-gate.png",
+    "alt": "Bank sync Premium gate",
+    "exists": true
+  },
+  {
+    "i": 99,
+    "n": "In Settings, tap Connect Bank. Search for your US bank. PocketBudJet never stores your bank password — Teller handles sign-in.",
+    "src": "/assets/screenshots/pbj/connect-bank/connect-bank-search.png",
+    "alt": "Connect bank search",
+    "exists": true
+  },
+  {
+    "i": 100,
+    "n": "Choose checking, savings, or credit accounts to link. New transactions sync automatically and honor your categorization rules.",
+    "src": "/assets/screenshots/pbj/connect-bank/connect-bank-pick-accounts.png",
+    "alt": "Select accounts to sync",
+    "exists": true
+  },
+  {
+    "i": 101,
+    "n": "Open Activity, tap a transaction, then Transaction Rules. Automate categorization for repeat merchants.",
+    "src": "/assets/screenshots/rules/transaction-rules.png",
+    "alt": "04 shopping intelligence",
+    "exists": true
+  },
+  {
+    "i": 102,
+    "n": "Set a rule: when merchant contains \"Coffee Shop\", assign Dining. Rules auto-apply to future imports and manual entries.",
+    "src": "/assets/screenshots/rules/transaction-rules.png",
+    "alt": "07 web companion",
+    "exists": true
+  },
+  {
+    "i": 103,
+    "n": "Flag unusual rows with Bookmarks. Filter Activity to bookmarks only when reconciling at month end.",
+    "src": "/assets/screenshots/rules/bookmarks.png",
+    "alt": "Notification opt in",
+    "exists": true
+  },
+  {
+    "i": 104,
+    "n": "Say \"Hey Siri, log $12 coffee in PocketBudJet\" or use Google Assistant shortcuts. Hands-free entry while driving or cooking.",
+    "src": "/assets/screenshots/pbj/05-ai-coach.png",
+    "alt": "Household sync",
+    "exists": true
+  },
+  {
+    "i": 105,
+    "n": "Ask \"How much is left in Groceries?\" or \"What's my net worth?\" Voice works for budgets, balances, and Coach questions.",
+    "src": "/assets/screenshots/pbj/05-ai-coach.png",
+    "alt": "Wayfinding header",
+    "exists": true
+  },
+  {
+    "i": 106,
+    "n": "Retirement Planning asks for your target age, annual expenses, and current portfolio. Tap Target Retirement Age, then fill in the rest to see your FIRE number.",
+    "src": "/assets/screenshots/pbj/retirement/retirement-planning.png",
+    "alt": "Retirement and FIRE planner",
+    "exists": true
+  },
+  {
+    "i": 107,
+    "n": "Couples Dashboard shows shared envelopes and who spent what — each phone still keeps its own local copy.",
+    "src": "/assets/screenshots/household-sync/household-sync.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 108,
+    "n": "In Settings, open Purchase Wishlist. Tap Add Item to cool off before big buys — wait thirty days, and if you still want it, it is worth it.",
+    "src": "/assets/screenshots/pbj/settings/mindful-features.png",
+    "alt": "Purchase Wishlist",
+    "exists": true
+  },
+  {
+    "i": 109,
+    "n": "Shopping Intelligence compares prices, tracks UPC history, and flags impulse patterns at checkout.",
+    "src": "/assets/screenshots/pbj/04-shopping-intelligence.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 110,
+    "n": "Launch PC Web Companion from Toolbox. When it is running, scan the QR code or open the magic link on a PC on the same Wi‑Fi.",
+    "src": "/assets/screenshots/pbj/07-web-companion.png",
+    "alt": "Web Companion running",
+    "exists": true
+  },
+  {
+    "i": 111,
+    "n": "Notification Capture can turn bank alerts into draft transactions — turn it on in Settings if you want it.",
+    "src": "/assets/screenshots/pbj/manual/notification-opt-in.png",
+    "alt": "Help support",
+    "exists": true
+  },
+  {
+    "i": 112,
+    "n": "Couples Dashboard merges shared envelopes and shows who spent what — still stored locally on each phone.",
+    "src": "/assets/screenshots/household-sync/household-sync.png",
+    "alt": "Household sync",
+    "exists": true
+  },
+  {
+    "i": 113,
+    "n": "Tap Universal Search in the header. Find transactions by merchant or amount — or search features like \"mileage\" or \"voice.\"",
+    "src": "/assets/screenshots/wayfinding/wayfinding-header.png",
+    "alt": "Wayfinding header",
+    "exists": true
+  },
+  {
+    "i": 114,
+    "n": "Connect Google Drive, OneDrive, Dropbox, or iCloud for encrypted backup. Your cloud account, your control.",
+    "src": "/assets/screenshots/settings/privacy-backup.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 115,
+    "n": "Notification Capture reads bank alerts from your notification shade and drafts transactions — opt in from Settings.",
+    "src": "/assets/screenshots/pbj/manual/notification-opt-in.png",
+    "alt": "Notification opt in",
+    "exists": true
+  },
+  {
+    "i": 116,
+    "n": "Widgets and Watch complications show safe-to-spend, bills due, and quick-add — configure slots from Settings.",
+    "src": "/assets/screenshots/pbj/manual/widgets-watch.png",
+    "alt": "Widgets watch",
+    "exists": true
+  },
+  {
+    "i": 117,
+    "n": "In Settings under Data and Privacy, tap Require app unlock to turn on biometric or passcode lock before transactions appear.",
+    "src": "/assets/screenshots/pbj/settings/app-lock.png",
+    "alt": "Require app unlock",
+    "exists": true
+  },
+  {
+    "i": 118,
+    "n": "Connect Google Drive, OneDrive, Dropbox, or iCloud for encrypted backup. Your cloud, your account, your control.",
+    "src": "/assets/screenshots/settings/privacy-backup.png",
+    "alt": "Privacy backup",
+    "exists": true
+  },
+  {
+    "i": 119,
+    "n": "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature.",
+    "src": "/assets/screenshots/help/help-support.png",
+    "alt": "Help support",
+    "exists": true
+  }
+]
