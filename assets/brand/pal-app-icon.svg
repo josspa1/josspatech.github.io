@@ -1,7 +1,7 @@
 <!--
   B - Ledger Doubloon
-  Deboss stamp shading (light top-left): each groove is a thin dark lip + thin light wall.
-  Wider pair offset so bevel survives anti-aliasing at icon sizes.
+  Deboss stamp: darker sunk groove + thin light wall / dark lip so marks read at icon size.
+  Light from top-left — shadow lip faces the light; lit wall faces away.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="PAL doubloon">
   <defs>
@@ -37,15 +37,25 @@
 
     <!-- Mint ring: light / dark pair -->
     <g fill="none">
-      <circle r="132" stroke="#E2C85A" stroke-width="2.2" transform="translate(2 2)" opacity="0.85"/>
-      <circle r="132" stroke="#8A6E12" stroke-width="2.2" transform="translate(-2 -2)" opacity="0.95"/>
+      <circle r="132" stroke="#D4B84A" stroke-width="2.2" transform="translate(2 2)" opacity="0.7"/>
+      <circle r="132" stroke="#3F3208" stroke-width="2.4" transform="translate(-2 -2)" opacity="1"/>
     </g>
 
-    <rect x="-52" y="-66" width="104" height="132" rx="8" fill="#B08E1A" opacity="0.2"/>
+    <!-- Sunk page pocket -->
+    <rect x="-52" y="-66" width="104" height="132" rx="8" fill="#3F3208" opacity="0.28"/>
 
     <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Groove channel (sunk metal) -->
+      <g stroke="#3F3208" stroke-width="3.4" opacity="0.55">
+        <rect x="-54" y="-68" width="108" height="136" rx="9"/>
+        <path d="M28 -68 L54 -68 L28 -42"/>
+        <path d="M-30 -50 V50"/>
+        <path d="M-16 -28 H42"/>
+        <path d="M-16 0 H42"/>
+        <path d="M-16 28 H34"/>
+      </g>
       <!-- Lit far wall of the cut -->
-      <g transform="translate(2.2 2.2)" stroke="#E4CC5E" stroke-width="2.4" opacity="0.92">
+      <g transform="translate(2.2 2.2)" stroke="#D8BC52" stroke-width="2.2" opacity="0.72">
         <rect x="-54" y="-68" width="108" height="136" rx="9"/>
         <path d="M28 -68 L54 -68 L28 -42"/>
         <path d="M-30 -50 V50"/>
@@ -54,7 +64,7 @@
         <path d="M-16 28 H34"/>
       </g>
       <!-- Shadow lip toward light -->
-      <g transform="translate(-2.2 -2.2)" stroke="#8A6E12" stroke-width="2.4" opacity="0.95">
+      <g transform="translate(-2.2 -2.2)" stroke="#2E2506" stroke-width="2.6" opacity="1">
         <rect x="-54" y="-68" width="108" height="136" rx="9"/>
         <path d="M28 -68 L54 -68 L28 -42"/>
         <path d="M-30 -50 V50"/>
@@ -64,7 +74,7 @@
       </g>
     </g>
 
-    <path d="M28 -68 L54 -68 L28 -42 Z" fill="#8A6E12" opacity="0.5"/>
-    <path d="M30 -65 L50 -65 L30 -45 Z" fill="#E2C85A" opacity="0.4"/>
+    <path d="M28 -68 L54 -68 L28 -42 Z" fill="#2E2506" opacity="0.65"/>
+    <path d="M30 -65 L50 -65 L30 -45 Z" fill="#D8BC52" opacity="0.35"/>
   </g>
 </svg>

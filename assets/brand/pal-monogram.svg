@@ -18,12 +18,12 @@
     <circle r="76" fill="url(#gold)"/>
     <ellipse cx="-10" cy="-22" rx="42" ry="20" fill="#F0DC78" opacity="0.16"/>
     <g fill="none">
-      <circle r="67" stroke="#E2C85A" stroke-width="1.6" transform="translate(1.4 1.4)" opacity="0.85"/>
-      <circle r="67" stroke="#8A6E12" stroke-width="1.6" transform="translate(-1.4 -1.4)" opacity="0.95"/>
+      <circle r="67" stroke="#D4B84A" stroke-width="1.6" transform="translate(1.4 1.4)" opacity="0.7"/>
+      <circle r="67" stroke="#3F3208" stroke-width="1.8" transform="translate(-1.4 -1.4)" opacity="1"/>
     </g>
     <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="-28" y="-36" width="56" height="72" rx="4" fill="#B08E1A" opacity="0.2"/>
-      <g transform="translate(1.4 1.4)" stroke="#E4CC5E" stroke-width="1.5" opacity="0.92">
+      <rect x="-28" y="-36" width="56" height="72" rx="4" fill="#3F3208" opacity="0.28"/>
+      <g stroke="#3F3208" stroke-width="2.2" opacity="0.55">
         <rect x="-30" y="-38" width="60" height="76" rx="5"/>
         <path d="M14 -38 L30 -38 L14 -22"/>
         <path d="M-16 -28 V28"/>
@@ -31,7 +31,15 @@
         <path d="M-8 0 H24"/>
         <path d="M-8 16 H18"/>
       </g>
-      <g transform="translate(-1.4 -1.4)" stroke="#8A6E12" stroke-width="1.5" opacity="0.95">
+      <g transform="translate(1.4 1.4)" stroke="#D8BC52" stroke-width="1.4" opacity="0.72">
+        <rect x="-30" y="-38" width="60" height="76" rx="5"/>
+        <path d="M14 -38 L30 -38 L14 -22"/>
+        <path d="M-16 -28 V28"/>
+        <path d="M-8 -16 H24"/>
+        <path d="M-8 0 H24"/>
+        <path d="M-8 16 H18"/>
+      </g>
+      <g transform="translate(-1.4 -1.4)" stroke="#2E2506" stroke-width="1.7" opacity="1">
         <rect x="-30" y="-38" width="60" height="76" rx="5"/>
         <path d="M14 -38 L30 -38 L14 -22"/>
         <path d="M-16 -28 V28"/>
@@ -40,8 +48,8 @@
         <path d="M-8 16 H18"/>
       </g>
     </g>
-    <path d="M14 -38 L30 -38 L14 -22 Z" fill="#8A6E12" opacity="0.5"/>
-    <path d="M15.5 -36 L27 -36 L15.5 -24.5 Z" fill="#E2C85A" opacity="0.4"/>
+    <path d="M14 -38 L30 -38 L14 -22 Z" fill="#2E2506" opacity="0.65"/>
+    <path d="M15.5 -36 L27 -36 L15.5 -24.5 Z" fill="#D8BC52" opacity="0.35"/>
   </g>
 
   <text x="200" y="168" font-family="Arial Black, Segoe UI Black, Impact, sans-serif" font-weight="900" font-size="108" fill="#5B7B6A" letter-spacing="4">PAL</text>

@@ -1,4 +1,4 @@
-<!-- PAL logo coin only  ledger doubloon face (no sage field). Marketing / token accents. -->
+<!-- PAL logo coin only — ledger doubloon face (no sage field). Marketing / token accents. -->
 <svg xmlns="http://www.w3.org/2000/svg" width="240" height="240" viewBox="0 0 240 240" role="img" aria-label="PAL ledger doubloon">
   <defs>
     <linearGradient id="gold" x1="0.3" y1="0.05" x2="0.7" y2="1">
@@ -18,12 +18,12 @@
     <circle r="102" fill="url(#gold)"/>
     <ellipse cx="-12" cy="-28" rx="56" ry="26" fill="#F0DC78" opacity="0.16"/>
     <g fill="none">
-      <circle r="90" stroke="#E2C85A" stroke-width="1.8" transform="translate(1.6 1.6)" opacity="0.85"/>
-      <circle r="90" stroke="#8A6E12" stroke-width="1.8" transform="translate(-1.6 -1.6)" opacity="0.95"/>
+      <circle r="90" stroke="#D4B84A" stroke-width="1.8" transform="translate(1.6 1.6)" opacity="0.7"/>
+      <circle r="90" stroke="#3F3208" stroke-width="2" transform="translate(-1.6 -1.6)" opacity="1"/>
     </g>
-    <rect x="-36" y="-46" width="72" height="92" rx="6" fill="#B08E1A" opacity="0.2"/>
+    <rect x="-36" y="-46" width="72" height="92" rx="6" fill="#3F3208" opacity="0.28"/>
     <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <g transform="translate(1.6 1.6)" stroke="#E4CC5E" stroke-width="1.8" opacity="0.92">
+      <g stroke="#3F3208" stroke-width="2.6" opacity="0.55">
         <rect x="-38" y="-48" width="76" height="96" rx="7"/>
         <path d="M20 -48 L38 -48 L20 -30"/>
         <path d="M-22 -36 V36"/>
@@ -31,7 +31,15 @@
         <path d="M-12 0 H30"/>
         <path d="M-12 20 H24"/>
       </g>
-      <g transform="translate(-1.6 -1.6)" stroke="#8A6E12" stroke-width="1.8" opacity="0.95">
+      <g transform="translate(1.6 1.6)" stroke="#D8BC52" stroke-width="1.7" opacity="0.72">
+        <rect x="-38" y="-48" width="76" height="96" rx="7"/>
+        <path d="M20 -48 L38 -48 L20 -30"/>
+        <path d="M-22 -36 V36"/>
+        <path d="M-12 -20 H30"/>
+        <path d="M-12 0 H30"/>
+        <path d="M-12 20 H24"/>
+      </g>
+      <g transform="translate(-1.6 -1.6)" stroke="#2E2506" stroke-width="2" opacity="1">
         <rect x="-38" y="-48" width="76" height="96" rx="7"/>
         <path d="M20 -48 L38 -48 L20 -30"/>
         <path d="M-22 -36 V36"/>
@@ -40,7 +48,7 @@
         <path d="M-12 20 H24"/>
       </g>
     </g>
-    <path d="M20 -48 L38 -48 L20 -30 Z" fill="#8A6E12" opacity="0.5"/>
-    <path d="M22 -45.5 L34.5 -45.5 L22 -33 Z" fill="#E2C85A" opacity="0.4"/>
+    <path d="M20 -48 L38 -48 L20 -30 Z" fill="#2E2506" opacity="0.65"/>
+    <path d="M22 -45.5 L34.5 -45.5 L22 -33 Z" fill="#D8BC52" opacity="0.35"/>
   </g>
 </svg>
