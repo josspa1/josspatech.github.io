@@ -345,6 +345,80 @@ def draw_antique_vault(
         )
 
 
+def draw_cvc_monogram(img: Image.Image, cx: float, cy: float, scale: float) -> None:
+    """
+    App-style CVC mark: cream vault disc, brass rim + rivets,
+    forest-green CVC with gold bevel outline (matches store icon letters).
+    """
+    d = ImageDraw.Draw(img)
+    s = scale
+    r = 52 * s
+
+    # Disc + rim
+    d.ellipse(
+        (cx - r - 3 * s, cy - r - 3 * s, cx + r + 3 * s, cy + r + 3 * s),
+        fill=BRASS_DK,
+    )
+    d.ellipse(
+        (cx - r, cy - r, cx + r, cy + r),
+        fill=CREAM,
+        outline=BRASS_HI,
+        width=max(2, int(3.2 * s)),
+    )
+    d.ellipse(
+        (cx - r + 5 * s, cy - r + 5 * s, cx + r - 5 * s, cy + r - 5 * s),
+        outline=BRASS,
+        width=max(1, int(1.6 * s)),
+    )
+
+    # Rivets at 2 / 4 / 8 / 10 o'clock
+    riv_r = 3.2 * s
+    for deg in (30, 150, 210, 330):
+        ang = math.radians(deg)
+        rx = cx + math.cos(ang) * (r - 11 * s)
+        ry = cy + math.sin(ang) * (r - 11 * s)
+        d.ellipse(
+            (rx - riv_r, ry - riv_r, rx + riv_r, ry + riv_r),
+            fill=BRASS_DK,
+            outline=BRASS_HI,
+            width=max(1, int(0.9 * s)),
+        )
+
+    # CVC letters — serif, green face, gold outline
+    letter_size = max(28, int(36 * s))
+    letter_f = font_serif(letter_size)
+    text = "CVC"
+    bbox = d.textbbox((0, 0), text, font=letter_f)
+    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    tx = cx - tw / 2 - bbox[0]
+    ty = cy - th / 2 - bbox[1] + 1.5 * s
+
+    outline_w = max(2, int(2.6 * s))
+    for ox in range(-outline_w, outline_w + 1):
+        for oy in range(-outline_w, outline_w + 1):
+            if ox * ox + oy * oy > outline_w * outline_w:
+                continue
+            d.text((tx + ox, ty + oy), text, fill=BRASS_HI, font=letter_f)
+    # Slight bottom-right gold bevel
+    d.text((tx + max(1, int(0.9 * s)), ty + max(1, int(0.9 * s))), text, fill=BRASS_DK, font=letter_f)
+    d.text((tx, ty), text, fill=INK_GREEN, font=letter_f)
+
+
+def font_serif(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+    candidates = [
+        r"C:\Windows\Fonts\georgiab.ttf",
+        r"C:\Windows\Fonts\Georgia.ttf",
+        r"C:\Windows\Fonts\timesbd.ttf",
+        r"C:\Windows\Fonts\times.ttf",
+    ]
+    for path in candidates:
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            continue
+    return font(size, bold=True)
+
+
 def make_mock(
     *,
     title: str,
@@ -385,7 +459,12 @@ def make_mock(
     for i in range(3):
         cx0 = 44 + i * (card_w + gap)
         rounded(d, (cx0, y, cx0 + card_w, y + card_h), 22, CARD_SOFT)
-        draw_antique_vault(img, cx0 + card_w / 2, y + card_h / 2, 1.55)
+        mx, my = cx0 + card_w / 2, y + card_h / 2
+        if i == 1:
+            # Middle tile: CVC monogram (not a third identical vault door)
+            draw_cvc_monogram(img, mx, my, 1.85)
+        else:
+            draw_antique_vault(img, mx, my, 1.55)
 
     OUT.mkdir(parents=True, exist_ok=True)
     path = OUT / filename
