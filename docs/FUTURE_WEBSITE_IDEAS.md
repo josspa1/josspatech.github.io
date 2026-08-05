@@ -38,9 +38,14 @@
 
 **Status:** Deferred — do not build until core apps + support load justify local-events investment.
 
-**Idea:** In-app (HHH / CVC) ZIP search for flea markets, antique shows, and swap meets with real dates/times — without per-search Maps API costs and without becoming free advertising for random shops.
+**Idea:** In-app (HHH / CVC) **live ZIP feed** of flea markets, antique shows, and swap meets — a purchase reason via personalized / traveler discovery + alerts + in-show tools — not a thin “Brimfield.com mirror” Google already beats.
 
-**Locked approach (2026-08-04):** **Automated trust** — workers ingest allowlisted calendars, score each candidate, auto-publish / auto-reject; optional AI only for fuzzy “event vs shop ad” text. Joe maintains allowlists and quarantine edge cases, not every listing. Search by ZIP (cheap).
+**Phased approach (2026-08-05):**
+1. **Seed** — curated recurring flagships (+ verified lesser-known); recurrence rules + allowlisted calendar sync keep dates fresh (no nationwide nightly search).
+2. **Live feed** — ZIP / date window (+ Pro alerts); seed is backbone credibility.
+3. **Self-serve later** — unlisted shows add themselves for free when user volume exists; **automated trust** scores publish/reject.
+4. **Value rule** — sell “meets that matter for *your* hunt,” not famous dates alone.
 
 **Full design note:** [FUTURE_LOCAL_SHOWS_AUTOMATED_TRUST.md](./FUTURE_LOCAL_SHOWS_AUTOMATED_TRUST.md)
+
 
