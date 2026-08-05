@@ -31,3 +31,16 @@
 - Start with the app that gets the most support/ad traffic (likely PBJ or HHH).
 - Reuse cards in manuals later; don’t reverse that order.
 - Cost: KB + search ≈ free on GitHub Pages; LLM chat ≈ small pay-per-use + worker — only after step 4 is justified.
+
+---
+
+## Local shows / flea markets (automated trust)
+
+**Status:** Deferred — do not build until core apps + support load justify local-events investment.
+
+**Idea:** In-app (HHH / CVC) ZIP search for flea markets, antique shows, and swap meets with real dates/times — without per-search Maps API costs and without becoming free advertising for random shops.
+
+**Locked approach (2026-08-04):** **Automated trust** — workers ingest allowlisted calendars, score each candidate, auto-publish / auto-reject; optional AI only for fuzzy “event vs shop ad” text. Joe maintains allowlists and quarantine edge cases, not every listing. Search by ZIP (cheap).
+
+**Full design note:** [FUTURE_LOCAL_SHOWS_AUTOMATED_TRUST.md](./FUTURE_LOCAL_SHOWS_AUTOMATED_TRUST.md)
+
