@@ -184,6 +184,14 @@ html.boot-pbj #page-pbj { display:block !important; }
 html.boot-hhh #page-hhh { display:block !important; }
 html.boot-cvc #page-cvc { display:block !important; }
 
+/*
+  HHH App Store badge hidden until ASC Ready for Sale (badge 404s).
+  RESTORE when Apple approves — see HHH Meta/META_ADS_MANAGER_NOTES.md
+  section WHEN APPLE APPROVES → "Restore App Store badges".
+  Delete this rule (and restore copy notes below that say Play-only).
+*/
+#page-hhh .store-badge-apple { display: none !important; }
+
 /* ═══════════════════════════════════
    HOMEPAGE STYLES
 ═══════════════════════════════════ */
@@ -4212,10 +4220,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" rel="noopener">
           <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="eager">
         </a>
+        <!-- RESTORE when Apple Ready for Sale (hidden via #page-hhh .store-badge-apple CSS) -->
         <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" rel="noopener">
           <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="eager">
         </a>
-        <p class="store-badges-note">Official stores · US · 15-day free trial</p>
+        <p class="store-badges-note">Google Play · US · 15-day free trial · App Store soon</p>
       </div>
     </div>
     <!-- HHH marketing shots: ONLY verified in-app keepers from assets/screenshots/hhh/intro/.
@@ -4319,6 +4328,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" rel="noopener">
         <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
       </a>
+      <!-- RESTORE when Apple Ready for Sale (hidden via #page-hhh .store-badge-apple CSS) -->
       <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" rel="noopener">
         <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
       </a>
@@ -4448,17 +4458,18 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
 <section class="prod-close" aria-label="Get HHH" id="hhh-stay-updated">
   <div class="prod-close-inner rv">
-    <span class="prod-beat-ey">Google Play · App Store</span>
+    <span class="prod-beat-ey">Google Play · App Store soon</span>
     <h2>Get Handy Horology Helper<br><em>on your phone.</em></h2>
-    <p>On Google Play and the App Store · US. Confirm your suspicions — new or vintage, floor or bench.</p>
+    <p>On Google Play now · App Store soon · US. Confirm your suspicions — new or vintage, floor or bench.</p>
     <div class="prod-media-acts store-badges" role="group" aria-label="Download Handy Horology Helper">
       <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" rel="noopener">
         <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
       </a>
+      <!-- RESTORE when Apple Ready for Sale (hidden via #page-hhh .store-badge-apple CSS) -->
       <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" rel="noopener">
         <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
       </a>
-      <p class="store-badges-note">Official Google Play and App Store listings · US</p>
+      <p class="store-badges-note">Official Google Play listing · US · App Store soon</p>
     </div>
   </div>
 </section>
