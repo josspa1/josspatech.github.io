@@ -29,11 +29,9 @@
   <script>
     (function () {
       var PLAY = 'https://play.google.com/store/apps/details?id=com.josspatech.handyhorology';
-      // Until ASC Ready for Sale, iOS → site (App Store URL 404s / Meta Store ID won't stick).
-      // Flip IOS_DEST back to apps.apple.com/us/app/id6778570480 when live.
       var IOS_STORE = 'https://apps.apple.com/us/app/id6778570480';
       var IOS_DEST = '/#hhh';
-      var IOS_LIVE = false;
+      var IOS_LIVE = true;
       var ua = navigator.userAgent || '';
       var q = location.search || '';
       function withUtm(url) {
@@ -64,19 +62,21 @@
 <body>
   <main>
     <h1>Handy Horology Helper</h1>
-    <p>Android opens Google Play. iPhone opens the Handy Horology page until the App Store listing is live.</p>
+    <p>Android opens Google Play. iPhone opens the App Store.</p>
     <div class="acts">
       <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology">Google Play</a>
-      <a class="btn" id="ios" href="/#hhh">Handy Horology on the web</a>
+      <a class="btn" id="ios" href="https://apps.apple.com/us/app/id6778570480">App Store</a>
       <a class="btn ghost" href="/#hhh">Learn more</a>
     </div>
-    <p class="note">Meta paid traffic · iOS → site until App Store Ready for Sale</p>
+    <p class="note">Official Google Play and App Store listings · US</p>
   </main>
   <script>
     if (window.__HHH_GET__) {
       document.getElementById('play').href = window.__HHH_GET__.play;
       document.getElementById('ios').href = window.__HHH_GET__.ios;
-      if (!window.__HHH_GET__.iosLive) {
+      if (window.__HHH_GET__.iosLive) {
+        document.getElementById('ios').textContent = 'App Store';
+      } else {
         document.getElementById('ios').textContent = 'Handy Horology on the web';
       }
     }
