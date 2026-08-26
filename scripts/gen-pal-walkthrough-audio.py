@@ -9,8 +9,8 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "videos" / "pal" / "walkthrough" / "audio"
-NARRATION = ROOT / "videos" / "pal" / "walkthrough" / "narration-en.json"
+OUT = ROOT / "videos" / "pal" / "user-guide" / "audio"
+NARRATION = ROOT / "videos" / "pal" / "user-guide" / "narration-en.json"
 VOICE = "en-US-AndrewNeural"
 
 

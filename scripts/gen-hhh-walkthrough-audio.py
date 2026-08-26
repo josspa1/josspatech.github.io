@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "videos" / "hhh" / "walkthrough" / "audio"
 VOICE = "en-US-AndrewNeural"
 
-# Matches videos/hhh/walkthrough/index.html SLIDES captions.
+# Matches videos/hhh/intro/index.html SLIDES captions.
 LINES = [
     "Command Center. Your collection's command center — museum, hunt, and repair in one place.",
     "My Museum. My Museum keeps every watch and clock with value at a glance.",
