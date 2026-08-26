@@ -49,7 +49,7 @@ partner-showcase/
 
 | Item | Path |
 |------|------|
-| Deck HTML | `HostedFiles/videos/pocketbudjet/partner-showcase/index.html` |
+| Deck HTML | `HostedFiles/videos/pbj/intro/index.html` |
 | Generator | `C:\PBJ\cvc-batch\write-partner-showcase-v6.js` |
 | Privacy mock (slide 1 intro) | `screens/feature-private.html` |
 | Narration | `locales.json` + `audio/{locale}/slide-0.mp3` … `slide-10.mp3` (en, es, de, fr, pt, zh, it, hi) |
@@ -213,7 +213,7 @@ Use this checklist when building a partner showcase like PBJ’s. **PBJ is the r
 
 | App | Suggested folder | Homepage page id |
 |-----|------------------|------------------|
-| PocketBudJet | `videos/pocketbudjet/partner-showcase/` | `#intro-tour` on `page-pbj` |
+| PocketBudJet | `videos/pbj/intro/` | `#intro-tour` on `page-pbj` |
 | HHH | `videos/hhh/partner-showcase/` (TBD) | `page-hhh` + anchor |
 | CVC | `videos/cvc/partner-showcase/` (TBD) | `page-cvc` + anchor |
 
