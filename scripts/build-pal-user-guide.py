@@ -34,117 +34,111 @@ def tap(x, y, label, show_at=1.0, dur=2.5):
 
 
 SLIDES: list[dict] = [
-    # —— Welcome (0–3) ——
-    T("Welcome to Pocket Allowance Ledger — PAL for short. This interactive user guide walks through every major parent and kid-web flow so you can run the app with confidence.", ICON, "PAL app icon"),
-    T("PAL is a parent-managed token economy for ages six and up — local to the phone, with a kid companion on home Wi-Fi. It is not kid banking.", HOME, "Parent Home"),
-    T("This guide uses a sample household named Reyes so you can follow along without setup. Kids Maya, about eight, and Jacob, about six.", HOME, "Home — Reyes sample"),
-    T("When iOS asks for Local Network access, tap Allow — kid web requires it. Keep PAL in the foreground while a kid browser is connected; the local server pauses if the app is backgrounded.", SET, "Local Network permission", tap(50, 68, "Allow", 1.2, 2.8)),
-    # —— Sample household (4–8) ——
-    T("Open PAL. The sample Reyes household is already loaded — family name Reyes, two kids ready on Home.", HOME, "Home — Reyes"),
-    T("Family password for kid web is reyes — lowercase. Kid PIN for both children is one-two-three-four. You can also find these in Settings under Reviewer guide.", SET, "Demo credentials", tap(50, 72, "Reviewer guide", 1.4, 2.6)),
-    T("Use the chapter pills to jump ahead, or play straight through with synced narration. Previous and Next re-listen a single step.", ICON, "PAL chapters"),
-    T("PAL stays on your device — no cloud sync required for the core token economy. PocketBudJet expense bridges are out of scope here.", SET, "Settings"),
-    T("Next we open Settings for a quick orientation, then walk Home, Balances, kid web, Approvals, Reports, and Contracts.", SET, "Settings overview"),
-    # —— Quick start (9–13) ——
-    T("Open Settings from the gear icon or the Settings tab. Scroll to Reviewer guide for demo credentials and a short suggested path through the app.", SET, "Settings", tap(50, 88, "Settings", 0.8, 2.4)),
-    T("Reviewer guide lists the sample household, suggested steps, design notes, and what PAL intentionally does not do.", SET, "Reviewer guide", tap(50, 55, "Reviewer guide", 1.0, 2.8)),
-    T("Step one: Home — tap Done on a contract and confirm the coin lands in Balances.", HOME, "Home Done buttons", tap(50, 54, "Done", 1.0, 2.8)),
-    T("Step two: Kid web — sign in with reyes, Maya, PIN one-two-three-four, then tap I did it on a job.", KID, "Kid web sign in", tap(50, 48, "Sign in", 1.0, 2.6)),
-    T("Step three: Approvals — confirm or decline the kid report. Optional: request a reward from kid web and approve here.", APP, "Approvals", tap(50, 42, "Approve", 0.8, 2.6)),
-    # —— Tab bar (14–17) ——
-    T("The parent app has five bottom tabs: Home, Balances, Reports, Contracts, and Settings. Each tab maps to a major part of the token economy.", HOME, "Tab bar", tap(50, 94, "Tabs", 0.6, 3.0)),
-    T("Home is where you tap Done on today's contracts — the core evening flow. Balances shows in-hand versus banked tokens per child.", HOME, "Home tab", tap(12, 94, "Home", 0.4, 2.0)),
-    T("Reports holds charts, first-week versus now comparisons, and coaching nudges. Contracts lists behavioral contracts and thinning schedules.", REP, "Reports tab", tap(50, 94, "Reports", 1.8, 2.0)),
-    T("Settings covers kid web, reviewer guide, kids list, backup export, and help. Nothing in Settings auto-changes schedules without your confirm.", SET, "Settings tab", tap(88, 94, "Settings", 2.2, 2.0)),
-    # —— Home / Done (18–23) ——
-    T("On Home, today's contracts appear as large Done buttons — one tap records the behavior and awards a gold token.", HOME, "Home contracts", tap(50, 54, "Done", 1.0, 2.8)),
-    T("Each contract shows the child name, behavior label, and token amount. Maya's morning routine might be worth one token; evening jobs may differ.", HOME, "Contract row"),
-    T("Tap Done on Maya's morning routine. Watch the coin animation land — immediate visual feedback for the parent.", HOME, "Tap Done", tap(50, 54, "Done", 0.4, 2.5)),
-    T("After Done, tokens update immediately in Balances. Kids see feedback in the companion once you confirm their self-reports in Approvals.", HOME, "Coin animation"),
-    T("Young contracts may show an extinction-burst callout on Home — coaching copy when behavior temporarily worsens after thinning. Read it as a heads-up to stay consistent, not to escalate.", HOME_QR, "Extinction burst callout", tap(50, 38, "Callout", 1.2, 2.6)),
-    T("Personalization nudge cards may appear on Home — schedule thinning or saving-growth suggestions. Parents must confirm; PAL never auto-applies changes.", HOME, "Nudge card", tap(50, 72, "Nudge", 1.4, 2.4)),
-    # —— Balances (24–28) ——
-    T("Open the Balances tab. Each child shows in-hand tokens versus banked savings — two jars, not a bank account.", BAL, "Balances", tap(50, 94, "Balances", 0.6, 2.4)),
-    T("Maya's row includes saving-growth maintenance operations in the demo — cadence coaching for bank deposits. Jacob's row stays simpler.", BAL, "Maya and Jacob balances", tap(50, 36, "Maya", 1.0, 2.6)),
-    T("In-hand tokens are spendable now; banked tokens accumulate toward rewards. No sibling leaderboards or shame metrics — by design.", BAL, "In hand vs bank"),
-    T("Tap a child row to see token history and saving cadence details. Interest accrual on banked tokens follows parent-configured rules.", BAL, "Child detail", tap(50, 36, "Maya", 0.8, 2.4)),
-    T("Wish list items live under Balances — kids request rewards; parents approve redemptions in Approvals.", BAL, "Wish list"),
-    # —— Kid web setup (29–35) ——
-    T("Kid web runs on your home Wi-Fi only — not the public internet. Open Settings, then Kid web.", SET, "Settings", tap(50, 68, "Kid web", 1.2, 2.8)),
-    T("PAL shows a LAN address and QR code when the local server is active. Phone and kid browser must share the same network.", SET, "Kid web LAN URL", tap(50, 58, "Copy link", 1.4, 2.6)),
-    T("Tap Copy link and paste into a Chromebook or tablet browser on the same Wi-Fi. Or scan the QR code from the kid device camera.", SET, "Copy kid browser link", tap(50, 72, "Copy link", 1.0, 2.4)),
-    T("Status reads Serving on your network when active. If PAL was backgrounded, reopen it — the server pauses until the parent app is foreground again.", SET, "Server status"),
-    T("On iPhone, Local Network permission is required. If kid web fails to load, check Wi-Fi, foreground PAL, and that both devices are on the same subnet.", SET, "Troubleshooting kid web"),
-    T("From Settings you can jump straight to Kid web whenever you need the LAN link or QR again.", SET, "Kid web screen"),
-    T("Kids open the link once per browser session. The companion uses warm, kid-facing language — tokens and rewards, not banking UI.", KID, "Kid web landing"),
-    # —— Kid companion (36–41) ——
-    T("On the kid sign-in screen, enter family password reyes — lowercase.", KID, "Family password", tap(50, 38, "Password", 0.8, 2.4)),
-    T("Tap Maya or Jacob, then enter PIN one-two-three-four. Each kid sees their own assignments and token balance.", KID, "Pick child", tap(50, 52, "Maya", 1.2, 2.4)),
-    T("Assignments appear as friendly jobs — I did it confirms completion. Coins wait for parent approval; delayed verification is intentional.", KID, "Kid assignments", tap(50, 62, "I did it!", 1.0, 2.8)),
-    T("Kids get immediate visual feedback when they tap I did it. You stay in control — nothing counts until you confirm in Approvals.", KID, "I did it tap", tap(50, 62, "I did it!", 0.4, 2.6)),
-    T("From kid web, Maya can request a reward from her wish list. The request appears in parent Approvals — nothing auto-redeems.", KID, "Reward request"),
-    T("Jacob's companion stays simpler in the demo — fewer saving-growth prompts. Compare whether age-appropriate defaults feel right.", KID, "Jacob view"),
-    # —— Approvals (42–47) ——
-    T("Switch back to the parent app. Open Approvals — badge count shows pending kid reports.", APP, "Approvals tab", tap(50, 94, "Approvals", 0.6, 2.4)),
-    T("Each pending item shows the child, contract, and timestamp. Tap Approve to award tokens or Decline to send back without credit.", APP, "Pending report", tap(50, 42, "Approve", 0.8, 2.8)),
-    T("Delayed verification path: kid self-report → parent Approvals. This mirrors token-economy practice — kids learn to report; parents verify.", APP, "Confirm or decline"),
-    T("Reward requests from kid web appear here too. Approve deducts banked tokens; decline keeps the wish pending.", APP, "Reward approval", tap(50, 55, "Decline", 1.4, 2.4)),
-    T("After approval, Balances updates and the kid companion reflects the new total on next refresh.", APP, "After approval"),
-    T("Empty Approvals means everything is caught up — a good state on busy evenings.", APP, "Empty approvals"),
-    # —— Reports (48–53) ——
-    T("Open Reports for charts and coaching cards. Insights tab shows frequency trends and parent-facing schedule summaries.", REP, "Reports insights", tap(50, 94, "Reports", 0.6, 2.4)),
-    T("First-week versus now comparison cards highlight behavior change over time so you can see progress at a glance.", REP, "First week vs now", tap(50, 48, "Insights", 1.0, 2.6)),
-    T("Switch to Trends for longer-horizon charts. Thinning and saving-growth suggestions appear as nudges — parents must confirm.", REP_TREND, "Reports trends", tap(50, 32, "Trends", 0.8, 2.4)),
-    T("Coaching cards use plain, literature-first language. Read them as optional suggestions — nothing changes until you confirm.", REP, "Coaching card"),
-    T("Reports never auto-applies schedule changes. Every thinning or cadence adjustment requires explicit parent confirm.", REP, "Parent confirm gate"),
-    T("Export from Settings if you need a local backup zip — no secrets are included in the archive.", REP, "Reports overview"),
-    # —— Contracts (54–61) ——
-    T("Open Contracts to review seeded behavioral contracts. Each lists behavior name, token amount, and schedule type.", CON, "Contracts list", tap(50, 94, "Contracts", 0.6, 2.4)),
-    T("Tap a contract to open detail — thinning schedules, extinction-burst coaching on young contracts, and maintenance operations.", CON, "Contract row", tap(50, 44, "Contract", 0.8, 2.6)),
-    T("Contract detail shows token amount, target frequency, and thinning ladder. Age bands set developmental defaults only — not permanent law.", CON_DET, "Contract detail", tap(50, 50, "Schedule", 1.0, 2.6)),
-    T("Extinction-burst callouts on young contracts explain temporary behavior spikes after schedule changes — stay consistent through the bump.", CON_DET, "Extinction burst coaching"),
-    T("Saving-growth maintenance operations on Maya's contracts demonstrate cadence coaching — Jacob's contracts stay simpler.", CON_DET, "Saving cadence"),
-    T("Tap New contract to start from a template or from scratch. Wizard steps mirror behavioral contract best practices.", CON, "New contract", tap(88, 12, "New", 0.6, 2.4)),
-    T("Templates include morning routine, homework block, and chore ladders — customize token amounts and schedules per child.", CON, "Contract templates"),
-    T("Archived contracts remain readable for history but stop appearing on Home Done buttons.", CON, "Archived contracts"),
-    # —— Settings / backup (62–67) ——
-    T("Settings holds Kids list, Kid web, Reviewer guide, Help, About, and local backup export.", SET, "Settings hub", tap(50, 94, "Settings", 0.6, 2.4)),
-    T("Kids list lets you review Maya and Jacob profiles — ages drive default schedules, not fixed rules.", SET, "Kids list", tap(50, 42, "Kids", 1.0, 2.4)),
-    T("Help links to support email and this user guide. About shows version and design notes.", SET, "Help and About"),
-    T("Export backup creates a local zip of contracts, tokens, and settings you control. No cloud sync required for everyday use.", SET, "Backup export", tap(50, 78, "Export", 1.6, 2.4)),
-    T("Restore from backup on a new phone if you want to bring your household data with you.", SET, "Restore backup"),
-    T("Open Kid web anytime you need the LAN URL or QR for a tablet or Chromebook on the same Wi-Fi.", SET, "Open Kid web link", tap(50, 68, "Kid web", 1.2, 2.4)),
-    # —— Design notes (68–73) ——
-    T("PAL uses token-economy language, not chore-tracker gamification. No streaks, leaderboards, or shame metrics.", HOME, "Design — language"),
-    T("Schedule thinning and saving cadence appear as age priors plus performance nudges plus parent confirm — you stay in charge of every change.", REP, "Design — thinning"),
-    T("Delayed verification is intentional: kid reports, parent confirms, then tokens land. That keeps parents in the loop.", APP, "Design — verification"),
-    T("Extinction-burst coaching on Home and Contracts helps you stay consistent when behavior temporarily spikes after a schedule change.", HOME_QR, "Design — extinction burst"),
-    T("Age bands are developmental defaults only — adjust schedules and reinforcers to fit your household.", SET, "Design — age bands"),
-    T("Literature-first with room for real-family flexibility when household means require different reinforcer delivery.", SET, "Design boundary"),
-    # —— Out of scope (74–76) ——
-    T("PAL does not include debit or banking, a chatbot coach, cloud sync, ages under six, or a PocketBudJet expense bridge.", SET, "Out of scope list"),
-    T("PAL is not kid banking — no real money, no debit cards. Tokens are symbolic reinforcers managed entirely by the parent.", ICON, "Not kid banking"),
-    T("Questions or feedback: support at josspatech dot com.", ICON, "Feedback"),
-    # —— Thank you (77) ——
-    T("Thanks for watching. This guide lives at josspatech dot com slash videos slash pal slash user-guide. Tap any chapter pill to re-listen a section.", ICON, "Thank you"),
+    # —— Welcome (0–4) ——
+    T("Welcome to Pocket Allowance Ledger — or PAL for short. This is a how-to guide. It shows you what you can do in the app and how to do it, step by step.", HOME, "PAL Home"),
+    T("Here is the basic idea. You, the parent, use the PAL app on your phone. Your kids use a simple web page on a Chromebook, tablet, or another device at home — on the same Wi-Fi as your phone.", HOME, "Parent and kid"),
+    T("You set up jobs and rewards, tap Done when something is finished, and approve what kids report. Kids see their jobs in a browser, tap when they are done, and ask for rewards. You stay in charge.", HOME, "How the two sides work"),
+    T("This guide uses a sample family named Reyes so you can follow along right away. The kids are Maya and Jacob. Later, when you set up your own household, you will pick your own family password and each child's PIN.", HOME, "Sample family Reyes"),
+    T("Use the chapter buttons along the top to jump to a topic. Or press play and listen straight through. Previous and Next move one step at a time.", HOME, "Chapter buttons"),
+    # —— Sample logins (5–8) ——
+    T("Open the app. You should see the Reyes sample household on Home — today's jobs ready to mark done.", HOME, "Home with sample jobs"),
+    T("For kid web practice, the sample family password is reyes — all lowercase. The sample PIN for both kids is one two three four. These are only for this sample. You can customize logins later when you set up your own family.", SET, "Sample password and PIN", tap(50, 72, "Guide", 1.4, 2.6)),
+    T("If your iPhone asks for Local Network access, tap Allow. That lets kids reach the companion page on your home Wi-Fi. Keep the PAL app open on your phone while a kid is using the web page — if you leave the app, the connection pauses.", SET, "Local Network", tap(50, 68, "Allow", 1.2, 2.8)),
+    T("Along the bottom of the parent app you will see five tabs: Home, Balances, Reports, Contracts, and Settings. We will walk through each one.", HOME, "Bottom tabs", tap(50, 94, "Tabs", 0.6, 3.0)),
+    # —— First evening path (9–14) ——
+    T("Here is a simple first path — the kind of evening flow most families use.", HOME, "First path"),
+    T("First, on Home, look for a job with a big Done button. Tap Done when that job is finished. A gold coin animation shows the token was logged, and the child's balance updates.", HOME, "Tap Done", tap(50, 54, "Done", 1.0, 2.8)),
+    T("Second, open Settings, then Kid web. Copy the link, or show the QR code, so a kid device can open the companion page on the same Wi-Fi.", SET, "Open Kid web", tap(50, 68, "Kid web", 1.2, 2.8)),
+    T("On the kid page, sign in with the sample password reyes, choose Maya, enter PIN one two three four, then tap I did it on a job. That sends a report to you — it does not award the coin by itself.", KID, "Kid signs in and reports", tap(50, 62, "I did it!", 1.0, 2.8)),
+    T("Third, back in the parent app, open Approvals. You will see the kid's report. Tap Approve to award the tokens, or Decline if it should not count.", APP, "Approve or decline", tap(50, 42, "Approve", 0.8, 2.8)),
+    T("That loop — you mark jobs, kids report from the web page, you approve — is the heart of daily use. Everything else builds on it.", HOME, "Daily loop"),
+    # —— Home (15–22) ——
+    T("Home is your main evening screen. Today's jobs show as large Done buttons — one tap logs the behavior and awards a gold token.", HOME, "Home jobs", tap(50, 54, "Done", 1.0, 2.8)),
+    T("Each row shows which child, what the job is called, and how many tokens it is worth. Maya's morning routine might be one token; other jobs can be different amounts.", HOME, "Job row details"),
+    T("Try tapping Done on Maya's morning routine. Watch the coin land. That is your quick feedback that the job was logged.", HOME, "Coin feedback", tap(50, 54, "Done", 0.4, 2.5)),
+    T("After you tap Done, Balances updates right away for work you logged yourself. When a kid reports from the web page, the coin waits until you approve it.", HOME, "When tokens land"),
+    T("Sometimes PAL shows a tip on Home after you ease up how often a job pays. Behavior can get bumpier for a short time before it settles. The tip is a reminder to stay steady — not to pile on extra consequences.", HOME_QR, "Steady-through tip", tap(50, 38, "Tip", 1.2, 2.6)),
+    T("You may also see suggestion cards on Home — for example, easing a schedule or encouraging saving. Read them if you like. Nothing changes unless you agree.", HOME, "Suggestion cards", tap(50, 72, "Suggestion", 1.4, 2.4)),
+    T("PAL will not quietly change schedules or token amounts in the background. Any change needs your confirmation.", HOME, "You confirm changes"),
+    T("When Home is empty of pending jobs, you are caught up for the day. You can still open other tabs anytime.", HOME, "Caught up"),
+    # —— Balances (23–28) ——
+    T("Open the Balances tab. Each child has tokens in hand — ready to spend — and tokens banked toward longer-term rewards.", BAL, "Balances", tap(50, 94, "Balances", 0.6, 2.4)),
+    T("Think of two jars, not a bank account. In-hand is for sooner rewards. Banked is for bigger goals the child is saving toward.", BAL, "In hand and banked"),
+    T("Tap a child's row to see recent token history and any saving tips for that child.", BAL, "Child detail", tap(50, 36, "Maya", 0.8, 2.4)),
+    T("Under Balances you will also find wish-list style rewards. Kids can ask for those from the web page. You approve or decline the ask in Approvals.", BAL, "Wish list rewards"),
+    T("Maya's sample row may show extra saving tips. Jacob's stays simpler. You can tune each child differently when you set up your own household.", BAL, "Different kids"),
+    T("There are no sibling scoreboards or shame charts. Each child's tokens are their own.", BAL, "No scoreboards"),
+    # —— Kid web (29–37) ——
+    T("Kid web is how children use PAL without installing an app. They open a normal web page on a device that shares your home Wi-Fi.", SET, "What kid web is", tap(50, 68, "Kid web", 1.2, 2.8)),
+    T("You stay in the parent app on your phone. Kids use the browser on a Chromebook, tablet, or phone. Same household — two screens.", SET, "Parent phone, kid browser"),
+    T("Open Settings, then Kid web. When it is working, you will see Serving on your network, a kid browser link, and a QR code.", SET, "Kid web screen", tap(50, 58, "Copy link", 1.4, 2.6)),
+    T("For a computer or Chromebook, tap Copy link, then paste that address into the browser address bar. Most PCs cannot scan a QR code — the copied link is the easy path.", SET, "Copy link for computers", tap(50, 72, "Copy link", 1.0, 2.4)),
+    T("The QR code is for a phone or tablet that can open the camera and scan. Point the kid device at the code to open the same page. Many iPads can scan; a desktop usually cannot.", SET, "QR for phones and tablets"),
+    T("Phone and kid device must be on the same home Wi-Fi. If the page will not load, check Wi-Fi, bring PAL back to the front on your phone, and try again.", SET, "Same Wi-Fi"),
+    T("If you switch away from PAL or lock the phone for a long time, the kid page may stop responding until you open PAL again.", SET, "Keep PAL open"),
+    T("You can return to Settings, then Kid web, anytime you need the link or QR again.", SET, "Find Kid web again"),
+    T("Once the page loads, kids see a friendly sign-in — not a banking screen. Next we walk through what they do there.", KID, "Kid landing"),
+    # —— Kid companion (38–45) ——
+    T("On the kid sign-in screen, enter the family password. For the sample, type reyes in lowercase.", KID, "Family password", tap(50, 38, "Password", 0.8, 2.4)),
+    T("Then tap the child's name — Maya or Jacob — and enter that child's PIN. Sample PIN is one two three four for both. Each kid only sees their own jobs and tokens.", KID, "Pick child and PIN", tap(50, 52, "Maya", 1.2, 2.4)),
+    T("Remember: these sample logins are for practice. When you set up your own family, you choose your own password and PINs.", KID, "Customize later"),
+    T("Jobs show as simple tasks. When a child finishes one, they tap I did it. That tells you they are done — the coin still waits for your approval.", KID, "I did it", tap(50, 62, "I did it!", 1.0, 2.8)),
+    T("Kids usually see a quick thank-you on their screen when they tap I did it. That feels immediate for them, while you stay the final say.", KID, "Kid feedback", tap(50, 62, "I did it!", 0.4, 2.6)),
+    T("From the kid page, a child can also ask for a reward from the wish list. That ask shows up in your Approvals. Nothing spends tokens until you approve.", KID, "Ask for a reward"),
+    T("If two kids share one tablet, they can switch users after signing in with the family password. Each uses their own PIN.", KID, "More than one kid"),
+    T("When you are done practicing on the kid page, switch back to the parent app for Approvals.", APP, "Back to parent app"),
+    # —— Approvals (46–52) ——
+    T("Open Approvals in the parent app. A badge count shows how many kid reports are waiting.", APP, "Approvals waiting", tap(50, 94, "Approvals", 0.6, 2.4)),
+    T("Each item shows which child, which job, and when they reported. Read it, then decide.", APP, "Pending item"),
+    T("Tap Approve to award the tokens. Tap Decline if it should not count — for example if the job was not really done.", APP, "Approve or decline", tap(50, 42, "Approve", 0.8, 2.8)),
+    T("This is on purpose: kids learn to report honestly, and you verify. Tokens land after your confirmation.", APP, "Why approve"),
+    T("Reward asks from the kid page show up here too. Approve spends from banked tokens toward that reward. Decline leaves the wish for later.", APP, "Reward asks", tap(50, 55, "Decline", 1.4, 2.4)),
+    T("After you approve, Balances updates. The next time the kid refreshes their page, they see the new total.", APP, "After you approve"),
+    T("If Approvals is empty, you are caught up — nothing waiting on you.", APP, "Empty Approvals"),
+    # —— Reports (53–58) ——
+    T("Open Reports to see how things are going over time — charts and short tips, not a scoreboard.", REP, "Reports", tap(50, 94, "Reports", 0.6, 2.4)),
+    T("Insights can show how often jobs are getting done, and simple comparisons like the first week versus lately.", REP, "Insights", tap(50, 48, "Insights", 1.0, 2.6)),
+    T("Trends looks further out. You may see gentle suggestions, like easing how often a job pays once it is going well.", REP_TREND, "Trends", tap(50, 32, "Trends", 0.8, 2.4)),
+    T("Treat tips as optional advice. If PAL suggests changing a schedule, it will ask you to confirm. It will not change things on its own.", REP, "Tips need your OK"),
+    T("That confirmation step is so you stay in charge of what your family does.", REP, "You stay in charge"),
+    T("When you want a copy of your data for safekeeping, use Export backup in Settings — we cover that in a moment.", SET, "Backup coming up"),
+    # —— Contracts (59–66) ——
+    T("Open Contracts to see the jobs and routines set up for each child — what earns tokens and how often.", CON, "Contracts list", tap(50, 94, "Contracts", 0.6, 2.4)),
+    T("Tap a contract to open its details — token amount, schedule, and any tips tied to that job.", CON, "Open a contract", tap(50, 44, "Contract", 0.8, 2.6)),
+    T("Schedules can start more generous and then ease off as a habit sticks. Starting points follow the child's age as a default — you can change them to fit your home.", CON_DET, "Schedules", tap(50, 50, "Schedule", 1.0, 2.6)),
+    T("If you ease a schedule, you might see a tip that behavior can get bumpier for a bit. That is normal for this kind of plan. Stay consistent through the bump.", CON_DET, "Bumpy after change"),
+    T("Some contracts include gentle saving reminders — especially in Maya's sample. Jacob's sample stays simpler so you can compare.", CON_DET, "Saving tips"),
+    T("Tap New contract when you want to add a job. You can start from a template — like morning routine or homework — or build one from scratch.", CON, "New contract", tap(88, 12, "New", 0.6, 2.4)),
+    T("Set the name, who it is for, how many tokens, and the schedule. Save it, and it can show up on Home as a Done button.", CON, "Fill in a new job"),
+    T("Archived contracts stay in history but stop appearing on Home. Use archive when a job is no longer active.", CON, "Archive"),
+    # —— Settings (67–74) ——
+    T("Settings is where you manage kids, kid web, help, and a local backup of your data.", SET, "Settings", tap(50, 94, "Settings", 0.6, 2.4)),
+    T("Kids list lets you review each child's profile. Ages help pick starting schedules — they are starting points, not locked rules.", SET, "Kids list", tap(50, 42, "Kids", 1.0, 2.4)),
+    T("Kid web, as we covered, is where you copy the link or show the QR so kids can open the companion page.", SET, "Kid web again", tap(50, 68, "Kid web", 1.2, 2.4)),
+    T("Help points to support and this user guide. About shows the app version.", SET, "Help and About"),
+    T("Export backup saves a zip of your contracts, tokens, and settings onto your phone. Passwords and PINs are not stored in that zip.", SET, "Export backup", tap(50, 78, "Export", 1.6, 2.4)),
+    T("Restore from backup if you move to a new phone and want your household data back.", SET, "Restore backup"),
+    T("Nothing in Settings silently rewrites schedules. If a change needs to happen, you will be asked for your confirmation.", SET, "Confirmation"),
+    T("You now have the full loop: Home, Balances, kid web, Approvals, Reports, Contracts, and Settings.", HOME, "Full loop"),
+    # —— Wrap (75–77) ——
+    T("To practice again: mark a job Done on Home, open kid web for a child report, then clear Approvals. Use chapter buttons anytime to re-listen to a section.", HOME, "Practice again"),
+    T("Questions or feedback: support at josspatech dot com.", HOME, "Support"),
+    T("That is the PAL how-to. Jump to any chapter above whenever you need a refresher.", HOME, "End"),
 ]
 
 CHAPTERS = [
     (0, "Welcome"),
-    (4, "Sample household"),
-    (9, "Quick start"),
-    (14, "Tab bar"),
-    (18, "Home"),
-    (24, "Balances"),
+    (5, "Sample logins"),
+    (9, "First path"),
+    (15, "Home"),
+    (23, "Balances"),
     (29, "Kid web"),
-    (36, "Kid companion"),
-    (42, "Approvals"),
-    (48, "Reports"),
-    (54, "Contracts"),
-    (62, "Settings"),
-    (68, "Design notes"),
-    (74, "Out of scope"),
-    (77, "Thank you"),
+    (38, "Kid companion"),
+    (46, "Approvals"),
+    (53, "Reports"),
+    (59, "Contracts"),
+    (67, "Settings"),
+    (75, "Wrap-up"),
 ]
 
 
@@ -194,19 +188,19 @@ def build_index() -> str:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pocket Allowance Ledger — User Guide | JosspaTech</title>
-  <meta name="description" content="Interactive PAL user guide — sample household, kid web on home Wi‑Fi, parent core flow through Contracts. {len(SLIDES)} slides with synced narration.">
+  <meta name="description" content="How to use Pocket Allowance Ledger — parent app and kid web on home Wi‑Fi. Step-by-step user guide with synced narration.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://josspatech.com/videos/pal/user-guide/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Pocket Allowance Ledger — User Guide | JosspaTech">
-  <meta property="og:description" content="Interactive PAL user guide — Home through Contracts, kid web, Approvals, and Reports with synced narration.">
+  <meta property="og:description" content="How to use PAL day to day — Home, kid web, Approvals, Reports, and Contracts.">
   <meta property="og:url" content="https://josspatech.com/videos/pal/user-guide/">
   <meta property="og:site_name" content="JosspaTech">
   <meta property="og:image" content="https://josspatech.com/assets/brand/pal-app-icon.svg">
   <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/videos/shared/walkthrough.css">
-  <link rel="stylesheet" href="walkthrough.css?v=pal-ug-2026-08-26">
+  <link rel="stylesheet" href="walkthrough.css?v=pal-howto-2026-08-26">
   <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -275,13 +269,13 @@ def build_index() -> str:
   <div class="hero">
     <div class="container">
       <h1>Pocket Allowance Ledger — User Guide</h1>
-      <p class="subheader">{len(SLIDES)} interactive slides with synced narration, gold tap guides, and chapter jumps. Parent app plus kid web on home Wi‑Fi — how to use PAL day to day.</p>
+      <p class="subheader">{len(SLIDES)} steps with synced narration. Learn what you can do in PAL and how to do it — parent phone plus kids on a home Wi‑Fi browser.</p>
     </div>
   </div>
   <section class="user-manual walkthrough">
     <div class="container">
       <h2>Interactive User Guide</h2>
-      <p class="section-sub">{len(SLIDES)} slides with synced narration and gold tap guides — Welcome through Contracts and kid web. Use the {len(CHAPTERS)} chapter pills to jump ahead, Previous/Next (or ← →) to re-listen a step, or tap any sentence in the transcript.</p>
+      <p class="section-sub">Tap a chapter to jump ahead, or press play. Previous and Next move one step. Tap any sentence in the transcript to jump there.</p>
 
       <div class="chapter-nav" id="chapterNav">
 {chapter_buttons()}
@@ -321,8 +315,8 @@ def build_index() -> str:
 
   <section class="cta-section">
     <div class="container">
-      <h2>Ready to run a home token economy?</h2>
-      <p>Questions or feedback: support@josspatech.com. Prefer notes on wording, timing, and what a parent might misuse — over feature wishlists.</p>
+      <h2>Need a hand?</h2>
+      <p>Questions: support@josspatech.com.</p>
       <a href="mailto:support@josspatech.com?subject=PAL%20user%20guide" class="download-button">Email support</a>
       <a href="/#pal" class="download-button ghost">Back to PAL product page</a>
     </div>
