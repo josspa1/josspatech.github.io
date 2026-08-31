@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pocket Allowance Ledger — Guía de usuario | JosspaTech</title>
+  <meta name="description" content="Cómo usar Pocket Allowance Ledger — app para padres y Kid web en el Wi‑Fi de casa. Guía paso a paso con narración sincronizada.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://josspatech.com/videos/pal/user-guide/es/">
+  <link rel="alternate" hreflang="en" href="https://josspatech.com/videos/pal/user-guide/">
+  <link rel="alternate" hreflang="es" href="https://josspatech.com/videos/pal/user-guide/es/">
+  <link rel="alternate" hreflang="zh" href="https://josspatech.com/videos/pal/user-guide/zh/">
+  <link rel="alternate" hreflang="de" href="https://josspatech.com/videos/pal/user-guide/de/">
+  <link rel="alternate" hreflang="fr" href="https://josspatech.com/videos/pal/user-guide/fr/">
+  <link rel="alternate" hreflang="pt" href="https://josspatech.com/videos/pal/user-guide/pt/">
+  <link rel="alternate" hreflang="it" href="https://josspatech.com/videos/pal/user-guide/it/">
+  <link rel="alternate" hreflang="hi" href="https://josspatech.com/videos/pal/user-guide/hi/">
+  <link rel="alternate" hreflang="x-default" href="https://josspatech.com/videos/pal/user-guide/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pocket Allowance Ledger — Guía de usuario | JosspaTech">
+  <meta property="og:description" content="Cómo usar PAL día a día — Home, Kid web, Approvals, Reports y Contracts.">
+  <meta property="og:url" content="https://josspatech.com/videos/pal/user-guide/es/">
+  <meta property="og:site_name" content="JosspaTech">
+  <meta property="og:image" content="https://josspatech.com/assets/brand/pal-app-icon.svg">
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+  <link rel="stylesheet" href="walkthrough.css?v=pal-howto-2026-08-27">
+  <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--white); color: var(--navy); }
+    :root {
+      --navy: #1A4F7A; --navy-dark: #1A120E; --navy-medium: #2E6FA3;
+      --gold: #E8B84A; --gold-dark: #C8942E;
+      --slate: #5A7A9A; --slate-light: #8AAABB;
+      --background: #F5EDE4; --white: #FFFFFF;
+    }
+    nav { position: sticky; top: 0; z-index: 1000; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background-color: var(--navy-dark); }
+    nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+    nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; flex-wrap: wrap; }
+    nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    nav .nav-links a:hover { color: var(--gold); }
+    .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.95rem; color: var(--slate); }
+    .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; font-weight: 700; }
+    .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
+    .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
+    .hero { color: var(--white); padding: 2rem; text-align: center; background: linear-gradient(135deg, #1A120E 0%, #1A4F7A 100%); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 0.75rem; }
+    .hero .subheader { font-size: 1.05rem; max-width: 760px; margin: 0 auto; opacity: 0.95; line-height: 1.55; }
+    .walkthrough { padding: 3rem 2rem; background: var(--background); }
+    .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+    .walkthrough h2 { font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 0.5rem; color: var(--navy); }
+    .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .phone-frame { width: 300px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; position: relative; box-shadow: 0 16px 48px rgba(26,18,14,0.22); }
+    .slideshow { width: 100%; height: 100%; position: relative; }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+    .slide.active { opacity: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .cta-section { padding: 3rem 2rem; text-align: center; color: white; background: linear-gradient(135deg, #1A120E 0%, #1A4F7A 100%); }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.75rem; }
+    .cta-section p { max-width: 640px; margin: 0 auto 1.25rem; opacity: 0.9; line-height: 1.6; }
+    .download-button { display: inline-block; padding: 0.9rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; margin: 0.35rem; background: var(--gold); color: var(--navy-dark); border: 2px solid var(--gold); }
+    .download-button:hover { background: var(--gold-dark); }
+    .download-button.ghost { background: transparent; color: var(--gold); }
+    footer { padding: 2rem; text-align: center; color: white; font-size: 0.9rem; background: var(--navy-dark); }
+    footer a { color: var(--gold); }
+    @media (max-width: 768px) {
+      nav .nav-links { gap: 0.75rem; font-size: 0.85rem; }
+      .walkthrough { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body data-jt-product="pal">
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">JosspaTech</a>
+      <ul class="nav-links">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+        <li><a href="/videos/pal/">Videos PAL</a></li>
+        <li><a href="/how-to/">How To</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Inicio</a><span class="sep">/</span>
+    <a href="/#pal">Pocket Allowance Ledger</a><span class="sep">/</span>
+    <a href="/videos/pal/">Videos</a><span class="sep">/</span>
+    <span class="current">Guía de usuario</span>
+  </div>
+  <div class="hero">
+    <div class="container">
+      <h1>Pocket Allowance Ledger — Guía de usuario</h1>
+      <p class="subheader">78 pasos con narración sincronizada. Aprende qué puedes hacer en PAL y cómo hacerlo — teléfono de los padres más los niños en un navegador del Wi‑Fi de casa.</p>
+    </div>
+  </div>
+  <section class="user-manual walkthrough">
+    <div class="container">
+      <h2>Guía de usuario interactiva</h2>
+      <p class="section-sub">Toca un capítulo para saltar, o pulsa reproducir. Anterior y Siguiente avanzan un paso. Toca cualquier frase de la transcripción para ir allí.</p>
+      <ul class="prod-media-langs" aria-label="Idiomas de la guía de usuario" style="display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 1.25rem;padding:0;list-style:none;">
+        <li><a href="/videos/pal/user-guide/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">English</a></li>
+        <li><a href="/videos/pal/user-guide/zh/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">中文（简体）</a></li>
+        <li><a href="/videos/pal/user-guide/fr/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Français</a></li>
+        <li><a href="/videos/pal/user-guide/de/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Deutsch</a></li>
+        <li><a href="/videos/pal/user-guide/hi/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">हिन्दी</a></li>
+        <li><a href="/videos/pal/user-guide/it/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Italiano</a></li>
+        <li><a href="/videos/pal/user-guide/pt/" target="_blank" rel="noopener" style="color:var(--navy-medium);font-weight:600;">Português</a></li>
+        <li><a class="is-current" href="/videos/pal/user-guide/es/" style="color:var(--navy);font-weight:700;">Español</a></li>
+      </ul>
+
+      <div class="chapter-nav" id="chapterNav">
+        <button type="button" class="chapter-btn active" data-slide="0">Bienvenida</button>
+        <button type="button" class="chapter-btn" data-slide="5">Encuentra el rumbo</button>
+        <button type="button" class="chapter-btn" data-slide="10">Primera noche</button>
+        <button type="button" class="chapter-btn" data-slide="17">Record</button>
+        <button type="button" class="chapter-btn" data-slide="24">Balances</button>
+        <button type="button" class="chapter-btn" data-slide="30">Kid web</button>
+        <button type="button" class="chapter-btn" data-slide="38">Página del niño</button>
+        <button type="button" class="chapter-btn" data-slide="46">Approvals</button>
+        <button type="button" class="chapter-btn" data-slide="52">Reports</button>
+        <button type="button" class="chapter-btn" data-slide="57">Contracts</button>
+        <button type="button" class="chapter-btn" data-slide="65">Settings</button>
+        <button type="button" class="chapter-btn" data-slide="74">Cierre</button>
+      </div>
+
+      <div class="user-manual-stage walkthrough-stage">
+        <div class="video-wrapper">
+          <div class="phone-column">
+            <div class="phone-viewport">
+              <div class="phone-frame">
+                <div class="slideshow" id="slideshow">
+                  <div class="tap-to-start" id="tapToStart">
+                    <div class="tap-to-start-icon">&#9654;</div>
+                    <div class="tap-to-start-label">Toca para reproducir</div>
+                  </div>
+                  <div class="slide active" data-index="0" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Home de PAL" loading="eager">
+                  </div>
+                  <div class="slide" data-index="1" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Teléfono de los padres y página del niño" loading="eager">
+                  </div>
+                  <div class="slide" data-index="2" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Quién hace qué" loading="eager">
+                  </div>
+                  <div class="slide" data-index="3" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Familia de ejemplo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="4" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Cómo navegar esta guía" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="5" data-tap-x="50" data-tap-y="94" data-tap-label="Pestañas" data-tap-show-at="0.6" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Pestañas inferiores" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="6" data-tap-x="12" data-tap-y="94" data-tap-label="Record" data-tap-show-at="0.4" data-tap-duration="2.0">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="La pestaña Record es Home" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="7" data-tap-x="88" data-tap-y="8" data-tap-label="Engranaje" data-tap-show-at="0.8" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="El engranaje abre Settings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="8" data-tap-x="50" data-tap-y="72" data-tap-label="Guía" data-tap-show-at="1.4" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Contraseña y PIN de ejemplo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="9" data-tap-x="50" data-tap-y="68" data-tap-label="Permitir" data-tap-show-at="1.2" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Permitir red local" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="10" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Primera noche" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="11" data-tap-x="50" data-tap-y="54" data-tap-label="Done" data-tap-show-at="1.0" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Toca Done" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="12" data-tap-x="50" data-tap-y="68" data-tap-label="Kid web" data-tap-show-at="1.2" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Abrir Kid web" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="13" data-tap-x="50" data-tap-y="72" data-tap-label="Copiar enlace" data-tap-show-at="1.0" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Copiar enlace para un ordenador" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="14" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="QR para teléfonos y tablets" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="15" data-tap-x="50" data-tap-y="62" data-tap-label="I did it!" data-tap-show-at="1.0" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="El niño informa un trabajo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="16" data-tap-x="50" data-tap-y="42" data-tap-label="Approve" data-tap-show-at="0.8" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Aprobar el informe" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="17" data-tap-x="50" data-tap-y="54" data-tap-label="Done" data-tap-show-at="1.0" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Pantalla Record" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="18" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Qué muestra cada trabajo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="19" data-tap-x="50" data-tap-y="54" data-tap-label="Done" data-tap-show-at="0.4" data-tap-duration="2.5">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Mira la moneda" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="20" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Cuándo aparecen los tokens" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="21" data-tap-x="50" data-tap-y="38" data-tap-label="Consejo" data-tap-show-at="1.2" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/01-home-quick-record.png" alt="Consejo después de un cambio" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="22" data-tap-x="50" data-tap-y="72" data-tap-label="Sugerencia" data-tap-show-at="1.4" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Tarjetas de sugerencia" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="23" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Al día por hoy" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="24" data-tap-x="50" data-tap-y="94" data-tap-label="Balances" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="Pestaña Balances" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="25" data-tap-none>
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="En mano y guardados" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="26" data-tap-x="50" data-tap-y="36" data-tap-label="Maya" data-tap-show-at="0.8" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="Abrir un niño" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="27" data-tap-none>
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="Lista de deseos" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="28" data-tap-none>
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="Niños distintos" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="29" data-tap-none>
+                    <img src="/assets/screenshots/pal/02-balances.png" alt="Totales separados" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="30" data-tap-x="50" data-tap-y="68" data-tap-label="Kid web" data-tap-show-at="1.2" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Qué es Kid web" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="31" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Dos pantallas" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="32" data-tap-x="50" data-tap-y="58" data-tap-label="Copiar enlace" data-tap-show-at="1.4" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Kid web listo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="33" data-tap-x="50" data-tap-y="72" data-tap-label="Copiar enlace" data-tap-show-at="1.0" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Pegar el enlace" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="34" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Escanear el código QR" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="35" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="El mismo Wi-Fi" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="36" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Mantén PAL abierto" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="37" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Encontrarlo de nuevo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="38" data-tap-x="50" data-tap-y="38" data-tap-label="Contraseña" data-tap-show-at="0.8" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Introducir contraseña familiar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="39" data-tap-x="50" data-tap-y="52" data-tap-label="Maya" data-tap-show-at="1.2" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Elegir niño y PIN" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="40" data-tap-none>
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Tus propios inicios de sesión después" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="41" data-tap-x="50" data-tap-y="62" data-tap-label="I did it!" data-tap-show-at="1.0" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Toca I did it" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="42" data-tap-x="50" data-tap-y="62" data-tap-label="I did it!" data-tap-show-at="0.4" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Lo que ve el niño" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="43" data-tap-none>
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Pedir una recompensa" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="44" data-tap-none>
+                    <img src="/assets/screenshots/pal/03-kid-web.png" alt="Dos niños, una tablet" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="45" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Volver a Approvals" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="46" data-tap-x="50" data-tap-y="94" data-tap-label="Approvals" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Pestaña Approvals" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="47" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Leer el informe" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="48" data-tap-x="50" data-tap-y="42" data-tap-label="Approve" data-tap-show-at="0.8" data-tap-duration="2.8">
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Approve o Decline" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="49" data-tap-x="50" data-tap-y="55" data-tap-label="Decline" data-tap-show-at="1.4" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Peticiones de recompensa" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="50" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Después de Approve" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="51" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-approvals.png" alt="Nada en espera" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="52" data-tap-x="50" data-tap-y="94" data-tap-label="Reports" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/04-reports.png" alt="Pestaña Reports" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="53" data-tap-x="50" data-tap-y="48" data-tap-label="Insights" data-tap-show-at="1.0" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/04-reports.png" alt="Insights" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="54" data-tap-x="50" data-tap-y="32" data-tap-label="Trends" data-tap-show-at="0.8" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/05-reports-trends.png" alt="Trends" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="55" data-tap-none>
+                    <img src="/assets/screenshots/pal/04-reports.png" alt="Tú aceptas primero" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="56" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Copia de seguridad a continuación" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="57" data-tap-x="50" data-tap-y="94" data-tap-label="Contracts" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/06-contracts.png" alt="Pestaña Contracts" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="58" data-tap-x="50" data-tap-y="44" data-tap-label="Trabajo" data-tap-show-at="0.8" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/06-contracts.png" alt="Abrir un trabajo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="59" data-tap-x="50" data-tap-y="50" data-tap-label="Horario" data-tap-show-at="1.0" data-tap-duration="2.6">
+                    <img src="/assets/screenshots/pal/07-contract-detail.png" alt="Con qué frecuencia paga" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="60" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-contract-detail.png" alt="Después de cambiar la frecuencia" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="61" data-tap-none>
+                    <img src="/assets/screenshots/pal/07-contract-detail.png" alt="Recordatorios de ahorro" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="62" data-tap-x="88" data-tap-y="12" data-tap-label="New" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/06-contracts.png" alt="Añadir un trabajo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="63" data-tap-none>
+                    <img src="/assets/screenshots/pal/06-contracts.png" alt="Completar y guardar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="64" data-tap-none>
+                    <img src="/assets/screenshots/pal/06-contracts.png" alt="Archivar un trabajo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="65" data-tap-x="88" data-tap-y="8" data-tap-label="Engranaje" data-tap-show-at="0.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Settings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="66" data-tap-x="50" data-tap-y="42" data-tap-label="Niños" data-tap-show-at="1.0" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Lista de niños" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="67" data-tap-x="50" data-tap-y="68" data-tap-label="Kid web" data-tap-show-at="1.2" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Kid web otra vez" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="68" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Help y About" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="69" data-tap-x="50" data-tap-y="78" data-tap-label="Exportar" data-tap-show-at="1.6" data-tap-duration="2.4">
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Export backup" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="70" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Restore backup" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="71" data-tap-none>
+                    <img src="/assets/screenshots/pal/08-settings.png" alt="Preguntar primero" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="72" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Lo que cubriste" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="73" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Practicar el bucle" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="74" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Saltar en cualquier momento" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="75" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Soporte" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="76" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Fin" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="77" data-tap-none>
+                    <img src="/assets/screenshots/pal/01-home.png" alt="Gracias" loading="lazy">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="progress-dots" id="dots"></div>
+            <div class="playback-controls">
+              <button type="button" class="nav-step-btn" id="prevBtn" title="Paso anterior" aria-label="Paso anterior">&#9664;</button>
+              <button type="button" class="voice-btn" id="voiceBtn" title="Activar o desactivar narración" aria-label="Activar o desactivar narración">&#128266;</button>
+              <button type="button" class="play-pause-btn" id="playPauseBtn" title="Reproducir/Pausa">&#9654;</button>
+              <button type="button" class="nav-step-btn" id="nextBtn" title="Paso siguiente" aria-label="Paso siguiente">&#9654;&#9654;</button>
+              <span class="speed-label" id="speedLabel">Toca reproducir para empezar</span>
+            </div>
+          </div>
+          <div class="narration-panel" id="narrationPanel">
+            <div class="narration-panel-heading">Transcripción</div>
+            <div class="transcript-body" id="transcriptBody"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>¿Necesitas ayuda?</h2>
+      <p>Preguntas: support@josspatech.com.</p>
+      <a href="mailto:support@josspatech.com?subject=PAL%20user%20guide" class="download-button">Enviar correo</a>
+      <a href="/#pal" class="download-button ghost">Volver a PAL</a>
+    </div>
+  </section>
+
+  <footer class="jt-site-footer">
+    <ul class="jt-products" aria-label="JosspaTech products">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#pbj">PocketBudJet</a></li>
+      <li><a href="/#hhh">Handy Horology Helper</a></li>
+      <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+      <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+    </ul>
+    <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+    <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+
+  <script>
+  const NARRATION = [
+    "Bienvenido a Pocket Allowance Ledger — PAL para abreviar. Esta guía te muestra cómo usar la app día a día.",
+    "Tú usas la app PAL en tu teléfono. Tus hijos usan una página web en un Chromebook, tablet o teléfono en casa — en el mismo Wi-Fi que tu teléfono.",
+    "En tu teléfono marcas los trabajos como hechos, revisas balances y apruebas lo que te envían los niños. En su pantalla los niños ven sus trabajos, tocan cuando terminan y piden recompensas.",
+    "Este recorrido usa una familia de ejemplo llamada Reyes — los niños Maya y Jacob — para que puedas probar los pasos de inmediato. Cuando configures tu propia familia, eliges tu propia contraseña y el PIN de cada niño.",
+    "Arriba, toca un botón de capítulo para saltar adelante. O pulsa reproducir y escucha de principio a fin. Anterior y Siguiente avanzan un paso.",
+    "Abre PAL. La parte inferior de la pantalla tiene cinco pestañas: Record, Reports, Balances, Approvals y Contracts.",
+    "Record es la pantalla Home — los trabajos de hoy con botones grandes de Done. Ahí empiezan la mayoría de las noches.",
+    "Settings no es una pestaña inferior. Toca el icono de engranaje para abrir Settings — ahí están los niños, Kid web, la ayuda y la copia de seguridad.",
+    "Para practicar, la contraseña de la familia de ejemplo es reyes — todo en minúsculas. El PIN de ejemplo para Maya y Jacob es uno dos tres cuatro. Cuando configures tu propia familia, eliges tus propios inicios de sesión.",
+    "Si tu iPhone pide permiso de red local, toca Permitir. Eso deja que la página Kid web alcance tu teléfono en el Wi-Fi de casa. Mantén PAL abierto mientras un niño usa esa página.",
+    "Aquí tienes una primera noche sencilla — tres pasos que usarás a menudo.",
+    "Paso uno. En Record, busca un trabajo con un botón Done. Cuando el trabajo esté terminado, toca Done. Deberías ver una moneda de oro, y el balance de ese niño sube.",
+    "Paso dos. Abre Settings con el engranaje y luego toca Kid web. Verás un enlace y un código QR para la página del niño.",
+    "En un ordenador o Chromebook, toca Copiar enlace y luego pega la dirección en el navegador. La mayoría de los PC no pueden escanear un código QR.",
+    "En un teléfono o tablet, el niño puede escanear el código QR con la cámara si el dispositivo lo admite. Muchos iPad sí pueden. El mismo Wi-Fi que tu teléfono, de cualquier forma.",
+    "En la página del niño, escribe la contraseña reyes, toca Maya, introduce el PIN uno dos tres cuatro y luego toca I did it en un trabajo. Eso te envía un informe. No añade la moneda por sí solo.",
+    "Paso tres. De vuelta en tu teléfono, abre la pestaña Approvals. Toca Approve para dar los tokens, o Decline si el trabajo no debe contar.",
+    "Veamos más de cerca Record — tu pantalla principal de la noche. Los trabajos de hoy aparecen como botones grandes de Done.",
+    "Cada fila muestra el nombre del niño, el nombre del trabajo y cuántos tokens vale. Puedes fijar cantidades distintas para trabajos distintos.",
+    "Toca Done en la rutina de la mañana de Maya. Observa cómo aparece la moneda. Eso significa que el trabajo quedó marcado como hecho y se añadieron los tokens.",
+    "Cuando tocas Done tú mismo, Balances se actualiza al momento. Cuando un niño toca I did it en su página, los tokens esperan en Approvals hasta que digas que sí.",
+    "A veces aparece un consejo en Home después de pagar un trabajo con menos frecuencia. Puede decir que las cosas se pongan un poco más accidentadas un tiempo. Mantén el rumbo — no hace falta añadir castigos extra.",
+    "También puedes ver tarjetas de sugerencia — por ejemplo, pagar un trabajo con menos frecuencia cuando ya va bien, o animar a ahorrar. Léelas si quieres. Nada cambia a menos que aceptes.",
+    "Cuando no quedan botones Done para hoy, estás al día. Aun así puedes abrir cualquier otra pestaña.",
+    "Abre la pestaña Balances. Cada niño muestra tokens en mano y tokens guardados.",
+    "En mano significa listos para una recompensa más pronto. Guardados significa ahorrados hacia una meta más grande. Piensa en dos tarros para cada niño.",
+    "Toca el nombre de un niño para ver el historial reciente de tokens y cualquier consejo de ahorro para ese niño.",
+    "Las recompensas de la lista de deseos también viven aquí. Los niños pueden pedirlas desde la página del niño. Tú apruebas o rechazas esas peticiones en Approvals.",
+    "En el ejemplo, Maya puede mostrar más consejos de ahorro que Jacob. Puedes configurar cada niño de forma distinta cuando armes tu propia familia.",
+    "Los tokens de cada niño se quedan con ese niño.",
+    "Kid web es la página que usan los niños. No instalan una app. Abren un navegador normal en un dispositivo que comparte el Wi-Fi de casa.",
+    "Tú te quedas en la app PAL en tu teléfono. Los niños usan Chrome, Safari u otro navegador en su dispositivo. La misma casa — dos pantallas.",
+    "En Settings, abre Kid web. Cuando está listo, la pantalla dice Serving on your network. Verás el enlace del navegador del niño y un código QR.",
+    "Para un ordenador o Chromebook: toca Copiar enlace, abre el navegador, pega en la barra de direcciones y ve.",
+    "Para un teléfono o tablet con cámara: abre la cámara o el escáner QR, apunta al código y abre la página. Los escritorios normalmente no pueden hacer esto — usa Copiar enlace en su lugar.",
+    "Los dos dispositivos deben estar en el mismo Wi-Fi de casa. Si la página no carga, revisa el Wi-Fi, abre PAL otra vez en tu teléfono y reintenta el enlace.",
+    "Si sales de PAL o bloqueas el teléfono mucho rato, la página del niño puede dejar de funcionar hasta que traigas PAL de nuevo al frente.",
+    "¿Necesitas el enlace más tarde? Settings y luego Kid web.",
+    "En la pantalla de inicio de sesión del niño, introduce la contraseña familiar. Para el ejemplo, escribe reyes en minúsculas.",
+    "Toca el nombre del niño — Maya o Jacob — y luego introduce el PIN de ese niño. El PIN de ejemplo es uno dos tres cuatro. Cada niño solo ve sus propios trabajos y tokens.",
+    "Estos inicios de sesión de ejemplo son solo para practicar. Cuando configures tu propia familia, eliges tu propia contraseña y tus PIN.",
+    "Los trabajos aparecen como tareas sencillas. Cuando un niño termina una, toca I did it. Eso te avisa de que ha terminado. La moneda sigue esperándote en Approvals.",
+    "Después de I did it, la página del niño suele mostrar un gracias rápido. En tu teléfono, abre Approvals para terminar el paso.",
+    "Un niño también puede pedir una recompensa de la lista de deseos. Esa petición aparece en Approvals en tu teléfono. Los tokens no se gastan hasta que apruebes.",
+    "Si dos niños comparten una tablet, inicia sesión con la contraseña familiar y luego cada niño usa su propio nombre y PIN.",
+    "Cuando termines en la página del niño, vuelve a la pestaña Approvals en tu teléfono.",
+    "Abre la pestaña Approvals. Un número en la pestaña muestra cuántos informes de los niños están en espera.",
+    "Cada elemento muestra qué niño, qué trabajo y cuándo lo informaron. Léelo y decide.",
+    "Toca Approve para añadir los tokens. Toca Decline si el trabajo no debe contar — por ejemplo si no estaba realmente terminado.",
+    "Las peticiones de recompensa de la página del niño también aparecen aquí. Approve gasta tokens guardados hacia esa recompensa. Decline deja el deseo para más tarde.",
+    "Después de aprobar, Balances se actualiza. Cuando el niño actualiza su página, ve el nuevo total.",
+    "Si Approvals está vacío, no hay nada esperándote.",
+    "Abre la pestaña Reports para ver cómo van los trabajos a lo largo de días y semanas — gráficos sencillos y consejos cortos.",
+    "Insights puede mostrar con qué frecuencia se hacen los trabajos y comparar los primeros días con los recientes.",
+    "Trends mira más lejos. Puede que veas una sugerencia de pagar un trabajo con menos frecuencia cuando ya va bien.",
+    "Los consejos son opcionales. Si PAL sugiere cambiar un horario, te pregunta primero. No cambia horarios por sí solo.",
+    "Para guardar una copia de tus datos en el teléfono, usa Export backup en Settings — siguiente sección.",
+    "Abre la pestaña Contracts. Esta es la lista de trabajos y rutinas de cada niño — qué gana tokens y con qué frecuencia.",
+    "Toca un trabajo para abrir sus detalles — cuántos tokens, con qué frecuencia paga y cualquier consejo para ese trabajo.",
+    "Un trabajo nuevo puede pagar a menudo al principio y luego menos a medida que el hábito se asienta. Las cantidades iniciales siguen la edad del niño como punto de partida — puedes cambiarlas.",
+    "Si pagas un trabajo con menos frecuencia, puede aparecer un consejo de que las cosas se pongan un poco más accidentadas un tiempo corto. Mantén el plan firme en ese tramo.",
+    "Algunos trabajos incluyen recordatorios de ahorro. En el ejemplo, Maya puede tener más de estos que Jacob.",
+    "Toca New cuando quieras añadir un trabajo. Empieza desde una plantilla — rutina de la mañana o deberes — o crea uno desde cero.",
+    "Introduce el nombre, qué niño, cuántos tokens y con qué frecuencia. Guárdalo. Luego puede aparecer en Record con un botón Done.",
+    "Archiva un trabajo cuando ya no lo quieras en Record. Se queda en el historial pero deja de mostrar botones Done.",
+    "Abre Settings con el icono de engranaje. Aquí gestionas niños, Kid web, ayuda y una copia de seguridad de tus datos.",
+    "Kids list muestra el perfil de cada niño. La edad ayuda a elegir horarios de partida. Puedes cambiar esos horarios para que encajen en casa.",
+    "Kid web es donde copias el enlace o muestras el QR para que los niños abran su página.",
+    "Help apunta al soporte y a esta guía de usuario. About muestra el número de versión de la app.",
+    "Export backup guarda tus trabajos, tokens y ajustes en un archivo en tu teléfono. Las contraseñas y los PIN no van en ese archivo.",
+    "Usa Restore si te cambias a un teléfono nuevo y quieres recuperar los datos del hogar.",
+    "Si PAL quiere cambiar un horario, pedirá tu confirmación primero. No cambia horarios en silencio de fondo.",
+    "Ya has visto Record, Balances, Kid web, Approvals, Reports, Contracts y Settings.",
+    "Para practicar el bucle principal otra vez: toca Done en Record, que un niño toque I did it y luego Approve en Approvals.",
+    "Usa los botones de capítulo cuando quieras para volver a una sección.",
+    "Preguntas: escribe a support arroba josspatech punto com.",
+    "Así se usa PAL. Abre cualquier capítulo de arriba cuando necesites un recordatorio.",
+    "Gracias por ver."
+  ];
+  const CHAPTER_STARTS = [0, 5, 10, 17, 24, 30, 38, 46, 52, 57, 65, 74];
+  const LAST_SLIDE = 77;
+  const AUDIO_BASE = 'audio/';
+  </script>
+  <script src="/videos/shared/walkthrough.js?v=pal-ug-2026-08-26" defer></script>
+  <script src="deck.js?v=pal-ug-2026-08-26" defer></script>
+  <script src="/scripts/site-analytics-saas.js" defer></script>
+</body>
+</html>

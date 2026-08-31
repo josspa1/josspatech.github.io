@@ -1,0 +1,337 @@
+/**
+ * PAL walkthrough layout — HHH/PBJ parity, espresso + gold palette.
+ */
+
+.walkthrough-stage {
+  width: 100%;
+  position: static !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.walkthrough-stage .phone-viewport {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  max-height: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible !important;
+}
+
+.walkthrough-stage .phone-frame {
+  width: 300px !important;
+  height: auto !important;
+  max-height: none !important;
+  max-width: 100%;
+  flex-shrink: 0;
+  aspect-ratio: 9 / 19.5;
+}
+
+.walkthrough .slideshow {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slide-title,
+.slide-label,
+.slide-caption {
+  display: none !important;
+}
+
+.slide img {
+  color: transparent;
+  font-size: 0;
+}
+
+.walkthrough .video-wrapper,
+.walkthrough-stage .video-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 2rem;
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
+
+.walkthrough .phone-column,
+.walkthrough-stage .phone-column {
+  flex-shrink: 0;
+  width: 320px;
+  max-width: none;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.walkthrough .narration-panel,
+.walkthrough-stage .narration-panel,
+#narrationPanel {
+  display: block !important;
+  flex: 1 1 auto !important;
+  min-width: 280px;
+  min-height: 0;
+  width: auto;
+  max-width: none;
+  max-height: 720px;
+  height: auto !important;
+  overflow-y: auto;
+  align-self: stretch;
+  scroll-behavior: smooth;
+}
+
+.narration-panel-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.85rem;
+  border-bottom: 2px solid var(--gold);
+}
+
+.transcript-body {
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #3a5068;
+}
+
+.transcript-para {
+  margin-bottom: 1rem;
+  padding: 0.65rem 0.75rem;
+  border-left: 3px solid transparent;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+}
+
+.transcript-para.current {
+  border-left-color: var(--gold);
+  background: rgba(232, 184, 74, 0.1);
+}
+
+.transcript-sentence {
+  transition: color 0.2s ease, background-color 0.2s ease, font-weight 0.2s ease;
+  border-radius: 3px;
+}
+
+.transcript-sentence.active {
+  color: var(--navy-dark);
+  font-weight: 700;
+  background: rgba(232, 184, 74, 0.42);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0.05em 0.2em;
+}
+
+.transcript-sentence.past {
+  color: #5a6f84;
+  opacity: 1;
+}
+
+.chapter-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+  padding: 0.35rem 0 0.5rem;
+}
+
+.chapter-btn {
+  padding: 0.55rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  background: var(--navy);
+  border: 1px solid var(--navy);
+  color: var(--white);
+  font-family: inherit;
+}
+
+.chapter-btn.active {
+  background: var(--gold);
+  color: var(--navy-dark);
+  border-color: var(--gold);
+}
+
+.chapter-btn:hover {
+  filter: brightness(1.08);
+}
+
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+  max-height: 48px;
+  overflow-y: auto;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(26, 79, 122, 0.2);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dot.active {
+  background: var(--gold);
+  width: 22px;
+  border-radius: 5px;
+}
+
+.playback-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.play-pause-btn,
+.voice-btn,
+.nav-step-btn {
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  background: var(--navy);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-step-btn {
+  border-radius: 20px;
+  width: auto;
+  padding: 0.45rem 0.85rem;
+}
+
+.voice-btn.muted {
+  opacity: 0.5;
+}
+
+.speed-label {
+  font-size: 0.85rem;
+  color: var(--slate);
+  font-weight: 600;
+}
+
+.tap-to-start {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: rgba(26, 18, 14, 0.78);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.tap-to-start.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tap-to-start-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 0.6rem;
+}
+
+.tap-to-start-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.05em;
+}
+
+.walkthrough-stage .slide img {
+  object-fit: contain;
+  object-position: center top;
+  background: #1A120E;
+}
+
+.tap-finger {
+  display: none !important;
+}
+
+.tap-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--gold, #E8B84A);
+  animation: pal-tap-pulse 1.8s ease-out infinite;
+  box-shadow: 0 0 12px rgba(232, 184, 74, 0.45);
+}
+
+.tap-indicator .tap-ring-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgba(232, 184, 74, 0.6);
+  border-radius: 50%;
+  animation: pal-tap-ripple 1.8s ease-out infinite 0.2s;
+}
+
+@keyframes pal-tap-pulse {
+  0% { transform: scale(1); opacity: 0.9; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+@keyframes pal-tap-ripple {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  20% { opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .walkthrough .video-wrapper,
+  .walkthrough-stage .video-wrapper {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1.5rem;
+  }
+
+  .walkthrough .phone-column,
+  .walkthrough-stage .phone-column {
+    width: 100%;
+    max-width: 340px;
+  }
+
+  .walkthrough .narration-panel,
+  #narrationPanel {
+    max-width: 100%;
+    max-height: 360px;
+    width: 100%;
+    flex: none !important;
+  }
+}
