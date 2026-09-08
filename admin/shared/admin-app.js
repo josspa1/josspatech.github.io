@@ -2730,6 +2730,97 @@ function wmOpenCostChart(chartId) {
       }));
   }
 
+  const HHH_FEATURE_ROWS = [
+    { label: "My Museum (walk)", hint: "Opened the collection list", mtd: (u) => u.month_facets?.screen_collection, today: (u) => u.today_facets?.screen_collection },
+    { label: "Identify (opened)", hint: "Landed on Identify — not a finished job", mtd: (u) => u.month_to_date?.identify_open, today: (u) => u.today?.identify_open },
+    { label: "Clock Repair Help", hint: "Opened repair", mtd: (u) => u.month_to_date?.repair, today: (u) => u.today?.repair },
+    { label: "Estate", hint: "Opened estate intake", mtd: (u) => u.month_facets?.screen_estate, today: (u) => u.today_facets?.screen_estate },
+    { label: "Tools", hint: "Opened the tools screen", mtd: (u) => u.month_facets?.screen_tools, today: (u) => u.today_facets?.screen_tools },
+    { label: "Wear log", hint: "Opened wear tracking", mtd: (u) => u.month_facets?.screen_wear, today: (u) => u.today_facets?.screen_wear },
+    { label: "Identify (finished)", hint: "Got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
+    { label: "Museum add", hint: "Saved a piece", mtd: (u) => u.month_to_date?.museum, today: (u) => u.today?.museum },
+    { label: "Wish list", hint: "Opened wish list", mtd: (u) => u.month_facets?.screen_wish, today: (u) => u.today_facets?.screen_wish },
+    { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
+    { label: "Passport", hint: "Opened Watch Passport", mtd: (u) => u.month_facets?.screen_passport, today: (u) => u.today_facets?.screen_passport },
+    { label: "Hunt", hint: "Hunt job or hunt screen", mtd: (u) => Math.max(u.month_to_date?.hunt || 0, u.month_facets?.screen_hunt || 0), today: (u) => Math.max(u.today?.hunt || 0, u.today_facets?.screen_hunt || 0) },
+    { label: "Demand", hint: "Opened Demand", mtd: (u) => u.month_facets?.screen_demand, today: (u) => u.today_facets?.screen_demand },
+    { label: "Worth", hint: "Opened What's it worth", mtd: (u) => u.month_facets?.screen_worth, today: (u) => u.today_facets?.screen_worth },
+    { label: "Compare", hint: "Opened Compare", mtd: (u) => u.month_facets?.screen_compare, today: (u) => u.today_facets?.screen_compare },
+    { label: "Chat", hint: "Opened AI chat", mtd: (u) => u.month_facets?.screen_chat, today: (u) => u.today_facets?.screen_chat },
+    { label: "Barcode", hint: "Opened barcode scanner", mtd: (u) => u.month_facets?.screen_barcode, today: (u) => u.today_facets?.screen_barcode },
+  ];
+
+  function wmN(v) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function wmRenderHhhFeatureChart(rows) {
+    const chartRows = rows.filter((r) => r.mtd > 0);
+    if (!chartRows.length) return "";
+    const n = chartRows.length;
+    const padL = 168;
+    const padR = 48;
+    const padT = 8;
+    const rowH = 26;
+    const width = 640;
+    const height = padT + n * rowH + 8;
+    const chartW = width - padL - padR;
+    const maxVal = Math.max(1, ...chartRows.map((r) => r.mtd));
+    let bars = "";
+    chartRows.forEach((r, i) => {
+      const y = padT + i * rowH;
+      const w = Math.max(2, (r.mtd / maxVal) * chartW);
+      const label = r.label.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+      bars += `<text class="axis-label" x="${padL - 8}" y="${y + 14}" text-anchor="end">${label}</text>`;
+      bars += `<rect class="bar-mtd" x="${padL}" y="${y + 4}" width="${w}" height="14" rx="3"/>`;
+      bars += `<text class="bar-value" x="${padL + w + 6}" y="${y + 15}">${r.mtd}</text>`;
+    });
+    return `<svg class="wm-feat-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
+  }
+
+  function wmRenderHhhFeatureUse(stats) {
+    if (stats?.error === "skipped") {
+      return `<div class="wm-feat">
+        <h3>What they use</h3>
+        <p class="metric-hint">Click <strong>Load usage (Medium)</strong> — same <code>/ops/stats</code> payload, no extra GET. Does not increment opens or Identify.</p>
+      </div>`;
+    }
+    if (stats?.error) return "";
+    const usage = stats?.data?.usage;
+    if (!usage) {
+      return `<div class="wm-feat">
+        <h3>What they use</h3>
+        <p class="metric-hint">This worker response has no <code>usage</code> field. Load usage (Medium) after the usage snapshot is on the worker.</p>
+      </div>`;
+    }
+    const rows = HHH_FEATURE_ROWS.map((def) => ({
+      label: def.label,
+      hint: def.hint,
+      mtd: wmN(def.mtd(usage)),
+      today: wmN(def.today(usage)),
+    })).sort((a, b) => b.mtd - a.mtd || a.label.localeCompare(b.label));
+    const d = usage.devices_30d || {};
+    const tableRows = rows.map((r, i) =>
+      `<tr><td>${i + 1}</td><td>${r.label}<div class="metric-hint">${r.hint}</div></td><td>${r.mtd}</td><td>${r.today}</td></tr>`,
+    ).join("");
+    return `<div class="wm-feat">
+      <h3>What they use</h3>
+      <p class="metric-hint">From the last Load usage click. Events, not unique people. Identify opened is screen focus, not a finished job.</p>
+      <div class="wm-feat-stats">
+        <div><div class="wm-feat-k">Devices / 30d</div><div class="wm-feat-v">${wmN(d.total)}</div><div class="metric-hint">Android ${wmN(d.android)} · iOS ${wmN(d.ios)}</div></div>
+        <div><div class="wm-feat-k">Opens today</div><div class="wm-feat-v">${wmN(usage.today?.open)}</div><div class="metric-hint">24h throttle per device</div></div>
+        <div><div class="wm-feat-k">Identify opened / finished</div><div class="wm-feat-v">${wmN(usage.month_to_date?.identify_open)} / ${wmN(usage.month_to_date?.identify)}</div><div class="metric-hint">September MTD</div></div>
+        <div><div class="wm-feat-k">Hunt</div><div class="wm-feat-v">${wmN(usage.month_to_date?.hunt)}</div><div class="metric-hint">Jobs this month</div></div>
+      </div>
+      ${wmRenderHhhFeatureChart(rows)}
+      <table class="wm-feat-table">
+        <thead><tr><th>Rank</th><th>Feature</th><th>Sep</th><th>Today</th></tr></thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>`;
+  }
+
   function wmRenderDetailPanel(result) {
     const { app, health, stats, metrics } = result;
     const cardState = wmCardState(health, metrics);
@@ -2789,6 +2880,7 @@ function wmOpenCostChart(chartId) {
           <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a><div class="metric-hint">Public ping — no API key needed.</div></div>
         </div>
         ${statsBlock}
+        ${app.id === "hhh" ? wmRenderHhhFeatureUse(stats) : ""}
         ${wmUpgrade}
         <div class="wm-url-row">
           <label style="color:var(--text-muted);">Worker URL override:</label>

@@ -1105,6 +1105,52 @@
     .wm-cost-modal-legend .past i { background: var(--primary); opacity: 0.55; }
     .wm-cost-modal-legend .mtd i { background: var(--accent); }
     .wm-threshold-legend .stop { color: var(--danger); font-weight: 700; }
+    .wm-feat {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .wm-feat h3 {
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .wm-feat-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .wm-feat-k { font-size: 11px; color: var(--text-muted); }
+    .wm-feat-v { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .wm-feat-chart { display: block; width: 100%; height: auto; margin: 8px 0 14px; }
+    .wm-feat-chart .bar-mtd { fill: var(--primary); }
+    .wm-feat-chart .bar-value { fill: var(--text); font-size: 11px; font-weight: 600; }
+    .wm-feat-chart .axis-label { fill: var(--text-dim); font-size: 11px; }
+    .wm-feat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .wm-feat-table th,
+    .wm-feat-table td {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .wm-feat-table th:first-child,
+    .wm-feat-table td:first-child,
+    .wm-feat-table th:nth-child(3),
+    .wm-feat-table td:nth-child(3),
+    .wm-feat-table th:nth-child(4),
+    .wm-feat-table td:nth-child(4) {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      width: 4.5em;
+    }
+    .wm-feat-table th:nth-child(2),
+    .wm-feat-table td:nth-child(2) { text-align: left; width: auto; }
 
     /* ─── Partner Referrals (HHH) ─────────────────────────────── */
     .ref-toolbar {

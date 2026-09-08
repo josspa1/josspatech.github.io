@@ -67,14 +67,14 @@
 <section id="workerMonitoring">
       <h2>Worker — HHH</h2>
       <p class="section-explainer">
-        Cloudflare Worker health, Gemini + Anthropic quotas via <code>/ops/stats</code>, circuit breaker, and cost.
-        <strong>Manual refresh only</strong> — shared session cache with <a href="workers.html">Workers</a> page.
+        Cloudflare Worker health, Gemini + Anthropic quotas via <code>/ops/stats</code>, circuit breaker, cost, and what people use in the app.
+        <strong>Manual refresh only</strong> — feature chart is in the Medium payload (no extra GET, does not increment opens). Shared session cache with <a href="workers.html">Workers</a> page.
       </p>
       <div class="ref-actions wm-actions">
         <button type="button" class="m-btn accent" onclick="wmRefreshLight()" title="GET / health only — 0 KV reads">
           Refresh <span class="ref-cost-badge ref-cost-light">Light</span>
         </button>
-        <button type="button" class="m-btn" onclick="wmRefreshMedium()" title="Today's quota counters — ~18 KV reads (all workers)">
+        <button type="button" class="m-btn" onclick="wmRefreshMedium()" title="Quota counters + HHH feature use — same /ops/stats GET. Does not increment opens or Identify.">
           Load usage <span class="ref-cost-badge ref-cost-medium">Medium</span>
         </button>
         <button type="button" class="m-btn ref-btn-heavy" onclick="wmRefreshHeavy()" title="12-month cost_history — ~60 KV reads total">
