@@ -14,6 +14,7 @@
     { href: "app-pbj.html", page: "app-pbj", label: "PBJ" },
     { href: "app-hhh.html", page: "app-hhh", label: "HHH" },
     { href: "app-cvc.html", page: "app-cvc", label: "CVC" },
+    { href: "app-pal.html", page: "app-pal", label: "PAL" },
   ];
 
   function isAppPage(page) {

@@ -260,7 +260,7 @@
     updatePageFreshness();
   }
 
-  /** Per-app page id (pbj | hhh | cvc) when ADMIN_PAGE is app-* */
+  /** Per-app page id (pbj | hhh | cvc | pal) when ADMIN_PAGE is app-* */
   function adminGetApp() {
     const p = window.ADMIN_PAGE || "";
     if (p.startsWith("app-")) return p.slice(4);

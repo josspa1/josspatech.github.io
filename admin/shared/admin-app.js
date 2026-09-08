@@ -2331,7 +2331,7 @@ Generated ${new Date().toISOString()}.
     return issues;
   }
 
-  /* ─── Per-app Worker Monitoring (PBJ · HHH · CVC) ─────────── */
+  /* ─── Per-app Worker Monitoring (PBJ · HHH · CVC · PAL) ─────────── */
   const WORKER_APPS = [
     {
       id: "pbj",
@@ -2366,6 +2366,17 @@ Generated ${new Date().toISOString()}.
       authHeader: "X-CVC-Key",
       statsKind: "ops",
     },
+    {
+      id: "pal",
+      short: "PAL",
+      name: "Pocket Allowance Ledger",
+      defaultUrl: "https://pal-worker.morning-star-b5e0.workers.dev",
+      urlKey: "pal_worker_url",
+      keyKey: "pal_shared_key",
+      secretName: "PAL_SHARED_KEY",
+      authHeader: "X-PAL-Key",
+      statsKind: "usage",
+    },
   ];
   const HHH_IDENTIFY_CATEGORIES = ["watch", "clock"];
   let wmActiveTab = localStorage.getItem("wm_active_tab") || "pbj";
@@ -2397,7 +2408,7 @@ Generated ${new Date().toISOString()}.
     const nl = s.search(/[\r\n]/);
     if (nl >= 0) s = s.slice(0, nl).trim();
     const tsAssign = s.match(
-      /(?:export\s+)?const\s+(?:WORKER_SHARED_KEY|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY)\s*=\s*['"]([a-f0-9]{32,128})['"]\s*;?/i,
+      /(?:export\s+)?const\s+(?:WORKER_SHARED_KEY|PBJ_SHARED_KEY|HHH_SHARED_KEY|CVC_SHARED_KEY|PAL_SHARED_KEY)\s*=\s*['"]([a-f0-9]{32,128})['"]\s*;?/i,
     );
     if (tsAssign) return tsAssign[1];
     if (/^export\s+/i.test(s)) s = s.replace(/^export\s+/i, "").trim();
@@ -2535,7 +2546,24 @@ Generated ${new Date().toISOString()}.
       let result = await fetchOnce(key);
       if (result.error === "auth") {
         const healed = wmHealStoredWorkerKey(app);
-        if (healed && healed !== key) result = await fetchOnce(healed);
+        if (healed && healed !== key) {
+          key = healed;
+          result = await fetchOnce(healed);
+        }
+      }
+      if (result.data && app.statsKind === "ocr" && !result.data.usage) {
+        try {
+          const u = await fetch(url + "/ops/stats", {
+            headers: { [app.authHeader]: key },
+            signal: AbortSignal.timeout(8000),
+          });
+          if (u.ok) {
+            const uj = await u.json();
+            if (uj.usage) result.data.usage = uj.usage;
+          }
+        } catch {
+          /* /ops/stats not deployed yet — board stays ready */
+        }
       }
       return result;
     } catch {
@@ -2545,6 +2573,22 @@ Generated ${new Date().toISOString()}.
 
   function wmNormalizeMetrics(app, statsData) {
     if (!statsData) return null;
+    if (app.statsKind === "usage") {
+      return {
+        geminiToday: 0,
+        geminiCap: 0,
+        geminiPct: 0,
+        anthropicToday: null,
+        costToday: 0,
+        costMtd: 0,
+        costHistory: [],
+        circuitBreaker: false,
+        quotaPct: 0,
+        quotaLabel: "Usage only — no AI quota",
+        quotaUsed: 0,
+        quotaCap: 0,
+      };
+    }
     if (app.statsKind === "ocr") {
       const s = statsData;
       const geminiCap = s.freeTier?.geminiDaily || 1500;
@@ -2730,32 +2774,127 @@ function wmOpenCostChart(chartId) {
       }));
   }
 
-  const HHH_FEATURE_ROWS = [
-    { label: "My Museum (walk)", hint: "Opened the collection list", mtd: (u) => u.month_facets?.screen_collection, today: (u) => u.today_facets?.screen_collection },
-    { label: "Identify (opened)", hint: "Landed on Identify — not a finished job", mtd: (u) => u.month_to_date?.identify_open, today: (u) => u.today?.identify_open },
-    { label: "Clock Repair Help", hint: "Opened repair", mtd: (u) => u.month_to_date?.repair, today: (u) => u.today?.repair },
-    { label: "Estate", hint: "Opened estate intake", mtd: (u) => u.month_facets?.screen_estate, today: (u) => u.today_facets?.screen_estate },
-    { label: "Tools", hint: "Opened the tools screen", mtd: (u) => u.month_facets?.screen_tools, today: (u) => u.today_facets?.screen_tools },
-    { label: "Wear log", hint: "Opened wear tracking", mtd: (u) => u.month_facets?.screen_wear, today: (u) => u.today_facets?.screen_wear },
-    { label: "Identify (finished)", hint: "Got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
-    { label: "Museum add", hint: "Saved a piece", mtd: (u) => u.month_to_date?.museum, today: (u) => u.today?.museum },
-    { label: "Wish list", hint: "Opened wish list", mtd: (u) => u.month_facets?.screen_wish, today: (u) => u.today_facets?.screen_wish },
-    { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
-    { label: "Passport", hint: "Opened Watch Passport", mtd: (u) => u.month_facets?.screen_passport, today: (u) => u.today_facets?.screen_passport },
-    { label: "Hunt", hint: "Hunt job or hunt screen", mtd: (u) => Math.max(u.month_to_date?.hunt || 0, u.month_facets?.screen_hunt || 0), today: (u) => Math.max(u.today?.hunt || 0, u.today_facets?.screen_hunt || 0) },
-    { label: "Demand", hint: "Opened Demand", mtd: (u) => u.month_facets?.screen_demand, today: (u) => u.today_facets?.screen_demand },
-    { label: "Worth", hint: "Opened What's it worth", mtd: (u) => u.month_facets?.screen_worth, today: (u) => u.today_facets?.screen_worth },
-    { label: "Compare", hint: "Opened Compare", mtd: (u) => u.month_facets?.screen_compare, today: (u) => u.today_facets?.screen_compare },
-    { label: "Chat", hint: "Opened AI chat", mtd: (u) => u.month_facets?.screen_chat, today: (u) => u.today_facets?.screen_chat },
-    { label: "Barcode", hint: "Opened barcode scanner", mtd: (u) => u.month_facets?.screen_barcode, today: (u) => u.today_facets?.screen_barcode },
-  ];
+  const FEATURE_CATALOGS = {
+    hhh: {
+      live: true,
+      rows: [
+        { label: "My Museum (walk)", hint: "Opened the collection list", mtd: (u) => u.month_facets?.screen_collection, today: (u) => u.today_facets?.screen_collection },
+        { label: "Identify (opened)", hint: "Landed on Identify — not a finished job", mtd: (u) => u.month_to_date?.identify_open, today: (u) => u.today?.identify_open },
+        { label: "Clock Repair Help", hint: "Opened repair", mtd: (u) => u.month_to_date?.repair, today: (u) => u.today?.repair },
+        { label: "Estate", hint: "Opened estate intake", mtd: (u) => u.month_facets?.screen_estate, today: (u) => u.today_facets?.screen_estate },
+        { label: "Tools", hint: "Opened the tools screen", mtd: (u) => u.month_facets?.screen_tools, today: (u) => u.today_facets?.screen_tools },
+        { label: "Wear log", hint: "Opened wear tracking", mtd: (u) => u.month_facets?.screen_wear, today: (u) => u.today_facets?.screen_wear },
+        { label: "Identify (finished)", hint: "Got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
+        { label: "Museum add", hint: "Saved a piece", mtd: (u) => u.month_to_date?.museum, today: (u) => u.today?.museum },
+        { label: "Wish list", hint: "Opened wish list", mtd: (u) => u.month_facets?.screen_wish, today: (u) => u.today_facets?.screen_wish },
+        { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
+        { label: "Passport", hint: "Opened Watch Passport", mtd: (u) => u.month_facets?.screen_passport, today: (u) => u.today_facets?.screen_passport },
+        { label: "Hunt", hint: "Hunt job or hunt screen", mtd: (u) => Math.max(u.month_to_date?.hunt || 0, u.month_facets?.screen_hunt || 0), today: (u) => Math.max(u.today?.hunt || 0, u.today_facets?.screen_hunt || 0) },
+        { label: "Demand", hint: "Opened Demand", mtd: (u) => u.month_facets?.screen_demand, today: (u) => u.today_facets?.screen_demand },
+        { label: "Worth", hint: "Opened What's it worth", mtd: (u) => u.month_facets?.screen_worth, today: (u) => u.today_facets?.screen_worth },
+        { label: "Compare", hint: "Opened Compare", mtd: (u) => u.month_facets?.screen_compare, today: (u) => u.today_facets?.screen_compare },
+        { label: "Chat", hint: "Opened AI chat", mtd: (u) => u.month_facets?.screen_chat, today: (u) => u.today_facets?.screen_chat },
+        { label: "Barcode", hint: "Opened barcode scanner", mtd: (u) => u.month_facets?.screen_barcode, today: (u) => u.today_facets?.screen_barcode },
+      ],
+      trend: [
+        { key: "open", label: "Opens", cls: "s-open" },
+        { key: "collection", label: "Museum walk", cls: "s-collection" },
+        { key: "identify_open", label: "Identify opened", cls: "s-idopen" },
+        { key: "identify", label: "Identify finished", cls: "s-iddone" },
+      ],
+      kpis: (u) => [
+        { k: "Identify opened / finished", v: `${wmN(u.month_to_date?.identify_open)} / ${wmN(u.month_to_date?.identify)}`, hint: "This month" },
+        { k: "Hunt", v: wmN(u.month_to_date?.hunt), hint: "Jobs this month" },
+      ],
+    },
+    cvc: {
+      live: false,
+      rows: [
+        { label: "Collection (walk)", hint: "Opened the collection list", mtd: (u) => u.month_facets?.screen_collection, today: (u) => u.today_facets?.screen_collection },
+        { label: "Identify (opened)", hint: "Landed on Identify — not a finished job", mtd: (u) => u.month_to_date?.identify_open, today: (u) => u.today?.identify_open },
+        { label: "Identify (finished)", hint: "Got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
+        { label: "Museum add", hint: "Saved a piece", mtd: (u) => u.month_to_date?.museum, today: (u) => u.today?.museum },
+        { label: "Hunt", hint: "Hunt job or hunt screen", mtd: (u) => Math.max(u.month_to_date?.hunt || 0, u.month_facets?.screen_hunt || 0), today: (u) => Math.max(u.today?.hunt || 0, u.today_facets?.screen_hunt || 0) },
+        { label: "Wish list", hint: "Opened wish list", mtd: (u) => u.month_facets?.screen_wish, today: (u) => u.today_facets?.screen_wish },
+        { label: "Estate", hint: "Opened estate", mtd: (u) => u.month_facets?.screen_estate, today: (u) => u.today_facets?.screen_estate },
+        { label: "Trade", hint: "Opened trade", mtd: (u) => u.month_facets?.screen_trade, today: (u) => u.today_facets?.screen_trade },
+        { label: "Compare", hint: "Opened Compare", mtd: (u) => u.month_facets?.screen_compare, today: (u) => u.today_facets?.screen_compare },
+        { label: "Tools", hint: "Opened tools", mtd: (u) => u.month_facets?.screen_tools, today: (u) => u.today_facets?.screen_tools },
+        { label: "Chat", hint: "Opened AI chat", mtd: (u) => u.month_facets?.screen_chat, today: (u) => u.today_facets?.screen_chat },
+        { label: "Passport", hint: "Opened passport", mtd: (u) => u.month_facets?.screen_passport, today: (u) => u.today_facets?.screen_passport },
+        { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
+      ],
+      trend: [
+        { key: "open", label: "Opens", cls: "s-open" },
+        { key: "collection", label: "Collection walk", cls: "s-collection" },
+        { key: "identify_open", label: "Identify opened", cls: "s-idopen" },
+        { key: "identify", label: "Identify finished", cls: "s-iddone" },
+      ],
+      kpis: (u) => [
+        { k: "Identify opened / finished", v: `${wmN(u.month_to_date?.identify_open)} / ${wmN(u.month_to_date?.identify)}`, hint: "This month" },
+        { k: "Hunt", v: wmN(u.month_to_date?.hunt), hint: "Jobs this month" },
+      ],
+    },
+    pbj: {
+      live: false,
+      rows: [
+        { label: "Import (opened)", hint: "Landed on import — not a finished job", mtd: (u) => u.month_to_date?.import_open, today: (u) => u.today?.import_open },
+        { label: "Import (finished)", hint: "Completed an import", mtd: (u) => u.month_to_date?.import, today: (u) => u.today?.import },
+        { label: "Scan receipt", hint: "Receipt scan job", mtd: (u) => u.month_to_date?.scan_receipt, today: (u) => u.today?.scan_receipt },
+        { label: "Bank sync", hint: "Bank sync job", mtd: (u) => u.month_to_date?.bank_sync, today: (u) => u.today?.bank_sync },
+        { label: "Coach ask", hint: "Asked the coach", mtd: (u) => u.month_to_date?.coach_ask, today: (u) => u.today?.coach_ask },
+        { label: "Home", hint: "Opened home", mtd: (u) => u.month_facets?.screen_home, today: (u) => u.today_facets?.screen_home },
+        { label: "Activity", hint: "Opened activity", mtd: (u) => u.month_facets?.screen_activity, today: (u) => u.today_facets?.screen_activity },
+        { label: "Budget", hint: "Opened budget", mtd: (u) => u.month_facets?.screen_budget, today: (u) => u.today_facets?.screen_budget },
+        { label: "Goals", hint: "Opened goals", mtd: (u) => u.month_facets?.screen_goals, today: (u) => u.today_facets?.screen_goals },
+        { label: "Coach screen", hint: "Opened coach", mtd: (u) => u.month_facets?.screen_coach, today: (u) => u.today_facets?.screen_coach },
+        { label: "Import screen", hint: "Opened import", mtd: (u) => u.month_facets?.screen_import, today: (u) => u.today_facets?.screen_import },
+        { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
+      ],
+      trend: [
+        { key: "open", label: "Opens", cls: "s-open" },
+        { key: "import_open", label: "Import opened", cls: "s-collection" },
+        { key: "import", label: "Import finished", cls: "s-idopen" },
+        { key: "scan_receipt", label: "Receipts", cls: "s-iddone" },
+      ],
+      kpis: (u) => [
+        { k: "Import opened / finished", v: `${wmN(u.month_to_date?.import_open)} / ${wmN(u.month_to_date?.import)}`, hint: "This month" },
+        { k: "Coach / bank", v: `${wmN(u.month_to_date?.coach_ask)} / ${wmN(u.month_to_date?.bank_sync)}`, hint: "Asks · syncs this month" },
+      ],
+    },
+    pal: {
+      live: false,
+      rows: [
+        { label: "Witness", hint: "Witnessed a chore", mtd: (u) => u.month_to_date?.witness, today: (u) => u.today?.witness },
+        { label: "Self-report", hint: "Kid self-report", mtd: (u) => u.month_to_date?.self_report, today: (u) => u.today?.self_report },
+        { label: "Contract create", hint: "New contract", mtd: (u) => u.month_to_date?.contract_create, today: (u) => u.today?.contract_create },
+        { label: "Redemption request", hint: "Asked to redeem", mtd: (u) => u.month_to_date?.redemption_request, today: (u) => u.today?.redemption_request },
+        { label: "Record", hint: "Opened record", mtd: (u) => u.month_facets?.screen_record, today: (u) => u.today_facets?.screen_record },
+        { label: "Reports", hint: "Opened reports", mtd: (u) => u.month_facets?.screen_reports, today: (u) => u.today_facets?.screen_reports },
+        { label: "Balances", hint: "Opened balances", mtd: (u) => u.month_facets?.screen_balances, today: (u) => u.today_facets?.screen_balances },
+        { label: "Approvals", hint: "Opened approvals", mtd: (u) => u.month_facets?.screen_approvals, today: (u) => u.today_facets?.screen_approvals },
+        { label: "Contracts", hint: "Opened contracts", mtd: (u) => u.month_facets?.screen_contracts, today: (u) => u.today_facets?.screen_contracts },
+        { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
+      ],
+      trend: [
+        { key: "open", label: "Opens", cls: "s-open" },
+        { key: "witness", label: "Witness", cls: "s-collection" },
+        { key: "contract_create", label: "Contracts", cls: "s-idopen" },
+        { key: "redemption_request", label: "Redemptions", cls: "s-iddone" },
+      ],
+      kpis: (u) => [
+        { k: "Witness / self-report", v: `${wmN(u.month_to_date?.witness)} / ${wmN(u.month_to_date?.self_report)}`, hint: "This month" },
+        { k: "Contracts / redemptions", v: `${wmN(u.month_to_date?.contract_create)} / ${wmN(u.month_to_date?.redemption_request)}`, hint: "This month" },
+      ],
+    },
+  };
 
   function wmN(v) {
     const n = Number(v);
     return Number.isFinite(n) ? n : 0;
   }
 
-  function wmRenderHhhFeatureChart(rows) {
+  function wmRenderFeatureChart(rows) {
     const chartRows = rows.filter((r) => r.mtd > 0);
     if (!chartRows.length) return "";
     const n = chartRows.length;
@@ -2779,17 +2918,12 @@ function wmOpenCostChart(chartId) {
     return `<svg class="wm-feat-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
   }
 
-  function wmRenderHhhFeatureTrend(usage) {
+  function wmRenderFeatureTrend(usage, catalog) {
     const hist = Array.isArray(usage.history) ? usage.history.slice() : [];
     if (hist.length < 1) {
-      return `<p class="metric-hint">Trend starts after the first Medium load or the 00:15 UTC snapshot. Past days are not reconstructed.</p>`;
+      return `<p class="metric-hint">Trend starts after the first Medium load or the 00:15 UTC snapshot. Past days are not reconstructed. History begins the day the worker with this blob is deployed — no backfill.</p>`;
     }
-    const series = [
-      { key: "open", label: "Opens", cls: "s-open" },
-      { key: "collection", label: "Museum walk", cls: "s-collection" },
-      { key: "identify_open", label: "Identify opened", cls: "s-idopen" },
-      { key: "identify", label: "Identify finished", cls: "s-iddone" },
-    ];
+    const series = catalog.trend || [];
     const width = 640;
     const height = 200;
     const padL = 36;
@@ -2825,44 +2959,64 @@ function wmOpenCostChart(chartId) {
     </div>`;
   }
 
-  function wmRenderHhhFeatureUse(stats) {
+  function wmRenderFeatureUse(app, stats) {
+    const catalog = FEATURE_CATALOGS[app.id];
+    if (!catalog) return "";
+    const monthLabel = new Date().toLocaleString("en-US", { month: "short", timeZone: "UTC" });
     if (stats?.error === "skipped") {
       return `<div class="wm-feat">
         <h3>What they use</h3>
-        <p class="metric-hint">Click <strong>Load usage (Medium)</strong> — same <code>/ops/stats</code> payload, no extra GET. Does not increment opens or Identify.</p>
+        <p class="metric-hint">${catalog.live
+          ? `Click <strong>Load usage (Medium)</strong> — same <code>/ops/stats</code> payload, no extra GET. Does not increment opens.`
+          : `Ready. Phones stay silent until this app is in production. Click <strong>Load usage (Medium)</strong> after the worker is deployed — board stays empty until then.`}</p>
       </div>`;
     }
-    if (stats?.error) return "";
+    if (stats?.error) {
+      if (catalog.live) return "";
+      return `<div class="wm-feat">
+        <h3>What they use</h3>
+        <p class="metric-hint">Ready — worker not answering yet. History + <code>/ops/stats</code> are in source. Deploy the worker and flip <code>EXPO_PUBLIC_USAGE_INSIGHT=1</code> when this app ships. Does not increment opens.</p>
+      </div>`;
+    }
     const usage = stats?.data?.usage;
     if (!usage) {
       return `<div class="wm-feat">
         <h3>What they use</h3>
-        <p class="metric-hint">This worker response has no <code>usage</code> field. Load usage (Medium) after the usage snapshot is on the worker.</p>
+        <p class="metric-hint">${catalog.live
+          ? `This worker response has no <code>usage</code> field. Load usage (Medium) after the usage snapshot is on the worker.`
+          : `Ready — no <code>usage</code> on this worker yet. Deploy the worker with history when this app goes to production. Phones will not ping until then.`}</p>
       </div>`;
     }
-    const rows = HHH_FEATURE_ROWS.map((def) => ({
+    const rows = catalog.rows.map((def) => ({
       label: def.label,
       hint: def.hint,
       mtd: wmN(def.mtd(usage)),
       today: wmN(def.today(usage)),
     })).sort((a, b) => b.mtd - a.mtd || a.label.localeCompare(b.label));
     const d = usage.devices_30d || {};
+    const hasTraffic = wmN(d.total) > 0 || rows.some((r) => r.mtd > 0 || r.today > 0);
+    const kpis = (catalog.kpis ? catalog.kpis(usage) : []).map((k) =>
+      `<div><div class="wm-feat-k">${k.k}</div><div class="wm-feat-v">${k.v}</div><div class="metric-hint">${k.hint}</div></div>`,
+    ).join("");
     const tableRows = rows.map((r, i) =>
       `<tr><td>${i + 1}</td><td>${r.label}<div class="metric-hint">${r.hint}</div></td><td>${r.mtd}</td><td>${r.today}</td></tr>`,
     ).join("");
     return `<div class="wm-feat">
       <h3>What they use</h3>
-      <p class="metric-hint">From the last Load usage click. Events, not unique people. Identify opened is screen focus, not a finished job. Daily trend is the same GET — no extra poll.</p>
+      <p class="metric-hint">${catalog.live
+        ? `From the last Load usage click. Events, not unique people. Daily trend is the same GET — no extra poll.`
+        : hasTraffic
+          ? `From the last Load usage click. Events, not unique people.`
+          : `Board is live. No production traffic yet — baseline starts when phones ship with <code>EXPO_PUBLIC_USAGE_INSIGHT=1</code>.`}</p>
       <div class="wm-feat-stats">
         <div><div class="wm-feat-k">Devices / 30d</div><div class="wm-feat-v">${wmN(d.total)}</div><div class="metric-hint">Android ${wmN(d.android)} · iOS ${wmN(d.ios)}</div></div>
         <div><div class="wm-feat-k">Opens today</div><div class="wm-feat-v">${wmN(usage.today?.open)}</div><div class="metric-hint">24h throttle per device</div></div>
-        <div><div class="wm-feat-k">Identify opened / finished</div><div class="wm-feat-v">${wmN(usage.month_to_date?.identify_open)} / ${wmN(usage.month_to_date?.identify)}</div><div class="metric-hint">September MTD</div></div>
-        <div><div class="wm-feat-k">Hunt</div><div class="wm-feat-v">${wmN(usage.month_to_date?.hunt)}</div><div class="metric-hint">Jobs this month</div></div>
+        ${kpis}
       </div>
-      ${wmRenderHhhFeatureChart(rows)}
-      ${wmRenderHhhFeatureTrend(usage)}
+      ${wmRenderFeatureChart(rows)}
+      ${wmRenderFeatureTrend(usage, catalog)}
       <table class="wm-feat-table">
-        <thead><tr><th>Rank</th><th>Feature</th><th>Sep</th><th>Today</th></tr></thead>
+        <thead><tr><th>Rank</th><th>Feature</th><th>${monthLabel}</th><th>Today</th></tr></thead>
         <tbody>${tableRows}</tbody>
       </table>
     </div>`;
@@ -2880,8 +3034,10 @@ function wmOpenCostChart(chartId) {
       statsBlock = `<div class="cron-card unknown"><div><div class="cron-name">${app.authHeader} not set</div><div class="cron-last">Click "Set ${app.short} key" below or run a smoke test — you'll be prompted once.</div></div></div>`;
     } else if (stats.error === "auth") {
       statsBlock = `<div class="cron-card red"><div><div class="cron-name">Auth failed (401)</div><div class="cron-last">Key in this browser doesn't match ${app.secretName} on the worker.</div></div></div>`;
-    } else if (stats.error) {
+    } else if (stats.error && stats.error !== "skipped") {
       statsBlock = `<div class="cron-card red"><div><div class="cron-name">Stats unavailable (${stats.error}${stats.status ? ` HTTP ${stats.status}` : ""})</div><div class="cron-last">Check worker deploy and ${app.statsKind === "ocr" ? "/ocr/quota/stats" : "/ops/stats"} route.</div></div></div>`;
+    } else if (app.statsKind === "usage") {
+      statsBlock = `<p class="metric-hint">This worker is usage-only — no Gemini quota. Load usage (Medium) for the feature board.</p>`;
     } else if (metrics) {
       const barColor = wmBarColor(Math.max(metrics.geminiPct, metrics.quotaPct), metrics.circuitBreaker);
       statsBlock = `
@@ -2927,7 +3083,7 @@ function wmOpenCostChart(chartId) {
           <div><span style="color:var(--text-muted);">Health URL</span><br><a href="${url}/" target="_blank" rel="noopener">${url}/ ↗</a><div class="metric-hint">Public ping — no API key needed.</div></div>
         </div>
         ${statsBlock}
-        ${app.id === "hhh" ? wmRenderHhhFeatureUse(stats) : ""}
+        ${FEATURE_CATALOGS[app.id] ? wmRenderFeatureUse(app, stats) : ""}
         ${wmUpgrade}
         <div class="wm-url-row">
           <label style="color:var(--text-muted);">Worker URL override:</label>
@@ -5056,7 +5212,7 @@ function wmOpenCostChart(chartId) {
     const btn = document.getElementById("hubRefreshLightBtn");
     if (btn) btn.disabled = true;
     if (status) {
-      status.textContent = "Refreshing worker health (Light) for PBJ · HHH · CVC…";
+      status.textContent = "Refreshing worker health (Light) for PBJ · HHH · CVC · PAL…";
       status.className = "ref-status";
     }
     try {

@@ -33,7 +33,7 @@
       <h1>
         <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
         <span style="font-weight:400;font-size:14px;color:var(--text-dim)">
-          Flywheel · shared ops for PBJ · HHH · CVC
+          Flywheel · shared ops for PBJ · HHH · CVC · PAL
         </span>
       </h1>
     </div>
@@ -49,7 +49,7 @@
         <svg class="mascot-sm"><use href="#josspa"/></svg>
         <h1>
           Jossp<span class="amp">a</span>Tech
-          <span class="subtitle">Flywheel Ops · PBJ · HHH · CVC</span>
+          <span class="subtitle">Flywheel Ops · PBJ · HHH · CVC · PAL</span>
         </h1>
       </div>
       <div class="controls">
@@ -72,7 +72,7 @@
         No auto-polling of Worker KV or <code>COST_GRAPH_ENABLED</code> cost history unless you explicitly click Heavy.
       </p>
       <div class="hub-actions ref-actions">
-        <button type="button" class="m-btn accent" id="hubRefreshLightBtn" onclick="hubRefreshAllLight()" title="GET / health for PBJ, HHH, CVC — 0 KV reads each; updates wmCache">
+        <button type="button" class="m-btn accent" id="hubRefreshLightBtn" onclick="hubRefreshAllLight()" title="GET / health for PBJ, HHH, CVC, PAL — 0 KV reads each; updates wmCache">
           Refresh all <span class="ref-cost-badge ref-cost-light">Light · ~0–18 KV reads per worker</span>
         </button>
         <span id="hubRefreshLightStatus" class="ref-status" style="margin:0"></span>
@@ -94,13 +94,17 @@
           <h3>CVC · all ops</h3>
           <p>Worker, thresholds, capacity — Curator's Vault.</p>
         </a>
+        <a class="hub-card" href="app-pal.html">
+          <h3>PAL · usage</h3>
+          <p>Worker + feature board — Pocket Allowance Ledger. Silent until production.</p>
+        </a>
         <a class="hub-card" href="flywheel.html">
           <h3>Flywheel</h3>
           <p>PocketBase crowd-data grid, services, cron, maintenance, founder economics.</p>
         </a>
         <a class="hub-card" href="workers.html">
           <h3>Workers</h3>
-          <p>PBJ · HHH · CVC monitoring — health, usage, cost charts (Light / Medium / Heavy).</p>
+          <p>PBJ · HHH · CVC · PAL monitoring — health, usage, cost charts (Light / Medium / Heavy).</p>
         </a>
         <a class="hub-card" href="referrals.html">
           <h3>Referrals</h3>
