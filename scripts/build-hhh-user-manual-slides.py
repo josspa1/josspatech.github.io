@@ -26,6 +26,9 @@ GRAIL = f"{M}05-ebay-grail-radar.png"
 CLOCK_SYM = f"{M}06a-clock-repair-symptoms.png"
 CLOCK_PARTS = f"{M}06-clockworks-parts.png"
 ID_CAM = f"{M}07a-identify-camera.png"
+ID_GO = f"{M}07e-identify-go.png"
+ID_ADD_CHOICE = f"{M}07f-add-choice.png"
+ID_MANUAL = f"{M}07g-manual-add.png"
 ID_RES = f"{M}07-identify-results.png"
 TOOLS = f"{M}08-tools-hub.png"
 WEB = f"{M}09-web-companion.png"
@@ -108,18 +111,18 @@ STEP_META: dict[str, list[dict]] = {
     ],
     "UM-H06": [
         _meta(MUSEUM, "OK", "Tap Add on action bar", BAR_ADD + ("Add",)),
-        _meta(ID_CAM, "OK", "Tap Manual entry", (50, 22, "Manual")),
-        _meta(ID_CAM, "interim", "Fill manual fields", (50, 50, "Brand")),
-        _meta(ID_CAM, "OK", "Tap Save", BAR_ADD + ("Save",)),
+        _meta(ID_ADD_CHOICE, "OK", "Enter details manually", (50, 58, "Enter details manually")),
+        _meta(ID_MANUAL, "OK", "Fill Maker or brand", (50, 42, "Maker or brand")),
+        _meta(ID_MANUAL, "OK", "Save to Museum", (50, 86, "Save to Museum")),
     ],
     "UM-H07": [
         _meta(MUSEUM, "interim", "Tap Identify", BAR_IDENTIFY + ("Identify",)),
-        _meta(ID_CAM, "OK", "Take Photo", (50, 35, "Take Photo")),
-        _meta(ID_CAM, "OK", "Choose Photo", (50, 72, "Choose Photo")),
-        _meta(ID_CAM, "interim", "Optional movement photo", (50, 72, "Skip")),
-        _meta(ID_CAM, "interim", "Manual clue fields", (50, 58, "Brand guess")),
-        _meta(ID_CAM, "interim", "Item type toggle", (50, 22, "Item type")),
-        _meta(ID_CAM, "OK", "Identify this timepiece", (50, 95, "Identify")),
+        _meta(ID_CAM, "OK", "Photo 1: Dial", (27, 50, "Photo 1: Dial")),
+        _meta(ID_CAM, "OK", "Choose Photo", (73, 50, "Choose Photo")),
+        _meta(ID_CAM, "interim", "Optional movement photo"),
+        _meta(ID_CAM, "interim", "Manual clue fields", (25, 84, "Brand guess")),
+        _meta(ID_GO, "OK", "Item type toggle", (28, 72, "Wristwatch")),
+        _meta(ID_GO, "OK", "Tap Identify", (50, 77, "Identify")),
     ],
     "UM-H08": [
         # Identify results + offline queue PNGs blocked (API / UI disabled) — reuse camera interim

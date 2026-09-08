@@ -309,6 +309,8 @@
   }
 
   function startPlayback() {
+    var sheet = document.getElementById('guideStartSheet');
+    if (sheet) sheet.classList.add('is-hidden');
     audioUnlocked = true;
     playing = true;
     if (tapStart) tapStart.classList.add('hidden');
@@ -387,6 +389,12 @@
 
   function jumpToSlide(idx) {
     idx = Math.max(0, Math.min(idx, lastSlide));
+    var sheet = document.getElementById('guideStartSheet');
+    if (sheet && !sheet.classList.contains('is-hidden') && !recordMode) {
+      current = idx;
+      goTo(idx);
+      return;
+    }
     if (!audioUnlocked || !playing) {
       current = idx;
       startPlayback();
@@ -435,17 +443,155 @@
     }, { passive: true });
   }
 
-  function jumpFromHash() {
+  function chooserCopy() {
+    var lang = (document.documentElement.getAttribute('lang') || 'en').slice(0, 2);
+    var all = {
+      en: { language: 'Language', chapter: 'Chapter', title: 'Pick a language and a chapter', body: 'Watch only the subject you need — Identify, Museum, Hunt, and the rest.', play: 'Play this chapter' },
+      es: { language: 'Idioma', chapter: 'Capítulo', title: 'Elija idioma y capítulo', body: 'Vea solo el tema que necesita — Identificar, Museo, Hunt y el resto.', play: 'Reproducir este capítulo' },
+      de: { language: 'Sprache', chapter: 'Kapitel', title: 'Sprache und Kapitel wählen', body: 'Nur das Thema ansehen, das Sie brauchen — Identifizieren, Museum, Hunt und mehr.', play: 'Dieses Kapitel abspielen' },
+      fr: { language: 'Langue', chapter: 'Chapitre', title: 'Choisissez la langue et le chapitre', body: 'Regardez seulement le sujet dont vous avez besoin — Identifier, Musée, Hunt et le reste.', play: 'Lire ce chapitre' },
+      it: { language: 'Lingua', chapter: 'Capitolo', title: 'Scegli lingua e capitolo', body: 'Guarda solo l’argomento che ti serve — Identifica, Museo, Hunt e il resto.', play: 'Riproduci questo capitolo' },
+      pt: { language: 'Idioma', chapter: 'Capítulo', title: 'Escolha idioma e capítulo', body: 'Veja só o assunto que precisa — Identificar, Museu, Hunt e o resto.', play: 'Reproduzir este capítulo' },
+      zh: { language: '语言', chapter: '章节', title: '选择语言和章节', body: '只看需要的主题 — 鉴定、博物馆、Hunt 等。', play: '播放本章' },
+      hi: { language: 'भाषा', chapter: 'अध्याय', title: 'भाषा और अध्याय चुनें', body: 'सिर्फ वही विषय देखें जिसकी जरूरत है — पहचान, संग्रहालय, हंट।', play: 'यह अध्याय चलाएँ' }
+    };
+    return all[lang] || all.en;
+  }
+
+  function selectedChapterFromHash() {
     var hash = location.hash || '';
     var m = hash.match(/^#chapter=(\d+)$/);
-    if (!m) return;
+    if (!m) return null;
     var slide = parseInt(m[1], 10);
-    if (isNaN(slide) || slide < 0 || slide > lastSlide) return;
-    if (!audioUnlocked) startPlayback();
+    if (isNaN(slide) || slide < 0 || slide > lastSlide) return null;
+    return slide;
+  }
+
+  function langHrefWithChapter(href, slideIdx) {
+    try {
+      var u = new URL(href, location.href);
+      u.hash = '#chapter=' + slideIdx;
+      return u.pathname + u.search + u.hash;
+    } catch (e) {
+      return href;
+    }
+  }
+
+  function enhanceChooser() {
+    var copy = chooserCopy();
+    var walkthrough = document.querySelector('.walkthrough .container') || document.querySelector('.walkthrough');
+    var langs = document.querySelector('.prod-media-langs');
+    var chapters = document.getElementById('chapterNav');
+    if (!walkthrough || (!langs && !chapters)) return;
+
+    var chooser = document.createElement('div');
+    chooser.className = 'guide-chooser';
+    chooser.setAttribute('role', 'region');
+    chooser.setAttribute('aria-label', 'Language and chapter');
+
+    if (langs) {
+      var langLabel = document.createElement('div');
+      langLabel.className = 'guide-chooser-label';
+      langLabel.textContent = copy.language;
+      chooser.appendChild(langLabel);
+      langs.querySelectorAll('a[target]').forEach(function (a) {
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+      });
+      chooser.appendChild(langs);
+    }
+
+    if (chapters) {
+      var chapLabel = document.createElement('div');
+      chapLabel.className = 'guide-chooser-label';
+      chapLabel.textContent = copy.chapter;
+      chooser.appendChild(chapLabel);
+      var row = document.createElement('div');
+      row.className = 'guide-chooser-row';
+      var sel = document.createElement('select');
+      sel.id = 'chapterSelect';
+        sel.setAttribute('aria-label', copy.chapter);
+      Array.prototype.forEach.call(chapterBtns, function (btn) {
+        var opt = document.createElement('option');
+        opt.value = btn.getAttribute('data-slide') || '0';
+        opt.textContent = (btn.textContent || '').trim();
+        sel.appendChild(opt);
+      });
+      sel.addEventListener('change', function () {
+        var idx = parseInt(sel.value, 10);
+        if (isNaN(idx)) return;
+        jumpToSlide(idx);
+      });
+      row.appendChild(sel);
+      chooser.appendChild(chapLabel);
+      chooser.appendChild(row);
+      chooser.appendChild(chapters);
+    }
+
+    var stage = document.querySelector('.walkthrough-stage');
+    if (stage && stage.parentNode === walkthrough) {
+      walkthrough.insertBefore(chooser, stage);
+    } else {
+      walkthrough.insertBefore(chooser, walkthrough.firstChild);
+    }
+
+    var origUpdate = updateChapterActive;
+    updateChapterActive = function (slideIdx) {
+      origUpdate(slideIdx);
+      var sel = document.getElementById('chapterSelect');
+      if (!sel || !CHAPTER_STARTS.length) return;
+      var start = 0;
+      for (var i = CHAPTER_STARTS.length - 1; i >= 0; i--) {
+        if (slideIdx >= CHAPTER_STARTS[i]) {
+          start = CHAPTER_STARTS[i];
+          break;
+        }
+      }
+      if (String(sel.value) !== String(start)) sel.value = String(start);
+      if (langs) {
+        langs.querySelectorAll('a').forEach(function (a) {
+          var href = a.getAttribute('href');
+          if (!href) return;
+          a.setAttribute('href', langHrefWithChapter(href, slideIdx));
+        });
+      }
+    };
+
+    if (!recordMode) {
+      var sheet = document.createElement('div');
+      sheet.className = 'guide-start-sheet';
+      sheet.id = 'guideStartSheet';
+      sheet.innerHTML =
+        '<h3>' + copy.title + '</h3>' +
+        '<p>' + copy.body + '</p>' +
+        '<button type="button" class="guide-start-play" id="guideStartPlay">' + copy.play + '</button>';
+      chooser.parentNode.insertBefore(sheet, chooser.nextSibling);
+      var playChapter = document.getElementById('guideStartPlay');
+      if (playChapter) {
+        playChapter.addEventListener('click', function () {
+          sheet.classList.add('is-hidden');
+          startPlayback();
+        });
+      }
+      if (tapStart) tapStart.classList.add('hidden');
+    }
+  }
+
+  function jumpFromHash() {
+    var slide = selectedChapterFromHash();
+    if (slide == null) return;
+    current = slide;
     goTo(slide);
+    var sheet = document.getElementById('guideStartSheet');
+    if (recordMode) {
+      startPlayback();
+    } else if (sheet) {
+      sheet.classList.remove('is-hidden');
+    }
   }
   window.addEventListener('hashchange', jumpFromHash);
 
+  enhanceChooser();
   buildTranscript();
   setActiveSentence(0, 0);
   goTo(0);

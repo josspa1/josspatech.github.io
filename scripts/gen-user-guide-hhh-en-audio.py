@@ -14,8 +14,8 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-NARRATION_JSON = ROOT / "videos" / "user-guide-hhh" / "narration-en.json"
-OUT_DIR = ROOT / "videos" / "user-guide-hhh" / "audio"
+NARRATION_JSON = ROOT / "videos" / "hhh" / "user-guide" / "narration-en.json"
+OUT_DIR = ROOT / "videos" / "hhh" / "user-guide" / "audio"
 VOICE = "en-US-AndrewNeural"
 RATE = "+0%"
 PITCH = "-1Hz"
