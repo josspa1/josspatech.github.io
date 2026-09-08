@@ -1123,6 +1123,26 @@
     }
     .wm-feat-k { font-size: 11px; color: var(--text-muted); }
     .wm-feat-v { font-size: 20px; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .wm-feat-trend { margin: 16px 0 18px; }
+    .wm-feat-trend h4 { font-size: 13px; color: var(--primary); margin-bottom: 4px; }
+    .wm-feat-trend-svg { display: block; width: 100%; height: auto; margin: 8px 0; }
+    .wm-feat-trend-svg .grid { stroke: var(--border); stroke-width: 1; }
+    .wm-feat-trend-svg .axis-label { fill: var(--text-muted); font-size: 10px; }
+    .wm-feat-trend-svg polyline.s-open { stroke: var(--primary); stroke-width: 2; }
+    .wm-feat-trend-svg circle.s-open { fill: var(--primary); }
+    .wm-feat-trend-svg polyline.s-collection { stroke: var(--success); stroke-width: 2; }
+    .wm-feat-trend-svg circle.s-collection { fill: var(--success); }
+    .wm-feat-trend-svg polyline.s-idopen { stroke: var(--warning); stroke-width: 2; }
+    .wm-feat-trend-svg circle.s-idopen { fill: var(--warning); }
+    .wm-feat-trend-svg polyline.s-iddone { stroke: var(--danger); stroke-width: 2; }
+    .wm-feat-trend-svg circle.s-iddone { fill: var(--danger); }
+    .wm-feat-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: var(--text-dim); }
+    .wm-feat-legend span { display: inline-flex; align-items: center; gap: 5px; }
+    .wm-feat-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+    .wm-feat-legend .s-open i { background: var(--primary); }
+    .wm-feat-legend .s-collection i { background: var(--success); }
+    .wm-feat-legend .s-idopen i { background: var(--warning); }
+    .wm-feat-legend .s-iddone i { background: var(--danger); }
     .wm-feat-chart { display: block; width: 100%; height: auto; margin: 8px 0 14px; }
     .wm-feat-chart .bar-mtd { fill: var(--primary); }
     .wm-feat-chart .bar-value { fill: var(--text); font-size: 11px; font-weight: 600; }

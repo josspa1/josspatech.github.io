@@ -2779,6 +2779,52 @@ function wmOpenCostChart(chartId) {
     return `<svg class="wm-feat-chart" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${bars}</svg>`;
   }
 
+  function wmRenderHhhFeatureTrend(usage) {
+    const hist = Array.isArray(usage.history) ? usage.history.slice() : [];
+    if (hist.length < 1) {
+      return `<p class="metric-hint">Trend starts after the first Medium load or the 00:15 UTC snapshot. Past days are not reconstructed.</p>`;
+    }
+    const series = [
+      { key: "open", label: "Opens", cls: "s-open" },
+      { key: "collection", label: "Museum walk", cls: "s-collection" },
+      { key: "identify_open", label: "Identify opened", cls: "s-idopen" },
+      { key: "identify", label: "Identify finished", cls: "s-iddone" },
+    ];
+    const width = 640;
+    const height = 200;
+    const padL = 36;
+    const padR = 12;
+    const padT = 16;
+    const padB = 28;
+    const chartW = width - padL - padR;
+    const chartH = height - padT - padB;
+    const maxVal = Math.max(1, ...hist.flatMap((d) => series.map((s) => wmN(d[s.key]))));
+    const xAt = (i) => padL + (hist.length === 1 ? chartW / 2 : (i / (hist.length - 1)) * chartW);
+    const yAt = (v) => padT + chartH - (wmN(v) / maxVal) * chartH;
+    let grid = `<line class="grid" x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + chartH}"/>`;
+    grid += `<line class="grid" x1="${padL}" y1="${padT + chartH}" x2="${width - padR}" y2="${padT + chartH}"/>`;
+    grid += `<text class="axis-label" x="${padL - 4}" y="${padT + 4}" text-anchor="end">${maxVal}</text>`;
+    grid += `<text class="axis-label" x="${padL - 4}" y="${padT + chartH}" text-anchor="end">0</text>`;
+    let lines = "";
+    series.forEach((s) => {
+      const pts = hist.map((d, i) => `${xAt(i)},${yAt(d[s.key])}`).join(" ");
+      lines += `<polyline class="${s.cls}" fill="none" points="${pts}"/>`;
+      hist.forEach((d, i) => {
+        lines += `<circle class="${s.cls}" cx="${xAt(i)}" cy="${yAt(d[s.key])}" r="3"/>`;
+      });
+    });
+    const first = hist[0].date.slice(5);
+    const last = hist[hist.length - 1].date.slice(5);
+    const labels = `<text class="axis-label" x="${padL}" y="${height - 8}">${first}</text><text class="axis-label" x="${width - padR}" y="${height - 8}" text-anchor="end">${last}</text>`;
+    const legend = series.map((s) => `<span class="${s.cls}"><i></i>${s.label}</span>`).join("");
+    return `<div class="wm-feat-trend">
+      <h4>Daily trend</h4>
+      <p class="metric-hint">UTC days in <code>use:hist:days</code>. One KV blob. Does not increment opens. ${hist.length} day${hist.length === 1 ? "" : "s"} so far.</p>
+      <svg class="wm-feat-trend-svg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">${grid}${lines}${labels}</svg>
+      <div class="wm-feat-legend">${legend}</div>
+    </div>`;
+  }
+
   function wmRenderHhhFeatureUse(stats) {
     if (stats?.error === "skipped") {
       return `<div class="wm-feat">
@@ -2806,7 +2852,7 @@ function wmOpenCostChart(chartId) {
     ).join("");
     return `<div class="wm-feat">
       <h3>What they use</h3>
-      <p class="metric-hint">From the last Load usage click. Events, not unique people. Identify opened is screen focus, not a finished job.</p>
+      <p class="metric-hint">From the last Load usage click. Events, not unique people. Identify opened is screen focus, not a finished job. Daily trend is the same GET — no extra poll.</p>
       <div class="wm-feat-stats">
         <div><div class="wm-feat-k">Devices / 30d</div><div class="wm-feat-v">${wmN(d.total)}</div><div class="metric-hint">Android ${wmN(d.android)} · iOS ${wmN(d.ios)}</div></div>
         <div><div class="wm-feat-k">Opens today</div><div class="wm-feat-v">${wmN(usage.today?.open)}</div><div class="metric-hint">24h throttle per device</div></div>
@@ -2814,6 +2860,7 @@ function wmOpenCostChart(chartId) {
         <div><div class="wm-feat-k">Hunt</div><div class="wm-feat-v">${wmN(usage.month_to_date?.hunt)}</div><div class="metric-hint">Jobs this month</div></div>
       </div>
       ${wmRenderHhhFeatureChart(rows)}
+      ${wmRenderHhhFeatureTrend(usage)}
       <table class="wm-feat-table">
         <thead><tr><th>Rank</th><th>Feature</th><th>Sep</th><th>Today</th></tr></thead>
         <tbody>${tableRows}</tbody>
