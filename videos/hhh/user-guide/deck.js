@@ -237,7 +237,7 @@
     }
     if (!playing) return;
     startSentenceSync(i, SLIDE_DURATION);
-    slideAudio = new Audio(audioBase + 'slide-' + i + '.mp3');
+    slideAudio = new Audio(audioBase + 'slide-' + i + '.mp3?v=optional-2026-09-09');
     slideAudio.loop = false;
     slideAudio.volume = 1;
     slideAudio.ontimeupdate = function () {
