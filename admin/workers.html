@@ -112,16 +112,7 @@
           Cost graph <span class="ref-cost-badge ref-cost-heavy">Heavy · KV</span>
         </button>
       </div>
-      <div class="wm-auto-row">
-        <label class="wm-auto-warn">
-          <input type="checkbox" id="wmAutoRefresh" onchange="wmSetAutoRefresh()"> Auto-refresh usage (Medium) — uses Worker KV quota
-        </label>
-        <select id="wmAutoInterval" onchange="wmSetAutoRefresh()" disabled>
-          <option value="600">every 10m</option>
-          <option value="1800" selected>every 30m</option>
-        </select>
-      </div>
-      <div class="ref-status" id="wmStatus">Click Refresh to load worker data. Light = health only · Medium ≈18 KV reads · Heavy ≈60 KV reads (cost chart).</div>
+      <div class="ref-status" id="wmStatus">Click Refresh to load worker data. Light = health only · Medium = one cached GET · Heavy = cost chart (reads only). No auto-refresh — that burned the KV write cap.</div>
       <div id="workerMonitoringCombined"></div>
       <div id="wmCostModalOverlay" class="wm-cost-modal-overlay" hidden onclick="if(event.target===this)wmCloseCostChart()">
         <div class="wm-cost-modal" role="dialog" aria-labelledby="wmCostModalTitle">

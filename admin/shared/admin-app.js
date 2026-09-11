@@ -2780,11 +2780,14 @@ function wmOpenCostChart(chartId) {
       rows: [
         { label: "My Museum (walk)", hint: "Opened the collection list", mtd: (u) => u.month_facets?.screen_collection, today: (u) => u.today_facets?.screen_collection },
         { label: "Identify (opened)", hint: "Landed on Identify — not a finished job", mtd: (u) => u.month_to_date?.identify_open, today: (u) => u.today?.identify_open },
+        { label: "Identify (started)", hint: "Tapped Identify / Go", mtd: (u) => u.month_to_date?.identify_start, today: (u) => u.today?.identify_start },
+        { label: "Identify (got results)", hint: "Finished and got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
+        { label: "Identify (saved)", hint: "Saved the result to My Museum", mtd: (u) => u.month_to_date?.identify_saved, today: (u) => u.today?.identify_saved },
+        { label: "Identify (abandoned)", hint: "Left without a result", mtd: (u) => u.month_to_date?.identify_abandon, today: (u) => u.today?.identify_abandon },
         { label: "Clock Repair Help", hint: "Opened repair", mtd: (u) => u.month_to_date?.repair, today: (u) => u.today?.repair },
         { label: "Estate", hint: "Opened estate intake", mtd: (u) => u.month_facets?.screen_estate, today: (u) => u.today_facets?.screen_estate },
         { label: "Tools", hint: "Opened the tools screen", mtd: (u) => u.month_facets?.screen_tools, today: (u) => u.today_facets?.screen_tools },
         { label: "Wear log", hint: "Opened wear tracking", mtd: (u) => u.month_facets?.screen_wear, today: (u) => u.today_facets?.screen_wear },
-        { label: "Identify (finished)", hint: "Got an answer", mtd: (u) => u.month_to_date?.identify, today: (u) => u.today?.identify },
         { label: "Museum add", hint: "Saved a piece", mtd: (u) => u.month_to_date?.museum, today: (u) => u.today?.museum },
         { label: "Wish list", hint: "Opened wish list", mtd: (u) => u.month_facets?.screen_wish, today: (u) => u.today_facets?.screen_wish },
         { label: "Help", hint: "Opened help", mtd: (u) => u.month_to_date?.help, today: (u) => u.today?.help },
@@ -2800,12 +2803,18 @@ function wmOpenCostChart(chartId) {
         { key: "open", label: "Opens", cls: "s-open" },
         { key: "collection", label: "Museum walk", cls: "s-collection" },
         { key: "identify_open", label: "Identify opened", cls: "s-idopen" },
-        { key: "identify", label: "Identify finished", cls: "s-iddone" },
+        { key: "identify_start", label: "Identify started", cls: "s-idstart" },
+        { key: "identify", label: "Identify results", cls: "s-iddone" },
       ],
-      kpis: (u) => [
-        { k: "Identify opened / finished", v: `${wmN(u.month_to_date?.identify_open)} / ${wmN(u.month_to_date?.identify)}`, hint: "This month" },
-        { k: "Hunt", v: wmN(u.month_to_date?.hunt), hint: "Jobs this month" },
-      ],
+      kpis: (u) => {
+        const opened = wmN(u.month_to_date?.identify_open);
+        const results = wmN(u.month_to_date?.identify);
+        const pct = opened > 0 ? `${Math.round((results / opened) * 100)}%` : "—";
+        return [
+          { k: "Identify open → results", v: `${opened} / ${results} (${pct})`, hint: "This month. Beat locked before: 27 / 4 (15%) Sep 6–8." },
+          { k: "Identify saved", v: wmN(u.month_to_date?.identify_saved), hint: "Saved a result this month" },
+        ];
+      },
     },
     cvc: {
       live: false,
@@ -2959,6 +2968,45 @@ function wmOpenCostChart(chartId) {
     </div>`;
   }
 
+  function wmPct(num, den) {
+    if (!den) return "—";
+    return `${Math.round((num / den) * 100)}%`;
+  }
+
+  function wmRenderIdentifyByVersion(usage) {
+    const month = usage.month_identify_by_version || {};
+    const today = usage.today_identify_by_version || {};
+    const vers = [...new Set([...Object.keys(month), ...Object.keys(today)])].sort();
+    if (!vers.length) {
+      return `<div class="wm-feat" style="margin-top:16px">
+        <h4>Did this build get used more?</h4>
+        <p class="metric-hint">A change worked if the new version beats the locked before on the job it targeted, and daily opens do not fall. Locked Identify before (UTC Sep 6–8): opened <strong>27</strong> · results <strong>4</strong> · saved <strong>0</strong> → <strong>15%</strong>. Daily app opens those days: 11 / 20 / 30. Version split starts after worker deploy. Then compare <code>1.0.106</code> vs <code>1.0.104</code>.</p>
+      </div>`;
+    }
+    const rows = vers.map((v) => {
+      const m = month[v] || {};
+      const t = today[v] || {};
+      const opened = wmN(m.identify_open);
+      const results = wmN(m.identify);
+      return `<tr>
+        <td>${v}</td>
+        <td>${wmN(m.open)}</td>
+        <td>${opened} → ${results} (${wmPct(results, opened)})</td>
+        <td>${wmN(m.repair)}</td>
+        <td>${wmN(m.museum)}</td>
+        <td>${wmN(t.open)} / ${wmN(t.identify_open)}→${wmN(t.identify)} / ${wmN(t.repair)} / ${wmN(t.museum)}</td>
+      </tr>`;
+    }).join("");
+    return `<div class="wm-feat" style="margin-top:16px">
+      <h4>Did this build get used more?</h4>
+      <p class="metric-hint">Opens, Identify open→results, repair, museum add — by marketing version. Beat Identify <strong>15%</strong> (Sep 6–8). If 1.0.106 does not beat that after a week on phones, make another change. Events with no version stay in totals only.</p>
+      <table class="wm-feat-table">
+        <thead><tr><th>Version</th><th>Opens</th><th>Identify</th><th>Repair</th><th>Museum add</th><th>Today</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }
+
   function wmRenderFeatureUse(app, stats) {
     const catalog = FEATURE_CATALOGS[app.id];
     if (!catalog) return "";
@@ -3015,6 +3063,7 @@ function wmOpenCostChart(chartId) {
       </div>
       ${wmRenderFeatureChart(rows)}
       ${wmRenderFeatureTrend(usage, catalog)}
+      ${app.id === "hhh" ? wmRenderIdentifyByVersion(usage) : ""}
       <table class="wm-feat-table">
         <thead><tr><th>Rank</th><th>Feature</th><th>${monthLabel}</th><th>Today</th></tr></thead>
         <tbody>${tableRows}</tbody>
@@ -3291,17 +3340,10 @@ function wmOpenCostChart(chartId) {
   async function wmRefreshHeavy() { return wmFetchTier("heavy"); }
 
   function wmSetAutoRefresh() {
-    const autoEl = document.getElementById("wmAutoRefresh");
-    const selEl = document.getElementById("wmAutoInterval");
-    const on = autoEl && autoEl.checked;
-    if (selEl) selEl.disabled = !on;
     if (wmAutoTick) {
       clearInterval(wmAutoTick);
       wmAutoTick = null;
     }
-    if (!on) return;
-    const sec = parseInt(selEl?.value || "1800", 10);
-    wmAutoTick = setInterval(() => wmRefreshMedium(), sec * 1000);
   }
 
   function wmSelectTab(id) {
@@ -5348,6 +5390,7 @@ function wmOpenCostChart(chartId) {
         updateOpsAlertBanner().catch(() => {});
       }
       if (page === "workers") {
+        wmSetAutoRefresh();
         wmRenderFromCache();
         loadThresholdsSharedStats();
         updatePageFreshness();
