@@ -10,6 +10,7 @@
 <meta name="author" content="JosspaTech">
 <meta name="theme-color" content="#0C3358">
 <link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/product-landing.css">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -109,65 +110,17 @@
   ]
 }
 </script>
-<style>
-  :root {
-    --navy: #1A4F7A;
-    --navy-dk: #0C3358;
-    --gold: #F0C040;
-    --ink: #f4f0e8;
-    --muted: rgba(244, 240, 232, 0.72);
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, sans-serif;
-    background: linear-gradient(165deg, var(--navy-dk) 0%, #0a2740 45%, var(--navy) 100%);
-    color: var(--ink);
-    min-height: 100vh;
-    line-height: 1.55;
-  }
-  a { color: var(--gold); }
-  header, main, footer { max-width: 42rem; margin: 0 auto; padding: 0 1.4rem; }
-  header { padding-top: 1.4rem; font-size: 0.92rem; }
-  header nav { opacity: 0.85; }
-  .kicker {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 2rem 0 0.6rem;
-  }
-  .kicker img { width: 56px; height: 56px; border-radius: 12px; }
-  h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.85rem, 5vw, 2.4rem); line-height: 1.15; margin: 0 0 0.6rem; }
-  h1 em { color: var(--gold); font-style: italic; }
-  .lead { font-size: 1.12rem; margin: 0 0 0.8rem; }
-  .sub { color: var(--muted); margin: 0 0 1.4rem; }
-  h2 { font-size: 1.15rem; margin: 2rem 0 0.6rem; color: #e8d5a8; }
-  ul { padding-left: 1.15rem; margin: 0 0 1rem; }
-  li { margin: 0.35rem 0; }
-  .shots {
-    display: flex;
-    gap: 0.7rem;
-    justify-content: center;
-    align-items: flex-end;
-    margin: 1.6rem 0;
-  }
-  .shots img {
-    width: 30%;
-    max-width: 160px;
-    height: auto;
-    border-radius: 14px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-  }
-  .badges { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 1.2rem 0; }
-  .badges img { display: block; }
-  .note { font-size: 0.9rem; color: var(--muted); }
-  .foot { margin: 2.4rem 0 2rem; font-size: 0.92rem; color: var(--muted); }
-</style>
 </head>
 <body>
   <header>
     <nav aria-label="Breadcrumb">
       <a href="/">JosspaTech</a> / Handy Horology Helper
+    </nav>
+    <nav class="apps" aria-label="JosspaTech apps">
+      <a href="/hhh/" aria-current="page">Handy Horology Helper</a>
+      <a href="/pbj/">PocketBudJet</a>
+      <a href="/pal/">Pocket Allowance Ledger</a>
+      <a href="/cvc/">Curator's Vault</a>
     </nav>
   </header>
   <main>

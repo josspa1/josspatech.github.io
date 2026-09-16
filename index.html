@@ -3194,8 +3194,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <div class="nav-mobile-menu" id="mobile-menu" role="navigation">
   <a href="#products" class="nav-mobile-link" onclick="navTo('products');closeMenu();return false;">Products</a>
   <a href="#principles" class="nav-mobile-link" onclick="navTo('principles');closeMenu();return false;">Mission</a>
-  <a href="/hhh/" class="nav-mobile-link" onclick="showPage('hhh');closeMenu();return false;">Handy Horology Helper</a>
-  <a href="/pbj/" class="nav-mobile-link" onclick="showPage('pbj');closeMenu();return false;">PocketBudJet</a>
+  <a href="/hhh/" class="nav-mobile-link">Handy Horology Helper</a>
+  <a href="/pbj/" class="nav-mobile-link">PocketBudJet</a>
+  <a href="/pal/" class="nav-mobile-link">Pocket Allowance Ledger</a>
+  <a href="/cvc/" class="nav-mobile-link">Curator's Vault</a>
   <a href="mailto:support@josspatech.com" class="nav-mobile-link">Contact</a>
   <a href="#products" onclick="navTo('products');closeMenu();return false;" class="nav-mobile-cta">See Our Apps →</a>
 </div>
@@ -3250,11 +3252,12 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <nav id="hub-seo-product-links" aria-label="Product pages" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
         <a href="/pbj/">PocketBudJet</a>
         <a href="/hhh/">Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/">Curator's Vault: Classics</a>
       </nav>
 
 
-      <div role="button" tabindex="0" data-app="pbj" onclick="showPage('pbj');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pbj');}" class="hub-card hub-card-featured rv d1">
+      <div role="button" tabindex="0" data-app="pbj" onclick="location.href='/pbj/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/pbj/';}" class="hub-card hub-card-featured rv d1">
         <div class="hub-card-body">
           <div class="hub-name">Pocket<em>BudJet</em>™</div>
           <p class="hub-tagline">Import. Plan. Coach. Money clarity — on your terms.</p>
@@ -3265,7 +3268,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </figure>
       </div>
 
-      <div role="button" tabindex="0" data-app="hhh" onclick="showPage('hhh');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('hhh');}" class="hub-card hub-card-featured rv d2">
+      <div role="button" tabindex="0" data-app="hhh" onclick="location.href='/hhh/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/hhh/';}" class="hub-card hub-card-featured rv d2">
         <div class="hub-card-body">
           <div class="hub-name">Handy Horology<br><em>Helper</em>™</div>
           <p class="hub-tagline">New or vintage. Floor or bench. Confirm your suspicions.</p>
@@ -3276,7 +3279,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </figure>
       </div>
 
-      <div role="button" tabindex="0" data-app="pal" onclick="showPage('pal');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('pal');}" class="hub-card rv d3">
+      <div role="button" tabindex="0" data-app="pal" onclick="location.href='/pal/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/pal/';}" class="hub-card rv d3">
         <div class="hub-card-body">
           <div class="hub-name">Pocket Allowance<br><em>Ledger</em>™</div>
           <p class="hub-tagline">Coach homework, chores, and habits — parents stay in charge. Gold tokens. Real habits.</p>
@@ -3288,7 +3291,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </figure>
       </div>
 
-      <div role="button" tabindex="0" data-app="cvc" onclick="showPage('cvc');" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPage('cvc');}" class="hub-card rv d4">
+      <div role="button" tabindex="0" data-app="cvc" onclick="location.href='/cvc/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/cvc/';}" class="hub-card rv d4">
         <div class="hub-card-body">
           <div class="hub-name">Curator's Vault:<br><em>Classics</em>™</div>
           <p class="hub-tagline">Coins, cards, stamps, paper money, lighters — photograph, organize, value. Your vault. Your rules.</p>
@@ -3366,10 +3369,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="footer-cols">
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="/pbj/" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="/hhh/" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
-        <a href="/cvc/" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        <a href="/pbj/" >PocketBudJet</a>
+        <a href="/hhh/" >Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+        <a href="/cvc/" >Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -4158,10 +4161,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="footer-cols">
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="/pbj/" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="/hhh/" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
-        <a href="/cvc/" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        <a href="/pbj/" >PocketBudJet</a>
+        <a href="/hhh/" >Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+        <a href="/cvc/" >Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -4482,10 +4485,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="footer-cols">
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="/pbj/" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="/hhh/" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
-        <a href="/cvc/" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        <a href="/pbj/" >PocketBudJet</a>
+        <a href="/hhh/" >Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+        <a href="/cvc/" >Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Handy Horology Helper</h4>
@@ -4737,9 +4740,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <p style="color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">More from JosspaTech</p>
     <p style="color:rgba(255,255,255,0.55);font-size:15px;line-height:1.7;margin-bottom:20px;">Pocket Allowance Ledger shares the same privacy-first philosophy as our other Pocket apps.</p>
     <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;">
-      <a href="/pbj/" onclick="showPage('pbj');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
-      <a href="/hhh/" onclick="showPage('hhh');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches &amp; clocks</a>
-      <a href="/cvc/" onclick="showPage('cvc');return false;" style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
+      <a href="/pbj/"  style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">PocketBudJet &mdash; budgeting</a>
+      <a href="/hhh/"  style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Handy Horology Helper &mdash; watches &amp; clocks</a>
+      <a href="/cvc/"  style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Curator&rsquo;s Vault &mdash; collectibles</a>
+      <a href="/pal/"  style="color:#E8B84A;font-weight:600;text-decoration:none;padding:10px 18px;border:1px solid rgba(232,184,74,0.25);border-radius:8px;">Pocket Allowance Ledger &mdash; tokens</a>
     </div>
   </div>
 </section>
@@ -4765,10 +4769,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="footer-cols">
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="/pbj/" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="/hhh/" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
-        <a href="/cvc/" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        <a href="/pbj/" >PocketBudJet</a>
+        <a href="/hhh/" >Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+        <a href="/cvc/" >Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Pocket Allowance Ledger</h4>
@@ -4926,10 +4930,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="footer-cols">
       <div class="footer-col">
         <h4>Products</h4>
-        <a href="/pbj/" onclick="showPage('pbj');return false;">PocketBudJet</a>
-        <a href="/hhh/" onclick="showPage('hhh');return false;">Handy Horology Helper</a>
-        <a href="#pal" onclick="showPage('pal');return false;">Pocket Allowance Ledger</a>
-        <a href="/cvc/" onclick="showPage('cvc');return false;">Curator's Vault</a>
+        <a href="/pbj/" >PocketBudJet</a>
+        <a href="/hhh/" >Handy Horology Helper</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+        <a href="/cvc/" >Curator's Vault</a>
       </div>
       <div class="footer-col">
         <h4>Curator's Vault</h4>

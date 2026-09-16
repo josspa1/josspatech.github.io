@@ -3,87 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curator's Vault: Classics — Collectibles Catalog | JosspaTech</title>
-<meta name="description" content="Curator's Vault: Classics — photograph, organize, and value coins, cards, stamps, paper money, and lighters. Private collectibles catalog by JosspaTech (Joss-pah-tech).">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<title>Collectibles vault — Curator's Vault: Classics</title>
+<meta name="description" content="Photograph, organize, and value coins, cards, stamps, paper money, and lighters on your device. Curator's Vault: Classics by JosspaTech. Internal testing.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <link rel="canonical" href="https://josspatech.com/cvc/">
-<meta name="keywords" content="Curator's Vault, collectibles catalog, coin collection app, card collection, stamp collection, JosspaTech">
+<meta name="author" content="JosspaTech">
+<meta name="theme-color" content="#0C3358">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/product-landing.css">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="Curator's Vault: Classics — Your vault. Your rules.">
-<meta property="og:description" content="Photograph, organize, and value coins, cards, stamps, paper money, and lighters.">
+<meta property="og:description" content="Coins, cards, stamps, paper money, and lighters — photograph, organize, value.">
 <meta property="og:url" content="https://josspatech.com/cvc/">
 <meta property="og:site_name" content="JosspaTech">
 <meta property="og:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
-<meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Curator's Vault: Classics">
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Curator's Vault: Classics — Your vault. Your rules.">
-<meta name="twitter:description" content="Photograph, organize, and value coins, cards, stamps, paper money, and lighters.">
+<meta name="twitter:description" content="Photograph, organize, and value five collectible categories on your device.">
 <meta name="twitter:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Curator's Vault: Classics",
-  "alternateName": ["CVC", "Curator's Vault"],
-  "description": "Collectibles catalog for coins, cards, stamps, paper money, and lighters — photograph, organize, and value your vault.",
-  "url": "https://josspatech.com/cvc/",
-  "image": "https://josspatech.com/assets/brand/og-cvc.jpg",
-  "applicationCategory": "LifestyleApplication",
-  "operatingSystem": ["Android"],
-  "publisher": {
-    "@type": "Organization",
-    "name": "JosspaTech",
-    "alternateName": "Joss-pah-tech",
-    "url": "https://josspatech.com"
-  }
+  "@graph": [
+    {
+      "@type": ["MobileApplication", "SoftwareApplication"],
+      "@id": "https://josspatech.com/cvc/#app",
+      "name": "Curator's Vault: Classics",
+      "alternateName": ["CVC", "Curator's Vault"],
+      "description": "Private collectibles app for coins, cards, stamps, paper money, and lighters — photograph, organize, and track value on your device.",
+      "url": "https://josspatech.com/cvc/",
+      "image": "https://josspatech.com/assets/brand/og-cvc.jpg",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Android, iOS",
+      "offers": [
+        { "@type": "Offer", "name": "15-day trial", "price": "0", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro monthly", "price": "9.99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Pro annual", "price": "74.99", "priceCurrency": "USD" }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "JosspaTech",
+        "alternateName": "Joss-pah-tech",
+        "url": "https://josspatech.com/"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://josspatech.com/cvc/#webpage",
+      "url": "https://josspatech.com/cvc/",
+      "name": "Collectibles vault — Curator's Vault: Classics",
+      "about": { "@id": "https://josspatech.com/cvc/#app" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "JosspaTech", "item": "https://josspatech.com/" },
+        { "@type": "ListItem", "position": 2, "name": "Curator's Vault", "item": "https://josspatech.com/cvc/" }
+      ]
+    }
+  ]
 }
 </script>
-<script>
-(function () {
-  var q = location.search || '';
-  var target = '/#cvc';
-  if (q) target = '/' + q + '#cvc';
-  var isBot = /bot|crawl|spider|facebookexternalhit|facebot|twitterbot|linkedinbot|slackbot|whatsapp|preview|googlebot|bingbot|yandex|duckduck/i.test(navigator.userAgent || '');
-  if (!isBot) location.replace(target);
-})();
-</script>
-<style>
-  body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#0a1520; color:#f4f0e8; min-height:100vh; padding:32px 24px; }
-  main { max-width:40rem; margin:0 auto; }
-  a { color:#c8aa6e; }
-  h1 { font-size:1.85rem; margin:0 0 12px; color:#c8aa6e; }
-  h2 { font-size:1.1rem; margin:28px 0 10px; color:#e8d5a8; font-family: system-ui, sans-serif; font-weight:600; }
-  p, li { opacity:.88; line-height:1.65; font-family: system-ui, sans-serif; font-size:0.98rem; }
-  ul { padding-left:1.2rem; margin:0 0 8px; }
-  .lead { font-size:1.05rem; margin-bottom:8px; }
-  .actions { margin-top:28px; display:flex; flex-wrap:wrap; gap:14px 20px; }
-</style>
 </head>
 <body>
+  <header>
+    <nav aria-label="Breadcrumb"><a href="/">JosspaTech</a> / Curator's Vault</nav>
+    <nav class="apps" aria-label="JosspaTech apps">
+      <a href="/hhh/">Handy Horology Helper</a>
+      <a href="/pbj/">PocketBudJet</a>
+      <a href="/pal/">Pocket Allowance Ledger</a>
+      <a href="/cvc/" aria-current="page">Curator's Vault</a>
+    </nav>
+  </header>
   <main>
-    <h1>Curator's Vault: Classics</h1>
-    <p class="lead">Your vault. Your rules.</p>
-    <p>Private collectibles catalog from JosspaTech (pronounced <em>Joss-pah-tech</em>). Photograph, organize, and value coins, cards, stamps, paper money, and lighters — without turning your collection into someone else's dataset.</p>
+    <p class="kicker"><span>Curator's Vault: <em>Classics</em>™</span></p>
+    <h1>Your vault.<br><em>Your rules.</em></h1>
+    <p class="lead">Coins · Cards · Stamps · Paper · Lighters</p>
+    <p class="sub">Photograph a piece, keep the record on your device, and track value over time — without turning your collection into someone else's dataset.</p>
 
-    <h2>Built for collectors</h2>
+    <div class="shots" aria-label="Curator's Vault screens">
+      <img src="/assets/screenshots/cvc/03-identify.png?v=2" width="220" height="391" alt="Identify a collectible from a photo in Curator's Vault">
+      <img src="/assets/screenshots/cvc/02-collection.png?v=2" width="240" height="427" alt="Private collection gallery in Curator's Vault">
+      <img src="/assets/screenshots/cvc/04-analytics.png?v=2" width="220" height="391" alt="Collection value analytics in Curator's Vault">
+    </div>
+
+    <h2>What it is for</h2>
     <ul>
-      <li>AI-assisted identification from photos</li>
-      <li>Collection gallery organized your way</li>
-      <li>Analytics across categories and values</li>
-      <li>Coins, cards, stamps, paper money, and lighters</li>
+      <li><strong>Identify</strong> — series, era, and grading cues from a photo, with honest confidence.</li>
+      <li><strong>Vault</strong> — photos, condition, provenance, and value for five categories on the device.</li>
+      <li><strong>Value</strong> — portfolio view and cost basis so you buy, sell, or insure from a clearer number.</li>
     </ul>
 
-    <p class="actions">
-      <a href="/#cvc">Full product page</a>
-      <a href="/">JosspaTech</a>
+    <h2>Status</h2>
+    <p>Internal testing on Google Play (<code>com.josspatech.cts</code>). 15-day trial, then $9.99/mo or $74.99/yr. Not a public store listing yet.</p>
+    <p>
+      <a href="https://play.google.com/apps/testing/com.josspatech.cts" rel="noopener">Play Internal testing</a> ·
+      <a href="/videos/cvc/user-guide/">User guide</a> ·
+      <a href="/docs/curatorsvault/CuratorsVault_PrivacyPolicy.html">Privacy Policy</a>
     </p>
   </main>
+  <footer class="foot">
+    <p>JosspaTech · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
 </body>
 </html>
