@@ -3,6 +3,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /private/
 Disallow: /temp/
+# Content Signals (https://contentsignals.org/) — search yes, training no
+Content-Signal: search=yes, ai-input=no, ai-train=no
 
 # Link-preview crawlers (share cards) — keep allowed under *
 User-agent: facebookexternalhit

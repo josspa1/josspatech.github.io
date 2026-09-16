@@ -5000,13 +5000,13 @@ function applyPageSeo(id) {
   var desc = document.querySelector('meta[name="description"]');
   if (desc) desc.setAttribute('content', s.description);
   var can = document.querySelector('link[rel="canonical"]');
-  if (can) can.setAttribute('href', s.canonical);
+  if (can) can.setAttribute('href', 'https://josspatech.com/');
   var ogTitle = document.querySelector('meta[property="og:title"]');
   if (ogTitle) ogTitle.setAttribute('content', s.ogTitle || s.title);
   var ogDesc = document.querySelector('meta[property="og:description"]');
   if (ogDesc) ogDesc.setAttribute('content', s.description);
   var ogUrl = document.querySelector('meta[property="og:url"]');
-  if (ogUrl) ogUrl.setAttribute('content', s.canonical);
+  if (ogUrl) ogUrl.setAttribute('content', 'https://josspatech.com/');
   var ogImg = document.querySelector('meta[property="og:image"]');
   if (ogImg) ogImg.setAttribute('content', s.ogImage);
   var twTitle = document.querySelector('meta[name="twitter:title"]');
