@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curator's Vault: Classics 用户指南 | JosspaTech</title>
+  <meta name="description" content="How to use Curator's Vault: Classics — Identify, vault, hunt, and Web Companion. Narrated walkthrough.">
+  <meta name="robots" content="index, follow">
+  <link rel="alternate" hreflang="en" href="https://josspatech.com/videos/cvc/user-guide/">
+  <link rel="alternate" hreflang="zh-CN" href="https://josspatech.com/videos/cvc/user-guide/zh/">
+  <link rel="alternate" hreflang="fr" href="https://josspatech.com/videos/cvc/user-guide/fr/">
+  <link rel="alternate" hreflang="de" href="https://josspatech.com/videos/cvc/user-guide/de/">
+  <link rel="alternate" hreflang="hi" href="https://josspatech.com/videos/cvc/user-guide/hi/">
+  <link rel="alternate" hreflang="it" href="https://josspatech.com/videos/cvc/user-guide/it/">
+  <link rel="alternate" hreflang="pt" href="https://josspatech.com/videos/cvc/user-guide/pt/">
+  <link rel="alternate" hreflang="es" href="https://josspatech.com/videos/cvc/user-guide/es/">
+  <link rel="alternate" hreflang="x-default" href="https://josspatech.com/videos/cvc/user-guide/">
+  <link rel="canonical" href="https://josspatech.com/videos/cvc/user-guide/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Curator's Vault: Classics — User Guide | JosspaTech">
+  <meta property="og:description" content="Identify a piece, keep a private vault, and hunt grails. Step-by-step with narration.">
+  <meta property="og:url" content="https://josspatech.com/videos/cvc/user-guide/">
+  <meta property="og:site_name" content="JosspaTech">
+  <meta property="og:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+  <link rel="stylesheet" href="walkthrough.css?v=cvc-ug-2026-09-17-taps">
+  <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--white); color: var(--navy); }
+    :root {
+      --navy: #1B4D3E; --navy-dark: #0F2E25; --navy-medium: #2A6B56;
+      --gold: #C8AA6E; --gold-dark: #A8884A;
+      --slate: #5A7068; --slate-light: #8A9E96;
+      --background: #F5EDE4; --white: #FFFFFF;
+    }
+    nav { position: sticky; top: 0; z-index: 1000; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background-color: var(--navy-dark); }
+    nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+    nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; flex-wrap: wrap; }
+    nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    nav .nav-links a:hover { color: var(--gold); }
+    .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.95rem; color: var(--slate); }
+    .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; font-weight: 700; }
+    .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
+    .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
+    .hero { color: var(--white); padding: 2rem; text-align: center; background: linear-gradient(135deg, #0F2E25 0%, #1B4D3E 100%); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 0.75rem; }
+    .hero .subheader { font-size: 1.05rem; max-width: 760px; margin: 0 auto; opacity: 0.95; line-height: 1.55; }
+    .walkthrough { padding: 3rem 2rem; background: var(--background); }
+    .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+    .walkthrough h2 { font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 0.5rem; color: var(--navy); }
+    .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .phone-frame { width: 300px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; position: relative; box-shadow: 0 16px 48px rgba(15,46,37,0.22); }
+    .slideshow { width: 100%; height: 100%; position: relative; }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+    .slide.active { opacity: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .cta-section { padding: 3rem 2rem; text-align: center; color: white; background: linear-gradient(135deg, #0F2E25 0%, #1B4D3E 100%); }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.75rem; }
+    .cta-section p { max-width: 640px; margin: 0 auto 1.25rem; opacity: 0.9; line-height: 1.6; }
+    .download-button { display: inline-block; padding: 0.9rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; margin: 0.35rem; background: var(--gold); color: var(--navy-dark); border: 2px solid var(--gold); }
+    .download-button:hover { background: var(--gold-dark); }
+    .download-button.ghost { background: transparent; color: var(--gold); }
+    footer { padding: 2rem; text-align: center; color: white; font-size: 0.9rem; background: var(--navy-dark); }
+    footer a { color: var(--gold); }
+    @media (max-width: 768px) {
+      nav .nav-links { gap: 0.75rem; font-size: 0.85rem; }
+      .walkthrough { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body data-jt-product="cvc">
+  <nav>
+    <div class="container">
+      <a href="/" class="logo">JosspaTech</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#cvc">Curator's Vault</a></li>
+        <li><a href="/how-to/">How To</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="/#cvc">Curator's Vault: Classics</a><span class="sep">/</span>
+    <span class="current">User Guide</span>
+  </div>
+  <div class="hero">
+    <div class="container">
+      <h1>Curator's Vault: Classics 用户指南</h1>
+      <p class="subheader">Pick a language and a chapter, then play. Gold pulses mark each tap. Identify a piece, keep a private vault, and hunt grails — then open the same guide from Settings in the app.</p>
+    </div>
+  </div>
+  <section class="user-manual walkthrough">
+    <div class="container">
+      <h2>Interactive User Guide</h2>
+      <p class="section-sub">Use the chapter pills to jump ahead, Previous/Next (or ← →) to rewind or skip a step, or tap any sentence in the transcript.</p>
+          <ul class="prod-media-langs" aria-label="User guide languages" style="display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 1.25rem;padding:0;list-style:none;">
+            <li><a href="/videos/cvc/user-guide/" style="font-weight:700;color:var(--navy);">English</a></li>
+            <li><a class="is-current" href="/videos/cvc/user-guide/zh/" style="font-weight:600;color:var(--navy-medium);">中文（简体）</a></li>
+            <li><a href="/videos/cvc/user-guide/fr/" style="font-weight:600;color:var(--navy-medium);">Français</a></li>
+            <li><a href="/videos/cvc/user-guide/de/" style="font-weight:600;color:var(--navy-medium);">Deutsch</a></li>
+            <li><a href="/videos/cvc/user-guide/hi/" style="font-weight:600;color:var(--navy-medium);">हिन्दी</a></li>
+            <li><a href="/videos/cvc/user-guide/it/" style="font-weight:600;color:var(--navy-medium);">Italiano</a></li>
+            <li><a href="/videos/cvc/user-guide/pt/" style="font-weight:600;color:var(--navy-medium);">Português</a></li>
+            <li><a href="/videos/cvc/user-guide/es/" style="font-weight:600;color:var(--navy-medium);">Español</a></li>
+          </ul>
+      <div class="chapter-nav" id="chapterNav">
+        <button type="button" class="chapter-btn active" data-slide="0">Open</button>
+        <button type="button" class="chapter-btn" data-slide="9">Home</button>
+        <button type="button" class="chapter-btn" data-slide="14">Identify</button>
+        <button type="button" class="chapter-btn" data-slide="26">Vault</button>
+        <button type="button" class="chapter-btn" data-slide="32">Worth &amp; hunt</button>
+        <button type="button" class="chapter-btn" data-slide="43">Tools</button>
+        <button type="button" class="chapter-btn" data-slide="53">Floor &amp; PC</button>
+        <button type="button" class="chapter-btn" data-slide="56">Keep</button>
+        <button type="button" class="chapter-btn" data-slide="63">Help</button>
+      </div>
+      <div class="user-manual-stage walkthrough-stage">
+        <div class="video-wrapper">
+          <div class="phone-column">
+            <div class="phone-viewport">
+              <div class="phone-frame">
+                <div class="slideshow" id="slideshow">
+                  <div class="tap-to-start" id="tapToStart">
+                    <div class="tap-to-start-icon">&#9654;</div>
+                    <div class="tap-to-start-label">Tap to play</div>
+                  </div>
+                  <div class="slide active" data-index="0" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/00-terms-privacy.png" alt="Terms and Privacy" loading="eager">
+                  </div>
+                  <div class="slide" data-index="1" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/13-onboarding-welcome.png" alt="Welcome slides" loading="eager">
+                  </div>
+                  <div class="slide" data-index="2" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/13-onboarding-welcome.png" alt="Get Started" loading="eager">
+                  </div>
+                  <div class="slide" data-index="3" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/14-onboarding-name.png" alt="Display name" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="4" data-taps='[{"x":16,"y":32,"label":"Coin","at":0.2,"dur":1.6},{"x":42,"y":32,"label":"Paper Money","at":1.9,"dur":1.6},{"x":76,"y":32,"label":"Trading Card","at":3.6,"dur":1.8}]'>
+                    <img src="/assets/screenshots/cvc/manual/15-onboarding-categories.png" alt="Category picker" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="5" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/16-onboarding-path.png" alt="Sample vault path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="6" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/16-onboarding-path.png" alt="Empty start" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="7" data-tap-x="50" data-tap-y="14" data-tap-label="Sample banner" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/19-sample-home-banner.png" alt="Sample banner" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="8" data-tap-x="82" data-tap-y="12" data-tap-label="Clear samples" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/19-sample-home-banner.png" alt="Clear samples" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="9" data-tap-x="38" data-tap-y="34" data-tap-label="Vault status" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Home command center" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="10" data-taps='[{"x":12,"y":93,"label":"Home","at":0.2,"dur":1.3},{"x":37,"y":93,"label":"My Collection","at":1.6,"dur":1.3},{"x":62,"y":93,"label":"Tools","at":3.0,"dur":1.3},{"x":87,"y":93,"label":"Settings","at":4.4,"dur":1.6}]'>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Tab bar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="11" data-taps='[{"x":50,"y":84,"label":"Identify a piece","at":0.2,"dur":2.4},{"x":12,"y":50,"label":"Identify","at":2.7,"dur":2.0}]'>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Identify path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="12" data-tap-x="31" data-tap-y="50" data-tap-label="Add Item" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Add path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="13" data-taps='[{"x":88,"y":50,"label":"Wish List","at":0.2,"dur":2.2},{"x":69,"y":50,"label":"Settings","at":2.5,"dur":2.0}]'>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Hunt and cert paths" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="14" data-taps='[{"x":16,"y":32,"label":"Coin","at":0.2,"dur":1.4},{"x":42,"y":32,"label":"Paper Money","at":1.7,"dur":1.4},{"x":76,"y":32,"label":"Trading Card","at":3.2,"dur":1.8}]'>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Identify chips" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="15" data-tap-x="50" data-tap-y="48" data-tap-label="Point camera" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Take Photo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="16" data-taps='[{"x":50,"y":48,"label":"Take Photo","at":0.2,"dur":2.2},{"x":50,"y":58,"label":"Choose Photo","at":2.5,"dur":2.0}]'>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Camera or library" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="17" data-tap-x="50" data-tap-y="68" data-tap-label="Authentication clues" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Optional clues" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="18" data-tap-x="50" data-tap-y="78" data-tap-label="Identify" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Identify button" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="19" data-tap-x="50" data-tap-y="40" data-tap-label="Top match" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Identify report" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="20" data-tap-x="50" data-tap-y="55" data-tap-label="Asking range" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Asking range" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="21" data-tap-x="50" data-tap-y="48" data-tap-label="Scan individually" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/21-scan-individually.png" alt="Scan individually" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="22" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/21-scan-individually.png" alt="Scan individually note" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="23" data-tap-x="50" data-tap-y="78" data-tap-label="Save to Vault" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Save to Vault" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="24" data-tap-x="90" data-tap-y="16" data-tap-label="History" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/22-identify-history.png" alt="Identify history" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="25" data-tap-x="50" data-tap-y="14" data-tap-label="Home banner" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Offline queue" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="26" data-tap-x="37" data-tap-y="93" data-tap-label="My Collection" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="My Collection" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="27" data-taps='[{"x":18,"y":46,"label":"Owned","at":0.2,"dur":1.6},{"x":50,"y":46,"label":"Wish","at":1.9,"dur":1.6},{"x":82,"y":46,"label":"For Sale","at":3.6,"dur":1.8}]'>
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="Owned Wish For Sale" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="28" data-tap-x="50" data-tap-y="76" data-tap-label="Piece row" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/03-item-detail.png" alt="Piece detail" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="29" data-tap-x="50" data-tap-y="76" data-tap-label="Piece row" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/03-item-detail.png" alt="Piece notes" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="30" data-taps='[{"x":18,"y":54,"label":"Timeline","at":0.2,"dur":1.4},{"x":50,"y":54,"label":"Insights","at":1.7,"dur":1.4},{"x":80,"y":54,"label":"Portfolio P&L","at":3.2,"dur":1.8}]'>
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="Manage your vault" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="31" data-tap-x="88" data-tap-y="80" data-tap-label="Add" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/23-add-item.png" alt="Add item" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="32" data-tap-x="80" data-tap-y="54" data-tap-label="Portfolio P&amp;L" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/06-portfolio-pl.png" alt="Portfolio P&amp;L" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="33" data-tap-x="50" data-tap-y="40" data-tap-label="Buying budget" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/24-buying-budget.png" alt="Buying budget" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="34" data-tap-x="50" data-tap-y="40" data-tap-label="Insurance report" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/25-insurance-report.png" alt="Insurance report" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="35" data-taps='[{"x":50,"y":46,"label":"Wish","at":0.2,"dur":2.0},{"x":50,"y":72,"label":"Grail row","at":2.3,"dur":2.2}]'>
+                    <img src="/assets/screenshots/cvc/manual/26-wish-list.png" alt="Wish list" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="36" data-tap-x="50" data-tap-y="32" data-tap-label="Hunt rules" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Grail Radar rules" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="37" data-tap-x="22" data-tap-y="18" data-tap-label="Check all" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Grail matches" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="38" data-tap-x="22" data-tap-y="36" data-tap-label="Search on eBay" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Open eBay" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="39" data-tap-x="50" data-tap-y="32" data-tap-label="Match row" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Hunt notification" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="40" data-tap-x="50" data-tap-y="40" data-tap-label="eBay listings" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/27-ebay-listings.png" alt="eBay listings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="41" data-tap-x="50" data-tap-y="42" data-tap-label="Start Web Companion" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Worth and hunt tools" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="42" data-tap-x="50" data-tap-y="50" data-tap-label="Compare" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/04-compare.png" alt="Compare" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="43" data-tap-x="62" data-tap-y="93" data-tap-label="Tools" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Tools on the floor" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="44" data-tap-x="50" data-tap-y="42" data-tap-label="Identify tools" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Tools Identify section" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="45" data-tap-x="50" data-tap-y="40" data-tap-label="Estate intake" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/29-estate-intake.png" alt="Estate intake" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="46" data-tap-x="50" data-tap-y="40" data-tap-label="Grading guide" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/08-grading-guide.png" alt="Grading guide" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="47" data-tap-x="50" data-tap-y="40" data-tap-label="Cert tracker" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/30-cert-tracker.png" alt="Cert tracker" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="48" data-tap-x="50" data-tap-y="40" data-tap-label="Set completion" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/31-set-completion.png" alt="Set completion" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="49" data-tap-x="50" data-tap-y="40" data-tap-label="Photo studio" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/32-photo-studio.png" alt="Capture tools" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="50" data-tap-x="50" data-tap-y="40" data-tap-label="Passport" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/33-passport.png" alt="Passport" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="51" data-tap-x="50" data-tap-y="40" data-tap-label="Event calendar" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/34-event-calendar.png" alt="Event calendar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="52" data-tap-x="50" data-tap-y="40" data-tap-label="Offline viewing" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/35-offline-viewing.png" alt="Offline viewing" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="53" data-tap-x="50" data-tap-y="42" data-tap-label="Start Web Companion" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/09-web-companion.png" alt="Web companion" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="54" data-tap-x="50" data-tap-y="62" data-tap-label="How it works" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/09-web-companion.png" alt="Web companion code" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="55" data-tap-x="50" data-tap-y="42" data-tap-label="Share" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/36-share-connect.png" alt="Share and connect" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="56" data-tap-x="87" data-tap-y="93" data-tap-label="Settings" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Settings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="57" data-tap-x="50" data-tap-y="28" data-tap-label="English" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/10-language.png" alt="Language" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="58" data-tap-x="50" data-tap-y="22" data-tap-label="Privacy" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/11-privacy.png" alt="Privacy" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="59" data-taps='[{"x":50,"y":28,"label":"Save a Copy","at":0.2,"dur":2.4},{"x":50,"y":42,"label":"Bring a Copy Back","at":2.7,"dur":2.4}]'>
+                    <img src="/assets/screenshots/cvc/manual/12-backup-sync.png" alt="File backup" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="60" data-tap-x="50" data-tap-y="40" data-tap-label="App Lock" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/38-app-lock.png" alt="App lock" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="61" data-tap-x="50" data-tap-y="32" data-tap-label="Upgrade to Pro" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Trial" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="62" data-tap-x="82" data-tap-y="18" data-tap-label="Upgrade" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/39-upgrade.png" alt="Upgrade" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="63" data-tap-x="50" data-tap-y="32" data-tap-label="Upgrade to Pro" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Send feedback" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="64" data-tap-x="50" data-tap-y="84" data-tap-label="Identify a piece" data-tap-show-at="0.2" data-tap-duration="3.0">
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="User guide" loading="lazy">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="progress-dots" id="dots"></div>
+            <div class="playback-controls">
+              <button type="button" class="nav-step-btn" id="prevBtn" title="Previous step" aria-label="Previous step">&#9664;</button>
+              <button type="button" class="voice-btn" id="voiceBtn" title="Toggle narration" aria-label="Toggle narration">&#128266;</button>
+              <button type="button" class="play-pause-btn" id="playPauseBtn" title="Play/Pause">&#9654;</button>
+              <button type="button" class="nav-step-btn" id="nextBtn" title="Next step" aria-label="Next step">&#9654;&#9654;</button>
+              <span class="speed-label" id="speedLabel">Tap play to start</span>
+            </div>
+          </div>
+          <div class="narration-panel" id="narrationPanel">
+            <div class="narration-panel-heading">Transcript</div>
+            <div class="transcript-body" id="transcriptBody"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to identify a piece?</h2>
+      <p>Start free on Google Play Internal. Questions: support@josspatech.com.</p>
+      <a href="https://play.google.com/apps/internaltest/4700723698680674529" class="download-button">Start on Google Play</a>
+      <a href="/#cvc" class="download-button ghost">Product page</a>
+    </div>
+  </section>
+  <footer class="jt-site-footer">
+    <ul class="jt-products" aria-label="JosspaTech products">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#pbj">PocketBudJet</a></li>
+      <li><a href="/#hhh">Handy Horology Helper</a></li>
+      <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+      <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+    </ul>
+    <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+    <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+  <script>
+  const NARRATION = ["打开 Curator's Vault: Classics。查看条款和隐私 — 两个标签都要看 — 然后点接受。", "滑动欢迎页。鉴定一件藏品，打理私人保险库，并在 eBay 上寻宝。", "在最后一页，点开始。", "如果问怎么称呼你，输入名字或跳过。之后可在设置里改。", "选择你关心的类型：硬币、纸币、收藏卡、邮票和打火机。漫画不在此列表中。", "若想先看演示收藏，点用示例保险库浏览。", "或跳过示例、从空白开始 — 随时可以鉴定或添加一件藏品。", "示例数据开启时，横幅会提醒这些是演示藏品。", "准备好用自己的保险库时，点清除示例。", "你来到首页。状态行显示保险库和心愿单里有多少件。", "底栏有四个标签：首页、我的收藏、工具和设置。", "点鉴定一件藏品 — 推荐路径 — 或点命令行上的鉴定。", "添加到我的保险库会打开收藏，方便你自己录入一件藏品。", "寻宝会打开心愿单。核验证书会记录评级盒编号。", "点鉴定。选择硬币、纸币、收藏卡、邮票或打火机。", "把藏品放平，完整收入画面。一张静态照片即可。", "点拍照，或点选择照片使用已有的图片。", "你已经知道的内容可选。只有在有的时候才填写日期、铸币标记或目录号。", "有照片后点鉴定。其他栏可以留空。", "报告会给出藏品名称。如果最上方的匹配不对，查看其他可能。", "当前要价区间来自类似的在售列表 — 是要价，不是成交价。", "如果一枚硬币标为单独扫描，只拍这一枚、放平，然后再次鉴定。", "单独扫描不是成交价。", "点保存到保险库。该藏品会进入我的收藏，并带上照片和已填详情。", "鉴定历史保留过往报告。可从鉴定或工具打开。", "没有信号时，Curator's Vault 会排队任务，恢复连接后再运行。留意首页横幅。", "点我的收藏标签 — 公文包图标，从左数第二个。", "已拥有是你有的。心愿是你在找的。待售是你在卖的。", "点一行打开该藏品 — 照片、评级、来源和价值。", "在藏品上，有笔记、购入价以及维修或修复时再填写。", "滑动管理保险库，可到时间线、洞察、投资组合盈亏、采购预算、清单、保险和 Grail Radar。", "没有照片要添加时，点添加并自己填写详情。保存。它会立刻出现在已拥有。", "打开投资组合盈亏，查看整库成本、估值以及盈亏。", "采购预算按你录入的购入价，对照每月或每年上限跟踪支出。", "保险报告会生成带照片和价值的保单材料。清单报告是可打印列表。", "点心愿，然后添加一件目标藏品 — 类型、关键词，以及你愿付的上限。", "打开该心愿行的 Grail Radar。设置寻宝规则并点保存。", "点立即检查。匹配项显示标题、要价和链接。", "任一匹配都会在浏览器中打开 eBay 列表。", "有新匹配时，通知会把你带回那件目标藏品。", "在工具里，eBay 列表按你输入的内容搜索在售可比 — 要价，不是成交动态。", "价格提醒和跳蚤市场用同样方式盯目标。交易分析器在交换前比较两件藏品。", "在工具里点比较。选两件保险库藏品，并排看照片和规格。", "点工具标签。展场一行有：Web Companion、条码、比较、分享和清单。", "鉴定、鉴定历史和遗产入库在鉴定分组下。", "遗产入库用于一箱藏品 — 逐件拍照并编目。", "在鉴定真伪下，打开评级指南查看品相用语。品相会按清单检查一件藏品。", "证书跟踪保存 PCGS、PSA 及其他证书号。Zippo 解码器读取打火机底部钢印。", "套系完成度显示你正在凑的一套还缺什么。", "摄影棚、条码扫描和文档扫描会把照片、UPC 和文件附到藏品上。", "AI 对话回答藏家问题。藏品护照是带照片和关键信息的证明卡。", "活动日历和陈列轮换帮你安排展会以及拿出展示的藏品。", "离线查看会在手机上保留一份资料包，以便没有信号时使用。", "点 Web Companion，再点开始。手机会显示本地地址和一个很大的四位码。", "在同一 Wi-Fi 的电脑上打开该地址并输入代码。更改会同步回手机。", "分享与连接可把一件藏品或心愿单发给附近的人。PIN 在手机上；蓝牙可选。", "点设置 — 右下角齿轮。", "语言切换界面显示。此版本提供八种语言。", "隐私说明鉴定时哪些内容会离开手机。导出也在该屏幕。", "文件备份：把副本保存到云盘、文件或电子邮件。在另一部手机带回副本，确认后再替换数据。", "安全和应用锁使用设备生物识别或密码。取消会使保险库保持锁定。", "Curator's Vault 从首次打开起含 14 天 Pro 试用 — 无需绑卡。在此手机上重装不会重置计时。", "试用结束后，设置里的升级可按月或按年通过 Google Play 或 App Store 订阅。", "有问题？在设置里使用发送反馈，或发邮件到 support@josspatech.com。", "本用户指南在 josspatech.com/videos/cvc/user-guide — 与帮助行打开的地址相同。"];
+  const CHAPTER_STARTS = [0, 9, 14, 26, 32, 43, 53, 56, 63];
+  const LAST_SLIDE = 64;
+  const AUDIO_BASE = 'audio/';
+  </script>
+  <script src="/videos/shared/walkthrough.js?v=cvc-ug-2026-09-17-taps" defer></script>
+  <script src="deck.js?v=cvc-ug-2026-09-17-taps" defer></script>
+  <script src="/scripts/site-analytics-saas.js" defer></script>
+</body>
+</html>

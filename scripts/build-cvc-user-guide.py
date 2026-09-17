@@ -30,6 +30,43 @@ CHAPTERS = [
     (63, "Help"),
 ]
 
+# Same eight as the CVC app / HHH user guide.
+GUIDE_LANGS = [
+    ("en", "en", "English", "/videos/cvc/user-guide/"),
+    ("zh", "zh-CN", "中文（简体）", "/videos/cvc/user-guide/zh/"),
+    ("fr", "fr", "Français", "/videos/cvc/user-guide/fr/"),
+    ("de", "de", "Deutsch", "/videos/cvc/user-guide/de/"),
+    ("hi", "hi", "हिन्दी", "/videos/cvc/user-guide/hi/"),
+    ("it", "it", "Italiano", "/videos/cvc/user-guide/it/"),
+    ("pt", "pt", "Português", "/videos/cvc/user-guide/pt/"),
+    ("es", "es", "Español", "/videos/cvc/user-guide/es/"),
+]
+
+
+def hreflang_links() -> str:
+    lines = [
+        f'<link rel="alternate" hreflang="{hreflang}" href="https://josspatech.com{path}">'
+        for _code, hreflang, _label, path in GUIDE_LANGS
+    ]
+    lines.append(
+        '<link rel="alternate" hreflang="x-default" href="https://josspatech.com/videos/cvc/user-guide/">'
+    )
+    return "\n  ".join(lines)
+
+
+def lang_picker(current: str = "en") -> str:
+    items = []
+    for code, _hreflang, label, path in GUIDE_LANGS:
+        cls = ' class="is-current"' if code == current else ""
+        weight = "font-weight:700;color:var(--navy);" if code == current else "font-weight:600;color:var(--navy-medium);"
+        items.append(f'            <li><a{cls} href="{path}" style="{weight}">{label}</a></li>')
+    return (
+        '          <ul class="prod-media-langs" aria-label="User guide languages" '
+        'style="display:flex;flex-wrap:wrap;gap:10px 14px;justify-content:center;margin:0 0 1.25rem;padding:0;list-style:none;">\n'
+        + "\n".join(items)
+        + "\n          </ul>"
+    )
+
 # Local labeled stills → dest basename under assets/screenshots/cvc/manual
 COPY_MANUAL = {
     "listing/listing-01-home-command-center.png": "01-home-command-center.png",
@@ -302,6 +339,7 @@ def build_index(slides: list[dict], narration: list[str]) -> str:
   <title>Curator's Vault: Classics — User Guide | JosspaTech</title>
   <meta name="description" content="How to use Curator's Vault: Classics — Identify, vault, hunt, and Web Companion. Narrated walkthrough.">
   <meta name="robots" content="index, follow">
+  {hreflang_links()}
   <link rel="canonical" href="https://josspatech.com/videos/cvc/user-guide/">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Curator's Vault: Classics — User Guide | JosspaTech">
@@ -379,13 +417,14 @@ def build_index(slides: list[dict], narration: list[str]) -> str:
   <div class="hero">
     <div class="container">
       <h1>Curator's Vault: Classics — User Guide</h1>
-      <p class="subheader">{len(slides)} steps with synced narration. Identify a piece, keep a private vault, and hunt grails — then open the same guide from Settings in the app.</p>
+      <p class="subheader">Pick a language and a chapter, then play. Gold pulses mark each tap. Identify a piece, keep a private vault, and hunt grails — then open the same guide from Settings in the app.</p>
     </div>
   </div>
   <section class="user-manual walkthrough">
     <div class="container">
       <h2>Interactive User Guide</h2>
-      <p class="section-sub">Tap a chapter to jump ahead, or press play. Previous and Next move one step. Tap any sentence in the transcript to jump there.</p>
+      <p class="section-sub">Use the chapter pills to jump ahead, Previous/Next (or ← →) to rewind or skip a step, or tap any sentence in the transcript.</p>
+{lang_picker("en")}
       <div class="chapter-nav" id="chapterNav">
 {chapter_buttons()}
       </div>
