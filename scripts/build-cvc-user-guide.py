@@ -150,11 +150,130 @@ def export_play_1080(dest_dir: Path) -> None:
         im.save(dest_dir / name, "PNG", optimize=True)
 
 
+def _tap(x: int, y: int, label: str, at: float = 0.2, dur: float = 3.0) -> dict:
+    return {"x": x, "y": y, "label": label, "at": at, "dur": dur}
+
+
+# Gold pulse targets — same walkthrough.js contract as HHH. Only when the
+# control is on the still. Wrong-screen fallbacks stay data-tap-none.
+TAP_GUIDES: dict[int, dict] = {
+    4: {"taps": [
+        _tap(16, 32, "Coin", 0.2, 1.6),
+        _tap(42, 32, "Paper Money", 1.9, 1.6),
+        _tap(76, 32, "Trading Card", 3.6, 1.8),
+    ]},
+    7: _tap(50, 14, "Sample banner"),
+    8: _tap(82, 12, "Clear samples"),
+    9: _tap(38, 34, "Vault status"),
+    10: {"taps": [
+        _tap(12, 93, "Home", 0.2, 1.3),
+        _tap(37, 93, "My Collection", 1.6, 1.3),
+        _tap(62, 93, "Tools", 3.0, 1.3),
+        _tap(87, 93, "Settings", 4.4, 1.6),
+    ]},
+    11: {"taps": [
+        _tap(50, 84, "Identify a piece", 0.2, 2.4),
+        _tap(12, 50, "Identify", 2.7, 2.0),
+    ]},
+    12: _tap(31, 50, "Add Item"),
+    13: {"taps": [
+        _tap(88, 50, "Wish List", 0.2, 2.2),
+        _tap(69, 50, "Settings", 2.5, 2.0),
+    ]},
+    14: {"taps": [
+        _tap(16, 32, "Coin", 0.2, 1.4),
+        _tap(42, 32, "Paper Money", 1.7, 1.4),
+        _tap(76, 32, "Trading Card", 3.2, 1.8),
+    ]},
+    15: _tap(50, 48, "Point camera"),
+    16: {"taps": [
+        _tap(50, 48, "Take Photo", 0.2, 2.2),
+        _tap(50, 58, "Choose Photo", 2.5, 2.0),
+    ]},
+    17: _tap(50, 68, "Authentication clues"),
+    18: _tap(50, 78, "Identify"),
+    19: _tap(50, 40, "Top match"),
+    20: _tap(50, 55, "Asking range"),
+    21: _tap(50, 48, "Scan individually"),
+    23: _tap(50, 78, "Save to Vault"),
+    24: _tap(90, 16, "History"),
+    25: _tap(50, 14, "Home banner"),
+    26: _tap(37, 93, "My Collection"),
+    27: {"taps": [
+        _tap(18, 46, "Owned", 0.2, 1.6),
+        _tap(50, 46, "Wish", 1.9, 1.6),
+        _tap(82, 46, "For Sale", 3.6, 1.8),
+    ]},
+    28: _tap(50, 76, "Piece row"),
+    29: _tap(50, 76, "Piece row"),
+    30: {"taps": [
+        _tap(18, 54, "Timeline", 0.2, 1.4),
+        _tap(50, 54, "Insights", 1.7, 1.4),
+        _tap(80, 54, "Portfolio P&L", 3.2, 1.8),
+    ]},
+    31: _tap(88, 80, "Add"),
+    32: _tap(80, 54, "Portfolio P&L"),
+    33: _tap(50, 40, "Buying budget"),
+    34: _tap(50, 40, "Insurance report"),
+    35: {"taps": [
+        _tap(50, 46, "Wish", 0.2, 2.0),
+        _tap(50, 72, "Grail row", 2.3, 2.2),
+    ]},
+    36: _tap(50, 32, "Hunt rules"),
+    37: _tap(22, 18, "Check all"),
+    38: _tap(22, 36, "Search on eBay"),
+    39: _tap(50, 32, "Match row"),
+    40: _tap(50, 40, "eBay listings"),
+    41: _tap(50, 42, "Start Web Companion"),
+    42: _tap(50, 50, "Compare"),
+    43: _tap(62, 93, "Tools"),
+    44: _tap(50, 42, "Identify tools"),
+    45: _tap(50, 40, "Estate intake"),
+    46: _tap(50, 40, "Grading guide"),
+    47: _tap(50, 40, "Cert tracker"),
+    48: _tap(50, 40, "Set completion"),
+    49: _tap(50, 40, "Photo studio"),
+    50: _tap(50, 40, "Passport"),
+    51: _tap(50, 40, "Event calendar"),
+    52: _tap(50, 40, "Offline viewing"),
+    53: _tap(50, 42, "Start Web Companion"),
+    54: _tap(50, 62, "How it works"),
+    55: _tap(50, 42, "Share"),
+    56: _tap(87, 93, "Settings"),
+    57: _tap(50, 28, "English"),
+    58: _tap(50, 22, "Privacy"),
+    59: {"taps": [
+        _tap(50, 28, "Save a Copy", 0.2, 2.4),
+        _tap(50, 42, "Bring a Copy Back", 2.7, 2.4),
+    ]},
+    60: _tap(50, 40, "App Lock"),
+    61: _tap(50, 32, "Upgrade to Pro"),
+    62: _tap(82, 18, "Upgrade"),
+    63: _tap(50, 32, "Upgrade to Pro"),
+    64: _tap(50, 84, "Identify a piece"),
+}
+
+
+def tap_attrs(i: int) -> str:
+    spec = TAP_GUIDES.get(i)
+    if spec is None:
+        return " data-tap-none"
+    if "taps" in spec:
+        payload = json.dumps(spec["taps"], separators=(",", ":"))
+        return f" data-taps='{payload}'"
+    return (
+        f' data-tap-x="{spec["x"]}" data-tap-y="{spec["y"]}"'
+        f' data-tap-label="{html.escape(str(spec["label"]))}"'
+        f' data-tap-show-at="{spec.get("at", 0.2)}"'
+        f' data-tap-duration="{spec.get("dur", 3.0)}"'
+    )
+
+
 def slide_html(i: int, src: str, alt: str) -> str:
     loading = "eager" if i < 3 else "lazy"
     active = " active" if i == 0 else ""
     return (
-        f'                  <div class="slide{active}" data-index="{i}" data-tap-none>\n'
+        f'                  <div class="slide{active}" data-index="{i}"{tap_attrs(i)}>\n'
         f'                    <img src="{src}" alt="{html.escape(alt)}" loading="{loading}">\n'
         f'                  </div>\n'
     )
@@ -193,7 +312,7 @@ def build_index(slides: list[dict], narration: list[str]) -> str:
   <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/videos/shared/walkthrough.css">
-  <link rel="stylesheet" href="walkthrough.css?v=cvc-ug-2026-09-16">
+  <link rel="stylesheet" href="walkthrough.css?v=cvc-ug-2026-09-17-taps">
   <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
   <style>
     * {{ margin: 0; padding: 0; box-sizing: border-box; }}
@@ -328,8 +447,8 @@ def build_index(slides: list[dict], narration: list[str]) -> str:
   const LAST_SLIDE = {n};
   const AUDIO_BASE = 'audio/';
   </script>
-  <script src="/videos/shared/walkthrough.js?v=cvc-ug-2026-09-16" defer></script>
-  <script src="deck.js?v=cvc-ug-2026-09-16" defer></script>
+  <script src="/videos/shared/walkthrough.js?v=cvc-ug-2026-09-17-taps" defer></script>
+  <script src="deck.js?v=cvc-ug-2026-09-17-taps" defer></script>
   <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>
@@ -337,10 +456,16 @@ def build_index(slides: list[dict], narration: list[str]) -> str:
 
 
 def main() -> None:
-    prepare_stills()
-    play_dir = CVC_SHOTS / "play-phone-1080x1920"
-    export_play_1080(play_dir)
-    export_play_1080(ASSET_STORE / "play-1080")
+    import sys
+
+    index_only = "--index-only" in sys.argv
+    if not index_only:
+        prepare_stills()
+        play_dir = CVC_SHOTS / "play-phone-1080x1920"
+        export_play_1080(play_dir)
+        export_play_1080(ASSET_STORE / "play-1080")
+    else:
+        play_dir = CVC_SHOTS / "play-phone-1080x1920"
     slides = json.loads(SHOT_MAP.read_text(encoding="utf-8"))
     narration = json.loads(NARRATION_JSON.read_text(encoding="utf-8"))
     if len(slides) != len(narration):
