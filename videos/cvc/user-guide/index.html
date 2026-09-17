@@ -1,85 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Curator's Vault: Classics — User Guide | JosspaTech</title>
-<meta name="description" content="How to use Curator's Vault: Classics. A narrated video guide is on the way. Settings in the app opens this page.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://josspatech.com/videos/cvc/user-guide/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Curator's Vault: Classics — User Guide | JosspaTech">
-<meta property="og:description" content="A narrated video guide is coming. Until then, use the in-app Help rows and the product page.">
-<meta property="og:url" content="https://josspatech.com/videos/cvc/user-guide/">
-<meta property="og:site_name" content="JosspaTech">
-<meta property="og:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --navy: #1B4D3E;
-    --navy-dark: #0F2E25;
-    --gold: #C8AA6E;
-    --gold-dark: #A8884A;
-    --slate: #5A7068;
-    --background: #F5EDE4;
-    --white: #FFFFFF;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--background); color: var(--navy-dark); }
-  nav { background: var(--navy-dark); padding: 1rem 2rem; }
-  nav .wrap { max-width: 960px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
-  nav a { color: var(--white); text-decoration: none; font-weight: 600; }
-  nav .logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; }
-  nav .links { display: flex; gap: 1.25rem; }
-  .hero { background: linear-gradient(135deg, #0F2E25 0%, #1B4D3E 100%); color: var(--white); text-align: center; padding: 3rem 1.5rem; }
-  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; margin-bottom: 0.75rem; }
-  .hero p { max-width: 38rem; margin: 0 auto; opacity: 0.94; font-size: 1.08rem; }
-  main { max-width: 720px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; }
-  h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin: 0 0 0.75rem; }
-  p, li { color: var(--slate); }
-  ul { padding-left: 1.2rem; margin: 0.75rem 0 1.5rem; }
-  li { margin: 0.35rem 0; }
-  .card { background: var(--white); border-radius: 12px; padding: 1.5rem 1.6rem; box-shadow: 0 8px 24px rgba(15,46,37,0.08); }
-  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
-  .btn { display: inline-block; padding: 0.8rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; }
-  .btn-gold { background: var(--gold); color: var(--navy-dark); }
-  .btn-ghost { background: transparent; color: var(--navy); border: 2px solid var(--navy); }
-  footer { background: var(--navy-dark); color: var(--white); text-align: center; padding: 1.5rem; font-size: 0.9rem; }
-  footer a { color: var(--gold); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curator's Vault: Classics — User Guide | JosspaTech</title>
+  <meta name="description" content="How to use Curator's Vault: Classics — Identify, vault, hunt, and Web Companion. Narrated walkthrough.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://josspatech.com/videos/cvc/user-guide/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Curator's Vault: Classics — User Guide | JosspaTech">
+  <meta property="og:description" content="Identify a piece, keep a private vault, and hunt grails. Step-by-step with narration.">
+  <meta property="og:url" content="https://josspatech.com/videos/cvc/user-guide/">
+  <meta property="og:site_name" content="JosspaTech">
+  <meta property="og:image" content="https://josspatech.com/assets/brand/og-cvc.jpg">
+  <script>if(new URLSearchParams(location.search).get('embed')==='1')document.documentElement.classList.add('embed-mode');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/videos/shared/walkthrough.css">
+  <link rel="stylesheet" href="walkthrough.css?v=cvc-ug-2026-09-16">
+  <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Source Sans 3', sans-serif; line-height: 1.6; background: var(--white); color: var(--navy); }
+    :root {
+      --navy: #1B4D3E; --navy-dark: #0F2E25; --navy-medium: #2A6B56;
+      --gold: #C8AA6E; --gold-dark: #A8884A;
+      --slate: #5A7068; --slate-light: #8A9E96;
+      --background: #F5EDE4; --white: #FFFFFF;
+    }
+    nav { position: sticky; top: 0; z-index: 1000; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background-color: var(--navy-dark); }
+    nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+    nav .nav-links { display: flex; gap: 1.5rem; align-items: center; list-style: none; flex-wrap: wrap; }
+    nav .nav-links a { color: var(--white); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+    nav .nav-links a:hover { color: var(--gold); }
+    .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.95rem; color: var(--slate); }
+    .breadcrumbs a { color: var(--navy-medium); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; font-weight: 700; }
+    .breadcrumbs span.sep { margin: 0 0.45rem; color: var(--slate-light); }
+    .breadcrumbs span.current { color: var(--navy); font-weight: 700; }
+    .hero { color: var(--white); padding: 2rem; text-align: center; background: linear-gradient(135deg, #0F2E25 0%, #1B4D3E 100%); }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin-bottom: 0.75rem; }
+    .hero .subheader { font-size: 1.05rem; max-width: 760px; margin: 0 auto; opacity: 0.95; line-height: 1.55; }
+    .walkthrough { padding: 3rem 2rem; background: var(--background); }
+    .walkthrough .container { max-width: 1200px; margin: 0 auto; }
+    .walkthrough h2 { font-family: 'Playfair Display', serif; font-size: 2rem; text-align: center; margin-bottom: 0.5rem; color: var(--navy); }
+    .walkthrough .section-sub { text-align: center; color: var(--slate); margin-bottom: 1.5rem; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .phone-frame { width: 300px; border: 3px solid var(--navy-dark); border-radius: 24px; overflow: hidden; background: #000; aspect-ratio: 9/19.5; position: relative; box-shadow: 0 16px 48px rgba(15,46,37,0.22); }
+    .slideshow { width: 100%; height: 100%; position: relative; }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s; }
+    .slide.active { opacity: 1; }
+    .slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .cta-section { padding: 3rem 2rem; text-align: center; color: white; background: linear-gradient(135deg, #0F2E25 0%, #1B4D3E 100%); }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 0.75rem; }
+    .cta-section p { max-width: 640px; margin: 0 auto 1.25rem; opacity: 0.9; line-height: 1.6; }
+    .download-button { display: inline-block; padding: 0.9rem 2rem; border-radius: 6px; font-weight: 700; text-decoration: none; margin: 0.35rem; background: var(--gold); color: var(--navy-dark); border: 2px solid var(--gold); }
+    .download-button:hover { background: var(--gold-dark); }
+    .download-button.ghost { background: transparent; color: var(--gold); }
+    footer { padding: 2rem; text-align: center; color: white; font-size: 0.9rem; background: var(--navy-dark); }
+    footer a { color: var(--gold); }
+    @media (max-width: 768px) {
+      nav .nav-links { gap: 0.75rem; font-size: 0.85rem; }
+      .walkthrough { padding: 2rem 1rem; }
+    }
+  </style>
 </head>
-<body>
+<body data-jt-product="cvc">
   <nav>
-    <div class="wrap">
-      <a class="logo" href="/">JosspaTech</a>
-      <div class="links">
-        <a href="/">Home</a>
-        <a href="/#cvc">Curator's Vault</a>
-      </div>
+    <div class="container">
+      <a href="/" class="logo">JosspaTech</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#cvc">Curator's Vault</a></li>
+        <li><a href="/how-to/">How To</a></li>
+      </ul>
     </div>
   </nav>
-  <header class="hero">
-    <h1>Curator's Vault: Classics</h1>
-    <p>Video user guide — coming next. This page is here so Help in the app has a real door, not a missing page.</p>
-  </header>
-  <main>
-    <div class="card">
-      <h2>Until the video is ready</h2>
-      <p>No finished CVC walkthrough video is on disk or the NAS yet. A 12-chapter manual was planned; it was never rendered.</p>
-      <ul>
-        <li>Identify a piece from a photo (or a library picture).</li>
-        <li>Add it to your private vault.</li>
-        <li>Settings → <strong>Send feedback</strong> if something is wrong.</li>
-      </ul>
-      <p>When the narrated guide exists, it will replace this page. Same address.</p>
-      <div class="actions">
-        <a class="btn btn-gold" href="/#cvc">Product page</a>
-        <a class="btn btn-ghost" href="https://play.google.com/apps/testing/com.josspatech.cts">Play Internal testing</a>
+  <div class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Home</a><span class="sep">/</span>
+    <a href="/#cvc">Curator's Vault: Classics</a><span class="sep">/</span>
+    <span class="current">User Guide</span>
+  </div>
+  <div class="hero">
+    <div class="container">
+      <h1>Curator's Vault: Classics — User Guide</h1>
+      <p class="subheader">65 steps with synced narration. Identify a piece, keep a private vault, and hunt grails — then open the same guide from Settings in the app.</p>
+    </div>
+  </div>
+  <section class="user-manual walkthrough">
+    <div class="container">
+      <h2>Interactive User Guide</h2>
+      <p class="section-sub">Tap a chapter to jump ahead, or press play. Previous and Next move one step. Tap any sentence in the transcript to jump there.</p>
+      <div class="chapter-nav" id="chapterNav">
+        <button type="button" class="chapter-btn active" data-slide="0">Open</button>
+        <button type="button" class="chapter-btn" data-slide="9">Home</button>
+        <button type="button" class="chapter-btn" data-slide="14">Identify</button>
+        <button type="button" class="chapter-btn" data-slide="26">Vault</button>
+        <button type="button" class="chapter-btn" data-slide="32">Worth &amp; hunt</button>
+        <button type="button" class="chapter-btn" data-slide="43">Tools</button>
+        <button type="button" class="chapter-btn" data-slide="53">Floor &amp; PC</button>
+        <button type="button" class="chapter-btn" data-slide="56">Keep</button>
+        <button type="button" class="chapter-btn" data-slide="63">Help</button>
+      </div>
+      <div class="user-manual-stage walkthrough-stage">
+        <div class="video-wrapper">
+          <div class="phone-column">
+            <div class="phone-viewport">
+              <div class="phone-frame">
+                <div class="slideshow" id="slideshow">
+                  <div class="tap-to-start" id="tapToStart">
+                    <div class="tap-to-start-icon">&#9654;</div>
+                    <div class="tap-to-start-label">Tap to play</div>
+                  </div>
+                  <div class="slide active" data-index="0" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/00-terms-privacy.png" alt="Terms and Privacy" loading="eager">
+                  </div>
+                  <div class="slide" data-index="1" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/13-onboarding-welcome.png" alt="Welcome slides" loading="eager">
+                  </div>
+                  <div class="slide" data-index="2" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/13-onboarding-welcome.png" alt="Get Started" loading="eager">
+                  </div>
+                  <div class="slide" data-index="3" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/14-onboarding-name.png" alt="Display name" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="4" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/15-onboarding-categories.png" alt="Category picker" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="5" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/16-onboarding-path.png" alt="Sample vault path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="6" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/16-onboarding-path.png" alt="Empty start" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="7" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/19-sample-home-banner.png" alt="Sample banner" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="8" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/19-sample-home-banner.png" alt="Clear samples" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="9" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Home command center" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="10" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Tab bar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="11" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Identify path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="12" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Add path" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="13" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Hunt and cert paths" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="14" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Identify chips" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="15" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Take Photo" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="16" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Camera or library" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="17" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Optional clues" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="18" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/05-identify.png" alt="Identify button" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="19" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Identify report" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="20" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Asking range" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="21" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/21-scan-individually.png" alt="Scan individually" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="22" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/21-scan-individually.png" alt="Scan individually note" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="23" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/20-identify-result.png" alt="Save to Vault" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="24" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/22-identify-history.png" alt="Identify history" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="25" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="Offline queue" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="26" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="My Collection" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="27" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="Owned Wish For Sale" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="28" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/03-item-detail.png" alt="Piece detail" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="29" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/03-item-detail.png" alt="Piece notes" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="30" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/02-collection-gallery.png" alt="Manage your vault" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="31" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/23-add-item.png" alt="Add item" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="32" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/06-portfolio-pl.png" alt="Portfolio P&amp;L" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="33" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/24-buying-budget.png" alt="Buying budget" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="34" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/25-insurance-report.png" alt="Insurance report" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="35" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/26-wish-list.png" alt="Wish list" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="36" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Grail Radar rules" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="37" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Grail matches" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="38" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Open eBay" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="39" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/07-grail-radar.png" alt="Hunt notification" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="40" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/27-ebay-listings.png" alt="eBay listings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="41" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Worth and hunt tools" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="42" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/04-compare.png" alt="Compare" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="43" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Tools on the floor" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="44" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/28-tools-worth.png" alt="Tools Identify section" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="45" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/29-estate-intake.png" alt="Estate intake" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="46" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/08-grading-guide.png" alt="Grading guide" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="47" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/30-cert-tracker.png" alt="Cert tracker" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="48" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/31-set-completion.png" alt="Set completion" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="49" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/32-photo-studio.png" alt="Capture tools" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="50" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/33-passport.png" alt="Passport" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="51" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/34-event-calendar.png" alt="Event calendar" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="52" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/35-offline-viewing.png" alt="Offline viewing" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="53" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/09-web-companion.png" alt="Web companion" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="54" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/09-web-companion.png" alt="Web companion code" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="55" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/36-share-connect.png" alt="Share and connect" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="56" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Settings" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="57" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/10-language.png" alt="Language" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="58" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/11-privacy.png" alt="Privacy" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="59" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/12-backup-sync.png" alt="File backup" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="60" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/38-app-lock.png" alt="App lock" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="61" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Trial" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="62" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/39-upgrade.png" alt="Upgrade" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="63" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/37-settings.png" alt="Send feedback" loading="lazy">
+                  </div>
+                  <div class="slide" data-index="64" data-tap-none>
+                    <img src="/assets/screenshots/cvc/manual/01-home-command-center.png" alt="User guide" loading="lazy">
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <div class="progress-dots" id="dots"></div>
+            <div class="playback-controls">
+              <button type="button" class="nav-step-btn" id="prevBtn" title="Previous step" aria-label="Previous step">&#9664;</button>
+              <button type="button" class="voice-btn" id="voiceBtn" title="Toggle narration" aria-label="Toggle narration">&#128266;</button>
+              <button type="button" class="play-pause-btn" id="playPauseBtn" title="Play/Pause">&#9654;</button>
+              <button type="button" class="nav-step-btn" id="nextBtn" title="Next step" aria-label="Next step">&#9654;&#9654;</button>
+              <span class="speed-label" id="speedLabel">Tap play to start</span>
+            </div>
+          </div>
+          <div class="narration-panel" id="narrationPanel">
+            <div class="narration-panel-heading">Transcript</div>
+            <div class="transcript-body" id="transcriptBody"></div>
+          </div>
+        </div>
       </div>
     </div>
-  </main>
-  <footer>
-    <a href="mailto:support@josspatech.com">support@josspatech.com</a>
+  </section>
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to identify a piece?</h2>
+      <p>Start free on Google Play Internal. Questions: support@josspatech.com.</p>
+      <a href="https://play.google.com/apps/internaltest/4700723698680674529" class="download-button">Start on Google Play</a>
+      <a href="/#cvc" class="download-button ghost">Product page</a>
+    </div>
+  </section>
+  <footer class="jt-site-footer">
+    <ul class="jt-products" aria-label="JosspaTech products">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#pbj">PocketBudJet</a></li>
+      <li><a href="/#hhh">Handy Horology Helper</a></li>
+      <li><a href="/#pal">Pocket Allowance Ledger</a></li>
+      <li><a href="/#cvc">Curator's Vault: Classics</a></li>
+    </ul>
+    <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+    <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
   </footer>
+  <script>
+  const NARRATION = [
+    "Open Curator's Vault: Classics. Review Terms and Privacy — both tabs — then Accept.",
+    "Swipe the welcome slides. Identify a piece, keep a private vault, and hunt grails on eBay.",
+    "On the last slide, tap Get Started.",
+    "If it asks what to call you, type a name or skip. You can change it later in Settings.",
+    "Pick the types you care about: coins, paper money, trading cards, stamps, and lighters last. Comics are not on this list.",
+    "Tap Explore with a sample vault if you want a demo collection first.",
+    "Or skip samples and start empty — you can Identify or add a piece anytime.",
+    "When sample data is on, a banner reminds you these are demo pieces.",
+    "Tap Clear samples when you are ready for your own vault.",
+    "You land on Home. The status line shows how many pieces are in the vault and on your wish list.",
+    "The bottom bar has four tabs: Home, My Collection, Tools, and Settings.",
+    "Tap Identify a piece — the recommended path — or tap Identify on the command row.",
+    "Add to my vault opens Collection so you can type a piece in yourself.",
+    "Hunt a grail opens your wish list. Verify a cert tracks slab numbers.",
+    "Tap Identify. Choose Coin, Paper Money, Trading Card, Stamp, or Lighter.",
+    "Lay the piece flat and keep it fully in frame. One still photo is enough.",
+    "Tap Take Photo, or Choose Photo for a picture you already have.",
+    "What you already know is optional. Add a date, mint mark, or catalog number only if you have it.",
+    "Tap Identify when you have a photo. You can leave the other fields blank.",
+    "The report names the piece. If the top match is wrong, check the other possibilities.",
+    "Current asking range is from similar active listings — asking prices, not solds.",
+    "If a coin is flagged Scan individually, photograph that one by itself, laid flat, then Identify again.",
+    "Scan individually is not a sold price. Wear and scratches do not count.",
+    "Tap Save to Vault. The piece lands in My Collection with the photo and details filled in.",
+    "Identify history keeps past reports. Open it from Identify or from Tools.",
+    "With no signal, Curator's Vault queues the job and runs it when you reconnect. Watch the banner on Home.",
+    "Tap the My Collection tab — briefcase, second from the left.",
+    "Owned is what you have. Wish is what you are hunting. For Sale is what you are selling.",
+    "Tap a row to open the piece — photos, grade, provenance, and value.",
+    "On the piece, add notes, purchase price, and service or restoration when you have them.",
+    "Swipe Manage your vault for Timeline, Insights, Portfolio P&L, Buying budget, Inventory, Insurance, and Grail Radar.",
+    "To add without a photo, tap Add and enter the details yourself. Save. It is in Owned right away.",
+    "Open Portfolio P&L for cost, estimated value, and gain or loss across the vault.",
+    "Buying budget tracks spend against a monthly or yearly cap from the purchase prices you enter.",
+    "Insurance report builds a photo-and-value packet for a policy. Inventory report is the printable list.",
+    "Tap Wish, then add a grail — type, keywords, and a max you will pay.",
+    "Open that wish row's Grail Radar. Set hunt rules and tap Save.",
+    "Tap Check now. Matches show title, asking price, and a link.",
+    "Any match opens the eBay listing in your browser.",
+    "When a new match lands, a notification jumps you back to that grail.",
+    "From Tools, eBay listings searches active comps by what you type — asking, not a solds feed.",
+    "Price alerts and Flea markets watch targets the same way. Trade analyzer compares two pieces before you swap.",
+    "Tap Compare on Tools. Pick two vault items for side-by-side photos and specs.",
+    "Tap the Tools tab. On the floor is the show-floor row: Web companion, Barcode, Compare, Share, and Inventory.",
+    "Identify, Identify history, and Estate intake sit under Identify.",
+    "Estate intake is for a box of pieces — photograph and catalog them one at a time.",
+    "Under Authenticate, open Grading guide for condition language. Condition walks a checklist on a piece.",
+    "Cert tracker stores PCGS, PSA, and other cert numbers. Zippo decoder reads a lighter bottom stamp.",
+    "Set completion shows what you still need in a set you are building.",
+    "Photo studio, Barcode scanner, and Document scanner attach pictures, UPCs, and paperwork to a piece.",
+    "AI chat answers collector questions. Collectible passport is a proof card with photos and key facts.",
+    "Event calendar and Display rotation help you plan shows and what sits out.",
+    "Offline viewing keeps a pack on the phone when you will have no signal.",
+    "Tap Web companion, then Start. The phone shows a local address and a large four-digit code.",
+    "On a PC on the same Wi-Fi, open that address and type the code. Changes sync back to the phone.",
+    "Share and connect sends a piece or a want list nearby. PIN is on the phone; Bluetooth is optional.",
+    "Tap Settings — gear at the bottom right.",
+    "Language switches the display. Eight languages ship in this version.",
+    "Privacy explains what leaves the phone when you Identify. Export is in that screen.",
+    "File backup: Save a Copy to Drive, Files, or email. Bring a Copy Back on another phone and confirm before it replaces data.",
+    "Security and App Lock uses your device biometrics or passcode. Canceling leaves the vault locked.",
+    "Curator's Vault includes a 14-day Pro trial from first open — no card. Reinstall on this phone does not restart the clock.",
+    "After the trial, Upgrade in Settings is monthly or yearly through Google Play or the App Store.",
+    "Questions? Use Send feedback in Settings, or email support@josspatech.com.",
+    "This user guide lives at josspatech.com/videos/cvc/user-guide — same address the Help row opens."
+  ];
+  const CHAPTER_STARTS = [0, 9, 14, 26, 32, 43, 53, 56, 63];
+  const LAST_SLIDE = 64;
+  const AUDIO_BASE = 'audio/';
+  </script>
+  <script src="/videos/shared/walkthrough.js?v=cvc-ug-2026-09-16" defer></script>
+  <script src="deck.js?v=cvc-ug-2026-09-16" defer></script>
+  <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>
