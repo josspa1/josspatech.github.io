@@ -391,10 +391,9 @@
  <button class="chapter-btn" data-slide="74">Debt</button>
  <button class="chapter-btn" data-slide="78">Reports</button>
  <button class="chapter-btn" data-slide="84">Net Worth</button>
- <button class="chapter-btn" data-slide="86">Export</button>
+ <button class="chapter-btn" data-slide="88">Export</button>
  <button class="chapter-btn" data-slide="89">Tax</button>
  <button class="chapter-btn" data-slide="92">Settings</button>
- <button class="chapter-btn" data-slide="98">Connect Bank</button>
  <button class="chapter-btn" data-slide="101">Rules</button>
  <button class="chapter-btn" data-slide="104">Voice</button>
  <button class="chapter-btn" data-slide="106">Retirement</button>
@@ -833,7 +832,16 @@
  if (embedMode) document.documentElement.classList.add('embed-mode');
  const SLIDE_DURATION = fastMode ? 2000 : 8000;
  const LAST_SLIDE = previewMode ? 26 : 119;
- const CHAPTER_STARTS = [0, 10, 15, 16, 17, 27, 28, 33, 39, 44, 48, 54, 62, 67, 71, 74, 78, 84, 86, 89, 92, 98, 101, 104, 106, 108, 110, 111, 113, 116, 117, 119];
+ const CHAPTER_STARTS = [0, 10, 15, 16, 17, 27, 28, 33, 39, 44, 48, 54, 62, 67, 71, 74, 78, 84, 86, 89, 92, 101, 104, 106, 108, 110, 111, 113, 116, 117, 119];
+
+ const HIDDEN_SLIDES = {86:1, 87:1, 98:1, 99:1, 100:1};
+ function isHiddenSlide(i) { return !!HIDDEN_SLIDES[i]; }
+ function skipHidden(index, dir) {
+  var i = index;
+  while (i >= 0 && i <= LAST_SLIDE && isHiddenSlide(i)) i += dir;
+  if (i < 0 || i > LAST_SLIDE || isHiddenSlide(i)) return -1;
+  return i;
+ }
  const slides = document.querySelectorAll('.slide');
  const dotsContainer = document.getElementById('dots');
  const playPauseBtn = document.getElementById('playPauseBtn');
@@ -874,6 +882,7 @@
  para.className = 'transcript-para';
  para.setAttribute('data-slide', String(slideIdx));
  para.setAttribute('data-index', String(slideIdx));
+ if (isHiddenSlide(slideIdx)) para.style.display = 'none';
  splitSentences(text).forEach(function(part, si) {
  appendSentenceSpan(para, part, slideIdx, si);
  });
@@ -1078,7 +1087,8 @@
  slides.forEach(function(_, i) {
  var dot = document.createElement('div');
  dot.className = 'dot' + (i === 0 ? ' active' : '');
- dot.addEventListener('click', function() { goTo(i); });
+ if (isHiddenSlide(i)) { dot.style.display = 'none'; }
+ dot.addEventListener('click', function() { if (!isHiddenSlide(i)) goTo(i); });
  dotsContainer.appendChild(dot);
  });
 
@@ -1098,6 +1108,13 @@
  }
 
  function goTo(index) {
+ index = Math.max(0, Math.min(index, LAST_SLIDE));
+ if (isHiddenSlide(index)) {
+  var n = skipHidden(index, 1);
+  if (n < 0) n = skipHidden(index, -1);
+  if (n < 0) return;
+  index = n;
+ }
  slides[current].classList.remove('active');
  dotsContainer.children[current].classList.remove('active');
  current = index;
@@ -1122,7 +1139,8 @@
  }
 
  function next() {
- if (current < LAST_SLIDE) goTo(current + 1);
+ var n = skipHidden(current + 1, 1);
+ if (n >= 0) goTo(n);
  else { playing = false; playPauseBtn.innerHTML = '&#9654;'; speedLabel.textContent = 'Finished'; stopAudio(); clearInterval(timer); }
  }
 
@@ -1156,6 +1174,13 @@
 
  function jumpToSlide(idx) {
  idx = Math.max(0, Math.min(idx, LAST_SLIDE));
+ if (isHiddenSlide(idx)) {
+  var dir = idx >= current ? 1 : -1;
+  var n = skipHidden(idx, dir);
+  if (n < 0) n = skipHidden(idx, -dir);
+  if (n < 0) return;
+  idx = n;
+ }
  if (!audioUnlocked) {
  current = idx;
  startPlayback();
@@ -1163,8 +1188,8 @@
  }
  goTo(idx);
  }
- if (prevBtn) prevBtn.addEventListener('click', function() { jumpToSlide(current - 1); });
- if (nextBtn) nextBtn.addEventListener('click', function() { jumpToSlide(current + 1); });
+ if (prevBtn) prevBtn.addEventListener('click', function() { jumpToSlide(skipHidden(current - 1, -1)); });
+ if (nextBtn) nextBtn.addEventListener('click', function() { jumpToSlide(skipHidden(current + 1, 1)); });
  document.addEventListener('keydown', function(e) {
  if (e.key === 'ArrowLeft') jumpToSlide(current - 1);
  if (e.key === 'ArrowRight') jumpToSlide(current + 1);
