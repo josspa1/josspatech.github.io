@@ -65,8 +65,8 @@
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 12px; padding: 14px 16px; margin: 0 0 16px;
     }
-    .hw-picture h2 { font-size:15px; color:var(--primary); margin:0 0 4px; }
-    .hw-picture .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+    .hw-picture summary { font-size:15px; color:var(--primary); font-weight:700; cursor:pointer; }
+    .hw-picture .sub { font-size:12px; color:var(--text-dim); margin:8px 0 12px; }
     .hw-chart { margin:0 0 14px; }
     .hw-chart:last-child { margin:0; }
     .hw-chart h3 { font-size:13px; font-weight:600; margin:0 0 8px; }
@@ -90,6 +90,7 @@
     .hw-px .cap { font-size:12px; color:var(--text-dim); margin:0 0 8px; }
     .hw-px svg { width:100%; height:150px; display:block; }
     .hw-px .miss { font-size:13px; color:var(--text-dim); }
+    .hw-late { font-size:14px; color:var(--text); margin:0 0 8px; line-height:1.4; }
     .hw-leg {
       display:flex; flex-wrap:wrap; gap:8px 14px; margin:10px 0 0;
       font-size:12px; color:var(--text-dim);
@@ -136,19 +137,15 @@
     </header>
     <main class="page-main stocks-main">
       <p class="hw-note">
-        Homework for Joe. House PTR mentions are a lagged look-at flag (filings are weeks late), not a buy signal.
-        Hits subtract: House sells, debt above cash, sales/profit down, dilution. Delayed last close does not change rank.
+        Start with the Strong / Okay / Look list. Each homework name has a price line under it.
+        Circles and squares are when someone bought or sold. The sentence under the line says whether the price already moved — that is the “too late” check.
+        House filings are weeks late. This is homework, not a buy button.
       </p>
       <div class="hw-stamp" id="hwStamp">
         <strong>Last update:</strong> <span id="hwWhen">loading…</span>
         <div class="dim" id="hwWhenDetail">Refreshes once a day. Stamp is the last saved snapshot.</div>
       </div>
       <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
-      <div class="hw-picture" id="hwPicture" style="display:none">
-        <h2>The picture</h2>
-        <p class="sub">From this saved list only. No extra calls.</p>
-        <div id="hwCharts"></div>
-      </div>
       <div class="hw-tabs">
         <button type="button" class="hw-tab on" id="tabTop" data-tab="top">Homework top 10</button>
         <button type="button" class="hw-tab" id="tabSold" data-tab="sold">They sold</button>
@@ -163,6 +160,11 @@
       </div>
       <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
       <div id="hwList" class="hw-list"></div>
+      <details class="hw-picture" id="hwPicture" style="display:none">
+        <summary>Pile overview (optional)</summary>
+        <p class="sub">Counts from this saved list only. You can skip this.</p>
+        <div id="hwCharts"></div>
+      </details>
     </main>
   </div>
   <script>
@@ -249,7 +251,8 @@
       const remove = mine
         ? `<button type="button" class="hw-remove" data-ticker="${escapeHtml(r.ticker)}">Remove</button>`
         : "";
-      const open = openTicker === r.ticker ? " open" : "";
+      const showChart = tab === "top" || openTicker === r.ticker;
+      const open = showChart ? " open" : "";
       return `<article class="hw-card${open}" data-chart="${escapeHtml(r.ticker)}">
         <div class="hw-top">
           <div>
@@ -260,8 +263,8 @@
           </div>
           <div class="hw-meta">score ${r.score} · last close ${px}${asof}${filed}</div>
         </div>
+        <div class="hw-px" data-px="${escapeHtml(r.ticker)}" style="display:${showChart ? "block" : "none"}"></div>
         <div class="hw-why">${whyHtml}</div>
-        <div class="hw-px" data-px="${escapeHtml(r.ticker)}" style="display:${openTicker === r.ticker ? "block" : "none"}"></div>
       </article>`;
     }
 
@@ -357,8 +360,7 @@
         mine: "Your names. Same score as the homework list when we already have the filings. Not merged into the top 10.",
         sold: "House members reported a sale. Lagged look-at. Same score, not a separate ranking.",
         rest: "Everyone in this House window. Same score and sort as the top 10, just the full pile.",
-        top: (snapshot.form4Note || "Homework snapshot.") +
-          " Universe " + (snapshot.universe || rows.length) + " House-PTR names. Price does not affect rank.",
+        top: "Homework names. The line is the saved price. Marks are buys and sells. The sentence says if it already moved.",
       };
       status.textContent = notes[tab] || notes.top;
       list.innerHTML = rows.map((r) => cardHtml(r, mine)).join("");
@@ -368,10 +370,12 @@
           saveWatch((snapshot.watchTickers || []).filter((t) => t !== btn.getAttribute("data-ticker")));
         });
       });
-      list.querySelectorAll(".hw-card").forEach((card) => {
-        card.addEventListener("click", () => toggleChart(card.getAttribute("data-chart") || ""));
-      });
-      if (openTicker) fillOpenChart();
+      if (tab !== "top") {
+        list.querySelectorAll(".hw-card").forEach((card) => {
+          card.addEventListener("click", () => toggleChart(card.getAttribute("data-chart") || ""));
+        });
+      }
+      fillVisibleCharts();
     }
 
     function marksFor(ticker) {
@@ -429,10 +433,48 @@
       return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
     }
 
+    function lastOfSide(marks, side) {
+      return marks.filter((m) => m.side === side).sort((a, b) => a.date.localeCompare(b.date)).pop() || null;
+    }
+
+    function moveSince(points, mark) {
+      if (!mark || !points.length) return null;
+      const near = nearestClose(points, mark.date);
+      const now = points[points.length - 1];
+      if (!near || !now || !near.close) return null;
+      return { from: near.close, to: now.close, pct: ((now.close - near.close) / near.close) * 100, mark };
+    }
+
+    function lateHtml(ticker) {
+      const points = savedPoints(ticker);
+      const marks = marksFor(ticker);
+      const bits = [];
+      const buy = moveSince(points, lastOfSide(marks, "buy"));
+      const sell = moveSince(points, lastOfSide(marks, "sell"));
+      if (buy) {
+        const who = buy.mark.kind === "house" ? "House report" : "insider";
+        const dir = buy.pct >= 0 ? "up" : "down";
+        let extra = " It has not run far since then.";
+        if (buy.pct >= 15) extra = " That rise already happened. May be late.";
+        else if (buy.pct <= -10) extra = " It is cheaper now than around that buy.";
+        bits.push(`Since the last buy (${who}, ${buy.mark.date}), the saved price went from ${money(buy.from)} to ${money(buy.to)} (${dir} ${Math.abs(buy.pct).toFixed(0)}%).${extra}`);
+      }
+      if (sell) {
+        const who = sell.mark.kind === "house" ? "House report" : "insider";
+        const dir = sell.pct >= 0 ? "up" : "down";
+        bits.push(`Since the last sell (${who}, ${sell.mark.date}), the saved price went from ${money(sell.from)} to ${money(sell.to)} (${dir} ${Math.abs(sell.pct).toFixed(0)}%).`);
+      }
+      if (!bits.length) {
+        if (!points.length) return `<p class="hw-late">No saved price line for this name, so I cannot tell if it already moved.</p>`;
+        return "";
+      }
+      return `<p class="hw-late">${bits.map(escapeHtml).join("<br>")}</p>`;
+    }
+
     function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
       const points = savedPoints(ticker);
-      const cap = "Saved data only. No new price pull.";
+      const cap = "The line is the saved price. Marks are buys and sells.";
       if (!points.length && !marks.length) {
         host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>` + chartLegend();
         return;
@@ -446,8 +488,8 @@
         const mid = padT + (h - padT - padB) / 2;
         const dots = marks.map((m) => markShape(m, xOnRange(m.date, first, last, padL, inner), mid)).join("");
         host.innerHTML =
+          lateHtml(ticker) +
           `<p class="cap">${escapeHtml(cap)}</p>` +
-          `<p class="miss">No saved price line for this name. Dots are the House and insider dates we already have.</p>` +
           `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} marks">` +
           `<line x1="${padL}" y1="${mid}" x2="${w - padR}" y2="${mid}" stroke="#C5D0DA" stroke-width="1"/>` +
           dots +
@@ -474,6 +516,7 @@
       const first = points[0].date;
       const last = points[points.length - 1].date;
       host.innerHTML =
+        lateHtml(ticker) +
         `<p class="cap">${escapeHtml(cap)}</p>` +
         `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} price">` +
         `<path d="${line}" fill="none" stroke="#1A4F7A" stroke-width="1.6"/>` +
@@ -485,12 +528,11 @@
         `</svg>` + chartLegend();
     }
 
-    function fillOpenChart() {
-      if (!openTicker) return;
-      const host = document.querySelector('.hw-px[data-px="' + openTicker + '"]');
-      if (!host) return;
-      host.style.display = "block";
-      drawPriceChart(host, openTicker);
+    function fillVisibleCharts() {
+      document.querySelectorAll(".hw-px").forEach((host) => {
+        if (host.style.display === "none") return;
+        drawPriceChart(host, host.getAttribute("data-px") || "");
+      });
     }
 
     function toggleChart(ticker) {
