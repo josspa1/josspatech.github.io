@@ -100,10 +100,8 @@
       width:10px; height:10px; flex-shrink:0;
     }
     .hw-leg i.dot { border-radius:50%; }
-    .hw-leg i.ib { background:#1E7A3F; }
-    .hw-leg i.is { background:#C0392B; }
-    .hw-leg i.hb { background:#8A6A12; }
-    .hw-leg i.hs { background:#1A4F7A; }
+    .hw-leg i.buy { background:#1E7A3F; }
+    .hw-leg i.sell { background:#C0392B; }
   </style>
 </head>
 <body>
@@ -411,16 +409,15 @@
     }
 
     function markColor(m) {
-      if (m.kind === "house") return m.side === "buy" ? "#8A6A12" : "#1A4F7A";
       return m.side === "buy" ? "#1E7A3F" : "#C0392B";
     }
 
     function chartLegend() {
       return `<div class="hw-leg">` +
-        `<span><i class="dot ib"></i>Insider buy (trade date)</span>` +
-        `<span><i class="dot is"></i>Insider sell (trade date)</span>` +
-        `<span><i class="sq hb"></i>House buy (filed, late)</span>` +
-        `<span><i class="sq hs"></i>House sell (filed, late)</span>` +
+        `<span><i class="dot buy"></i>Insider buy</span>` +
+        `<span><i class="dot sell"></i>Insider sell</span>` +
+        `<span><i class="sq buy"></i>House buy (filed, late)</span>` +
+        `<span><i class="sq sell"></i>House sell (filed, late)</span>` +
         `</div>`;
     }
 
