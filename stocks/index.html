@@ -393,10 +393,24 @@
       return padL + ((t - a) / (b - a)) * inner;
     }
 
+    function markColor(m) {
+      if (m.kind === "house") return m.side === "buy" ? "#1A4F7A" : "#8A6A12";
+      return m.side === "buy" ? "#1E7A3F" : "#C0392B";
+    }
+
+    function markShape(m, x, y) {
+      const fill = markColor(m);
+      const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
+      if (m.kind === "house") {
+        return `<rect x="${(x - 4).toFixed(1)}" y="${(y - 4).toFixed(1)}" width="8" height="8" fill="${fill}"><title>${escapeHtml(title)}</title></rect>`;
+      }
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+    }
+
     function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
       const points = savedPoints(ticker);
-      const cap = "Saved data only. Green buy · red sell. Insider dots are the trade date. House dots are the filing date (late). No new price pull.";
+      const cap = "Saved data only. Circles = insiders (green buy / red sell, trade date). Squares = House (blue buy / gold sell, filing date — late).";
       if (!points.length && !marks.length) {
         host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>`;
         return;
@@ -408,12 +422,7 @@
         const first = dates[0];
         const last = dates[dates.length - 1];
         const mid = padT + (h - padT - padB) / 2;
-        const dots = marks.map((m) => {
-          const x = xOnRange(m.date, first, last, padL, inner);
-          const fill = m.side === "buy" ? "#1E7A3F" : "#C0392B";
-          const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
-          return `<circle cx="${x.toFixed(1)}" cy="${mid}" r="${m.kind === "insider" ? 5 : 4}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
-        }).join("");
+        const dots = marks.map((m) => markShape(m, xOnRange(m.date, first, last, padL, inner), mid)).join("");
         host.innerHTML =
           `<p class="cap">${escapeHtml(cap)}</p>` +
           `<p class="miss">No saved price line for this name. Dots are the House and insider dates we already have.</p>` +
@@ -438,9 +447,7 @@
         if (!near) return "";
         const x = dateToX[near.date];
         if (x == null) return "";
-        const fill = m.side === "buy" ? "#1E7A3F" : "#C0392B";
-        const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
-        return `<circle cx="${x.toFixed(1)}" cy="${yOf(near.close).toFixed(1)}" r="${m.kind === "insider" ? 5 : 4}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+        return markShape(m, x, yOf(near.close));
       }).join("");
       const first = points[0].date;
       const last = points[points.length - 1].date;
