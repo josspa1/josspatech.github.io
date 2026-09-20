@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive">
+  <meta name="bingbot" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>JosspaTech — Stocks homework</title>
+  <link rel="stylesheet" href="../admin/shared/admin.css">
+  <style>
+    main.stocks-main { display:block; max-width:820px; }
+    .hw-note {
+      background: var(--disclaimer); color: var(--disclaimer-txt);
+      border: 1px solid #E8D4A8; border-radius: 10px;
+      padding: 12px 14px; margin: 0 0 16px; font-size: 13px;
+    }
+    .hw-list { display:flex; flex-direction:column; gap:10px; }
+    .hw-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .hw-top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:baseline; }
+    .hw-name { font-size:16px; font-weight:700; color: var(--primary); }
+    .hw-ticker { font-family: var(--mono); font-size:13px; color: var(--text-dim); margin-left:8px; }
+    .hw-meta { font-size:13px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+    .hw-why { margin-top:8px; font-size:13px; color: var(--text); }
+    .hw-empty { color: var(--text-dim); font-size:14px; }
+    .badge { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; }
+    .badge.Strong { background:#E8F7EE; color:#1E7A3F; }
+    .badge.Okay { background:#FFF4D6; color:#8A6A12; }
+    .badge.Look { background:#E7EEF5; color:#1A4F7A; }
+    .badge.Out { background:#FDECEA; color:#C0392B; }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <div class="login-head">
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Stocks homework · Joe only</span>
+      </h1>
+    </div>
+    <p>Same PocketBase superuser login as the admin page. Token stays in this browser tab.</p>
+    <input type="email" id="email" placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button type="button" id="signInBtn">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <h1>
+          Stocks homework
+          <span class="subtitle">Private look-at list · not a picker · not advice</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Nightly snapshot</span>
+        <a href="/admin/" style="color:#fff;font-size:12px;">Admin</a>
+        <button type="button" id="signOutBtn">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main stocks-main">
+      <p class="hw-note">
+        Homework for Joe. House PTR mentions are a lagged look-at flag (filings are weeks late), not a buy signal.
+        Delayed last close is free and does not change rank. Empty is better than a made-up name.
+      </p>
+      <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
+      <div id="hwList" class="hw-list"></div>
+    </main>
+  </div>
+  <script>
+    const PB_URL = "https://josspatech.pockethost.io";
+    const WORKER = "https://handyhorology-worker.morning-star-b5e0.workers.dev";
+    const KEY_STORE = "hhh_shared_key";
+
+    function showDash() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      loadSnapshot();
+    }
+
+    async function doLogin() {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const err = document.getElementById("loginErr");
+      err.style.display = "none";
+      try {
+        let res = await fetch(`${PB_URL}/api/collections/_superusers/auth-with-password`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identity: email, password }),
+        });
+        if (!res.ok) {
+          res = await fetch(`${PB_URL}/api/admins/auth-with-password`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ identity: email, password }),
+          });
+        }
+        if (!res.ok) throw new Error("Auth failed (" + res.status + ")");
+        const data = await res.json();
+        sessionStorage.setItem("pbj_dash_token", data.token);
+        showDash();
+      } catch (e) {
+        err.textContent = e.message || "Login failed.";
+        err.style.display = "block";
+      }
+    }
+
+    function doLogout() {
+      sessionStorage.removeItem("pbj_dash_token");
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("login").style.display = "block";
+    }
+
+    function workerKey() {
+      let key = localStorage.getItem(KEY_STORE) || "";
+      if (key) return key;
+      const entered = prompt(
+        "Enter HHH_SHARED_KEY (same as the admin Workers page).\nStored only in this browser.",
+      );
+      if (!entered) return "";
+      key = entered.trim();
+      if (key.length < 8) return "";
+      localStorage.setItem(KEY_STORE, key);
+      return key;
+    }
+
+    function money(n) {
+      if (n == null || !Number.isFinite(n)) return "no free price";
+      return "$" + n.toFixed(2);
+    }
+
+    async function loadSnapshot() {
+      const status = document.getElementById("hwStatus");
+      const list = document.getElementById("hwList");
+      list.innerHTML = "";
+      const key = workerKey();
+      if (!key) {
+        status.textContent = "Signed in. Need the same HHH worker key as admin to load the list.";
+        return;
+      }
+      try {
+        const res = await fetch(WORKER + "/ops/stocks", {
+          headers: { "X-HHH-Key": key },
+          cache: "no-store",
+        });
+        if (res.status === 401) {
+          localStorage.removeItem(KEY_STORE);
+          status.textContent = "Worker key rejected. Sign in again and paste the HHH key.";
+          return;
+        }
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const top = Array.isArray(data.top) ? data.top : [];
+        const when = data.asOf ? new Date(data.asOf).toLocaleString() : "unknown";
+        document.getElementById("lastRefresh").textContent = "As of " + when;
+        if (!top.length) {
+          status.textContent = "No names this pass. Empty is better than a fake ticker.";
+          return;
+        }
+        status.textContent = (data.form4Note || "Homework snapshot.") +
+          " Universe " + (data.universe || top.length) + " House-PTR names. Price does not affect rank.";
+        list.innerHTML = top.map((r) => {
+          const px = money(r.lastClose);
+          const asof = r.lastCloseAsof ? " · " + r.lastCloseAsof : "";
+          return `<article class="hw-card">
+            <div class="hw-top">
+              <div>
+                <span class="badge ${r.strength || "Look"}">${r.strength || "Look"}</span>
+                <span class="hw-name">${escapeHtml(r.company || r.ticker)}</span>
+                <span class="hw-ticker">${escapeHtml(r.ticker)}</span>
+              </div>
+              <div class="hw-meta">score ${r.score} · last close ${px}${asof}</div>
+            </div>
+            <p class="hw-why">${escapeHtml(r.why || "")}</p>
+          </article>`;
+        }).join("");
+      } catch (e) {
+        status.textContent = "Could not load snapshot. " + (e.message || "");
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (ch) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+      }[ch]));
+    }
+
+    document.getElementById("signInBtn").addEventListener("click", doLogin);
+    document.getElementById("signOutBtn").addEventListener("click", doLogout);
+    document.getElementById("password").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doLogin();
+    });
+    if (sessionStorage.getItem("pbj_dash_token")) showDash();
+  </script>
+</body>
+</html>

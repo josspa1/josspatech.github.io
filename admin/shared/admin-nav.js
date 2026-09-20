@@ -9,6 +9,7 @@
     { href: "traffic.html", page: "traffic", label: "Traffic" },
     { href: "ocr-quota.html", page: "ocr", label: "OCR" },
     { href: "flywheel.html", page: "flywheel", label: "Flywheel" },
+    { href: "/stocks/", page: "stocks", label: "Stocks" },
   ];
 
   const APP_NAV = [
