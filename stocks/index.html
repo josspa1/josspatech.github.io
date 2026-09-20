@@ -90,6 +90,19 @@
     .hw-px .cap { font-size:12px; color:var(--text-dim); margin:0 0 8px; }
     .hw-px svg { width:100%; height:150px; display:block; }
     .hw-px .miss { font-size:13px; color:var(--text-dim); }
+    .hw-leg {
+      display:flex; flex-wrap:wrap; gap:8px 14px; margin:10px 0 0;
+      font-size:12px; color:var(--text-dim);
+    }
+    .hw-leg span { display:inline-flex; align-items:center; gap:6px; }
+    .hw-leg i.dot, .hw-leg i.sq {
+      width:10px; height:10px; flex-shrink:0;
+    }
+    .hw-leg i.dot { border-radius:50%; }
+    .hw-leg i.ib { background:#1E7A3F; }
+    .hw-leg i.is { background:#C0392B; }
+    .hw-leg i.hb { background:#8A6A12; }
+    .hw-leg i.hs { background:#1A4F7A; }
   </style>
 </head>
 <body>
@@ -398,6 +411,15 @@
       return m.side === "buy" ? "#1E7A3F" : "#C0392B";
     }
 
+    function chartLegend() {
+      return `<div class="hw-leg">` +
+        `<span><i class="dot ib"></i>Insider buy (trade date)</span>` +
+        `<span><i class="dot is"></i>Insider sell (trade date)</span>` +
+        `<span><i class="sq hb"></i>House buy (filed, late)</span>` +
+        `<span><i class="sq hs"></i>House sell (filed, late)</span>` +
+        `</div>`;
+    }
+
     function markShape(m, x, y) {
       const fill = markColor(m);
       const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
@@ -410,9 +432,9 @@
     function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
       const points = savedPoints(ticker);
-      const cap = "Saved data only. Circles = insiders (green buy / red sell, trade date). Squares = House (gold buy / blue sell, filing date — late).";
+      const cap = "Saved data only. No new price pull.";
       if (!points.length && !marks.length) {
-        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>`;
+        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>` + chartLegend();
         return;
       }
       const w = 640, h = 150, padL = 44, padR = 10, padT = 12, padB = 22;
@@ -431,7 +453,7 @@
           dots +
           `<text x="${padL}" y="${h - 6}" font-size="10" fill="#667">${escapeHtml(first)}</text>` +
           `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
-          `</svg>`;
+          `</svg>` + chartLegend();
         return;
       }
       const xs = points.map((_, i) => padL + (i / Math.max(1, points.length - 1)) * inner);
@@ -460,7 +482,7 @@
         `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
         `<text x="4" y="${padT + 4}" font-size="10" fill="#667">$${hi.toFixed(0)}</text>` +
         `<text x="4" y="${h - padB}" font-size="10" fill="#667">$${lo.toFixed(0)}</text>` +
-        `</svg>`;
+        `</svg>` + chartLegend();
     }
 
     function fillOpenChart() {
