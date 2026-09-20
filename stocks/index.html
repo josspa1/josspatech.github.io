@@ -394,7 +394,7 @@
     }
 
     function markColor(m) {
-      if (m.kind === "house") return m.side === "buy" ? "#1A4F7A" : "#8A6A12";
+      if (m.kind === "house") return m.side === "buy" ? "#8A6A12" : "#1A4F7A";
       return m.side === "buy" ? "#1E7A3F" : "#C0392B";
     }
 
@@ -410,7 +410,7 @@
     function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
       const points = savedPoints(ticker);
-      const cap = "Saved data only. Circles = insiders (green buy / red sell, trade date). Squares = House (blue buy / gold sell, filing date — late).";
+      const cap = "Saved data only. Circles = insiders (green buy / red sell, trade date). Squares = House (gold buy / blue sell, filing date — late).";
       if (!points.length && !marks.length) {
         host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>`;
         return;
