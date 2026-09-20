@@ -30,6 +30,13 @@
     .hw-why li { margin:3px 0; }
     .hw-why li.hit { color: var(--danger); }
     .hw-empty { color: var(--text-dim); font-size:14px; }
+    .hw-stamp {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 14px; margin: 0 0 16px;
+      font-size: 14px;
+    }
+    .hw-stamp strong { color: var(--primary); }
+    .hw-stamp .dim { color: var(--text-dim); font-size: 13px; margin-top: 4px; }
     .badge { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; }
     .badge.Strong { background:#E8F7EE; color:#1E7A3F; }
     .badge.Okay { background:#FFF4D6; color:#8A6A12; }
@@ -71,6 +78,10 @@
         Homework for Joe. House PTR mentions are a lagged look-at flag (filings are weeks late), not a buy signal.
         Hits subtract: House sells, debt above cash, sales/profit down, dilution. Delayed last close does not change rank.
       </p>
+      <div class="hw-stamp" id="hwStamp">
+        <strong>Last update:</strong> <span id="hwWhen">loading…</span>
+        <div class="dim" id="hwWhenDetail">Design freeze — not refetching while we work the formula.</div>
+      </div>
       <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
       <div id="hwList" class="hw-list"></div>
     </main>
@@ -160,8 +171,13 @@
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
         const top = Array.isArray(data.top) ? data.top : [];
-        const when = data.asOf ? new Date(data.asOf).toLocaleString() : "unknown";
+        const when = data.asOf ? new Date(data.asOf).toLocaleString() : "no snapshot yet";
         document.getElementById("lastRefresh").textContent = "As of " + when;
+        const priceDays = [...new Set(top.map((r) => r.lastCloseAsof).filter(Boolean))];
+        document.getElementById("hwWhen").textContent = when;
+        document.getElementById("hwWhenDetail").textContent =
+          (priceDays.length ? "Prices as of " + priceDays.join(", ") + " (delayed, does not change rank). " : "No free prices on this snapshot. ") +
+          "Design freeze — not refetching while we work the formula.";
         if (!top.length) {
           status.textContent = "No names this pass. Empty is better than a fake ticker.";
           return;
