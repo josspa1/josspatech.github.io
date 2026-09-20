@@ -30,6 +30,11 @@
     .hw-why li { margin:3px 0; }
     .hw-why li.hit { color: var(--danger); }
     .hw-empty { color: var(--text-dim); font-size:14px; }
+    .hw-updated {
+      font-size: 13px; color: var(--text); background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 14px; margin: 0 0 12px;
+    }
     .hw-stamp {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 10px; padding: 12px 14px; margin: 0 0 16px;
@@ -68,7 +73,7 @@
       </div>
       <div class="controls">
         <span class="pulse stale" id="pulse"></span>
-        <span id="lastRefresh">Nightly snapshot</span>
+        <span id="lastRefresh">Last updated: not loaded</span>
         <a href="/admin/" style="color:#fff;font-size:12px;">Admin</a>
         <button type="button" id="signOutBtn">Sign out</button>
       </div>
@@ -82,6 +87,7 @@
         <strong>Last update:</strong> <span id="hwWhen">loading…</span>
         <div class="dim" id="hwWhenDetail">Design freeze — not refetching while we work the formula.</div>
       </div>
+      <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
       <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
       <div id="hwList" class="hw-list"></div>
     </main>
@@ -172,7 +178,10 @@
         const data = await res.json();
         const top = Array.isArray(data.top) ? data.top : [];
         const when = data.asOf ? new Date(data.asOf).toLocaleString() : "no snapshot yet";
-        document.getElementById("lastRefresh").textContent = "As of " + when;
+        const stamp = "Last updated: " + when;
+        document.getElementById("lastRefresh").textContent = stamp;
+        const extra = document.getElementById("hwUpdated");
+        if (extra) extra.textContent = stamp + " (snapshot asOf — not a live market time)";
         const priceDays = [...new Set(top.map((r) => r.lastCloseAsof).filter(Boolean))];
         document.getElementById("hwWhen").textContent = when;
         document.getElementById("hwWhenDetail").textContent =
