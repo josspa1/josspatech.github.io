@@ -99,7 +99,7 @@
       </p>
       <div class="hw-stamp" id="hwStamp">
         <strong>Last update:</strong> <span id="hwWhen">loading…</span>
-        <div class="dim" id="hwWhenDetail">Design freeze — not refetching while we work the formula.</div>
+        <div class="dim" id="hwWhenDetail">Refreshes once a day. Stamp is the last saved snapshot.</div>
       </div>
       <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
       <div class="hw-tabs">
@@ -286,7 +286,7 @@
         document.getElementById("hwWhen").textContent = when;
         document.getElementById("hwWhenDetail").textContent =
           (priceDays.length ? "Prices as of " + priceDays.join(", ") + " (delayed, does not change rank). " : "No free prices on this snapshot. ") +
-          "Nightly refresh is off. The date only changes when we save a new snapshot.";
+          "Refreshes once a day (prices and this stamp). Score rebuild is not an hourly job.";
         renderList();
       } catch (e) {
         status.textContent = "Could not load snapshot. " + (e.message || "");
