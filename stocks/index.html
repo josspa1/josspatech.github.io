@@ -47,6 +47,20 @@
     .badge.Okay { background:#FFF4D6; color:#8A6A12; }
     .badge.Look { background:#E7EEF5; color:#1A4F7A; }
     .badge.Out { background:#FDECEA; color:#C0392B; }
+    .hw-tabs { display:flex; gap:8px; margin:0 0 14px; }
+    .hw-tab {
+      border:1px solid var(--border); background:var(--surface); color:var(--text);
+      border-radius:999px; padding:6px 12px; font-size:13px; font-weight:600; cursor:pointer;
+    }
+    .hw-tab.on { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .hw-add { display:flex; gap:8px; margin:0 0 12px; }
+    .hw-add input {
+      flex:1; padding:10px 12px; border:1px solid var(--border); border-radius:8px; font-size:14px;
+    }
+    .hw-add button, .hw-remove {
+      border:0; background:var(--primary); color:#fff; border-radius:8px; padding:10px 12px; font-size:13px; cursor:pointer;
+    }
+    .hw-remove { background:#fff; color:var(--danger); border:1px solid #F5C6C2; padding:4px 8px; font-size:12px; }
   </style>
 </head>
 <body>
@@ -88,6 +102,16 @@
         <div class="dim" id="hwWhenDetail">Design freeze — not refetching while we work the formula.</div>
       </div>
       <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
+      <div class="hw-tabs">
+        <button type="button" class="hw-tab on" id="tabTop" data-tab="top">Homework top 10</button>
+        <button type="button" class="hw-tab" id="tabMine" data-tab="mine">My names</button>
+      </div>
+      <div id="mineBox" style="display:none">
+        <div class="hw-add">
+          <input id="watchInput" placeholder="Ticker, like BRK-B" maxlength="8">
+          <button type="button" id="watchAdd">Add</button>
+        </div>
+      </div>
       <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
       <div id="hwList" class="hw-list"></div>
     </main>
@@ -155,6 +179,81 @@
       return "$" + n.toFixed(2);
     }
 
+    let snapshot = { top: [], watch: [], watchTickers: [], form4Note: "", universe: 0 };
+    let tab = "top";
+
+    function cardHtml(r, mine) {
+      const px = money(r.lastClose);
+      const asof = r.lastCloseAsof ? " · " + r.lastCloseAsof : "";
+      const filed = r.houseFiled ? " · House filed " + r.houseFiled : "";
+      const lines = Array.isArray(r.whyLines) && r.whyLines.length
+        ? r.whyLines
+        : String(r.why || "").split(" · ").filter(Boolean);
+      const whyHtml = lines.length
+        ? `<ul>${lines.map((line) => {
+            const hit = /sold by|sale mention|debt is meaningfully|debt \$|down versus|dilutive|offering|shares outstanding|departure|withheld|washed/i.test(line);
+            return `<li class="${hit ? "hit" : ""}">${escapeHtml(line)}</li>`;
+          }).join("")}</ul>`
+        : "";
+      const remove = mine
+        ? `<button type="button" class="hw-remove" data-ticker="${escapeHtml(r.ticker)}">Remove</button>`
+        : "";
+      return `<article class="hw-card">
+        <div class="hw-top">
+          <div>
+            <span class="badge ${r.strength || "Look"}">${r.strength || "Look"}</span>
+            <span class="hw-name">${escapeHtml(r.company || r.ticker)}</span>
+            <span class="hw-ticker">${escapeHtml(r.ticker)}</span>
+            ${remove}
+          </div>
+          <div class="hw-meta">score ${r.score} · last close ${px}${asof}${filed}</div>
+        </div>
+        <div class="hw-why">${whyHtml}</div>
+      </article>`;
+    }
+
+    function renderList() {
+      const status = document.getElementById("hwStatus");
+      const list = document.getElementById("hwList");
+      const mine = tab === "mine";
+      document.getElementById("mineBox").style.display = mine ? "block" : "none";
+      document.getElementById("tabTop").classList.toggle("on", !mine);
+      document.getElementById("tabMine").classList.toggle("on", mine);
+      const rows = mine ? (snapshot.watch || []) : (snapshot.top || []);
+      if (!rows.length) {
+        status.textContent = mine
+          ? "No names on your tab yet. Add a ticker. If it is not in this House window, it will sit here until we have a cached score."
+          : "No names this pass. Empty is better than a fake ticker.";
+        list.innerHTML = "";
+        return;
+      }
+      status.textContent = mine
+        ? "Your names. Same score as the homework list when we already have the filings. Not merged into the top 10."
+        : ((snapshot.form4Note || "Homework snapshot.") +
+          " Universe " + (snapshot.universe || rows.length) + " House-PTR names. Price does not affect rank.");
+      list.innerHTML = rows.map((r) => cardHtml(r, mine)).join("");
+      list.querySelectorAll(".hw-remove").forEach((btn) => {
+        btn.addEventListener("click", () => saveWatch(
+          (snapshot.watchTickers || []).filter((t) => t !== btn.getAttribute("data-ticker")),
+        ));
+      });
+    }
+
+    async function saveWatch(tickers) {
+      const key = workerKey();
+      if (!key) return;
+      const res = await fetch(WORKER + "/ops/stocks/watch", {
+        method: "PUT",
+        headers: { "X-HHH-Key": key, "Content-Type": "application/json" },
+        body: JSON.stringify({ tickers }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      snapshot.watchTickers = data.watchTickers || tickers;
+      snapshot.watch = data.watch || [];
+      renderList();
+    }
+
     async function loadSnapshot() {
       const status = document.getElementById("hwStatus");
       const list = document.getElementById("hwList");
@@ -176,6 +275,7 @@
         }
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
+        snapshot = data;
         const top = Array.isArray(data.top) ? data.top : [];
         const when = data.asOf ? new Date(data.asOf).toLocaleString() : "no snapshot yet";
         const stamp = "Last updated: " + when;
@@ -186,37 +286,8 @@
         document.getElementById("hwWhen").textContent = when;
         document.getElementById("hwWhenDetail").textContent =
           (priceDays.length ? "Prices as of " + priceDays.join(", ") + " (delayed, does not change rank). " : "No free prices on this snapshot. ") +
-          "Design freeze — not refetching while we work the formula.";
-        if (!top.length) {
-          status.textContent = "No names this pass. Empty is better than a fake ticker.";
-          return;
-        }
-        status.textContent = (data.form4Note || "Homework snapshot.") +
-          " Universe " + (data.universe || top.length) + " House-PTR names. Price does not affect rank.";
-        list.innerHTML = top.map((r) => {
-          const px = money(r.lastClose);
-          const asof = r.lastCloseAsof ? " · " + r.lastCloseAsof : "";
-          const lines = Array.isArray(r.whyLines) && r.whyLines.length
-            ? r.whyLines
-            : String(r.why || "").split(" · ").filter(Boolean);
-          const whyHtml = lines.length
-            ? `<ul>${lines.map((line) => {
-                const hit = /sold by|sale mention|debt is meaningfully|debt \$|down versus|dilutive|offering|shares outstanding|departure|withheld|washed/i.test(line);
-                return `<li class="${hit ? "hit" : ""}">${escapeHtml(line)}</li>`;
-              }).join("")}</ul>`
-            : "";
-          return `<article class="hw-card">
-            <div class="hw-top">
-              <div>
-                <span class="badge ${r.strength || "Look"}">${r.strength || "Look"}</span>
-                <span class="hw-name">${escapeHtml(r.company || r.ticker)}</span>
-                <span class="hw-ticker">${escapeHtml(r.ticker)}</span>
-              </div>
-              <div class="hw-meta">score ${r.score} · last close ${px}${asof}</div>
-            </div>
-            <div class="hw-why">${whyHtml}</div>
-          </article>`;
-        }).join("");
+          "Nightly refresh is off. The date only changes when we save a new snapshot.";
+        renderList();
       } catch (e) {
         status.textContent = "Could not load snapshot. " + (e.message || "");
       }
@@ -232,6 +303,21 @@
     document.getElementById("signOutBtn").addEventListener("click", doLogout);
     document.getElementById("password").addEventListener("keydown", (e) => {
       if (e.key === "Enter") doLogin();
+    });
+    document.getElementById("tabTop").addEventListener("click", () => { tab = "top"; renderList(); });
+    document.getElementById("tabMine").addEventListener("click", () => { tab = "mine"; renderList(); });
+    document.getElementById("watchAdd").addEventListener("click", async () => {
+      const input = document.getElementById("watchInput");
+      const t = (input.value || "").trim().toUpperCase();
+      if (!t) return;
+      input.value = "";
+      const next = Array.from(new Set([...(snapshot.watchTickers || []), t]));
+      try { await saveWatch(next); } catch (e) {
+        document.getElementById("hwStatus").textContent = "Could not save that ticker. " + (e.message || "");
+      }
+    });
+    document.getElementById("watchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") document.getElementById("watchAdd").click();
     });
     if (sessionStorage.getItem("pbj_dash_token")) showDash();
   </script>
