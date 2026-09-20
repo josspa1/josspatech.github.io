@@ -82,6 +82,14 @@
     .hw-bar i.Look { background:#1A4F7A; }
     .hw-bar i.sold { background:#C0392B; }
     .hw-bar i.both { background:#8A6A12; }
+    .hw-card { cursor:pointer; }
+    .hw-card.open { outline:1px solid var(--primary); }
+    .hw-px {
+      margin-top:12px; padding-top:10px; border-top:1px solid var(--border);
+    }
+    .hw-px .cap { font-size:12px; color:var(--text-dim); margin:0 0 8px; }
+    .hw-px svg { width:100%; height:150px; display:block; }
+    .hw-px .miss { font-size:13px; color:var(--text-dim); }
   </style>
 </head>
 <body>
@@ -152,7 +160,7 @@
     function showDash() {
       document.getElementById("login").style.display = "none";
       document.getElementById("dashboard").style.display = "block";
-      loadSnapshot();
+      loadChartsPack().then(loadSnapshot);
     }
 
     async function doLogin() {
@@ -209,6 +217,9 @@
 
     let snapshot = { top: [], watch: [], watchTickers: [], form4Note: "", universe: 0 };
     let tab = "top";
+    let chartsPack = { byTicker: {}, history: {}, note: "" };
+    const priceCache = {};
+    let openTicker = "";
 
     function cardHtml(r, mine) {
       const px = money(r.lastClose);
@@ -226,7 +237,8 @@
       const remove = mine
         ? `<button type="button" class="hw-remove" data-ticker="${escapeHtml(r.ticker)}">Remove</button>`
         : "";
-      return `<article class="hw-card">
+      const open = openTicker === r.ticker ? " open" : "";
+      return `<article class="hw-card${open}" data-chart="${escapeHtml(r.ticker)}">
         <div class="hw-top">
           <div>
             <span class="badge ${r.strength || "Look"}">${r.strength || "Look"}</span>
@@ -237,6 +249,7 @@
           <div class="hw-meta">score ${r.score} · last close ${px}${asof}${filed}</div>
         </div>
         <div class="hw-why">${whyHtml}</div>
+        <div class="hw-px" data-px="${escapeHtml(r.ticker)}" style="display:${openTicker === r.ticker ? "block" : "none"}"></div>
       </article>`;
     }
 
@@ -338,10 +351,124 @@
       status.textContent = notes[tab] || notes.top;
       list.innerHTML = rows.map((r) => cardHtml(r, mine)).join("");
       list.querySelectorAll(".hw-remove").forEach((btn) => {
-        btn.addEventListener("click", () => saveWatch(
-          (snapshot.watchTickers || []).filter((t) => t !== btn.getAttribute("data-ticker")),
-        ));
+        btn.addEventListener("click", (ev) => {
+          ev.stopPropagation();
+          saveWatch((snapshot.watchTickers || []).filter((t) => t !== btn.getAttribute("data-ticker")));
+        });
       });
+      list.querySelectorAll(".hw-card").forEach((card) => {
+        card.addEventListener("click", () => toggleChart(card.getAttribute("data-chart") || ""));
+      });
+      if (openTicker) fillOpenChart();
+    }
+
+    function marksFor(ticker) {
+      const raw = (chartsPack.byTicker || {})[ticker] || [];
+      return raw;
+    }
+
+    function nearestClose(points, date) {
+      if (!points.length) return null;
+      let best = points[0];
+      let bestDiff = Math.abs(Date.parse(points[0].date) - Date.parse(date));
+      for (const p of points) {
+        const d = Math.abs(Date.parse(p.date) - Date.parse(date));
+        if (d < bestDiff) {
+          best = p;
+          bestDiff = d;
+        }
+      }
+      return best;
+    }
+
+    function drawPriceChart(host, ticker, pack) {
+      const marks = marksFor(ticker);
+      const points = pack.points || [];
+      const cap = "Green buy · red sell. Insider dots are the trade date. House dots are the filing date (late). Delayed price does not change rank.";
+      if (!points.length && !marks.length) {
+        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">No price line and no dated marks for ${escapeHtml(ticker)}.</p>`;
+        return;
+      }
+      if (!points.length) {
+        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">${escapeHtml(pack.note || "No delayed history this click.")} Marks: ${
+          marks.map((m) => `${m.date} ${m.side} (${m.kind})`).join(" · ") || "none"
+        }</p>`;
+        return;
+      }
+      const w = 640, h = 150, padL = 44, padR = 10, padT = 12, padB = 22;
+      const xs = points.map((_, i) => padL + (i / Math.max(1, points.length - 1)) * (w - padL - padR));
+      const lo = Math.min(...points.map((p) => p.close));
+      const hi = Math.max(...points.map((p) => p.close));
+      const span = hi - lo || 1;
+      const yOf = (c) => padT + (1 - (c - lo) / span) * (h - padT - padB);
+      const line = points.map((p, i) => `${i ? "L" : "M"}${xs[i].toFixed(1)},${yOf(p.close).toFixed(1)}`).join(" ");
+      const dateToX = {};
+      points.forEach((p, i) => { dateToX[p.date] = xs[i]; });
+      const dots = marks.map((m) => {
+        const near = nearestClose(points, m.date);
+        if (!near) return "";
+        const x = dateToX[near.date];
+        if (x == null) return "";
+        const fill = m.side === "buy" ? "#1E7A3F" : "#C0392B";
+        const r = m.kind === "insider" ? 5 : 4;
+        const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
+        return `<circle cx="${x.toFixed(1)}" cy="${yOf(near.close).toFixed(1)}" r="${r}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+      }).join("");
+      const first = points[0].date;
+      const last = points[points.length - 1].date;
+      host.innerHTML =
+        `<p class="cap">${escapeHtml(cap)}</p>` +
+        `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} price">` +
+        `<path d="${line}" fill="none" stroke="#1A4F7A" stroke-width="1.6"/>` +
+        dots +
+        `<text x="${padL}" y="${h - 6}" font-size="10" fill="#667">${escapeHtml(first)}</text>` +
+        `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
+        `<text x="4" y="${padT + 4}" font-size="10" fill="#667">$${hi.toFixed(0)}</text>` +
+        `<text x="4" y="${h - padB}" font-size="10" fill="#667">$${lo.toFixed(0)}</text>` +
+        `</svg>`;
+    }
+
+    async function pricePoints(ticker) {
+      if (priceCache[ticker]) return priceCache[ticker];
+      const baked = (chartsPack.history || {})[ticker];
+      if (Array.isArray(baked) && baked.length) {
+        priceCache[ticker] = { points: baked, note: "saved delayed closes" };
+        return priceCache[ticker];
+      }
+      const key = workerKey();
+      if (!key) return { points: [], note: "Need the worker key for a live line." };
+      const res = await fetch(WORKER + "/ops/stocks/chart?ticker=" + encodeURIComponent(ticker), {
+        headers: { "X-HHH-Key": key },
+        cache: "no-store",
+      });
+      const data = await res.json().catch(() => ({}));
+      priceCache[ticker] = { points: data.points || [], note: data.note || ("HTTP " + res.status) };
+      return priceCache[ticker];
+    }
+
+    async function fillOpenChart() {
+      if (!openTicker) return;
+      const host = document.querySelector('.hw-px[data-px="' + openTicker + '"]');
+      if (!host) return;
+      host.style.display = "block";
+      host.innerHTML = `<p class="miss">Loading delayed line…</p>`;
+      const pack = await pricePoints(openTicker);
+      if (openTicker && host.getAttribute("data-px") === openTicker) drawPriceChart(host, openTicker, pack);
+    }
+
+    function toggleChart(ticker) {
+      if (!ticker) return;
+      openTicker = openTicker === ticker ? "" : ticker;
+      renderList();
+    }
+
+    async function loadChartsPack() {
+      try {
+        const res = await fetch("/stocks/charts.json", { cache: "no-store" });
+        if (res.ok) chartsPack = await res.json();
+      } catch {
+        chartsPack = { byTicker: {}, history: {}, note: "" };
+      }
     }
 
     async function saveWatch(tickers) {
