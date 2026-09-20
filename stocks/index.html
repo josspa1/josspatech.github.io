@@ -47,7 +47,7 @@
     .badge.Okay { background:#FFF4D6; color:#8A6A12; }
     .badge.Look { background:#E7EEF5; color:#1A4F7A; }
     .badge.Out { background:#FDECEA; color:#C0392B; }
-    .hw-tabs { display:flex; gap:8px; margin:0 0 14px; }
+    .hw-tabs { display:flex; gap:8px; margin:0 0 14px; flex-wrap:wrap; }
     .hw-tab {
       border:1px solid var(--border); background:var(--surface); color:var(--text);
       border-radius:999px; padding:6px 12px; font-size:13px; font-weight:600; cursor:pointer;
@@ -104,6 +104,8 @@
       <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
       <div class="hw-tabs">
         <button type="button" class="hw-tab on" id="tabTop" data-tab="top">Homework top 10</button>
+        <button type="button" class="hw-tab" id="tabSold" data-tab="sold">They sold</button>
+        <button type="button" class="hw-tab" id="tabRest" data-tab="rest">The rest of the pile</button>
         <button type="button" class="hw-tab" id="tabMine" data-tab="mine">My names</button>
       </div>
       <div id="mineBox" style="display:none">
@@ -212,25 +214,47 @@
       </article>`;
     }
 
+    function whyText(r) {
+      return ((Array.isArray(r.whyLines) ? r.whyLines.join(" ") : "") + " " + (r.why || ""));
+    }
+
+    function isHouseSell(r) {
+      return /sale mention|mentioned a sale|Sold by \d+ House/i.test(whyText(r));
+    }
+
+    function rowsForTab() {
+      if (tab === "mine") return snapshot.watch || [];
+      if (tab === "top") return snapshot.top || [];
+      if (tab === "sold") return (snapshot.rows || snapshot.top || []).filter(isHouseSell);
+      return snapshot.rows || [];
+    }
+
     function renderList() {
       const status = document.getElementById("hwStatus");
       const list = document.getElementById("hwList");
       const mine = tab === "mine";
       document.getElementById("mineBox").style.display = mine ? "block" : "none";
-      document.getElementById("tabTop").classList.toggle("on", !mine);
-      document.getElementById("tabMine").classList.toggle("on", mine);
-      const rows = mine ? (snapshot.watch || []) : (snapshot.top || []);
+      document.querySelectorAll(".hw-tab").forEach((el) => {
+        el.classList.toggle("on", el.getAttribute("data-tab") === tab);
+      });
+      const rows = rowsForTab();
       if (!rows.length) {
         status.textContent = mine
           ? "No names on your tab yet. Add a ticker. If it is not in this House window, it will sit here until we have a cached score."
-          : "No names this pass. Empty is better than a fake ticker.";
+          : tab === "sold"
+            ? "No House sales in this window."
+            : "No names this pass. Empty is better than a fake ticker.";
         list.innerHTML = "";
         return;
       }
-      status.textContent = mine
-        ? "Your names. Same score as the homework list when we already have the filings. Not merged into the top 10."
-        : ((snapshot.form4Note || "Homework snapshot.") +
-          " Universe " + (snapshot.universe || rows.length) + " House-PTR names. Price does not affect rank.");
+      const notes = {
+        mine: "Your names. Same score as the homework list when we already have the filings. Not merged into the top 10.",
+        sold: "House members reported a sale. Lagged look-at. Same score, not a separate ranking.",
+        rest: "Everyone in this House window. Same score and sort as the top 10, just the full pile.",
+        top: (snapshot.form4Note || "Homework snapshot.") +
+          " Universe " + (snapshot.universe || rows.length) + " House-PTR names. Price does not affect rank.",
+      };
+      status.textContent = notes[tab] || notes.top;
       list.innerHTML = rows.map((r) => cardHtml(r, mine)).join("");
       list.querySelectorAll(".hw-remove").forEach((btn) => {
         btn.addEventListener("click", () => saveWatch(
@@ -304,8 +328,12 @@
     document.getElementById("password").addEventListener("keydown", (e) => {
       if (e.key === "Enter") doLogin();
     });
-    document.getElementById("tabTop").addEventListener("click", () => { tab = "top"; renderList(); });
-    document.getElementById("tabMine").addEventListener("click", () => { tab = "mine"; renderList(); });
+    document.querySelectorAll(".hw-tab").forEach((el) => {
+      el.addEventListener("click", () => {
+        tab = el.getAttribute("data-tab") || "top";
+        renderList();
+      });
+    });
     document.getElementById("watchAdd").addEventListener("click", async () => {
       const input = document.getElementById("watchInput");
       const t = (input.value || "").trim().toUpperCase();
