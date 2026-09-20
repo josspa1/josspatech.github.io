@@ -201,7 +201,7 @@
             : String(r.why || "").split(" · ").filter(Boolean);
           const whyHtml = lines.length
             ? `<ul>${lines.map((line) => {
-                const hit = /sold by|sale mention|debt is meaningfully|debt \$|down versus|dilutive/i.test(line);
+                const hit = /sold by|sale mention|debt is meaningfully|debt \$|down versus|dilutive|offering|shares outstanding|departure|withheld|washed/i.test(line);
                 return `<li class="${hit ? "hit" : ""}">${escapeHtml(line)}</li>`;
               }).join("")}</ul>`
             : "";
