@@ -26,6 +26,9 @@
     .hw-ticker { font-family: var(--mono); font-size:13px; color: var(--text-dim); margin-left:8px; }
     .hw-meta { font-size:13px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
     .hw-why { margin-top:8px; font-size:13px; color: var(--text); }
+    .hw-why ul { margin:8px 0 0 1.1rem; padding:0; }
+    .hw-why li { margin:3px 0; }
+    .hw-why li.hit { color: var(--danger); }
     .hw-empty { color: var(--text-dim); font-size:14px; }
     .badge { display:inline-block; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:999px; }
     .badge.Strong { background:#E8F7EE; color:#1E7A3F; }
@@ -66,7 +69,7 @@
     <main class="page-main stocks-main">
       <p class="hw-note">
         Homework for Joe. House PTR mentions are a lagged look-at flag (filings are weeks late), not a buy signal.
-        Delayed last close is free and does not change rank. Empty is better than a made-up name.
+        Hits subtract: House sells, debt above cash, sales/profit down, dilution. Delayed last close does not change rank.
       </p>
       <div id="hwStatus" class="hw-empty">Loading snapshot…</div>
       <div id="hwList" class="hw-list"></div>
@@ -168,6 +171,15 @@
         list.innerHTML = top.map((r) => {
           const px = money(r.lastClose);
           const asof = r.lastCloseAsof ? " · " + r.lastCloseAsof : "";
+          const lines = Array.isArray(r.whyLines) && r.whyLines.length
+            ? r.whyLines
+            : String(r.why || "").split(" · ").filter(Boolean);
+          const whyHtml = lines.length
+            ? `<ul>${lines.map((line) => {
+                const hit = /sold by|sale mention|debt is meaningfully|debt \$|down versus|dilutive/i.test(line);
+                return `<li class="${hit ? "hit" : ""}">${escapeHtml(line)}</li>`;
+              }).join("")}</ul>`
+            : "";
           return `<article class="hw-card">
             <div class="hw-top">
               <div>
@@ -177,7 +189,7 @@
               </div>
               <div class="hw-meta">score ${r.score} · last close ${px}${asof}</div>
             </div>
-            <p class="hw-why">${escapeHtml(r.why || "")}</p>
+            <div class="hw-why">${whyHtml}</div>
           </article>`;
         }).join("");
       } catch (e) {
