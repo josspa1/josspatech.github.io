@@ -482,15 +482,41 @@
       return `<p class="hw-late">${bits.map(escapeHtml).join("<br>")}</p>`;
     }
 
+    function fmtAxisDate(iso) {
+      const p = String(iso || "").split("-");
+      if (p.length < 3) return String(iso || "");
+      return Number(p[1]) + "/" + Number(p[2]);
+    }
+
+    function axisSvg(w, h, padL, padR, padT, padB, yTicks, xTicks) {
+      const x0 = padL, x1 = w - padR, y0 = padT, y1 = h - padB;
+      const midY = (y0 + y1) / 2;
+      const midX = (x0 + x1) / 2;
+      let out = `<line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y1}" stroke="#334" stroke-width="1.5"/>`;
+      out += `<line x1="${x0}" y1="${y1}" x2="${x1}" y2="${y1}" stroke="#334" stroke-width="1.5"/>`;
+      out += `<text x="16" y="${midY}" font-size="13" fill="#334" transform="rotate(-90 16 ${midY})" text-anchor="middle">Price</text>`;
+      out += `<text x="${midX}" y="${h - 2}" font-size="13" fill="#334" text-anchor="middle">Date</text>`;
+      yTicks.forEach((t) => {
+        out += `<line x1="${x0}" y1="${t.y}" x2="${x1}" y2="${t.y}" stroke="#E4EAF0" stroke-width="1"/>`;
+        out += `<line x1="${x0 - 5}" y1="${t.y}" x2="${x0}" y2="${t.y}" stroke="#334" stroke-width="1.2"/>`;
+        out += `<text x="${x0 - 8}" y="${t.y + 4}" font-size="12" fill="#445" text-anchor="end">${escapeHtml(t.label)}</text>`;
+      });
+      xTicks.forEach((t) => {
+        out += `<line x1="${t.x}" y1="${y1}" x2="${t.x}" y2="${y1 + 5}" stroke="#334" stroke-width="1.2"/>`;
+        out += `<text x="${t.x}" y="${y1 + 20}" font-size="12" fill="#445" text-anchor="middle">${escapeHtml(t.label)}</text>`;
+      });
+      return out;
+    }
+
     function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
       const points = savedPoints(ticker);
-      const cap = "The line is the saved price. Marks are buys and sells.";
+      const cap = "The line is saved price (up/down) versus date (left to right).";
       if (!points.length && !marks.length) {
         host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>` + chartLegend();
         return;
       }
-      const w = 800, h = 280, padL = 56, padR = 16, padT = 18, padB = 32;
+      const w = 800, h = 300, padL = 72, padR = 18, padT = 20, padB = 48;
       const inner = w - padL - padR;
       if (!points.length) {
         const dates = marks.map((m) => m.date).sort();
@@ -502,10 +528,12 @@
           lateHtml(ticker) +
           `<p class="cap">${escapeHtml(cap)}</p>` +
           `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} marks">` +
+          axisSvg(w, h, padL, padR, padT, padB, [], [
+            { x: padL, label: fmtAxisDate(first) },
+            { x: w - padR, label: fmtAxisDate(last) },
+          ]) +
           `<line x1="${padL}" y1="${mid}" x2="${w - padR}" y2="${mid}" stroke="#C5D0DA" stroke-width="1"/>` +
           dots +
-          `<text x="${padL}" y="${h - 8}" font-size="13" fill="#667">${escapeHtml(first)}</text>` +
-          `<text x="${w - padR}" y="${h - 8}" font-size="13" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
           `</svg>` + chartLegend();
         return;
       }
@@ -526,16 +554,23 @@
       }).join("");
       const first = points[0].date;
       const last = points[points.length - 1].date;
+      const midPt = points[Math.floor(points.length / 2)];
+      const midPx = (hi + lo) / 2;
       host.innerHTML =
         lateHtml(ticker) +
         `<p class="cap">${escapeHtml(cap)}</p>` +
-        `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} price">` +
+        `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} price versus date">` +
+        axisSvg(w, h, padL, padR, padT, padB, [
+          { y: yOf(hi), label: "$" + hi.toFixed(0) },
+          { y: yOf(midPx), label: "$" + midPx.toFixed(0) },
+          { y: yOf(lo), label: "$" + lo.toFixed(0) },
+        ], [
+          { x: padL, label: fmtAxisDate(first) },
+          { x: padL + inner / 2, label: fmtAxisDate(midPt.date) },
+          { x: w - padR, label: fmtAxisDate(last) },
+        ]) +
         `<path d="${line}" fill="none" stroke="#1A4F7A" stroke-width="2.4"/>` +
         dots +
-        `<text x="${padL}" y="${h - 8}" font-size="13" fill="#667">${escapeHtml(first)}</text>` +
-        `<text x="${w - padR}" y="${h - 8}" font-size="13" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
-        `<text x="6" y="${padT + 6}" font-size="13" fill="#667">$${hi.toFixed(0)}</text>` +
-        `<text x="6" y="${h - padB}" font-size="13" fill="#667">$${lo.toFixed(0)}</text>` +
         `</svg>` + chartLegend();
     }
 
