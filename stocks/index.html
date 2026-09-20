@@ -10,7 +10,7 @@
   <title>JosspaTech — Stocks homework</title>
   <link rel="stylesheet" href="../admin/shared/admin.css">
   <style>
-    main.stocks-main { display:block; max-width:820px; }
+    main.stocks-main { display:block; max-width:980px; }
     .hw-note {
       background: var(--disclaimer); color: var(--disclaimer-txt);
       border: 1px solid #E8D4A8; border-radius: 10px;
@@ -88,7 +88,7 @@
       margin-top:12px; padding-top:10px; border-top:1px solid var(--border);
     }
     .hw-px .cap { font-size:12px; color:var(--text-dim); margin:0 0 8px; }
-    .hw-px svg { width:100%; height:150px; display:block; }
+    .hw-px svg { width:100%; height:300px; display:block; }
     .hw-px .miss { font-size:13px; color:var(--text-dim); }
     .hw-late { font-size:14px; color:var(--text); margin:0 0 8px; line-height:1.4; }
     .hw-leg {
@@ -97,7 +97,7 @@
     }
     .hw-leg span { display:inline-flex; align-items:center; gap:6px; }
     .hw-leg i.dot, .hw-leg i.sq {
-      width:10px; height:10px; flex-shrink:0;
+      width:12px; height:12px; flex-shrink:0;
     }
     .hw-leg i.dot { border-radius:50%; }
     .hw-leg i.buy { background:#1E7A3F; }
@@ -425,9 +425,9 @@
       const fill = markColor(m);
       const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
       if (m.kind === "house") {
-        return `<rect x="${(x - 4).toFixed(1)}" y="${(y - 4).toFixed(1)}" width="8" height="8" fill="${fill}"><title>${escapeHtml(title)}</title></rect>`;
+        return `<rect x="${(x - 6).toFixed(1)}" y="${(y - 6).toFixed(1)}" width="12" height="12" fill="${fill}"><title>${escapeHtml(title)}</title></rect>`;
       }
-      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
     }
 
     function lastOfSide(marks, side) {
@@ -476,7 +476,7 @@
         host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>` + chartLegend();
         return;
       }
-      const w = 640, h = 150, padL = 44, padR = 10, padT = 12, padB = 22;
+      const w = 800, h = 280, padL = 56, padR = 16, padT = 18, padB = 32;
       const inner = w - padL - padR;
       if (!points.length) {
         const dates = marks.map((m) => m.date).sort();
@@ -490,8 +490,8 @@
           `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} marks">` +
           `<line x1="${padL}" y1="${mid}" x2="${w - padR}" y2="${mid}" stroke="#C5D0DA" stroke-width="1"/>` +
           dots +
-          `<text x="${padL}" y="${h - 6}" font-size="10" fill="#667">${escapeHtml(first)}</text>` +
-          `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
+          `<text x="${padL}" y="${h - 8}" font-size="13" fill="#667">${escapeHtml(first)}</text>` +
+          `<text x="${w - padR}" y="${h - 8}" font-size="13" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
           `</svg>` + chartLegend();
         return;
       }
@@ -516,12 +516,12 @@
         lateHtml(ticker) +
         `<p class="cap">${escapeHtml(cap)}</p>` +
         `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} price">` +
-        `<path d="${line}" fill="none" stroke="#1A4F7A" stroke-width="1.6"/>` +
+        `<path d="${line}" fill="none" stroke="#1A4F7A" stroke-width="2.4"/>` +
         dots +
-        `<text x="${padL}" y="${h - 6}" font-size="10" fill="#667">${escapeHtml(first)}</text>` +
-        `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
-        `<text x="4" y="${padT + 4}" font-size="10" fill="#667">$${hi.toFixed(0)}</text>` +
-        `<text x="4" y="${h - padB}" font-size="10" fill="#667">$${lo.toFixed(0)}</text>` +
+        `<text x="${padL}" y="${h - 8}" font-size="13" fill="#667">${escapeHtml(first)}</text>` +
+        `<text x="${w - padR}" y="${h - 8}" font-size="13" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
+        `<text x="6" y="${padT + 6}" font-size="13" fill="#667">$${hi.toFixed(0)}</text>` +
+        `<text x="6" y="${h - padB}" font-size="13" fill="#667">$${lo.toFixed(0)}</text>` +
         `</svg>` + chartLegend();
     }
 
