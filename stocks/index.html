@@ -218,7 +218,6 @@
     let snapshot = { top: [], watch: [], watchTickers: [], form4Note: "", universe: 0 };
     let tab = "top";
     let chartsPack = { byTicker: {}, history: {}, note: "" };
-    const priceCache = {};
     let openTicker = "";
 
     function cardHtml(r, mine) {
@@ -381,22 +380,52 @@
       return best;
     }
 
-    function drawPriceChart(host, ticker, pack) {
+    function savedPoints(ticker) {
+      const baked = (chartsPack.history || {})[ticker];
+      return Array.isArray(baked) ? baked : [];
+    }
+
+    function xOnRange(date, first, last, padL, inner) {
+      const a = Date.parse(first);
+      const b = Date.parse(last);
+      const t = Date.parse(date);
+      if (!Number.isFinite(a) || !Number.isFinite(b) || !Number.isFinite(t) || b === a) return padL;
+      return padL + ((t - a) / (b - a)) * inner;
+    }
+
+    function drawPriceChart(host, ticker) {
       const marks = marksFor(ticker);
-      const points = pack.points || [];
-      const cap = "Green buy · red sell. Insider dots are the trade date. House dots are the filing date (late). Delayed price does not change rank.";
+      const points = savedPoints(ticker);
+      const cap = "Saved data only. Green buy · red sell. Insider dots are the trade date. House dots are the filing date (late). No new price pull.";
       if (!points.length && !marks.length) {
-        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">No price line and no dated marks for ${escapeHtml(ticker)}.</p>`;
-        return;
-      }
-      if (!points.length) {
-        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">${escapeHtml(pack.note || "No delayed history this click.")} Marks: ${
-          marks.map((m) => `${m.date} ${m.side} (${m.kind})`).join(" · ") || "none"
-        }</p>`;
+        host.innerHTML = `<p class="cap">${escapeHtml(cap)}</p><p class="miss">Nothing saved for ${escapeHtml(ticker)} yet.</p>`;
         return;
       }
       const w = 640, h = 150, padL = 44, padR = 10, padT = 12, padB = 22;
-      const xs = points.map((_, i) => padL + (i / Math.max(1, points.length - 1)) * (w - padL - padR));
+      const inner = w - padL - padR;
+      if (!points.length) {
+        const dates = marks.map((m) => m.date).sort();
+        const first = dates[0];
+        const last = dates[dates.length - 1];
+        const mid = padT + (h - padT - padB) / 2;
+        const dots = marks.map((m) => {
+          const x = xOnRange(m.date, first, last, padL, inner);
+          const fill = m.side === "buy" ? "#1E7A3F" : "#C0392B";
+          const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
+          return `<circle cx="${x.toFixed(1)}" cy="${mid}" r="${m.kind === "insider" ? 5 : 4}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+        }).join("");
+        host.innerHTML =
+          `<p class="cap">${escapeHtml(cap)}</p>` +
+          `<p class="miss">No saved price line for this name. Dots are the House and insider dates we already have.</p>` +
+          `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(ticker)} marks">` +
+          `<line x1="${padL}" y1="${mid}" x2="${w - padR}" y2="${mid}" stroke="#C5D0DA" stroke-width="1"/>` +
+          dots +
+          `<text x="${padL}" y="${h - 6}" font-size="10" fill="#667">${escapeHtml(first)}</text>` +
+          `<text x="${w - padR}" y="${h - 6}" font-size="10" fill="#667" text-anchor="end">${escapeHtml(last)}</text>` +
+          `</svg>`;
+        return;
+      }
+      const xs = points.map((_, i) => padL + (i / Math.max(1, points.length - 1)) * inner);
       const lo = Math.min(...points.map((p) => p.close));
       const hi = Math.max(...points.map((p) => p.close));
       const span = hi - lo || 1;
@@ -410,9 +439,8 @@
         const x = dateToX[near.date];
         if (x == null) return "";
         const fill = m.side === "buy" ? "#1E7A3F" : "#C0392B";
-        const r = m.kind === "insider" ? 5 : 4;
         const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
-        return `<circle cx="${x.toFixed(1)}" cy="${yOf(near.close).toFixed(1)}" r="${r}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
+        return `<circle cx="${x.toFixed(1)}" cy="${yOf(near.close).toFixed(1)}" r="${m.kind === "insider" ? 5 : 4}" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
       }).join("");
       const first = points[0].date;
       const last = points[points.length - 1].date;
@@ -428,32 +456,12 @@
         `</svg>`;
     }
 
-    async function pricePoints(ticker) {
-      if (priceCache[ticker]) return priceCache[ticker];
-      const baked = (chartsPack.history || {})[ticker];
-      if (Array.isArray(baked) && baked.length) {
-        priceCache[ticker] = { points: baked, note: "saved delayed closes" };
-        return priceCache[ticker];
-      }
-      const key = workerKey();
-      if (!key) return { points: [], note: "Need the worker key for a live line." };
-      const res = await fetch(WORKER + "/ops/stocks/chart?ticker=" + encodeURIComponent(ticker), {
-        headers: { "X-HHH-Key": key },
-        cache: "no-store",
-      });
-      const data = await res.json().catch(() => ({}));
-      priceCache[ticker] = { points: data.points || [], note: data.note || ("HTTP " + res.status) };
-      return priceCache[ticker];
-    }
-
-    async function fillOpenChart() {
+    function fillOpenChart() {
       if (!openTicker) return;
       const host = document.querySelector('.hw-px[data-px="' + openTicker + '"]');
       if (!host) return;
       host.style.display = "block";
-      host.innerHTML = `<p class="miss">Loading delayed line…</p>`;
-      const pack = await pricePoints(openTicker);
-      if (openTicker && host.getAttribute("data-px") === openTicker) drawPriceChart(host, openTicker, pack);
+      drawPriceChart(host, openTicker);
     }
 
     function toggleChart(ticker) {
