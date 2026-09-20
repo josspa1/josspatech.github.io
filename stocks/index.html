@@ -102,6 +102,14 @@
     .hw-leg i.dot { border-radius:50%; }
     .hw-leg i.buy { background:#1E7A3F; }
     .hw-leg i.sell { background:#C0392B; }
+    .hw-leg i.tri {
+      width:0; height:0; flex-shrink:0;
+      border-left:7px solid transparent;
+      border-right:7px solid transparent;
+      border-bottom:12px solid #1E7A3F;
+      background:none;
+    }
+    .hw-leg i.tri.sell { border-bottom-color:#C0392B; }
   </style>
 </head>
 <body>
@@ -137,7 +145,7 @@
       <p class="hw-note">
         Start with the Strong / Okay / Look list. Each homework name has a price line under it.
         Circles and squares are when someone bought or sold. The sentence under the line says whether the price already moved — that is the “too late” check.
-        House filings are weeks late. This is homework, not a buy button.
+        House and Senate filings are weeks late. This is homework, not a buy button.
       </p>
       <div class="hw-stamp" id="hwStamp">
         <strong>Last update:</strong> <span id="hwWhen">loading…</span>
@@ -271,11 +279,11 @@
     }
 
     function isHouseSell(r) {
-      return /sale mention|mentioned a sale|Sold by \d+ House/i.test(whyText(r));
+      return /sale mention|mentioned a sale|Sold by \d+ (House|Senate|Congress)/i.test(whyText(r));
     }
 
     function isHouseBuy(r) {
-      return /mentioned a buy|buy mention|common-stock buys|House PTRs mentioned a buy/i.test(whyText(r));
+      return /mentioned a buy|buy mention|common-stock buys|(House|Senate|Congress) PTRs mentioned a buy/i.test(whyText(r));
     }
 
     function barRow(label, n, max, cls) {
@@ -418,6 +426,8 @@
         `<span><i class="dot sell"></i>Insider sell</span>` +
         `<span><i class="sq buy"></i>House buy (filed, late)</span>` +
         `<span><i class="sq sell"></i>House sell (filed, late)</span>` +
+        `<span><i class="tri buy"></i>Senate buy (filed, late)</span>` +
+        `<span><i class="tri sell"></i>Senate sell (filed, late)</span>` +
         `</div>`;
     }
 
@@ -426,6 +436,10 @@
       const title = `${m.date} ${m.side} · ${m.kind} · ${m.who}`;
       if (m.kind === "house") {
         return `<rect x="${(x - 6).toFixed(1)}" y="${(y - 6).toFixed(1)}" width="12" height="12" fill="${fill}"><title>${escapeHtml(title)}</title></rect>`;
+      }
+      if (m.kind === "senate") {
+        const pts = `${x.toFixed(1)},${(y - 8).toFixed(1)} ${(x + 8).toFixed(1)},${(y + 7).toFixed(1)} ${(x - 8).toFixed(1)},${(y + 7).toFixed(1)}`;
+        return `<polygon points="${pts}" fill="${fill}"><title>${escapeHtml(title)}</title></polygon>`;
       }
       return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${fill}"><title>${escapeHtml(title)}</title></circle>`;
     }
@@ -449,7 +463,7 @@
       const buy = moveSince(points, lastOfSide(marks, "buy"));
       const sell = moveSince(points, lastOfSide(marks, "sell"));
       if (buy) {
-        const who = buy.mark.kind === "house" ? "House report" : "insider";
+        const who = buy.mark.kind === "house" ? "House report" : buy.mark.kind === "senate" ? "Senate report" : "insider";
         const dir = buy.pct >= 0 ? "up" : "down";
         let extra = " It has not run far since then.";
         if (buy.pct >= 15) extra = " That rise already happened. May be late.";
@@ -457,7 +471,7 @@
         bits.push(`Since the last buy (${who}, ${buy.mark.date}), the saved price went from ${money(buy.from)} to ${money(buy.to)} (${dir} ${Math.abs(buy.pct).toFixed(0)}%).${extra}`);
       }
       if (sell) {
-        const who = sell.mark.kind === "house" ? "House report" : "insider";
+        const who = sell.mark.kind === "senate" ? "Senate report" : sell.mark.kind === "house" ? "House report" : "insider";
         const dir = sell.pct >= 0 ? "up" : "down";
         bits.push(`Since the last sell (${who}, ${sell.mark.date}), the saved price went from ${money(sell.from)} to ${money(sell.to)} (${dir} ${Math.abs(sell.pct).toFixed(0)}%).`);
       }
