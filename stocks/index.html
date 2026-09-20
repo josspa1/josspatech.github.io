@@ -61,6 +61,27 @@
       border:0; background:var(--primary); color:#fff; border-radius:8px; padding:10px 12px; font-size:13px; cursor:pointer;
     }
     .hw-remove { background:#fff; color:var(--danger); border:1px solid #F5C6C2; padding:4px 8px; font-size:12px; }
+    .hw-picture {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; margin: 0 0 16px;
+    }
+    .hw-picture h2 { font-size:15px; color:var(--primary); margin:0 0 4px; }
+    .hw-picture .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+    .hw-chart { margin:0 0 14px; }
+    .hw-chart:last-child { margin:0; }
+    .hw-chart h3 { font-size:13px; font-weight:600; margin:0 0 8px; }
+    .hw-bar { display:flex; align-items:center; gap:8px; margin:0 0 6px; font-size:12px; }
+    .hw-bar span.lbl { width:88px; flex-shrink:0; color:var(--text-dim); }
+    .hw-bar span.n { width:28px; text-align:right; font-variant-numeric:tabular-nums; }
+    .hw-bar i {
+      display:block; height:10px; border-radius:6px; background:var(--primary);
+      min-width:0;
+    }
+    .hw-bar i.Strong { background:#1E7A3F; }
+    .hw-bar i.Okay { background:#C9A227; }
+    .hw-bar i.Look { background:#1A4F7A; }
+    .hw-bar i.sold { background:#C0392B; }
+    .hw-bar i.both { background:#8A6A12; }
   </style>
 </head>
 <body>
@@ -102,6 +123,11 @@
         <div class="dim" id="hwWhenDetail">Refreshes once a day. Stamp is the last saved snapshot.</div>
       </div>
       <p id="hwUpdated" class="hw-updated">Last updated: not loaded</p>
+      <div class="hw-picture" id="hwPicture" style="display:none">
+        <h2>The picture</h2>
+        <p class="sub">From this saved list only. No extra calls.</p>
+        <div id="hwCharts"></div>
+      </div>
       <div class="hw-tabs">
         <button type="button" class="hw-tab on" id="tabTop" data-tab="top">Homework top 10</button>
         <button type="button" class="hw-tab" id="tabSold" data-tab="sold">They sold</button>
@@ -222,6 +248,61 @@
       return /sale mention|mentioned a sale|Sold by \d+ House/i.test(whyText(r));
     }
 
+    function isHouseBuy(r) {
+      return /mentioned a buy|buy mention|common-stock buys|House PTRs mentioned a buy/i.test(whyText(r));
+    }
+
+    function barRow(label, n, max, cls) {
+      const w = max > 0 ? Math.max(2, Math.round((n / max) * 100)) : 0;
+      return `<div class="hw-bar"><span class="lbl">${escapeHtml(label)}</span><i class="${cls || ""}" style="width:${w}%"></i><span class="n">${n}</span></div>`;
+    }
+
+    function renderPicture() {
+      const box = document.getElementById("hwPicture");
+      const host = document.getElementById("hwCharts");
+      const pile = snapshot.rows || snapshot.top || [];
+      if (!pile.length) {
+        box.style.display = "none";
+        return;
+      }
+      const strength = { Strong: 0, Okay: 0, Look: 0 };
+      let buyOnly = 0, sellOnly = 0, both = 0;
+      const byMonth = {};
+      pile.forEach((r) => {
+        const s = r.strength;
+        if (strength[s] != null) strength[s] += 1;
+        const b = isHouseBuy(r);
+        const sell = isHouseSell(r);
+        if (b && sell) both += 1;
+        else if (b) buyOnly += 1;
+        else if (sell) sellOnly += 1;
+        if (r.houseFiled) {
+          const m = String(r.houseFiled).slice(0, 7);
+          byMonth[m] = (byMonth[m] || 0) + 1;
+        }
+      });
+      const sMax = Math.max(strength.Strong, strength.Okay, strength.Look, 1);
+      const hMax = Math.max(buyOnly, sellOnly, both, 1);
+      const months = Object.keys(byMonth).sort();
+      const mMax = Math.max(1, ...months.map((m) => byMonth[m]));
+      host.innerHTML =
+        `<div class="hw-chart"><h3>How the pile looks</h3>${
+          barRow("Strong", strength.Strong, sMax, "Strong") +
+          barRow("Okay", strength.Okay, sMax, "Okay") +
+          barRow("Look", strength.Look, sMax, "Look")
+        }</div>` +
+        `<div class="hw-chart"><h3>House reports this window</h3>${
+          barRow("Bought", buyOnly, hMax, "") +
+          barRow("Sold", sellOnly, hMax, "sold") +
+          barRow("Both", both, hMax, "both")
+        }</div>` +
+        `<div class="hw-chart"><h3>When those House reports were filed</h3>${
+          months.map((m) => barRow(m, byMonth[m], mMax, "")).join("") ||
+          "<p class=\"sub\">No filing dates on this snapshot.</p>"
+        }</div>`;
+      box.style.display = "block";
+    }
+
     function rowsForTab() {
       if (tab === "mine") return snapshot.watch || [];
       if (tab === "top") return snapshot.top || [];
@@ -300,6 +381,7 @@
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
         snapshot = data;
+        renderPicture();
         const top = Array.isArray(data.top) ? data.top : [];
         const when = data.asOf ? new Date(data.asOf).toLocaleString() : "no snapshot yet";
         const stamp = "Last updated: " + when;
