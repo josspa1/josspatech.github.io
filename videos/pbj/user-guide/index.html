@@ -29,7 +29,7 @@
 <meta name="twitter:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
 
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="walkthrough.css?v=pbj-parity-2026-09-21">
+ <link rel="stylesheet" href="walkthrough.css?v=pbj-chapters-above-css-2026-07-28">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -850,7 +850,6 @@
  const speedLabel = document.getElementById('speedLabel');
  const tapToStart = document.getElementById('tapToStart');
  const narrationPanel = document.getElementById('narrationPanel');
-
  const transcriptBody = document.getElementById('transcriptBody');
  const chapterBtns = document.querySelectorAll('.chapter-btn');
 
@@ -982,7 +981,7 @@
  var panelRect = narrationPanel.getBoundingClientRect();
  var elRect = active.getBoundingClientRect();
  if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
- narrationPanel.scrollTop += elRect.top - panelRect.top - 40;
+ active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
  }
  }
  }
@@ -1246,7 +1245,7 @@
  })();
  </script>
 <link rel="stylesheet" href="/videos/shared/walkthrough.css">
-<link rel="stylesheet" href="walkthrough.css?v=pbj-parity-2026-09-21">
+<link rel="stylesheet" href="walkthrough.css?v=pbj-chapters-above-css-2026-07-28">
 <style>
 /* After shared + local walkthrough.css ? keep phone | transcript side-by-side (no cage) */
 .walkthrough-stage {

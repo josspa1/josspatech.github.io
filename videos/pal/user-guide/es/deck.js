@@ -20,7 +20,6 @@
   var speedLabel = document.getElementById('speedLabel');
   var tapStart = document.getElementById('tapToStart');
   var narrationPanel = document.getElementById('narrationPanel');
-
   var transcriptBody = document.getElementById('transcriptBody');
   var chapterBtns = document.querySelectorAll('.chapter-btn');
 
@@ -158,7 +157,7 @@
       var panelRect = narrationPanel.getBoundingClientRect();
       var elRect = active.getBoundingClientRect();
       if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
-        narrationPanel.scrollTop += elRect.top - panelRect.top - 40;
+        active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
   }

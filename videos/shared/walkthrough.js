@@ -54,7 +54,7 @@
         var panelRect = panel.getBoundingClientRect();
         var elRect = active.getBoundingClientRect();
         if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
-            panel.scrollTop += elRect.top - panelRect.top - 40;
+            active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     }
 
