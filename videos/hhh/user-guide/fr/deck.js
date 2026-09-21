@@ -20,6 +20,10 @@
   var speedLabel = document.getElementById('speedLabel');
   var tapStart = document.getElementById('tapToStart');
   var narrationPanel = document.getElementById('narrationPanel');
+  function isNarrowGuide() {
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  }
+
   var transcriptBody = document.getElementById('transcriptBody');
   var chapterBtns = document.querySelectorAll('.chapter-btn');
 
@@ -153,11 +157,11 @@
     var idx = Math.min(sentIdx, spans.length - 1);
     var active = spans[idx];
     active.classList.add('active');
-    if (!userScrolling && narrationPanel) {
+    if (!userScrolling && narrationPanel && !isNarrowGuide()) {
       var panelRect = narrationPanel.getBoundingClientRect();
       var elRect = active.getBoundingClientRect();
       if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
-        active.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        narrationPanel.scrollTop += elRect.top - panelRect.top - 40;
       }
     }
   }
