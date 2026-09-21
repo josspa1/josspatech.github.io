@@ -29,7 +29,7 @@
 <link rel="alternate" hreflang="x-default" href="https://josspatech.com/videos/pbj/user-guide/">
 
  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="walkthrough.css?v=mobile-transcript-2026-09-21">
+ <link rel="stylesheet" href="walkthrough.css?v=pbj-parity-2026-09-21">
  <style>
  * { margin: 0; padding: 0; box-sizing: border-box; }
  :root {
@@ -314,7 +314,7 @@
  .hero .subheader { font-size: 1rem; }
  .video-wrapper { flex-direction: column; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
  .phone-column { width: 100%; max-width: 340px; }
- .narration-panel { display: none !important; }
+ .narration-panel { max-width: 100%; max-height: 360px; width: 100%; flex: none; }
  .phone-frame { width: 320px; max-height: 700px; }
  .chapter-nav { max-width: 100%; }
  }
@@ -850,9 +850,6 @@
  const speedLabel = document.getElementById('speedLabel');
  const tapToStart = document.getElementById('tapToStart');
  const narrationPanel = document.getElementById('narrationPanel');
- function isNarrowGuide() {
-   return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
- }
 
  const transcriptBody = document.getElementById('transcriptBody');
  const chapterBtns = document.querySelectorAll('.chapter-btn');
@@ -981,7 +978,7 @@
  currentSentenceIdx = Math.min(sentIdx, spans.length - 1);
  var active = spans[currentSentenceIdx];
  active.classList.add('active');
- if (!userScrolling && narrationPanel && !isNarrowGuide()) {
+ if (!userScrolling && narrationPanel) {
  var panelRect = narrationPanel.getBoundingClientRect();
  var elRect = active.getBoundingClientRect();
  if (elRect.top < panelRect.top + 40 || elRect.bottom > panelRect.bottom - 40) {
@@ -1377,7 +1374,7 @@ html.embed-mode #narrationPanel {
 @media (max-width: 768px) {
  .walkthrough-stage .video-wrapper { flex-direction: column !important; }
  .walkthrough-stage .phone-frame { width: min(320px, 88vw) !important; }
- .walkthrough-stage .narration-panel, #narrationPanel { display: none !important; }
+ .walkthrough-stage .narration-panel, #narrationPanel { max-height: 360px; width: 100%; flex: none !important; }
  html.embed-mode .walkthrough-stage .video-wrapper { flex-direction: column !important; align-items: center !important; }
  html.embed-mode .walkthrough-stage .phone-frame { width: 180px !important; height: 360px !important; max-height: 360px !important; }
  html.embed-mode .walkthrough-stage .narration-panel,

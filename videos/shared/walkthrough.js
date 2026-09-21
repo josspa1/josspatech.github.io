@@ -49,7 +49,6 @@
         });
         var active = narrationFor(String(index));
         if (!active) return;
-        if (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) return;
         var panel = document.getElementById('narrationPanel');
         if (!panel) return;
         var panelRect = panel.getBoundingClientRect();
