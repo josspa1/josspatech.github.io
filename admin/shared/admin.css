@@ -1134,6 +1134,8 @@
     .wm-feat-trend-svg circle.s-collection { fill: var(--success); }
     .wm-feat-trend-svg polyline.s-idopen { stroke: var(--warning); stroke-width: 2; }
     .wm-feat-trend-svg circle.s-idopen { fill: var(--warning); }
+    .wm-feat-trend-svg polyline.s-idstart { stroke: #7dd3fc; stroke-width: 2; }
+    .wm-feat-trend-svg circle.s-idstart { fill: #7dd3fc; }
     .wm-feat-trend-svg polyline.s-iddone { stroke: var(--danger); stroke-width: 2; }
     .wm-feat-trend-svg circle.s-iddone { fill: var(--danger); }
     .wm-feat-legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 11px; color: var(--text-dim); }
@@ -1142,6 +1144,7 @@
     .wm-feat-legend .s-open i { background: var(--primary); }
     .wm-feat-legend .s-collection i { background: var(--success); }
     .wm-feat-legend .s-idopen i { background: var(--warning); }
+    .wm-feat-legend .s-idstart i { background: #7dd3fc; }
     .wm-feat-legend .s-iddone i { background: var(--danger); }
     .wm-feat-chart { display: block; width: 100%; height: auto; margin: 8px 0 14px; }
     .wm-feat-chart .bar-mtd { fill: var(--primary); }
