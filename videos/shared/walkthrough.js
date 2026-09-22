@@ -77,11 +77,40 @@
         return null;
     }
 
+    function containedImageBox(slide) {
+        var img = slide.querySelector('img');
+        var sw = slide.clientWidth || 1;
+        var sh = slide.clientHeight || 1;
+        if (!img || !img.naturalWidth) {
+            return { ox: 0, oy: 0, dw: sw, dh: sh, sw: sw, sh: sh };
+        }
+        var scale = Math.min(sw / img.naturalWidth, sh / img.naturalHeight);
+        var dw = img.naturalWidth * scale;
+        var dh = img.naturalHeight * scale;
+        return { ox: (sw - dw) / 2, oy: (sh - dh) / 2, dw: dw, dh: dh, sw: sw, sh: sh };
+    }
+
+    function placeTapOnImage(slide, ind, xPct, yPct) {
+        var b = containedImageBox(slide);
+        ind.style.left = ((b.ox + b.dw * (parseFloat(xPct) / 100)) / b.sw * 100) + '%';
+        ind.style.top = ((b.oy + b.dh * (parseFloat(yPct) / 100)) / b.sh * 100) + '%';
+    }
+
+    function layoutSlideTaps(slide) {
+        slide.querySelectorAll(':scope > .tap-indicator').forEach(function (ind) {
+            var x = ind.getAttribute('data-tap-xp');
+            var y = ind.getAttribute('data-tap-yp');
+            if (x == null || y == null) return;
+            placeTapOnImage(slide, ind, x, y);
+        });
+    }
+
     function buildTapIndicator(slide, x, y, label) {
         var ind = document.createElement('div');
         ind.className = 'tap-indicator';
-        ind.style.left = x + '%';
-        ind.style.top = y + '%';
+        ind.setAttribute('data-tap-xp', String(x));
+        ind.setAttribute('data-tap-yp', String(y));
+        placeTapOnImage(slide, ind, x, y);
 
         var ring = document.createElement('div');
         ring.className = 'tap-ring';
@@ -344,10 +373,22 @@
         controls.parentNode.insertBefore(legend, controls.nextSibling);
     }
 
+    function layoutAllTaps() {
+        document.querySelectorAll('.slide').forEach(layoutSlideTaps);
+    }
+
     function init() {
         initSlides();
         initNarrationHints();
         initLegend();
+        document.querySelectorAll('.slide img').forEach(function (img) {
+            if (img.complete) return;
+            img.addEventListener('load', function () {
+                layoutSlideTaps(img.closest('.slide'));
+            });
+        });
+        window.addEventListener('resize', layoutAllTaps);
+        layoutAllTaps();
         var activeSlide = document.querySelector('.slide.active');
         if (activeSlide) {
             var idx = parseInt(activeSlide.getAttribute('data-index'), 10);
