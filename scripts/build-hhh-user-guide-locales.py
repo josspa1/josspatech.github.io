@@ -19,7 +19,7 @@ import edge_tts
 from deep_translator import GoogleTranslator
 
 ROOT = Path(__file__).resolve().parents[1]
-EN_DIR = ROOT / "videos" / "user-guide-hhh"
+EN_DIR = ROOT / "videos" / "hhh" / "user-guide"
 EN_NARR = EN_DIR / "narration-en.json"
 
 LOCALES = {
