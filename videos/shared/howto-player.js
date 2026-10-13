@@ -17,15 +17,28 @@
   var chapters = [], cur = -1, rows = [], started = false, userScroll = 0, lang = 'en';
 
   var UI = {
-    en: { name: 'English', chapter: 'Chapter {a} of {b}', steps: '{n} steps', play: 'Tap to play', prev: 'Previous', next: 'Next', lang: 'Language' },
-    es: { name: 'Español', chapter: 'Capítulo {a} de {b}', steps: '{n} pasos', play: 'Toca para ver', prev: 'Anterior', next: 'Siguiente', lang: 'Idioma' },
-    zh: { name: '中文', chapter: '第 {a} 章，共 {b} 章', steps: '{n} 个步骤', play: '点按播放', prev: '上一章', next: '下一章', lang: '语言' },
-    de: { name: 'Deutsch', chapter: 'Kapitel {a} von {b}', steps: '{n} Schritte', play: 'Zum Abspielen tippen', prev: 'Zurück', next: 'Weiter', lang: 'Sprache' },
-    fr: { name: 'Français', chapter: 'Chapitre {a} sur {b}', steps: '{n} étapes', play: 'Touchez pour lire', prev: 'Précédent', next: 'Suivant', lang: 'Langue' },
-    pt: { name: 'Português', chapter: 'Capítulo {a} de {b}', steps: '{n} passos', play: 'Toque para assistir', prev: 'Anterior', next: 'Próximo', lang: 'Idioma' },
-    it: { name: 'Italiano', chapter: 'Capitolo {a} di {b}', steps: '{n} passaggi', play: 'Tocca per guardare', prev: 'Precedente', next: 'Successivo', lang: 'Lingua' },
-    hi: { name: 'हिन्दी', chapter: 'अध्याय {a} / {b}', steps: '{n} चरण', play: 'चलाने के लिए टैप करें', prev: 'पिछला', next: 'अगला', lang: 'भाषा' }
+    en: { name: 'English', chapter: 'Chapter {a} of {b}', steps: '{n} steps', play: 'Tap to play', prev: 'Previous', next: 'Next', lang: 'Language', pause: 'Pause', resume: 'Play' },
+    es: { name: 'Español', chapter: 'Capítulo {a} de {b}', steps: '{n} pasos', play: 'Toca para ver', prev: 'Anterior', next: 'Siguiente', lang: 'Idioma', pause: 'Pausa', resume: 'Reproducir' },
+    zh: { name: '中文', chapter: '第 {a} 章，共 {b} 章', steps: '{n} 个步骤', play: '点按播放', prev: '上一章', next: '下一章', lang: '语言', pause: '暂停', resume: '播放' },
+    de: { name: 'Deutsch', chapter: 'Kapitel {a} von {b}', steps: '{n} Schritte', play: 'Zum Abspielen tippen', prev: 'Zurück', next: 'Weiter', lang: 'Sprache', pause: 'Pause', resume: 'Abspielen' },
+    fr: { name: 'Français', chapter: 'Chapitre {a} sur {b}', steps: '{n} étapes', play: 'Touchez pour lire', prev: 'Précédent', next: 'Suivant', lang: 'Langue', pause: 'Pause', resume: 'Lecture' },
+    pt: { name: 'Português', chapter: 'Capítulo {a} de {b}', steps: '{n} passos', play: 'Toque para assistir', prev: 'Anterior', next: 'Próximo', lang: 'Idioma', pause: 'Pausar', resume: 'Continuar' },
+    it: { name: 'Italiano', chapter: 'Capitolo {a} di {b}', steps: '{n} passaggi', play: 'Tocca per guardare', prev: 'Precedente', next: 'Successivo', lang: 'Lingua', pause: 'Pausa', resume: 'Riproduci' },
+    hi: { name: 'हिन्दी', chapter: 'अध्याय {a} / {b}', steps: '{n} चरण', play: 'चलाने के लिए टैप करें', prev: 'पिछला', next: 'अगला', lang: 'भाषा', pause: 'रोकें', resume: 'चलाएँ' }
   };
+  var pauseBtn = document.createElement('button');
+  pauseBtn.type = 'button';
+  next.parentNode.insertBefore(pauseBtn, next);
+  function pauseLabel() {
+    pauseBtn.innerHTML = video.paused ? '&#9654; ' : '&#10074;&#10074; ';
+    pauseBtn.appendChild(document.createTextNode(ui(video.paused ? 'resume' : 'pause')));
+  }
+  function togglePause() {
+    if (video.paused) begin(); else video.pause();
+  }
+  pauseBtn.addEventListener('click', togglePause);
+  video.addEventListener('play', pauseLabel);
+  video.addEventListener('pause', pauseLabel);
   function ui(k, vars) {
     var s = (UI[lang] || UI.en)[k] || UI.en[k];
     for (var v in vars || {}) s = s.replace('{' + v + '}', vars[v]);
@@ -98,6 +111,7 @@
     prev.appendChild(document.createTextNode(ui('prev')));
     next.textContent = ui('next') + ' ';
     next.insertAdjacentHTML('beforeend', '&#9654;');
+    pauseLabel();
   }
 
   function openLang(code, wantId) {
