@@ -86,7 +86,7 @@ footer .fn span{color:var(--gold);}
 
   <h2>2. How Your Data Is Stored</h2>
   <p><strong>On your device.</strong> Your data is kept in PocketBudJet's private app storage sandbox. On iOS, that storage is protected by Apple's Data Protection; on Android, by the platform's app-data isolation. Sensitive items like your PIN hash, biometric-lock flag, and any OAuth tokens you create are stored in the iOS Keychain or Android Keystore via <code>expo-secure-store</code>.</p>
-  <p><strong>If you turn on backups or sync.</strong> You pick the cloud provider (iCloud, Google Drive, OneDrive, or Dropbox). Before anything leaves your device, the payload is compressed and encrypted with AES-256-CTR + HMAC-SHA256 using a key derived from a password <em>only you know</em>. JosspaTech has no copy of that password and cannot decrypt your backups.</p>
+  <p><strong>If you turn on backups.</strong> You pick the cloud provider (iCloud, Google Drive, OneDrive, or Dropbox). The backup goes only to that account; JosspaTech never receives it. Keep backup files in a secure place, such as your cloud drive or account, or another password-protected location.</p>
   <p><strong>On the network.</strong> All traffic to the services listed in §4, §5, §10, and §11 is over TLS.</p>
 
   <h2>3. Camera and Receipt Scanning</h2>
