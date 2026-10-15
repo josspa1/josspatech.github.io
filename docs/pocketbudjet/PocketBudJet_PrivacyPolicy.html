@@ -58,7 +58,7 @@ footer .fn span{color:var(--gold);}
   <span class="doc-type">PocketBudJet · Legal Document</span>
   <h1>Privacy Policy</h1>
   <div class="doc-meta">
-    <span>Effective Date: October 1, 2026</span>
+    <span>Effective Date: October 14, 2026</span>
     <span>Developer: JosspaTech</span>
     <span>Contact: <a href="mailto:support@josspatech.com">support@josspatech.com</a></span>
   </div>
@@ -150,20 +150,23 @@ footer .fn span{color:var(--gold);}
   <h2>7. Voice Shortcuts</h2>
   <p>Voice shortcuts (Siri on iOS, Google Assistant / App Actions on Android) are opt-in and off by default. Voice audio is processed by Apple or Google under their respective privacy policies — not by JosspaTech. Only the resulting text command is used to create a transaction locally on your device.</p>
 
-  <h2>7a. Voice Input on the Coach Screen</h2>
-  <p>The AI Coach screen offers an optional microphone button for hands-free questions. When you tap it, your speech is transcribed on-device by Apple's Speech framework (iOS) or the Android system speech recognizer (typically Google). <strong>The audio recording itself never leaves your phone.</strong> Only the resulting text — what you would have typed — is sent to the AI Coach. You can decline microphone permission and the rest of the Coach continues to work via typing.</p>
+  <h2>7a. Voice Input (Home and Coach)</h2>
+  <p>The quick-add bar on Home and the Coach screen each offer an optional microphone button. When you tap it, your speech is turned into text by Apple's speech recognition (iOS) or the Android system speech recognizer (typically Google), under their respective privacy policies. Depending on your device and settings, that may happen on your phone or on Apple's or Google's servers. <strong>JosspaTech never receives, records, or stores the audio.</strong> Only the resulting text — what you would have typed — is used: on Home it fills in the transaction (if the phone can't read the phrase on its own, that text is sent to our server to read the amount and merchant), and on the Coach screen it is sent to the Coach as your question. You can decline microphone permission and both features keep working by typing.</p>
 
   <h2>7b. "Share to PocketBudJet" Receiver</h2>
   <p>PocketBudJet registers as a target in your phone's system Share sheet. When you choose to share a receipt photo, a bank-statement PDF, or text from another app, only that one item is passed to PocketBudJet for the duration needed to import it. We do not access your other apps' data, your photo library, or any other content unless you specifically share it with us.</p>
 
   <h2>8. Subscriptions and Payments</h2>
-  <p>Purchases are processed entirely by Apple App Store or Google Play Store. JosspaTech does not collect, store, or process payment card information. Subscription status is verified through RevenueCat, which receives an anonymous app user ID — not your name or email.</p>
+  <p>Purchases are processed entirely by Apple App Store or Google Play Store. JosspaTech does not collect, store, or process payment card information. Subscription status is verified through RevenueCat, which receives an anonymous app user ID — not your name or email. RevenueCat also receives the Meta and Firebase app identifiers and, when available, your advertising ID (on iPhone only if you tap Allow on the tracking question), so it can report trial starts, purchases, and renewals to Meta (see §9a).</p>
 
   <h2>9. Diagnostics and Crash Reports</h2>
   <p>PocketBudJet uses Firebase Crashlytics to collect anonymous crash diagnostics so we can find and fix bugs. Crash reports contain stack traces, device model, OS version, and app version. They do <strong>not</strong> contain your financial data. You can opt out in Settings → Data &amp; Privacy.</p>
 
-  <h2>9a. Ad Install Measurement (Android)</h2>
-  <p>On Android, PocketBudJet includes the Meta (Facebook) SDK so we can tell whether our ads on Facebook and Instagram led to an install. When the app opens, the SDK sends Meta an app-install / app-open event along with your device's Google advertising ID, app version, and basic device information (model, OS version). It does <strong>not</strong> send your transactions, budgets, balances, or anything else you enter in the app. Meta processes this data under its own <a href="https://www.facebook.com/privacy/policy/">Privacy Policy</a>. You can reset or delete your advertising ID, or opt out of ad personalization, in your phone's Settings (Google → Ads, or Privacy → Ads). The iOS version does not send this measurement.</p>
+  <h2>9a. Ad Measurement and App Analytics</h2>
+  <p>PocketBudJet includes the Meta (Facebook) SDK and Google Firebase Analytics so we can tell whether our ads on Facebook and Instagram bring people to the app, and which steps people finish. The app sends events such as: app installed or opened, setup finished, subscription screen viewed, checkout started, statement imported, and returning after 1, 7, or 30 days. Our subscription service (RevenueCat) also sends Meta trial starts, purchases, and renewals with the plan and price.</p>
+  <p>These events carry an app or device identifier, app version, and basic device information (model, OS version). They do <strong>not</strong> include your transactions, budgets, balances, merchants, or anything else you enter in the app.</p>
+  <p>On iPhone, the app asks Apple's "Allow tracking" question before the Meta SDK starts. If you do not tap Allow, your advertising ID is not sent, and Meta may use the events only for limited, aggregated ad measurement. On Android you can reset or delete your advertising ID, or opt out of ad personalization, in your phone's Settings (Google → Ads, or Privacy → Ads).</p>
+  <p>Meta processes this data under its own <a href="https://www.facebook.com/privacy/policy/">Privacy Policy</a>; Google under its own <a href="https://policies.google.com/privacy">Privacy Policy</a>.</p>
 
   <h2>10. Crowd Benchmarks and Merchant Intelligence</h2>
   <p>To make the app smarter for everyone, PocketBudJet contributes a small amount of anonymized data to a shared pool hosted by JosspaTech (PocketBase, plus the JosspaTech Cloudflare Worker key-value store). You can turn this off any time in Settings → Data &amp; Privacy → "Help PBJ learn from everyone." Turning it off stops outbound contributions; you still receive the benefit of other users' contributions in your category suggestions.</p>
