@@ -313,6 +313,7 @@ html.boot-cvc #page-cvc { display:block !important; }
 .hub-card[data-app="hhh"]{--hub-accent:#C8AA6E;}
 .hub-card[data-app="pal"]{--hub-accent:#E8B84A;}
 .hub-card[data-app="cvc"]{--hub-accent:#D4A853;}
+.hub-card[data-app="unscribe"]{--hub-accent:#FF5A3C;}
 .hub-card::after{
   content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;
   border-radius:50%;background:radial-gradient(circle,var(--hub-accent),transparent 70%);
@@ -688,6 +689,7 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
 #page-company .hub-card[data-app="hhh"]{grid-column:span 5;min-height:380px;}
 #page-company .hub-card[data-app="pal"]{grid-column:span 5;min-height:340px;}
 #page-company .hub-card[data-app="cvc"]{grid-column:span 7;min-height:340px;}
+#page-company .hub-card[data-app="unscribe"]{grid-column:span 12;min-height:220px;}
 #page-company .hub-card{
   display:grid;
   grid-template-columns:1fr minmax(118px,172px);
@@ -829,7 +831,8 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
   #page-company .hub-card[data-app="pbj"],
   #page-company .hub-card[data-app="hhh"],
   #page-company .hub-card[data-app="pal"],
-  #page-company .hub-card[data-app="cvc"]{grid-column:auto;min-height:0;}
+  #page-company .hub-card[data-app="cvc"],
+  #page-company .hub-card[data-app="unscribe"]{grid-column:auto;min-height:0;}
   #page-company .hub-card{
     grid-template-columns:1fr 108px;padding:28px 22px;border-radius:22px;
   }
@@ -3216,6 +3219,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <a href="/pbj/" class="nav-mobile-link">PocketBudJet</a>
   <a href="/pal/" class="nav-mobile-link">Pocket Allowance Ledger</a>
   <a href="/cvc/" class="nav-mobile-link">Curator's Vault</a>
+  <a href="/unscribe/" class="nav-mobile-link">Unscribe</a>
   <a href="mailto:support@josspatech.com" class="nav-mobile-link">Contact</a>
   <a href="#products" onclick="navTo('products');closeMenu();return false;" class="nav-mobile-cta">See Our Apps →</a>
 </div>
@@ -3272,6 +3276,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/">Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/">Curator's Vault: Classics</a>
+        <a href="/unscribe/">Unscribe</a>
       </nav>
 
 
@@ -3317,6 +3322,17 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </div>
         <figure class="hub-card-shot" aria-hidden="true">
           <img src="assets/screenshots/cvc/02-collection.png?v=2" alt="" width="168" height="298" loading="lazy">
+        </figure>
+      </div>
+
+      <div role="button" tabindex="0" data-app="unscribe" onclick="location.href='/unscribe/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/unscribe/';}" class="hub-card rv d5">
+        <div class="hub-card-body">
+          <div class="hub-name">Un<em>scribe</em>™</div>
+          <p class="hub-tagline">See what you pay for every month. Share a statement. Keep what you use. Cancel the rest.</p>
+          <div class="hub-cta">Open Unscribe <span>→</span></div>
+        </div>
+        <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
+          <img src="assets/brand/unscribe-icon.png" alt="" width="120" height="120" loading="lazy">
         </figure>
       </div>
 
@@ -3391,6 +3407,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/" >Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/" >Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
@@ -4174,6 +4191,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/" >Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/" >Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
       </div>
       <div class="footer-col">
         <h4>PocketBudJet Legal</h4>
@@ -4498,6 +4516,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/" >Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/" >Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
       </div>
       <div class="footer-col">
         <h4>Handy Horology Helper</h4>
@@ -4782,6 +4801,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/" >Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/" >Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
       </div>
       <div class="footer-col">
         <h4>Pocket Allowance Ledger</h4>
@@ -4956,6 +4976,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/hhh/" >Handy Horology Helper</a>
         <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/" >Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
       </div>
       <div class="footer-col">
         <h4>Curator's Vault</h4>
