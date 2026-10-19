@@ -14,17 +14,17 @@
   var next = root.querySelector('[data-next]');
   var pos = root.querySelector('[data-pos]');
   var langBox = root.querySelector('.howto-lang');
-  var chapters = [], cur = -1, rows = [], started = false, userScroll = 0, lang = 'en';
+  var chapters = [], cur = -1, rows = [], started = false, userScroll = 0, lang = 'en', os = 'android', lastId = '';
 
   var UI = {
-    en: { name: 'English', chapter: 'Chapter {a} of {b}', steps: '{n} steps', play: 'Tap to play', prev: 'Previous', next: 'Next', lang: 'Language', pause: 'Pause', resume: 'Play' },
-    es: { name: 'Español', chapter: 'Capítulo {a} de {b}', steps: '{n} pasos', play: 'Toca para ver', prev: 'Anterior', next: 'Siguiente', lang: 'Idioma', pause: 'Pausa', resume: 'Reproducir' },
-    zh: { name: '中文', chapter: '第 {a} 章，共 {b} 章', steps: '{n} 个步骤', play: '点按播放', prev: '上一章', next: '下一章', lang: '语言', pause: '暂停', resume: '播放' },
-    de: { name: 'Deutsch', chapter: 'Kapitel {a} von {b}', steps: '{n} Schritte', play: 'Zum Abspielen tippen', prev: 'Zurück', next: 'Weiter', lang: 'Sprache', pause: 'Pause', resume: 'Abspielen' },
-    fr: { name: 'Français', chapter: 'Chapitre {a} sur {b}', steps: '{n} étapes', play: 'Touchez pour lire', prev: 'Précédent', next: 'Suivant', lang: 'Langue', pause: 'Pause', resume: 'Lecture' },
-    pt: { name: 'Português', chapter: 'Capítulo {a} de {b}', steps: '{n} passos', play: 'Toque para assistir', prev: 'Anterior', next: 'Próximo', lang: 'Idioma', pause: 'Pausar', resume: 'Continuar' },
-    it: { name: 'Italiano', chapter: 'Capitolo {a} di {b}', steps: '{n} passaggi', play: 'Tocca per guardare', prev: 'Precedente', next: 'Successivo', lang: 'Lingua', pause: 'Pausa', resume: 'Riproduci' },
-    hi: { name: 'हिन्दी', chapter: 'अध्याय {a} / {b}', steps: '{n} चरण', play: 'चलाने के लिए टैप करें', prev: 'पिछला', next: 'अगला', lang: 'भाषा', pause: 'रोकें', resume: 'चलाएँ' }
+    en: { name: 'English', chapter: 'Chapter {a} of {b}', steps: '{n} steps', play: 'Tap to play', prev: 'Previous', next: 'Next', lang: 'Language', os: 'OS', pause: 'Pause', resume: 'Play' },
+    es: { name: 'Español', chapter: 'Capítulo {a} de {b}', steps: '{n} pasos', play: 'Toca para ver', prev: 'Anterior', next: 'Siguiente', lang: 'Idioma', os: 'OS', pause: 'Pausa', resume: 'Reproducir' },
+    zh: { name: '中文', chapter: '第 {a} 章，共 {b} 章', steps: '{n} 个步骤', play: '点按播放', prev: '上一章', next: '下一章', lang: '语言', os: 'OS', pause: '暂停', resume: '播放' },
+    de: { name: 'Deutsch', chapter: 'Kapitel {a} von {b}', steps: '{n} Schritte', play: 'Zum Abspielen tippen', prev: 'Zurück', next: 'Weiter', lang: 'Sprache', os: 'OS', pause: 'Pause', resume: 'Abspielen' },
+    fr: { name: 'Français', chapter: 'Chapitre {a} sur {b}', steps: '{n} étapes', play: 'Touchez pour lire', prev: 'Précédent', next: 'Suivant', lang: 'Langue', os: 'OS', pause: 'Pause', resume: 'Lecture' },
+    pt: { name: 'Português', chapter: 'Capítulo {a} de {b}', steps: '{n} passos', play: 'Toque para assistir', prev: 'Anterior', next: 'Próximo', lang: 'Idioma', os: 'OS', pause: 'Pausar', resume: 'Continuar' },
+    it: { name: 'Italiano', chapter: 'Capitolo {a} di {b}', steps: '{n} passaggi', play: 'Tocca per guardare', prev: 'Precedente', next: 'Successivo', lang: 'Lingua', os: 'OS', pause: 'Pausa', resume: 'Riproduci' },
+    hi: { name: 'हिन्दी', chapter: 'अध्याय {a} / {b}', steps: '{n} चरण', play: 'चलाने के लिए टैप करें', prev: 'पिछला', next: 'अगला', lang: 'भाषा', os: 'OS', pause: 'रोकें', resume: 'चलाएँ' }
   };
   var pauseBtn = document.createElement('button');
   pauseBtn.type = 'button';
@@ -49,13 +49,17 @@
 
   function setHash() {
     if (!history.replaceState || cur < 0) return;
-    history.replaceState(null, '', '#' + (lang === 'en' ? '' : lang + '/') + chapters[cur].id);
+    var parts = [];
+    if (os === 'ios') parts.push('ios');
+    if (lang !== 'en') parts.push(lang);
+    parts.push(chapters[cur].id);
+    history.replaceState(null, '', '#' + parts.join('/'));
   }
 
   function load(i, play) {
     if (i < 0 || i >= chapters.length) return;
     cur = i;
-    var ch = chapters[i], dir = base + lang + '/';
+    var ch = chapters[i], dir = base + (os === 'ios' ? 'ios/' : '') + lang + '/';
     Array.prototype.forEach.call(nav.children, function (b, k) { b.classList.toggle('active', k === i); });
     video.src = dir + ch.src;
     video.poster = ch.poster ? dir + ch.poster : '';
@@ -114,19 +118,50 @@
     pauseLabel();
   }
 
+  function showEmpty() {
+    chapters = [];
+    cur = -1;
+    rows = [];
+    nav.innerHTML = '';
+    list.innerHTML = '';
+    video.removeAttribute('src');
+    video.poster = '';
+    title.textContent = '';
+    count.textContent = '';
+    pos.textContent = '';
+    prev.disabled = true;
+    next.disabled = true;
+    if (history.replaceState) {
+      var parts = [];
+      if (os === 'ios') parts.push('ios');
+      if (lang !== 'en') parts.push(lang);
+      history.replaceState(null, '', parts.length ? '#' + parts.join('/') : location.pathname + location.search);
+    }
+  }
+
   function openLang(code, wantId) {
     lang = code;
     if (langBox) {
-      var sel = langBox.querySelector('select');
+      var sel = langBox.querySelector('select[data-lang]');
       if (sel) sel.value = code;
-      var lab = langBox.querySelector('label span');
-      if (lab) lab.textContent = ui('lang');
+      var osSel = langBox.querySelector('select[data-os]');
+      if (osSel) osSel.value = os;
+      var langLab = langBox.querySelector('[data-for="lang"]');
+      if (langLab) langLab.textContent = ui('lang');
+      var osLab = langBox.querySelector('[data-for="os"]');
+      if (osLab) osLab.textContent = ui('os');
     }
     chrome();
-    var keepId = wantId || (cur >= 0 && chapters[cur] ? chapters[cur].id : '');
-    fetch(base + code + '/chapters.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (data) {
+    var keepId = wantId || (cur >= 0 && chapters[cur] ? chapters[cur].id : lastId);
+    if (keepId) lastId = keepId;
+    var folder = base + (os === 'ios' ? 'ios/' : '') + code + '/';
+    fetch(folder + 'chapters.json', { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('missing');
+      return r.json();
+    }).then(function (data) {
       chapters = data.chapters || [];
       nav.innerHTML = '';
+      if (!chapters.length) { showEmpty(); return; }
       chapters.forEach(function (ch, i) {
         var b = document.createElement('button');
         b.type = 'button';
@@ -137,7 +172,7 @@
       var idx = 0;
       chapters.forEach(function (ch, i) { if (ch.id === keepId) idx = i; });
       load(idx, false);
-    });
+    }).catch(function () { showEmpty(); });
   }
 
   video.addEventListener('timeupdate', sync);
@@ -152,7 +187,8 @@
 
   fetch(base + 'langs.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).catch(function () { return { langs: ['en'] }; }).then(function (d) {
     var langs = (d.langs || ['en']).filter(function (c) { return UI[c]; });
-    var h = (location.hash || '').replace('#', '').split('/');
+    var h = (location.hash || '').replace('#', '').split('/').filter(Boolean);
+    if (h[0] === 'ios') { os = 'ios'; h.shift(); }
     var hashLang = h.length > 1 ? h[0] : '';
     var wantId = h[h.length - 1];
     var pick = 'en';
@@ -162,9 +198,9 @@
       if (langs.indexOf(nl) >= 0) pick = nl;
     }
     if (langBox) {
-      if (langs.length < 2) langBox.style.display = 'none';
-      else {
+      if (langs.length >= 2) {
         var sel = document.createElement('select');
+        sel.setAttribute('data-lang', '');
         langs.forEach(function (c) {
           var o = document.createElement('option');
           o.value = c;
@@ -173,10 +209,23 @@
         });
         sel.addEventListener('change', function () { openLang(sel.value); });
         var lab = document.createElement('label');
-        lab.innerHTML = '<span></span> ';
+        lab.innerHTML = '<span data-for="lang"></span> ';
         lab.appendChild(sel);
         langBox.appendChild(lab);
       }
+      var osSel = document.createElement('select');
+      osSel.setAttribute('data-os', '');
+      [['android', 'Android'], ['ios', 'iPhone']].forEach(function (pair) {
+        var o = document.createElement('option');
+        o.value = pair[0];
+        o.textContent = pair[1];
+        osSel.appendChild(o);
+      });
+      osSel.addEventListener('change', function () { os = osSel.value; openLang(lang); });
+      var osLab = document.createElement('label');
+      osLab.innerHTML = '<span data-for="os"></span> ';
+      osLab.appendChild(osSel);
+      langBox.appendChild(osLab);
     }
     openLang(pick, wantId);
   });

@@ -4,6 +4,7 @@
 .howto .section-sub { text-align: center; color: #5A7A9A; margin: 0 auto 1.4rem; max-width: 760px; font-size: 1.05rem; }
 .howto-lang { text-align: center; margin: 0 0 1rem; }
 .howto-lang label { font-weight: 600; color: #1A4F7A; }
+.howto-lang label + label { margin-left: 1.25rem; }
 .howto-lang select { font: inherit; padding: .35rem .7rem; border: 1px solid #2E6FA3; border-radius: 6px; color: #1A4F7A; background: #fff; }
 .howto-chapters { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin: 0 0 1.6rem; }
 .howto-chapters button {
