@@ -2,12 +2,14 @@
  * Site analytics for josspatech.com (GitHub Pages).
  *
  * Include on any public HTML page:
+ *   <script type="module" src="/scripts/heycatch-init.js"></script>
  *   <script src="/scripts/site-analytics-saas.js" defer></script>
  *
  * Optional override before this script:
  *   window.JOSSPATECH_ANALYTICS = { goatcounter, cloudflareToken, pocketbase: true|false }
  *
  * Records:
+ *   - HeyCatch (@heycatch/sdk via /scripts/heycatch-init.js) — pageviews / clicks / short links
  *   - GoatCounter path = pathname + search + hash (UTMs + #hhh / #pbj / #cvc)
  *   - GoatCounter events for store outbound clicks (Play / TestFlight / App Store)
  *   - Cloudflare Web Analytics (path without hash by CF default; first load only)
@@ -20,6 +22,18 @@
 (function () {
   if (window.__JOSSPATECH_ANALYTICS_BOOTED) return;
   window.__JOSSPATECH_ANALYTICS_BOOTED = true;
+
+  // HeyCatch: ensure module entry is present even if the page only included this classic script.
+  // The SDK itself is statically imported inside heycatch-init.js (agents.md).
+  try {
+    if (!window.__HEYCATCH_INIT_SCRIPT) {
+      window.__HEYCATCH_INIT_SCRIPT = true;
+      var hc = document.createElement('script');
+      hc.type = 'module';
+      hc.src = '/scripts/heycatch-init.js';
+      document.head.appendChild(hc);
+    }
+  } catch (e) {}
 
   var DEFAULTS = {
     goatcounter: 'https://josspatech.goatcounter.com/count',
