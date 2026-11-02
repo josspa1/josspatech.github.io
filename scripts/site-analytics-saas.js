@@ -30,7 +30,7 @@
       window.__HEYCATCH_INIT_SCRIPT = true;
       var hc = document.createElement('script');
       hc.type = 'module';
-      hc.src = '/scripts/heycatch-init.js';
+      hc.src = '/scripts/heycatch-init.js?v=2';
       document.head.appendChild(hc);
     }
   } catch (e) {}
