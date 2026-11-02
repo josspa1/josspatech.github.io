@@ -804,6 +804,40 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
 }
 #page-company .privacy-strip .ps-item{color:rgba(255,255,255,0.58);font-weight:500;}
 #page-company .privacy-strip .ps-dot{background:var(--gold);}
+#page-company .studio-pricing{background:#060d16;padding-top:72px;padding-bottom:72px;}
+#page-company .studio-pricing .section-title{color:#fff;}
+#page-company .studio-pricing .section-title em{color:var(--gold);}
+#page-company .studio-pricing .section-sub{color:rgba(255,255,255,0.55);}
+#page-company .studio-pricing .section-eyebrow{color:rgba(240,192,64,0.88);}
+.studio-price-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  margin-top:40px;
+}
+.studio-price-card{
+  display:block;
+  text-decoration:none;
+  background:linear-gradient(155deg,#0e3558 0%,#123f68 42%,#0c2d4a 100%);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:18px;
+  padding:22px 20px;
+  color:#fff;
+  transition:transform .18s,border-color .18s;
+}
+.studio-price-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(240,192,64,0.38);
+}
+.studio-price-name{font-size:15px;font-weight:700;letter-spacing:-0.2px;margin-bottom:8px;}
+.studio-price-amt{font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;}
+.studio-price-note{font-size:13px;line-height:1.45;color:rgba(255,255,255,0.55);margin:0;}
+@media(max-width:900px){
+  .studio-price-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:560px){
+  .studio-price-grid{grid-template-columns:1fr;}
+}
 #page-company .quote-bar{
   background:#02070e;padding:130px 48px;text-align:center;position:relative;
 }
@@ -3207,6 +3241,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   </a>
   <div class="nav-links">
     <a href="#products" onclick="navTo('products');return false;" class="nav-link">Products</a>
+    <a href="#studio-pricing" onclick="navTo('studio-pricing');return false;" class="nav-link">Pricing</a>
     <a href="#principles" onclick="navTo('principles');return false;" class="nav-link">Mission</a>
     <a href="mailto:support@josspatech.com" class="nav-link">Contact</a>
     <a href="#products" onclick="navTo('products');return false;" class="nav-cta">Explore the lineup</a>
@@ -3220,6 +3255,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 <!-- Mobile menu (shared) -->
 <div class="nav-mobile-menu" id="mobile-menu" role="navigation">
   <a href="#products" class="nav-mobile-link" onclick="navTo('products');closeMenu();return false;">Products</a>
+  <a href="#studio-pricing" class="nav-mobile-link" onclick="navTo('studio-pricing');closeMenu();return false;">Pricing</a>
   <a href="#principles" class="nav-mobile-link" onclick="navTo('principles');closeMenu();return false;">Mission</a>
   <a href="/hhh/" class="nav-mobile-link">Handy Horology Helper</a>
   <a href="/pbj/" class="nav-mobile-link">PocketBudJet</a>
@@ -3291,11 +3327,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div role="button" tabindex="0" data-app="pbj" onclick="location.href='/pbj/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/pbj/';}" class="hub-card hub-card-featured rv d1">
         <div class="hub-card-body">
           <div class="hub-name">Pocket<em>BudJet</em>™</div>
-          <p class="hub-tagline">Import. Plan. Coach. Money clarity — on your terms.</p>
+          <p class="hub-tagline">Import. Plan. Coach. See your debt-free date — on your phone, not a bank login.</p>
           <div class="hub-cta">Open PocketBudJet <span>→</span></div>
         </div>
-        <figure class="hub-card-shot" aria-hidden="true">
-          <img src="videos/pbj/intro/screens/home-concierge.jpg" alt="" width="168" height="364" loading="lazy">
+        <figure class="hub-card-shot">
+          <img src="videos/pbj/intro/screens/home-concierge.jpg" alt="PocketBudJet home dashboard with money overview and health score" width="168" height="364" loading="lazy">
         </figure>
       </div>
 
@@ -3305,8 +3341,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <p class="hub-tagline">New or vintage. Floor or bench. Confirm your suspicions.</p>
           <div class="hub-cta">Open HHH <span>→</span></div>
         </div>
-        <figure class="hub-card-shot" aria-hidden="true">
-          <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="" width="148" height="322" loading="lazy">
+        <figure class="hub-card-shot">
+          <img src="assets/screenshots/hhh/intro/02-my-museum.png" alt="Handy Horology Helper My Museum collection grid of watches and clocks" width="148" height="322" loading="lazy">
         </figure>
       </div>
 
@@ -3316,8 +3352,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <p class="hub-tagline">Coach homework, chores, and habits — parents stay in charge. Gold tokens. Real habits.</p>
           <div class="hub-cta">Open PAL <span>→</span></div>
         </div>
-        <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
-          <img src="assets/brand/pal-coin.svg?v=8" alt="Gold token" width="120" height="120" loading="lazy">
+        <figure class="hub-card-shot hub-card-shot-token">
+          <img src="assets/brand/pal-coin.svg?v=8" alt="Pocket Allowance Ledger gold token reward" width="120" height="120" loading="lazy">
           <p class="token-caption">Gold token</p>
         </figure>
       </div>
@@ -3328,8 +3364,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <p class="hub-tagline">Coins, cards, stamps, paper money, lighters — photograph, organize, value. Your vault. Your rules.</p>
           <div class="hub-cta">Open Curator's Vault <span>→</span></div>
         </div>
-        <figure class="hub-card-shot" aria-hidden="true">
-          <img src="assets/screenshots/cvc/02-collection.png?v=2" alt="" width="168" height="298" loading="lazy">
+        <figure class="hub-card-shot">
+          <img src="assets/screenshots/cvc/02-collection.png?v=2" alt="Curator's Vault Classics collection screen with cataloged collectibles" width="168" height="298" loading="lazy">
         </figure>
       </div>
 
@@ -3339,8 +3375,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <p class="hub-tagline">See what you pay for every month. Share a statement. Keep what you use. Cancel the rest.</p>
           <div class="hub-cta">Open Unscribe <span>→</span></div>
         </div>
-        <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
-          <img src="assets/brand/unscribe-icon.png" alt="" width="120" height="120" loading="lazy">
+        <figure class="hub-card-shot hub-card-shot-token">
+          <img src="assets/brand/unscribe-icon.png" alt="Unscribe app icon" width="120" height="120" loading="lazy">
         </figure>
       </div>
 
@@ -3350,11 +3386,56 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <p class="hub-tagline">Drop the piece. The fight follows. A night stone pit. You and a myth.</p>
           <div class="hub-cta">Open Battle Plinko <span>→</span></div>
         </div>
-        <figure class="hub-card-shot hub-card-shot-token" aria-hidden="true">
-          <img src="assets/brand/battle-plinko-icon.webp" alt="" width="120" height="120" loading="lazy">
+        <figure class="hub-card-shot hub-card-shot-token">
+          <img src="assets/brand/battle-plinko-icon.webp" alt="Battle Plinko game icon — brass ball on iron peg" width="120" height="120" loading="lazy">
         </figure>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ══ STUDIO PRICING ══ -->
+<section class="section content studio-pricing" id="studio-pricing">
+  <div class="section-inner">
+    <div class="rv section-lead">
+      <div>
+        <span class="section-eyebrow">Pricing</span>
+        <h2 class="section-title">Clear prices.<br><em>No surprise charges.</em></h2>
+        <p class="section-sub">One place for the studio ladder. Trial and card rules differ by app — details on each product page.</p>
+      </div>
+    </div>
+    <div class="studio-price-grid">
+      <a class="studio-price-card rv d1" href="/#pricing">
+        <div class="studio-price-name">PocketBudJet</div>
+        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
+        <p class="studio-price-note">15-day Premium trial · card required via Apple or Google</p>
+      </a>
+      <a class="studio-price-card rv d2" href="/hhh/">
+        <div class="studio-price-name">Handy Horology Helper</div>
+        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
+        <p class="studio-price-note">15-day Pro trial · no card required to start</p>
+      </a>
+      <a class="studio-price-card rv d3" href="/cvc/">
+        <div class="studio-price-name">Curator's Vault</div>
+        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
+        <p class="studio-price-note">15-day trial · Google Play live · App Store in review</p>
+      </a>
+      <a class="studio-price-card rv d4" href="/pal/">
+        <div class="studio-price-name">Pocket Allowance Ledger</div>
+        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
+        <p class="studio-price-note">15-day trial · no card · email access (not public store yet)</p>
+      </a>
+      <a class="studio-price-card rv d5" href="/unscribe/">
+        <div class="studio-price-name">Unscribe</div>
+        <div class="studio-price-amt">$19.99/yr · $39.99 lifetime</div>
+        <p class="studio-price-note">First five subscriptions free · no monthly plan</p>
+      </a>
+      <a class="studio-price-card rv d5" href="/battle-plinko/">
+        <div class="studio-price-name">Battle Plinko</div>
+        <div class="studio-price-amt">Game</div>
+        <p class="studio-price-note">Portrait phone game — see product page for availability</p>
+      </a>
     </div>
   </div>
 </section>
@@ -3431,6 +3512,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       </div>
       <div class="footer-col">
         <h4>Company</h4>
+        <a href="#studio-pricing" onclick="navTo('studio-pricing');return false;">Pricing</a>
         <a href="#principles" onclick="navTo('principles');return false;">Mission</a>
         <a href="mailto:support@josspatech.com">Contact</a>
       </div>
@@ -3453,7 +3535,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="hero-bc"><a href="#" onclick="showPage('company');return false;">JosspaTech</a><span>/</span><span>PocketBudJet</span></div>
       <div class="vol-kicker"><span class="vol-name">Pocket<em>BudJet</em>™</span></div>
       <div class="vol-rule" aria-hidden="true"></div>
-      <div class="hero-eyebrow"><div class="hero-dot"></div>Google Play · App Store in review</div>
+      <div class="hero-eyebrow"><div class="hero-dot"></div>Google Play · App Store</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it private.</em></h1>
       <p class="hero-tagline">Private budgeting on your device</p>
       <p class="hero-sub"><strong>Privacy-first. No bank login.</strong> Import a statement or type it in &mdash; your data stays on your phone. <strong>15 days of Premium. Card required.</strong> Start through Apple or Google &mdash; cancel anytime before the trial ends. Then $9.99/mo or $74.99/yr. <strong>Cancel anytime.</strong></p>
@@ -3464,6 +3546,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="#pricing" class="btn-ghost">Pricing</a>
       </div>
       <p class="hero-cta-note"><strong>Card required</strong> so the trial runs through Apple or Google — cancel in one tap in your store subscriptions. No JosspaTech account exists to charge you.</p>
+      <p class="hero-cta-note"><strong>Your data is never locked in.</strong> Export to CSV or JSON anytime. Optional encrypted backups live in your Drive or iCloud — not a JosspaTech cloud.</p>
     </div>
 
     <!-- Hero screenshot strip — 3 phones above the fold so visitors
@@ -3718,9 +3801,10 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   .pbj-sticky-bar-cta { padding: 8px 16px; font-size: 13px; }
 }
 </style>
-<div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet on Google Play">
-  <span class="pbj-sticky-bar-text">On Google Play &mdash; App Store in review</span>
+<div id="pbjStickyBar" class="pbj-sticky-bar" role="region" aria-label="PocketBudJet on Google Play and App Store">
+  <span class="pbj-sticky-bar-text">On Google Play &amp; the App Store</span>
   <a class="pbj-sticky-bar-cta" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet">Google Play</a>
+  <a class="pbj-sticky-bar-cta" href="https://apps.apple.com/app/id6761077263" style="background:#fff;color:#0D2E4A;">App Store</a>
 </div>
 <script>
 // Reveal the sticky bar after the user scrolls past the first hero.
@@ -4161,11 +4245,12 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="launch-cta rv d1">
       <div class="launch-cta-inner">
         <div class="launch-cta-text">
-          <div class="launch-cta-title">On Google Play &mdash; App Store in review</div>
-          <div class="launch-cta-sub">Install from Google Play. 15-day Premium trial, then $9.99/mo or $74.99/yr. Apple is still reviewing the App Store listing.</div>
+          <div class="launch-cta-title">On Google Play &amp; the App Store</div>
+          <div class="launch-cta-sub">Install from either store. 15-day Premium trial, then $9.99/mo or $74.99/yr. Cancel anytime in your store subscriptions.</div>
         </div>
         <div class="launch-form" style="flex-direction:column;align-items:stretch;min-width:220px;">
           <a href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" class="launch-btn" style="text-align:center;text-decoration:none;display:block;">Google Play</a>
+          <a href="https://apps.apple.com/app/id6761077263" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;margin-top:8px;">App Store</a>
           <a href="/videos/pbj/user-guide/" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;margin-top:8px;">How to use</a>
         </div>
       </div>
@@ -4174,7 +4259,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="lg rv d1">
         <h3>Download</h3>
         <a class="li" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet"><div class="li-lft"><span class="li-ic">&#129302;</span><div><span class="li-ti">Google Play &mdash; Android</span><span class="li-no">15-day trial &middot; then $9.99/mo or $74.99/yr</span></div></div><span class="li-ar">&#8594;</span></a>
-        <div class="li ph"><div class="li-lft"><span class="li-ic">&#127822;</span><div><span class="li-ti">App Store &mdash; iOS</span><span class="li-no">In review</span></div></div><span class="li-pt soon">In review</span></div>
+        <a class="li" href="https://apps.apple.com/app/id6761077263"><div class="li-lft"><span class="li-ic">&#127822;</span><div><span class="li-ti">App Store &mdash; iOS</span><span class="li-no">15-day trial &middot; then $9.99/mo or $74.99/yr</span></div></div><span class="li-ar">&#8594;</span></a>
       </div>
       <div class="lg rv d2">
         <h3>Legal &amp; Policies</h3>
