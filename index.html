@@ -2986,11 +2986,14 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 .plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
 .plan{background:var(--bg);border-radius:16px;padding:30px 24px;border:1.5px solid rgba(26,79,122,0.1);position:relative;transition:all .22s;box-shadow:0 2px 6px rgba(12,51,88,0.04);}
 .plan:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(12,51,88,0.1);}
-.plan.best{background:#fff;border-color:var(--gold);box-shadow:0 4px 16px rgba(232,168,32,0.14),0 16px 48px rgba(12,51,88,0.09);}
+.plan.best{background:#fff;border:2.5px solid var(--gold);box-shadow:0 8px 28px rgba(232,168,32,0.22),0 16px 48px rgba(12,51,88,0.1);transform:translateY(-2px);}
+.plan.best .plan-badge{box-shadow:0 2px 8px rgba(232,168,32,0.35);}
 .plan.free-start{background:#fff;border-color:var(--gold);border-left:5px solid var(--gold);box-shadow:0 4px 18px rgba(232,168,32,0.14);}
 .plan-badge-start{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--navy-dk);color:var(--gold);font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap;}
 .trial-strip{background:linear-gradient(90deg,rgba(240,192,64,0.18),rgba(240,192,64,0.08));border:1px solid rgba(240,192,64,0.35);border-radius:12px;padding:14px 22px;margin-bottom:28px;text-align:center;font-size:14px;color:var(--navy-dk);line-height:1.55;}
 .trial-strip strong{color:var(--navy-dk);}
+.hero-cta-note{margin-top:14px;max-width:520px;font-size:13px;line-height:1.55;color:var(--slate);background:rgba(26,79,122,0.05);border:1px solid rgba(26,79,122,0.12);border-radius:10px;padding:12px 14px;}
+.hero-cta-note strong{color:var(--navy-dk);}
 .ftable-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 20px;font-size:12px;color:var(--slate);margin-bottom:14px;}
 .ftable-legend span{display:inline-flex;align-items:center;gap:6px;}
 .ftable-legend .lg-dot{width:10px;height:10px;border-radius:2px;background:var(--success);opacity:0.85;}
@@ -3241,9 +3244,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <h1 class="hero-brand">Josspa<span>Tech</span>™</h1>
     <p class="hero-pronounce" aria-label="Pronounced Joss-pah-tech, short o as in joss — not Joe-spa-tech">Pronounced <em>Joss-pah-tech</em></p>
     <div class="hub-rule" aria-hidden="true"></div>
-    <p class="hero-h1">Software that<br><em>feels finished.</em></p>
+    <p class="hero-h1">Private, offline-first<br><em>mobile apps.</em></p>
     <p class="hero-sub">
-      Private where it matters. Excellent where it shows.
+      Six apps for money, collections, household routines — and one game. No accounts, no bank login, no ads. Your data stays on your phone.
     </p>
     <div class="hero-actions">
       <a href="#products" class="btn-primary">
@@ -3257,9 +3260,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
 <!-- Privacy strip -->
 <div class="privacy-strip" role="complementary">
-  <div class="ps-item"><div class="ps-dot"></div>Built for real people</div>
-  <div class="ps-item"><div class="ps-dot"></div>Tools worth keeping</div>
-  <div class="ps-item"><div class="ps-dot"></div>Standards before scale</div>
+  <div class="ps-item"><div class="ps-dot"></div>Data stays on your phone</div>
+  <div class="ps-item"><div class="ps-dot"></div>No bank login · No ads</div>
+  <div class="ps-item"><div class="ps-dot"></div>No JosspaTech account</div>
   <div class="ps-item"><div class="ps-dot"></div>iOS &amp; Android</div>
 </div>
 
@@ -3460,6 +3463,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <a href="/videos/pbj/user-guide/" class="btn-ghost">How to use</a>
         <a href="#pricing" class="btn-ghost">Pricing</a>
       </div>
+      <p class="hero-cta-note"><strong>Card required</strong> so the trial runs through Apple or Google — cancel in one tap in your store subscriptions. No JosspaTech account exists to charge you.</p>
     </div>
 
     <!-- Hero screenshot strip — 3 phones above the fold so visitors
@@ -3880,7 +3884,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
             </div>
           </div>
           <div class="sh-pricing">
-            <div class="sh-pc feat"><div class="sh-pamt">15 days</div><div class="sh-pper">card required</div><div class="sh-plbl">Premium Trial</div><div class="sh-ptag gld">Pro toolkit &middot; no bank login</div></div>
+            <div class="sh-pc feat"><div class="sh-pamt">15 days</div><div class="sh-pper">card required</div><div class="sh-plbl">Premium Trial</div><div class="sh-ptag gld">Premium toolkit &middot; no bank login</div></div>
             <div class="sh-pc"><div class="sh-pamt">$9.99</div><div class="sh-pper">per month</div><div class="sh-plbl">Premium Monthly</div></div>
             <div class="sh-pc feat"><div class="sh-pamt">$74.99</div><div class="sh-pper">per year &middot; $6.25/mo</div><div class="sh-plbl">Premium Annual</div><div class="sh-ptag gld">Save 37% vs monthly</div></div>
           </div>
@@ -3934,7 +3938,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div>
         <span class="sec-ey">How We Compare</span>
         <h2 class="sec-ti">More features. Lower price.<br><em>Your data stays yours.</em></h2>
-        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and require your bank login on day one. PocketBudJet is privacy-first: import or type, no bank connection, no account. Try Pro for 15 days, then $9.99/mo or $74.99/yr.</p>
+        <p class="sec-su" style="margin-bottom:0;">Other budgeting apps cost $80&ndash;$109 per year and require your bank login on day one. PocketBudJet is privacy-first: import or type, no bank connection, no account. Try Premium for 15 days, then $9.99/mo or $74.99/yr.</p>
       </div>
       <div>
         <table class="ctbl">
@@ -3961,9 +3965,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="sec-in">
     <div class="pricing-hd rv">
       <h2 class="pricing-h">One app. Every tool<br>your budget needs.</h2>
-      <p class="pricing-su">Privacy-first: no bank login. 15-day Pro trial (payment method required via Apple or Google), then $9.99/mo or $74.99/yr. Pro is the debt engine, credit-card intel, subscription tracker, what-ifs, bill calendar, 90-day projection, health score, merchant analysis, receipt scan, report export, plus Coach, shopping intel, cloud backup, and Web Companion. Cancel anytime.</p>
+      <p class="pricing-su">Privacy-first: no bank login. 15-day Premium trial (payment method required via Apple or Google), then $9.99/mo or $74.99/yr. Premium is the debt engine, credit-card intel, subscription tracker, what-ifs, bill calendar, 90-day projection, health score, merchant analysis, receipt scan, report export, plus Coach, shopping intel, cloud backup, and Web Companion. Cancel anytime.</p>
     </div>
-    <div class="trial-strip rv"><strong>15-day Premium trial</strong> &mdash; the full Pro toolkit. Payment method required through Apple or Google. Cancel anytime before the trial ends. Then $9.99/mo or $74.99/yr. No bank login required.</div>
+    <div class="trial-strip rv"><strong>15-day Premium trial</strong> &mdash; the full Premium toolkit. Payment method required through Apple or Google. Cancel anytime before the trial ends. Then $9.99/mo or $74.99/yr. No bank login required.</div>
     <div class="plan-grid rv d1">
       <div class="plan free-start">
         <div class="plan-badge-start">Start here</div>
@@ -3971,14 +3975,14 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="plan-pr">$0</div>
         <div class="plan-per">then $9.99/mo or $74.99/yr &middot; card required</div>
         <div class="plan-div"></div>
-        <div class="plan-inc">Full Pro toolkit</div>
+        <div class="plan-inc">Full Premium toolkit</div>
         <ul class="plan-fl">
           <li>PDF / CSV / OFX import &mdash; no bank login</li>
           <li>Unlimited manual transactions</li>
           <li>Dashboard, categories, and goals</li>
           <li>Unlimited accounts &mdash; type or import, no bank login</li>
           <li>App lock, dark mode, basic CSV/JSON export</li>
-          <li>15-day Pro trial via Apple or Google</li>
+          <li>15-day Premium trial via Apple or Google</li>
         </ul>
       </div>
       <div class="plan">
@@ -4002,8 +4006,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <li>PC dashboard on your home WiFi</li>
         </ul>
       </div>
-      <div class="plan best">
-        <div class="plan-badge">Best Value</div>
+      <div class="plan best" aria-current="true">
+        <div class="plan-badge">Recommended</div>
         <div class="plan-lbl">Premium Annual</div>
         <div class="plan-pr">$74.99</div>
         <div class="plan-per">per year &middot; save 37% vs monthly</div>
@@ -4032,14 +4036,14 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="ftable-legend rv d2">
       <span><span class="lg-dot"></span> Included in trial</span>
       <span><span class="lg-dot pm"></span> Paid Premium only</span>
-      <span>15-day trial &middot; then Pro</span>
+      <span>15-day trial &middot; then Premium</span>
     </div>
     <div class="tog-wrap rv d2">
       <button class="tog-btn" onclick="toggleFT(this)"><span id="ftchev">&#9650;</span><span id="fttext">Hide feature list</span></button>
     </div>
     <div class="ftable-wrap rv d3 open" id="ftable">
       <table class="ftable">
-        <thead><tr><th>Feature</th><th>Trial</th><th>Pro</th></tr></thead>
+        <thead><tr><th>Feature</th><th>Trial</th><th>Premium</th></tr></thead>
         <tbody>
           <tr class="sr"><td colspan="3">Budgeting &amp; Tracking</td></tr>
           <tr><td>Unlimited transaction entry</td><td class="ck">&#10003;</td><td class="ck">&#10003;</td></tr>
@@ -4117,7 +4121,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </tbody>
       </table>
     </div>
-    <p class="pfoot rv">15-day Premium trial includes the Pro toolkit. Then $9.99/mo or $74.99/yr. All purchases processed by Apple App Store or Google Play. JosspaTech does not store payment information.</p>
+    <p class="pfoot rv">15-day Premium trial includes the full Premium toolkit. Then $9.99/mo or $74.99/yr. All purchases processed by Apple App Store or Google Play. JosspaTech does not store payment information.</p>
   </div>
 </section>
 
@@ -5234,7 +5238,7 @@ function toggleFT(b) {
   var chev = document.getElementById('ftchev');
   var txt  = document.getElementById('fttext');
   if (chev) chev.textContent = o ? '▲' : '▼';
-  if (txt)  txt.textContent  = o ? 'Hide feature list' : 'See full Pro feature list';
+  if (txt)  txt.textContent  = o ? 'Hide feature list' : 'See full Premium feature list';
 }
 
 /* ── PBJ: Feature showcase rotation ── */
