@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — JosspaTech</title>
+<meta name="description" content="Practical guides from JosspaTech on collecting, budgeting, and private apps that keep your data on your device.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://josspatech.com/blog/">
+<meta name="author" content="JosspaTech">
+<meta name="theme-color" content="#0C3358">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/product-landing.css">
+<link rel="stylesheet" href="/blog/blog.css">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Blog — JosspaTech">
+<meta property="og:description" content="Practical guides on collecting, budgeting, and private software.">
+<meta property="og:url" content="https://josspatech.com/blog/">
+<meta property="og:site_name" content="JosspaTech">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog — JosspaTech">
+<meta name="twitter:description" content="Practical guides on collecting, budgeting, and private software.">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+</head>
+<body>
+  <header>
+    <nav><a href="/">JosspaTech</a> · Blog</nav>
+    <p class="apps">
+      <a href="/hhh/">HHH</a>
+      <a href="/pbj/">PocketBudJet</a>
+      <a href="/cvc/">Curator's Vault</a>
+      <a href="/unscribe/">Unscribe</a>
+      <a href="/blog/" aria-current="page">Blog</a>
+    </p>
+  </header>
+  <main class="blog-index">
+    <p class="kicker"><img src="/assets/brand/josspatech-mark-app.svg?v=jt2star" width="56" height="56" alt="">Josspa<em>Tech</em></p>
+    <h1>Blog</h1>
+    <p class="lead">Guides for collectors and private budgeting — written for search and for the questions people actually ask.</p>
+    <p class="empty" id="blog-empty">New articles land here as they publish. Check back soon.</p>
+    <ul class="post-list" id="blog-list" hidden></ul>
+  </main>
+  <footer class="foot">
+    <p><a href="/">JosspaTech home</a> · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+  <script src="/scripts/site-analytics-saas.js" defer></script>
+  <script>
+    fetch('/blog/posts.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (posts) {
+        if (!Array.isArray(posts) || !posts.length) return;
+        var list = document.getElementById('blog-list');
+        var empty = document.getElementById('blog-empty');
+        empty.hidden = true;
+        list.hidden = false;
+        posts.forEach(function (p) {
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.className = 'title';
+          a.href = p.path;
+          a.textContent = p.title;
+          var meta = document.createElement('p');
+          meta.className = 'meta';
+          meta.textContent = (p.date || '') + (p.app ? ' · ' + p.app : '');
+          var ex = document.createElement('p');
+          ex.className = 'excerpt';
+          ex.textContent = p.excerpt || '';
+          li.appendChild(a);
+          li.appendChild(meta);
+          if (p.excerpt) li.appendChild(ex);
+          list.appendChild(li);
+        });
+      })
+      .catch(function () {});
+  </script>
+</body>
+</html>
