@@ -1,0 +1,152 @@
+## Key takeaways
+
+- Catalog value from Scott or Stanley Gibbons is a retail asking price, while realizable value from a dealer often runs 20-50% of catalog.
+- Value a collection yourself by inventorying, identifying, grading condition, checking catalog values, then applying a tiered realizable-value discount.
+- Match the catalog to the market: Scott for US material, Stanley Gibbons for UK and Commonwealth, and identify the era before valuing Chinese stamps.
+- Condition factors like centering, gum, perforations, and cancels decide which catalog tier a stamp actually sells at, and faults can cut value to a fraction.
+- Pay for a professional appraisal only for large collections with suspected rarities or insurance and estate stakes; dealers and auction houses otherwise value collections free.
+
+The stamp collection book value you'll find in catalogs like Scott or Stanley Gibbons is a retail asking price, not what anyone will actually pay you. Realizable value, what a dealer offers, often runs 20-50% of catalog. This guide shows you how to compute both numbers yourself, per collection type, before spending a dollar on an appraisal.
+
+## What does 'book value' actually mean for a stamp collection?
+
+Book value is the number a catalog prints for a stamp. Realizable value is what a dealer will actually hand you. For most inherited or casually assembled collections, the second number is a fraction of the first.
+
+### Catalog value vs. what a dealer will pay
+
+Scott catalogs define catalog value as a retail estimate for a stamp in fine condition, not a wholesale or buy-it-now figure. A dealer buying from you pays wholesale, because they must hold, grade, and resell. A typical spread between catalog and realizable value is large, though it varies by country and demand, so treat any single percentage as illustrative rather than a rule.
+
+### Why the gap exists: retail markup, condition, demand
+
+Three forces drive the divergence. Retail markup: catalog prices assume a shop sale to a collector, not a bulk buy from a seller. Condition: a hinged, creased, or faded stamp can fall far below its fine-condition catalog number. Demand: catalog entries are printed for whole countries, but buyers cluster around a few popular areas, leaving the rest thin.
+
+If you log assets on your own phone, record both numbers per lot. A simple valuation worksheet works for this without linking any account, and you can export a JSON backup.
+
+## How do I value my stamp collection step by step?
+
+### Step 1: Inventory and sort by country
+
+Empty the albums and sort everything by country, then by year. Count what you have and note anything still in original packaging or with a certificate. Photograph the pages so you can work from your phone without handling the stamps again.
+
+### Step 2: Identify stamps using catalogs and identifiers
+
+Use the Scott catalog numbers (standard for US collections) or Stanley Gibbons (UK) to match each stamp to a catalog listing. Identifier apps and printed catalogs help with the hard part: telling a common printing from a rare variety that differs only in perforation or watermark.
+
+### Step 3: Grade condition
+
+Sort each stamp into used or mint, then judge centering, gum, and perforations. Mint, never-hinged stamps sit at the top of the range; heavy cancels and thinned stamps sit at the bottom.
+
+### Step 4: Check catalog values
+
+Look up each identified stamp's catalog value in the current edition. Catalog values are retail asking prices, not what a dealer will pay you.
+
+### Step 5: Apply a realizable-value discount
+
+This is where most self-valuations go wrong. Catalog value describes what a dealer hopes to charge; realizable value is what you would actually get if you sold today. For a typical inherited or mixed collection, most of it is common material a dealer would buy at bulk rates, so a realistic starting discount is 70–90% off catalog value, with only genuinely scarce, well-preserved items commanding closer to full catalog. A practical method: list your stamps with catalog values in a spreadsheet, mark each as common, mid-range, or key, apply a discount per tier (illustrative: 90% for common, 50% for mid-range, 20% for key), and sum the results. Keep that record on your own phone rather than uploading it anywhere. If you would rather not hand a spreadsheet of holdings to an appraiser before you know the number yourself, this self-assessment gives you a private baseline to check their figures against.
+
+## How does US stamp collection value differ from Chinese stamp collection value?
+
+### US postage stamp collection value: volume over rarity
+
+The US printed stamps in enormous quantities for over a century, so most individual US stamps from the 20th century onward have plentiful supply. Catalog values for common US issues are often a few cents, and dealers buy collections by weight or album lot rather than stamp by stamp. Your realistic US book value usually comes from condition, older classics, and errors, not from the country itself.
+
+### Chinese stamp collection value: era and scarcity
+
+China is the opposite case. Certain eras, particularly early issues and Cultural Revolution-period sets, survive in far smaller quantities, and domestic demand from Chinese collectors keeps realizable prices strong for those stamps. A Chinese collection's value hinges on identifying which era each stamp belongs to before you estimate anything.
+
+### Worked example: same catalog value, different realizable value
+
+| | US 1930s commemoratives | Chinese 1960s-era set |
+| Catalog value | $50 | $50 |
+| Typical realizable share | 20–40% | 60–80% |
+| Why | Huge supply, weak demand | Scarcity, strong domestic demand |
+
+Those percentages are illustrative, not quoted from a market index. Either way, the [American Philatelic Society](https://stamps.org/) advises getting an appraisal from a qualified professional before selling, and explains what appraisers consider. Log both figures as assets on your own phone so your valuation notes stay in your control.
+
+## How do condition and grading change stamp collection value?
+
+Condition is the multiplier that decides which catalog tier your stamp actually sells at. Two copies of the same stamp can differ by 10x in realizable value based on nothing but how they were stored.
+
+### The four condition factors: centering, gum, perforations, cancels
+
+Centering is how evenly the design sits inside the margins; off-center stamps drop a tier or two, badly off-center ones sell at a fraction of catalog. Gum matters most for mint stamps: original, undisturbed gum commands full value, while hinged or regummed stamps do not. Perforations should be intact and cleanly separated; a short perf is a fault, not a quirk. Cancels are judged on lightness and placement, with a light, centered cancel preferred on used stamps.
+
+### Faults that cut value to a fraction of catalog
+
+Thins, creases, tears, stains, and repairs move a stamp out of the normal market entirely. Dealers price faulty copies at 10–30% of catalog at best, and often decline them. Check every stamp against a light before you log a value, and record the fault in your notes so your running total stays honest. Keep those records on your own phone; a local-only log with a JSON backup means no appraiser sees your holdings before you decide to show them.
+
+### When professional grading (PSAG, APS) is worth the fee
+
+Grading through PSAG or the APS makes sense only for stamps you already believe are worth several hundred dollars, where a certified grade adds buyer confidence and a defensible number. For everything else, a careful self-assessment against catalog condition tiers is enough. Log the grade you assign, the date, and the catalog you used, and revisit it yearly.
+
+## Why is my Disney stamp collection worth less than the catalog says?
+
+Disney stamps are thematic issues, printed by small postal administrations mainly to sell to collectors rather than to carry mail. Catalog value reflects the original retail price plus a standard dealer markup, not evidence that anyone is waiting to buy. When a set was produced specifically for the collector market, the supply of willing buyers is thin and the resale price drops well below catalog.
+
+### Thematic issues vs. postal demand
+
+Stamps that handled real mail hold value because they had a job. Thematic Disney issues often did not, so condition and completeness matter less than whether another Disney collector wants them. A grading service will still certify condition, but its fee schedule assumes a market that may not exist for your topic.
+
+### What a Disney collection realistically sells for
+
+Expect a fraction of catalog, often a quarter or less for common thematic sets, with the exact figure depending on demand that week. Log the catalog figure and your realistic figure side by side, and keep the record on your own phone.
+
+## How does UK stamp collection value work differently from US?
+
+### Stanley Gibbons vs. US catalogs
+
+UK collections are valued in Stanley Gibbons numbers, not Scott. The same stamp can carry a different SG catalog value than its Scott equivalent, so quoting the wrong catalog to a UK dealer gets you a shrug. For Great Britain and Commonwealth material, SG is the reference dealers actually price against; Scott is a translation, not the source of truth.
+
+### Value stamp collection UK: what sells in the British market
+
+British demand concentrates on GB definitives, early Victorian line-engraved issues, and Empire material from countries that no longer exist. US-heavy collections sell worse in the UK market, and vice versa: a GB collection priced from Scott numbers will look inflated to a London dealer. Before you calculate a book value, match the catalog to the market where you would realistically sell.
+
+## When should I get a professional appraisal versus self-assessing?
+
+### Self-assess first: the cheap checks
+
+Count what you have and sort by country and era before spending anything. Most inherited collections are made of used, low-value stamps where catalog value is a ceiling, not a price. Log your catalog totals, condition notes, and photos on your own phone; a local-only spreadsheet or notes app works offline and no bank login is needed to record what you own.
+
+### When to pay for an appraisal
+
+Pay a professional when three things are true: the collection fills more than a shoebox, you suspect rarities (early US issues, China classics, errors), and the stakes are insurance replacement or an estate rather than curiosity. For a sale-intent decision, an appraisal you pay for up front is often unnecessary; dealers and auction houses will value it free, because they earn a seller commission when it sells.
+
+### Getting appraisals without giving up control of your records
+
+Ask for a written appraisal you keep as a PDF, and photograph every page before handing anything over. You can cancel anytime with a dealer who hasn't sold anything; nothing is monitored by an app that profits from your data.
+
+## Where can I sell a stamp collection at or near its book value?
+
+### Dealer sale: fast, low percentage
+
+A dealer buying outright typically pays a wholesale rate, often a fraction of catalog value, because they hold inventory risk and need resale margin. For common US and Disney material, that can mean pennies on the catalog dollar. The tradeoff is speed: cash same day, one trip, no fees.
+
+### Auction and consignment: slower, higher percentage
+
+Auction houses and consignment dealers take a commission, commonly 10–30% of the hammer price, but scarce or high-grade material can realize closer to dealer retail, which sits nearer catalog than a buyout offer does. Expect months between consignment and payment, plus possible lot fees. This route only pays off if your step-by-step valuation showed genuine rarity.
+
+### Recording proceeds in your own budget, offline
+
+Whatever channel you pick, log the sale price, fees, and net proceeds as a single transaction on your own phone. A local-only record means no bank login and no export to anyone's servers; a JSON backup in Downloads keeps the paper trail if you switch phones. Knowing your realizable value, not catalog value, is what keeps the numbers honest.
+
+## FAQ
+
+### How much is a stamp collection worth if I inherited it and know nothing about stamps?
+
+Sort by country and era first, then check catalog values for the scarcest-looking items. Most inherited collections are mostly common, used material worth a small fraction of catalog, often 10-30% of the printed total. A free dealer valuation gives you a realizable number without paying anyone, so start there before considering a paid appraisal.
+
+### What percentage of catalog value do stamp dealers actually pay?
+
+Dealers typically pay 20-50% of catalog, depending on country, demand, and condition. Common US material and thematic sets can fetch far less, sometimes pennies on the catalog dollar, while scarce, well-preserved items command closer to full catalog. Treat any single percentage as illustrative; the tier you assign each lot matters more than the average.
+
+### How do I find out if I have any rare stamps without paying for an appraisal?
+
+Inventory everything, sort by country and year, then identify stamps against Scott or Stanley Gibbons catalogs, watching for perforation and watermark varieties. Grade condition honestly and flag anything mint, unhinged, or from scarce eras like early US or China classics. Dealers and auction houses will then value the collection free, since they earn a commission on sale.
+
+### Is a stamp collection a good investment, or does it lose value over time?
+
+As an investment, most collections lose ground: common material sells well below catalog, and demand concentrates in narrow areas like early classics and China-era rarities. Thematic issues such as Disney sets often fare worst. Treat it as a store of physical assets with realizable value closer to wholesale than retail, not an appreciating portfolio.
+
+### Do cancelled (used) stamps have any value compared to mint ones?
+
+Yes, but usually less. Mint, never-hinged stamps sit at the top of a catalog range, while used copies sell lower based on cancel lightness and centering. Heavy cancels and thinned examples drop to a fraction of catalog, and dealers may decline faulty copies outright. Older classic used stamps can still be worth serious money.

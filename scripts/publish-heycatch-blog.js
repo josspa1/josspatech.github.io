@@ -38,13 +38,50 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+function inlineMd(s) {
+  return escapeHtml(s)
+    .replace(
+      /\[([^\]]+)\]\((https?:[^)\s]+|\/[^)\s]+)\)/g,
+      '<a href="$2">$1</a>',
+    )
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+
 function mdToHtml(md) {
   const lines = md.replace(/\r\n/g, '\n').split('\n');
   const out = [];
   let inList = false;
   let inTakeaways = false;
+  let tableBuf = [];
+  const flushTable = () => {
+    if (!tableBuf.length) return;
+    const rows = tableBuf.filter((r) => !/^\|[\s|:-]+$/.test(r));
+    out.push('<table>');
+    rows.forEach((row, i) => {
+      const cells = row
+        .replace(/^\|/, '')
+        .replace(/\|$/, '')
+        .split('|')
+        .map((c) => c.trim());
+      const tag = i === 0 ? 'th' : 'td';
+      out.push(
+        '<tr>' + cells.map((c) => `<${tag}>${inlineMd(c)}</${tag}>`).join('') + '</tr>',
+      );
+    });
+    out.push('</table>');
+    tableBuf = [];
+  };
   for (const raw of lines) {
     const line = raw.trimEnd();
+    if (/^\|/.test(line.trim())) {
+      if (inList) {
+        out.push('</ul>');
+        inList = false;
+      }
+      tableBuf.push(line.trim());
+      continue;
+    }
+    if (tableBuf.length) flushTable();
     if (!line.trim()) {
       if (inList) {
         out.push('</ul>');
@@ -68,7 +105,7 @@ function mdToHtml(md) {
         out.push('</div>');
         inTakeaways = false;
       }
-      out.push(`<h${Math.min(level, 3)}>${escapeHtml(text)}</h${Math.min(level, 3)}>`);
+      out.push(`<h${Math.min(level, 3)}>${inlineMd(text)}</h${Math.min(level, 3)}>`);
       continue;
     }
     if (/^[-*]\s+/.test(line)) {
@@ -76,15 +113,16 @@ function mdToHtml(md) {
         out.push('<ul>');
         inList = true;
       }
-      out.push(`<li>${escapeHtml(line.replace(/^[-*]\s+/, ''))}</li>`);
+      out.push(`<li>${inlineMd(line.replace(/^[-*]\s+/, ''))}</li>`);
       continue;
     }
     if (inList) {
       out.push('</ul>');
       inList = false;
     }
-    out.push(`<p>${escapeHtml(line)}</p>`);
+    out.push(`<p>${inlineMd(line)}</p>`);
   }
+  if (tableBuf.length) flushTable();
   if (inList) out.push('</ul>');
   if (inTakeaways) out.push('</div>');
   return out.join('\n');
