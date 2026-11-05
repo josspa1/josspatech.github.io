@@ -9,7 +9,6 @@
  *   window.JOSSPATECH_ANALYTICS = { goatcounter, cloudflareToken, pocketbase: true|false }
  *
  * Records:
- *   - HeyCatch (@heycatch/sdk via /scripts/heycatch-init.js) — pageviews / clicks / short links
  *   - GoatCounter path = pathname + search + hash (UTMs + #hhh / #pbj / #cvc)
  *   - GoatCounter events for store outbound clicks (Play / TestFlight / App Store)
  *   - Cloudflare Web Analytics (path without hash by CF default; first load only)
@@ -23,17 +22,8 @@
   if (window.__JOSSPATECH_ANALYTICS_BOOTED) return;
   window.__JOSSPATECH_ANALYTICS_BOOTED = true;
 
-  // HeyCatch: ensure module entry is present even if the page only included this classic script.
-  // The SDK itself is statically imported inside heycatch-init.js (agents.md).
-  try {
-    if (!window.__HEYCATCH_INIT_SCRIPT) {
-      window.__HEYCATCH_INIT_SCRIPT = true;
-      var hc = document.createElement('script');
-      hc.type = 'module';
-      hc.src = '/scripts/heycatch-init.js?v=2';
-      document.head.appendChild(hc);
-    }
-  } catch (e) {}
+  // HeyCatch is a static module in each page's head (scripts/heycatch-init.js).
+  // Do not inject it here — that starts after defer and drops the first pageview.
 
   var DEFAULTS = {
     goatcounter: 'https://josspatech.goatcounter.com/count',
