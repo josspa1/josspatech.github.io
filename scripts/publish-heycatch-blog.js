@@ -194,6 +194,7 @@ fs.mkdirSync(postDir, { recursive: true });
 const page = `<!DOCTYPE html>
 <html lang="en">
 <head>
+<script type="module" src="/scripts/heycatch-init.js?v=3"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${escapeHtml(title)} — JosspaTech</title>
