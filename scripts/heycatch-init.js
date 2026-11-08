@@ -3,19 +3,24 @@
  * https://heycatch.ai/agents.md — pin the latest stable SDK (no -dev).
  *
  * Each public page loads this from <head>:
- *   <script type="module" src="/scripts/heycatch-init.js?v=4"></script>
+ *   <script type="module" src="/scripts/heycatch-init.js?v=5"></script>
  * Do not inject it after load. A deferred inject misses the landing pageview
  * on mobile, which is how TikTok visits showed sessions and zero pageviews.
  *
  * site: 'landing' keeps these visits apart from the phone apps.
  * requestBatching: false — full page loads; mobile Safari drops a batched beacon.
  *
- * store_click always includes app (pbj|hhh|cvc|unscribe|pal) so per-app
- * Website funnels can filter the success step by property.
+ * HeyCatch Website funnels match on event *names* only (no property filters).
+ * So store taps fire distinct names per app and per store destination:
+ *   store_click_pbj
+ *   store_click_pbj_google_play
+ *   store_click_pbj_app_store
+ * (same pattern for hhh, cvc, unscribe, pal)
+ * Properties (app, store, page, href) stay on the event for the live feed.
  */
 import { analytics } from 'https://esm.sh/@heycatch/sdk@0.8.5';
 
-// Product pages embed the walkthrough in an iframe. That frame is not a visit.
+// Product pages embed media in an iframe. That frame is not a visit.
 var framed = false;
 try { framed = window.top !== window.self; } catch (e) { framed = true; }
 if (!framed) analytics.init({
@@ -28,18 +33,28 @@ if (!framed) analytics.init({
   },
 });
 
-/** Resolve which app a store badge / URL belongs to. */
-function appFromContext(href) {
+/** Which app the *store link destination* belongs to (not the page they are on). */
+function appFromStoreHref(href) {
+  var blob = String(href || '').toLowerCase();
+  if (/pocketbudjet|id6761077263/.test(blob)) return 'pbj';
+  if (/handyhorology|id6778570480|handy-horology/.test(blob)) return 'hhh';
+  if (/josspatech\.cts|curator|id6778571307/.test(blob)) return 'cvc';
+  if (/josspatech\.snip|unscribe|id6823295613/.test(blob)) return 'unscribe';
+  if (/pocketallowance|josspatech\.pal|allowanceledger/.test(blob)) return 'pal';
+  // Developer listing / unknown package — fall back to the page they clicked from.
+  return appFromPage();
+}
+
+/** Which product page / home section the visitor is on. */
+function appFromPage() {
   var path = (location.pathname || '').toLowerCase();
   var hash = (location.hash || '').toLowerCase();
-  var blob = (href + ' ' + path + ' ' + hash).toLowerCase();
-
-  // Play package ids and App Store numeric ids (href-only Apple links have no name).
-  if (/pocketbudjet|id6761077263|\/pbj(\/|$)|#pbj\b/.test(blob)) return 'pbj';
-  if (/handyhorology|id6778570480|\/hhh(\/|$)|#hhh\b/.test(blob)) return 'hhh';
-  if (/josspatech\.cts|curator|id6778571307|\/cvc(\/|$)|#cvc\b|\/cts(\/|$)/.test(blob)) return 'cvc';
-  if (/josspatech\.snip|unscribe|id6823295613|\/unscribe(\/|$)|#unscribe\b|\/snip(\/|$)/.test(blob)) return 'unscribe';
-  if (/allowance|\/pal(\/|$)|#pal\b/.test(blob)) return 'pal';
+  var blob = path + ' ' + hash;
+  if (/\/pbj(\/|$)|#pbj\b/.test(blob)) return 'pbj';
+  if (/\/hhh(\/|$)|#hhh\b/.test(blob)) return 'hhh';
+  if (/\/cvc(\/|$)|#cvc\b|\/cts(\/|$)/.test(blob)) return 'cvc';
+  if (/\/unscribe(\/|$)|#unscribe\b|\/snip(\/|$)/.test(blob)) return 'unscribe';
+  if (/\/pal(\/|$)|#pal\b/.test(blob)) return 'pal';
   return 'unknown';
 }
 
@@ -47,7 +62,10 @@ function currentPage() {
   return (location.pathname + location.search + location.hash).slice(0, 200);
 }
 
-/** Conversion the dashboard can mark as the funnel success event. */
+/**
+ * Store badge / text store link → named events HeyCatch funnels can select.
+ * Two names per tap so you can funnel by app, or by app+store.
+ */
 document.addEventListener(
   'click',
   function (e) {
@@ -60,19 +78,26 @@ document.addEventListener(
     if (/play\.google\.com/i.test(href)) store = 'google_play';
     else if (/apps\.apple\.com|itunes\.apple\.com|testflight\.apple\.com/i.test(href)) store = 'app_store';
     else return;
-    analytics.trackEvent('store_click', {
+
+    var app = appFromStoreHref(href);
+    var props = {
+      app: app,
       store: store,
-      app: appFromContext(href),
       page: currentPage(),
       href: href.slice(0, 200),
-    });
+    };
+
+    // Per-app success (any store) — use as funnel step 3.
+    analytics.trackEvent('store_click_' + app, props);
+    // Per-app + which store link — Play vs App Store.
+    analytics.trackEvent('store_click_' + app + '_' + store, props);
   },
   true
 );
 
 /**
  * Home SPA (#products / #pbj / …) does not load a new document, so autocapture
- * only sees "/". Emit a named step HeyCatch funnels can use per app section.
+ * only sees "/". Named events so funnels can use them without property filters.
  */
 var lastProductSection = '';
 function trackProductSection() {
@@ -92,7 +117,7 @@ function trackProductSection() {
   else if (raw === 'pal') app = 'pal';
   else return;
   lastProductSection = raw;
-  analytics.trackEvent('product_section', { app: app, page: currentPage() });
+  analytics.trackEvent('product_section_' + app, { app: app, page: currentPage() });
 }
 window.addEventListener('hashchange', trackProductSection);
 if (document.readyState === 'loading') {
