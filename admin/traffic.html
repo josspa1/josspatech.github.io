@@ -50,7 +50,7 @@
     <div class="login-head">
       <h1>
         <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
-        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Acquisition funnel · HHH</span>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">What people do · site and apps</span>
       </h1>
     </div>
     <p>Log in with your PocketBase superuser account.</p>
@@ -64,7 +64,7 @@
       <div class="brand">
         <h1>
           Acquisition funnel
-          <span class="subtitle">Where traffic comes from · where we lose them · store clicks · installs</span>
+          <span class="subtitle">Visitors, sources, store taps, and the same app steps HeyCatch shows</span>
         </h1>
       </div>
       <div class="controls">
@@ -75,12 +75,16 @@
     </header>
     <main class="page-main">
       <section>
-        <h2>HHH path: source → site → store → install</h2>
+        <h2>Site → store → app</h2>
         <p class="section-explainer">
-          Site landings and store-badge taps come from PocketBase <code>_site_visits</code>
-          (UTM / referrer + <code>outbound:*</code> clicks). Active installs come from app
-          heartbeats when the Worker key is saved on this browser (same key as Flywheel).
-          Play Console / App Store Connect remain the official new-install counts.
+          Visitors, pages, and store taps are already in PocketBase <code>_site_visits</code>.
+          Facebook link clicks are <code>/f</code>. TikTok link clicks are <code>/t</code>.
+          App steps (open, onboarding, checkout, cancel, error, subscribed) land in the same
+          collection as <code>app:pbj:checkout_started</code> and the same for HHH, CVC, and Unscribe.
+          One row per step. This page does not call the Worker.
+          Install totals stay in Play Console and App Store Connect. Sales stay in RevenueCat.
+          View counts stay in TikTok Studio and Meta. HeyCatch still has screen names until 12/28.
+          App rows start with the build after the ones in review now.
         </p>
         <div class="tr-range" id="trRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -99,26 +103,43 @@
       </section>
 
       <section>
-        <h2>Tracked sources</h2>
+        <h2>Views on TikTok and Facebook</h2>
         <p class="section-explainer">
-          Plaque / ad URLs should carry UTMs <em>before</em> <code>#hhh</code>.
-          Store badges fire <code>outbound-play-hhh</code> / <code>outbound-appstore-hhh</code>.
+          Those numbers live on the platforms. Type what you see there. This box stays in this browser only.
+          <a href="https://www.tiktok.com/tiktokstudio" target="_blank" rel="noopener">TikTok Studio</a>
+          ·
+          <a href="https://business.facebook.com/" target="_blank" rel="noopener">Meta Business Suite</a>
+          ·
+          <a href="https://josspatech.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>
+          ·
+          <a href="https://app.revenuecat.com/" target="_blank" rel="noopener">RevenueCat</a>
         </p>
+        <textarea id="trSocial" rows="6" style="width:100%;max-width:52rem;font:14px/1.45 ui-monospace,monospace;"></textarea>
+        <div class="ref-actions" style="margin-top:8px;">
+          <button type="button" class="m-btn" onclick="trSaveSocial()">Save notes</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Official counts</h2>
         <ul style="line-height:1.8;color:var(--text);max-width:52rem;">
-          <li><strong>Clockworks plaque:</strong>
-            <code style="word-break:break-all;">https://josspatech.com/?utm_source=clockworks&amp;utm_medium=site&amp;utm_campaign=recently_viewed_plaque#hhh</code>
-          </li>
-          <li><strong>Meta ads:</strong> keep <code>utm_source=facebook</code> (shown here as Meta) + campaign name.</li>
-          <li><strong>Play:</strong>
-            <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">store listing</a>
+          <li><strong>Play installs:</strong>
+            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">HHH</a>
             ·
-            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">Console statistics</a>
-          </li>
-          <li><strong>App Store:</strong>
-            <a href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">product page</a>
+            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4975807531967041043/statistics" target="_blank" rel="noopener">PBJ</a>
             ·
-            <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">ASC metrics</a>
+            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4973721615805662228/statistics" target="_blank" rel="noopener">Unscribe</a>
           </li>
+          <li><strong>App Store metrics:</strong>
+            <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">HHH</a>
+            ·
+            <a href="https://appstoreconnect.apple.com/apps/6778571307/metrics" target="_blank" rel="noopener">CVC</a>
+            ·
+            <a href="https://appstoreconnect.apple.com/apps/6761077263/metrics" target="_blank" rel="noopener">PBJ</a>
+            ·
+            <a href="https://appstoreconnect.apple.com/apps/6823295613/metrics" target="_blank" rel="noopener">Unscribe</a>
+          </li>
+          <li><strong>Link in a Reel comment:</strong> <code>https://josspatech.com/f</code> (Facebook) and <code>https://josspatech.com/t</code> (TikTok bio).</li>
         </ul>
       </section>
     </main>
@@ -127,7 +148,6 @@
   <script src="shared/admin-common.js"></script>
   <script src="shared/admin-app.js"></script>
   <script>
-    const TR_WORKER = "https://pbj-import-worker.morning-star-b5e0.workers.dev";
     let trRange = "today";
     let trCacheRows = null;
 
@@ -159,13 +179,15 @@
       const ref = r.referrer_raw || "";
       const blob = page + " " + ref;
       const raw = String(r.source || "").toLowerCase();
+      if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
+      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook") return "Facebook link";
       if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
       if (
-        raw === "facebook" ||
         raw === "instagram" ||
         /utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)
       ) return "Meta";
       if (raw === "search") return "Search";
+      if (raw === "app") return "In the app";
       if (raw === "direct" || raw === "internal") return "Direct";
       if (raw === "social") return "Social";
       if (raw === "external") return "External";
@@ -182,6 +204,10 @@
         "outbound-testflight-hhh": "TestFlight · HHH",
         "outbound-play-pbj": "Play · PBJ",
         "outbound-appstore-pbj": "App Store · PBJ",
+        "outbound-play-cvc": "Play · CVC",
+        "outbound-appstore-cvc": "App Store · CVC",
+        "outbound-play-unscribe": "Play · Unscribe",
+        "outbound-appstore-unscribe": "App Store · Unscribe",
         "outbound-play": "Play · other",
         "outbound-appstore": "App Store · other",
       };
@@ -206,36 +232,69 @@
       return String(s || "").replace(/</g, "&lt;");
     }
 
-    async function trFetchInstalls() {
-      const key = localStorage.getItem("pbj_shared_key") || "";
-      if (!key) {
-        return { ok: false, reason: "Save your Worker key on Flywheel (same browser) to load HHH heartbeats." };
-      }
-      try {
-        const r = await fetch(`${TR_WORKER}/ops/subscriptions`, {
-          headers: { "X-PBJ-Key": key },
-          signal: AbortSignal.timeout(12000),
-        });
-        if (!r.ok) return { ok: false, reason: `Worker HTTP ${r.status}` };
-        const j = await r.json();
-        const hhh = (j.apps || []).find((a) => a.app === "hhh");
-        return { ok: true, hhh, generated_at: j.generated_at };
-      } catch (e) {
-        return { ok: false, reason: String(e.message || e).slice(0, 120) };
-      }
-    }
+    const TR_APPS = [
+      { id: "pbj", label: "PBJ" },
+      { id: "hhh", label: "HHH" },
+      { id: "cvc", label: "CVC" },
+      { id: "unscribe", label: "Unscribe" },
+    ];
+    const TR_STEPS = [
+      ["app_opened", "Opened"],
+      ["onboarding_completed", "Onboarding"],
+      ["terms_accepted", "Terms"],
+      ["checkout_started", "Checkout"],
+      ["checkout_cancel", "Cancelled"],
+      ["checkout_error", "Error"],
+      ["subscription_started", "Subscribed"],
+      ["trial_converted", "Trial converted"],
+    ];
 
-    function trRender(rows, installs) {
+    function trIsApp(r) {
+      return String(r.page || "").startsWith("app:");
+    }
+    function trAppEvent(r) {
+      const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
+      if (!m) return null;
+      return { app: m[1].toLowerCase(), event: m[2] };
+    }
+    function trClickApp(r) {
+      const blob = trEventName(r) + " " + (r.referrer_raw || "");
+      if (/hhh|handyhorology|6778570480/i.test(blob)) return "hhh";
+      if (/pbj|pocketbudjet|6761077263/i.test(blob)) return "pbj";
+      if (/cvc|curator|josspatech\.cts|6778571307/i.test(blob)) return "cvc";
+      if (/unscribe|snip|6823295613/i.test(blob)) return "unscribe";
+      return "";
+    }
+    function trIsLinkHop(r) {
+      const p = String(r.page || "");
+      return p.startsWith("/f") || p.startsWith("/t");
+    }
+    function trPageGroup(page) {
+      const p = String(page || "").split("?")[0] || "/";
+      return p;
+    }
+    function trSaveSocial() {
+      const el = document.getElementById("trSocial");
+      if (el) localStorage.setItem("jt_social_notes", el.value);
+    }
+    (function loadSocial() {
+      const el = document.getElementById("trSocial");
+      if (el) el.value = localStorage.getItem("jt_social_notes") || "";
+    })();
+    window.trSaveSocial = trSaveSocial;
+
+    function trRender(rows) {
       const todayKey = trDayKeyEt(new Date().toISOString());
       const scoped = rows.filter((r) => trInRange(r, trRange, todayKey));
-      const pageviews = scoped.filter((r) => !trIsOutbound(r));
+      const appRows = scoped.filter(trIsApp);
       const outbound = scoped.filter(trIsOutbound);
-      const hhhOut = outbound.filter((r) => /hhh/i.test(trEventName(r)));
+      const pageviews = scoped.filter((r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r));
+      const hops = scoped.filter(trIsLinkHop);
 
       const sessions = new Set(pageviews.map((r) => r.session_id).filter(Boolean));
-      const clickSessions = new Set(hhhOut.map((r) => r.session_id).filter(Boolean));
+      const clickSessions = new Set(outbound.map((r) => r.session_id).filter(Boolean));
       const landed = sessions.size || pageviews.length;
-      const clicked = clickSessions.size || hhhOut.length;
+      const clicked = clickSessions.size || outbound.length;
       const lost = Math.max(0, landed - clicked);
       const clickRate = landed ? clicked / landed : 0;
 
@@ -259,7 +318,7 @@
         s.landings += 1;
         if (r.session_id) s.landSessions.add(r.session_id);
       }
-      for (const r of hhhOut) {
+      for (const r of outbound) {
         const s = ensure(trNormSource(r));
         s.clicks += 1;
         if (r.session_id) s.clickSessions.add(r.session_id);
@@ -287,16 +346,69 @@
       const uaLand = { Android: 0, iOS: 0, Desktop: 0 };
       const uaClick = { Android: 0, iOS: 0, Desktop: 0 };
       for (const r of pageviews) uaLand[trUaPlatform(r.user_agent)] = (uaLand[trUaPlatform(r.user_agent)] || 0) + 1;
-      for (const r of hhhOut) uaClick[trUaPlatform(r.user_agent)] = (uaClick[trUaPlatform(r.user_agent)] || 0) + 1;
+      for (const r of outbound) uaClick[trUaPlatform(r.user_agent)] = (uaClick[trUaPlatform(r.user_agent)] || 0) + 1;
 
-      const playClicks = hhhOut.filter((r) => trStorePlatform(trEventName(r)) === "Android").length;
-      const iosClicks = hhhOut.filter((r) => trStorePlatform(trEventName(r)) === "iOS").length;
+      const playClicks = outbound.filter((r) => trStorePlatform(trEventName(r)) === "Android").length;
+      const iosClicks = outbound.filter((r) => trStorePlatform(trEventName(r)) === "iOS").length;
 
-      const hb = installs?.ok ? installs.hhh?.heartbeats : null;
-      const plat = hb?.platforms || {};
-      const installAndroid = plat.android ?? null;
-      const installIos = plat.ios ?? null;
-      const installTotal = hb?.total_devices ?? null;
+      const fHits = hops.filter((r) => String(r.page || "").startsWith("/f")).length;
+      const tHits = hops.filter((r) => String(r.page || "").startsWith("/t")).length;
+      function stepHits(eventName) {
+        return appRows.filter((r) => trAppEvent(r)?.event === eventName);
+      }
+      const opens = stepHits("app_opened");
+      const checks = stepHits("checkout_started");
+      const subs = stepHits("subscription_started");
+      const cancels = stepHits("checkout_cancel");
+      const errors = stepHits("checkout_error");
+
+      const clickByApp = {};
+      for (const a of TR_APPS) clickByApp[a.id] = { play: 0, ios: 0 };
+      for (const r of outbound) {
+        const id = trClickApp(r);
+        if (!clickByApp[id]) continue;
+        const plat = trStorePlatform(trEventName(r));
+        if (plat === "Android") clickByApp[id].play += 1;
+        else if (plat === "iOS") clickByApp[id].ios += 1;
+      }
+      const stepCells = {};
+      for (const a of TR_APPS) {
+        stepCells[a.id] = {};
+        for (const [step] of TR_STEPS) {
+          const hits = appRows.filter((r) => {
+            const ev = trAppEvent(r);
+            return ev && ev.app === a.id && ev.event === step;
+          });
+          const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
+          stepCells[a.id][step] = { n: hits.length, people: people.size };
+        }
+      }
+      const appTable = `<table class="data" style="margin-top:0.5rem;">
+        <thead><tr><th>App</th><th class="num">Play taps</th><th class="num">App Store taps</th>${TR_STEPS.map(([, label]) => `<th class="num">${label}</th>`).join("")}</tr></thead>
+        <tbody>${TR_APPS.map((a) => {
+          const c = clickByApp[a.id];
+          const cells = TR_STEPS.map(([step]) => {
+            const s = stepCells[a.id][step];
+            const extra = s.people && s.people !== s.n ? ` <span style="color:var(--text-muted)">(${s.people})</span>` : "";
+            return `<td class="num">${s.n}${extra}</td>`;
+          }).join("");
+          return `<tr><td>${a.label}</td><td class="num">${c.play}</td><td class="num">${c.ios}</td>${cells}</tr>`;
+        }).join("")}</tbody></table>
+        <p class="section-explainer">Counts are events. A number in parentheses is distinct app sessions when it differs. App rows appear after the next build. The builds in review now still send these steps to HeyCatch only.</p>`;
+
+      const byPage = {};
+      for (const r of pageviews) {
+        const key = trPageGroup(r.page);
+        if (!byPage[key]) byPage[key] = { n: 0, sessions: new Set() };
+        byPage[key].n += 1;
+        if (r.session_id) byPage[key].sessions.add(r.session_id);
+      }
+      const pageRows = Object.entries(byPage)
+        .map(([name, s]) => ({ name, n: s.n, people: s.sessions.size || s.n }))
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 15);
+      const pageTable = pageRows.map((s) => `<tr><td style="word-break:break-all;">${trEsc(s.name)}</td><td class="num">${s.n}</td><td class="num">${s.people}</td></tr>`).join("")
+        || `<tr><td colspan="3">No pages in this window.</td></tr>`;
 
       document.getElementById("trFunnel").innerHTML = `
         <div class="tr-step ok">
@@ -304,24 +416,20 @@
           <div class="val">${landed}</div>
           <div class="note">${pageviews.length} pageviews · ${sessions.size} sessions</div>
         </div>
+        <div class="tr-step ${fHits + tHits ? "ok" : "warn"}">
+          <div class="lbl">2 · Link clicks</div>
+          <div class="val">${fHits + tHits}</div>
+          <div class="note">Facebook /f ${fHits} · TikTok /t ${tHits}</div>
+        </div>
         <div class="tr-step ${clicked ? "ok" : "warn"}">
-          <div class="lbl">2 · Tapped store</div>
+          <div class="lbl">3 · Tapped store</div>
           <div class="val">${clicked}</div>
-          <div class="note">${hhhOut.length} clicks · Play ${playClicks} · iOS ${iosClicks}</div>
+          <div class="note">${outbound.length} clicks · Play ${playClicks} · iOS ${iosClicks}</div>
         </div>
-        <div class="tr-step loss">
-          <div class="lbl">Lost on site</div>
-          <div class="val">${lost}</div>
-          <div class="note">${trPct(lost, landed)} of landings never clicked a store badge</div>
-        </div>
-        <div class="tr-step ${installTotal ? "ok" : "warn"}">
-          <div class="lbl">3 · Active installs</div>
-          <div class="val">${installTotal != null ? installTotal : "—"}</div>
-          <div class="note">${
-            installTotal != null
-              ? `Android ${installAndroid ?? 0} · iOS ${installIos ?? 0} (HHH heartbeats · 30d)`
-              : "Worker key needed · or check Play / ASC links below"
-          }</div>
+        <div class="tr-step ${subs.length ? "ok" : "warn"}">
+          <div class="lbl">4 · Subscribed</div>
+          <div class="val">${subs.length}</div>
+          <div class="note">Opened ${opens.length} · checkout ${checks.length} · cancel ${cancels.length} · error ${errors.length}</div>
         </div>`;
 
       const dropEl = document.getElementById("trDrop");
@@ -360,7 +468,7 @@
         <div class="card"><div class="card-label">Store clicks · Android</div><div class="card-value">${playClicks}</div><div class="card-note">Play badge taps this window</div></div>
         <div class="card"><div class="card-label">Store clicks · iOS</div><div class="card-value">${iosClicks}</div><div class="card-note">App Store / TestFlight taps</div></div>
         <div class="card"><div class="card-label">Visitor devices</div><div class="card-value">${uaLand.Android}/${uaLand.iOS}/${uaLand.Desktop}</div><div class="card-note">Landings UA · Android / iOS / Desktop</div></div>
-        <div class="card"><div class="card-label">HHH installs (heartbeat)</div><div class="card-value">${installTotal != null ? `${installAndroid ?? 0} / ${installIos ?? 0}` : "—"}</div><div class="card-note">${installs?.ok ? "Android / iOS active devices · 30d" : trEsc(installs?.reason || "Unavailable")}</div></div>`;
+        <div class="card"><div class="card-label">App opens</div><div class="card-value">${opens.length}</div><div class="card-note">After the next build · same step HeyCatch calls app_opened</div></div>`;
 
       const tableSrc = sourceRows
         .map((s) => {
@@ -377,7 +485,7 @@
         })
         .join("") || `<tr><td colspan="7">No traffic in this window.</td></tr>`;
 
-      const recentOut = hhhOut
+      const recentOut = outbound.concat(appRows)
         .slice()
         .sort((a, b) => String(b.created).localeCompare(String(a.created)))
         .slice(0, 20)
@@ -386,8 +494,8 @@
           return `<tr>
             <td>${trEsc(r.created || "—")}</td>
             <td>${trEsc(trNormSource(r))}</td>
-            <td>${trLabelEvent(trEventName(r))}</td>
-            <td>${trUaPlatform(r.user_agent)}</td>
+            <td>${trIsApp(r) ? trEsc((trAppEvent(r)?.app || "").toUpperCase() + " · " + (trAppEvent(r)?.event || "")) : trLabelEvent(trEventName(r))}</td>
+            <td>${trIsApp(r) ? trEsc(r.referrer_host || "app") : trUaPlatform(r.user_agent)}</td>
             <td style="word-break:break-all;max-width:18rem;">${trEsc(from)}</td>
           </tr>`;
         })
@@ -395,7 +503,7 @@
 
       document.getElementById("trTables").innerHTML = `
         <h3 style="margin-top:1.25rem;">Where they come from · where we lose them</h3>
-        <p class="section-explainer">Land = unique sessions (fallback: pageviews). Lost = landed with no HHH store-badge tap in the same session.</p>
+        <p class="section-explainer">Land = unique sessions on the site (not the /f or /t hop). Lost = landed with no store-badge tap in the same session. Link clicks are counted on their own card.</p>
         ${bars || "<p class='section-explainer'>No sources yet.</p>"}
         <table class="data" style="margin-top:1rem;">
           <thead>
@@ -412,21 +520,21 @@
           <tbody>${tableSrc}</tbody>
         </table>
 
-        <h3 style="margin-top:1.5rem;">Recent store clicks</h3>
+        <h3 style="margin-top:1.5rem;">Each app</h3>
+        ${appTable}
+
+        <h3 style="margin-top:1.5rem;">Pages</h3>
+        <table class="data">
+          <thead><tr><th>Page</th><th class="num">Views</th><th class="num">Sessions</th></tr></thead>
+          <tbody>${pageTable}</tbody>
+        </table>
+
+        <h3 style="margin-top:1.5rem;">Recent store taps and app steps</h3>
         <table class="data">
           <thead><tr><th>When</th><th>Source</th><th>Store</th><th>Device</th><th>From page</th></tr></thead>
           <tbody>${recentOut}</tbody>
         </table>
-
-        <h3 style="margin-top:1.5rem;">Install truth (outside the site)</h3>
-        <p class="section-explainer">
-          Heartbeats = devices that opened HHH in the last 30 days (not the same as new installs).
-          For new Android installs open
-          <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">Play statistics</a>;
-          for iOS use
-          <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">ASC metrics</a>
-          (App Store page is live only after approval).
-        </p>`;
+        <p class="section-explainer">New installs are the Play and App Store links below. Sales are in RevenueCat. View counts are in TikTok Studio and Meta. This page does not ask the Worker.</p>`;
 
       const rangeLabel = { today: "today", "7d": "7d", "30d": "30d", all: "all-time" }[trRange];
       document.getElementById("trStatus").textContent =
@@ -439,13 +547,8 @@
       const status = document.getElementById("trStatus");
       status.textContent = "Loading…";
       try {
-        if (!trCacheRows) trCacheRows = await listAllRecords("_site_visits");
-        else {
-          // soft refresh: reload
-          trCacheRows = await listAllRecords("_site_visits");
-        }
-        const installs = await trFetchInstalls();
-        trRender(trCacheRows, installs);
+        trCacheRows = await listAllRecords("_site_visits");
+        trRender(trCacheRows);
       } catch (e) {
         status.textContent = "Error: " + (e.message || e);
         document.getElementById("pulse").classList.add("stale");
@@ -457,11 +560,8 @@
       if (!btn) return;
       trRange = btn.getAttribute("data-range");
       [...document.querySelectorAll("#trRange button")].forEach((b) => b.classList.toggle("active", b === btn));
-      if (trCacheRows) {
-        trFetchInstalls().then((installs) => trRender(trCacheRows, installs));
-      } else {
-        trRefresh();
-      }
+      if (trCacheRows) trRender(trCacheRows);
+      else trRefresh();
     });
 
     window.trRefresh = trRefresh;

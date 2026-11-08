@@ -151,6 +151,12 @@
         if (/pocketbudjet/i.test(path) || /pocketbudjet/i.test(u.href)) {
           return { event: 'outbound-play-pbj', title: 'Play Store · PBJ' };
         }
+        if (/josspatech\.cts|curator/i.test(path) || /josspatech\.cts|curator/i.test(u.href)) {
+          return { event: 'outbound-play-cvc', title: 'Play Store · CVC' };
+        }
+        if (/josspatech\.snip|unscribe/i.test(path) || /josspatech\.snip|unscribe/i.test(u.href)) {
+          return { event: 'outbound-play-unscribe', title: 'Play Store · Unscribe' };
+        }
         return { event: 'outbound-play', title: 'Play Store' };
       }
       if (host === 'testflight.apple.com') {
@@ -160,8 +166,14 @@
         if (/handyhorology|6778570480|handy-horology/i.test(u.href)) {
           return { event: 'outbound-appstore-hhh', title: 'App Store · HHH' };
         }
-        if (/pocketbudjet|pocket-budjet/i.test(u.href)) {
+        if (/pocketbudjet|pocket-budjet|6761077263/i.test(u.href)) {
           return { event: 'outbound-appstore-pbj', title: 'App Store · PBJ' };
+        }
+        if (/curator|6778571307/i.test(u.href)) {
+          return { event: 'outbound-appstore-cvc', title: 'App Store · CVC' };
+        }
+        if (/unscribe|6823295613/i.test(u.href)) {
+          return { event: 'outbound-appstore-unscribe', title: 'App Store · Unscribe' };
         }
         return { event: 'outbound-appstore', title: 'App Store' };
       }
