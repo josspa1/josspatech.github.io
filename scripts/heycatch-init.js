@@ -3,7 +3,7 @@
  * https://heycatch.ai/agents.md — pin the latest stable SDK (no -dev).
  *
  * Each public page loads this from <head>:
- *   <script type="module" src="/scripts/heycatch-init.js?v=5"></script>
+ *   <script type="module" src="/scripts/heycatch-init.js?v=6"></script>
  * Do not inject it after load. A deferred inject misses the landing pageview
  * on mobile, which is how TikTok visits showed sessions and zero pageviews.
  *
@@ -11,11 +11,11 @@
  * requestBatching: false — full page loads; mobile Safari drops a batched beacon.
  *
  * HeyCatch Website funnels match on event *names* only (no property filters).
- * So store taps fire distinct names per app and per store destination:
+ * Published apps only: pbj, hhh, cvc, unscribe. PAL is not in stores yet — omit.
+ * Store taps fire distinct names per app and per store destination:
  *   store_click_pbj
  *   store_click_pbj_google_play
  *   store_click_pbj_app_store
- * (same pattern for hhh, cvc, unscribe, pal)
  * Properties (app, store, page, href) stay on the event for the live feed.
  */
 import { analytics } from 'https://esm.sh/@heycatch/sdk@0.8.5';
@@ -33,19 +33,18 @@ if (!framed) analytics.init({
   },
 });
 
-/** Which app the *store link destination* belongs to (not the page they are on). */
+/** Which published app the *store link destination* belongs to. */
 function appFromStoreHref(href) {
   var blob = String(href || '').toLowerCase();
   if (/pocketbudjet|id6761077263/.test(blob)) return 'pbj';
   if (/handyhorology|id6778570480|handy-horology/.test(blob)) return 'hhh';
   if (/josspatech\.cts|curator|id6778571307/.test(blob)) return 'cvc';
   if (/josspatech\.snip|unscribe|id6823295613/.test(blob)) return 'unscribe';
-  if (/pocketallowance|josspatech\.pal|allowanceledger/.test(blob)) return 'pal';
   // Developer listing / unknown package — fall back to the page they clicked from.
   return appFromPage();
 }
 
-/** Which product page / home section the visitor is on. */
+/** Which published product page / home section the visitor is on. */
 function appFromPage() {
   var path = (location.pathname || '').toLowerCase();
   var hash = (location.hash || '').toLowerCase();
@@ -54,7 +53,6 @@ function appFromPage() {
   if (/\/hhh(\/|$)|#hhh\b/.test(blob)) return 'hhh';
   if (/\/cvc(\/|$)|#cvc\b|\/cts(\/|$)/.test(blob)) return 'cvc';
   if (/\/unscribe(\/|$)|#unscribe\b|\/snip(\/|$)/.test(blob)) return 'unscribe';
-  if (/\/pal(\/|$)|#pal\b/.test(blob)) return 'pal';
   return 'unknown';
 }
 
@@ -65,6 +63,7 @@ function currentPage() {
 /**
  * Store badge / text store link → named events HeyCatch funnels can select.
  * Two names per tap so you can funnel by app, or by app+store.
+ * Skip unknown (no published app matched) so we do not invent junk event names.
  */
 document.addEventListener(
   'click',
@@ -80,6 +79,8 @@ document.addEventListener(
     else return;
 
     var app = appFromStoreHref(href);
+    if (app === 'unknown') return;
+
     var props = {
       app: app,
       store: store,
@@ -98,6 +99,7 @@ document.addEventListener(
 /**
  * Home SPA (#products / #pbj / …) does not load a new document, so autocapture
  * only sees "/". Named events so funnels can use them without property filters.
+ * Published apps only — no PAL.
  */
 var lastProductSection = '';
 function trackProductSection() {
@@ -114,7 +116,6 @@ function trackProductSection() {
   else if (raw === 'hhh') app = 'hhh';
   else if (raw === 'cvc') app = 'cvc';
   else if (raw === 'unscribe') app = 'unscribe';
-  else if (raw === 'pal') app = 'pal';
   else return;
   lastProductSection = raw;
   analytics.trackEvent('product_section_' + app, { app: app, page: currentPage() });
