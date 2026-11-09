@@ -1,9 +1,10 @@
-# Static marketing site — publish every push to main.
+﻿# Static marketing site — publish every push to main.
 # If deploys stay stuck: Repo Settings → Pages → Source = "GitHub Actions".
+# Dual main+master pushes used to cancel each other and time out the 1GB+ artifact.
 name: Deploy Pages
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +12,7 @@ permissions:
   id-token: write
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   deploy:
     environment:
