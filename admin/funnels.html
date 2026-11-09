@@ -9,7 +9,14 @@
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
     /* Use the full admin canvas — don't squeeze funnel copy into a skinny column. */
-    #dashboard .page-main { max-width: min(1400px, 100%); padding-left: 24px; padding-right: 24px; }
+    #dashboard header .brand,
+    #dashboard .page-main {
+      max-width: min(1600px, 100%);
+      width: 100%;
+      box-sizing: border-box;
+      padding-left: 28px;
+      padding-right: 28px;
+    }
     .fn-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
     .fn-range button {
       border:1px solid var(--border); background:var(--surface); color:var(--text);
