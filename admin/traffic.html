@@ -240,14 +240,20 @@
     ];
     const TR_STEPS = [
       ["app_opened", "Opened"],
-      ["onboarding_completed", "Onboarding"],
       ["terms_accepted", "Terms"],
+      ["onboarding_completed", "Onboarding"],
+      ["paywall_viewed", "Paywall"],
       ["checkout_started", "Checkout"],
       ["checkout_cancel", "Cancelled"],
       ["checkout_error", "Error"],
       ["subscription_started", "Subscribed"],
       ["trial_converted", "Trial converted"],
     ];
+    /** Match bare step or per-app suffix: app_opened / app_opened_pbj. */
+    function trEventMatches(event, step, appId) {
+      const e = String(event || "");
+      return e === step || e === step + "_" + appId;
+    }
 
     function trIsApp(r) {
       return String(r.page || "").startsWith("app:");
@@ -354,7 +360,11 @@
       const fHits = hops.filter((r) => String(r.page || "").startsWith("/f")).length;
       const tHits = hops.filter((r) => String(r.page || "").startsWith("/t")).length;
       function stepHits(eventName) {
-        return appRows.filter((r) => trAppEvent(r)?.event === eventName);
+        return appRows.filter((r) => {
+          const ev = trAppEvent(r);
+          if (!ev) return false;
+          return trEventMatches(ev.event, eventName, ev.app);
+        });
       }
       const opens = stepHits("app_opened");
       const checks = stepHits("checkout_started");
@@ -377,7 +387,7 @@
         for (const [step] of TR_STEPS) {
           const hits = appRows.filter((r) => {
             const ev = trAppEvent(r);
-            return ev && ev.app === a.id && ev.event === step;
+            return ev && ev.app === a.id && trEventMatches(ev.event, step, a.id);
           });
           const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
           stepCells[a.id][step] = { n: hits.length, people: people.size };

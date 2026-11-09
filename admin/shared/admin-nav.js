@@ -7,6 +7,7 @@
     { href: "dealer-ads.html", page: "dealer-ads", label: "HHH Ads" },
     { href: "cvc-dealer-ads.html", page: "cvc-dealer-ads", label: "CVC Ads" },
     { href: "traffic.html", page: "traffic", label: "Traffic" },
+    { href: "funnels.html", page: "funnels", label: "Funnels" },
     { href: "ocr-quota.html", page: "ocr", label: "OCR" },
     { href: "flywheel.html", page: "flywheel", label: "Flywheel" },
     { href: "/stocks/", page: "stocks", label: "Stocks" },

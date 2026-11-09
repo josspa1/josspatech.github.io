@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>JosspaTech — App funnels</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "funnels";</script>
+  <style>
+    .fn-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
+    .fn-range button {
+      border:1px solid var(--border); background:var(--surface); color:var(--text);
+      padding:8px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;
+    }
+    .fn-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .fn-app {
+      background:var(--surface); border:1px solid var(--border); border-radius:12px;
+      padding:16px 18px; margin:0 0 1rem;
+    }
+    .fn-app h3 { margin:0 0 4px; font-size:18px; }
+    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+    .fn-steps {
+      display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px;
+    }
+    @media (max-width:900px){ .fn-steps { grid-template-columns:1fr 1fr; } }
+    .fn-step {
+      border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+      background:var(--surface-alt, #f7f7f8);
+    }
+    .fn-step .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--text-dim); font-weight:600; }
+    .fn-step .val { font-size:26px; font-weight:700; color:var(--primary); line-height:1.1; margin:2px 0; }
+    .fn-step .pct { font-size:12px; color:var(--text-muted); }
+    .fn-step.loss { border-left:4px solid var(--danger); }
+    .fn-step.ok { border-left:4px solid var(--success); }
+    .fn-drop {
+      margin-top:10px; font-size:13px; font-weight:600; padding:8px 10px; border-radius:8px;
+    }
+    .fn-drop.bad { color:var(--danger); background:#FDECEA; border:1px solid #F5C6C0; }
+    .fn-drop.ok { color:#1E7A3F; background:#E8F7EE; border:1px solid #B7E0C5; }
+    .fn-drop.muted { color:var(--text-dim); background:var(--surface-alt, #f7f7f8); border:1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <div class="login-head">
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Where people drop · apps</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account.</p>
+    <input type="email" id="email" placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <h1>
+          App funnels
+          <span class="subtitle">Open → terms → onboarding → paywall → checkout · PocketBase only · no Worker</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main">
+      <section>
+        <p class="section-explainer">
+          Same steps the phones already post to <code>_site_visits</code> as
+          <code>app:pbj:app_opened_pbj</code> (and HHH / CVC / Unscribe).
+          This page never calls Cloudflare Workers or KV.
+          It keeps working after HeyCatch is cancelled.
+          Site → store acquisition stays on the Traffic tab.
+        </p>
+        <div class="fn-range" id="fnRange">
+          <button type="button" data-range="today" class="active">Today</button>
+          <button type="button" data-range="7d">7 days</button>
+          <button type="button" data-range="30d">30 days</button>
+          <button type="button" data-range="all">All time</button>
+        </div>
+        <div class="ref-actions">
+          <button type="button" class="m-btn accent" onclick="fnRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+        </div>
+        <div class="ref-status" id="fnStatus">Sign in, then Refresh.</div>
+        <div id="fnApps"></div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+  <script>
+    let fnRange = "today";
+    let fnCacheRows = null;
+
+    const FN_APPS = [
+      { id: "pbj", label: "PBJ" },
+      { id: "hhh", label: "HHH" },
+      { id: "cvc", label: "CVC" },
+      { id: "unscribe", label: "Unscribe" },
+    ];
+    /** Canonical loss map — same order as HeyCatch Conversion charts. */
+    const FN_STEPS = [
+      { key: "app_opened", label: "1 · Opened" },
+      { key: "terms_accepted", label: "2 · Terms" },
+      { key: "onboarding_completed", label: "3 · Onboarding" },
+      { key: "paywall_viewed", label: "4 · Paywall" },
+      { key: "checkout_started", label: "5 · Checkout" },
+    ];
+
+    function fnDayKeyEt(iso) {
+      if (!iso) return "";
+      try {
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/New_York",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date(iso));
+      } catch (e) {
+        return String(iso).slice(0, 10);
+      }
+    }
+    function fnInRange(r, range, todayKey) {
+      if (range === "all") return true;
+      if (!r.created) return false;
+      if (range === "today") return fnDayKeyEt(r.created) === todayKey;
+      const ms = range === "7d" ? 7 * 864e5 : 30 * 864e5;
+      return new Date(r.created).getTime() >= Date.now() - ms;
+    }
+    function fnAppEvent(r) {
+      const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
+      if (!m) return null;
+      return { app: m[1].toLowerCase(), event: m[2] };
+    }
+    /** Match bare step or per-app suffix: app_opened / app_opened_pbj. */
+    function fnEventMatches(event, stepKey, appId) {
+      const e = String(event || "");
+      if (e === stepKey) return true;
+      if (e === stepKey + "_" + appId) return true;
+      return false;
+    }
+    function fnPct(n, d) {
+      if (!d) return "—";
+      return ((100 * n) / d).toFixed(0) + "%";
+    }
+    function fnBiggestDrop(counts) {
+      let worst = null;
+      for (let i = 1; i < counts.length; i++) {
+        const prev = counts[i - 1].people || counts[i - 1].n;
+        const cur = counts[i].people || counts[i].n;
+        const lost = Math.max(0, prev - cur);
+        if (!prev) continue;
+        const rate = lost / prev;
+        if (!worst || rate > worst.rate) {
+          worst = {
+            from: counts[i - 1].label,
+            to: counts[i].label,
+            lost,
+            rate,
+            prev,
+            cur,
+          };
+        }
+      }
+      return worst;
+    }
+
+    function fnRender(rows) {
+      const todayKey = fnDayKeyEt(new Date().toISOString());
+      const scoped = rows.filter((r) => fnInRange(r, fnRange, todayKey));
+      const appRows = scoped.filter((r) => String(r.page || "").startsWith("app:"));
+
+      const html = FN_APPS.map((app) => {
+        const counts = FN_STEPS.map((step) => {
+          const hits = appRows.filter((r) => {
+            const ev = fnAppEvent(r);
+            return ev && ev.app === app.id && fnEventMatches(ev.event, step.key, app.id);
+          });
+          const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
+          return {
+            key: step.key,
+            label: step.label,
+            n: hits.length,
+            people: people.size || hits.length,
+          };
+        });
+        const base = counts[0].people || counts[0].n;
+        const stepsHtml = counts
+          .map((c, i) => {
+            const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
+            const ofOpen = fnPct(c.people, base);
+            const ofPrev = i === 0 ? "100%" : fnPct(c.people, prev);
+            const dropped = i > 0 && prev > 0 && c.people / prev < 0.5;
+            const cls = !base ? "" : dropped ? "loss" : "ok";
+            return `<div class="fn-step ${cls}">
+              <div class="lbl">${c.label}</div>
+              <div class="val">${c.people}</div>
+              <div class="pct">${ofOpen} of opens · ${ofPrev} from prior${c.n !== c.people ? ` · ${c.n} events` : ""}</div>
+            </div>`;
+          })
+          .join("");
+        const drop = fnBiggestDrop(counts);
+        let dropHtml = `<div class="fn-drop muted">No app steps in this window yet.</div>`;
+        if (base) {
+          if (drop && drop.lost > 0) {
+            dropHtml = `<div class="fn-drop bad">Biggest leak: ${drop.from} → ${drop.to} — lost ${drop.lost} of ${drop.prev} (${fnPct(drop.lost, drop.prev)}).</div>`;
+          } else {
+            dropHtml = `<div class="fn-drop ok">No big step-to-step cliff in this window (or volume is still tiny).</div>`;
+          }
+        }
+        return `<div class="fn-app">
+          <h3>${app.label}</h3>
+          <p class="sub">People (distinct session_id when present). Low volume still shows where the path breaks.</p>
+          <div class="fn-steps">${stepsHtml}</div>
+          ${dropHtml}
+        </div>`;
+      }).join("");
+
+      document.getElementById("fnApps").innerHTML = html || "<p>No data.</p>";
+      const rangeLabel = { today: "today", "7d": "7d", "30d": "30d", all: "all-time" }[fnRange];
+      document.getElementById("fnStatus").textContent =
+        `${rangeLabel}: ${appRows.length} app step rows · ${new Date().toLocaleTimeString()}`;
+      document.getElementById("pulse").classList.remove("stale");
+      document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    async function fnRefresh() {
+      const status = document.getElementById("fnStatus");
+      status.textContent = "Loading…";
+      try {
+        fnCacheRows = await listAllRecords("_site_visits");
+        fnRender(fnCacheRows);
+      } catch (e) {
+        status.textContent = "Error: " + (e.message || e);
+        document.getElementById("pulse").classList.add("stale");
+      }
+    }
+
+    document.getElementById("fnRange").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-range]");
+      if (!btn) return;
+      fnRange = btn.getAttribute("data-range");
+      [...document.querySelectorAll("#fnRange button")].forEach((b) => b.classList.toggle("active", b === btn));
+      if (fnCacheRows) fnRender(fnCacheRows);
+      else fnRefresh();
+    });
+
+    window.fnRefresh = fnRefresh;
+  </script>
+</body>
+</html>
