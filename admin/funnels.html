@@ -9,15 +9,15 @@
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
     /*
-      admin.css sets `main { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) }`
-      which left the whole Funnels section stuck in one skinny column. Force full width.
+      Escape admin.css `main { display:grid; auto-fill 280px }` skinny trap,
+      but keep a readable content width — not edge-to-edge.
     */
     #dashboard main.page-main {
       display: block !important;
-      max-width: min(1600px, 100%) !important;
+      max-width: 980px !important;
       width: 100% !important;
       box-sizing: border-box;
-      padding: 16px 28px 48px;
+      padding: 16px 20px 48px;
       margin: 0 auto;
     }
     #dashboard main.page-main > section {
@@ -34,43 +34,69 @@
     .fn-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
     .fn-app {
       background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:22px 28px; margin:0 0 1.25rem; width:100%; box-sizing:border-box;
+      padding:16px 18px; margin:0 0 1.1rem; width:100%; box-sizing:border-box;
     }
     .fn-app h3 { margin:0 0 4px; font-size:18px; }
-    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 14px; max-width:none; }
+    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; max-width:none; }
     .fn-steps {
-      display:flex; flex-direction:column; gap:12px; width:100%;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+    @media (max-width: 720px) {
+      .fn-steps { grid-template-columns: 1fr; }
     }
     .fn-step {
-      display:grid;
-      grid-template-columns:minmax(0, 1fr) auto;
-      grid-template-areas:
-        "lbl val"
-        "pct pct";
-      align-items:start; gap:6px 24px;
-      border:1px solid var(--border); border-radius:10px; padding:14px 20px;
-      background:var(--surface-alt, #f7f7f8);
-      width:100%; box-sizing:border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: var(--surface-alt, #f7f7f8);
+      box-sizing: border-box;
+      min-width: 0;
     }
-    .fn-step .lbl { grid-area:lbl; font-size:15px; font-weight:700; color:var(--text); letter-spacing:.01em; min-width:0; }
-    .fn-step .val { grid-area:val; font-size:32px; font-weight:700; color:var(--primary); line-height:1; text-align:right; padding-top:2px; }
-    .fn-step .pct { grid-area:pct; font-size:13px; color:var(--text-muted); line-height:1.5; min-width:0; }
-    .fn-step .pct span { display:block; }
-    .fn-step.loss { border-left:4px solid var(--danger); }
-    .fn-step.ok { border-left:4px solid var(--success); }
+    .fn-step-top {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      min-width: 0;
+    }
+    .fn-step .lbl {
+      flex: 1 1 auto;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: .01em;
+      min-width: 0;
+      line-height: 1.25;
+    }
+    .fn-step .val {
+      flex: 0 0 auto;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .fn-step .pct { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .fn-step .pct span { display: block; }
+    .fn-step.loss { border-left: 4px solid var(--danger); }
+    .fn-step.ok { border-left: 4px solid var(--success); }
     .fn-drop {
-      margin-top:14px; font-size:13px; font-weight:600; padding:10px 12px; border-radius:8px;
+      margin-top: 12px; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 8px;
     }
-    .fn-drop.bad { color:var(--danger); background:#FDECEA; border:1px solid #F5C6C0; }
-    .fn-drop.ok { color:#1E7A3F; background:#E8F7EE; border:1px solid #B7E0C5; }
-    .fn-drop.muted { color:var(--text-dim); background:var(--surface-alt, #f7f7f8); border:1px solid var(--border); }
+    .fn-drop.bad { color: var(--danger); background: #FDECEA; border: 1px solid #F5C6C0; }
+    .fn-drop.ok { color: #1E7A3F; background: #E8F7EE; border: 1px solid #B7E0C5; }
+    .fn-drop.muted { color: var(--text-dim); background: var(--surface-alt, #f7f7f8); border: 1px solid var(--border); }
     .fn-bottom {
-      margin-top:12px; font-size:14px; font-weight:700; padding:12px 14px; border-radius:8px;
-      background:#EEF3FA; border:1px solid #C5D4E8; color:var(--text); line-height:1.45;
+      margin-top: 10px; font-size: 14px; font-weight: 700; padding: 10px 12px; border-radius: 8px;
+      background: #EEF3FA; border: 1px solid #C5D4E8; color: var(--text); line-height: 1.45;
     }
-    .fn-bottom .not-sale { color:var(--danger); font-weight:700; }
-    .fn-bottom .is-sale { color:#1E7A3F; font-weight:700; }
-    .fn-step .mean { font-size:12px; font-weight:600; color:var(--text-dim); margin-top:2px; }
+    .fn-bottom .not-sale { color: var(--danger); font-weight: 700; }
+    .fn-bottom .is-sale { color: #1E7A3F; font-weight: 700; }
+    .fn-step .mean { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-top: 2px; }
   </style>
 </head>
 <body>
@@ -263,8 +289,11 @@
             const openLine = i === 0 ? `<span>Everyone who opened the app in this window</span>` : `<span>${ofOpen} of people who opened the app</span>`;
             const priorLine = i === 0 ? "" : `<span>${ofPrev} of the previous step continued here</span>`;
             return `<div class="fn-step ${cls}">
-              <div class="lbl">${c.label}<div class="mean">${c.mean}</div></div>
-              <div class="val">${c.people}</div>
+              <div class="fn-step-top">
+                <div class="lbl">${c.label}</div>
+                <div class="val">${c.people}</div>
+              </div>
+              <div class="mean">${c.mean}</div>
               <div class="pct">${openLine}${priorLine}${extra}</div>
             </div>`;
           })
