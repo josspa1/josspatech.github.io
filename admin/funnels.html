@@ -46,6 +46,13 @@
     .fn-drop.bad { color:var(--danger); background:#FDECEA; border:1px solid #F5C6C0; }
     .fn-drop.ok { color:#1E7A3F; background:#E8F7EE; border:1px solid #B7E0C5; }
     .fn-drop.muted { color:var(--text-dim); background:var(--surface-alt, #f7f7f8); border:1px solid var(--border); }
+    .fn-bottom {
+      margin-top:12px; font-size:14px; font-weight:700; padding:12px 14px; border-radius:8px;
+      background:#EEF3FA; border:1px solid #C5D4E8; color:var(--text); line-height:1.45;
+    }
+    .fn-bottom .not-sale { color:var(--danger); font-weight:700; }
+    .fn-bottom .is-sale { color:#1E7A3F; font-weight:700; }
+    .fn-step .mean { font-size:12px; font-weight:600; color:var(--text-dim); margin-top:2px; }
   </style>
 </head>
 <body>
@@ -67,7 +74,7 @@
       <div class="brand">
         <h1>
           App funnels
-          <span class="subtitle">Open → terms → onboarding → paywall → checkout → paid · PocketBase only · no Worker</span>
+          <span class="subtitle">Opened → terms → onboarding → paywall → tapped Subscribe → actually paid · PocketBase only</span>
         </h1>
       </div>
       <div class="controls">
@@ -114,13 +121,23 @@
     ];
     /** Canonical loss map — same order as HeyCatch Conversion charts. */
     const FN_STEPS = [
-      { key: "app_opened", label: "1 · Opened" },
-      { key: "terms_accepted", label: "2 · Terms" },
-      { key: "onboarding_completed", label: "3 · Onboarding" },
-      { key: "paywall_viewed", label: "4 · Paywall" },
-      { key: "checkout_started", label: "5 · Checkout" },
+      { key: "app_opened", label: "1 · Opened app", mean: "Opened the app at least once." },
+      { key: "terms_accepted", label: "2 · Accepted terms", mean: "Tapped through Terms." },
+      { key: "onboarding_completed", label: "3 · Finished onboarding", mean: "Finished the first-run screens." },
+      { key: "paywall_viewed", label: "4 · Saw paywall", mean: "Saw the subscribe screen. Not a sale." },
+      {
+        key: "checkout_started",
+        label: "5 · Tapped Subscribe",
+        mean: "Opened the Play/App Store buy sheet. NOT a sale yet — they can still cancel.",
+        short: "Tapped Subscribe",
+      },
       /** Store sheet succeeded — same event Traffic already counts. Not RevenueCat MRR. */
-      { key: "subscription_started", label: "6 · Paid" },
+      {
+        key: "subscription_started",
+        label: "6 · Actually paid",
+        mean: "Store reported a successful purchase. This is the sale count.",
+        short: "Actually paid",
+      },
     ];
 
     function fnDayKeyEt(iso) {
@@ -169,8 +186,8 @@
         const rate = lost / prev;
         if (!worst || rate > worst.rate) {
           worst = {
-            from: counts[i - 1].label,
-            to: counts[i].label,
+            from: counts[i - 1].short || counts[i - 1].label,
+            to: counts[i].short || counts[i].label,
             lost,
             rate,
             prev,
@@ -196,11 +213,27 @@
           return {
             key: step.key,
             label: step.label,
+            mean: step.mean || "",
+            short: step.short || step.label.replace(/^\d+\s*·\s*/, ""),
             n: hits.length,
             people: people.size || hits.length,
           };
         });
         const base = counts[0].people || counts[0].n;
+        const tapped = counts.find((c) => c.key === "checkout_started");
+        const paid = counts.find((c) => c.key === "subscription_started");
+        const tappedN = tapped ? tapped.people : 0;
+        const paidN = paid ? paid.people : 0;
+        let bottomHtml = "";
+        if (base) {
+          if (paidN > 0) {
+            bottomHtml = `<div class="fn-bottom"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
+          } else if (tappedN > 0) {
+            bottomHtml = `<div class="fn-bottom"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but <strong>nobody finished paying</strong> — that is not a sale.</div>`;
+          } else {
+            bottomHtml = `<div class="fn-bottom"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+          }
+        }
         const stepsHtml = counts
           .map((c, i) => {
             const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
@@ -212,7 +245,7 @@
             const openLine = i === 0 ? `<span>Everyone who opened the app in this window</span>` : `<span>${ofOpen} of people who opened the app</span>`;
             const priorLine = i === 0 ? "" : `<span>${ofPrev} of the previous step continued here</span>`;
             return `<div class="fn-step ${cls}">
-              <div class="lbl">${c.label}</div>
+              <div class="lbl">${c.label}<div class="mean">${c.mean}</div></div>
               <div class="val">${c.people}</div>
               <div class="pct">${openLine}${priorLine}${extra}</div>
             </div>`;
@@ -222,17 +255,16 @@
         let dropHtml = `<div class="fn-drop muted">No app steps in this window yet.</div>`;
         if (base) {
           if (drop && drop.lost > 0) {
-            const fromName = String(drop.from).replace(/^\d+\s*·\s*/, "");
-            const toName = String(drop.to).replace(/^\d+\s*·\s*/, "");
-            dropHtml = `<div class="fn-drop bad">Biggest drop: of the <strong>${drop.prev}</strong> people who reached <strong>${fromName}</strong>, <strong>${drop.lost}</strong> left without going on to <strong>${toName}</strong> (only <strong>${drop.cur}</strong> continued).</div>`;
+            dropHtml = `<div class="fn-drop bad">Biggest drop: of the <strong>${drop.prev}</strong> people who reached <strong>${drop.from}</strong>, <strong>${drop.lost}</strong> left without going on to <strong>${drop.to}</strong> (only <strong>${drop.cur}</strong> continued).</div>`;
           } else {
             dropHtml = `<div class="fn-drop ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
           }
         }
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">People (distinct session_id when present). Paid = store purchase succeeded (<code>subscription_started</code>), not “started checkout.”</p>
-          <div class="fn-steps">${stepsHtml}</div>
+          <p class="sub">Counts are people in this time window. <strong>Tapped Subscribe ≠ sale.</strong> Only “Actually paid” is a sale.</p>
+          ${bottomHtml}
+          <div class="fn-steps" style="margin-top:12px">${stepsHtml}</div>
           ${dropHtml}
         </div>`;
       }).join("");
