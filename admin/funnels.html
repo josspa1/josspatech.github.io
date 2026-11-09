@@ -67,7 +67,7 @@
       <div class="brand">
         <h1>
           App funnels
-          <span class="subtitle">Open → terms → onboarding → paywall → checkout · PocketBase only · no Worker</span>
+          <span class="subtitle">Open → terms → onboarding → paywall → checkout → paid · PocketBase only · no Worker</span>
         </h1>
       </div>
       <div class="controls">
@@ -119,6 +119,8 @@
       { key: "onboarding_completed", label: "3 · Onboarding" },
       { key: "paywall_viewed", label: "4 · Paywall" },
       { key: "checkout_started", label: "5 · Checkout" },
+      /** Store sheet succeeded — same event Traffic already counts. Not RevenueCat MRR. */
+      { key: "subscription_started", label: "6 · Paid" },
     ];
 
     function fnDayKeyEt(iso) {
@@ -225,7 +227,7 @@
         }
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">People (distinct session_id when present). Low volume still shows where the path breaks.</p>
+          <p class="sub">People (distinct session_id when present). Paid = store purchase succeeded (<code>subscription_started</code>), not “started checkout.”</p>
           <div class="fn-steps">${stepsHtml}</div>
           ${dropHtml}
         </div>`;
