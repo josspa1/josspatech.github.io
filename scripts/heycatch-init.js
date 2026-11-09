@@ -5,16 +5,15 @@
  * Each public page loads from <head>:
  *   <script src="/scripts/heycatch-store-queue.js"></script>
  *   <link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js">
- *   <script type="module" src="/scripts/heycatch-init.js?v=9"></script>
+ *   <script type="module" src="/scripts/heycatch-init.js?v=10"></script>
  *
- * SDK is vendored same-origin. Store taps are queued by the classic script
- * above, then flushed here after init — same-tab store navigations were
- * canceling store_click_* before ingest saw them.
- *
- * site: 'landing' · requestBatching: false
- * Funnel success names (published apps only — not PAL):
+ * Funnel success names (published apps only — not PAL) — literal strings:
  *   store_click_pbj / store_click_pbj_google_play / store_click_pbj_app_store
- *   (same for hhh, cvc, unscribe)
+ *   store_click_hhh / store_click_hhh_google_play / store_click_hhh_app_store
+ *   store_click_cvc / store_click_cvc_google_play / store_click_cvc_app_store
+ *   store_click_unscribe / store_click_unscribe_google_play / store_click_unscribe_app_store
+ *
+ * Never emit bare "store_click".
  */
 import { analytics } from '/scripts/vendor/heycatch-sdk-0.8.5.js';
 
@@ -32,6 +31,30 @@ if (!framed) {
     },
   });
 }
+
+/** Literal event names — no string concat at the call site. */
+var STORE_EVENTS = {
+  pbj: {
+    any: 'store_click_pbj',
+    google_play: 'store_click_pbj_google_play',
+    app_store: 'store_click_pbj_app_store',
+  },
+  hhh: {
+    any: 'store_click_hhh',
+    google_play: 'store_click_hhh_google_play',
+    app_store: 'store_click_hhh_app_store',
+  },
+  cvc: {
+    any: 'store_click_cvc',
+    google_play: 'store_click_cvc_google_play',
+    app_store: 'store_click_cvc_app_store',
+  },
+  unscribe: {
+    any: 'store_click_unscribe',
+    google_play: 'store_click_unscribe_google_play',
+    app_store: 'store_click_unscribe_app_store',
+  },
+};
 
 function appFromStoreHref(href) {
   var blob = String(href || '').toLowerCase();
@@ -71,7 +94,8 @@ function trackStoreClick(href) {
   _lastStore = { href: href, t: now };
 
   var app = appFromStoreHref(href);
-  if (app === 'unknown') return;
+  var names = STORE_EVENTS[app];
+  if (!names) return;
 
   var props = {
     app: app,
@@ -80,9 +104,13 @@ function trackStoreClick(href) {
     href: String(href).slice(0, 200),
   };
 
-  analytics.trackEvent('store_click_' + app, props);
-  analytics.trackEvent('store_click_' + app + '_' + store, props);
+  // Literal names only — never "store_click".
+  analytics.trackEvent(names.any, props);
+  analytics.trackEvent(names[store], props);
 }
+
+// Classic store-queue.js calls this as soon as the module is ready.
+window.__hcTrackStoreClick = trackStoreClick;
 
 function onStoreLinkIntent(e) {
   if (e.type === 'click' && e.button != null && e.button !== 0) return;
@@ -99,6 +127,8 @@ function onStoreLinkIntent(e) {
 }
 
 document.addEventListener('pointerdown', onStoreLinkIntent, true);
+document.addEventListener('mousedown', onStoreLinkIntent, true);
+document.addEventListener('touchstart', onStoreLinkIntent, true);
 document.addEventListener('click', onStoreLinkIntent, true);
 
 // Drain taps that happened before this module finished loading.
