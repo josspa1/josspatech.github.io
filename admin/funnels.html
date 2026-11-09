@@ -208,11 +208,13 @@
             const ofPrev = i === 0 ? "100%" : fnPct(c.people, prev);
             const dropped = i > 0 && prev > 0 && c.people / prev < 0.5;
             const cls = !base ? "" : dropped ? "loss" : "ok";
-            const extra = c.n !== c.people ? `<span>${c.n} events</span>` : "";
+            const extra = c.n !== c.people ? `<span>${c.n} raw events (same people recount)</span>` : "";
+            const openLine = i === 0 ? `<span>Everyone who opened the app in this window</span>` : `<span>${ofOpen} of people who opened the app</span>`;
+            const priorLine = i === 0 ? "" : `<span>${ofPrev} of the previous step continued here</span>`;
             return `<div class="fn-step ${cls}">
               <div class="lbl">${c.label}</div>
               <div class="val">${c.people}</div>
-              <div class="pct"><span>${ofOpen} of opens</span><span>${ofPrev} from prior</span>${extra}</div>
+              <div class="pct">${openLine}${priorLine}${extra}</div>
             </div>`;
           })
           .join("");
@@ -220,9 +222,11 @@
         let dropHtml = `<div class="fn-drop muted">No app steps in this window yet.</div>`;
         if (base) {
           if (drop && drop.lost > 0) {
-            dropHtml = `<div class="fn-drop bad">Biggest leak: ${drop.from} → ${drop.to} — lost ${drop.lost} of ${drop.prev} (${fnPct(drop.lost, drop.prev)}).</div>`;
+            const fromName = String(drop.from).replace(/^\d+\s*·\s*/, "");
+            const toName = String(drop.to).replace(/^\d+\s*·\s*/, "");
+            dropHtml = `<div class="fn-drop bad">Biggest drop: of the <strong>${drop.prev}</strong> people who reached <strong>${fromName}</strong>, <strong>${drop.lost}</strong> left without going on to <strong>${toName}</strong> (only <strong>${drop.cur}</strong> continued).</div>`;
           } else {
-            dropHtml = `<div class="fn-drop ok">No big step-to-step cliff in this window (or volume is still tiny).</div>`;
+            dropHtml = `<div class="fn-drop ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
           }
         }
         return `<div class="fn-app">
