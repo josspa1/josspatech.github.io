@@ -8,15 +8,24 @@
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
-    /* Use the full admin canvas — don't squeeze funnel copy into a skinny column. */
-    #dashboard header .brand,
-    #dashboard .page-main {
-      max-width: min(1600px, 100%);
-      width: 100%;
+    /*
+      admin.css sets `main { display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) }`
+      which left the whole Funnels section stuck in one skinny column. Force full width.
+    */
+    #dashboard main.page-main {
+      display: block !important;
+      max-width: min(1600px, 100%) !important;
+      width: 100% !important;
       box-sizing: border-box;
-      padding-left: 28px;
-      padding-right: 28px;
+      padding: 16px 28px 48px;
+      margin: 0 auto;
     }
+    #dashboard main.page-main > section {
+      display: block;
+      width: 100%;
+      max-width: none;
+    }
+    #fnApps { width: 100%; }
     .fn-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
     .fn-range button {
       border:1px solid var(--border); background:var(--surface); color:var(--text);
