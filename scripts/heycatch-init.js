@@ -5,7 +5,7 @@
  * Each public page loads from <head>:
  *   <script src="/scripts/heycatch-store-queue.js"></script>
  *   <link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js">
- *   <script type="module" src="/scripts/heycatch-init.js?v=8"></script>
+ *   <script type="module" src="/scripts/heycatch-init.js?v=9"></script>
  *
  * SDK is vendored same-origin. Store taps are queued by the classic script
  * above, then flushed here after init — same-tab store navigations were

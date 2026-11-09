@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=8"></script>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=9"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="JosspaTech (pronounced Joss-pah-tech) builds private mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault. Ad-free.">
@@ -1160,12 +1160,28 @@ body[data-app="cvc"] .nav-mobile-menu{background:rgba(15,46,37,0.98);}
   font-size:12px;line-height:1.45;letter-spacing:0.02em;
   color:rgba(255,255,255,0.48);
 }
-#page-hhh .hero .store-badges{
+#page-hhh .hero .store-badges,
+#page-cvc .hero .store-badges{
   margin:0 0 22px;
 }
 #page-hhh .prod-media-acts.store-badges,
-#page-hhh .prod-close-inner .store-badges{
+#page-hhh .prod-close-inner .store-badges,
+#page-pbj .prod-media-acts.store-badges,
+#page-pbj .prod-close-inner .store-badges,
+#page-cvc .prod-media-acts.store-badges,
+#page-cvc .prod-close-inner .store-badges,
+#page-pbj .launch-form.store-badges{
   justify-content:center;
+}
+#page-pbj .launch-form.store-badges{
+  flex-direction:row;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+#page-pbj .launch-form.store-badges .store-badges-note{
+  color:rgba(255,255,255,0.55);
 }
 #page-pbj .btn-primary,
 #page-hhh .btn-primary,
@@ -4231,10 +4247,14 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
           <div class="launch-cta-title">On Google Play &amp; the App Store</div>
           <div class="launch-cta-sub">Install from either store. 15-day Premium trial, then $9.99/mo or $74.99/yr. Cancel anytime in your store subscriptions.</div>
         </div>
-        <div class="launch-form" style="flex-direction:column;align-items:stretch;min-width:220px;">
-          <a href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" class="launch-btn" style="text-align:center;text-decoration:none;display:block;">Google Play</a>
-          <a href="https://apps.apple.com/app/id6761077263" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;margin-top:8px;">App Store</a>
-          <a href="/videos/pbj/user-guide/" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;margin-top:8px;">How to use</a>
+        <div class="launch-form store-badges" role="group" aria-label="Download PocketBudJet">
+          <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" rel="noopener">
+            <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+          </a>
+          <a class="store-badge-apple" href="https://apps.apple.com/app/id6761077263" rel="noopener">
+            <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+          </a>
+          <a href="/videos/pbj/user-guide/" class="launch-btn" style="text-align:center;text-decoration:none;display:block;background:rgba(255,255,255,0.12);color:#fff;width:100%;">How to use</a>
         </div>
       </div>
     </div>
@@ -4921,9 +4941,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <h1 class="hero-h1">Catalog your collections.<br><em>Track their value.</em></h1>
       <p class="hero-tagline">Coins · Cards · Stamps · Paper · Lighters</p>
       <p class="hero-sub">Five categories — coins, cards, stamps, paper money, and lighters. Photograph a piece, get an AI ID with series, era, and grading cues. Full UI in <strong>7 languages</strong>. <strong>15-day trial</strong>, then Pro at <strong>$9.99/mo · $74.99/yr</strong>.</p>
+      <div class="hero-acts store-badges" role="group" aria-label="Download Curator's Vault">
+        <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.cts" rel="noopener">
+          <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="eager">
+        </a>
+        <a class="store-badge-apple" href="https://apps.apple.com/app/id6778571307" rel="noopener">
+          <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="eager">
+        </a>
+        <p class="store-badges-note">Official stores · US · 15-day free trial</p>
+      </div>
       <div class="hero-acts">
-        <a href="https://play.google.com/store/apps/details?id=com.josspatech.cts" class="btn-primary" style="background:#D4A853;color:#0F2E25;">Google Play</a>
-        <a href="https://apps.apple.com/app/id6778571307" class="btn-ghost" style="border-color:rgba(212,168,83,0.25);color:#D4A853;">App Store</a>
         <a href="/videos/cvc/user-guide/" class="btn-ghost" style="border-color:rgba(212,168,83,0.25);color:#D4A853;">How to use</a>
         <a href="docs/curatorsvault/CuratorsVault_PrivacyPolicy.html" class="btn-ghost" style="border-color:rgba(212,168,83,0.25);color:#D4A853;">Privacy Policy</a>
       </div>
@@ -5047,10 +5074,15 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <span class="prod-beat-ey">Status</span>
     <h2>On Google Play<br><em>&amp; the App Store.</em></h2>
     <p>Coins, cards, stamps, paper money, and lighters — one vault. 15-day trial, then $9.99/mo or $74.99/yr.</p>
-    <div class="prod-media-acts store-badges" role="group" aria-label="Download Curator's Vault" style="margin-top:20px;justify-content:center;">
-      <a class="store-badge-google" href="https://play.google.com/store/apps/details?id=com.josspatech.cts" rel="noopener">Google Play</a>
-      <a class="store-badge-apple" href="https://apps.apple.com/app/id6778571307" rel="noopener">App Store</a>
-      </div>
+    <div class="prod-media-acts store-badges" role="group" aria-label="Download Curator's Vault" style="margin-top:20px;">
+      <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.cts" rel="noopener">
+        <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+      </a>
+      <a class="store-badge-apple" href="https://apps.apple.com/app/id6778571307" rel="noopener">
+        <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+      </a>
+      <p class="store-badges-note">Official Google Play and App Store listings · US</p>
+    </div>
   </div>
 </section>
 
