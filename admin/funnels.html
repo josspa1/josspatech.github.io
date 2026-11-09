@@ -16,25 +16,32 @@
     .fn-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
     .fn-app {
       background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:16px 18px; margin:0 0 1rem;
+      padding:20px 22px; margin:0 0 1.25rem;
     }
     .fn-app h3 { margin:0 0 4px; font-size:18px; }
-    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 14px; }
     .fn-steps {
-      display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px;
+      display:flex; flex-direction:column; gap:10px;
     }
-    @media (max-width:900px){ .fn-steps { grid-template-columns:1fr 1fr; } }
     .fn-step {
-      border:1px solid var(--border); border-radius:10px; padding:10px 12px;
+      display:grid;
+      grid-template-columns:minmax(7.5rem, 9rem) auto 1fr;
+      align-items:center; gap:12px 16px;
+      border:1px solid var(--border); border-radius:10px; padding:12px 16px;
       background:var(--surface-alt, #f7f7f8);
     }
-    .fn-step .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--text-dim); font-weight:600; }
-    .fn-step .val { font-size:26px; font-weight:700; color:var(--primary); line-height:1.1; margin:2px 0; }
-    .fn-step .pct { font-size:12px; color:var(--text-muted); }
+    @media (max-width:640px){
+      .fn-step { grid-template-columns:1fr auto; }
+      .fn-step .pct { grid-column:1 / -1; }
+    }
+    .fn-step .lbl { font-size:13px; font-weight:700; color:var(--text); letter-spacing:.01em; }
+    .fn-step .val { font-size:28px; font-weight:700; color:var(--primary); line-height:1; min-width:2.5rem; text-align:right; }
+    .fn-step .pct { font-size:12px; color:var(--text-muted); line-height:1.45; }
+    .fn-step .pct span { display:block; }
     .fn-step.loss { border-left:4px solid var(--danger); }
     .fn-step.ok { border-left:4px solid var(--success); }
     .fn-drop {
-      margin-top:10px; font-size:13px; font-weight:600; padding:8px 10px; border-radius:8px;
+      margin-top:14px; font-size:13px; font-weight:600; padding:10px 12px; border-radius:8px;
     }
     .fn-drop.bad { color:var(--danger); background:#FDECEA; border:1px solid #F5C6C0; }
     .fn-drop.ok { color:#1E7A3F; background:#E8F7EE; border:1px solid #B7E0C5; }
@@ -199,10 +206,11 @@
             const ofPrev = i === 0 ? "100%" : fnPct(c.people, prev);
             const dropped = i > 0 && prev > 0 && c.people / prev < 0.5;
             const cls = !base ? "" : dropped ? "loss" : "ok";
+            const extra = c.n !== c.people ? `<span>${c.n} events</span>` : "";
             return `<div class="fn-step ${cls}">
               <div class="lbl">${c.label}</div>
               <div class="val">${c.people}</div>
-              <div class="pct">${ofOpen} of opens · ${ofPrev} from prior${c.n !== c.people ? ` · ${c.n} events` : ""}</div>
+              <div class="pct"><span>${ofOpen} of opens</span><span>${ofPrev} from prior</span>${extra}</div>
             </div>`;
           })
           .join("");
