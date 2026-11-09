@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
+    /* Use the full admin canvas — don't squeeze funnel copy into a skinny column. */
+    #dashboard .page-main { max-width: min(1400px, 100%); padding-left: 24px; padding-right: 24px; }
     .fn-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
     .fn-range button {
       border:1px solid var(--border); background:var(--surface); color:var(--text);
@@ -16,27 +18,27 @@
     .fn-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
     .fn-app {
       background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:20px 22px; margin:0 0 1.25rem;
+      padding:22px 28px; margin:0 0 1.25rem; width:100%; box-sizing:border-box;
     }
     .fn-app h3 { margin:0 0 4px; font-size:18px; }
-    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 14px; }
+    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 14px; max-width:none; }
     .fn-steps {
-      display:flex; flex-direction:column; gap:10px;
+      display:flex; flex-direction:column; gap:12px; width:100%;
     }
     .fn-step {
       display:grid;
-      grid-template-columns:minmax(7.5rem, 9rem) auto 1fr;
-      align-items:center; gap:12px 16px;
-      border:1px solid var(--border); border-radius:10px; padding:12px 16px;
+      grid-template-columns:minmax(0, 1fr) auto;
+      grid-template-areas:
+        "lbl val"
+        "pct pct";
+      align-items:start; gap:6px 24px;
+      border:1px solid var(--border); border-radius:10px; padding:14px 20px;
       background:var(--surface-alt, #f7f7f8);
+      width:100%; box-sizing:border-box;
     }
-    @media (max-width:640px){
-      .fn-step { grid-template-columns:1fr auto; }
-      .fn-step .pct { grid-column:1 / -1; }
-    }
-    .fn-step .lbl { font-size:13px; font-weight:700; color:var(--text); letter-spacing:.01em; }
-    .fn-step .val { font-size:28px; font-weight:700; color:var(--primary); line-height:1; min-width:2.5rem; text-align:right; }
-    .fn-step .pct { font-size:12px; color:var(--text-muted); line-height:1.45; }
+    .fn-step .lbl { grid-area:lbl; font-size:15px; font-weight:700; color:var(--text); letter-spacing:.01em; min-width:0; }
+    .fn-step .val { grid-area:val; font-size:32px; font-weight:700; color:var(--primary); line-height:1; text-align:right; padding-top:2px; }
+    .fn-step .pct { grid-area:pct; font-size:13px; color:var(--text-muted); line-height:1.5; min-width:0; }
     .fn-step .pct span { display:block; }
     .fn-step.loss { border-left:4px solid var(--danger); }
     .fn-step.ok { border-left:4px solid var(--success); }
