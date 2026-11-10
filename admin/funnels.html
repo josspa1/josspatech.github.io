@@ -8,95 +8,72 @@
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
-    /*
-      Escape admin.css `main { display:grid; auto-fill 280px }` skinny trap,
-      but keep a readable content width — not edge-to-edge.
-    */
+    /* Mixpanel/Amplitude pattern: KPI → one vertical funnel → drop-offs between steps. */
     #dashboard main.page-main {
       display: block !important;
-      max-width: 980px !important;
+      max-width: 720px !important;
       width: 100% !important;
       box-sizing: border-box;
       padding: 16px 20px 48px;
       margin: 0 auto;
     }
-    #dashboard main.page-main > section {
-      display: block;
-      width: 100%;
-      max-width: none;
-    }
+    #dashboard main.page-main > section { display: block; width: 100%; max-width: none; }
     #fnApps { width: 100%; }
-    .fn-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
+    .fn-range { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 1rem; }
     .fn-range button {
-      border:1px solid var(--border); background:var(--surface); color:var(--text);
-      padding:8px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
     }
-    .fn-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .fn-range button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
     .fn-app {
-      background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:16px 18px; margin:0 0 1.1rem; width:100%; box-sizing:border-box;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px 20px; margin: 0 0 1rem; width: 100%; box-sizing: border-box;
     }
-    .fn-app h3 { margin:0 0 4px; font-size:18px; }
-    .fn-app .sub { font-size:12px; color:var(--text-dim); margin:0 0 12px; max-width:none; }
-    .fn-steps {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      width: 100%;
+    .fn-app h3 { margin: 0 0 2px; font-size: 18px; }
+    .fn-app .sub { font-size: 12px; color: var(--text-dim); margin: 0 0 10px; }
+    .fn-kpi {
+      font-size: 14px; font-weight: 700; line-height: 1.45;
+      padding: 10px 12px; border-radius: 8px; margin: 0 0 14px;
+      background: #EEF3FA; border: 1px solid #C5D4E8; color: var(--text);
     }
-    @media (max-width: 720px) {
-      .fn-steps { grid-template-columns: 1fr; }
+    .fn-kpi .not-sale { color: var(--danger); }
+    .fn-kpi .is-sale { color: #1E7A3F; }
+    .fn-funnel { display: flex; flex-direction: column; gap: 0; }
+    .fn-row { padding: 10px 0; }
+    .fn-row + .fn-row { border-top: 1px solid var(--border); }
+    .fn-row-head {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
     }
-    .fn-step {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: var(--surface-alt, #f7f7f8);
-      box-sizing: border-box;
-      min-width: 0;
+    .fn-row .name { font-size: 14px; font-weight: 700; color: var(--text); }
+    .fn-row .count {
+      font-size: 22px; font-weight: 700; color: var(--primary); line-height: 1;
     }
-    .fn-step-top {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      min-width: 0;
+    .fn-row .of-open {
+      font-size: 12px; font-weight: 600; color: var(--text-muted);
     }
-    .fn-step .lbl {
-      flex: 1 1 auto;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text);
-      letter-spacing: .01em;
-      min-width: 0;
-      line-height: 1.25;
+    .fn-row .mean { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .fn-bar {
+      margin-top: 8px; height: 10px; border-radius: 5px;
+      background: var(--surface-alt, #EEF2F7); overflow: hidden;
     }
-    .fn-step .val {
-      flex: 0 0 auto;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--primary);
-      line-height: 1;
+    .fn-bar > i {
+      display: block; height: 100%; border-radius: 5px;
+      background: var(--primary); max-width: 100%;
     }
-    .fn-step .pct { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-    .fn-step .pct span { display: block; }
-    .fn-step.loss { border-left: 4px solid var(--danger); }
-    .fn-step.ok { border-left: 4px solid var(--success); }
-    .fn-drop {
+    .fn-bar > i.bleed { background: var(--danger); }
+    .fn-bridge {
+      font-size: 12px; font-weight: 600; line-height: 1.35;
+      padding: 6px 0 6px 12px; margin: 0;
+      color: var(--text-muted);
+      border-left: 2px solid var(--border);
+    }
+    .fn-bridge.bleed { color: var(--danger); border-left-color: var(--danger); }
+    .fn-summary {
       margin-top: 12px; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 8px;
     }
-    .fn-drop.bad { color: var(--danger); background: #FDECEA; border: 1px solid #F5C6C0; }
-    .fn-drop.ok { color: #1E7A3F; background: #E8F7EE; border: 1px solid #B7E0C5; }
-    .fn-drop.muted { color: var(--text-dim); background: var(--surface-alt, #f7f7f8); border: 1px solid var(--border); }
-    .fn-bottom {
-      margin-top: 10px; font-size: 14px; font-weight: 700; padding: 10px 12px; border-radius: 8px;
-      background: #EEF3FA; border: 1px solid #C5D4E8; color: var(--text); line-height: 1.45;
-    }
-    .fn-bottom .not-sale { color: var(--danger); font-weight: 700; }
-    .fn-bottom .is-sale { color: #1E7A3F; font-weight: 700; }
-    .fn-step .mean { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-top: 2px; }
+    .fn-summary.bad { color: var(--danger); background: #FDECEA; border: 1px solid #F5C6C0; }
+    .fn-summary.ok { color: #1E7A3F; background: #E8F7EE; border: 1px solid #B7E0C5; }
+    .fn-summary.muted { color: var(--text-dim); background: var(--surface-alt); border: 1px solid var(--border); }
   </style>
 </head>
 <body>
@@ -268,51 +245,62 @@
         const paid = counts.find((c) => c.key === "subscription_started");
         const tappedN = tapped ? tapped.people : 0;
         const paidN = paid ? paid.people : 0;
-        let bottomHtml = "";
+        let kpiHtml = "";
         if (base) {
           if (paidN > 0) {
-            bottomHtml = `<div class="fn-bottom"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
+            kpiHtml = `<div class="fn-kpi"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
           } else if (tappedN > 0) {
-            bottomHtml = `<div class="fn-bottom"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but <strong>nobody finished paying</strong> — that is not a sale.</div>`;
+            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
           } else {
-            bottomHtml = `<div class="fn-bottom"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
           }
         }
-        const stepsHtml = counts
-          .map((c, i) => {
-            const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
-            const ofOpen = fnPct(c.people, base);
-            const ofPrev = i === 0 ? "100%" : fnPct(c.people, prev);
-            const dropped = i > 0 && prev > 0 && c.people / prev < 0.5;
-            const cls = !base ? "" : dropped ? "loss" : "ok";
-            const extra = c.n !== c.people ? `<span>${c.n} raw events (same people recount)</span>` : "";
-            const openLine = i === 0 ? `<span>Everyone who opened the app in this window</span>` : `<span>${ofOpen} of people who opened the app</span>`;
-            const priorLine = i === 0 ? "" : `<span>${ofPrev} of the previous step continued here</span>`;
-            return `<div class="fn-step ${cls}">
-              <div class="fn-step-top">
-                <div class="lbl">${c.label}</div>
-                <div class="val">${c.people}</div>
-              </div>
-              <div class="mean">${c.mean}</div>
-              <div class="pct">${openLine}${priorLine}${extra}</div>
-            </div>`;
-          })
-          .join("");
         const drop = fnBiggestDrop(counts);
-        let dropHtml = `<div class="fn-drop muted">No app steps in this window yet.</div>`;
+        const funnelParts = [];
+        counts.forEach((c, i) => {
+          const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
+          const barPct = base ? Math.max(0, Math.min(100, (100 * c.people) / base)) : 0;
+          const ofOpen = i === 0 ? "" : `<span class="of-open">${fnPct(c.people, base)} of opens</span>`;
+          const isBleed = i > 0 && prev > 0 && c.people / prev < 0.5;
+          if (i > 0) {
+            const lost = Math.max(0, prev - c.people);
+            const contPct = fnPct(c.people, prev);
+            const lostPct = fnPct(lost, prev);
+            const bridgeBleed = prev > 0 && lost / prev >= 0.5;
+            const bridgeTxt =
+              prev === 0
+                ? `Nobody reached ${counts[i - 1].short || counts[i - 1].label}`
+                : lost === 0
+                  ? `All ${prev} continued (${contPct})`
+                  : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
+            funnelParts.push(
+              `<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`
+            );
+          }
+          funnelParts.push(`<div class="fn-row">
+            <div class="fn-row-head">
+              <span class="name">${c.label}</span>
+              <span class="count">${c.people}</span>
+              ${ofOpen}
+            </div>
+            <div class="mean">${c.mean}</div>
+            <div class="fn-bar"><i class="${isBleed ? "bleed" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
+          </div>`);
+        });
+        let summaryHtml = `<div class="fn-summary muted">No app steps in this window yet.</div>`;
         if (base) {
           if (drop && drop.lost > 0) {
-            dropHtml = `<div class="fn-drop bad">Biggest drop: of the <strong>${drop.prev}</strong> people who reached <strong>${drop.from}</strong>, <strong>${drop.lost}</strong> left without going on to <strong>${drop.to}</strong> (only <strong>${drop.cur}</strong> continued).</div>`;
+            summaryHtml = `<div class="fn-summary bad">Biggest drop: of the ${drop.prev} who reached ${drop.from}, ${drop.lost} left before ${drop.to} (only ${drop.cur} continued).</div>`;
           } else {
-            dropHtml = `<div class="fn-drop ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
+            summaryHtml = `<div class="fn-summary ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
           }
         }
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">Counts are people in this time window. <strong>Tapped Subscribe ≠ sale.</strong> Only “Actually paid” is a sale.</p>
-          ${bottomHtml}
-          <div class="fn-steps" style="margin-top:12px">${stepsHtml}</div>
-          ${dropHtml}
+          <p class="sub">People in this window. Tapped Subscribe ≠ sale — only Actually paid counts.</p>
+          ${kpiHtml}
+          <div class="fn-funnel">${funnelParts.join("")}</div>
+          ${summaryHtml}
         </div>`;
       }).join("");
 
