@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "funnels";</script>
   <style>
-    /* Mixpanel/Amplitude pattern: KPI → one vertical funnel → drop-offs between steps. */
+    /* Mixpanel/Amplitude: KPI → vertical funnel → drop bridges; dates + compare on top. */
     #dashboard main.page-main {
       display: block !important;
       max-width: 720px !important;
@@ -17,20 +17,65 @@
       padding: 16px 20px 48px;
       margin: 0 auto;
     }
+    #dashboard main.page-main.compare-on {
+      max-width: 980px !important;
+    }
     #dashboard main.page-main > section { display: block; width: 100%; max-width: none; }
     #fnApps { width: 100%; }
-    .fn-range { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 1rem; }
-    .fn-range button {
+    .fn-range { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0.5rem; }
+    .fn-range button, .fn-plat button {
       border: 1px solid var(--border); background: var(--surface); color: var(--text);
       padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
     }
-    .fn-range button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .fn-range button.active, .fn-plat button.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .fn-window {
+      font-size: 13px; font-weight: 600; color: var(--text); margin: 0 0 8px;
+    }
+    .fn-window span { color: var(--text-dim); font-weight: 500; }
+    .fn-custom {
+      display: none; flex-wrap: wrap; gap: 10px; align-items: end; margin: 0 0 10px;
+    }
+    .fn-custom.show { display: flex; }
+    .fn-custom label {
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase;
+    }
+    .fn-custom input[type="date"] {
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px;
+      font-size: 13px; background: var(--surface); color: var(--text);
+    }
+    .fn-tools {
+      display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+      margin: 0 0 10px; font-size: 13px; font-weight: 600;
+    }
+    .fn-tools label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .fn-plat { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+    .fn-changes {
+      font-size: 12px; line-height: 1.45; padding: 10px 12px; border-radius: 8px;
+      margin: 0 0 12px; background: #FFF8E8; border: 1px solid #E8D4A8; color: var(--text);
+    }
+    .fn-changes strong { font-weight: 700; }
+    .fn-changes.muted {
+      background: var(--surface-alt, #f7f7f8); border-color: var(--border); color: var(--text-dim);
+    }
     .fn-app {
       background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
       padding: 18px 20px; margin: 0 0 1rem; width: 100%; box-sizing: border-box;
     }
     .fn-app h3 { margin: 0 0 2px; font-size: 18px; }
     .fn-app .sub { font-size: 12px; color: var(--text-dim); margin: 0 0 10px; }
+    .fn-compare-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 800px) {
+      .fn-compare-grid { grid-template-columns: 1fr; }
+    }
+    .fn-pane-title {
+      font-size: 12px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px;
+    }
     .fn-kpi {
       font-size: 14px; font-weight: 700; line-height: 1.45;
       padding: 10px 12px; border-radius: 8px; margin: 0 0 14px;
@@ -40,7 +85,6 @@
     .fn-kpi .is-sale { color: #1E7A3F; }
     .fn-funnel { display: flex; flex-direction: column; gap: 0; }
     .fn-row { padding: 10px 0; }
-    .fn-row + .fn-row { border-top: 1px solid var(--border); }
     .fn-row-head {
       display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
     }
@@ -74,6 +118,12 @@
     .fn-summary.bad { color: var(--danger); background: #FDECEA; border: 1px solid #F5C6C0; }
     .fn-summary.ok { color: #1E7A3F; background: #E8F7EE; border: 1px solid #B7E0C5; }
     .fn-summary.muted { color: var(--text-dim); background: var(--surface-alt); border: 1px solid var(--border); }
+    .fn-delta {
+      margin-top: 10px; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 8px;
+      background: #EEF3FA; border: 1px solid #C5D4E8;
+    }
+    .fn-delta.up { color: #1E7A3F; background: #E8F7EE; border-color: #B7E0C5; }
+    .fn-delta.down { color: var(--danger); background: #FDECEA; border-color: #F5C6C0; }
   </style>
 </head>
 <body>
@@ -104,7 +154,7 @@
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
-    <main class="page-main">
+    <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
           Same steps the phones already post to <code>_site_visits</code> as
@@ -118,7 +168,23 @@
           <button type="button" data-range="7d">7 days</button>
           <button type="button" data-range="30d">30 days</button>
           <button type="button" data-range="all">All time</button>
+          <button type="button" data-range="custom">Custom</button>
         </div>
+        <div class="fn-custom" id="fnCustom">
+          <label>From <input type="date" id="fnFrom"></label>
+          <label>To <input type="date" id="fnTo"></label>
+          <button type="button" class="m-btn" id="fnApplyCustom">Apply</button>
+        </div>
+        <p class="fn-window" id="fnWindow">Window: —</p>
+        <div class="fn-tools">
+          <label><input type="checkbox" id="fnCompare"> Compare to previous equal window</label>
+        </div>
+        <div class="fn-plat" id="fnPlat">
+          <button type="button" data-plat="all" class="active">All platforms</button>
+          <button type="button" data-plat="android">Android</button>
+          <button type="button" data-plat="ios">iPhone</button>
+        </div>
+        <div class="fn-changes muted" id="fnChanges">No known product changes in this window.</div>
         <div class="ref-actions">
           <button type="button" class="m-btn accent" onclick="fnRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
@@ -132,6 +198,10 @@
   <script src="shared/admin-app.js"></script>
   <script>
     let fnRange = "today";
+    let fnPlat = "all";
+    let fnCompare = false;
+    let fnFrom = "";
+    let fnTo = "";
     let fnCacheRows = null;
 
     const FN_APPS = [
@@ -152,12 +222,19 @@
         mean: "Opened the Play/App Store buy sheet. NOT a sale yet — they can still cancel.",
         short: "Tapped Subscribe",
       },
-      /** Store sheet succeeded — same event Traffic already counts. Not RevenueCat MRR. */
       {
         key: "subscription_started",
         label: "6 · Actually paid",
         mean: "Store reported a successful purchase. This is the sale count.",
         short: "Actually paid",
+      },
+    ];
+    /** Manual markers so a range that includes a ship/change is labeled. */
+    const FN_CHANGES = [
+      {
+        date: "2026-11-09",
+        apps: ["hhh", "cvc"],
+        label: "HHH + CVC price drop to $4.99/mo · $49.99/yr (Play live; Apple next day)",
       },
     ];
 
@@ -174,19 +251,80 @@
         return String(iso).slice(0, 10);
       }
     }
-    function fnInRange(r, range, todayKey) {
-      if (range === "all") return true;
+    function fnTodayKey() {
+      return fnDayKeyEt(new Date().toISOString());
+    }
+    function fnAddDays(dayKey, delta) {
+      const d = new Date(dayKey + "T12:00:00");
+      d.setDate(d.getDate() + delta);
+      return fnDayKeyEt(d.toISOString());
+    }
+    function fnDaysBetween(a, b) {
+      const ms = new Date(b + "T12:00:00") - new Date(a + "T12:00:00");
+      return Math.round(ms / 864e5);
+    }
+    function fnFmtDay(dayKey) {
+      if (!dayKey) return "—";
+      try {
+        return new Date(dayKey + "T12:00:00").toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      } catch (e) {
+        return dayKey;
+      }
+    }
+    /** Inclusive ET day window for the active preset / custom range. */
+    function fnActiveWindow(todayKey) {
+      if (fnRange === "all") return { from: null, to: null, label: "All time" };
+      if (fnRange === "today") return { from: todayKey, to: todayKey, label: fnFmtDay(todayKey) };
+      if (fnRange === "custom") {
+        const from = fnFrom || todayKey;
+        const to = fnTo || todayKey;
+        const a = from <= to ? from : to;
+        const b = from <= to ? to : from;
+        return { from: a, to: b, label: a === b ? fnFmtDay(a) : `${fnFmtDay(a)} – ${fnFmtDay(b)}` };
+      }
+      const days = fnRange === "7d" ? 7 : 30;
+      const from = fnAddDays(todayKey, -(days - 1));
+      return {
+        from,
+        to: todayKey,
+        label: `${fnFmtDay(from)} – ${fnFmtDay(todayKey)} (${days}d, ET)`,
+      };
+    }
+    function fnPreviousWindow(win) {
+      if (!win.from || !win.to) return null;
+      const len = fnDaysBetween(win.from, win.to) + 1;
+      const to = fnAddDays(win.from, -1);
+      const from = fnAddDays(to, -(len - 1));
+      return {
+        from,
+        to,
+        label: from === to ? fnFmtDay(from) : `${fnFmtDay(from)} – ${fnFmtDay(to)}`,
+      };
+    }
+    function fnInWindow(r, win) {
+      if (!win.from && !win.to) return true;
       if (!r.created) return false;
-      if (range === "today") return fnDayKeyEt(r.created) === todayKey;
-      const ms = range === "7d" ? 7 * 864e5 : 30 * 864e5;
-      return new Date(r.created).getTime() >= Date.now() - ms;
+      const day = fnDayKeyEt(r.created);
+      if (win.from && day < win.from) return false;
+      if (win.to && day > win.to) return false;
+      return true;
+    }
+    function fnPlatformOf(r) {
+      const host = String(r.referrer_host || "").toLowerCase();
+      const raw = String(r.referrer_raw || "").toLowerCase();
+      if (host === "android" || raw.includes("android")) return "android";
+      if (host === "ios" || raw.includes("ios")) return "ios";
+      return "unknown";
     }
     function fnAppEvent(r) {
       const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
       if (!m) return null;
       return { app: m[1].toLowerCase(), event: m[2] };
     }
-    /** Match bare step or per-app suffix: app_opened / app_opened_pbj. */
     function fnEventMatches(event, stepKey, appId) {
       const e = String(event || "");
       if (e === stepKey) return true;
@@ -218,98 +356,177 @@
       }
       return worst;
     }
+    function fnFilterRows(rows, win) {
+      return rows.filter((r) => {
+        if (!String(r.page || "").startsWith("app:")) return false;
+        if (!fnInWindow(r, win)) return false;
+        if (fnPlat !== "all" && fnPlatformOf(r) !== fnPlat) return false;
+        return true;
+      });
+    }
+    function fnCountsForApp(appRows, appId) {
+      return FN_STEPS.map((step) => {
+        const hits = appRows.filter((r) => {
+          const ev = fnAppEvent(r);
+          return ev && ev.app === appId && fnEventMatches(ev.event, step.key, appId);
+        });
+        const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
+        return {
+          key: step.key,
+          label: step.label,
+          mean: step.mean || "",
+          short: step.short || step.label.replace(/^\d+\s*·\s*/, ""),
+          n: hits.length,
+          people: people.size || hits.length,
+        };
+      });
+    }
+    function fnFunnelBlock(counts) {
+      const base = counts[0].people || counts[0].n;
+      const tapped = counts.find((c) => c.key === "checkout_started");
+      const paid = counts.find((c) => c.key === "subscription_started");
+      const tappedN = tapped ? tapped.people : 0;
+      const paidN = paid ? paid.people : 0;
+      let kpiHtml = "";
+      if (base) {
+        if (paidN > 0) {
+          kpiHtml = `<div class="fn-kpi"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
+        } else if (tappedN > 0) {
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
+        } else {
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+        }
+      }
+      const drop = fnBiggestDrop(counts);
+      const funnelParts = [];
+      counts.forEach((c, i) => {
+        const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
+        const barPct = base ? Math.max(0, Math.min(100, (100 * c.people) / base)) : 0;
+        const ofOpen = i === 0 ? "" : `<span class="of-open">${fnPct(c.people, base)} of opens</span>`;
+        const isBleed = i > 0 && prev > 0 && c.people / prev < 0.5;
+        if (i > 0) {
+          const lost = Math.max(0, prev - c.people);
+          const contPct = fnPct(c.people, prev);
+          const lostPct = fnPct(lost, prev);
+          const bridgeBleed = prev > 0 && lost / prev >= 0.5;
+          const bridgeTxt =
+            prev === 0
+              ? `Nobody reached ${counts[i - 1].short || counts[i - 1].label}`
+              : lost === 0
+                ? `All ${prev} continued (${contPct})`
+                : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
+          funnelParts.push(`<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`);
+        }
+        funnelParts.push(`<div class="fn-row">
+          <div class="fn-row-head">
+            <span class="name">${c.label}</span>
+            <span class="count">${c.people}</span>
+            ${ofOpen}
+          </div>
+          <div class="mean">${c.mean}</div>
+          <div class="fn-bar"><i class="${isBleed ? "bleed" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
+        </div>`);
+      });
+      let summaryHtml = `<div class="fn-summary muted">No app steps in this window yet.</div>`;
+      if (base) {
+        if (drop && drop.lost > 0) {
+          summaryHtml = `<div class="fn-summary bad">Biggest drop: of the ${drop.prev} who reached ${drop.from}, ${drop.lost} left before ${drop.to} (only ${drop.cur} continued).</div>`;
+        } else {
+          summaryHtml = `<div class="fn-summary ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
+        }
+      }
+      return {
+        html: `${kpiHtml}<div class="fn-funnel">${funnelParts.join("")}</div>${summaryHtml}`,
+        paidN,
+        tappedN,
+        base,
+      };
+    }
+    function fnPaidRate(counts) {
+      const base = counts[0].people || 0;
+      const paid = counts.find((c) => c.key === "subscription_started");
+      const paidN = paid ? paid.people : 0;
+      if (!base) return null;
+      return { base, paidN, pct: (100 * paidN) / base };
+    }
+    function fnChangesHtml(win) {
+      if (!win.from && !win.to) {
+        const all = FN_CHANGES.map(
+          (c) => `<div><strong>${fnFmtDay(c.date)}</strong> — ${c.label}</div>`
+        ).join("");
+        return all
+          ? `<div class="fn-changes" id="fnChanges"><strong>Known changes (all time)</strong>${all}</div>`
+          : `<div class="fn-changes muted" id="fnChanges">No known product changes listed.</div>`;
+      }
+      const hit = FN_CHANGES.filter((c) => c.date >= win.from && c.date <= win.to);
+      if (!hit.length) {
+        return `<div class="fn-changes muted" id="fnChanges">No known product changes in ${win.label}.</div>`;
+      }
+      return `<div class="fn-changes" id="fnChanges"><strong>Changes in this window</strong>${hit
+        .map((c) => `<div><strong>${fnFmtDay(c.date)}</strong> — ${c.label}</div>`)
+        .join("")}</div>`;
+    }
 
     function fnRender(rows) {
-      const todayKey = fnDayKeyEt(new Date().toISOString());
-      const scoped = rows.filter((r) => fnInRange(r, fnRange, todayKey));
-      const appRows = scoped.filter((r) => String(r.page || "").startsWith("app:"));
+      const todayKey = fnTodayKey();
+      const win = fnActiveWindow(todayKey);
+      const prevWin = fnCompare ? fnPreviousWindow(win) : null;
+      const main = document.getElementById("fnMain");
+      main.classList.toggle("compare-on", !!(fnCompare && prevWin));
+      document.getElementById("fnWindow").innerHTML = prevWin
+        ? `Window: <strong>${win.label}</strong> <span>· vs previous ${prevWin.label}</span>`
+        : `Window: <strong>${win.label}</strong> <span>(America/New_York days)</span>`;
+      document.getElementById("fnChanges").outerHTML = fnChangesHtml(win);
+
+      const scoped = fnFilterRows(rows, win);
+      const scopedPrev = prevWin ? fnFilterRows(rows, prevWin) : [];
 
       const html = FN_APPS.map((app) => {
-        const counts = FN_STEPS.map((step) => {
-          const hits = appRows.filter((r) => {
-            const ev = fnAppEvent(r);
-            return ev && ev.app === app.id && fnEventMatches(ev.event, step.key, app.id);
-          });
-          const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
-          return {
-            key: step.key,
-            label: step.label,
-            mean: step.mean || "",
-            short: step.short || step.label.replace(/^\d+\s*·\s*/, ""),
-            n: hits.length,
-            people: people.size || hits.length,
-          };
-        });
-        const base = counts[0].people || counts[0].n;
-        const tapped = counts.find((c) => c.key === "checkout_started");
-        const paid = counts.find((c) => c.key === "subscription_started");
-        const tappedN = tapped ? tapped.people : 0;
-        const paidN = paid ? paid.people : 0;
-        let kpiHtml = "";
-        if (base) {
-          if (paidN > 0) {
-            kpiHtml = `<div class="fn-kpi"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
-          } else if (tappedN > 0) {
-            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
-          } else {
-            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+        const counts = fnCountsForApp(scoped, app.id);
+        const block = fnFunnelBlock(counts);
+        let body = block.html;
+        let deltaHtml = "";
+        if (prevWin) {
+          const prevCounts = fnCountsForApp(scopedPrev, app.id);
+          const prevBlock = fnFunnelBlock(prevCounts);
+          const curRate = fnPaidRate(counts);
+          const oldRate = fnPaidRate(prevCounts);
+          if (curRate && oldRate && (curRate.base || oldRate.base)) {
+            const diff = curRate.pct - oldRate.pct;
+            const cls = diff > 0.5 ? "up" : diff < -0.5 ? "down" : "";
+            const sign = diff > 0 ? "+" : "";
+            deltaHtml = `<div class="fn-delta ${cls}">Paid rate: ${curRate.pct.toFixed(1)}% now vs ${oldRate.pct.toFixed(1)}% before (${sign}${diff.toFixed(1)} pts) · sales ${curRate.paidN} vs ${oldRate.paidN}</div>`;
           }
-        }
-        const drop = fnBiggestDrop(counts);
-        const funnelParts = [];
-        counts.forEach((c, i) => {
-          const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
-          const barPct = base ? Math.max(0, Math.min(100, (100 * c.people) / base)) : 0;
-          const ofOpen = i === 0 ? "" : `<span class="of-open">${fnPct(c.people, base)} of opens</span>`;
-          const isBleed = i > 0 && prev > 0 && c.people / prev < 0.5;
-          if (i > 0) {
-            const lost = Math.max(0, prev - c.people);
-            const contPct = fnPct(c.people, prev);
-            const lostPct = fnPct(lost, prev);
-            const bridgeBleed = prev > 0 && lost / prev >= 0.5;
-            const bridgeTxt =
-              prev === 0
-                ? `Nobody reached ${counts[i - 1].short || counts[i - 1].label}`
-                : lost === 0
-                  ? `All ${prev} continued (${contPct})`
-                  : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
-            funnelParts.push(
-              `<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`
-            );
-          }
-          funnelParts.push(`<div class="fn-row">
-            <div class="fn-row-head">
-              <span class="name">${c.label}</span>
-              <span class="count">${c.people}</span>
-              ${ofOpen}
+          body = `<div class="fn-compare-grid">
+            <div>
+              <p class="fn-pane-title">Before · ${prevWin.label}</p>
+              ${prevBlock.html}
             </div>
-            <div class="mean">${c.mean}</div>
-            <div class="fn-bar"><i class="${isBleed ? "bleed" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
-          </div>`);
-        });
-        let summaryHtml = `<div class="fn-summary muted">No app steps in this window yet.</div>`;
-        if (base) {
-          if (drop && drop.lost > 0) {
-            summaryHtml = `<div class="fn-summary bad">Biggest drop: of the ${drop.prev} who reached ${drop.from}, ${drop.lost} left before ${drop.to} (only ${drop.cur} continued).</div>`;
-          } else {
-            summaryHtml = `<div class="fn-summary ok">No big step-to-step drop in this window (or volume is still tiny).</div>`;
-          }
+            <div>
+              <p class="fn-pane-title">This window · ${win.label}</p>
+              ${block.html}
+            </div>
+          </div>${deltaHtml}`;
         }
+        const platNote =
+          fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">People in this window. Tapped Subscribe ≠ sale — only Actually paid counts.</p>
-          ${kpiHtml}
-          <div class="fn-funnel">${funnelParts.join("")}</div>
-          ${summaryHtml}
+          <p class="sub">${platNote}. People in this window. Tapped Subscribe ≠ sale — only Actually paid counts.</p>
+          ${body}
         </div>`;
       }).join("");
 
       document.getElementById("fnApps").innerHTML = html || "<p>No data.</p>";
-      const rangeLabel = { today: "today", "7d": "7d", "30d": "30d", all: "all-time" }[fnRange];
       document.getElementById("fnStatus").textContent =
-        `${rangeLabel}: ${appRows.length} app step rows · ${new Date().toLocaleTimeString()}`;
+        `${win.label}${fnPlat !== "all" ? " · " + fnPlat : ""}: ${scoped.length} app step rows · ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
       document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    function fnRerender() {
+      if (fnCacheRows) fnRender(fnCacheRows);
+      else fnRefresh();
     }
 
     async function fnRefresh() {
@@ -324,14 +541,51 @@
       }
     }
 
-    document.getElementById("fnRange").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-range]");
-      if (!btn) return;
-      fnRange = btn.getAttribute("data-range");
-      [...document.querySelectorAll("#fnRange button")].forEach((b) => b.classList.toggle("active", b === btn));
-      if (fnCacheRows) fnRender(fnCacheRows);
-      else fnRefresh();
-    });
+    (function fnInitControls() {
+      const today = fnTodayKey();
+      document.getElementById("fnFrom").value = fnAddDays(today, -6);
+      document.getElementById("fnTo").value = today;
+      fnFrom = document.getElementById("fnFrom").value;
+      fnTo = document.getElementById("fnTo").value;
+
+      document.getElementById("fnRange").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-range]");
+        if (!btn) return;
+        fnRange = btn.getAttribute("data-range");
+        [...document.querySelectorAll("#fnRange button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        document.getElementById("fnCustom").classList.toggle("show", fnRange === "custom");
+        if (fnRange === "custom") {
+          fnFrom = document.getElementById("fnFrom").value;
+          fnTo = document.getElementById("fnTo").value;
+        }
+        fnRerender();
+      });
+      document.getElementById("fnApplyCustom").addEventListener("click", () => {
+        fnFrom = document.getElementById("fnFrom").value;
+        fnTo = document.getElementById("fnTo").value;
+        fnRange = "custom";
+        [...document.querySelectorAll("#fnRange button")].forEach((b) =>
+          b.classList.toggle("active", b.getAttribute("data-range") === "custom")
+        );
+        document.getElementById("fnCustom").classList.add("show");
+        fnRerender();
+      });
+      document.getElementById("fnCompare").addEventListener("change", (e) => {
+        fnCompare = !!e.target.checked;
+        fnRerender();
+      });
+      document.getElementById("fnPlat").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-plat]");
+        if (!btn) return;
+        fnPlat = btn.getAttribute("data-plat");
+        [...document.querySelectorAll("#fnPlat button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        fnRerender();
+      });
+    })();
 
     window.fnRefresh = fnRefresh;
   </script>
