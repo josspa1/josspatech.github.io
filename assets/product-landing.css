@@ -1,12 +1,14 @@
 /* Same chrome as the homepage hub tiles (Jul 22 research pass).
    Stripe bento + Linear 1px edges. Do not restyle the homepage tiles from here.
-   Polish pass: floor glow, screen sheen, grain, stagger, badge depth, living center phone. */
+   Polish pass: floor glow, screen sheen, grain, stagger, badge depth, living center phone.
+   Permanent polish: warmer ambient, real fonts, softer type. */
 :root {
   --navy: #1A4F7A;
   --navy-dk: #0C3358;
   --gold: #F0C040;
-  --ink: #f4f0e8;
-  --muted: rgba(255, 255, 255, 0.55);
+  --gold-soft: #ffe08a;
+  --ink: #f7f3eb;
+  --muted: rgba(255, 255, 255, 0.58);
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -15,16 +17,19 @@ body {
   margin: 0;
   font-family: "DM Sans", system-ui, -apple-system, Segoe UI, sans-serif;
   background:
-    radial-gradient(ellipse 90% 70% at 50% -15%, rgba(240, 192, 64, 0.16), transparent 55%),
+    radial-gradient(ellipse 95% 72% at 50% -18%, rgba(240, 192, 64, 0.22), transparent 58%),
+    radial-gradient(ellipse 50% 45% at 92% 78%, rgba(93, 173, 226, 0.14), transparent 52%),
+    radial-gradient(ellipse 36% 34% at 8% 88%, rgba(240, 192, 64, 0.08), transparent 48%),
     linear-gradient(168deg, #040b14 0%, #0a2740 42%, #0e3a5c 100%);
   color: var(--ink);
   min-height: 100vh;
   line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
 }
 a { color: var(--gold); }
 header, main, footer { max-width: 56rem; margin: 0 auto; padding: 0 1.4rem; }
-header { padding-top: 1.4rem; font-size: 0.92rem; }
-header nav { opacity: 0.85; }
+header { padding-top: 1.55rem; font-size: 0.92rem; }
+header nav { opacity: 0.88; }
 .apps {
   display: flex;
   flex-wrap: wrap;
@@ -36,15 +41,16 @@ header nav { opacity: 0.85; }
 main {
   position: relative;
   isolation: isolate;
-  margin-top: 1.6rem;
-  padding: 44px 40px 38px;
+  margin-top: 1.75rem;
+  padding: 48px 44px 42px;
   background:
-    linear-gradient(155deg, #0e3558 0%, #123f68 42%, #0c2d4a 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 26px;
+    radial-gradient(ellipse 80% 55% at 18% 0%, rgba(240, 192, 64, 0.12), transparent 55%),
+    linear-gradient(155deg, #114066 0%, #154872 40%, #0d3252 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 28px;
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.06) inset,
-    0 28px 64px rgba(0, 0, 0, 0.28);
+    0 1px 0 rgba(255, 255, 255, 0.09) inset,
+    0 32px 72px rgba(0, 0, 0, 0.32);
   overflow: hidden;
 }
 /* Film grain — hub craft, product cards too */
@@ -63,36 +69,43 @@ main > * { position: relative; z-index: 1; }
 .kicker {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin: 0 0 0.85rem;
-  font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-  font-size: clamp(22px, 2.4vw, 30px);
+  gap: 0.8rem;
+  margin: 0 0 0.95rem;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(24px, 2.5vw, 32px);
   font-weight: 900;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.7px;
   color: #fff;
 }
-.kicker img { width: 56px; height: 56px; border-radius: 12px; }
+.kicker img {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
 .kicker em { font-style: normal; color: var(--gold); }
 h1 {
-  font-family: Georgia, "Playfair Display", "Times New Roman", serif;
-  font-size: clamp(26px, 2.8vw, 34px);
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(28px, 3vw, 36px);
   font-weight: 900;
-  letter-spacing: -0.6px;
-  line-height: 1.12;
-  margin: 0 0 0.7rem;
+  letter-spacing: -0.7px;
+  line-height: 1.1;
+  margin: 0 0 0.8rem;
 }
 h1 em { color: var(--gold); font-style: italic; }
 .lead {
-  font-size: 15.5px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.55);
-  margin: 0 0 0.7rem;
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.62);
+  margin: 0 0 0.75rem;
+  max-width: 40rem;
 }
 .sub {
   color: var(--muted);
-  margin: 0 0 1.5rem;
-  font-size: 15px;
-  line-height: 1.6;
+  margin: 0 0 1.6rem;
+  font-size: 15.5px;
+  line-height: 1.65;
+  max-width: 38rem;
 }
 h2 {
   font-size: 11px;
