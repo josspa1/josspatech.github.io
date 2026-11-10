@@ -4,45 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <title>JosspaTech — Acquisition funnel</title>
+  <title>JosspaTech — Website</title>
   <link rel="stylesheet" href="shared/admin.css">
   <script>window.ADMIN_PAGE = "traffic";</script>
   <style>
-    .tr-range { display:flex; flex-wrap:wrap; gap:8px; margin:0.75rem 0 1rem; }
-    .tr-range button {
-      border:1px solid var(--border); background:var(--surface); color:var(--text);
-      padding:8px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;
+    /* Same Mixpanel pattern as Funnels/Screens — website acquisition. */
+    #dashboard main.page-main {
+      display: block !important;
+      max-width: 720px !important;
+      width: 100% !important;
+      box-sizing: border-box;
+      padding: 16px 20px 48px;
+      margin: 0 auto;
     }
-    .tr-range button.active { background:var(--primary); color:#fff; border-color:var(--primary); }
-    .tr-funnel {
-      display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px;
-      margin:0.5rem 0 1.25rem;
+    #dashboard main.page-main.compare-on { max-width: 980px !important; }
+    #dashboard main.page-main > section { display: block; width: 100%; max-width: none; }
+    .tr-range, .tr-plat { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0.5rem; }
+    .tr-range button, .tr-plat button {
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
     }
-    @media (max-width:900px){ .tr-funnel { grid-template-columns:1fr 1fr; } }
-    .tr-step {
-      background:var(--surface); border:1px solid var(--border); border-radius:12px;
-      padding:14px 16px; position:relative;
+    .tr-range button.active, .tr-plat button.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
     }
-    .tr-step .lbl { font-size:12px; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:.03em; }
-    .tr-step .val { font-size:28px; font-weight:700; color:var(--primary); line-height:1.15; margin:4px 0; }
-    .tr-step .note { font-size:12px; color:var(--text-muted); }
-    .tr-step.loss { border-left:4px solid var(--danger); }
-    .tr-step.ok { border-left:4px solid var(--success); }
-    .tr-step.warn { border-left:4px solid var(--warning); }
-    .tr-drop {
-      font-size:13px; color:var(--danger); font-weight:600; margin:0 0 1rem;
-      padding:10px 12px; background:#FDECEA; border-radius:8px; border:1px solid #F5C6C0;
+    .tr-custom {
+      display: none; flex-wrap: wrap; gap: 10px; align-items: end; margin: 0 0 10px;
     }
-    .tr-drop.good { color:#1E7A3F; background:#E8F7EE; border-color:#B7E0C5; }
-    .tr-bar-row { display:flex; align-items:center; gap:10px; margin:4px 0; }
-    .tr-bar-label { width:7.5rem; flex-shrink:0; font-size:13px; }
-    .tr-bar-track { flex:1; height:10px; background:var(--surface-alt); border-radius:999px; overflow:hidden; }
-    .tr-bar-fill { height:100%; background:var(--primary); border-radius:999px; }
-    .tr-bar-fill.click { background:var(--accent); }
-    .tr-bar-meta { width:9rem; flex-shrink:0; font-size:12px; color:var(--text-dim); text-align:right; }
-    table.data td.num, table.data th.num { text-align:right; font-variant-numeric:tabular-nums; }
-    table.data td.bad { color:var(--danger); font-weight:600; }
-    table.data td.ok { color:var(--success); font-weight:600; }
+    .tr-custom.show { display: flex; }
+    .tr-custom label {
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase;
+    }
+    .tr-custom input[type="date"] {
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px;
+      font-size: 13px; background: var(--surface); color: var(--text);
+    }
+    .tr-window { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
+    .tr-window span { color: var(--text-dim); font-weight: 500; }
+    .tr-tools {
+      display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+      margin: 0 0 10px; font-size: 13px; font-weight: 600;
+    }
+    .tr-tools label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .tr-kpi {
+      font-size: 14px; font-weight: 700; line-height: 1.45;
+      padding: 10px 12px; border-radius: 8px; margin: 0 0 14px;
+      background: #EEF3FA; border: 1px solid #C5D4E8;
+    }
+    .tr-kpi.bad { color: var(--danger); background: #FDECEA; border-color: #F5C6C0; }
+    .tr-kpi.ok { color: #1E7A3F; background: #E8F7EE; border-color: #B7E0C5; }
+    .tr-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px 20px; margin: 0 0 1rem;
+    }
+    .tr-card h3 { margin: 0 0 4px; font-size: 16px; }
+    .tr-card .sub { font-size: 12px; color: var(--text-dim); margin: 0 0 12px; }
+    .tr-funnel { display: flex; flex-direction: column; gap: 0; }
+    .tr-row { padding: 10px 0; border-top: 1px solid var(--border); }
+    .tr-row:first-child { border-top: none; }
+    .tr-row-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .tr-row .rank { font-size: 12px; font-weight: 700; color: var(--text-muted); width: 1.5rem; }
+    .tr-row .name { font-size: 14px; font-weight: 700; flex: 1; min-width: 0; word-break: break-word; }
+    .tr-row .count { font-size: 20px; font-weight: 700; color: var(--primary); line-height: 1; }
+    .tr-row .meta { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .tr-bar {
+      margin-top: 6px; height: 10px; border-radius: 5px;
+      background: var(--surface-alt, #EEF2F7); overflow: hidden;
+    }
+    .tr-bar > i {
+      display: block; height: 100%; border-radius: 5px; background: var(--primary); max-width: 100%;
+    }
+    .tr-bar > i.click { background: var(--accent, #E67E22); }
+    .tr-bar > i.bleed { background: var(--danger); }
+    .tr-bridge {
+      font-size: 12px; font-weight: 600; line-height: 1.35;
+      padding: 6px 0 6px 12px; margin: 0; color: var(--text-muted);
+      border-left: 2px solid var(--border);
+    }
+    .tr-bridge.bleed { color: var(--danger); border-left-color: var(--danger); }
+    .tr-compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 800px) { .tr-compare-grid { grid-template-columns: 1fr; } }
+    .tr-pane-title {
+      font-size: 12px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px;
+    }
+    .tr-delta {
+      margin-top: 10px; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 8px;
+      background: #EEF3FA; border: 1px solid #C5D4E8;
+    }
+    .tr-delta.up { color: #1E7A3F; background: #E8F7EE; border-color: #B7E0C5; }
+    .tr-delta.down { color: var(--danger); background: #FDECEA; border-color: #F5C6C0; }
+    .tr-empty { font-size: 13px; color: var(--text-dim); padding: 4px 0; }
+    .tr-recent { font-size: 12px; width: 100%; border-collapse: collapse; }
+    .tr-recent th, .tr-recent td {
+      text-align: left; padding: 6px 4px; border-top: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .tr-recent th { font-size: 11px; text-transform: uppercase; color: var(--text-dim); }
   </style>
 </head>
 <body>
@@ -50,7 +108,7 @@
     <div class="login-head">
       <h1>
         <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
-        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">What people do · site and apps</span>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Website · pages, sources, store taps</span>
       </h1>
     </div>
     <p>Log in with your PocketBase superuser account.</p>
@@ -63,8 +121,8 @@
     <header>
       <div class="brand">
         <h1>
-          Acquisition funnel
-          <span class="subtitle">Visitors, sources, store taps, and the same app steps HeyCatch shows</span>
+          Website
+          <span class="subtitle">Pages · how they got here · store badge taps · PocketBase only</span>
         </h1>
       </div>
       <div class="controls">
@@ -73,74 +131,57 @@
         <button onclick="doLogout()">Sign out</button>
       </div>
     </header>
-    <main class="page-main">
+    <main class="page-main" id="trMain">
       <section>
-        <h2>Site → store → app</h2>
         <p class="section-explainer">
-          Visitors, pages, and store taps are already in PocketBase <code>_site_visits</code>.
-          Facebook link clicks are <code>/f</code>. TikTok link clicks are <code>/t</code>.
-          App steps (open, onboarding, checkout, cancel, error, subscribed) land in the same
-          collection as <code>app:pbj:checkout_started</code> and the same for HHH, CVC, and Unscribe.
-          One row per step. This page does not call the Worker.
-          Install totals stay in Play Console and App Store Connect. Sales stay in RevenueCat.
-          View counts stay in TikTok Studio and Meta. HeyCatch still has screen names until 12/28.
-          App rows start with the build after the ones in review now.
+          Same <code>_site_visits</code> rows the site already posts (pageviews +
+          <code>outbound:…</code> store taps). Facebook hops are <code>/f</code>, TikTok <code>/t</code>.
+          In-app open → paid is on <a href="funnels.html">Funnels</a>.
+          No Workers or KV.
         </p>
         <div class="tr-range" id="trRange">
           <button type="button" data-range="today" class="active">Today</button>
           <button type="button" data-range="7d">7 days</button>
           <button type="button" data-range="30d">30 days</button>
           <button type="button" data-range="all">All time</button>
+          <button type="button" data-range="custom">Custom</button>
+        </div>
+        <div class="tr-custom" id="trCustom">
+          <label>From <input type="date" id="trFrom"></label>
+          <label>To <input type="date" id="trTo"></label>
+          <button type="button" class="m-btn" id="trApplyCustom">Apply</button>
+        </div>
+        <p class="tr-window" id="trWindow">Window: —</p>
+        <div class="tr-tools">
+          <label><input type="checkbox" id="trCompare"> Compare to previous equal window</label>
+        </div>
+        <div class="tr-plat" id="trPlat">
+          <button type="button" data-plat="all" class="active">All devices</button>
+          <button type="button" data-plat="android">Android</button>
+          <button type="button" data-plat="ios">iPhone</button>
+          <button type="button" data-plat="desktop">Desktop</button>
         </div>
         <div class="ref-actions">
           <button type="button" class="m-btn accent" onclick="trRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
         <div class="ref-status" id="trStatus">Sign in, then Refresh.</div>
-        <div id="trFunnel" class="tr-funnel"></div>
-        <div id="trDrop"></div>
-        <div id="trInstallCards" class="wm-summary-row"></div>
-        <div id="trTables"></div>
+        <div id="trBody"></div>
       </section>
 
       <section>
         <h2>Views on TikTok and Facebook</h2>
         <p class="section-explainer">
-          Those numbers live on the platforms. Type what you see there. This box stays in this browser only.
+          Those numbers live on the platforms. Type what you see. Saved in this browser only.
           <a href="https://www.tiktok.com/tiktokstudio" target="_blank" rel="noopener">TikTok Studio</a>
           ·
           <a href="https://business.facebook.com/" target="_blank" rel="noopener">Meta Business Suite</a>
           ·
           <a href="https://josspatech.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a>
-          ·
-          <a href="https://app.revenuecat.com/" target="_blank" rel="noopener">RevenueCat</a>
         </p>
-        <textarea id="trSocial" rows="6" style="width:100%;max-width:52rem;font:14px/1.45 ui-monospace,monospace;"></textarea>
+        <textarea id="trSocial" rows="5" style="width:100%;font:14px/1.45 ui-monospace,monospace;"></textarea>
         <div class="ref-actions" style="margin-top:8px;">
           <button type="button" class="m-btn" onclick="trSaveSocial()">Save notes</button>
         </div>
-      </section>
-
-      <section>
-        <h2>Official counts</h2>
-        <ul style="line-height:1.8;color:var(--text);max-width:52rem;">
-          <li><strong>Play installs:</strong>
-            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4972895239472689817/statistics" target="_blank" rel="noopener">HHH</a>
-            ·
-            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4975807531967041043/statistics" target="_blank" rel="noopener">PBJ</a>
-            ·
-            <a href="https://play.google.com/console/u/0/developers/5936536205544535762/app/4973721615805662228/statistics" target="_blank" rel="noopener">Unscribe</a>
-          </li>
-          <li><strong>App Store metrics:</strong>
-            <a href="https://appstoreconnect.apple.com/apps/6778570480/metrics" target="_blank" rel="noopener">HHH</a>
-            ·
-            <a href="https://appstoreconnect.apple.com/apps/6778571307/metrics" target="_blank" rel="noopener">CVC</a>
-            ·
-            <a href="https://appstoreconnect.apple.com/apps/6761077263/metrics" target="_blank" rel="noopener">PBJ</a>
-            ·
-            <a href="https://appstoreconnect.apple.com/apps/6823295613/metrics" target="_blank" rel="noopener">Unscribe</a>
-          </li>
-          <li><strong>Link in a Reel comment:</strong> <code>https://josspatech.com/f</code> (Facebook) and <code>https://josspatech.com/t</code> (TikTok bio).</li>
-        </ul>
       </section>
     </main>
   </div>
@@ -149,11 +190,12 @@
   <script src="shared/admin-app.js"></script>
   <script>
     let trRange = "today";
+    let trPlat = "all";
+    let trCompare = false;
+    let trFrom = "";
+    let trTo = "";
     let trCacheRows = null;
 
-    function trIsOutbound(r) {
-      return String(r.page || "").startsWith("outbound:");
-    }
     function trDayKeyEt(iso) {
       if (!iso) return "";
       try {
@@ -167,32 +209,80 @@
         return String(iso).slice(0, 10);
       }
     }
-    function trInRange(r, range, todayKey) {
-      if (range === "all") return true;
-      if (!r.created) return false;
-      if (range === "today") return trDayKeyEt(r.created) === todayKey;
-      const ms = range === "7d" ? 7 * 864e5 : 30 * 864e5;
-      return new Date(r.created).getTime() >= Date.now() - ms;
+    function trTodayKey() {
+      return trDayKeyEt(new Date().toISOString());
     }
-    function trNormSource(r) {
-      const page = r.page || "";
-      const ref = r.referrer_raw || "";
-      const blob = page + " " + ref;
-      const raw = String(r.source || "").toLowerCase();
-      if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
-      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook") return "Facebook link";
-      if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
-      if (
-        raw === "instagram" ||
-        /utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)
-      ) return "Meta";
-      if (raw === "search") return "Search";
-      if (raw === "app") return "In the app";
-      if (raw === "direct" || raw === "internal") return "Direct";
-      if (raw === "social") return "Social";
-      if (raw === "external") return "External";
-      if (!raw || raw === "unknown") return "Unknown";
-      return String(r.source);
+    function trAddDays(dayKey, delta) {
+      const d = new Date(dayKey + "T12:00:00");
+      d.setDate(d.getDate() + delta);
+      return trDayKeyEt(d.toISOString());
+    }
+    function trDaysBetween(a, b) {
+      return Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 864e5);
+    }
+    function trFmtDay(dayKey) {
+      if (!dayKey) return "—";
+      try {
+        return new Date(dayKey + "T12:00:00").toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      } catch (e) {
+        return dayKey;
+      }
+    }
+    function trActiveWindow(todayKey) {
+      if (trRange === "all") return { from: null, to: null, label: "All time" };
+      if (trRange === "today") return { from: todayKey, to: todayKey, label: trFmtDay(todayKey) };
+      if (trRange === "custom") {
+        const from = trFrom || todayKey;
+        const to = trTo || todayKey;
+        const a = from <= to ? from : to;
+        const b = from <= to ? to : from;
+        return { from: a, to: b, label: a === b ? trFmtDay(a) : `${trFmtDay(a)} – ${trFmtDay(b)}` };
+      }
+      const days = trRange === "7d" ? 7 : 30;
+      const from = trAddDays(todayKey, -(days - 1));
+      return { from, to: todayKey, label: `${trFmtDay(from)} – ${trFmtDay(todayKey)} (${days}d, ET)` };
+    }
+    function trPreviousWindow(win) {
+      if (!win.from || !win.to) return null;
+      const len = trDaysBetween(win.from, win.to) + 1;
+      const to = trAddDays(win.from, -1);
+      const from = trAddDays(to, -(len - 1));
+      return {
+        from,
+        to,
+        label: from === to ? trFmtDay(from) : `${trFmtDay(from)} – ${trFmtDay(to)}`,
+      };
+    }
+    function trInWindow(r, win) {
+      if (!win.from && !win.to) return true;
+      if (!r.created) return false;
+      const day = trDayKeyEt(r.created);
+      if (win.from && day < win.from) return false;
+      if (win.to && day > win.to) return false;
+      return true;
+    }
+    function trIsOutbound(r) {
+      return String(r.page || "").startsWith("outbound:");
+    }
+    function trIsApp(r) {
+      return String(r.page || "").startsWith("app:");
+    }
+    function trIsLinkHop(r) {
+      const p = String(r.page || "");
+      return p.startsWith("/f") || p.startsWith("/t");
+    }
+    function trUaPlatform(ua) {
+      const s = ua || "";
+      if (/iPhone|iPad|iPod/i.test(s)) return "ios";
+      if (/Android/i.test(s)) return "android";
+      return "desktop";
+    }
+    function trUaLabel(p) {
+      return { android: "Android", ios: "iPhone", desktop: "Desktop" }[p] || p;
     }
     function trEventName(r) {
       return String(r.page || "").replace(/^outbound:/, "") || "(blank)";
@@ -211,346 +301,419 @@
         "outbound-play": "Play · other",
         "outbound-appstore": "App Store · other",
       };
-      return map[ev] || ev;
+      return map[ev] || map["outbound-" + ev] || ev.replace(/^outbound-/, "");
     }
     function trStorePlatform(ev) {
       if (/play/i.test(ev)) return "Android";
       if (/appstore|testflight/i.test(ev)) return "iOS";
       return "Other";
     }
-    function trUaPlatform(ua) {
-      const s = ua || "";
-      if (/iPhone|iPad|iPod/i.test(s)) return "iOS";
-      if (/Android/i.test(s)) return "Android";
-      return "Desktop";
+    function trNormSource(r) {
+      const page = r.page || "";
+      const ref = r.referrer_raw || "";
+      const blob = page + " " + ref;
+      const raw = String(r.source || "").toLowerCase();
+      if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
+      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook") return "Facebook link";
+      if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
+      if (
+        raw === "instagram" ||
+        /utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)
+      )
+        return "Meta";
+      if (raw === "search") return "Search";
+      if (raw === "app") return "In the app";
+      if (raw === "direct" || raw === "internal") return "Direct";
+      if (raw === "social") return "Social";
+      if (raw === "external") return "External";
+      if (!raw || raw === "unknown") return "Unknown";
+      return String(r.source);
+    }
+    function trPageGroup(page) {
+      return String(page || "").split("?")[0] || "/";
+    }
+    function trFriendlyPage(page) {
+      const p = trPageGroup(page);
+      if (p === "/" || p === "") return "Home /";
+      if (p === "/hhh" || p === "/hhh/") return "HHH product";
+      if (p === "/cvc" || p === "/cvc/") return "CVC product";
+      if (p === "/pbj" || p === "/pbj/" || p.indexOf("pocketbudjet") >= 0) return "PBJ product";
+      if (/unscribe/i.test(p)) return "Unscribe";
+      if (p.indexOf("#hhh") >= 0 || /\/#hhh/.test(page)) return "Home · HHH section";
+      if (p.indexOf("#cvc") >= 0) return "Home · CVC section";
+      if (p.indexOf("#pbj") >= 0) return "Home · PBJ section";
+      return p;
+    }
+    function trFromPage(r) {
+      const m = String(r.referrer_raw || "").match(/from:([^|]+)/);
+      return m ? m[1].trim() : "";
+    }
+    function trRefHost(r) {
+      const h = String(r.referrer_host || "").trim().toLowerCase();
+      if (!h) return "(direct / none)";
+      return h.replace(/^www\./, "");
     }
     function trPct(n, d) {
       if (!d) return "—";
       return ((100 * n) / d).toFixed(0) + "%";
     }
     function trEsc(s) {
-      return String(s || "").replace(/</g, "&lt;");
+      return String(s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+    function trFilterDevice(rows) {
+      if (trPlat === "all") return rows;
+      return rows.filter((r) => trUaPlatform(r.user_agent) === trPlat);
+    }
+    function trFilterWindow(rows, win) {
+      return rows.filter((r) => trInWindow(r, win));
+    }
+    function trRankBars(items, opts) {
+      const o = opts || {};
+      if (!items.length) return `<p class="tr-empty">${o.empty || "Nothing in this window."}</p>`;
+      const top = items[0].n || 1;
+      return items
+        .map((it, i) => {
+          const barPct = Math.max(2, Math.min(100, (100 * it.n) / top));
+          const meta = it.meta ? `<span class="meta">${trEsc(it.meta)}</span>` : "";
+          const fillCls = it.bleed ? "bleed" : it.click ? "click" : "";
+          return `<div class="tr-row">
+            <div class="tr-row-head">
+              <span class="rank">${i + 1}</span>
+              <span class="name">${trEsc(it.label)}</span>
+              <span class="count">${it.n}</span>
+              ${meta}
+            </div>
+            <div class="tr-bar"><i class="${fillCls}" style="width:${barPct.toFixed(1)}%"></i></div>
+          </div>`;
+        })
+        .join("");
     }
 
-    const TR_APPS = [
-      { id: "pbj", label: "PBJ" },
-      { id: "hhh", label: "HHH" },
-      { id: "cvc", label: "CVC" },
-      { id: "unscribe", label: "Unscribe" },
-    ];
-    const TR_STEPS = [
-      ["app_opened", "Opened"],
-      ["terms_accepted", "Terms"],
-      ["onboarding_completed", "Onboarding"],
-      ["paywall_viewed", "Paywall"],
-      ["checkout_started", "Checkout"],
-      ["checkout_cancel", "Cancelled"],
-      ["checkout_error", "Error"],
-      ["subscription_started", "Subscribed"],
-      ["trial_converted", "Trial converted"],
-    ];
-    /** Match bare step or per-app suffix: app_opened / app_opened_pbj. */
-    function trEventMatches(event, step, appId) {
-      const e = String(event || "");
-      return e === step || e === step + "_" + appId;
-    }
-
-    function trIsApp(r) {
-      return String(r.page || "").startsWith("app:");
-    }
-    function trAppEvent(r) {
-      const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
-      if (!m) return null;
-      return { app: m[1].toLowerCase(), event: m[2] };
-    }
-    function trClickApp(r) {
-      const blob = trEventName(r) + " " + (r.referrer_raw || "");
-      if (/hhh|handyhorology|6778570480/i.test(blob)) return "hhh";
-      if (/pbj|pocketbudjet|6761077263/i.test(blob)) return "pbj";
-      if (/cvc|curator|josspatech\.cts|6778571307/i.test(blob)) return "cvc";
-      if (/unscribe|snip|6823295613/i.test(blob)) return "unscribe";
-      return "";
-    }
-    function trIsLinkHop(r) {
-      const p = String(r.page || "");
-      return p.startsWith("/f") || p.startsWith("/t");
-    }
-    function trPageGroup(page) {
-      const p = String(page || "").split("?")[0] || "/";
-      return p;
-    }
-    function trSaveSocial() {
-      const el = document.getElementById("trSocial");
-      if (el) localStorage.setItem("jt_social_notes", el.value);
-    }
-    (function loadSocial() {
-      const el = document.getElementById("trSocial");
-      if (el) el.value = localStorage.getItem("jt_social_notes") || "";
-    })();
-    window.trSaveSocial = trSaveSocial;
-
-    function trRender(rows) {
-      const todayKey = trDayKeyEt(new Date().toISOString());
-      const scoped = rows.filter((r) => trInRange(r, trRange, todayKey));
-      const appRows = scoped.filter(trIsApp);
-      const outbound = scoped.filter(trIsOutbound);
-      const pageviews = scoped.filter((r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r));
-      const hops = scoped.filter(trIsLinkHop);
-
+    function trStats(rows) {
+      const outbound = rows.filter(trIsOutbound);
+      const pageviews = rows.filter((r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r));
+      const hops = rows.filter(trIsLinkHop);
       const sessions = new Set(pageviews.map((r) => r.session_id).filter(Boolean));
       const clickSessions = new Set(outbound.map((r) => r.session_id).filter(Boolean));
       const landed = sessions.size || pageviews.length;
       const clicked = clickSessions.size || outbound.length;
       const lost = Math.max(0, landed - clicked);
       const clickRate = landed ? clicked / landed : 0;
-
-      // Per-source funnel (session-based when possible)
-      const bySource = {};
-      function ensure(src) {
-        if (!bySource[src]) {
-          bySource[src] = {
-            landSessions: new Set(),
-            clickSessions: new Set(),
-            landings: 0,
-            clicks: 0,
-            play: 0,
-            ios: 0,
-          };
-        }
-        return bySource[src];
-      }
-      for (const r of pageviews) {
-        const s = ensure(trNormSource(r));
-        s.landings += 1;
-        if (r.session_id) s.landSessions.add(r.session_id);
-      }
-      for (const r of outbound) {
-        const s = ensure(trNormSource(r));
-        s.clicks += 1;
-        if (r.session_id) s.clickSessions.add(r.session_id);
-        const plat = trStorePlatform(trEventName(r));
-        if (plat === "Android") s.play += 1;
-        else if (plat === "iOS") s.ios += 1;
-      }
-
-      const sourceRows = Object.entries(bySource)
-        .map(([name, s]) => {
-          const land = s.landSessions.size || s.landings;
-          const clk = s.clickSessions.size || s.clicks;
-          return {
-            name,
-            land,
-            clk,
-            lost: Math.max(0, land - clk),
-            rate: land ? clk / land : 0,
-            play: s.play,
-            ios: s.ios,
-          };
-        })
-        .sort((a, b) => b.land - a.land || b.clk - a.clk);
-
-      const uaLand = { Android: 0, iOS: 0, Desktop: 0 };
-      const uaClick = { Android: 0, iOS: 0, Desktop: 0 };
-      for (const r of pageviews) uaLand[trUaPlatform(r.user_agent)] = (uaLand[trUaPlatform(r.user_agent)] || 0) + 1;
-      for (const r of outbound) uaClick[trUaPlatform(r.user_agent)] = (uaClick[trUaPlatform(r.user_agent)] || 0) + 1;
-
       const playClicks = outbound.filter((r) => trStorePlatform(trEventName(r)) === "Android").length;
       const iosClicks = outbound.filter((r) => trStorePlatform(trEventName(r)) === "iOS").length;
-
       const fHits = hops.filter((r) => String(r.page || "").startsWith("/f")).length;
       const tHits = hops.filter((r) => String(r.page || "").startsWith("/t")).length;
-      function stepHits(eventName) {
-        return appRows.filter((r) => {
-          const ev = trAppEvent(r);
-          if (!ev) return false;
-          return trEventMatches(ev.event, eventName, ev.app);
-        });
-      }
-      const opens = stepHits("app_opened");
-      const checks = stepHits("checkout_started");
-      const subs = stepHits("subscription_started");
-      const cancels = stepHits("checkout_cancel");
-      const errors = stepHits("checkout_error");
 
-      const clickByApp = {};
-      for (const a of TR_APPS) clickByApp[a.id] = { play: 0, ios: 0 };
-      for (const r of outbound) {
-        const id = trClickApp(r);
-        if (!clickByApp[id]) continue;
-        const plat = trStorePlatform(trEventName(r));
-        if (plat === "Android") clickByApp[id].play += 1;
-        else if (plat === "iOS") clickByApp[id].ios += 1;
-      }
-      const stepCells = {};
-      for (const a of TR_APPS) {
-        stepCells[a.id] = {};
-        for (const [step] of TR_STEPS) {
-          const hits = appRows.filter((r) => {
-            const ev = trAppEvent(r);
-            return ev && ev.app === a.id && trEventMatches(ev.event, step, a.id);
-          });
-          const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
-          stepCells[a.id][step] = { n: hits.length, people: people.size };
-        }
-      }
-      const appTable = `<table class="data" style="margin-top:0.5rem;">
-        <thead><tr><th>App</th><th class="num">Play taps</th><th class="num">App Store taps</th>${TR_STEPS.map(([, label]) => `<th class="num">${label}</th>`).join("")}</tr></thead>
-        <tbody>${TR_APPS.map((a) => {
-          const c = clickByApp[a.id];
-          const cells = TR_STEPS.map(([step]) => {
-            const s = stepCells[a.id][step];
-            const extra = s.people && s.people !== s.n ? ` <span style="color:var(--text-muted)">(${s.people})</span>` : "";
-            return `<td class="num">${s.n}${extra}</td>`;
-          }).join("");
-          return `<tr><td>${a.label}</td><td class="num">${c.play}</td><td class="num">${c.ios}</td>${cells}</tr>`;
-        }).join("")}</tbody></table>
-        <p class="section-explainer">Counts are events. A number in parentheses is distinct app sessions when it differs. App rows appear after the next build. The builds in review now still send these steps to HeyCatch only.</p>`;
-
-      const byPage = {};
+      // Pages
+      const byPage = new Map();
       for (const r of pageviews) {
         const key = trPageGroup(r.page);
-        if (!byPage[key]) byPage[key] = { n: 0, sessions: new Set() };
-        byPage[key].n += 1;
-        if (r.session_id) byPage[key].sessions.add(r.session_id);
+        if (!byPage.has(key)) byPage.set(key, { n: 0, sessions: new Set() });
+        const s = byPage.get(key);
+        s.n += 1;
+        if (r.session_id) s.sessions.add(r.session_id);
       }
-      const pageRows = Object.entries(byPage)
-        .map(([name, s]) => ({ name, n: s.n, people: s.sessions.size || s.n }))
+      const pages = [...byPage.entries()]
+        .map(([page, s]) => ({
+          label: trFriendlyPage(page),
+          n: s.sessions.size || s.n,
+          meta: `${s.n} views`,
+          raw: page,
+        }))
         .sort((a, b) => b.n - a.n)
-        .slice(0, 15);
-      const pageTable = pageRows.map((s) => `<tr><td style="word-break:break-all;">${trEsc(s.name)}</td><td class="num">${s.n}</td><td class="num">${s.people}</td></tr>`).join("")
-        || `<tr><td colspan="3">No pages in this window.</td></tr>`;
+        .slice(0, 12);
 
-      document.getElementById("trFunnel").innerHTML = `
-        <div class="tr-step ok">
-          <div class="lbl">1 · Landed on site</div>
-          <div class="val">${landed}</div>
-          <div class="note">${pageviews.length} pageviews · ${sessions.size} sessions</div>
-        </div>
-        <div class="tr-step ${fHits + tHits ? "ok" : "warn"}">
-          <div class="lbl">2 · Link clicks</div>
-          <div class="val">${fHits + tHits}</div>
-          <div class="note">Facebook /f ${fHits} · TikTok /t ${tHits}</div>
-        </div>
-        <div class="tr-step ${clicked ? "ok" : "warn"}">
-          <div class="lbl">3 · Tapped store</div>
-          <div class="val">${clicked}</div>
-          <div class="note">${outbound.length} clicks · Play ${playClicks} · iOS ${iosClicks}</div>
-        </div>
-        <div class="tr-step ${subs.length ? "ok" : "warn"}">
-          <div class="lbl">4 · Subscribed</div>
-          <div class="val">${subs.length}</div>
-          <div class="note">Opened ${opens.length} · checkout ${checks.length} · cancel ${cancels.length} · error ${errors.length}</div>
-        </div>`;
-
-      const dropEl = document.getElementById("trDrop");
-      if (!landed) {
-        dropEl.innerHTML = `<div class="tr-drop">No landings in this window — plaque/ads may be quiet, or UTMs missing.</div>`;
-      } else if (clickRate < 0.05) {
-        dropEl.innerHTML = `<div class="tr-drop">Biggest leak is on-site: only ${trPct(clicked, landed)} of visitors tap Play/App Store. Fix CTA / badge prominence before spending more on Meta.</div>`;
-      } else if (clickRate < 0.2) {
-        dropEl.innerHTML = `<div class="tr-drop">Moderate on-site conversion (${trPct(clicked, landed)} click store). Check which source drops hardest in the table below.</div>`;
-      } else {
-        dropEl.innerHTML = `<div class="tr-drop good">Healthy store-click rate (${trPct(clicked, landed)}). Next leak is listing → install (Play Console / ASC).</div>`;
+      // Entry page = earliest pageview per session
+      const firstBySession = new Map();
+      for (const r of pageviews) {
+        if (!r.session_id) continue;
+        const prev = firstBySession.get(r.session_id);
+        if (!prev || String(r.created) < String(prev.created)) firstBySession.set(r.session_id, r);
       }
+      const byEntry = new Map();
+      for (const r of firstBySession.values()) {
+        const key = trPageGroup(r.page);
+        byEntry.set(key, (byEntry.get(key) || 0) + 1);
+      }
+      const entries = [...byEntry.entries()]
+        .map(([page, n]) => ({ label: trFriendlyPage(page), n }))
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 8);
 
-      const maxLand = Math.max(1, ...sourceRows.map((s) => s.land));
-      const bars = sourceRows
-        .slice(0, 8)
-        .map((s) => {
-          const wLand = Math.round((100 * s.land) / maxLand);
-          const wClick = s.land ? Math.round((100 * s.clk) / maxLand) : 0;
-          return `<div style="margin-bottom:10px;">
-            <div class="tr-bar-row">
-              <div class="tr-bar-label"><strong>${trEsc(s.name)}</strong></div>
-              <div class="tr-bar-track"><div class="tr-bar-fill" style="width:${wLand}%"></div></div>
-              <div class="tr-bar-meta">${s.land} land</div>
-            </div>
-            <div class="tr-bar-row">
-              <div class="tr-bar-label" style="color:var(--text-muted)">→ store</div>
-              <div class="tr-bar-track"><div class="tr-bar-fill click" style="width:${wClick}%"></div></div>
-              <div class="tr-bar-meta">${s.clk} click · ${trPct(s.clk, s.land)}</div>
-            </div>
-          </div>`;
+      // Sources
+      const bySource = new Map();
+      function ensSrc(name) {
+        if (!bySource.has(name)) {
+          bySource.set(name, { land: new Set(), click: new Set(), landN: 0, clickN: 0 });
+        }
+        return bySource.get(name);
+      }
+      for (const r of pageviews) {
+        const s = ensSrc(trNormSource(r));
+        s.landN += 1;
+        if (r.session_id) s.land.add(r.session_id);
+      }
+      for (const r of outbound) {
+        const s = ensSrc(trNormSource(r));
+        s.clickN += 1;
+        if (r.session_id) s.click.add(r.session_id);
+      }
+      const sources = [...bySource.entries()]
+        .map(([name, s]) => {
+          const land = s.land.size || s.landN;
+          const clk = s.click.size || s.clickN;
+          return {
+            label: name,
+            n: land,
+            meta: `${clk} store · ${trPct(clk, land)}`,
+            land,
+            clk,
+            bleed: land > 0 && clk / land < 0.05,
+          };
         })
-        .join("");
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 10);
 
-      document.getElementById("trInstallCards").innerHTML = `
-        <div class="card"><div class="card-label">Store clicks · Android</div><div class="card-value">${playClicks}</div><div class="card-note">Play badge taps this window</div></div>
-        <div class="card"><div class="card-label">Store clicks · iOS</div><div class="card-value">${iosClicks}</div><div class="card-note">App Store / TestFlight taps</div></div>
-        <div class="card"><div class="card-label">Visitor devices</div><div class="card-value">${uaLand.Android}/${uaLand.iOS}/${uaLand.Desktop}</div><div class="card-note">Landings UA · Android / iOS / Desktop</div></div>
-        <div class="card"><div class="card-label">App opens</div><div class="card-value">${opens.length}</div><div class="card-note">After the next build · same step HeyCatch calls app_opened</div></div>`;
+      // Referrer hosts
+      const byHost = new Map();
+      for (const r of pageviews) {
+        const h = trRefHost(r);
+        if (!byHost.has(h)) byHost.set(h, new Set());
+        byHost.get(h).add(r.session_id || r.id);
+      }
+      const hosts = [...byHost.entries()]
+        .map(([label, set]) => ({ label, n: set.size }))
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 10);
 
-      const tableSrc = sourceRows
-        .map((s) => {
-          const lostCls = s.land && s.clk === 0 ? "bad" : s.rate >= 0.2 ? "ok" : "";
-          return `<tr>
-            <td>${trEsc(s.name)}</td>
-            <td class="num">${s.land}</td>
-            <td class="num">${s.clk}</td>
-            <td class="num ${lostCls}">${s.lost}</td>
-            <td class="num">${trPct(s.clk, s.land)}</td>
-            <td class="num">${s.play}</td>
-            <td class="num">${s.ios}</td>
-          </tr>`;
-        })
-        .join("") || `<tr><td colspan="7">No traffic in this window.</td></tr>`;
+      // Store badges
+      const byBadge = new Map();
+      for (const r of outbound) {
+        const label = trLabelEvent(trEventName(r));
+        byBadge.set(label, (byBadge.get(label) || 0) + 1);
+      }
+      const badges = [...byBadge.entries()]
+        .map(([label, n]) => ({ label, n, click: true }))
+        .sort((a, b) => b.n - a.n);
 
-      const recentOut = outbound.concat(appRows)
+      // Page that led to store tap
+      const byFrom = new Map();
+      for (const r of outbound) {
+        const from = trFromPage(r) || "(unknown page)";
+        const label = trFriendlyPage(from);
+        if (!byFrom.has(label)) byFrom.set(label, 0);
+        byFrom.set(label, byFrom.get(label) + 1);
+      }
+      const fromPages = [...byFrom.entries()]
+        .map(([label, n]) => ({ label, n, click: true }))
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 8);
+
+      // Devices
+      const byDev = { android: 0, ios: 0, desktop: 0 };
+      for (const r of pageviews) byDev[trUaPlatform(r.user_agent)] += 1;
+      const devices = ["android", "ios", "desktop"]
+        .map((k) => ({ label: trUaLabel(k), n: byDev[k] }))
+        .filter((d) => d.n > 0)
+        .sort((a, b) => b.n - a.n);
+
+      const recent = outbound
         .slice()
         .sort((a, b) => String(b.created).localeCompare(String(a.created)))
-        .slice(0, 20)
-        .map((r) => {
-          const from = ((r.referrer_raw || "").match(/from:([^|]+)/) || [])[1] || "";
-          return `<tr>
-            <td>${trEsc(r.created || "—")}</td>
-            <td>${trEsc(trNormSource(r))}</td>
-            <td>${trIsApp(r) ? trEsc((trAppEvent(r)?.app || "").toUpperCase() + " · " + (trAppEvent(r)?.event || "")) : trLabelEvent(trEventName(r))}</td>
-            <td>${trIsApp(r) ? trEsc(r.referrer_host || "app") : trUaPlatform(r.user_agent)}</td>
-            <td style="word-break:break-all;max-width:18rem;">${trEsc(from)}</td>
-          </tr>`;
-        })
-        .join("") || `<tr><td colspan="5">No store clicks yet — tap a badge on josspatech.com/#hhh to verify tracking.</td></tr>`;
+        .slice(0, 15)
+        .map((r) => ({
+          when: r.created || "—",
+          source: trNormSource(r),
+          badge: trLabelEvent(trEventName(r)),
+          device: trUaLabel(trUaPlatform(r.user_agent)),
+          from: trFriendlyPage(trFromPage(r) || ""),
+        }));
 
-      document.getElementById("trTables").innerHTML = `
-        <h3 style="margin-top:1.25rem;">Where they come from · where we lose them</h3>
-        <p class="section-explainer">Land = unique sessions on the site (not the /f or /t hop). Lost = landed with no store-badge tap in the same session. Link clicks are counted on their own card.</p>
-        ${bars || "<p class='section-explainer'>No sources yet.</p>"}
-        <table class="data" style="margin-top:1rem;">
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th class="num">Landed</th>
-              <th class="num">Clicked store</th>
-              <th class="num">Lost on site</th>
-              <th class="num">Click rate</th>
-              <th class="num">Play</th>
-              <th class="num">iOS</th>
-            </tr>
-          </thead>
-          <tbody>${tableSrc}</tbody>
-        </table>
+      return {
+        landed,
+        clicked,
+        lost,
+        clickRate,
+        pageviews: pageviews.length,
+        sessions: sessions.size,
+        playClicks,
+        iosClicks,
+        fHits,
+        tHits,
+        pages,
+        entries,
+        sources,
+        hosts,
+        badges,
+        fromPages,
+        devices,
+        recent,
+      };
+    }
 
-        <h3 style="margin-top:1.5rem;">Each app</h3>
-        ${appTable}
+    function trFunnelHtml(s) {
+      const steps = [
+        {
+          label: "1 · Landed on site",
+          n: s.landed,
+          meta: `${s.pageviews} pageviews · ${s.sessions} sessions`,
+        },
+        {
+          label: "2 · Link hops (/f · /t)",
+          n: s.fHits + s.tHits,
+          meta: `Facebook ${s.fHits} · TikTok ${s.tHits}`,
+        },
+        {
+          label: "3 · Tapped a store badge",
+          n: s.clicked,
+          meta: `Play ${s.playClicks} · App Store ${s.iosClicks}`,
+          click: true,
+        },
+      ];
+      const top = Math.max(1, s.landed);
+      const parts = [];
+      steps.forEach((st, i) => {
+        if (i > 0) {
+          const prev = steps[i - 1].n;
+          const lost = Math.max(0, prev - st.n);
+          const contPct = trPct(st.n, prev);
+          const bleed = prev > 0 && st.n / prev < 0.2;
+          const txt =
+            prev === 0
+              ? "Nobody at the previous step"
+              : lost === 0
+                ? `All ${prev} continued (${contPct})`
+                : `${st.n} of ${prev} continued (${contPct}) · ${lost} left`;
+          parts.push(`<p class="tr-bridge${bleed ? " bleed" : ""}">${txt}</p>`);
+        }
+        const barPct = Math.max(0, Math.min(100, (100 * st.n) / top));
+        parts.push(`<div class="tr-row">
+          <div class="tr-row-head">
+            <span class="name">${trEsc(st.label)}</span>
+            <span class="count">${st.n}</span>
+            <span class="meta">${trEsc(st.meta)}</span>
+          </div>
+          <div class="tr-bar"><i class="${st.click ? "click" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
+        </div>`);
+      });
+      return `<div class="tr-funnel">${parts.join("")}</div>`;
+    }
 
-        <h3 style="margin-top:1.5rem;">Pages</h3>
-        <table class="data">
-          <thead><tr><th>Page</th><th class="num">Views</th><th class="num">Sessions</th></tr></thead>
-          <tbody>${pageTable}</tbody>
-        </table>
+    function trKpi(s) {
+      if (!s.landed) {
+        return `<div class="tr-kpi bad">No site landings in this window.</div>`;
+      }
+      if (s.clickRate < 0.05) {
+        return `<div class="tr-kpi bad">Only ${trPct(s.clicked, s.landed)} of visitors tapped a store badge (${s.clicked} of ${s.landed}). Biggest leak is on the site.</div>`;
+      }
+      if (s.clickRate < 0.2) {
+        return `<div class="tr-kpi">Store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Check which source or page drops hardest below.</div>`;
+      }
+      return `<div class="tr-kpi ok">Healthy store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Next leak is listing → install (Play / ASC).</div>`;
+    }
 
-        <h3 style="margin-top:1.5rem;">Recent store taps and app steps</h3>
-        <table class="data">
-          <thead><tr><th>When</th><th>Source</th><th>Store</th><th>Device</th><th>From page</th></tr></thead>
-          <tbody>${recentOut}</tbody>
-        </table>
-        <p class="section-explainer">New installs are the Play and App Store links below. Sales are in RevenueCat. View counts are in TikTok Studio and Meta. This page does not ask the Worker.</p>`;
+    function trPanel(s, title) {
+      return `
+        ${title ? `<p class="tr-pane-title">${trEsc(title)}</p>` : ""}
+        ${trKpi(s)}
+        <div class="tr-card">
+          <h3>Site → store</h3>
+          <p class="sub">People (sessions) who landed, then tapped Play / App Store.</p>
+          ${trFunnelHtml(s)}
+        </div>
+        <div class="tr-card">
+          <h3>Pages people opened</h3>
+          <p class="sub">Ranked by sessions. Hash sections on the home page count separately when recorded.</p>
+          ${trRankBars(s.pages)}
+        </div>
+        <div class="tr-card">
+          <h3>First page in the visit</h3>
+          <p class="sub">Where the session started.</p>
+          ${trRankBars(s.entries, { empty: "No entry pages yet." })}
+        </div>
+        <div class="tr-card">
+          <h3>How they got here</h3>
+          <p class="sub">UTM / channel. Meta line = store taps and click rate from that source.</p>
+          ${trRankBars(s.sources)}
+        </div>
+        <div class="tr-card">
+          <h3>Referrer sites</h3>
+          <p class="sub">Hostname on the pageview (google, t.co, etc.). Direct = typed / bookmark / in-app browser with no referrer.</p>
+          ${trRankBars(s.hosts)}
+        </div>
+        <div class="tr-card">
+          <h3>Store badges tapped</h3>
+          <p class="sub">Which Play / App Store button they hit.</p>
+          ${trRankBars(s.badges, { empty: "No store taps yet." })}
+        </div>
+        <div class="tr-card">
+          <h3>Page that led to the store tap</h3>
+          <p class="sub">Which site page they were on when they tapped the badge.</p>
+          ${trRankBars(s.fromPages, { empty: "No store taps with a from-page yet." })}
+        </div>
+        <div class="tr-card">
+          <h3>Devices</h3>
+          <p class="sub">From the browser user-agent on pageviews.</p>
+          ${trRankBars(s.devices, { empty: "No device data." })}
+        </div>
+        <div class="tr-card">
+          <h3>Recent store taps</h3>
+          <p class="sub">Newest first.</p>
+          ${
+            s.recent.length
+              ? `<table class="tr-recent"><thead><tr><th>When</th><th>Source</th><th>Badge</th><th>Device</th><th>From</th></tr></thead><tbody>${s.recent
+                  .map(
+                    (r) => `<tr>
+                    <td>${trEsc(r.when)}</td>
+                    <td>${trEsc(r.source)}</td>
+                    <td>${trEsc(r.badge)}</td>
+                    <td>${trEsc(r.device)}</td>
+                    <td>${trEsc(r.from)}</td>
+                  </tr>`
+                  )
+                  .join("")}</tbody></table>`
+              : `<p class="tr-empty">No store taps in this window.</p>`
+          }
+        </div>`;
+    }
 
-      const rangeLabel = { today: "today", "7d": "7d", "30d": "30d", all: "all-time" }[trRange];
+    function trRender(rows) {
+      const todayKey = trTodayKey();
+      const win = trActiveWindow(todayKey);
+      const prevWin = trCompare ? trPreviousWindow(win) : null;
+      document.getElementById("trMain").classList.toggle("compare-on", !!(trCompare && prevWin));
+      document.getElementById("trWindow").innerHTML = prevWin
+        ? `Window: <strong>${win.label}</strong> <span>· vs previous ${prevWin.label}</span>`
+        : `Window: <strong>${win.label}</strong> <span>(America/New_York days)</span>`;
+
+      const scoped = trFilterDevice(trFilterWindow(rows, win));
+      const stats = trStats(scoped);
+      let body = trPanel(stats);
+      if (prevWin) {
+        const prevStats = trStats(trFilterDevice(trFilterWindow(rows, prevWin)));
+        const diff = (stats.clickRate - prevStats.clickRate) * 100;
+        const cls = diff > 0.5 ? "up" : diff < -0.5 ? "down" : "";
+        const sign = diff > 0 ? "+" : "";
+        body = `<div class="tr-compare-grid">
+          <div>${trPanel(prevStats, "Before · " + prevWin.label)}</div>
+          <div>${trPanel(stats, "This window · " + win.label)}</div>
+        </div>
+        <div class="tr-delta ${cls}">Store-click rate: ${trPct(stats.clicked, stats.landed)} now vs ${trPct(prevStats.clicked, prevStats.landed)} before (${sign}${diff.toFixed(1)} pts) · taps ${stats.clicked} vs ${prevStats.clicked}</div>`;
+      }
+
+      document.getElementById("trBody").innerHTML = body;
       document.getElementById("trStatus").textContent =
-        `${rangeLabel}: ${landed} landed · ${clicked} clicked store · ${lost} lost on site · ${new Date().toLocaleTimeString()}`;
+        `${win.label}${trPlat !== "all" ? " · " + trPlat : ""}: ${stats.landed} landed · ${stats.clicked} store · ${stats.lost} lost · ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
       document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    function trRerender() {
+      if (trCacheRows) trRender(trCacheRows);
+      else trRefresh();
     }
 
     async function trRefresh() {
@@ -565,16 +728,60 @@
       }
     }
 
-    document.getElementById("trRange").addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-range]");
-      if (!btn) return;
-      trRange = btn.getAttribute("data-range");
-      [...document.querySelectorAll("#trRange button")].forEach((b) => b.classList.toggle("active", b === btn));
-      if (trCacheRows) trRender(trCacheRows);
-      else trRefresh();
-    });
+    function trSaveSocial() {
+      const el = document.getElementById("trSocial");
+      if (el) localStorage.setItem("jt_social_notes", el.value);
+    }
+    (function trInit() {
+      const today = trTodayKey();
+      document.getElementById("trFrom").value = trAddDays(today, -6);
+      document.getElementById("trTo").value = today;
+      trFrom = document.getElementById("trFrom").value;
+      trTo = document.getElementById("trTo").value;
+      const social = document.getElementById("trSocial");
+      if (social) social.value = localStorage.getItem("jt_social_notes") || "";
+
+      document.getElementById("trRange").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-range]");
+        if (!btn) return;
+        trRange = btn.getAttribute("data-range");
+        [...document.querySelectorAll("#trRange button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        document.getElementById("trCustom").classList.toggle("show", trRange === "custom");
+        if (trRange === "custom") {
+          trFrom = document.getElementById("trFrom").value;
+          trTo = document.getElementById("trTo").value;
+        }
+        trRerender();
+      });
+      document.getElementById("trApplyCustom").addEventListener("click", () => {
+        trFrom = document.getElementById("trFrom").value;
+        trTo = document.getElementById("trTo").value;
+        trRange = "custom";
+        [...document.querySelectorAll("#trRange button")].forEach((b) =>
+          b.classList.toggle("active", b.getAttribute("data-range") === "custom")
+        );
+        document.getElementById("trCustom").classList.add("show");
+        trRerender();
+      });
+      document.getElementById("trCompare").addEventListener("change", (e) => {
+        trCompare = !!e.target.checked;
+        trRerender();
+      });
+      document.getElementById("trPlat").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-plat]");
+        if (!btn) return;
+        trPlat = btn.getAttribute("data-plat");
+        [...document.querySelectorAll("#trPlat button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        trRerender();
+      });
+    })();
 
     window.trRefresh = trRefresh;
+    window.trSaveSocial = trSaveSocial;
   </script>
 </body>
 </html>

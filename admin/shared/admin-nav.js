@@ -6,7 +6,7 @@
     { href: "referrals.html", page: "referrals", label: "Referrals" },
     { href: "dealer-ads.html", page: "dealer-ads", label: "HHH Ads" },
     { href: "cvc-dealer-ads.html", page: "cvc-dealer-ads", label: "CVC Ads" },
-    { href: "traffic.html", page: "traffic", label: "Traffic" },
+    { href: "traffic.html", page: "traffic", label: "Website" },
     { href: "funnels.html", page: "funnels", label: "Funnels" },
     { href: "screens.html", page: "screens", label: "Screens" },
     { href: "ocr-quota.html", page: "ocr", label: "OCR" },
