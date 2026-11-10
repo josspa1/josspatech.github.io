@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>JosspaTech — App screens</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "screens";</script>
+  <style>
+    #dashboard main.page-main {
+      display: block !important;
+      max-width: 720px !important;
+      width: 100% !important;
+      box-sizing: border-box;
+      padding: 16px 20px 48px;
+      margin: 0 auto;
+    }
+    #dashboard main.page-main > section { display: block; width: 100%; max-width: none; }
+    .sc-range, .sc-plat { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0.5rem; }
+    .sc-range button, .sc-plat button {
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
+    }
+    .sc-range button.active, .sc-plat button.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .sc-window { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+    .sc-window span { color: var(--text-dim); font-weight: 500; }
+    .sc-app {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px 20px; margin: 0 0 1rem;
+    }
+    .sc-app h3 { margin: 0 0 4px; font-size: 18px; }
+    .sc-app .sub { font-size: 12px; color: var(--text-dim); margin: 0 0 12px; }
+    .sc-row { padding: 8px 0; border-top: 1px solid var(--border); }
+    .sc-row:first-of-type { border-top: none; }
+    .sc-row-head {
+      display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+    }
+    .sc-row .rank { font-size: 12px; font-weight: 700; color: var(--text-muted); width: 1.5rem; }
+    .sc-row .name { font-size: 14px; font-weight: 700; flex: 1; }
+    .sc-row .count { font-size: 20px; font-weight: 700; color: var(--primary); }
+    .sc-row .pct { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .sc-bar {
+      margin-top: 6px; height: 10px; border-radius: 5px;
+      background: var(--surface-alt, #EEF2F7); overflow: hidden;
+    }
+    .sc-bar > i {
+      display: block; height: 100%; border-radius: 5px; background: var(--primary); max-width: 100%;
+    }
+    .sc-empty { font-size: 13px; color: var(--text-dim); padding: 8px 0; }
+    .sc-note {
+      font-size: 12px; line-height: 1.45; padding: 10px 12px; border-radius: 8px;
+      margin: 0 0 12px; background: #EEF3FA; border: 1px solid #C5D4E8;
+    }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <div class="login-head">
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">What people open · apps</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account.</p>
+    <input type="email" id="email" placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <h1>
+          App screens
+          <span class="subtitle">Which screens people open · once per person per day · PocketBase only</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main">
+      <section>
+        <p class="section-explainer">
+          Phones post <code>app:hhh:screen_identify_hhh</code> (and PBJ / CVC) the first time
+          that screen is opened each day. No Workers or KV. Needs the builds that include
+          the screen ping — older installs will not appear here.
+        </p>
+        <div class="sc-note" id="scNote">
+          Counts are “people who opened this screen at least once in the window,” not total taps.
+        </div>
+        <div class="sc-range" id="scRange">
+          <button type="button" data-range="today" class="active">Today</button>
+          <button type="button" data-range="7d">7 days</button>
+          <button type="button" data-range="30d">30 days</button>
+          <button type="button" data-range="all">All time</button>
+        </div>
+        <p class="sc-window" id="scWindow">Window: —</p>
+        <div class="sc-plat" id="scPlat">
+          <button type="button" data-plat="all" class="active">All platforms</button>
+          <button type="button" data-plat="android">Android</button>
+          <button type="button" data-plat="ios">iPhone</button>
+        </div>
+        <div class="ref-actions">
+          <button type="button" class="m-btn accent" onclick="scRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+        </div>
+        <div class="ref-status" id="scStatus">Sign in, then Refresh.</div>
+        <div id="scApps"></div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+  <script>
+    let scRange = "today";
+    let scPlat = "all";
+    let scCacheRows = null;
+
+    const SC_APPS = [
+      { id: "pbj", label: "PBJ" },
+      { id: "hhh", label: "HHH" },
+      { id: "cvc", label: "CVC" },
+    ];
+    const SC_LABELS = {
+      home: "Home",
+      activity: "Activity",
+      budget: "Budget",
+      goals: "Goals",
+      coach: "Coach",
+      coach_chat: "Coach chat",
+      import: "Import",
+      add_tx: "Add transaction",
+      scan_receipt: "Scan receipt",
+      bank: "Bank",
+      settings: "Settings",
+      subscription: "Subscription",
+      toolbox: "Toolbox",
+      export: "Export",
+      debt: "Debt",
+      collection: "Collection",
+      identify: "Identify",
+      wish: "Wish list",
+      hunt: "Hunt",
+      compare: "Compare",
+      trade: "Trade",
+      estate: "Estate",
+      tools: "Tools",
+      chat: "Ask / Chat",
+      passport: "Passport",
+      cert: "Cert lookup",
+      reports: "Reports",
+      backup: "Backup",
+      demand: "Demand",
+      wear: "Wear log",
+      worth: "What’s it worth",
+      barcode: "Barcode",
+    };
+
+    function scDayKeyEt(iso) {
+      if (!iso) return "";
+      try {
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/New_York",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date(iso));
+      } catch (e) {
+        return String(iso).slice(0, 10);
+      }
+    }
+    function scTodayKey() {
+      return scDayKeyEt(new Date().toISOString());
+    }
+    function scAddDays(dayKey, delta) {
+      const d = new Date(dayKey + "T12:00:00");
+      d.setDate(d.getDate() + delta);
+      return scDayKeyEt(d.toISOString());
+    }
+    function scFmtDay(dayKey) {
+      try {
+        return new Date(dayKey + "T12:00:00").toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      } catch (e) {
+        return dayKey;
+      }
+    }
+    function scActiveWindow(todayKey) {
+      if (scRange === "all") return { from: null, to: null, label: "All time" };
+      if (scRange === "today") return { from: todayKey, to: todayKey, label: scFmtDay(todayKey) };
+      const days = scRange === "7d" ? 7 : 30;
+      const from = scAddDays(todayKey, -(days - 1));
+      return { from, to: todayKey, label: `${scFmtDay(from)} – ${scFmtDay(todayKey)} (${days}d, ET)` };
+    }
+    function scInWindow(r, win) {
+      if (!win.from && !win.to) return true;
+      if (!r.created) return false;
+      const day = scDayKeyEt(r.created);
+      if (win.from && day < win.from) return false;
+      if (win.to && day > win.to) return false;
+      return true;
+    }
+    function scPlatformOf(r) {
+      const host = String(r.referrer_host || "").toLowerCase();
+      const raw = String(r.referrer_raw || "").toLowerCase();
+      if (host === "android" || raw.includes("android")) return "android";
+      if (host === "ios" || raw.includes("ios")) return "ios";
+      return "unknown";
+    }
+    function scParse(r) {
+      const m = String(r.page || "").match(/^app:([^:]+):screen_(.+)$/);
+      if (!m) return null;
+      const app = m[1].toLowerCase();
+      let rest = m[2];
+      const suffix = "_" + app;
+      if (rest.endsWith(suffix)) rest = rest.slice(0, -suffix.length);
+      return { app, screen: rest };
+    }
+
+    function scRender(rows) {
+      const todayKey = scTodayKey();
+      const win = scActiveWindow(todayKey);
+      document.getElementById("scWindow").innerHTML =
+        `Window: <strong>${win.label}</strong> <span>(America/New_York days)</span>`;
+
+      const scoped = rows.filter((r) => {
+        if (!scParse(r)) return false;
+        if (!scInWindow(r, win)) return false;
+        if (scPlat !== "all" && scPlatformOf(r) !== scPlat) return false;
+        return true;
+      });
+
+      const html = SC_APPS.map((app) => {
+        const byScreen = new Map();
+        for (const r of scoped) {
+          const p = scParse(r);
+          if (!p || p.app !== app.id) continue;
+          const sid = r.session_id || r.id;
+          if (!byScreen.has(p.screen)) byScreen.set(p.screen, new Set());
+          byScreen.get(p.screen).add(sid);
+        }
+        const ranked = [...byScreen.entries()]
+          .map(([screen, people]) => ({ screen, n: people.size }))
+          .sort((a, b) => b.n - a.n);
+        const top = ranked[0] ? ranked[0].n : 0;
+        const platNote =
+          scPlat === "all" ? "All platforms" : scPlat === "android" ? "Android only" : "iPhone only";
+        if (!ranked.length) {
+          return `<div class="sc-app">
+            <h3>${app.label}</h3>
+            <p class="sub">${platNote}. Once per person per screen per day.</p>
+            <p class="sc-empty">No screen hits in this window yet (needs the build that posts them).</p>
+          </div>`;
+        }
+        const rowsHtml = ranked
+          .map((row, i) => {
+            const label = SC_LABELS[row.screen] || row.screen.replace(/_/g, " ");
+            const barPct = top ? Math.max(2, Math.min(100, (100 * row.n) / top)) : 0;
+            const ofTop = top ? ((100 * row.n) / top).toFixed(0) + "% of top" : "";
+            return `<div class="sc-row">
+              <div class="sc-row-head">
+                <span class="rank">${i + 1}</span>
+                <span class="name">${label}</span>
+                <span class="count">${row.n}</span>
+                <span class="pct">${ofTop}</span>
+              </div>
+              <div class="sc-bar"><i style="width:${barPct.toFixed(1)}%"></i></div>
+            </div>`;
+          })
+          .join("");
+        return `<div class="sc-app">
+          <h3>${app.label}</h3>
+          <p class="sub">${platNote}. ${ranked.length} screen${ranked.length === 1 ? "" : "s"} with activity.</p>
+          ${rowsHtml}
+        </div>`;
+      }).join("");
+
+      document.getElementById("scApps").innerHTML = html;
+      document.getElementById("scStatus").textContent =
+        `${win.label}${scPlat !== "all" ? " · " + scPlat : ""}: ${scoped.length} screen rows · ${new Date().toLocaleTimeString()}`;
+      document.getElementById("pulse").classList.remove("stale");
+      document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    async function scRefresh() {
+      const status = document.getElementById("scStatus");
+      status.textContent = "Loading…";
+      try {
+        scCacheRows = await listAllRecords("_site_visits");
+        scRender(scCacheRows);
+      } catch (e) {
+        status.textContent = "Error: " + (e.message || e);
+        document.getElementById("pulse").classList.add("stale");
+      }
+    }
+
+    document.getElementById("scRange").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-range]");
+      if (!btn) return;
+      scRange = btn.getAttribute("data-range");
+      [...document.querySelectorAll("#scRange button")].forEach((b) =>
+        b.classList.toggle("active", b === btn)
+      );
+      if (scCacheRows) scRender(scCacheRows);
+      else scRefresh();
+    });
+    document.getElementById("scPlat").addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-plat]");
+      if (!btn) return;
+      scPlat = btn.getAttribute("data-plat");
+      [...document.querySelectorAll("#scPlat button")].forEach((b) =>
+        b.classList.toggle("active", b === btn)
+      );
+      if (scCacheRows) scRender(scCacheRows);
+      else scRefresh();
+    });
+
+    window.scRefresh = scRefresh;
+  </script>
+</body>
+</html>
