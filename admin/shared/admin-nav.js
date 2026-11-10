@@ -27,12 +27,17 @@
 
   window.injectAdminNav = function injectAdminNav() {
     const dash = document.getElementById("dashboard");
-    if (!dash || document.getElementById("adminTopNav")) return;
+    if (!dash) return;
     const page = window.ADMIN_PAGE || "hub";
-    const nav = document.createElement("nav");
-    nav.id = "adminTopNav";
-    nav.className = "admin-topnav";
-    nav.setAttribute("aria-label", "Admin sections");
+    let nav = document.getElementById("adminTopNav");
+    if (!nav) {
+      nav = document.createElement("nav");
+      nav.id = "adminTopNav";
+      nav.className = "admin-topnav";
+      nav.setAttribute("aria-label", "Jump to any admin page");
+      // Pin at the very top so hop links are always visible after login.
+      dash.prepend(nav);
+    }
 
     const mainLinks = NAV.map(
       (n) => `<a href="${n.href}" class="${n.page === page ? "active" : ""}">${n.label}</a>`,
@@ -42,19 +47,15 @@
       (a) => `<a href="${a.href}" class="admin-app-link ${a.page === page ? "active" : ""}">${a.label}</a>`,
     ).join("");
 
-    nav.innerHTML = mainLinks + `
+    nav.innerHTML =
+      `<span class="admin-nav-jump-label">Jump to</span>` +
+      mainLinks +
+      `
       <span class="admin-nav-divider" aria-hidden="true"></span>
       <span class="admin-nav-apps-label">Apps</span>
       <span class="admin-nav-apps">${appLinks}</span>`;
 
-    if (isAppPage(page)) nav.classList.add("admin-topnav--app-active");
-
-    const header = dash.querySelector("header");
-    if (header && header.nextSibling) {
-      dash.insertBefore(nav, header.nextSibling);
-    } else {
-      dash.prepend(nav);
-    }
+    nav.classList.toggle("admin-topnav--app-active", isAppPage(page));
 
     injectAdminFooter(dash);
   };

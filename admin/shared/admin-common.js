@@ -1124,6 +1124,7 @@
   function showDashboard() {
     document.getElementById("login").style.display = "none";
     document.getElementById("dashboard").style.display = "block";
+    if (typeof window.injectAdminNav === "function") window.injectAdminNav();
     const page = window.ADMIN_PAGE || "flywheel";
     if (page === "flywheel" && document.getElementById("grid")) {
       refresh();
@@ -1133,6 +1134,10 @@
       if (pulse) pulse.classList.add("stale");
     } else if (page === "traffic" && typeof window.trRefresh === "function") {
       window.trRefresh();
+    } else if (page === "funnels" && typeof window.fnRefresh === "function") {
+      window.fnRefresh();
+    } else if (page === "screens" && typeof window.scRefresh === "function") {
+      window.scRefresh();
     }
     mCheckMaintenanceFlag().catch(() => {});
     injectDataFreshnessBar();
