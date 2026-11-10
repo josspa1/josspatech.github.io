@@ -1,11 +1,14 @@
 /* Same chrome as the homepage hub tiles (Jul 22 research pass).
-   Stripe bento + Linear 1px edges. Do not restyle the homepage tiles from here. */
+   Stripe bento + Linear 1px edges. Do not restyle the homepage tiles from here.
+   Polish pass: floor glow, screen sheen, grain, stagger, badge depth, living center phone. */
 :root {
   --navy: #1A4F7A;
   --navy-dk: #0C3358;
   --gold: #F0C040;
   --ink: #f4f0e8;
   --muted: rgba(255, 255, 255, 0.55);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 * { box-sizing: border-box; }
 body {
@@ -31,14 +34,32 @@ header nav { opacity: 0.85; }
 }
 .apps a[aria-current="page"] { color: #fff; text-decoration: none; font-weight: 600; }
 main {
+  position: relative;
+  isolation: isolate;
   margin-top: 1.6rem;
   padding: 44px 40px 38px;
   background:
     linear-gradient(155deg, #0e3558 0%, #123f68 42%, #0c2d4a 100%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 26px;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 28px 64px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
 }
+/* Film grain — hub craft, product cards too */
+main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  z-index: 0;
+  background-image: var(--grain);
+  background-size: 180px 180px;
+}
+main > * { position: relative; z-index: 1; }
 .kicker {
   display: flex;
   align-items: center;
@@ -83,17 +104,54 @@ h2 {
 }
 ul { padding-left: 1.15rem; margin: 0 0 1rem; color: rgba(255, 255, 255, 0.78); }
 li { margin: 0.4rem 0; }
-/* Match hub / SPA phone tiles — device shell + depth, not bare UI rectangles */
+
+/* Staggered entrance — Linear-style fade + slight rise */
+.rise {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(4px);
+  animation: riseIn 0.7s var(--ease) forwards;
+}
+.rise-1 { animation-delay: 0.02s; }
+.rise-2 { animation-delay: 0.1s; }
+.rise-3 { animation-delay: 0.18s; }
+.rise-4 { animation-delay: 0.26s; }
+.rise-5 { animation-delay: 0.34s; }
+.rise-6 { animation-delay: 0.42s; }
+@keyframes riseIn {
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* Phone fan — device shell + floor glow + sheen + living center */
 .shots {
+  position: relative;
   display: flex;
   gap: 0;
   justify-content: center;
   align-items: flex-end;
-  margin: 1.6rem 0 0.4rem;
+  margin: 1.6rem 0 1.1rem;
+  padding: 12px 0 28px;
   perspective: 900px;
+}
+.shots::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: min(78%, 420px);
+  height: 36px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(ellipse at center,
+    rgba(240, 192, 64, 0.28) 0%,
+    rgba(93, 173, 226, 0.12) 42%,
+    transparent 72%);
+  filter: blur(10px);
 }
 .shots .shot {
   position: relative;
+  z-index: 1;
   flex: 0 0 auto;
   width: 158px;
   max-width: 30%;
@@ -105,8 +163,10 @@ li { margin: 0.4rem 0; }
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
     0 28px 64px rgba(0, 0, 0, 0.55),
+    0 8px 20px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
+/* Notch */
 .shots .shot::before {
   content: "";
   position: absolute;
@@ -117,8 +177,24 @@ li { margin: 0.4rem 0; }
   height: 5px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
+}
+/* Screen sheen */
+.shots .shot::after {
+  content: "";
+  position: absolute;
+  inset: 10px 10px 14px;
+  border-radius: 18px;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.04) 18%,
+    transparent 42%
+  );
+  mix-blend-mode: soft-light;
 }
 .shots .shot img {
   display: block;
@@ -136,6 +212,7 @@ li { margin: 0.4rem 0; }
   z-index: 3;
   margin: 0 -28px;
   transform: translateY(-10px);
+  animation: phoneFloat 5.5s var(--ease) infinite;
 }
 .shots .shot-side {
   z-index: 1;
@@ -147,7 +224,40 @@ li { margin: 0.4rem 0; }
 .shots .shot-side:last-child {
   transform: rotate(5deg) translateY(8px);
 }
-/* Legacy bare <img> children — still get a shell so nothing ships flat */
+@keyframes phoneFloat {
+  0%, 100% { transform: translateY(-10px) rotate(-0.4deg); }
+  50% { transform: translateY(-18px) rotate(0.4deg); }
+}
+
+/* Floating chip — labels something visible on the center screen */
+.shot-chip {
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  transform: translateX(-50%);
+  z-index: 4;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #0c2d4a;
+  background: linear-gradient(180deg, #ffe08a 0%, var(--gold) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.45),
+    0 2px 0 rgba(255, 255, 255, 0.35) inset;
+  pointer-events: none;
+  animation: chipIn 0.8s var(--ease) 0.55s both;
+}
+@keyframes chipIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.92); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+/* Legacy bare <img> children */
 .shots > img {
   width: 30%;
   max-width: 168px;
@@ -160,6 +270,7 @@ li { margin: 0.4rem 0; }
     0 28px 64px rgba(0, 0, 0, 0.55),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
+
 .walkthrough {
   display: block;
   width: 100%;
@@ -169,7 +280,23 @@ li { margin: 0.4rem 0; }
   margin: 1rem 0 0.4rem;
   background: #0a1a2e;
 }
-.badges { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: center; margin: 1.2rem 0; }
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  align-items: center;
+  margin: 1.2rem 0;
+}
+.badges a {
+  display: inline-flex;
+  border-radius: 10px;
+  transition: transform 0.22s var(--ease), filter 0.22s var(--ease);
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+}
+.badges a:hover {
+  transform: translateY(-3px);
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.42));
+}
 .badges img { display: block; }
 .note { font-size: 0.9rem; color: var(--muted); }
 .foot { margin: 2.4rem 0 2rem; font-size: 0.92rem; color: var(--muted); }
@@ -184,6 +311,12 @@ main > p > a {
   border-radius: 12px;
   text-decoration: none;
   margin: 0.25rem 0.35rem 0.25rem 0;
+  box-shadow: 0 10px 28px rgba(240, 192, 64, 0.28);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+main > p > a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(240, 192, 64, 0.38);
 }
 .note a,
 .foot a {
@@ -194,13 +327,46 @@ main > p > a {
   padding: 0;
   border-radius: 0;
   margin: 0;
+  box-shadow: none;
 }
+.note a:hover,
+.foot a:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 @media (max-width: 820px) {
   main { padding: 28px 22px 26px; border-radius: 18px; }
-  .shots .shot-center { margin: 0 -16px; transform: translateY(-6px); }
+  .shots .shot-center {
+    margin: 0 -16px;
+    animation: phoneFloatSm 5.5s var(--ease) infinite;
+  }
   .shots .shot-side:first-child,
   .shots .shot-side:last-child {
     transform: none;
     opacity: 1;
   }
+  .shot-chip { font-size: 11px; padding: 6px 10px; top: 14%; }
+}
+@keyframes phoneFloatSm {
+  0%, 100% { transform: translateY(-6px); }
+  50% { transform: translateY(-12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .shots .shot-center,
+  .shot-chip,
+  .badges a,
+  main > p > a {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
+  .rise {
+    opacity: 1;
+    transform: none;
+  }
+  .shots .shot-center { transform: translateY(-10px); }
+  .shot-chip { opacity: 1; transform: translateX(-50%); }
 }

@@ -794,13 +794,19 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
   border:1px solid rgba(255,255,255,0.18);
   box-shadow:
     0 24px 56px rgba(0,0,0,0.55),
+    0 0 40px rgba(240,192,64,0.08),
     inset 0 1px 0 rgba(255,255,255,0.12);
   transition:transform .4s var(--ease);
 }
 #page-company .hub-card:hover .hub-card-shot{transform:translateY(-12px) rotate(-2deg);}
 #page-company .hub-card-shot::before{
   content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);
-  width:48px;height:5px;border-radius:999px;background:rgba(0,0,0,0.6);
+  width:48px;height:5px;border-radius:999px;background:rgba(0,0,0,0.6);z-index:2;
+}
+#page-company .hub-card-shot::after{
+  content:'';position:absolute;inset:10px 10px 16px;border-radius:18px;pointer-events:none;z-index:2;
+  background:linear-gradient(155deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.03) 20%, transparent 45%);
+  mix-blend-mode:soft-light;
 }
 #page-company .hub-card-shot img{
   display:block;width:100%;height:auto;border-radius:18px;aspect-ratio:9/19.5;object-fit:cover;
@@ -1669,6 +1675,60 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
 #page-hhh .hero:hover .pbj-shot-side:last-child,
 #page-cvc .hero:hover .pbj-shot-side:last-child{
   transform:rotate(8deg) translateY(2px);
+}
+/* SPA phone fan polish — floor glow, sheen, living center, chip */
+#page-pbj .pbj-hero-shots,
+#page-hhh .pbj-hero-shots,
+#page-cvc .pbj-hero-shots{
+  position:relative;
+  padding-bottom:22px;
+}
+#page-pbj .pbj-hero-shots::after,
+#page-hhh .pbj-hero-shots::after,
+#page-cvc .pbj-hero-shots::after{
+  content:'';position:absolute;left:50%;bottom:0;width:min(90%,340px);height:32px;
+  transform:translateX(-50%);pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at center, rgba(240,192,64,0.26) 0%, rgba(93,173,226,0.1) 45%, transparent 72%);
+  filter:blur(10px);
+}
+#page-pbj .pbj-shot,
+#page-hhh .pbj-shot,
+#page-cvc .pbj-shot{position:relative;z-index:1;}
+#page-pbj .pbj-shot::after,
+#page-hhh .pbj-shot::after,
+#page-cvc .pbj-shot::after{
+  content:'';position:absolute;inset:10px 10px 14px;border-radius:18px;pointer-events:none;z-index:2;
+  background:linear-gradient(155deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 18%, transparent 42%);
+  mix-blend-mode:soft-light;
+}
+#page-pbj .pbj-shot-center,
+#page-hhh .pbj-shot-center,
+#page-cvc .pbj-shot-center{
+  animation:spaPhoneFloat 5.5s var(--ease) infinite;
+}
+@keyframes spaPhoneFloat{
+  0%,100%{transform:translateY(-10px) rotate(-0.35deg);}
+  50%{transform:translateY(-16px) rotate(0.35deg);}
+}
+#page-pbj .hero:hover .pbj-shot-center,
+#page-hhh .hero:hover .pbj-shot-center,
+#page-cvc .hero:hover .pbj-shot-center{
+  animation:none;
+  transform:translateY(-16px);
+}
+.spa-shot-chip{
+  position:absolute;left:50%;top:16%;transform:translateX(-50%);z-index:4;
+  white-space:nowrap;padding:7px 12px;border-radius:999px;
+  font-family:Manrope,system-ui,sans-serif;font-size:12px;font-weight:700;
+  color:#0c2d4a;background:linear-gradient(180deg,#ffe08a 0%, var(--gold) 100%);
+  border:1px solid rgba(255,255,255,0.35);
+  box-shadow:0 10px 28px rgba(0,0,0,0.45), inset 0 2px 0 rgba(255,255,255,0.35);
+  pointer-events:none;
+}
+@media (prefers-reduced-motion:reduce){
+  #page-pbj .pbj-shot-center,
+  #page-hhh .pbj-shot-center,
+  #page-cvc .pbj-shot-center{animation:none !important;}
 }
 /* Full-bleed trust strip under hero */
 #page-pbj .pstrip,
@@ -3579,6 +3639,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <img src="videos/pbj/intro/screens/budget-live.jpg" srcset="videos/pbj/intro/screens/budget-live-360w.jpg 360w, videos/pbj/intro/screens/budget-live-560w.jpg 560w, videos/pbj/intro/screens/budget-live.jpg 1440w" sizes="(max-width:700px) 42vw, 220px" alt="Budget overview screen" loading="eager" width="220" height="476">
       </div>
       <div class="pbj-shot pbj-shot-center">
+        <span class="spa-shot-chip">No bank login</span>
         <img src="videos/pbj/intro/screens/home-concierge.jpg" srcset="videos/pbj/intro/screens/home-concierge-360w.jpg 360w, videos/pbj/intro/screens/home-concierge-560w.jpg 560w, videos/pbj/intro/screens/home-concierge.jpg 1440w" sizes="(max-width:700px) 48vw, 240px" alt="Main dashboard with health score" loading="eager" width="240" height="520">
       </div>
       <div class="pbj-shot pbj-shot-side">
@@ -4392,6 +4453,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <img src="assets/screenshots/hhh/intro/04-ai-identify.png" srcset="assets/screenshots/hhh/intro/04-ai-identify-360w.jpg 360w, assets/screenshots/hhh/intro/04-ai-identify-560w.jpg 560w, assets/screenshots/hhh/intro/04-ai-identify.png 1440w" sizes="(max-width:700px) 42vw, 220px" alt="Identify — confirm your suspicions from photos and clues" loading="eager" width="220" height="478">
       </div>
       <div class="pbj-shot pbj-shot-center">
+        <span class="spa-shot-chip">$175,720 museum</span>
         <img src="assets/screenshots/hhh/intro/02-my-museum.png" srcset="assets/screenshots/hhh/intro/02-my-museum-360w.jpg 360w, assets/screenshots/hhh/intro/02-my-museum-560w.jpg 560w, assets/screenshots/hhh/intro/02-my-museum.png 1440w" sizes="(max-width:700px) 48vw, 240px" alt="Private watch and clock collection in Handy Horology Helper" loading="eager" width="240" height="521">
       </div>
       <div class="pbj-shot pbj-shot-side">
@@ -4981,6 +5043,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <img src="assets/screenshots/cvc/04-analytics.png?v=3" srcset="assets/screenshots/cvc/04-analytics-360w.png 360w, assets/screenshots/cvc/04-analytics-560w.png 560w, assets/screenshots/cvc/04-analytics.png?v=3 1080w" sizes="(max-width:700px) 42vw, 220px" alt="Portfolio P&amp;L dashboard in Curator's Vault" loading="lazy" width="220" height="478">
       </div>
       <div class="pbj-shot pbj-shot-center">
+        <span class="spa-shot-chip">$11,146 vault</span>
         <img src="assets/screenshots/cvc/02-collection.png?v=3" srcset="assets/screenshots/cvc/02-collection-360w.png 360w, assets/screenshots/cvc/02-collection-560w.png 560w, assets/screenshots/cvc/02-collection.png?v=3 1080w" sizes="(max-width:700px) 48vw, 240px" alt="Private collection vault with value and trend" loading="lazy" width="240" height="522">
       </div>
       <div class="pbj-shot pbj-shot-side">
