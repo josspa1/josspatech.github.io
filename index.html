@@ -4,9 +4,9 @@
 <script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=11"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="JosspaTech (pronounced Joss-pah-tech) builds private mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault. Ad-free.">
+<meta name="description" content="JosspaTech (pronounced Joss-pah-tech) builds private mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe. Ad-free. Data stays on your phone.">
 <title>JosspaTech — Private Mobile Software</title>
-<meta name="keywords" content="JosspaTech, Joss-pah-tech, Handy Horology Helper, PocketBudJet, Curator's Vault, private mobile apps, local-first software, watch identification, budgeting app">
+<meta name="keywords" content="JosspaTech, Joss-pah-tech, Handy Horology Helper, PocketBudJet, Curator's Vault, Unscribe, private mobile apps, local-first software, watch identification, budgeting app, subscription tracker">
 <link rel="icon" href="assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <meta name="theme-color" content="#0C3358">
@@ -20,7 +20,7 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:title" content="JosspaTech — Private Mobile Software">
-<meta property="og:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.">
+<meta property="og:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe.">
 <meta property="og:url" content="https://josspatech.com/">
 <meta property="og:site_name" content="JosspaTech">
 <meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
@@ -32,7 +32,7 @@
 <!-- Twitter Card Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="JosspaTech — Private Mobile Software">
-<meta name="twitter:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.">
+<meta name="twitter:description" content="JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe.">
 <meta name="twitter:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
 <meta name="twitter:image:alt" content="JosspaTech — Private Mobile Software">
 
@@ -54,7 +54,7 @@
         "height": 512
       },
       "image": "https://josspatech.com/assets/brand/og-josspatech.jpg",
-      "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault. Software that feels finished.",
+      "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe. Software that feels finished.",
       "email": "support@josspatech.com",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -74,7 +74,7 @@
       "url": "https://josspatech.com",
       "name": "JosspaTech",
       "alternateName": "Joss-pah-tech",
-      "description": "Private, finished mobile software by JosspaTech.",
+      "description": "Private, finished mobile software by JosspaTech — on Google Play and the App Store.",
       "publisher": { "@id": "https://josspatech.com/#organization" },
       "inLanguage": "en-US"
     },
@@ -85,7 +85,7 @@
       "name": "JosspaTech — Private Mobile Software",
       "isPartOf": { "@id": "https://josspatech.com/#website" },
       "about": { "@id": "https://josspatech.com/#organization" },
-      "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps — Handy Horology Helper, PocketBudJet, and Curator's Vault.",
+      "description": "JosspaTech (pronounced Joss-pah-tech) builds private, finished mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe.",
       "primaryImageOfPage": {
         "@type": "ImageObject",
         "url": "https://josspatech.com/assets/brand/og-josspatech.jpg"
@@ -146,6 +146,22 @@
       "image": "https://josspatech.com/assets/brand/og-cvc.jpg",
       "applicationCategory": "LifestyleApplication",
       "operatingSystem": ["Android", "iOS"],
+      "publisher": { "@id": "https://josspatech.com/#organization" }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://josspatech.com/unscribe/#app",
+      "name": "Unscribe",
+      "alternateName": ["Unscribe: Subscription Tracker"],
+      "description": "See what you pay for every month. Find subscriptions from a statement on your phone. Reminders and cancel help. No bank login.",
+      "url": "https://josspatech.com/unscribe/",
+      "image": "https://josspatech.com/assets/brand/og-unscribe.jpg",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": ["Android", "iOS"],
+      "offers": [
+        { "@type": "Offer", "name": "Lifetime", "price": "29.99", "priceCurrency": "USD" },
+        { "@type": "Offer", "name": "Yearly", "price": "9.99", "priceCurrency": "USD" }
+      ],
       "publisher": { "@id": "https://josspatech.com/#organization" }
     }
   ]
@@ -691,9 +707,9 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
 }
 #page-company .hub-card[data-app="pbj"]{grid-column:span 7;min-height:380px;}
 #page-company .hub-card[data-app="hhh"]{grid-column:span 5;min-height:380px;}
+#page-company .hub-card[data-app="cvc"]{grid-column:span 5;min-height:340px;}
+#page-company .hub-card[data-app="unscribe"]{grid-column:span 7;min-height:340px;}
 #page-company .hub-card[data-app="pal"]{grid-column:span 5;min-height:340px;}
-#page-company .hub-card[data-app="cvc"]{grid-column:span 7;min-height:340px;}
-#page-company .hub-card[data-app="unscribe"]{grid-column:span 12;min-height:300px;}
 #page-company .hub-card[data-app="battle-plinko"]{grid-column:span 12;min-height:220px;}
 #page-company .hub-card{
   display:grid;
@@ -838,6 +854,19 @@ img.nav-spade{width:36px;height:36px;display:block;flex-shrink:0;filter:drop-sha
 .studio-price-name{font-size:15px;font-weight:700;letter-spacing:-0.2px;margin-bottom:8px;}
 .studio-price-amt{font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px;}
 .studio-price-note{font-size:13px;line-height:1.45;color:rgba(255,255,255,0.55);margin:0;}
+.studio-price-card-private{opacity:0.82;}
+#page-company .hub-private-note{
+  grid-column:1 / -1;
+  margin:8px 0 0;
+  padding:14px 18px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03);
+  color:rgba(255,255,255,0.52);
+  font-size:14px;
+  line-height:1.5;
+}
+#page-company .hub-private-note a{color:var(--gold);text-decoration:underline;text-underline-offset:3px;}
 @media(max-width:900px){
   .studio-price-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
@@ -3328,9 +3357,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <div class="section-inner">
     <div class="rv section-lead">
       <div>
-        <span class="section-eyebrow">The lineup</span>
+        <span class="section-eyebrow">On the stores</span>
         <h2 class="section-title">Built to set<br><em>the standard.</em></h2>
-        <p class="section-sub">Each app is its own world — features, guides, and downloads live there. Start anywhere.</p>
+        <p class="section-sub">Four apps live on Google Play and the App Store. Each has its own page — features, guides, and downloads.</p>
       </div>
     </div>
 
@@ -3338,9 +3367,9 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <nav id="hub-seo-product-links" aria-label="Product pages" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">
         <a href="/pbj/">PocketBudJet</a>
         <a href="/hhh/">Handy Horology Helper</a>
-        <a href="/pal/">Pocket Allowance Ledger</a>
         <a href="/cvc/">Curator's Vault: Classics</a>
         <a href="/unscribe/">Unscribe</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
       </nav>
 
 
@@ -3366,19 +3395,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </figure>
       </div>
 
-      <div role="button" tabindex="0" data-app="pal" onclick="location.href='/pal/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/pal/';}" class="hub-card rv d3">
-        <div class="hub-card-body">
-          <div class="hub-name">Pocket Allowance<br><em>Ledger</em>™</div>
-          <p class="hub-tagline">Reward homework, chores, and kindness with gold tokens. Parents coach. Habits stick.</p>
-          <div class="hub-cta">Open PAL <span>→</span></div>
-        </div>
-        <figure class="hub-card-shot hub-card-shot-token">
-          <img src="assets/brand/pal-coin.svg?v=8" alt="Pocket Allowance Ledger gold token reward" width="120" height="120" loading="lazy">
-          <p class="token-caption">Gold token</p>
-        </figure>
-        </div>
-
-      <div role="button" tabindex="0" data-app="cvc" onclick="location.href='/cvc/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/cvc/';}" class="hub-card rv d4">
+      <div role="button" tabindex="0" data-app="cvc" onclick="location.href='/cvc/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/cvc/';}" class="hub-card rv d3">
         <div class="hub-card-body">
           <div class="hub-name">Curator's Vault:<br><em>Classics</em>™</div>
           <p class="hub-tagline">Coins, cards, stamps, paper money, lighters — photograph, organize, value. Your vault. Your rules.</p>
@@ -3389,7 +3406,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         </figure>
       </div>
 
-      <div role="button" tabindex="0" data-app="unscribe" onclick="location.href='/unscribe/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/unscribe/';}" class="hub-card rv d5">
+      <div role="button" tabindex="0" data-app="unscribe" onclick="location.href='/unscribe/';" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='/unscribe/';}" class="hub-card rv d4">
         <div class="hub-card-body">
           <div class="hub-name">Un<em>scribe</em>™</div>
           <p class="hub-tagline">See what you pay for every month. Share a statement. Keep what you use. Cancel the rest.</p>
@@ -3398,10 +3415,11 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <figure class="hub-card-shot">
           <img src="assets/screenshots/unscribe/01-home-monthly.png?v=106" srcset="assets/screenshots/unscribe/01-home-monthly-360w.png 360w, assets/screenshots/unscribe/01-home-monthly-560w.png 560w, assets/screenshots/unscribe/01-home-monthly.png?v=106 1080w" sizes="(max-width:700px) 42vw, 168px" alt="Unscribe home — monthly subscription total and list" width="168" height="298" loading="lazy">
         </figure>
-        </div>
-
-        </div>
       </div>
+
+      <p class="hub-private-note rv">Also in private testing — <a href="/pal/">Pocket Allowance Ledger</a> (email access; not on the public stores yet).</p>
+    </div>
+  </div>
 </section>
 
 <!-- ══ STUDIO PRICING ══ -->
@@ -3418,27 +3436,27 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <a class="studio-price-card rv d1" href="/#pricing">
         <div class="studio-price-name">PocketBudJet</div>
         <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
-        <p class="studio-price-note">15-day Premium trial · card required via Apple or Google</p>
+        <p class="studio-price-note">15-day Premium trial · Google Play &amp; App Store</p>
       </a>
       <a class="studio-price-card rv d2" href="/hhh/">
         <div class="studio-price-name">Handy Horology Helper</div>
         <div class="studio-price-amt">$4.99/mo · $49.99/yr</div>
-        <p class="studio-price-note">15-day Pro trial · no card required to start</p>
+        <p class="studio-price-note">15-day Pro trial · Google Play &amp; App Store</p>
       </a>
       <a class="studio-price-card rv d3" href="/cvc/">
         <div class="studio-price-name">Curator's Vault</div>
         <div class="studio-price-amt">$4.99/mo · $49.99/yr</div>
         <p class="studio-price-note">15-day trial · Google Play &amp; App Store</p>
       </a>
-      <a class="studio-price-card rv d4" href="/pal/">
-        <div class="studio-price-name">Pocket Allowance Ledger</div>
-        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
-        <p class="studio-price-note">15-day trial · no card · email access (not public store yet)</p>
-      </a>
-      <a class="studio-price-card rv d5" href="/unscribe/">
+      <a class="studio-price-card rv d4" href="/unscribe/">
         <div class="studio-price-name">Unscribe</div>
         <div class="studio-price-amt">$9.99/yr · $29.99 lifetime</div>
-        <p class="studio-price-note">First five subscriptions free · no monthly plan</p>
+        <p class="studio-price-note">First five free · Google Play &amp; App Store</p>
+      </a>
+      <a class="studio-price-card rv d5 studio-price-card-private" href="/pal/">
+        <div class="studio-price-name">Pocket Allowance Ledger</div>
+        <div class="studio-price-amt">$9.99/mo · $74.99/yr</div>
+        <p class="studio-price-note">Private testing · email access · not on the public stores yet</p>
       </a>
     </div>
   </div>
@@ -3523,7 +3541,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
 </footer>
@@ -4329,7 +4347,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
 </footer>
@@ -4639,7 +4657,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
 </footer>
@@ -4924,7 +4942,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
 </footer>
@@ -5117,7 +5135,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
-    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Pocket Allowance Ledger™, Curator's Vault: Classics™, and JosspaTech™ are trademarks of JosspaTech.</p>
+    <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
 </footer>
