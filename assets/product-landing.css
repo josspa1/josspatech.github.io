@@ -94,8 +94,9 @@ li { margin: 0.4rem 0; }
 }
 .shots .shot {
   position: relative;
-  width: 30%;
-  max-width: 158px;
+  flex: 0 0 auto;
+  width: 158px;
+  max-width: 30%;
   margin: 0;
   box-sizing: border-box;
   border-radius: 28px;
@@ -130,8 +131,8 @@ li { margin: 0.4rem 0; }
   background: #071820;
 }
 .shots .shot-center {
-  width: 34%;
-  max-width: 188px;
+  width: 188px;
+  max-width: 36%;
   z-index: 3;
   margin: 0 -28px;
   transform: translateY(-10px);
