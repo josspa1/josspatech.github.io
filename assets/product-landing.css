@@ -713,7 +713,7 @@ main > p > a:hover {
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.22);
-  max-width: 26rem;
+  max-width: 22rem;
 }
 .howto-preview video {
   display: block;
@@ -722,7 +722,7 @@ main > p > a:hover {
   background: #071018;
   /* Taller than 9:16 so native controls sit in the black strip, not on the app UI */
   aspect-ratio: 9 / 17.6;
-  max-height: 600px;
+  max-height: 480px;
   object-fit: contain;
   object-position: top center;
 }
