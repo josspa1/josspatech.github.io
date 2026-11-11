@@ -53,6 +53,36 @@ main {
     0 32px 72px rgba(0, 0, 0, 0.32);
   overflow: hidden;
 }
+/* Tiled word wallpaper in the blank navy — under content, all over the card */
+main::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-size: 320px 190px;
+  opacity: 1;
+  transform: rotate(-9deg);
+  transform-origin: center center;
+}
+main.wallpaper-pbj::before {
+  background-image: url("/assets/brand/wallpaper-tile-pbj.svg?v=1");
+}
+main.wallpaper-hhh::before {
+  background-image: url("/assets/brand/wallpaper-tile-hhh.svg?v=1");
+}
+main.wallpaper-cvc::before {
+  background-image: url("/assets/brand/wallpaper-tile-cvc.svg?v=1");
+}
+main.wallpaper-unscribe::before {
+  background-image: url("/assets/brand/wallpaper-tile-unscribe.svg?v=1");
+}
+main.wallpaper-mark::before {
+  background-image: url("/assets/brand/wallpaper-tile-mark.svg?v=1");
+  background-size: 160px 160px;
+  opacity: 0.85;
+}
 /* Film grain — hub craft, product cards too */
 main::after {
   content: "";
@@ -406,29 +436,6 @@ main > p > a:hover {
   padding-top: 0.4rem;
   overflow: hidden;
   isolation: isolate;
-}
-/* Wallpaper wash under phone (not on the glass) — giant ghost wordmark won vs mark/initials/combo */
-.stage-wallpaper {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  user-select: none;
-}
-.stage-wallpaper span {
-  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
-  font-weight: 900;
-  font-style: italic;
-  font-size: clamp(48px, 11vw, 92px);
-  letter-spacing: -0.045em;
-  line-height: 1;
-  white-space: nowrap;
-  color: rgba(240, 192, 64, 0.12);
-  transform: translateY(-6%);
 }
 .story-stage .shots {
   position: relative;
