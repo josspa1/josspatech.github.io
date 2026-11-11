@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish4">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish5">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -103,7 +103,8 @@
     </p>
     <p class="note rise rise-5">Official stores · US · 15-day Premium trial, then $9.99/mo or $74.99/yr.</p>
 
-    <div class="shots rise rise-6" aria-label="PocketBudJet screens">
+    <!-- Parked fan (2026-11-10): restore by removing hidden + deleting the story-phone block -->
+    <div class="shots rise rise-6" hidden data-parked-fan="pbj-2026-11-10" aria-hidden="true">
       <figure class="shot shot-side">
         <img src="/videos/pbj/intro/screens/budget-live.jpg" width="220" height="476" alt="PocketBudJet budget overview">
       </figure>
@@ -115,6 +116,29 @@
         <img src="/videos/pbj/intro/screens/coach-ask.jpg" width="220" height="476" alt="PocketBudJet AI Coach">
       </figure>
     </div>
+
+    <section
+      class="story-phone rise rise-6"
+      data-story-phone
+      data-beats='[
+        {"src":"/assets/screenshots/pbj/import/01-toolbox-import-center.png","alt":"PocketBudJet import center — share a statement file","caption":"Share a statement. No bank login."},
+        {"src":"/videos/pbj/intro/screens/budget-live.jpg","alt":"PocketBudJet budget — where the money went this month","caption":"See where it went this month."},
+        {"src":"/assets/screenshots/pbj/03-budget-envelopes.png","alt":"PocketBudJet budget envelopes","caption":"Plan envelopes that match your life."},
+        {"src":"/videos/pbj/user-guide/clips/en/debt.jpg","alt":"PocketBudJet debt planner with debt-free date","caption":"Know your debt-free date."},
+        {"src":"/videos/pbj/intro/screens/coach-ask.jpg","alt":"PocketBudJet Coach on your phone","caption":"Ask Coach — on your device."}
+      ]'
+      aria-label="PocketBudJet walkthrough"
+    >
+      <p class="story-hint" data-story-hint>Tap the phone to walk through</p>
+      <button type="button" class="story-device" data-story-advance aria-label="Next PocketBudJet screen">
+        <span class="story-bezel">
+          <img data-story-img src="/assets/screenshots/pbj/import/01-toolbox-import-center.png" width="300" height="650" alt="PocketBudJet import center — share a statement file">
+        </span>
+      </button>
+      <p class="story-caption" data-story-caption>Share a statement. No bank login.</p>
+      <div class="story-dots" data-story-dots role="tablist" aria-label="Walkthrough steps"></div>
+      <div class="story-film" data-story-film aria-label="Screen previews"></div>
+    </section>
 
     <h2>What it is for</h2>
     <ul>
@@ -147,6 +171,7 @@
   <footer class="foot">
     <p>Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </footer>
+  <script src="/assets/story-phone.js?v=1" defer></script>
   <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>
