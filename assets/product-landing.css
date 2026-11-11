@@ -135,6 +135,39 @@ li { margin: 0.4rem 0; }
   to { opacity: 1; transform: none; filter: none; }
 }
 
+/* Studio Blender hero — reusable phone-on-desk still */
+.hero-still {
+  position: relative;
+  margin: 1.5rem 0 1.2rem;
+  padding: 0;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 28px 64px rgba(0, 0, 0, 0.35);
+  background: #071018;
+}
+.hero-still img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+.hero-still::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 28%,
+    transparent 70%,
+    rgba(240, 192, 64, 0.06) 100%
+  );
+}
+
 /* Phone fan — device shell + floor glow + sheen + living center */
 .shots {
   position: relative;
