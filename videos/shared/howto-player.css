@@ -14,9 +14,9 @@
 .howto-chapters button:hover { background: #2E6FA3; border-color: #2E6FA3; }
 .howto-chapters button.active { background: #F0C040; border-color: #F0C040; color: #0C3358; font-weight: 700; }
 .howto-stage { display: flex; gap: 2.5rem; align-items: flex-start; }
-.howto-phone { flex: 0 0 auto; width: 360px; display: flex; flex-direction: column; align-items: center; }
+.howto-phone { flex: 0 0 auto; width: 420px; display: flex; flex-direction: column; align-items: center; }
 .howto-frame {
-  width: 360px; aspect-ratio: 9 / 20; border: 4px solid #1a2744; border-radius: 30px; overflow: hidden;
+  width: 420px; aspect-ratio: 9 / 20; border: 4px solid #1a2744; border-radius: 34px; overflow: hidden;
   background: #000; box-shadow: 0 16px 48px rgba(12, 51, 88, .22); position: relative;
 }
 .howto-frame video { width: 100%; height: 100%; display: block; object-fit: cover; background: #0C3358; }
@@ -36,7 +36,7 @@
 }
 .howto-nav button:hover { background: #2E6FA3; }
 .howto-nav button:disabled { opacity: .35; cursor: default; }
-.howto-transcript { flex: 1; min-width: 280px; max-height: 800px; overflow-y: auto; padding-right: .5rem; }
+.howto-transcript { flex: 1; min-width: 280px; max-height: 920px; overflow-y: auto; padding-right: .5rem; }
 .howto-transcript h3 {
   font-family: 'Playfair Display', serif; font-size: 1.35rem; color: #1A4F7A; margin-bottom: .25rem;
 }
