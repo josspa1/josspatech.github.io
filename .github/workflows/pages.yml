@@ -31,6 +31,9 @@ jobs:
             --exclude 'SourceBackup' \
             --exclude '.idea' \
             --exclude '_site' \
+            --exclude '_spare' \
+            --exclude 'assets/screenshots/_spare' \
+            --exclude '**/screens/_spare' \
             ./ _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
