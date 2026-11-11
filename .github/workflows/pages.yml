@@ -34,6 +34,12 @@ jobs:
             --exclude '_spare' \
             --exclude 'assets/screenshots/_spare' \
             --exclude '**/screens/_spare' \
+            --exclude 'videos/*/user-guide/clips/zh' \
+            --exclude 'videos/*/user-guide/clips/de' \
+            --exclude 'videos/*/user-guide/clips/fr' \
+            --exclude 'videos/*/user-guide/clips/pt' \
+            --exclude 'videos/*/user-guide/clips/it' \
+            --exclude 'videos/*/user-guide/clips/hi' \
             ./ _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
