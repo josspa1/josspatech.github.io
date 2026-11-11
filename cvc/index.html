@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish4">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish6">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -106,7 +106,8 @@
     </p>
     <p class="note rise rise-5">Official stores · US · 15-day free trial, then $4.99/mo or $49.99/yr.</p>
 
-    <div class="shots rise rise-6" aria-label="Curator's Vault screens">
+    <!-- Parked fan (2026-11-10): restore by removing hidden + deleting the story-phone block -->
+    <div class="shots rise rise-6" hidden data-parked-fan="cvc-2026-11-10" aria-hidden="true">
       <figure class="shot shot-side">
         <img src="/assets/screenshots/cvc/04-analytics.png?v=3" srcset="/assets/screenshots/cvc/04-analytics-360w.png 360w, /assets/screenshots/cvc/04-analytics-560w.png 560w, /assets/screenshots/cvc/04-analytics.png?v=3 1080w" sizes="(max-width:700px) 30vw, 168px" width="220" height="478" alt="Portfolio P&amp;L dashboard in Curator's Vault">
       </figure>
@@ -118,6 +119,28 @@
         <img src="/assets/screenshots/cvc/05-wish-list.png?v=3" srcset="/assets/screenshots/cvc/05-wish-list-360w.png 360w, /assets/screenshots/cvc/05-wish-list-560w.png 560w, /assets/screenshots/cvc/05-wish-list.png?v=3 1080w" sizes="(max-width:700px) 30vw, 168px" width="220" height="478" alt="Wish list with target prices in Curator's Vault">
       </figure>
     </div>
+
+    <section
+      class="story-phone rise rise-6"
+      data-story-phone
+      data-beats='[
+        {"src":"/assets/screenshots/cvc/01-home.png?v=3","alt":"Curator Vault home command center","caption":"Open the vault. See the whole collection."},
+        {"src":"/assets/screenshots/cvc/02-collection.png?v=3","alt":"Private collection with values","caption":"Photograph, organize, track value — on device."},
+        {"src":"/assets/screenshots/cvc/04-analytics.png?v=3","alt":"Portfolio analytics in Curator Vault","caption":"Portfolio view when you buy, sell, or insure."},
+        {"src":"/assets/screenshots/cvc/05-wish-list.png?v=3","alt":"Wish list with target prices","caption":"Wish list with target prices you set."}
+      ]'
+      aria-label="Curator's Vault walkthrough"
+    >
+      <p class="story-hint" data-story-hint>Tap the phone to walk through</p>
+      <button type="button" class="story-device" data-story-advance aria-label="Next Curator's Vault screen">
+        <span class="story-bezel">
+          <img data-story-img src="/assets/screenshots/cvc/01-home.png?v=3" width="300" height="650" alt="Curator Vault home command center">
+        </span>
+      </button>
+      <p class="story-caption" data-story-caption>Open the vault. See the whole collection.</p>
+      <div class="story-dots" data-story-dots role="tablist" aria-label="Walkthrough steps"></div>
+      <div class="story-film" data-story-film aria-label="Screen previews"></div>
+    </section>
 
     <h2>What it is for</h2>
     <ul>
@@ -149,6 +172,7 @@
   <footer class="foot">
     <p>Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </footer>
+  <script src="/assets/story-phone.js?v=1" defer></script>
   <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>

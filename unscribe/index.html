@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish4">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish6">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -105,7 +105,8 @@
     </p>
     <p class="note rise rise-5">Official stores · US · Pro $29.99 once or $9.99/yr.</p>
 
-    <div class="shots rise rise-6" aria-label="Unscribe screens">
+    <!-- Parked fan (2026-11-10): restore by removing hidden + deleting the story-phone block -->
+    <div class="shots rise rise-6" hidden data-parked-fan="unscribe-2026-11-10" aria-hidden="true">
       <figure class="shot shot-side">
         <img src="/assets/screenshots/unscribe/02-detail-cancel.png?v=106" srcset="/assets/screenshots/unscribe/02-detail-cancel-360w.png 360w, /assets/screenshots/unscribe/02-detail-cancel-560w.png 560w, /assets/screenshots/unscribe/02-detail-cancel.png?v=106 1080w" sizes="(max-width:700px) 30vw, 168px" width="220" height="478" alt="Unscribe subscription detail with cancel help">
       </figure>
@@ -117,6 +118,28 @@
         <img src="/assets/screenshots/unscribe/03-insights.png?v=106" srcset="/assets/screenshots/unscribe/03-insights-360w.png 360w, /assets/screenshots/unscribe/03-insights-560w.png 560w, /assets/screenshots/unscribe/03-insights.png?v=106 1080w" sizes="(max-width:700px) 30vw, 168px" width="220" height="478" alt="Unscribe insights — categories and forecast">
       </figure>
     </div>
+
+    <section
+      class="story-phone rise rise-6"
+      data-story-phone
+      data-beats='[
+        {"src":"/assets/screenshots/unscribe/01-home-monthly.png?v=106","alt":"Unscribe home with monthly subscription total","caption":"See what you pay every month."},
+        {"src":"/assets/screenshots/unscribe/04-home-yearly.png?v=106","alt":"Unscribe yearly subscription total","caption":"See the yearly total too."},
+        {"src":"/assets/screenshots/unscribe/03-insights.png?v=106","alt":"Unscribe insights and categories","caption":"Spot categories and what is creeping up."},
+        {"src":"/assets/screenshots/unscribe/02-detail-cancel.png?v=106","alt":"Subscription detail with cancel help","caption":"Open cancel help for that company."}
+      ]'
+      aria-label="Unscribe walkthrough"
+    >
+      <p class="story-hint" data-story-hint>Tap the phone to walk through</p>
+      <button type="button" class="story-device" data-story-advance aria-label="Next Unscribe screen">
+        <span class="story-bezel">
+          <img data-story-img src="/assets/screenshots/unscribe/01-home-monthly.png?v=106" width="300" height="650" alt="Unscribe home with monthly subscription total">
+        </span>
+      </button>
+      <p class="story-caption" data-story-caption>See what you pay every month.</p>
+      <div class="story-dots" data-story-dots role="tablist" aria-label="Walkthrough steps"></div>
+      <div class="story-film" data-story-film aria-label="Screen previews"></div>
+    </section>
 
     <h2>What you can do</h2>
     <ul>
@@ -139,6 +162,7 @@
   <footer class="foot">
     <p>Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </footer>
+  <script src="/assets/story-phone.js?v=1" defer></script>
   <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>

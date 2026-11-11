@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish4">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish6">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -151,7 +151,8 @@
     </p>
     <p class="note rise rise-5">Official stores · US · 15-day free trial, then $4.99/mo or $49.99/yr.</p>
 
-    <div class="shots rise rise-6" aria-label="Handy Horology Helper screens">
+    <!-- Parked fan (2026-11-10): restore by removing hidden + deleting the story-phone block -->
+    <div class="shots rise rise-6" hidden data-parked-fan="hhh-2026-11-10" aria-hidden="true">
       <figure class="shot shot-side">
         <img src="/assets/screenshots/hhh/intro/04-ai-identify.png" width="220" height="478" alt="Identify a watch or clock from a photo or typed clues">
       </figure>
@@ -163,6 +164,29 @@
         <img src="/assets/screenshots/hhh/intro/03-piece-detail.png" width="220" height="478" alt="Piece details for a watch or clock in Handy Horology Helper">
       </figure>
     </div>
+
+    <section
+      class="story-phone rise rise-6"
+      data-story-phone
+      data-beats='[
+        {"src":"/assets/screenshots/hhh/intro/04-ai-identify.png","alt":"Identify a watch or clock from a photo","caption":"Snap a photo. Confirm your suspicions."},
+        {"src":"/assets/screenshots/hhh/intro/02-my-museum.png","alt":"My Museum collection of watches and clocks","caption":"Keep the collection private on your phone."},
+        {"src":"/assets/screenshots/hhh/intro/03-piece-detail.png","alt":"Piece detail for a watch or clock","caption":"Notes, service history, and value — one place."},
+        {"src":"/assets/screenshots/hhh/intro/05-clockworks-repair.png","alt":"Clock repair help in Handy Horology Helper","caption":"When a movement stops, get repair help."},
+        {"src":"/assets/screenshots/hhh/intro/06-grail-radar.png","alt":"Grail Radar listing alerts","caption":"Hunt the next piece at a price you set."}
+      ]'
+      aria-label="Handy Horology Helper walkthrough"
+    >
+      <p class="story-hint" data-story-hint>Tap the phone to walk through</p>
+      <button type="button" class="story-device" data-story-advance aria-label="Next Handy Horology Helper screen">
+        <span class="story-bezel">
+          <img data-story-img src="/assets/screenshots/hhh/intro/04-ai-identify.png" width="300" height="650" alt="Identify a watch or clock from a photo">
+        </span>
+      </button>
+      <p class="story-caption" data-story-caption>Snap a photo. Confirm your suspicions.</p>
+      <div class="story-dots" data-story-dots role="tablist" aria-label="Walkthrough steps"></div>
+      <div class="story-film" data-story-film aria-label="Screen previews"></div>
+    </section>
 
     <h2>What it is for</h2>
     <p>You can see the piece. You often already have a gut read. What you do not have is time to dig through a reference library. HHH is that library in your pocket — answers, not a lecture.</p>
@@ -204,6 +228,7 @@
     <p>Visit our friends at <a href="https://www.clockworks.com/" rel="noopener">Clockworks.com</a> for clock parts and repair supplies.</p>
     <p>Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </footer>
+  <script src="/assets/story-phone.js?v=1" defer></script>
   <script src="/scripts/site-analytics-saas.js" defer></script>
 </body>
 </html>
