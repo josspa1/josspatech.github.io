@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish13">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish14">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -79,13 +79,16 @@
 <body class="wallpaper-cvc">
   <header>
     <nav aria-label="Breadcrumb"><a href="/">JosspaTech</a> / Curator's Vault</nav>
-    <nav class="apps" aria-label="JosspaTech apps">
-      <a href="/hhh/">Handy Horology Helper</a>
-      <a href="/pbj/">PocketBudJet</a>
-      <a href="/cvc/" aria-current="page">Curator's Vault</a>
-      <a href="/unscribe/">Unscribe</a>
-      <a href="/pal/">Pocket Allowance Ledger</a>
-    </nav>
+    <details class="apps-more">
+      <summary>More JosspaTech apps</summary>
+      <nav class="apps" aria-label="JosspaTech apps">
+        <a href="/hhh/">Handy Horology Helper</a>
+        <a href="/pbj/">PocketBudJet</a>
+        <a href="/cvc/" aria-current="page">Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+      </nav>
+    </details>
   </header>
   <main>
     <div class="kicker rise rise-1">
@@ -96,15 +99,47 @@
     <p class="lead rise rise-3">Coins · Cards · Stamps · Paper · Lighters</p>
     <p class="sub rise rise-4">Photograph a piece, keep the record on your device, and track value over time — without turning your collection into someone else's dataset.</p>
 
-    <p class="badges rise rise-5" role="group" aria-label="Download Curator's Vault">
-      <a href="https://play.google.com/store/apps/details?id=com.josspatech.cts" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
-      </a>
-      <a href="https://apps.apple.com/app/id6778571307" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
-      </a>
-    </p>
+    <div class="cta-row rise rise-5">
+      <p class="badges" role="group" aria-label="Download Curator's Vault">
+        <a href="https://play.google.com/store/apps/details?id=com.josspatech.cts" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
+        </a>
+        <a href="https://apps.apple.com/app/id6778571307" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        </a>
+      </p>
+      <a class="btn-watch" href="#howto-identify">▶ Watch how</a>
+    </div>
+    <ul class="trust-chips rise rise-5" aria-label="Why Curator's Vault">
+      <li>Data stays on your phone</li>
+      <li>How-to in 8 languages</li>
+      <li>Your vault, not their dataset</li>
+      <li>Cancel in the store</li>
+    </ul>
     <p class="note rise rise-5">Official stores · US · 15-day free trial, then $4.99/mo or $49.99/yr.</p>
+
+    <div class="howto-preview rise rise-5" id="howto-identify">
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="/videos/cvc/user-guide/clips/en/identify.jpg"
+        src="/videos/cvc/user-guide/clips/en/identify.mp4"
+        aria-label="How to identify a collectible in Curator's Vault"
+      ></video>
+      <p class="howto-cap">Identify a piece — real app, tap by tap. Same chapter in eight languages:</p>
+      <p class="howto-langs" aria-label="How-to languages">
+        <a href="/videos/cvc/user-guide/#identify">English</a>
+        <a href="/videos/cvc/user-guide/#es/identify">Español</a>
+        <a href="/videos/cvc/user-guide/#zh/identify">中文</a>
+        <a href="/videos/cvc/user-guide/#de/identify">Deutsch</a>
+        <a href="/videos/cvc/user-guide/#fr/identify">Français</a>
+        <a href="/videos/cvc/user-guide/#pt/identify">Português</a>
+        <a href="/videos/cvc/user-guide/#it/identify">Italiano</a>
+        <a href="/videos/cvc/user-guide/#hi/identify">हिन्दी</a>
+      </p>
+      <a class="howto-all" href="/videos/cvc/user-guide/">All chapters →</a>
+    </div>
 
     <div class="story-stage rise rise-6">
     <!-- Fan backdrop + story phone; remove story-phone block and unwrap story-stage to restore fan-only -->
@@ -125,7 +160,7 @@
       class="story-phone rise rise-6"
       data-story-phone
       data-beats='[
-        {"src":"/assets/screenshots/cvc/01-home.png?v=3","alt":"Curator Vault home command center","caption":"Open the vault. See the whole collection."},
+        {"src":"/assets/screenshots/cvc/01-home.png?v=3","alt":"Curator Vault home command center","caption":"A piece in hand? Start in your vault — not someone else's cloud."},
         {"src":"/assets/screenshots/cvc/02-collection.png?v=3","alt":"Private collection with values","caption":"Photograph, organize, track value — on device."},
         {"src":"/assets/screenshots/cvc/04-analytics.png?v=3","alt":"Portfolio analytics in Curator Vault","caption":"Portfolio view when you buy, sell, or insure."},
         {"src":"/assets/screenshots/cvc/05-wish-list.png?v=3","alt":"Wish list with target prices","caption":"Wish list with target prices you set."}
@@ -158,11 +193,25 @@
     </ul>
     <p><a href="/blog/">All JosspaTech articles</a></p>
 
-    <h2>How to use</h2>
-    <p>The help doc — phone on the left, synced transcript on the right. Play, pause, chapter jumps, tap any sentence.</p>
-    <p>
-      <a href="/videos/cvc/user-guide/">How to use</a>
-    </p>
+    <h2>Common questions</h2>
+    <div class="faq" role="list">
+      <details>
+        <summary>Who sees my collection?</summary>
+        <p>Nobody but you. Records stay on your device. Curator's Vault is not someone else's dataset.</p>
+      </details>
+      <details>
+        <summary>What categories does it cover?</summary>
+        <p>Coins, cards, stamps, paper money, and lighters — photograph, organize, and track value over time.</p>
+      </details>
+      <details>
+        <summary>How does the trial and cancel work?</summary>
+        <p>15-day trial through Apple or Google, then $4.99/mo or $49.99/yr. Cancel anytime in your store subscriptions.</p>
+      </details>
+      <details>
+        <summary>Is there a how-to video?</summary>
+        <p>Yes — tap-by-tap chapters in eight languages. Start with Identify above, or open the full guide.</p>
+      </details>
+    </div>
 
     <h2>Learn more</h2>
     <p>

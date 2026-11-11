@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish13">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish14">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -79,13 +79,16 @@
 <body class="wallpaper-pbj">
   <header>
     <nav aria-label="Breadcrumb"><a href="/">JosspaTech</a> / PocketBudJet</nav>
-    <nav class="apps" aria-label="JosspaTech apps">
-      <a href="/hhh/">Handy Horology Helper</a>
-      <a href="/pbj/" aria-current="page">PocketBudJet</a>
-      <a href="/cvc/">Curator's Vault</a>
-      <a href="/unscribe/">Unscribe</a>
-      <a href="/pal/">Pocket Allowance Ledger</a>
-    </nav>
+    <details class="apps-more">
+      <summary>More JosspaTech apps</summary>
+      <nav class="apps" aria-label="JosspaTech apps">
+        <a href="/hhh/">Handy Horology Helper</a>
+        <a href="/pbj/" aria-current="page">PocketBudJet</a>
+        <a href="/cvc/">Curator's Vault</a>
+        <a href="/unscribe/">Unscribe</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+      </nav>
+    </details>
   </header>
   <main>
     <div class="kicker rise rise-1"><span>Pocket<em>BudJet</em>™</span></div>
@@ -93,15 +96,47 @@
     <p class="lead rise rise-3">Import. Plan. Coach. Money clarity — on your terms.</p>
     <p class="sub rise rise-4">Private budgeting from JosspaTech (pronounced <em>Joss-pah-tech</em>). Import bank statements, plan spending, track debt, and coach yourself. Data stays on your device. Ad-free.</p>
 
-    <p class="badges rise rise-5" role="group" aria-label="Download PocketBudJet">
-      <a href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
-      </a>
-      <a href="https://apps.apple.com/app/id6761077263" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
-      </a>
-    </p>
+    <div class="cta-row rise rise-5">
+      <p class="badges" role="group" aria-label="Download PocketBudJet">
+        <a href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
+        </a>
+        <a href="https://apps.apple.com/app/id6761077263" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        </a>
+      </p>
+      <a class="btn-watch" href="#howto-import">▶ Watch how</a>
+    </div>
+    <ul class="trust-chips rise rise-5" aria-label="Why PocketBudJet">
+      <li>No bank login</li>
+      <li>Data stays on your phone</li>
+      <li>How-to in 8 languages</li>
+      <li>Cancel in the store</li>
+    </ul>
     <p class="note rise rise-5">Official stores · US · 15-day Premium trial, then $9.99/mo or $74.99/yr.</p>
+
+    <div class="howto-preview rise rise-5" id="howto-import">
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="/videos/pbj/user-guide/clips/en/import-statement.jpg"
+        src="/videos/pbj/user-guide/clips/en/import-statement.mp4"
+        aria-label="How to import a statement in PocketBudJet"
+      ></video>
+      <p class="howto-cap">Import a statement — real app, tap by tap. Same chapter in eight languages:</p>
+      <p class="howto-langs" aria-label="How-to languages">
+        <a href="/videos/pbj/user-guide/#import-statement">English</a>
+        <a href="/videos/pbj/user-guide/#es/import-statement">Español</a>
+        <a href="/videos/pbj/user-guide/#zh/import-statement">中文</a>
+        <a href="/videos/pbj/user-guide/#de/import-statement">Deutsch</a>
+        <a href="/videos/pbj/user-guide/#fr/import-statement">Français</a>
+        <a href="/videos/pbj/user-guide/#pt/import-statement">Português</a>
+        <a href="/videos/pbj/user-guide/#it/import-statement">Italiano</a>
+        <a href="/videos/pbj/user-guide/#hi/import-statement">हिन्दी</a>
+      </p>
+      <a class="howto-all" href="/videos/pbj/user-guide/">All chapters →</a>
+    </div>
 
     <div class="story-stage rise rise-6">
     <!-- Fan backdrop + story phone; remove story-phone block and unwrap story-stage to restore fan-only -->
@@ -122,11 +157,11 @@
       class="story-phone rise rise-6"
       data-story-phone
       data-beats='[
-        {"src":"/assets/screenshots/pbj/import/01-toolbox-import-center.png","alt":"PocketBudJet import center — share a statement file","caption":"Share a statement. No bank login."},
-        {"src":"/videos/pbj/intro/screens/budget-live.jpg","alt":"PocketBudJet budget — where the money went this month","caption":"See where it went this month."},
+        {"src":"/assets/screenshots/pbj/import/01-toolbox-import-center.png","alt":"PocketBudJet import center — share a statement file","caption":"Stuck without a bank login? Share a statement."},
+        {"src":"/videos/pbj/intro/screens/budget-live.jpg","alt":"PocketBudJet budget — where the money went this month","caption":"See where every dollar went this month."},
         {"src":"/assets/screenshots/pbj/03-budget-envelopes.png","alt":"PocketBudJet budget envelopes","caption":"Plan envelopes that match your life."},
         {"src":"/videos/pbj/user-guide/clips/en/debt.jpg","alt":"PocketBudJet debt planner with debt-free date","caption":"Know your debt-free date."},
-        {"src":"/videos/pbj/intro/screens/coach-ask.jpg","alt":"PocketBudJet Coach on your phone","caption":"Ask Coach — on your device."}
+        {"src":"/videos/pbj/intro/screens/coach-ask.jpg","alt":"PocketBudJet Coach on your phone","caption":"Ask Coach — answers stay on your device."}
       ]'
       aria-label="PocketBudJet walkthrough"
     >
@@ -152,21 +187,31 @@
     <h2 id="pricing">Premium</h2>
     <p><strong>Premium ($9.99/mo or $74.99/yr):</strong> debt engine, credit-card intel, subscription tracker, what-ifs, bill calendar, 90-day projection, health score, merchant analysis, receipt scan, full report export, plus Coach, shopping intelligence, cloud backup, and Web Companion. 15-day trial through Apple or Google (card required). Cancel anytime. Export to CSV or JSON anytime — your data is never locked in.</p>
 
+    <h2>Common questions</h2>
+    <div class="faq" role="list">
+      <details>
+        <summary>Do I have to link my bank?</summary>
+        <p>No. PocketBudJet never asks for a bank login. Share a statement file (CSV, OFX, QFX, QIF, XLSX, or PDF) from the app that already has it.</p>
+      </details>
+      <details>
+        <summary>Where does my data live?</summary>
+        <p>On your phone. No JosspaTech account is required for day-to-day use. Optional encrypted cloud backup is yours to turn on.</p>
+      </details>
+      <details>
+        <summary>How does the trial and cancel work?</summary>
+        <p>15-day Premium trial through Apple or Google (card required so the store can run the trial). Cancel anytime in your store subscriptions — there is no JosspaTech account to “find.”</p>
+      </details>
+      <details>
+        <summary>Can I export if I leave?</summary>
+        <p>Yes. Export to CSV or JSON anytime. Your data is never locked in.</p>
+      </details>
+    </div>
+
     <h2>Learn more</h2>
     <p>
       <a href="/videos/pbj/user-guide/">How to use</a> ·
       <a href="/how-to/faq/">FAQ</a> ·
       <a href="/for-professionals/">For professionals</a>
-    </p>
-    <p class="note">How-to also in
-      <a href="/videos/pbj/user-guide/">English</a>,
-      <a href="/videos/pbj/user-guide/zh/">中文</a>,
-      <a href="/videos/pbj/user-guide/fr/">Français</a>,
-      <a href="/videos/pbj/user-guide/de/">Deutsch</a>,
-      <a href="/videos/pbj/user-guide/hi/">हिन्दी</a>,
-      <a href="/videos/pbj/user-guide/it/">Italiano</a>,
-      <a href="/videos/pbj/user-guide/pt/">Português</a>,
-      <a href="/videos/pbj/user-guide/es/">Español</a>.
     </p>
   </main>
   <footer class="foot">

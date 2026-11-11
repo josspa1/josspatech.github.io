@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/product-landing.css?v=polish13">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish14">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
@@ -78,13 +78,16 @@
 <body class="wallpaper-unscribe">
   <header>
     <nav aria-label="Breadcrumb"><a href="/">JosspaTech</a> / Unscribe</nav>
-    <nav class="apps" aria-label="JosspaTech apps">
-      <a href="/hhh/">Handy Horology Helper</a>
-      <a href="/pbj/">PocketBudJet</a>
-      <a href="/cvc/">Curator's Vault</a>
-      <a href="/unscribe/" aria-current="page">Unscribe</a>
-      <a href="/pal/">Pocket Allowance Ledger</a>
-    </nav>
+    <details class="apps-more">
+      <summary>More JosspaTech apps</summary>
+      <nav class="apps" aria-label="JosspaTech apps">
+        <a href="/hhh/">Handy Horology Helper</a>
+        <a href="/pbj/">PocketBudJet</a>
+        <a href="/cvc/">Curator's Vault</a>
+        <a href="/unscribe/" aria-current="page">Unscribe</a>
+        <a href="/pal/">Pocket Allowance Ledger</a>
+      </nav>
+    </details>
   </header>
   <main>
     <div class="kicker rise rise-1">
@@ -95,14 +98,22 @@
     <p class="lead rise rise-3">Share a statement. Keep what you use. Cancel the rest.</p>
     <p class="sub rise rise-4">Unscribe is a subscription tracker from JosspaTech (pronounced <em>Joss-pah-tech</em>). A statement stays on your phone. No bank login. No ads.</p>
 
-    <p class="badges rise rise-5" role="group" aria-label="Download Unscribe">
-      <a href="https://play.google.com/store/apps/details?id=com.josspatech.snip" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
-      </a>
-      <a href="https://apps.apple.com/app/id6823295613" target="_blank" rel="noopener">
-        <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
-      </a>
-    </p>
+    <div class="cta-row rise rise-5">
+      <p class="badges" role="group" aria-label="Download Unscribe">
+        <a href="https://play.google.com/store/apps/details?id=com.josspatech.snip" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
+        </a>
+        <a href="https://apps.apple.com/app/id6823295613" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        </a>
+      </p>
+    </div>
+    <ul class="trust-chips rise rise-5" aria-label="Why Unscribe">
+      <li>No bank login</li>
+      <li>Data stays on your phone</li>
+      <li>First five free</li>
+      <li>Cancel help built in</li>
+    </ul>
     <p class="note rise rise-5">Official stores · US · Pro $29.99 once or $9.99/yr.</p>
 
     <div class="story-stage rise rise-6">
@@ -152,6 +163,26 @@
 
     <h2>Pro</h2>
     <p>The first five subscriptions stay free. <strong>Pro is $29.99 once, or $9.99 a year.</strong> No monthly plan. No free trial on the paid plan. Pro is the full list, reminders, price-increase and duplicate flags, cancel help for every subscription, and a CSV export.</p>
+
+    <h2>Common questions</h2>
+    <div class="faq" role="list">
+      <details>
+        <summary>Do I have to link my bank?</summary>
+        <p>No. Share a PDF or spreadsheet from the app that already has the statement. Unscribe never asks for a bank login.</p>
+      </details>
+      <details>
+        <summary>Where does my data live?</summary>
+        <p>On your phone. A statement stays on the device. No ads.</p>
+      </details>
+      <details>
+        <summary>What’s free vs Pro?</summary>
+        <p>The first five subscriptions stay free. Pro ($29.99 once or $9.99/yr) unlocks the full list, reminders, flags, cancel help for every subscription, and CSV export.</p>
+      </details>
+      <details>
+        <summary>Can I export if I leave?</summary>
+        <p>Yes. Pro includes CSV export so your list is never locked in.</p>
+      </details>
+    </div>
 
     <h2>Learn more</h2>
     <p>

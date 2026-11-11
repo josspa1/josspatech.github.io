@@ -625,12 +625,167 @@ main > p > a:hover {
   .story-thumb { width: 58px; }
 }
 
+/* One-app hero — other apps tucked away, not a directory bar */
+.apps-more {
+  margin: 0.55rem 0 0;
+  max-width: 40rem;
+}
+.apps-more > summary {
+  list-style: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+.apps-more > summary::-webkit-details-marker { display: none; }
+.apps-more > summary::after {
+  content: " ▾";
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+.apps-more[open] > summary::after { content: " ▴"; }
+.apps-more .apps {
+  margin-top: 0.45rem;
+  opacity: 0.75;
+  font-size: 0.82rem;
+}
+
+/* Store row + Watch how */
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin: 0 0 0.55rem;
+}
+.cta-row .badges { margin: 0; }
+.btn-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.72rem 1.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(240, 192, 64, 0.55);
+  background: linear-gradient(180deg, rgba(240, 192, 64, 0.22), rgba(240, 192, 64, 0.08));
+  color: #ffe08a !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+  transition: transform 0.18s var(--ease), border-color 0.18s var(--ease), background 0.18s var(--ease);
+}
+.btn-watch:hover {
+  transform: translateY(-1px);
+  border-color: rgba(240, 192, 64, 0.9);
+  background: linear-gradient(180deg, rgba(240, 192, 64, 0.32), rgba(240, 192, 64, 0.12));
+}
+.btn-watch:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Honest trust chips — no fake scale */
+.trust-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.45rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.1rem;
+}
+.trust-chips li {
+  margin: 0;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+/* One how-to chapter on the product page */
+.howto-preview {
+  margin: 0 0 1.35rem;
+  padding: 1rem 1rem 1.05rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.22);
+  max-width: 28rem;
+}
+.howto-preview video {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  background: #071018;
+  aspect-ratio: 9 / 16;
+  max-height: 420px;
+  object-fit: contain;
+}
+.howto-preview .howto-cap {
+  margin: 0.65rem 0 0.35rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+}
+.howto-langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  margin: 0.35rem 0 0.55rem;
+  font-size: 0.84rem;
+}
+.howto-langs a {
+  color: rgba(255, 224, 138, 0.92);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(240, 192, 64, 0.28);
+}
+.howto-langs a:hover { border-bottom-color: var(--gold); }
+.howto-all {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* Short objection FAQ */
+.faq {
+  margin: 1.4rem 0 0.4rem;
+}
+.faq details {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.7rem 0;
+}
+.faq details:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+.faq summary {
+  cursor: pointer;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  list-style: none;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+";
+  float: right;
+  color: var(--gold);
+  font-weight: 700;
+}
+.faq details[open] summary::after { content: "–"; }
+.faq details p {
+  margin: 0.45rem 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .rise,
   .shots .shot-center,
   .shot-chip,
   .badges a,
   main > p > a,
+  .btn-watch,
   .story-phone.story-nudge .story-device,
   .story-bezel img {
     animation: none !important;
