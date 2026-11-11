@@ -44,6 +44,8 @@
     var utmSource = (params.get('utm_source') || '').slice(0, 80);
     var utmMedium = (params.get('utm_medium') || '').slice(0, 80);
     var utmCampaign = (params.get('utm_campaign') || '').slice(0, 80);
+    // Product Hunt and many directories use ?ref=… rather than utm_source
+    var refParam = (params.get('ref') || params.get('via') || '').slice(0, 80);
     var ref = document.referrer || '';
     var refHost = '';
     try {
@@ -52,6 +54,15 @@
     var source;
     if (utmSource) {
       source = (/clockworks/i.test(utmSource) ? 'clockworks' : utmSource).slice(0, 40);
+    } else if (
+      /producthunt|product.?hunt/i.test(refParam) ||
+      /producthunt\.com/i.test(refHost) ||
+      /producthunt\.com/i.test(ref)
+    ) {
+      source = 'producthunt';
+      if (!refHost) refHost = 'producthunt.com';
+    } else if (refParam) {
+      source = refParam.slice(0, 40);
     } else if (!refHost) source = 'direct';
     else if (refHost === location.hostname) source = 'internal';
     else if (/google|bing|duckduckgo|yahoo|ecosia|brave\.com|search\.|startpage/i.test(refHost))
@@ -63,8 +74,17 @@
     )
       source = 'social';
     else source = 'external';
-    var utmTag = [utmSource, utmMedium, utmCampaign].filter(Boolean).join('|').slice(0, 200);
+    var utmTag = [utmSource || (refParam ? 'ref:' + refParam : ''), utmMedium, utmCampaign]
+      .filter(Boolean)
+      .join('|')
+      .slice(0, 200);
     return { source: source, refHost: refHost, ref: ref, utmTag: utmTag };
+  }
+
+  function isBotUa(ua) {
+    return /bot|crawl|spider|slurp|scrapy|httpclient|python-requests|curl\/|wget|facebookexternalhit|preview|stackscope|semrush|ahrefs|bingpreview|yandex|duckduckbot|baiduspider|gptbot|claudebot|bytespider/i.test(
+      ua || ''
+    );
   }
 
   function sessionId() {
@@ -79,6 +99,9 @@
   function postPocketBase(page, extraRef) {
     if (cfg.pocketbase === false) return;
     try {
+      var ua = navigator.userAgent || '';
+      // Skip obvious crawlers so admin matches GoatCounter-ish human traffic
+      if (isBotUa(ua) && String(page || '').indexOf('outbound:') !== 0) return;
       var PB = cfg.pbUrl || DEFAULTS.pbUrl;
       var VISIT_COL = cfg.visitCollection || DEFAULTS.visitCollection;
       var meta = visitSourceMeta();
@@ -90,24 +113,27 @@
         page: String(page || fullPath()).slice(0, 400),
         referrer_host: meta.refHost.slice(0, 120),
         referrer_raw: refRaw.slice(0, 500),
-        user_agent: (navigator.userAgent || '').slice(0, 300),
+        user_agent: ua.slice(0, 300),
         session_id: sessionId(),
         source: meta.source,
       });
       var url = PB + '/api/collections/' + VISIT_COL + '/records';
-      // sendBeacon first for store clicks / tab switches — fetch keepalive still fails often on mobile
-      if (navigator.sendBeacon) {
-        try {
-          var ok = navigator.sendBeacon(url, new Blob([body], { type: 'application/json' }));
-          if (ok) return;
-        } catch (e) {}
-      }
+      // Prefer fetch+keepalive. sendBeacon(application/json) often returns true on
+      // cross-origin PocketBase POSTs but the request never lands (silent drop),
+      // which made GoatCounter >> admin/_site_visits.
       fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: body,
         keepalive: true,
-      }).catch(function () {});
+        mode: 'cors',
+      }).catch(function () {
+        try {
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(url, new Blob([body], { type: 'text/plain;charset=UTF-8' }));
+          }
+        } catch (e2) {}
+      });
     } catch (e) {}
   }
 

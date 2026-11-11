@@ -311,10 +311,16 @@
     function trNormSource(r) {
       const page = r.page || "";
       const ref = r.referrer_raw || "";
-      const blob = page + " " + ref;
+      const host = String(r.referrer_host || "");
+      const blob = page + " " + ref + " " + host;
       const raw = String(r.source || "").toLowerCase();
       if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
       if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook") return "Facebook link";
+      if (
+        raw === "producthunt" ||
+        /producthunt|ref=producthunt|utm:ref:producthunt|utm_source=producthunt/i.test(blob)
+      )
+        return "Product Hunt";
       if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
       if (
         raw === "instagram" ||
@@ -328,6 +334,11 @@
       if (raw === "external") return "External";
       if (!raw || raw === "unknown") return "Unknown";
       return String(r.source);
+    }
+    function trIsBot(r) {
+      return /bot|crawl|spider|slurp|scrapy|httpclient|python-requests|curl\/|wget|facebookexternalhit|preview|stackscope|semrush|ahrefs|bingpreview|yandex|duckduckbot|baiduspider|gptbot|claudebot|bytespider/i.test(
+        r.user_agent || ""
+      );
     }
     function trPageGroup(page) {
       return String(page || "").split("?")[0] || "/";
@@ -394,7 +405,10 @@
 
     function trStats(rows) {
       const outbound = rows.filter(trIsOutbound);
-      const pageviews = rows.filter((r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r));
+      // Ignore crawler pageviews so admin lines up with GoatCounter human traffic
+      const pageviews = rows.filter(
+        (r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r) && !trIsBot(r)
+      );
       const hops = rows.filter(trIsLinkHop);
       const sessions = new Set(pageviews.map((r) => r.session_id).filter(Boolean));
       const clickSessions = new Set(outbound.map((r) => r.session_id).filter(Boolean));
