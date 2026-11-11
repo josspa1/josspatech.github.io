@@ -404,6 +404,38 @@ main > p > a:hover {
   position: relative;
   margin: 1.4rem 0 1.5rem;
   padding-top: 0.4rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Wallpaper wash under phone (not on the glass) — giant ghost wordmark won vs mark/initials/combo */
+.stage-wallpaper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+.stage-wallpaper span {
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(48px, 11vw, 92px);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  white-space: nowrap;
+  color: rgba(240, 192, 64, 0.12);
+  transform: translateY(-6%);
+}
+.story-stage .shots {
+  position: relative;
+  z-index: 1;
+}
+.story-stage .story-phone {
+  z-index: 2;
 }
 .story-stage .shots {
   margin: 0 0 -4.5rem;
