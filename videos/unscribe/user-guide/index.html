@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=11"></script>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Unscribe User Manual | JosspaTech</title>
+ <meta name="description" content="Unscribe user manual. Watch each feature step by step: every tap and what you get, narrated with a read-along transcript.">
+ <meta name="robots" content="index, follow">
+ <link rel="canonical" href="https://josspatech.com/videos/unscribe/user-guide/">
+ <meta property="og:type" content="website">
+ <meta property="og:title" content="Unscribe User Manual | JosspaTech">
+ <meta property="og:description" content="Watch each Unscribe feature step by step: every tap and what you get.">
+ <meta property="og:url" content="https://josspatech.com/videos/unscribe/user-guide/">
+ <meta property="og:site_name" content="JosspaTech">
+ <meta property="og:image" content="https://josspatech.com/assets/brand/og-unscribe.jpg">
+ <meta name="twitter:card" content="summary_large_image">
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="/videos/shared/howto-player.css?v=2026-10-19">
+ <link rel="stylesheet" href="/videos/shared/site-chrome.css?v=chrome-2026-07-28">
+ <style>
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: 'DM Sans', sans-serif; color: #2A211C; background: #fff; line-height: 1.6; }
+ nav { position: sticky; top: 0; z-index: 1000; background: #2A211C; padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+ nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+ nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: #fff; text-decoration: none; }
+ nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+ nav .nav-links a { color: #fff; text-decoration: none; font-size: .95rem; font-weight: 500; }
+ nav .nav-links a:hover { color: #E07A5F; }
+ .breadcrumbs { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0; font-size: .95rem; color: #7A6A60; }
+ .breadcrumbs a { color: #C45C40; font-weight: 700; text-decoration: underline; text-decoration-color: #E07A5F; text-underline-offset: 4px; }
+ .breadcrumbs .sep { margin: 0 .45rem; color: #B0A39A; }
+ .breadcrumbs .current { color: #2A211C; font-weight: 700; }
+ .hero { background: linear-gradient(135deg, #2A211C 0%, #4A342C 100%); color: #fff; padding: 2rem; text-align: center; }
+ .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; margin-bottom: .6rem; line-height: 1.2; }
+ .hero p { font-size: 1.2rem; font-weight: 300; max-width: 760px; margin: 0 auto; }
+ .howto { background: #FAF6EF; }
+ .howto h2, .howto-lang label, .howto-transcript h3 { color: #2A211C; }
+ .howto .section-sub, .howto-nav, .howto-transcript .count, .howto-step, .howto-more { color: #7A6A60; }
+ .howto-lang select { border-color: #C45C40; color: #2A211C; }
+ .howto-chapters button, .howto-nav button { background: #2A211C; border-color: #2A211C; }
+ .howto-chapters button:hover, .howto-nav button:hover { background: #4A342C; border-color: #4A342C; }
+ .howto-chapters button.active, .howto-start { background: #E07A5F; border-color: #E07A5F; color: #2A211C; }
+ .howto-frame { border-color: #2A211C; }
+ .howto-frame video { background: #2A211C; }
+ .howto-transcript .count { border-bottom-color: #E07A5F; }
+ .howto-step .n { background: rgba(224, 122, 95, .15); color: #2A211C; }
+ .howto-step.active { background: rgba(224, 122, 95, .22); color: #2A211C; border-left-color: #E07A5F; }
+ .howto-step.active .n { background: #E07A5F; color: #2A211C; }
+ .howto-step.past { color: #B0A39A; }
+ .howto-more a { color: #C45C40; }
+ .cta-section { background: linear-gradient(135deg, #2A211C 0%, #4A342C 100%); padding: 3.5rem 2rem; text-align: center; color: #fff; }
+ .cta-section h2 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem; }
+ .cta-section a { display: inline-block; background: #E07A5F; color: #2A211C; padding: 1rem 2.5rem; border-radius: 6px; font-weight: 700; text-decoration: none; }
+ @media (max-width: 768px) { nav .nav-links { gap: 1rem; font-size: .85rem; } .hero h1 { font-size: 2rem; } }
+ </style>
+</head>
+<body data-jt-product="unscribe">
+ <nav>
+  <div class="container">
+   <a href="/" class="logo">JosspaTech</a>
+   <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/unscribe/">Unscribe</a></li>
+    <li><a href="/pbj/">PocketBudJet</a></li>
+    <li><a href="/hhh/">Handy Horology Helper</a></li>
+    <li><a href="/cvc/">Curator's Vault</a></li>
+    <li><a href="/how-to/">How To</a></li>
+   </ul>
+  </div>
+ </nav>
+
+ <div class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="/">Home</a><span class="sep">/</span>
+  <a href="/unscribe/">Unscribe</a><span class="sep">/</span>
+  <span class="current">User Manual</span>
+ </div>
+
+ <div class="hero">
+  <h1>Unscribe User Manual</h1>
+  <p>Watch each feature step by step: every tap, and what you get.</p>
+ </div>
+
+ <section class="howto" data-howto="clips/">
+  <div class="container">
+   <h2>How to use Unscribe</h2>
+   <p class="section-sub">Pick a chapter. Each one shows the real app, tap by tap, with the words beside it. Tap any line to jump to that step. English first — more languages after Joe checks these.</p>
+   <div class="howto-lang"></div>
+   <div class="howto-chapters" aria-label="Chapters"></div>
+   <div class="howto-stage">
+    <div class="howto-phone">
+     <div class="howto-frame">
+      <video playsinline preload="metadata" controls></video>
+      <button class="howto-start" type="button" aria-label="Play"><span class="icon">&#9654;</span><span class="label">Tap to play</span></button>
+     </div>
+     <div class="howto-nav">
+      <button type="button" data-prev>&#9664; Previous</button>
+      <span data-pos></span>
+      <button type="button" data-next>Next &#9654;</button>
+     </div>
+    </div>
+    <div class="howto-transcript">
+     <h3></h3>
+     <p class="count"></p>
+     <div class="howto-steps"></div>
+    </div>
+   </div>
+   <p class="howto-more">More chapters (import, reminders, export) are next. Questions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>.</p>
+  </div>
+ </section>
+
+ <div class="cta-section">
+  <h2>See what you pay every month.</h2>
+  <a href="https://play.google.com/store/apps/details?id=com.josspatech.snip">Get Unscribe</a>
+ </div>
+
+ <footer class="jt-site-footer">
+  <ul class="jt-products" aria-label="JosspaTech products">
+   <li><a href="/">Home</a></li>
+   <li><a href="/unscribe/">Unscribe</a></li>
+   <li><a href="/pbj/">PocketBudJet</a></li>
+   <li><a href="/hhh/">Handy Horology Helper</a></li>
+   <li><a href="/cvc/">Curator's Vault: Classics</a></li>
+  </ul>
+  <p class="jt-copy">&copy; 2026 JosspaTech. All Rights Reserved.</p>
+  <p class="jt-legal"><a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+ </footer>
+ <script src="/videos/shared/howto-player.js?v=2026-10-19" defer></script>
+ <script src="/scripts/site-analytics-saas.js" defer></script>
+ <script src="/videos/shared/site-chrome.js?v=chrome-2026-07-28" defer></script>
+</body>
+</html>
