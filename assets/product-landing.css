@@ -720,9 +720,11 @@ main > p > a:hover {
   width: 100%;
   border-radius: 12px;
   background: #071018;
-  aspect-ratio: 9 / 16;
-  max-height: 560px;
+  /* Taller than 9:16 so native controls sit in the black strip, not on the app UI */
+  aspect-ratio: 9 / 17.6;
+  max-height: 600px;
   object-fit: contain;
+  object-position: top center;
 }
 .howto-preview .howto-cap {
   margin: 0.65rem 0 0.35rem;
