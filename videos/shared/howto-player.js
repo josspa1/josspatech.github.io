@@ -15,6 +15,21 @@
   var pos = root.querySelector('[data-pos]');
   var langBox = root.querySelector('.howto-lang');
   var chapters = [], cur = -1, rows = [], started = false, userScroll = 0, lang = 'en', os = 'android', lastId = '';
+  /* Cold langs: chapters/posters stay on Pages; MP4s on NAS via remoteClipsBase (see langs.json). */
+  var remoteClipsBase = '';
+  var remoteLangs = {};
+  var appSlug = (function () {
+    var m = (location.pathname || '').match(/\/videos\/([^/]+)\//);
+    return m ? m[1] : '';
+  })();
+
+  function clipDir(code) {
+    var local = base + (os === 'ios' ? 'ios/' : '') + code + '/';
+    if (remoteClipsBase && remoteLangs[code] && appSlug && os !== 'ios') {
+      return remoteClipsBase.replace(/\/?$/, '/') + appSlug + '/' + code + '/';
+    }
+    return local;
+  }
 
   var UI = {
     en: { name: 'English', chapter: 'Chapter {a} of {b}', steps: '{n} steps', play: 'Tap to play', prev: 'Previous', next: 'Next', lang: 'Language', os: 'OS', pause: 'Pause', resume: 'Play' },
@@ -59,10 +74,12 @@
   function load(i, play) {
     if (i < 0 || i >= chapters.length) return;
     cur = i;
-    var ch = chapters[i], dir = base + (os === 'ios' ? 'ios/' : '') + lang + '/';
+    var ch = chapters[i];
+    var mediaDir = clipDir(lang);
+    var posterDir = base + (os === 'ios' ? 'ios/' : '') + lang + '/';
     Array.prototype.forEach.call(nav.children, function (b, k) { b.classList.toggle('active', k === i); });
-    video.src = dir + ch.src;
-    video.poster = ch.poster ? dir + ch.poster : '';
+    video.src = mediaDir + ch.src;
+    video.poster = ch.poster ? posterDir + ch.poster : '';
     title.textContent = ch.title;
     count.textContent = ui('chapter', { a: i + 1, b: chapters.length }) + ' · ' + ui('steps', { n: ch.steps.length });
     pos.textContent = (i + 1) + ' / ' + chapters.length;
@@ -186,6 +203,9 @@
   next.addEventListener('click', function () { load(cur + 1, started); });
 
   fetch(base + 'langs.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).catch(function () { return { langs: ['en'] }; }).then(function (d) {
+    remoteClipsBase = (d.remoteClipsBase || window.JOSSPATECH_VIDEO_BASE || '').replace(/\/?$/, '/');
+    remoteLangs = {};
+    (d.remoteLangs || []).forEach(function (c) { remoteLangs[c] = true; });
     var langs = (d.langs || ['en']).filter(function (c) { return UI[c]; });
     var h = (location.hash || '').replace('#', '').split('/').filter(Boolean);
     if (h[0] === 'ios') { os = 'ios'; h.shift(); }
