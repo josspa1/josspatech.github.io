@@ -5,82 +5,237 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Get Handy Horology Helper</title>
+  <title>Confirm your suspicions — Handy Horology Helper</title>
+  <meta name="description" content="Snap a photo of the watch or clock in front of you. Handy Horology Helper identifies it before you buy, pass, or bid. 14-day free trial.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: light; }
+    :root {
+      --navy: #0c3358;
+      --navy-mid: #1a4f7a;
+      --navy-dk: #0a2438;
+      --cream: #f7f1ea;
+      --gold: #f0c040;
+      --muted: rgba(247, 241, 234, 0.78);
+      --line: rgba(247, 241, 234, 0.14);
+    }
+    * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100dvh; display: grid; place-items: center;
-      font-family: Georgia, "Times New Roman", serif;
-      background: linear-gradient(160deg, #0c3358 0%, #1a4f7a 45%, #0a2438 100%);
-      color: #f7f1ea; padding: 24px; text-align: center;
+      margin: 0;
+      min-height: 100dvh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(240, 192, 64, 0.12), transparent 55%),
+        linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 42%, var(--navy-dk) 100%);
     }
-    h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); margin: 0 0 0.4rem; font-weight: 700; }
-    p { margin: 0 0 1.25rem; opacity: 0.85; font-family: system-ui, sans-serif; font-size: 0.95rem; }
-    .acts { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-    a.btn {
-      display: inline-block; padding: 14px 22px; border-radius: 10px;
-      background: #f0c040; color: #0c3358; font-family: system-ui, sans-serif;
-      font-weight: 700; text-decoration: none; font-size: 0.95rem;
+    a { color: var(--gold); }
+    .wrap {
+      width: min(40rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3.5rem;
     }
-    a.ghost {
-      background: transparent; color: #f7f1ea; border: 1px solid rgba(247,241,234,0.45);
+    .hero { text-align: center; padding-top: 0.5rem; }
+    .brand {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(247, 241, 234, 0.55);
+      margin: 0 0 1rem;
     }
-    .note { margin-top: 1.25rem; font-size: 0.8rem; opacity: 0.65; font-family: system-ui, sans-serif; }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 900;
+      line-height: 1.12;
+      margin: 0 0 0.85rem;
+      letter-spacing: -0.02em;
+    }
+    .lede {
+      margin: 0 auto 1.35rem;
+      max-width: 34rem;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .store-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 0.85rem;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 0.55rem;
+    }
+    .store-badges a {
+      display: inline-flex;
+      line-height: 0;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .store-badges a:hover { opacity: 0.92; transform: translateY(-1px); }
+    .store-badges img { height: 44px; width: auto; display: block; }
+    .store-badges .store-badge-play img { height: 52px; }
+    .price {
+      margin: 0 0 1.6rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: rgba(247, 241, 234, 0.7);
+    }
+    .phone {
+      width: min(17.5rem, 72vw);
+      margin: 0 auto 2.25rem;
+      border-radius: 1.35rem;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 24px 48px rgba(0, 0, 0, 0.35);
+      background: #1a1210;
+    }
+    .phone img {
+      display: block;
+      width: 100%;
+      height: auto;
+      vertical-align: top;
+    }
+    h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.35rem, 3.5vw, 1.7rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 1.15rem;
+    }
+    .features {
+      list-style: none;
+      margin: 0 0 1.75rem;
+      padding: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .features li {
+      padding: 0.95rem 1.05rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .features strong {
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .features span {
+      display: block;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    .privacy {
+      text-align: center;
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tour {
+      text-align: center;
+      margin-top: 0.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .tour .price { margin-bottom: 1rem; }
+    .more {
+      margin: 1.1rem 0 0;
+      font-size: 0.9rem;
+    }
+    .more a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
   </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <p class="brand">Handy Horology Helper</p>
+      <h1>Confirm your suspicions.</h1>
+      <p class="lede">Snap a photo of the watch or clock in front of you. Handy Horology Helper identifies it from the photo plus the clues you already have — model, marks, era, rough value, and how confident it is — <em>before</em> you buy, pass, or bid.</p>
+      <div class="store-badges" id="badges-top" role="group" aria-label="Download Handy Horology Helper"></div>
+      <p class="price">14-day free trial · then $4.99/mo or $49.99/yr · Cancel anytime</p>
+      <figure class="phone">
+        <img
+          src="/assets/screenshots/hhh/manual/07-identify-results.png"
+          width="1080"
+          height="2340"
+          alt="Handy Horology Helper Identify result — Rolex Submariner 5513 with confidence and approximate value"
+          loading="eager"
+          decoding="async">
+      </figure>
+    </section>
+
+    <h2>Built for the floor, the bench, and the estate table</h2>
+    <ul class="features">
+      <li>
+        <strong>Identify</strong>
+        <span>Photo + partial clues → ranked candidates with era, hallmarks, and movement details. Made for antique and vintage pieces, not just this year’s models.</span>
+      </li>
+      <li>
+        <strong>Collect</strong>
+        <span>Save what you identify straight into your private museum: collection, wish list, and for-sale, with service history and insurance-ready notes.</span>
+      </li>
+      <li>
+        <strong>Hunt</strong>
+        <span>Grail Radar watches eBay for the piece you’re after, at your price, so you don’t have to.</span>
+      </li>
+      <li>
+        <strong>Repair</strong>
+        <span>Clock stopped? A symptom wizard walks you to the likely cause and the parts to order.</span>
+      </li>
+    </ul>
+
+    <p class="privacy">Your collection stays on your device. No account required. No ads, no data sold.</p>
+
+    <section class="tour">
+      <div class="store-badges" id="badges-bottom" role="group" aria-label="Download Handy Horology Helper"></div>
+      <p class="price">14-day free trial · then $4.99/mo or $49.99/yr · Cancel anytime</p>
+      <p class="more">Want the full tour first? <a href="/#hhh">See everything HHH does →</a></p>
+    </section>
+  </main>
+
   <script>
     (function () {
       var PLAY = 'https://play.google.com/store/apps/details?id=com.josspatech.handyhorology';
-      var IOS_STORE = 'https://apps.apple.com/us/app/id6778570480';
-      var IOS_DEST = '/#hhh';
-      var IOS_LIVE = true;
-      var ua = navigator.userAgent || '';
+      var IOS = 'https://apps.apple.com/us/app/id6778570480';
       var q = location.search || '';
       function withUtm(url) {
         if (!q || q === '?') return url;
         return url + (url.indexOf('?') >= 0 ? '&' : '?') + q.replace(/^\?/, '');
       }
-      function siteWithUtm() {
-        // Keep UTMs on the query string; hash is the HHH section.
-        if (!q || q === '?') return IOS_DEST;
-        return '/' + q + '#hhh';
+      var playHref = withUtm(PLAY);
+      var iosHref = withUtm(IOS);
+      var ua = navigator.userAgent || '';
+      var androidFirst = /Android/i.test(ua);
+      var iosFirst = /iPhone|iPad|iPod/i.test(ua);
+
+      function badgeHtml(playFirst) {
+        var play =
+          '<a class="store-badge-play" href="' + playHref + '" rel="noopener">' +
+          '<img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60"></a>';
+        var apple =
+          '<a class="store-badge-apple" href="' + iosHref + '" rel="noopener">' +
+          '<img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40"></a>';
+        return playFirst ? play + apple : apple + play;
       }
-      if (/Android/i.test(ua)) {
-        location.replace(withUtm(PLAY));
-        return;
-      }
-      if (/iPhone|iPad|iPod/i.test(ua)) {
-        location.replace(IOS_LIVE ? withUtm(IOS_STORE) : siteWithUtm());
-        return;
-      }
-      window.__HHH_GET__ = {
-        play: withUtm(PLAY),
-        ios: IOS_LIVE ? withUtm(IOS_STORE) : siteWithUtm(),
-        iosLive: IOS_LIVE
-      };
+
+      var orderPlayFirst = androidFirst || (!iosFirst && !androidFirst);
+      // Desktop: Play then App Store (same as homepage). iPhone: App Store first.
+      if (iosFirst) orderPlayFirst = false;
+      if (androidFirst) orderPlayFirst = true;
+
+      var html = badgeHtml(orderPlayFirst);
+      var top = document.getElementById('badges-top');
+      var bottom = document.getElementById('badges-bottom');
+      if (top) top.innerHTML = html;
+      if (bottom) bottom.innerHTML = html;
     })();
   </script>
-</head>
-<body>
-  <main>
-    <h1>Handy Horology Helper</h1>
-    <p>Android opens Google Play. iPhone opens the App Store.</p>
-    <div class="acts">
-      <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology">Google Play</a>
-      <a class="btn" id="ios" href="https://apps.apple.com/us/app/id6778570480">App Store</a>
-      <a class="btn ghost" href="/#hhh">Learn more</a>
-    </div>
-    <p class="note">Official Google Play and App Store listings · US</p>
-  </main>
-  <script>
-    if (window.__HHH_GET__) {
-      document.getElementById('play').href = window.__HHH_GET__.play;
-      document.getElementById('ios').href = window.__HHH_GET__.ios;
-      if (window.__HHH_GET__.iosLive) {
-        document.getElementById('ios').textContent = 'App Store';
-      } else {
-        document.getElementById('ios').textContent = 'Handy Horology on the web';
-      }
-    }
-  </script>
+  <script src="/scripts/site-analytics-saas.js?v=12" defer></script>
 </body>
 </html>

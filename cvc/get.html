@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=11"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Snap it. Catalog it. — Curator’s Vault: Classics</title>
+  <meta name="description" content="Photograph a coin, card, stamp, banknote, or lighter. Curator’s Vault identifies it and files it into your private vault. 14-day free trial.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0c3358;
+      --navy-mid: #1a4f7a;
+      --navy-dk: #0a2438;
+      --cream: #f7f1ea;
+      --gold: #d4a853;
+      --muted: rgba(247, 241, 234, 0.78);
+      --line: rgba(247, 241, 234, 0.14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212, 168, 83, 0.14), transparent 55%),
+        linear-gradient(165deg, var(--navy) 0%, var(--navy-mid) 42%, var(--navy-dk) 100%);
+    }
+    a { color: var(--gold); }
+    .wrap {
+      width: min(40rem, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 3.5rem;
+    }
+    .hero { text-align: center; padding-top: 0.5rem; }
+    .brand {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(247, 241, 234, 0.55);
+      margin: 0 0 1rem;
+    }
+    h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.85rem);
+      font-weight: 900;
+      line-height: 1.12;
+      margin: 0 0 0.85rem;
+      letter-spacing: -0.02em;
+    }
+    .lede {
+      margin: 0 auto 1.35rem;
+      max-width: 34rem;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .store-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem 0.85rem;
+      justify-content: center;
+      align-items: center;
+      margin: 0 0 0.55rem;
+    }
+    .store-badges a {
+      display: inline-flex;
+      line-height: 0;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .store-badges a:hover { opacity: 0.92; transform: translateY(-1px); }
+    .store-badges img { height: 44px; width: auto; display: block; }
+    .store-badges .store-badge-play img { height: 52px; }
+    .price {
+      margin: 0 0 1.6rem;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: rgba(247, 241, 234, 0.7);
+    }
+    .phone {
+      width: min(17.5rem, 72vw);
+      margin: 0 auto 2.25rem;
+      border-radius: 1.35rem;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        0 24px 48px rgba(0, 0, 0, 0.35);
+      background: #12161c;
+    }
+    .phone img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    h2 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.35rem, 3.5vw, 1.7rem);
+      font-weight: 700;
+      text-align: center;
+      margin: 0 0 1.15rem;
+    }
+    .features {
+      list-style: none;
+      margin: 0 0 1.75rem;
+      padding: 0;
+      display: grid;
+      gap: 0.85rem;
+    }
+    .features li {
+      padding: 0.95rem 1.05rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .features strong {
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .features span {
+      display: block;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    .privacy {
+      text-align: center;
+      margin: 0 0 1.5rem;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .tour {
+      text-align: center;
+      margin-top: 0.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+    .tour .price { margin-bottom: 1rem; }
+    .more {
+      margin: 1.1rem 0 0;
+      font-size: 0.9rem;
+    }
+    .more a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <p class="brand">Curator’s Vault: Classics</p>
+      <h1>Snap it. Catalog it.</h1>
+      <p class="lede">Photograph a coin, card, stamp, banknote, or lighter. Curator’s Vault identifies it — series, era, and grading cues, with honest confidence, not theater — and files it straight into your private vault, value tracked from day one.</p>
+      <div class="store-badges" id="badges-top" role="group" aria-label="Download Curator’s Vault"></div>
+      <p class="price">14-day free trial · then $4.99/mo or $49.99/yr · Cancel anytime</p>
+      <figure class="phone">
+        <img
+          src="/assets/screenshots/cvc/manual/20-identify-result.png"
+          width="1080"
+          height="2340"
+          alt="Curator’s Vault Identify result — piece identified and ready for the vault"
+          loading="eager"
+          decoding="async">
+      </figure>
+    </section>
+
+    <h2>Five categories. One vault.</h2>
+    <ul class="features">
+      <li>
+        <strong>Identify</strong>
+        <span>AI ID for coins, cards, stamps, paper money, and lighters: series, era, and grading cues from a single photo.</span>
+      </li>
+      <li>
+        <strong>Catalog</strong>
+        <span>Photos, condition, provenance, and value for every piece, on your device. Insurance-ready when you need the paperwork.</span>
+      </li>
+      <li>
+        <strong>Track value</strong>
+        <span>Portfolio view and cost basis, so you buy, sell, or insure from a clearer position — not a spreadsheet scavenger hunt.</span>
+      </li>
+      <li>
+        <strong>Hunt &amp; trade</strong>
+        <span>Wish list with target prices and eBay price checks, a for-sale list, and a trade analyzer for the show floor.</span>
+      </li>
+    </ul>
+
+    <p class="privacy">Your vault stays on your device. No account required. Full interface in 7 languages. No ads, no data sold.</p>
+
+    <section class="tour">
+      <div class="store-badges" id="badges-bottom" role="group" aria-label="Download Curator’s Vault"></div>
+      <p class="price">14-day free trial · then $4.99/mo or $49.99/yr · Cancel anytime</p>
+      <p class="more">Want the full tour first? <a href="/#cvc">See everything Curator’s Vault does →</a></p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      var PLAY = 'https://play.google.com/store/apps/details?id=com.josspatech.cts';
+      var IOS = 'https://apps.apple.com/app/id6778571307';
+      var q = location.search || '';
+      function withUtm(url) {
+        if (!q || q === '?') return url;
+        return url + (url.indexOf('?') >= 0 ? '&' : '?') + q.replace(/^\?/, '');
+      }
+      var playHref = withUtm(PLAY);
+      var iosHref = withUtm(IOS);
+      var ua = navigator.userAgent || '';
+      var androidFirst = /Android/i.test(ua);
+      var iosFirst = /iPhone|iPad|iPod/i.test(ua);
+
+      function badgeHtml(playFirst) {
+        var play =
+          '<a class="store-badge-play" href="' + playHref + '" rel="noopener">' +
+          '<img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60"></a>';
+        var apple =
+          '<a class="store-badge-apple" href="' + iosHref + '" rel="noopener">' +
+          '<img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40"></a>';
+        return playFirst ? play + apple : apple + play;
+      }
+
+      var orderPlayFirst = true;
+      if (iosFirst) orderPlayFirst = false;
+      if (androidFirst) orderPlayFirst = true;
+
+      var html = badgeHtml(orderPlayFirst);
+      var top = document.getElementById('badges-top');
+      var bottom = document.getElementById('badges-bottom');
+      if (top) top.innerHTML = html;
+      if (bottom) bottom.innerHTML = html;
+    })();
+  </script>
+  <script src="/scripts/site-analytics-saas.js?v=12" defer></script>
+</body>
+</html>
