@@ -353,8 +353,22 @@ html.boot-cvc #page-cvc { display:block !important; }
 }
 .hub-name em{font-style:normal;color:var(--hub-accent, var(--gold));}
 .hub-tagline{
-  font-size:15px;color:rgba(255,255,255,0.52);line-height:1.55;flex:1;margin-bottom:28px;
+  font-size:15px;color:rgba(255,255,255,0.52);line-height:1.55;flex:1;margin-bottom:14px;
 }
+.hub-price{
+  font-size:14px;font-weight:700;color:rgba(255,255,255,0.82);
+  letter-spacing:0.01em;margin:0 0 14px;line-height:1.4;
+}
+.hub-card-stores{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin:0 0 16px;
+}
+.hub-card-stores a{
+  display:inline-flex;line-height:0;transition:opacity .18s,transform .18s;
+}
+.hub-card-stores a:hover{opacity:0.92;transform:translateY(-1px);}
+.hub-card-stores img{height:36px;width:auto;display:block;}
+.hub-card-stores .store-badge-play img{height:42px;}
 .hub-cta{
   display:inline-flex;align-items:center;gap:8px;
   font-size:14px;font-weight:700;color:var(--navy-dk);
@@ -3372,7 +3386,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <a href="#studio-pricing" onclick="navTo('studio-pricing');return false;" class="nav-link">Pricing</a>
     <a href="/about/" class="nav-link">About</a>
     <a href="mailto:support@josspatech.com" class="nav-link">Contact</a>
-    <a href="#products" onclick="navTo('products');return false;" class="nav-cta">Explore the lineup</a>
+    <a href="#products" onclick="navTo('products');return false;" class="nav-cta">See apps &amp; prices</a>
   </div>
   <button class="nav-hamburger" aria-label="Open menu" onclick="toggleMenu(this)">
     <span></span><span></span><span></span>
@@ -3391,7 +3405,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
   <a href="/cvc/" class="nav-mobile-link">Curator's Vault</a>
   <a href="/unscribe/" class="nav-mobile-link">Unscribe</a>
   <a href="/pal/" class="nav-mobile-link">Pocket Allowance Ledger</a>
-  <a href="#products" onclick="navTo('products');closeMenu();return false;" class="nav-mobile-cta">Explore the lineup →</a>
+  <a href="#products" onclick="navTo('products');closeMenu();return false;" class="nav-mobile-cta">See apps &amp; prices →</a>
 </div>
 
 <!-- ══════════════════════════
@@ -3409,14 +3423,13 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     <div class="hub-rule" aria-hidden="true"></div>
     <p class="hero-h1">Software that<br><em>feels finished.</em></p>
     <p class="hero-sub">
-      Private where it matters. Excellent where it shows.
+      Private apps for money and collecting — try free for 14 days.
     </p>
     <div class="hero-actions">
       <a href="#products" class="btn-primary">
-        Explore the lineup
+        See apps &amp; prices
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a href="/about/" class="btn-ghost">About Joe</a>
     </div>
     <nav class="hub-hero-apps" aria-label="Apps on the stores">
       <a href="/pbj/">PocketBudJet</a>
@@ -3461,7 +3474,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="hub-card-body">
           <div class="hub-name">Pocket<em>BudJet</em>™</div>
           <p class="hub-tagline">Import. Plan. Coach. See your debt-free date — on your phone, not a bank login.</p>
-          <div class="hub-cta">Open PocketBudJet <span>→</span></div>
+          <p class="hub-price">14-day trial · $9.99/mo</p>
+          <div class="hub-card-stores store-badges" role="group" aria-label="Download PocketBudJet" onclick="event.stopPropagation()">
+            <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.pocketbudjet" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+            </a>
+            <a class="store-badge-apple" href="https://apps.apple.com/app/id6761077263" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+            </a>
+          </div>
+          <div class="hub-cta">More about PocketBudJet <span>→</span></div>
           <a class="hub-watch" href="/pbj/#howto-import" onclick="event.stopPropagation()">▶ Watch how</a>
         </div>
         <figure class="hub-card-shot">
@@ -3473,7 +3495,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="hub-card-body">
           <div class="hub-name">Handy Horology<br><em>Helper</em>™</div>
           <p class="hub-tagline">New or vintage. Floor or bench. Confirm your suspicions.</p>
-          <div class="hub-cta">Open HHH <span>→</span></div>
+          <p class="hub-price">14-day trial · $4.99/mo</p>
+          <div class="hub-card-stores store-badges" role="group" aria-label="Download Handy Horology Helper" onclick="event.stopPropagation()">
+            <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+            </a>
+            <a class="store-badge-apple" href="https://apps.apple.com/us/app/id6778570480" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+            </a>
+          </div>
+          <div class="hub-cta">More about HHH <span>→</span></div>
           <a class="hub-watch" href="/hhh/#howto-identify" onclick="event.stopPropagation()">▶ Watch how</a>
         </div>
         <figure class="hub-card-shot">
@@ -3485,7 +3516,16 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="hub-card-body">
           <div class="hub-name">Curator's Vault:<br><em>Classics</em>™</div>
           <p class="hub-tagline">Coins, cards, stamps, paper money, lighters — photograph, organize, value. Your vault. Your rules.</p>
-          <div class="hub-cta">Open Curator's Vault <span>→</span></div>
+          <p class="hub-price">14-day trial · $4.99/mo</p>
+          <div class="hub-card-stores store-badges" role="group" aria-label="Download Curator's Vault" onclick="event.stopPropagation()">
+            <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.cts" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+            </a>
+            <a class="store-badge-apple" href="https://apps.apple.com/app/id6778571307" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+            </a>
+          </div>
+          <div class="hub-cta">More about Curator's Vault <span>→</span></div>
           <a class="hub-watch" href="/cvc/#howto-identify" onclick="event.stopPropagation()">▶ Watch how</a>
         </div>
         <figure class="hub-card-shot">
@@ -3497,8 +3537,17 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
         <div class="hub-card-body">
           <div class="hub-name">Un<em>scribe</em>™</div>
           <p class="hub-tagline">See what you pay for every month. Share a statement. Keep what you use. Cancel the rest.</p>
+          <p class="hub-price">First 5 free · $9.99/yr</p>
+          <div class="hub-card-stores store-badges" role="group" aria-label="Download Unscribe" onclick="event.stopPropagation()">
+            <a class="store-badge-play" href="https://play.google.com/store/apps/details?id=com.josspatech.snip" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60" loading="lazy">
+            </a>
+            <a class="store-badge-apple" href="https://apps.apple.com/app/id6823295613" rel="noopener" onclick="event.stopPropagation()">
+              <img src="assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40" loading="lazy">
+            </a>
+          </div>
+          <div class="hub-cta">More about Unscribe <span>→</span></div>
           <a class="hub-watch" href="/unscribe/#howto-home" onclick="event.stopPropagation()">▶ Watch how</a>
-          <div class="hub-cta">Open Unscribe <span>→</span></div>
         </div>
         <figure class="hub-card-shot">
           <img src="assets/screenshots/unscribe/01-home-monthly.png?v=106" srcset="assets/screenshots/unscribe/01-home-monthly-360w.png 360w, assets/screenshots/unscribe/01-home-monthly-560w.png 560w, assets/screenshots/unscribe/01-home-monthly.png?v=106 1080w" sizes="(max-width:700px) 42vw, 168px" alt="Unscribe home — monthly subscription total and list" width="168" height="298" loading="lazy">
