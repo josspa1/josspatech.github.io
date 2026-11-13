@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots"                content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot"             content="noindex, nofollow, noarchive">
+  <meta name="bingbot"               content="noindex, nofollow, noarchive">
+  <meta name="referrer"              content="no-referrer">
+  <title>JosspaTech — Creators / Promo</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "creators";</script>
+  <style>
+    .creators-jump { display: flex; flex-wrap: wrap; gap: 10px 16px; margin: 0 0 16px; font-size: 13px; }
+    .creators-jump a { font-weight: 600; }
+    .creators-summary { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 16px; }
+    .creators-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .creators-pill strong { color: var(--text); }
+    .creators-pill.ok strong { color: var(--success); }
+    .creators-pill.warn strong { color: var(--warning); }
+    .creators-extra {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      margin: 0 0 14px;
+    }
+    .creators-extra input {
+      flex: 1 1 220px;
+      min-width: 180px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg);
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+    .creators-status-unused { color: var(--text-muted); }
+    .creators-status-live { color: var(--success); font-weight: 700; }
+    .creators-status-miss { color: var(--danger); font-weight: 600; }
+    .creators-mono { font-family: var(--mono); font-size: 12px; }
+    .creators-who { font-weight: 600; }
+    .creators-activity { font-size: 12px; color: var(--text-dim); max-width: 280px; }
+    .creators-note { font-size: 12px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="josspa" viewBox="0 0 100 100">
+      <circle cx="50" cy="45" r="30" fill="#FFE0B2"/>
+      <path d="M22 42 Q26 18 50 16 Q76 16 78 40 Q72 30 60 28 Q50 26 40 30 Q28 32 22 42 Z" fill="#5C3B1E"/>
+      <circle cx="40" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="60" cy="46" r="7" fill="none" stroke="#1A1A2E" stroke-width="2"/>
+      <line x1="47" y1="46" x2="53" y2="46" stroke="#1A1A2E" stroke-width="2"/>
+      <circle cx="40" cy="46" r="2" fill="#1A1A2E"/>
+      <circle cx="60" cy="46" r="2" fill="#1A1A2E"/>
+      <path d="M 41 58 Q 50 65 59 58" fill="none" stroke="#1A1A2E" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30 80 Q30 72 50 72 Q70 72 70 80 L70 100 L30 100 Z" fill="#1A4F7A"/>
+      <path d="M48 72 L52 72 L55 82 L50 86 L45 82 Z" fill="#F0C040"/>
+      <circle cx="50" cy="74" r="2" fill="#F0C040"/>
+    </symbol>
+  </svg>
+  <div id="login">
+    <div class="login-head">
+      <svg class="mascot"><use href="#josspa"/></svg>
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Creators · soft-gift codes</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account. Your token stays in this browser tab's session — nothing is stored on disk or sent elsewhere.</p>
+    <input type="email"    id="email"    placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <svg class="mascot-sm"><use href="#josspa"/></svg>
+        <h1>
+          Creators <span class="subtitle">Soft-gift codes · who activated · what they used</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <div id="opsAlertBanner" style="display:none" role="alert" aria-live="assertive"></div>
+    <div id="opsBuyBar" role="region" aria-label="Quick upgrade actions">
+      <div class="ops-buy-title">Fix it now — open billing / upgrade</div>
+      <div id="opsBuyBtns" class="ops-buy-btns"></div>
+    </div>
+    <div id="opsInfoBanner" style="display:none" role="status" aria-live="polite"></div>
+    <div id="wowBanner" style="display:none"></div>
+    <main class="page-main">
+      <section>
+        <h2>Creators / promo</h2>
+        <p class="section-explainer">
+          Point reads only: <code>GET /ops/promo-codes?codes=…</code> on HHH and CVC workers (max 20 codes per call, never KV list).
+          Shows who got a code, whether they redeemed, which app/build, and later activity (Identify, Museum, Hunt…).
+          <strong>Manual refresh only.</strong>
+          Jump: <a href="app-hhh.html">HHH ops</a> · <a href="app-cvc.html">CVC ops</a> · <a href="funnels.html">Funnels</a> · <a href="screens.html">Screens</a>
+        </p>
+        <div class="creators-jump" aria-label="Related ops">
+          <a href="app-hhh.html">HHH · all ops</a>
+          <a href="app-cvc.html">CVC · all ops</a>
+          <a href="funnels.html">Funnels</a>
+          <a href="screens.html">Screens</a>
+          <a href="workers.html">Workers</a>
+        </div>
+        <div class="ref-actions">
+          <button type="button" class="m-btn accent" id="creatorsRefreshBtn" onclick="creatorsRefresh()" title="Point GET per worker — ~1 KV read per code">
+            Refresh codes <span class="ref-cost-badge ref-cost-light">Light · point GETs</span>
+          </button>
+          <span id="creatorsStatus" class="ref-status" style="margin:0">Not loaded — click Refresh.</span>
+        </div>
+        <div class="creators-extra">
+          <input id="creatorsExtraCodes" type="text" spellcheck="false" autocomplete="off"
+            placeholder="Optional extra codes (comma or space) — e.g. dry-test leftovers"
+            aria-label="Optional extra promo codes">
+        </div>
+        <div id="creatorsSummary" class="creators-summary" hidden></div>
+        <div class="ref-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>App</th>
+                <th>Code</th>
+                <th>Who</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Activated</th>
+                <th>Device</th>
+                <th>Used</th>
+              </tr>
+            </thead>
+            <tbody id="creatorsBody">
+              <tr><td colspan="8" class="creators-note">Sign in, then Refresh.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+  <script>
+    /** Ledger snapshot for known soft-gift codes (HHH blitz 8 + parked). CVC fills when seeded. */
+    const CREATOR_LEDGER = {
+      hhh: [
+        { code: "WVMZ63", who: "Times Ticking (Jared)", send: "parked" },
+        { code: "YJK2R7", who: "RClocks (Robin)", send: "parked" },
+        { code: "Z8XZJX", who: "Elated Carrot", send: "ready" },
+        { code: "B7NK2X", who: "Ben's Watch Club", send: "ready" },
+        { code: "R4MP8Q", who: "Random Rob", send: "ready" },
+        { code: "M9TR2W", who: "My Retro Watches (Michael)", send: "ready" },
+        { code: "D3RD7K", who: "Red Dead Restoration", send: "ready" },
+        { code: "J5RY3P", who: "The Time Teller (Jory)", send: "ready" },
+        { code: "J8DY4V", who: "Just One More Watch (Jody)", send: "ready" },
+        { code: "N6WN2H", who: "Richard Newman", send: "ready" },
+      ],
+      cvc: [],
+    };
+
+    function creatorsNormalizeCode(raw) {
+      return String(raw || "")
+        .replace(/[^a-zA-Z0-9]/g, "")
+        .toUpperCase()
+        .slice(0, 6);
+    }
+
+    function creatorsParseExtra() {
+      const raw = document.getElementById("creatorsExtraCodes")?.value || "";
+      return [
+        ...new Set(
+          raw
+            .split(/[,\s]+/)
+            .map(creatorsNormalizeCode)
+            .filter((c) => c.length === 6),
+        ),
+      ];
+    }
+
+    function creatorsWhoFallback(appId, code) {
+      const row = (CREATOR_LEDGER[appId] || []).find((r) => r.code === code);
+      return row?.who || "—";
+    }
+
+    function creatorsSendNote(appId, code) {
+      const row = (CREATOR_LEDGER[appId] || []).find((r) => r.code === code);
+      if (!row) return "";
+      if (row.send === "parked") return "parked — do not send";
+      if (row.send === "ready") return "ready to send";
+      return row.send || "";
+    }
+
+    function creatorsFormatActivity(activity) {
+      if (!activity || typeof activity !== "object") return "—";
+      const parts = [];
+      if (activity.lastAt) {
+        try {
+          parts.push("last " + new Date(activity.lastAt).toLocaleString());
+        } catch {
+          parts.push("last " + activity.lastAt);
+        }
+      }
+      for (const k of ["opens", "identify", "museum", "hunt", "repair", "help"]) {
+        if (activity[k]) parts.push(k + "=" + activity[k]);
+      }
+      if (activity.screens && typeof activity.screens === "object") {
+        const screens = Object.entries(activity.screens)
+          .map(([name, n]) => name + ":" + n)
+          .join(", ");
+        if (screens) parts.push(screens);
+      }
+      return parts.length ? parts.join(" · ") : "—";
+    }
+
+    function creatorsEscape(s) {
+      return String(s ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    async function creatorsFetchApp(appId, codes) {
+      const app = WORKER_APPS.find((a) => a.id === appId);
+      if (!app) return { appId, error: "unknown app", results: [] };
+      if (!codes.length) return { appId, results: [], skipped: true };
+      const key = wmGetKey(app, true);
+      if (!key) return { appId, error: "missing worker key", results: [] };
+      const url =
+        wmGetUrl(app) +
+        "/ops/promo-codes?codes=" +
+        encodeURIComponent(codes.join(","));
+      const resp = await fetch(url, { headers: { [app.authHeader]: key } });
+      const body = await resp.json().catch(() => ({}));
+      if (!resp.ok || !body.ok || !Array.isArray(body.results)) {
+        return {
+          appId,
+          error: body.error || "lookup failed (" + resp.status + ")",
+          results: [],
+        };
+      }
+      return { appId, results: body.results };
+    }
+
+    function creatorsRender(batches) {
+      const body = document.getElementById("creatorsBody");
+      const summary = document.getElementById("creatorsSummary");
+      const rows = [];
+      let unused = 0;
+      let live = 0;
+      let missing = 0;
+      let errors = 0;
+
+      for (const batch of batches) {
+        if (batch.error) {
+          errors += 1;
+          rows.push({
+            sort: "9",
+            html:
+              `<tr><td colspan="8" class="creators-status-miss">${creatorsEscape(
+                batch.appId.toUpperCase() + ": " + batch.error,
+              )}</td></tr>`,
+          });
+          continue;
+        }
+        for (const r of batch.results) {
+          const code = r.code || "?";
+          const who = r.assignee || r.note || creatorsWhoFallback(batch.appId, code);
+          const sendNote = creatorsSendNote(batch.appId, code);
+          if (!r.ok) {
+            missing += 1;
+            rows.push({
+              sort: "2" + code,
+              html: `<tr>
+                <td>${creatorsEscape(batch.appId.toUpperCase())}</td>
+                <td class="creators-mono">${creatorsEscape(code)}</td>
+                <td class="creators-who">${creatorsEscape(who)}<div class="creators-note">${creatorsEscape(sendNote)}</div></td>
+                <td colspan="5" class="creators-status-miss">${creatorsEscape(r.error || "not_found")}</td>
+              </tr>`,
+            });
+            continue;
+          }
+          if (r.redeemed) live += 1;
+          else unused += 1;
+          const statusHtml = r.redeemed
+            ? `<span class="creators-status-live">Activated</span>`
+            : `<span class="creators-status-unused">Unused</span>`;
+          const when = r.redeemedAt
+            ? (() => {
+                try {
+                  return new Date(r.redeemedAt).toLocaleString();
+                } catch {
+                  return r.redeemedAt;
+                }
+              })()
+            : "—";
+          const device = [
+            r.platform,
+            r.country,
+            r.appVersion || r.appBuild
+              ? `${r.appVersion || "?"}${r.appBuild != null ? " (" + r.appBuild + ")" : ""}`
+              : null,
+            r.locale,
+          ]
+            .filter(Boolean)
+            .join(" · ");
+          rows.push({
+            sort: (r.redeemed ? "0" : "1") + (r.redeemedAt || "") + code,
+            html: `<tr>
+              <td>${creatorsEscape((r.app || batch.appId).toUpperCase())}</td>
+              <td class="creators-mono">${creatorsEscape(code)}</td>
+              <td class="creators-who">${creatorsEscape(who)}<div class="creators-note">${creatorsEscape(sendNote)}</div></td>
+              <td>${creatorsEscape(r.duration || "—")}</td>
+              <td>${statusHtml}</td>
+              <td>${creatorsEscape(when)}</td>
+              <td class="creators-mono">${creatorsEscape(device || "—")}</td>
+              <td class="creators-activity">${creatorsEscape(creatorsFormatActivity(r.activity))}</td>
+            </tr>`,
+          });
+        }
+      }
+
+      rows.sort((a, b) => (a.sort < b.sort ? -1 : a.sort > b.sort ? 1 : 0));
+      body.innerHTML = rows.length
+        ? rows.map((r) => r.html).join("")
+        : `<tr><td colspan="8" class="creators-note">No codes to show.</td></tr>`;
+
+      summary.hidden = false;
+      summary.innerHTML = `
+        <span class="creators-pill ok"><strong>${live}</strong> activated</span>
+        <span class="creators-pill"><strong>${unused}</strong> unused</span>
+        <span class="creators-pill warn"><strong>${missing}</strong> missing in KV</span>
+        ${errors ? `<span class="creators-pill warn"><strong>${errors}</strong> worker error(s)</span>` : ""}
+      `;
+    }
+
+    async function creatorsRefresh() {
+      const status = document.getElementById("creatorsStatus");
+      const btn = document.getElementById("creatorsRefreshBtn");
+      if (btn) btn.disabled = true;
+      if (status) {
+        status.textContent = "Loading promo codes…";
+        status.className = "ref-status";
+      }
+      try {
+        const extra = creatorsParseExtra();
+        const hhhCodes = [
+          ...new Set([
+            ...(CREATOR_LEDGER.hhh || []).map((r) => r.code),
+            ...extra,
+          ]),
+        ].slice(0, 20);
+        const cvcCodes = [
+          ...new Set([...(CREATOR_LEDGER.cvc || []).map((r) => r.code)]),
+        ].slice(0, 20);
+
+        const batches = await Promise.all([
+          creatorsFetchApp("hhh", hhhCodes),
+          creatorsFetchApp("cvc", cvcCodes),
+        ]);
+        creatorsRender(batches.filter((b) => !b.skipped || (b.results && b.results.length)));
+
+        const bits = [];
+        for (const b of batches) {
+          if (b.skipped) continue;
+          bits.push(
+            b.error
+              ? b.appId.toUpperCase() + " error"
+              : b.appId.toUpperCase() + " " + (b.results?.length || 0),
+          );
+        }
+        if (status) {
+          status.textContent =
+            "Updated " +
+            new Date().toLocaleTimeString() +
+            " · " +
+            bits.join(" · ") +
+            " · point GETs only";
+        }
+        const lr = document.getElementById("lastRefresh");
+        if (lr) lr.textContent = "Codes " + new Date().toLocaleTimeString();
+      } catch (e) {
+        if (status) {
+          status.textContent = "Refresh failed: " + (e && e.message ? e.message : e);
+          status.className = "ref-status err";
+        }
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    window.creatorsRefresh = creatorsRefresh;
+  </script>
+</body>
+</html>

@@ -13,6 +13,7 @@ Live: https://josspatech.com/admin/
 | `/admin/flywheel.html` | `flywheel.html` | PocketBase crowd-data grid, services, cron, capacity, founder economics, maintenance (+ backup/GitHub static panels) |
 | `/admin/workers.html` | `workers.html` | Worker Monitoring PBJ/HHH/CVC + Thresholds & Baselines |
 | `/admin/referrals.html` | `referrals.html` | HHH Partner Referrals — All stats (Joe) + JJ shareable tab + **JJ report (cache only)** |
+| `/admin/creators.html` | `creators.html` | Soft-gift / creator promo codes — HHH (+ CVC when seeded); point `GET /ops/promo-codes` only |
 | `/admin/ocr-quota.html` | `ocr-quota.html` | PBJ OCR quota, Teller status, OpenCellID quota |
 | `/admin/josspatech-dashboard.html` | redirect | → `index.html` (backward compat) |
 

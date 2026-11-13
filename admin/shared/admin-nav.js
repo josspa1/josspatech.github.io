@@ -4,6 +4,7 @@
     { href: "index.html", page: "hub", label: "Control Center" },
     { href: "workers.html", page: "workers", label: "Workers" },
     { href: "referrals.html", page: "referrals", label: "Referrals" },
+    { href: "creators.html", page: "creators", label: "Creators" },
     { href: "dealer-ads.html", page: "dealer-ads", label: "HHH Ads" },
     { href: "cvc-dealer-ads.html", page: "cvc-dealer-ads", label: "CVC Ads" },
     { href: "traffic.html", page: "traffic", label: "Website" },
