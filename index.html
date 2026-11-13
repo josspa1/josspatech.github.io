@@ -4,7 +4,7 @@
 <script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=12"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="JosspaTech (pronounced Joss-pah-tech) builds private mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe. Ad-free. Data stays on your phone.">
+<meta name="description" content="JosspaTech (pronounced Joss-pah-tech) builds private mobile apps on Google Play and the App Store — PocketBudJet, Handy Horology Helper, Curator's Vault, and Unscribe. Ad-free. Your data is stored on your phone.">
 <title>JosspaTech — Private Mobile Software</title>
 <meta name="keywords" content="JosspaTech, Joss-pah-tech, Handy Horology Helper, PocketBudJet, Curator's Vault, Unscribe, private mobile apps, local-first software, watch identification, budgeting app, subscription tracker">
 <link rel="icon" href="assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
@@ -2946,6 +2946,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none;}
   align-items:center;flex-wrap:wrap;gap:12px;
 }
 .footer-copy{font-size:12px;color:rgba(255,255,255,0.22);}
+.footer-privacy-note{flex:1 0 100%;font-size:11px;line-height:1.45;color:rgba(255,255,255,0.28);max-width:52rem;margin:0 0 4px;}
 .footer-feedback{font-size:13px;color:rgba(255,255,255,0.55);margin:10px 0 8px;line-height:1.5;}
 .footer-feedback a{color:var(--gold);}
 .footer-contact{
@@ -3442,7 +3443,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
 
 <!-- Privacy strip -->
 <div class="privacy-strip" role="complementary">
-  <div class="ps-item"><div class="ps-dot"></div>Data stays on your phone</div>
+  <div class="ps-item"><div class="ps-dot"></div>Stored on your phone<sup>*</sup></div>
   <div class="ps-item"><div class="ps-dot"></div>No bank login · No ads</div>
   <div class="ps-item"><div class="ps-dot"></div>No JosspaTech account</div>
   <div class="ps-item"><div class="ps-dot"></div>iOS &amp; Android</div>
@@ -3679,6 +3680,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
+    <p id="privacy-note" class="footer-privacy-note">*Your data is stored on your phone. We never take bank logins or account numbers. When you use AI features (Coach, receipt scan, Identify, and similar), we briefly process what you already entered so that feature can work — then that request is done. We don’t keep your books or collection as a permanent cloud copy, and we don’t sell your data.</p>
     <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>
@@ -3697,8 +3699,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
       <div class="vol-rule" aria-hidden="true"></div>
       <div class="hero-eyebrow"><div class="hero-dot"></div>Google Play · App Store</div>
       <h1 class="hero-h1">Know where every<br>dollar went.<br><em>Keep it private.</em></h1>
-      <p class="hero-tagline">Private budgeting on your device</p>
-      <p class="hero-sub"><strong>Privacy-first. No bank login.</strong> Import a statement or type it in &mdash; your data stays on your phone. <strong>14 days of Premium. Card required.</strong> Start through Apple or Google &mdash; cancel anytime before the trial ends. Then $9.99/mo or $74.99/yr. <strong>Cancel anytime.</strong></p>
+      <p class="hero-tagline">Your budget is stored on your phone<sup>*</sup></p>
+      <p class="hero-sub"><strong>Privacy-first. No bank login. No account numbers.</strong> Import a statement or type it in &mdash; your budget is stored on your phone.<sup>*</sup> <strong>14 days of Premium. Card required.</strong> Start through Apple or Google &mdash; cancel anytime before the trial ends. Then $9.99/mo or $74.99/yr. <strong>Cancel anytime.</strong></p>
       <div class="hero-acts">
         <a href="#download" class="btn-primary">Start 14-day Trial &#8594;</a>
         <a href="/videos/pbj/user-guide/" class="btn-ghost">How to use</a>
@@ -4193,7 +4195,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
             <tr><td>No account required</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
             <tr><td>AI Financial Coach (Premium)</td><td class="nt">Add-on / none</td><td class="ck">&#10003;</td></tr>
             <tr><td>PC Web Dashboard (WiFi, Premium)</td><td class="xx">&#10007;</td><td class="ck">&#10003;</td></tr>
-            <tr><td>Privacy-first &mdash; data stays on your phone</td><td class="nt">Cloud by default</td><td class="ck">&#10003;</td></tr>
+            <tr><td>Privacy-first &mdash; budget stored on your phone<sup>*</sup></td><td class="nt">Cloud by default</td><td class="ck">&#10003;</td></tr>
             <tr><td>iOS &amp; Android</td><td class="nt">Most</td><td class="ck">&#10003;</td></tr>
             <tr class="pbj"><td>Annual price</td><td class="nt">$80&ndash;$109</td><td class="ck">$74.99</td></tr>
           </tbody>
@@ -4487,6 +4489,7 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--navy-dk);
     </div>
   </div>
   <div class="footer-bottom">
+    <p id="privacy-note-pbj" class="footer-privacy-note">*Your budget is stored on your phone. We never take your bank login or account numbers. When you ask Coach or scan a receipt, we briefly look at the spending you already entered — like “store · $12” — so we can answer. That request isn’t how we keep your books, and we don’t sell it. Without that, those features can’t work. Import, plan, and your numbers stay on the device either way.</p>
     <p class="footer-copy">© 2026 JosspaTech. All Rights Reserved. PocketBudJet™, Handy Horology Helper™, Curator's Vault: Classics™, Unscribe™, Pocket Allowance Ledger™, and JosspaTech™ are trademarks of JosspaTech.</p>
     <p class="footer-feedback">Questions, feedback, or suggestions: <a href="mailto:support@josspatech.com">support@josspatech.com</a>. We may not reply to everyone. Every message is reviewed.</p>
   </div>

@@ -416,6 +416,14 @@ li { margin: 0.4rem 0; }
 .badges img { display: block; }
 .note { font-size: 0.9rem; color: var(--muted); }
 .foot { margin: 2.4rem 0 2rem; font-size: 0.92rem; color: var(--muted); }
+.foot-privacy {
+  margin: 0.85rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: var(--muted);
+  opacity: 0.9;
+  max-width: 42rem;
+}
 main > p > a {
   display: inline-flex;
   align-items: center;
