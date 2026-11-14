@@ -210,7 +210,11 @@
       { id: "cvc", label: "CVC" },
       { id: "unscribe", label: "Unscribe" },
     ];
-    /** Paywall / sale funnel — same names as HeyCatch. */
+    /**
+     * Sale + product funnels — same event names as HeyCatch trackEvent (*_hhh/_cvc/_pbj).
+     * Admin is also the home for drop-off HeyCatch’s UI doesn’t show the way we need
+     * (per-app panes, Android/iPhone filter, fail/abandon leaks).
+     */
     const FN_STEPS = [
       { key: "app_opened", label: "1 · Opened app", mean: "Opened the app at least once." },
       { key: "terms_accepted", label: "2 · Accepted terms", mean: "Tapped through Terms." },
@@ -223,18 +227,39 @@
         short: "Tapped Subscribe",
       },
       {
+        key: "checkout_cancel",
+        label: "5b · Cancelled checkout",
+        mean: "Closed the store sheet without buying. Leak after Subscribe tap.",
+        short: "Cancelled checkout",
+      },
+      {
+        key: "checkout_error",
+        label: "5c · Checkout error",
+        mean: "Store/purchase failed (not user cancel).",
+        short: "Checkout error",
+      },
+      {
         key: "subscription_started",
         label: "6 · Actually paid",
         mean: "Store reported a successful purchase. This is the sale count.",
         short: "Actually paid",
       },
+      {
+        key: "trial_started",
+        label: "6b · Trial started",
+        mean: "Checkout succeeded with a free trial period.",
+        short: "Trial started",
+      },
     ];
-    /** Product win funnel — HHH/CVC Identify; PBJ import. Keys match app:* events. */
+    /** Product win + leak steps — HHH/CVC Identify; PBJ import. */
     const FN_PRODUCT_BY_APP = {
       hhh: [
         { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
         { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
         { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
+        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc)." },
+        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job." },
+        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing." },
         { key: "identify_saved", label: "D · Saved to Museum", mean: "Product win — saved the result." },
         { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed." },
       ],
@@ -242,11 +267,17 @@
         { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
         { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
         { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
+        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc)." },
+        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job." },
+        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing." },
         { key: "identify_saved", label: "D · Saved to Vault", mean: "Product win — saved the result." },
         { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed." },
       ],
       pbj: [
         { key: "import_start", label: "A · Import started", mean: "Began a statement import." },
+        { key: "import_abandon", label: "A2 · Import abandoned", mean: "Left import without finishing." },
+        { key: "import_abort", label: "A3 · Import aborted", mean: "Hard stop (password cancel / all stages failed)." },
+        { key: "import_stage_fail", label: "A4 · Stage failed", mean: "A parse/OCR stage failed (may retry)." },
         { key: "import_success", label: "B · Import succeeded", mean: "Product win — transactions landed." },
       ],
       unscribe: [],
