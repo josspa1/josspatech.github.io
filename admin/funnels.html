@@ -210,7 +210,7 @@
       { id: "cvc", label: "CVC" },
       { id: "unscribe", label: "Unscribe" },
     ];
-    /** Canonical loss map — same order as HeyCatch Conversion charts. */
+    /** Paywall / sale funnel — same names as HeyCatch. */
     const FN_STEPS = [
       { key: "app_opened", label: "1 · Opened app", mean: "Opened the app at least once." },
       { key: "terms_accepted", label: "2 · Accepted terms", mean: "Tapped through Terms." },
@@ -229,6 +229,28 @@
         short: "Actually paid",
       },
     ];
+    /** Product win funnel — HHH/CVC Identify; PBJ import. Keys match app:* events. */
+    const FN_PRODUCT_BY_APP = {
+      hhh: [
+        { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
+        { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
+        { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
+        { key: "identify_saved", label: "D · Saved to Museum", mean: "Product win — saved the result." },
+        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed." },
+      ],
+      cvc: [
+        { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
+        { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
+        { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
+        { key: "identify_saved", label: "D · Saved to Vault", mean: "Product win — saved the result." },
+        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed." },
+      ],
+      pbj: [
+        { key: "import_start", label: "A · Import started", mean: "Began a statement import." },
+        { key: "import_success", label: "B · Import succeeded", mean: "Product win — transactions landed." },
+      ],
+      unscribe: [],
+    };
     /** Manual markers so a range that includes a ship/change is labeled. */
     const FN_CHANGES = [
       {
@@ -364,8 +386,9 @@
         return true;
       });
     }
-    function fnCountsForApp(appRows, appId) {
-      return FN_STEPS.map((step) => {
+    function fnCountsForApp(appRows, appId, steps) {
+      const stepList = steps || FN_STEPS;
+      return stepList.map((step) => {
         const hits = appRows.filter((r) => {
           const ev = fnAppEvent(r);
           return ev && ev.app === appId && fnEventMatches(ev.event, step.key, appId);
@@ -375,21 +398,31 @@
           key: step.key,
           label: step.label,
           mean: step.mean || "",
-          short: step.short || step.label.replace(/^\d+\s*·\s*/, ""),
+          short: step.short || step.label.replace(/^[A-Z0-9]+\s*·\s*/, ""),
           n: hits.length,
           people: people.size || hits.length,
         };
       });
     }
-    function fnFunnelBlock(counts) {
-      const base = counts[0].people || counts[0].n;
+    function fnFunnelBlock(counts, kind) {
+      const base = counts[0] ? counts[0].people || counts[0].n : 0;
+      const isProduct = kind === "product";
       const tapped = counts.find((c) => c.key === "checkout_started");
       const paid = counts.find((c) => c.key === "subscription_started");
+      const saved = counts.find((c) => c.key === "identify_saved" || c.key === "import_success");
       const tappedN = tapped ? tapped.people : 0;
       const paidN = paid ? paid.people : 0;
+      const winN = saved ? saved.people : 0;
       let kpiHtml = "";
       if (base) {
-        if (paidN > 0) {
+        if (isProduct) {
+          const winLabel = saved && saved.key === "import_success" ? "imports succeeded" : "saved a result";
+          if (winN > 0) {
+            kpiHtml = `<div class="fn-kpi"><span class="is-sale">Product wins: ${winN}.</span> ${winN} of ${base} who started ${winLabel} (${fnPct(winN, base)}).</div>`;
+          } else {
+            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Product wins: 0.</span> ${base} started this path; nobody finished the win step yet.</div>`;
+          }
+        } else if (paidN > 0) {
           kpiHtml = `<div class="fn-kpi"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
         } else if (tappedN > 0) {
           kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
@@ -482,12 +515,19 @@
       const scopedPrev = prevWin ? fnFilterRows(rows, prevWin) : [];
 
       const html = FN_APPS.map((app) => {
-        const counts = fnCountsForApp(scoped, app.id);
+        const counts = fnCountsForApp(scoped, app.id, FN_STEPS);
         const block = fnFunnelBlock(counts);
-        let body = block.html;
+        const productSteps = FN_PRODUCT_BY_APP[app.id] || [];
+        const productCounts = productSteps.length
+          ? fnCountsForApp(scoped, app.id, productSteps)
+          : [];
+        const productBlock = productCounts.length
+          ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off (where you lose people)</p>${fnFunnelBlock(productCounts, "product").html}`
+          : "";
+        let body = block.html + productBlock;
         let deltaHtml = "";
         if (prevWin) {
-          const prevCounts = fnCountsForApp(scopedPrev, app.id);
+          const prevCounts = fnCountsForApp(scopedPrev, app.id, FN_STEPS);
           const prevBlock = fnFunnelBlock(prevCounts);
           const curRate = fnPaidRate(counts);
           const oldRate = fnPaidRate(prevCounts);
@@ -497,14 +537,20 @@
             const sign = diff > 0 ? "+" : "";
             deltaHtml = `<div class="fn-delta ${cls}">Paid rate: ${curRate.pct.toFixed(1)}% now vs ${oldRate.pct.toFixed(1)}% before (${sign}${diff.toFixed(1)} pts) · sales ${curRate.paidN} vs ${oldRate.paidN}</div>`;
           }
+          const prevProduct = productSteps.length
+            ? fnCountsForApp(scopedPrev, app.id, productSteps)
+            : [];
+          const prevProductHtml = prevProduct.length
+            ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off</p>${fnFunnelBlock(prevProduct, "product").html}`
+            : "";
           body = `<div class="fn-compare-grid">
             <div>
               <p class="fn-pane-title">Before · ${prevWin.label}</p>
-              ${prevBlock.html}
+              ${prevBlock.html}${prevProductHtml}
             </div>
             <div>
               <p class="fn-pane-title">This window · ${win.label}</p>
-              ${block.html}
+              ${block.html}${productBlock}
             </div>
           </div>${deltaHtml}`;
         }
@@ -512,7 +558,7 @@
           fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">${platNote}. People in this window. Tapped Subscribe ≠ sale — only Actually paid counts.</p>
+          <p class="sub">${platNote}. Sale funnel + product drop-off. Tapped Subscribe ≠ sale — only Actually paid counts as a sale.</p>
           ${body}
         </div>`;
       }).join("");
