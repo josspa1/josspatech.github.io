@@ -124,6 +124,31 @@
     }
     .fn-delta.up { color: #1E7A3F; background: #E8F7EE; border-color: #B7E0C5; }
     .fn-delta.down { color: var(--danger); background: #FDECEA; border-color: #F5C6C0; }
+    .fn-all { margin-top: 18px; }
+    .fn-all table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .fn-all th, .fn-all td {
+      text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .fn-all th {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .03em;
+      color: var(--text-dim); font-weight: 700;
+    }
+    .fn-all td.n { text-align: right; font-weight: 700; color: var(--primary); white-space: nowrap; }
+    .fn-all td.p { text-align: right; font-weight: 600; white-space: nowrap; }
+    .fn-all .ev { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; word-break: break-all; }
+    .fn-tag {
+      display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 4px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+      vertical-align: middle;
+    }
+    .fn-tag.sale { background: #EEF3FA; color: #2B5A8A; }
+    .fn-tag.product { background: #E8F7EE; color: #1E7A3F; }
+    .fn-tag.admin { background: #FFF8E8; color: #8A6A1B; }
+    .fn-tag.other { background: var(--surface-alt, #f7f7f8); color: var(--text-dim); }
+    .fn-all-empty { font-size: 13px; color: var(--text-dim); margin: 0; }
   </style>
 </head>
 <body>
@@ -145,7 +170,7 @@
       <div class="brand">
         <h1>
           App funnels
-          <span class="subtitle">Opened → terms → onboarding → paywall → tapped Subscribe → actually paid · PocketBase only</span>
+          <span class="subtitle">Every HeyCatch-backed step + admin-only extras · PocketBase only</span>
         </h1>
       </div>
       <div class="controls">
@@ -157,11 +182,11 @@
     <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
-          Same steps the phones already post to <code>_site_visits</code> as
-          <code>app:pbj:app_opened_pbj</code> (and HHH / CVC / Unscribe).
-          This page never calls Cloudflare Workers or KV.
-          It keeps working after HeyCatch is cancelled.
-          Site → store acquisition stays on the Traffic tab.
+          Phones dual-write every HeyCatch <code>trackEvent</code> into
+          <code>_site_visits</code> as <code>app:hhh:…</code> / <code>app:cvc:…</code> / <code>app:pbj:…</code>.
+          Sale + product funnels are the drop-off paths; <strong>All events</strong> lists every
+          posted step in the window (HeyCatch-supported names plus admin-only extras like
+          <code>screen_*</code>). No Cloudflare Workers or KV. Site → store stays on Traffic.
         </p>
         <div class="fn-range" id="fnRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -513,6 +538,65 @@
       if (!base) return null;
       return { base, paidN, pct: (100 * paidN) / base };
     }
+    /** Strip app suffix so sale/product keys match inventory event names. */
+    function fnBareEvent(event, appId) {
+      const e = String(event || "");
+      const suf = "_" + appId;
+      return e.endsWith(suf) ? e.slice(0, -suf.length) : e;
+    }
+    function fnEventKind(event, appId) {
+      const bare = fnBareEvent(event, appId);
+      if (FN_STEPS.some((s) => s.key === bare)) return "sale";
+      const product = FN_PRODUCT_BY_APP[appId] || [];
+      if (product.some((s) => s.key === bare)) return "product";
+      if (/^screen_/.test(bare) || /^screen_/.test(String(event || ""))) return "admin";
+      return "other";
+    }
+    /** Every posted app event in window — HeyCatch dual-writes + admin-only. */
+    function fnAllEventsInventory(appRows, appId) {
+      const by = new Map();
+      for (const r of appRows) {
+        const ev = fnAppEvent(r);
+        if (!ev || ev.app !== appId) continue;
+        let row = by.get(ev.event);
+        if (!row) {
+          row = { event: ev.event, n: 0, people: new Set() };
+          by.set(ev.event, row);
+        }
+        row.n += 1;
+        if (r.session_id) row.people.add(r.session_id);
+      }
+      return [...by.values()]
+        .map((row) => ({
+          event: row.event,
+          n: row.n,
+          people: row.people.size || row.n,
+          kind: fnEventKind(row.event, appId),
+        }))
+        .sort((a, b) => b.people - a.people || b.n - a.n || a.event.localeCompare(b.event));
+    }
+    function fnAllEventsBlock(inventory) {
+      if (!inventory.length) {
+        return `<div class="fn-all"><p class="fn-pane-title">All events (HeyCatch + admin)</p><p class="fn-all-empty">No app events in this window yet.</p></div>`;
+      }
+      const tagLabel = { sale: "sale", product: "product", admin: "admin-only", other: "other" };
+      const rows = inventory
+        .map(
+          (r) => `<tr>
+          <td><span class="ev">${r.event}</span><span class="fn-tag ${r.kind}">${tagLabel[r.kind]}</span></td>
+          <td class="p">${r.people}</td>
+          <td class="n">${r.n}</td>
+        </tr>`
+        )
+        .join("");
+      return `<div class="fn-all">
+        <p class="fn-pane-title">All events (HeyCatch + admin)</p>
+        <table>
+          <thead><tr><th>Event</th><th style="text-align:right">People</th><th style="text-align:right">Hits</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+    }
     function fnChangesHtml(win) {
       if (!win.from && !win.to) {
         const all = FN_CHANGES.map(
@@ -555,7 +639,8 @@
         const productBlock = productCounts.length
           ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off (where you lose people)</p>${fnFunnelBlock(productCounts, "product").html}`
           : "";
-        let body = block.html + productBlock;
+        const allBlock = fnAllEventsBlock(fnAllEventsInventory(scoped, app.id));
+        let body = block.html + productBlock + allBlock;
         let deltaHtml = "";
         if (prevWin) {
           const prevCounts = fnCountsForApp(scopedPrev, app.id, FN_STEPS);
@@ -574,14 +659,15 @@
           const prevProductHtml = prevProduct.length
             ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off</p>${fnFunnelBlock(prevProduct, "product").html}`
             : "";
+          const prevAll = fnAllEventsBlock(fnAllEventsInventory(scopedPrev, app.id));
           body = `<div class="fn-compare-grid">
             <div>
               <p class="fn-pane-title">Before · ${prevWin.label}</p>
-              ${prevBlock.html}${prevProductHtml}
+              ${prevBlock.html}${prevProductHtml}${prevAll}
             </div>
             <div>
               <p class="fn-pane-title">This window · ${win.label}</p>
-              ${block.html}${productBlock}
+              ${block.html}${productBlock}${allBlock}
             </div>
           </div>${deltaHtml}`;
         }
@@ -589,7 +675,7 @@
           fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
         return `<div class="fn-app">
           <h3>${app.label}</h3>
-          <p class="sub">${platNote}. Sale funnel + product drop-off. Tapped Subscribe ≠ sale — only Actually paid counts as a sale.</p>
+          <p class="sub">${platNote}. Sale + product funnels, then every posted event. Tapped Subscribe ≠ sale — only Actually paid counts as a sale.</p>
           ${body}
         </div>`;
       }).join("");
