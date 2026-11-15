@@ -292,12 +292,43 @@
   }
 
   // ─── Auth ──────────────────────────────────────────────
+  async function wakePocketBase(statusEl) {
+    const set = (t) => {
+      if (statusEl) {
+        statusEl.textContent = t;
+        statusEl.style.display = "block";
+      }
+    };
+    set("Waking PocketBase… (cold start can take up to ~60s)");
+    for (let i = 1; i <= 4; i++) {
+      try {
+        const r = await timedFetch(`${PB_URL}/api/health`, { cache: "no-store" });
+        if (r && r.ok) {
+          set("Database awake. Sign in again.");
+          return true;
+        }
+        set(`Wake try ${i}/4 — health not ready (${r ? r.status : "?"})…`);
+      } catch (_) {
+        set(`Wake try ${i}/4 — still asleep (503/timeout)…`);
+      }
+      if (i < 4) await new Promise((res) => setTimeout(res, 4000));
+    }
+    set(
+      "Still asleep/off. Open pockethost.io/dashboard → josspatech → power On, then Wake again."
+    );
+    return false;
+  }
+
   async function doLogin() {
     const email    = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
     const err      = document.getElementById("loginErr");
     err.style.display = "none";
     try {
+      // Soft wake before auth — hibernating PocketHost returns Failed to fetch / 503.
+      try {
+        await timedFetch(`${PB_URL}/api/health`, { cache: "no-store" });
+      } catch (_) { /* auth may still work */ }
       // Try 0.23+ superusers endpoint first.
       let res = await fetch(`${PB_URL}/api/collections/_superusers/auth-with-password`, {
         method: "POST",
@@ -312,14 +343,35 @@
           body: JSON.stringify({ identity: email, password }),
         });
       }
-      if (!res.ok) { throw new Error(`Auth failed (${res.status})`); }
+      if (!res.ok) {
+        if (res.status === 503) {
+          throw new Error(
+            "PocketBase is asleep/off (503). Hit Wake database below, or power josspatech On at pockethost.io/dashboard."
+          );
+        }
+        throw new Error(`Auth failed (${res.status})`);
+      }
       const data = await res.json();
       token = data.token;
       sessionStorage.setItem("pbj_dash_token", token);
       showDashboard();
     } catch (e) {
-      err.textContent = e.message || "Login failed.";
+      const msg = String(e && e.message ? e.message : e);
+      const dead = /failed to fetch|networkerror|abort|timeout|503|asleep/i.test(msg);
+      err.textContent = dead
+        ? "PocketBase is asleep or off — that is why Sign in says Failed to fetch. Hit Wake database below (can take ~60s). Still failing → pockethost.io/dashboard → josspatech → power On."
+        : msg || "Login failed.";
       err.style.display = "block";
+      const wakeBtn = document.getElementById("loginWakeBtn");
+      if (wakeBtn) wakeBtn.style.display = "inline-block";
+    }
+  }
+
+  async function doWakeFromLogin() {
+    const err = document.getElementById("loginErr");
+    const ok = await wakePocketBase(err);
+    if (ok) {
+      // leave message; user signs in
     }
   }
 
@@ -1159,6 +1211,33 @@
       em.addEventListener("keydown", (e) => {
         if (e.key === "Enter") pw.focus();
       });
+    }
+    // Wake control on every admin login (PB sleep/off blocks Sign in itself).
+    const login = document.getElementById("login");
+    if (login && !document.getElementById("loginWakeBtn")) {
+      const signBtn = login.querySelector('button[onclick*="doLogin"]');
+      const wake = document.createElement("button");
+      wake.type = "button";
+      wake.id = "loginWakeBtn";
+      wake.textContent = "Wake database";
+      wake.style.marginTop = "8px";
+      wake.style.background = "var(--surface-alt, #EEF2F7)";
+      wake.style.color = "var(--text)";
+      wake.style.border = "1px solid var(--border)";
+      wake.addEventListener("click", (e) => {
+        e.preventDefault();
+        doWakeFromLogin();
+      });
+      if (signBtn && signBtn.parentNode) {
+        signBtn.insertAdjacentElement("afterend", wake);
+      } else {
+        login.appendChild(wake);
+      }
+      const hint = document.createElement("p");
+      hint.style.cssText = "font-size:12px;color:var(--text-dim);margin:8px 0 0;line-height:1.4";
+      hint.innerHTML =
+        'If Sign in says Failed to fetch, PocketBase is asleep/off. Wake first. Still 503 → <a href="https://pockethost.io/dashboard" target="_blank" rel="noopener">pockethost.io/dashboard</a> → josspatech → power On.';
+      wake.insertAdjacentElement("afterend", hint);
     }
   }
 
