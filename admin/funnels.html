@@ -700,7 +700,14 @@
         fnCacheRows = await listAllRecords("_site_visits");
         fnRender(fnCacheRows);
       } catch (e) {
-        status.textContent = "Error: " + (e.message || e);
+        const msg = String(e && e.message ? e.message : e);
+        const dead =
+          /failed to fetch|networkerror|abort|timeout/i.test(msg) ||
+          e.name === "AbortError" ||
+          e.name === "TimeoutError";
+        status.textContent = dead
+          ? "PocketBase unreachable (josspatech.pockethost.io timed out). Wake/restart the instance on PocketHost, then Refresh."
+          : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
       }
     }
