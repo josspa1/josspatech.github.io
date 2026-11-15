@@ -689,15 +689,45 @@
     }
 
     function fnRerender() {
-      if (fnCacheRows) fnRender(fnCacheRows);
-      else fnRefresh();
+      // Server filter depends on the selected window — always re-fetch.
+      fnRefresh();
+    }
+
+    /** PocketBase filter: only app dual-writes, optionally narrowed by ET day window (+1d UTC pad). */
+    function fnListFilter() {
+      const todayKey = fnTodayKey();
+      const win = fnActiveWindow(todayKey);
+      const prev = fnCompare ? fnPreviousWindow(win) : null;
+      let from = win.from;
+      let to = win.to;
+      if (prev && prev.from) from = prev.from;
+      // Only app:* rows (not every site pageview) — keeps the list small enough to load.
+      if (!from || !to) return 'page ~ "app:"';
+      const end = fnAddDays(to, 2);
+      return (
+        'page ~ "app:" && created >= "' +
+        from +
+        ' 00:00:00.000Z" && created < "' +
+        end +
+        ' 00:00:00.000Z"'
+      );
     }
 
     async function fnRefresh() {
       const status = document.getElementById("fnStatus");
       status.textContent = "Loading…";
       try {
-        fnCacheRows = await listAllRecords("_site_visits");
+        // Wake hibernating PocketHost before the multi-page list.
+        try {
+          await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+        } catch (_) {
+          /* list may still work */
+        }
+        fnCacheRows = await listAllRecords(
+          "_site_visits",
+          fnListFilter(),
+          "id,page,created,session_id,referrer_host,referrer_raw,source"
+        );
         fnRender(fnCacheRows);
       } catch (e) {
         const msg = String(e && e.message ? e.message : e);
@@ -706,7 +736,7 @@
           e.name === "AbortError" ||
           e.name === "TimeoutError";
         status.textContent = dead
-          ? "PocketBase unreachable (josspatech.pockethost.io timed out). Wake/restart the instance on PocketHost, then Refresh."
+          ? "PocketBase timed out (often sleeping). Hit Refresh once — first wake can take up to a minute. If it keeps failing, power the josspatech instance On at pockethost.io/dashboard."
           : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
       }

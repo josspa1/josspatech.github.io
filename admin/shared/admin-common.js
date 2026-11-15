@@ -16,7 +16,8 @@
 
   const PB_URL = "https://josspatech.pockethost.io";
   const GITHUB_REPO = "josspa1/josspatech.github.io";
-  const FETCH_TIMEOUT_MS = 12000; // per-request ceiling
+  // PocketHost hibernates; a cold wake + multi-page list can exceed 12s.
+  const FETCH_TIMEOUT_MS = 45000; // per-request ceiling
   const GITHUB_CACHE_TTL_MS = 5 * 60 * 1000; // poll GitHub at most every 5 min
   const ADMIN_CACHE_KEYS = {
     wm: "pbj_dash_cache_wm",
