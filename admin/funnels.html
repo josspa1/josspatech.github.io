@@ -76,30 +76,43 @@
       font-size: 12px; font-weight: 700; color: var(--text-dim);
       text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px;
     }
-    .fn-glance {
-      display: grid; gap: 8px; margin: 0 0 16px;
-    }
-    .fn-glance-head {
-      font-size: 13px; font-weight: 700; margin: 0 0 2px; color: var(--text);
-    }
-    .fn-glance-row {
-      display: grid; grid-template-columns: 72px 1fr auto;
-      gap: 8px 12px; align-items: center;
-      padding: 10px 12px; border-radius: 8px;
+    .fn-board {
+      margin: 0 0 18px; padding: 14px 16px; border-radius: 12px;
       background: var(--surface); border: 1px solid var(--border);
-      font-size: 13px; line-height: 1.4;
-      cursor: pointer; text-decoration: none; color: inherit;
     }
-    .fn-glance-row:hover { border-color: var(--primary); }
-    .fn-glance-row.has-sale {
-      border-color: #B7E0C5; background: #E8F7EE;
+    .fn-board-verdict {
+      font-size: 16px; font-weight: 800; line-height: 1.35; margin: 0 0 6px; color: var(--text);
     }
-    .fn-glance-row.quiet { opacity: 0.72; }
-    .fn-glance-app { font-weight: 800; font-size: 15px; }
-    .fn-glance-stats { color: var(--text); }
-    .fn-glance-stats b { font-weight: 800; }
-    .fn-glance-sale { font-weight: 800; color: #1E7A3F; white-space: nowrap; }
-    .fn-glance-sale.zero { color: var(--text-dim); font-weight: 600; }
+    .fn-board-verdict .yes { color: #1E7A3F; }
+    .fn-board-verdict .no { color: var(--danger); }
+    .fn-board-sub {
+      font-size: 13px; font-weight: 600; color: var(--text-dim); margin: 0 0 12px; line-height: 1.4;
+    }
+    .fn-board table {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .fn-board th {
+      text-align: left; font-size: 11px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .03em;
+      padding: 0 8px 8px 0; border-bottom: 1px solid var(--border);
+    }
+    .fn-board th.num, .fn-board td.num { text-align: right; padding-right: 10px; white-space: nowrap; }
+    .fn-board td {
+      padding: 10px 8px 10px 0; border-bottom: 1px solid var(--border);
+      vertical-align: top; font-weight: 600;
+    }
+    .fn-board tr:last-child td { border-bottom: none; }
+    .fn-board tr.has-sale td { background: #F3FBF6; }
+    .fn-board tr.quiet td { color: var(--text-dim); }
+    .fn-board .app-name { font-weight: 800; font-size: 14px; }
+    .fn-board .app-name a { color: inherit; text-decoration: none; }
+    .fn-board .app-name a:hover { color: var(--primary); }
+    .fn-board .big { font-size: 18px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+    .fn-board .paid-yes { color: #1E7A3F; font-size: 18px; font-weight: 800; }
+    .fn-board .paid-no { color: var(--text-dim); font-size: 16px; font-weight: 700; }
+    .fn-board .pct { display: block; font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
+    .fn-board .stop { font-size: 12px; font-weight: 600; color: var(--text); max-width: 220px; }
+    .fn-board .stop.bleed { color: var(--danger); }
     .fn-kpi {
       font-size: 14px; font-weight: 700; line-height: 1.45;
       padding: 10px 12px; border-radius: 8px; margin: 0 0 14px;
@@ -108,7 +121,7 @@
     .fn-kpi .not-sale { color: var(--danger); }
     .fn-kpi .is-sale { color: #1E7A3F; }
     .fn-app details.fn-more {
-      margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px;
+      margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px;
     }
     .fn-app details.fn-more > summary {
       cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-dim);
@@ -117,6 +130,9 @@
     .fn-app details.fn-more > summary::-webkit-details-marker { display: none; }
     .fn-app details.fn-more > summary::before { content: "▸ "; }
     .fn-app details.fn-more[open] > summary::before { content: "▾ "; }
+    .fn-wake-hint {
+      font-size: 12px; color: var(--text-dim); margin: 6px 0 0; line-height: 1.4;
+    }
     .fn-funnel { display: flex; flex-direction: column; gap: 0; }
     .fn-row { padding: 10px 0; }
     .fn-row-head {
@@ -223,8 +239,8 @@
     <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
-          One line per app first (who opened, who paid). Full funnel under each app.
-          Event dumps are collapsed. Site → store stays on Traffic.
+          Scoreboard first: are they buying, where they stop, counts and % of opens.
+          Expand an app for the full step ladder. Site → store stays on Traffic.
         </p>
         <div class="fn-range" id="fnRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -249,10 +265,12 @@
         </div>
         <div class="fn-changes muted" id="fnChanges">No known product changes in this window.</div>
         <div class="ref-actions">
-          <button type="button" class="m-btn accent" onclick="fnRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+          <button type="button" class="m-btn" onclick="fnWakeDb()">Wake database</button>
+          <button type="button" class="m-btn accent" onclick="fnRefresh()">Refresh stats <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
-        <div class="ref-status" id="fnStatus">Sign in, then Refresh.</div>
-        <div id="fnGlance" class="fn-glance" hidden></div>
+        <p class="fn-wake-hint">If Refresh fails or hangs, hit <strong>Wake database</strong> first (PocketHost sleep — can take up to a minute). Still dead → power josspatech On at pockethost.io/dashboard.</p>
+        <div class="ref-status" id="fnStatus">Sign in, then Wake / Refresh.</div>
+        <div id="fnGlance" hidden></div>
         <div id="fnApps"></div>
       </section>
     </main>
@@ -682,41 +700,118 @@
         </div>
       </details>`;
     }
-    function fnGlanceLine(app, counts, productCounts) {
-      const n = (key, list) => {
-        const c = (list || []).find((x) => x.key === key);
-        return c ? c.people : 0;
+    function fnStepN(counts, key) {
+      const c = (counts || []).find((x) => x.key === key);
+      return c ? c.people : 0;
+    }
+    /** Where most people leave the main sale path (absolute lost). */
+    function fnStopAt(counts) {
+      const main = fnMainCounts(counts);
+      if (!main.length || !(main[0].people || 0)) {
+        return { text: "No opens", bleed: false };
+      }
+      let best = null;
+      for (let i = 1; i < main.length; i++) {
+        const prev = main[i - 1].people || 0;
+        const cur = main[i].people || 0;
+        const lost = Math.max(0, prev - cur);
+        if (!best || lost > best.lost) {
+          best = {
+            lost,
+            from: main[i - 1].short || main[i - 1].label,
+            to: main[i].short || main[i].label,
+            prev,
+            cur,
+            lostPct: prev ? Math.round((100 * lost) / prev) : 0,
+          };
+        }
+      }
+      if (!best || best.lost === 0) {
+        return { text: "No big drop — path holds", bleed: false };
+      }
+      return {
+        text: `${best.lost} of ${best.prev} left after ${best.from} (${best.lostPct}%) — before ${best.to}`,
+        bleed: best.lostPct >= 50,
       };
-      const opens = n("app_opened", counts);
-      const paywall = n("paywall_viewed", counts);
-      const tapped = n("checkout_started", counts);
-      const paid = n("subscription_started", counts);
-      const trial = n("trial_started", counts);
-      const cancel = n("checkout_cancel", counts);
-      const saved = n("identify_saved", productCounts) || n("import_success", productCounts);
-      const drop = fnBiggestDrop(counts);
-      const dropBit =
-        drop && drop.lost > 0
-          ? `Biggest leak: ${drop.lost} left between ${drop.from} → ${drop.to}.`
-          : opens
-            ? "No big step-to-step leak yet."
-            : "No opens in this window.";
-      const saleCls = paid > 0 ? "has-sale" : opens ? "" : "quiet";
-      const saleTxt =
-        paid > 0
-          ? `${paid} paid${trial > 0 ? ` · ${trial} trial` : ""}`
-          : "0 paid";
-      const mid =
-        opens === 0
-          ? "Quiet — nobody opened."
-          : `<b>${opens}</b> opened · <b>${paywall}</b> saw paywall · <b>${tapped}</b> tapped Subscribe${
-              cancel ? ` · <b>${cancel}</b> cancelled` : ""
-            }${saved ? ` · <b>${saved}</b> product win` : ""}. ${dropBit}`;
-      return `<a class="fn-glance-row ${saleCls}" href="#fn-app-${app.id}">
-        <div class="fn-glance-app">${app.label}</div>
-        <div class="fn-glance-stats">${mid}</div>
-        <div class="fn-glance-sale${paid ? "" : " zero"}">${saleTxt}</div>
-      </a>`;
+    }
+    function fnCell(n, opens) {
+      if (!opens && !n) return `<span class="big">0</span>`;
+      const pct = opens ? `<span class="pct">${fnPct(n, opens)} of opens</span>` : "";
+      return `<span class="big">${n}</span>${pct}`;
+    }
+    function fnScoreboard(perApp, winLabel) {
+      const rows = perApp.map(({ app, counts }) => {
+        const opens = fnStepN(counts, "app_opened");
+        const paywall = fnStepN(counts, "paywall_viewed");
+        const tapped = fnStepN(counts, "checkout_started");
+        const paid = fnStepN(counts, "subscription_started");
+        const trial = fnStepN(counts, "trial_started");
+        const stop = fnStopAt(counts);
+        const rowCls = paid > 0 ? "has-sale" : opens ? "" : "quiet";
+        const paidHtml =
+          paid > 0
+            ? `<span class="paid-yes">${paid}</span>${
+                trial ? `<span class="pct">${trial} trial</span>` : ""
+              }<span class="pct">${fnPct(paid, opens || 1)} of opens</span>`
+            : `<span class="paid-no">0</span><span class="pct">${opens ? "0% of opens" : "—"}</span>`;
+        return `<tr class="${rowCls}">
+          <td class="app-name"><a href="#fn-app-${app.id}">${app.label}</a></td>
+          <td class="num">${fnCell(opens, opens)}</td>
+          <td class="num">${fnCell(paywall, opens)}</td>
+          <td class="num">${fnCell(tapped, opens)}</td>
+          <td class="num">${paidHtml}</td>
+          <td class="stop${stop.bleed ? " bleed" : ""}">${stop.text}</td>
+        </tr>`;
+      });
+      const totalOpens = perApp.reduce((s, a) => s + fnStepN(a.counts, "app_opened"), 0);
+      const totalPaid = perApp.reduce((s, a) => s + fnStepN(a.counts, "subscription_started"), 0);
+      const paidBits = perApp
+        .filter((a) => fnStepN(a.counts, "subscription_started") > 0)
+        .map((a) => {
+          const p = fnStepN(a.counts, "subscription_started");
+          const o = fnStepN(a.counts, "app_opened");
+          const t = fnStepN(a.counts, "trial_started");
+          return `${a.app.label} ${p} paid${t ? ` (${t} trial)` : ""}${o ? ` · ${fnPct(p, o)} of ${o} opens` : ""}`;
+        });
+      const worst = perApp
+        .map((a) => {
+          const drop = fnBiggestDrop(a.counts);
+          return drop && drop.lost
+            ? { app: a.app.label, lost: drop.lost, from: drop.from, to: drop.to, prev: drop.prev }
+            : null;
+        })
+        .filter(Boolean)
+        .sort((a, b) => b.lost - a.lost)[0];
+      const verdict =
+        totalPaid > 0
+          ? `<span class="yes">Buying: yes.</span> ${paidBits.join(" · ")}.`
+          : totalOpens > 0
+            ? `<span class="no">Buying: no.</span> ${totalOpens} open${totalOpens === 1 ? "" : "s"} across apps, 0 paid.`
+            : `<span class="no">Buying: no.</span> Nobody opened in this window.`;
+      const stopLine = worst
+        ? `Biggest stop: ${worst.app} — ${worst.lost} of ${worst.prev} left after ${worst.from} (before ${worst.to}).`
+        : totalOpens
+          ? "No big step-to-step stop yet (volume still small or path holds)."
+          : "";
+      return `<div class="fn-board">
+        <p class="fn-board-verdict">${verdict}</p>
+        <p class="fn-board-sub">${winLabel} · ${totalOpens} total opens · ${totalPaid} total paid${
+          totalOpens ? ` · ${fnPct(totalPaid, totalOpens)} of opens` : ""
+        }${stopLine ? ` · ${stopLine}` : ""}</p>
+        <table>
+          <thead>
+            <tr>
+              <th>App</th>
+              <th class="num">Opened</th>
+              <th class="num">Saw paywall</th>
+              <th class="num">Tapped Subscribe</th>
+              <th class="num">Paid</th>
+              <th>Where they stop</th>
+            </tr>
+          </thead>
+          <tbody>${rows.join("")}</tbody>
+        </table>
+      </div>`;
     }
     function fnChangesHtml(win) {
       if (!win.from && !win.to) {
@@ -759,43 +854,34 @@
         return { app, counts, productCounts, productSteps };
       });
 
-      const totalPaid = perApp.reduce((sum, a) => {
-        const p = a.counts.find((c) => c.key === "subscription_started");
-        return sum + (p ? p.people : 0);
-      }, 0);
-      const paidNames = perApp
-        .filter((a) => {
-          const p = a.counts.find((c) => c.key === "subscription_started");
-          return p && p.people > 0;
-        })
-        .map((a) => {
-          const p = a.counts.find((c) => c.key === "subscription_started");
-          const t = a.counts.find((c) => c.key === "trial_started");
-          const trialBit = t && t.people ? ` (${t.people} trial)` : "";
-          return `${a.app.label} ${p.people}${trialBit}`;
-        });
-      const glanceHead =
-        totalPaid > 0
-          ? `Who paid (${win.label}): ${paidNames.join(" · ")}`
-          : `Who paid (${win.label}): nobody yet`;
       const glanceEl = document.getElementById("fnGlance");
       glanceEl.hidden = false;
-      glanceEl.innerHTML =
-        `<p class="fn-glance-head">${glanceHead}</p>` +
-        perApp.map((a) => fnGlanceLine(a.app, a.counts, a.productCounts)).join("");
+      glanceEl.innerHTML = fnScoreboard(perApp, win.label);
 
       const html = perApp
         .map(({ app, counts, productCounts, productSteps }) => {
-          const opens = counts[0] ? counts[0].people : 0;
+          const opens = fnStepN(counts, "app_opened");
+          const paid = fnStepN(counts, "subscription_started");
+          const stop = fnStopAt(counts);
           const block = fnFunnelBlock(counts, "sale", app.label);
           const productBlock = productCounts.length
             ? `<details class="fn-more"><summary>Product drop-off (Identify / import)</summary>
-                <p class="fn-pane-title" style="margin-top:8px">Where you lose people after open</p>
                 ${fnFunnelBlock(productCounts, "product", app.label).html}
               </details>`
             : "";
           const allBlock = fnAllEventsBlock(fnAllEventsInventory(scoped, app.id));
-          let body = block.html + productBlock + allBlock;
+          const detailInner = block.html + productBlock + allBlock;
+          let body = `<div class="fn-kpi">${
+            paid > 0
+              ? `<span class="is-sale">${app.label}: ${paid} paid of ${opens} opens (${fnPct(paid, opens || 1)}).</span>`
+              : opens > 0
+                ? `<span class="not-sale">${app.label}: 0 paid of ${opens} opens.</span>`
+                : `<span class="not-sale">${app.label}: quiet — 0 opens.</span>`
+          } ${stop.text}</div>
+          <details class="fn-more"${opens ? "" : ""}>
+            <summary>Full sale funnel (step by step)</summary>
+            ${detailInner}
+          </details>`;
           let deltaHtml = "";
           if (prevWin) {
             const prevCounts = fnCountsForApp(scopedPrev, app.id, FN_STEPS);
@@ -828,12 +914,9 @@
           }
           const platNote =
             fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
-          const quietNote = opens
-            ? `${platNote}. Tapped Subscribe ≠ sale — only Actually paid counts.`
-            : `${platNote}. Quiet in this window.`;
           return `<div class="fn-app" id="fn-app-${app.id}">
           <h3>${app.label}</h3>
-          <p class="sub">${quietNote}</p>
+          <p class="sub">${platNote}. Scoreboard is above — expand for every step.</p>
           ${body}
         </div>`;
         })
@@ -871,15 +954,42 @@
       );
     }
 
+    async function fnWakeDb() {
+      const status = document.getElementById("fnStatus");
+      status.textContent = "Waking PocketBase… (cold start can take up to ~60s)";
+      document.getElementById("pulse").classList.add("stale");
+      let ok = false;
+      for (let i = 1; i <= 4; i++) {
+        try {
+          const r = await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+          if (r && r.ok) {
+            ok = true;
+            break;
+          }
+          status.textContent = `Wake try ${i}/4 — health not ready yet…`;
+        } catch (_) {
+          status.textContent = `Wake try ${i}/4 — still sleeping, waiting…`;
+        }
+        if (i < 4) await new Promise((res) => setTimeout(res, 4000));
+      }
+      if (ok) {
+        status.textContent = "Database awake. Hit Refresh stats.";
+        document.getElementById("pulse").classList.remove("stale");
+      } else {
+        status.textContent =
+          "Still asleep after 4 tries. Open pockethost.io/dashboard → josspatech → power On, then Wake again.";
+      }
+    }
+
     async function fnRefresh() {
       const status = document.getElementById("fnStatus");
       status.textContent = "Loading…";
       try {
-        // Wake hibernating PocketHost before the multi-page list.
+        // Soft wake before the multi-page list.
         try {
           await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
         } catch (_) {
-          /* list may still work */
+          /* list may still work; use Wake database if this keeps failing */
         }
         fnCacheRows = await listAllRecords(
           "_site_visits",
@@ -894,7 +1004,7 @@
           e.name === "AbortError" ||
           e.name === "TimeoutError";
         status.textContent = dead
-          ? "PocketBase timed out (often sleeping). Hit Refresh once — first wake can take up to a minute. If it keeps failing, power the josspatech instance On at pockethost.io/dashboard."
+          ? "PocketBase timed out (usually asleep). Hit Wake database, wait until it says awake, then Refresh stats. Still dead → pockethost.io/dashboard → josspatech On."
           : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
       }
@@ -947,6 +1057,7 @@
     })();
 
     window.fnRefresh = fnRefresh;
+    window.fnWakeDb = fnWakeDb;
   </script>
 </body>
 </html>
