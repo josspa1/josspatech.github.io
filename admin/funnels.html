@@ -206,6 +206,28 @@
     .fn-tag.admin { background: #FFF8E8; color: #8A6A1B; }
     .fn-tag.other { background: var(--surface-alt, #f7f7f8); color: var(--text-dim); }
     .fn-all-empty { font-size: 13px; color: var(--text-dim); margin: 0; }
+    .fn-lost {
+      margin: 0 0 12px; padding: 12px 14px; border-radius: 10px;
+      background: #FDECEA; border: 1px solid #F5C6C0;
+    }
+    .fn-lost.ok {
+      background: #E8F7EE; border-color: #B7E0C5;
+    }
+    .fn-lost h4 {
+      margin: 0 0 8px; font-size: 13px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .03em; color: var(--danger);
+    }
+    .fn-lost.ok h4 { color: #1E7A3F; }
+    .fn-lost ol { margin: 0; padding-left: 1.2rem; }
+    .fn-lost li {
+      font-size: 13px; font-weight: 700; line-height: 1.45; margin: 0 0 4px; color: var(--text);
+    }
+    .fn-lost li .dim { font-weight: 600; color: var(--text-dim); }
+    .fn-lost p { margin: 0; font-size: 13px; font-weight: 600; color: var(--text-dim); }
+    .fn-feat-link {
+      font-size: 13px; font-weight: 700; margin: 0 0 14px;
+    }
+    .fn-feat-link a { color: var(--primary); }
   </style>
 </head>
 <body>
@@ -227,7 +249,7 @@
       <div class="brand">
         <h1>
           App funnels
-          <span class="subtitle">Who opened · who paid · per app</span>
+          <span class="subtitle">Where you lost them · who paid · per app</span>
         </h1>
       </div>
       <div class="controls">
@@ -239,8 +261,9 @@
     <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
-          Scoreboard: backed out of checkout · started free trial · quit trial before paying · Paying (real customer).
-          Paying ≠ trial. RevenueCat confirms live Active Trials / Active Subs. Expand an app for the full ladder.
+          Scoreboard = sale outcomes. Each app lists <strong>where you lost them</strong> step by step (biggest leak first).
+          Paying ≠ trial — confirm Active Subs in RevenueCat.
+          Popular features (what they open, how often) → <a href="screens.html">Features</a>.
         </p>
         <div class="fn-range" id="fnRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -701,6 +724,40 @@
       if (!base) return null;
       return { base, paidN: o.paying, trialN: o.startedTrial, pct: (100 * o.paying) / base };
     }
+    /** Every main-path leak, biggest first — Joe’s “at what step did I lose them”. */
+    function fnDropLosses(counts) {
+      const main = fnMainCounts(counts);
+      const losses = [];
+      for (let i = 1; i < main.length; i++) {
+        const prev = main[i - 1].people || 0;
+        const cur = main[i].people || 0;
+        const lost = Math.max(0, prev - cur);
+        if (!prev || lost === 0) continue;
+        losses.push({
+          from: main[i - 1].short || main[i - 1].label,
+          to: main[i].short || main[i].label,
+          prev,
+          cur,
+          lost,
+          lostPct: Math.round((100 * lost) / prev),
+        });
+      }
+      losses.sort((a, b) => b.lost - a.lost || b.lostPct - a.lostPct);
+      return losses;
+    }
+    function fnLostHtml(counts, appLabel) {
+      const losses = fnDropLosses(counts);
+      if (!losses.length) {
+        return `<div class="fn-lost ok"><h4>Where you lost them</h4><p>${appLabel}: no step-to-step drop in this window (or volume is still tiny).</p></div>`;
+      }
+      const items = losses
+        .map(
+          (L, i) =>
+            `<li>${i === 0 ? "Biggest: " : ""}${L.lost} of ${L.prev} left after <strong>${L.from}</strong> <span class="dim">(${L.lostPct}% — before ${L.to}; ${L.cur} continued)</span></li>`
+        )
+        .join("");
+      return `<div class="fn-lost"><h4>Where you lost them</h4><ol>${items}</ol></div>`;
+    }
     /** Strip app suffix so sale/product keys match inventory event names. */
     function fnBareEvent(event, appId) {
       const e = String(event || "");
@@ -955,8 +1012,13 @@
           } else {
             headKpi = `<span class="not-sale">${app.label}: quiet — 0 opens.</span>`;
           }
-          let body = `<div class="fn-kpi">${headKpi} ${stop.text}</div>
-          <details class="fn-more">
+          const lostBlock = fnLostHtml(counts, app.label);
+          const productLost =
+            productCounts.length > 0 ? fnLostHtml(productCounts, app.label + " product") : "";
+          let body = `<div class="fn-kpi">${headKpi}</div>
+          ${lostBlock}
+          ${productLost}
+          <details class="fn-more" open>
             <summary>Full sale funnel (step by step)</summary>
             ${detailInner}
           </details>`;
@@ -976,16 +1038,18 @@
               ? fnCountsForApp(scopedPrev, app.id, productSteps)
               : [];
             const prevProductHtml = prevProduct.length
-              ? `<details class="fn-more"><summary>Product drop-off</summary>${fnFunnelBlock(prevProduct, "product", app.label).html}</details>`
+              ? `<details class="fn-more" open><summary>Product drop-off</summary>${fnLostHtml(prevProduct, app.label + " product")}${fnFunnelBlock(prevProduct, "product", app.label).html}</details>`
               : "";
             const prevAll = fnAllEventsBlock(fnAllEventsInventory(scopedPrev, app.id));
             body = `<div class="fn-compare-grid">
             <div>
               <p class="fn-pane-title">Before · ${prevWin.label}</p>
+              ${fnLostHtml(prevCounts, app.label)}
               ${prevBlock.html}${prevProductHtml}${prevAll}
             </div>
             <div>
               <p class="fn-pane-title">This window · ${win.label}</p>
+              ${lostBlock}
               ${block.html}${productBlock}${allBlock}
             </div>
           </div>${deltaHtml}`;
@@ -994,7 +1058,8 @@
             fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
           return `<div class="fn-app" id="fn-app-${app.id}">
           <h3>${app.label}</h3>
-          <p class="sub">${platNote}. Scoreboard is above — expand for every step.</p>
+          <p class="sub">${platNote}. Leaks below · full ladder open.</p>
+          <p class="fn-feat-link">Popular features for this app → <a href="screens.html">Features</a></p>
           ${body}
         </div>`;
         })
