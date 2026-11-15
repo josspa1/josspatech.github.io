@@ -112,6 +112,13 @@
       border-left: 2px solid var(--border);
     }
     .fn-bridge.bleed { color: var(--danger); border-left-color: var(--danger); }
+    .fn-bridge.fn-side-note {
+      margin-top: 4px; font-style: italic; border-left-color: #E8D4A8; color: var(--text-dim);
+    }
+    .fn-row.fn-side {
+      margin-left: 8px; padding-left: 10px;
+      border-left: 3px solid #E8D4A8;
+    }
     .fn-summary {
       margin-top: 12px; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 8px;
     }
@@ -240,6 +247,10 @@
      * Admin is also the home for drop-off HeyCatch’s UI doesn’t show the way we need
      * (per-app panes, Android/iPhone filter, fail/abandon leaks).
      */
+    /**
+     * Sale path. Steps with sideOf are branches (cancel/error/trial) — not sequential
+     * "continued" links. Bridges only connect main-path steps.
+     */
     const FN_STEPS = [
       { key: "app_opened", label: "1 · Opened app", mean: "Opened the app at least once." },
       { key: "terms_accepted", label: "2 · Accepted terms", mean: "Tapped through Terms." },
@@ -256,12 +267,14 @@
         label: "5b · Cancelled checkout",
         mean: "Closed the store sheet without buying. Leak after Subscribe tap.",
         short: "Cancelled checkout",
+        sideOf: "checkout_started",
       },
       {
         key: "checkout_error",
         label: "5c · Checkout error",
         mean: "Store/purchase failed (not user cancel).",
         short: "Checkout error",
+        sideOf: "checkout_started",
       },
       {
         key: "subscription_started",
@@ -272,8 +285,9 @@
       {
         key: "trial_started",
         label: "6b · Trial started",
-        mean: "Checkout succeeded with a free trial period.",
+        mean: "Checkout succeeded with a free trial period (subset of paid / trial checkouts).",
         short: "Trial started",
+        sideOf: "subscription_started",
       },
     ];
     /** Product win + leak steps — HHH/CVC Identify; PBJ import. */
@@ -282,29 +296,29 @@
         { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
         { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
         { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
-        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc)." },
-        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job." },
-        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing." },
+        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc).", sideOf: "identify_start" },
+        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job.", sideOf: "identify_start" },
+        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing.", sideOf: "identify_start" },
         { key: "identify_saved", label: "D · Saved to Museum", mean: "Product win — saved the result." },
-        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds." },
+        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds.", sideOf: "identify_saved" },
       ],
       cvc: [
         { key: "identify_open", label: "A · Identify opened", mean: "Landed on Identify." },
         { key: "identify_start", label: "B · Identify started", mean: "Tapped Go / started a job." },
         { key: "identify_finished", label: "C · Identify finished", mean: "Got a result (not necessarily saved)." },
-        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc)." },
-        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job." },
-        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing." },
+        { key: "identify_fail", label: "C2 · Identify failed", mean: "Job failed (quality/network/quota/etc).", sideOf: "identify_start" },
+        { key: "identify_cancel", label: "C3 · Identify cancelled", mean: "User cancelled mid-job.", sideOf: "identify_start" },
+        { key: "identify_abandon", label: "C4 · Identify abandoned", mean: "Left without finishing.", sideOf: "identify_start" },
         { key: "identify_saved", label: "D · Saved to Vault", mean: "Product win — saved the result." },
-        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds." },
+        { key: "promo_redeemed", label: "E · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds.", sideOf: "identify_saved" },
       ],
       pbj: [
         { key: "import_start", label: "A · Import started", mean: "Began a statement import." },
-        { key: "import_abandon", label: "A2 · Import abandoned", mean: "Left import without finishing." },
-        { key: "import_abort", label: "A3 · Import aborted", mean: "Hard stop (password cancel / all stages failed)." },
-        { key: "import_stage_fail", label: "A4 · Stage failed", mean: "A parse/OCR stage failed (may retry)." },
+        { key: "import_abandon", label: "A2 · Import abandoned", mean: "Left import without finishing.", sideOf: "import_start" },
+        { key: "import_abort", label: "A3 · Import aborted", mean: "Hard stop (password cancel / all stages failed).", sideOf: "import_start" },
+        { key: "import_stage_fail", label: "A4 · Stage failed", mean: "A parse/OCR stage failed (may retry).", sideOf: "import_start" },
         { key: "import_success", label: "B · Import succeeded", mean: "Product win — transactions landed." },
-        { key: "promo_redeemed", label: "C · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds." },
+        { key: "promo_redeemed", label: "C · Promo redeemed", mean: "Creator/gift code redeemed; person props + promo_code_* / promo_creator_* on tagged builds.", sideOf: "import_success" },
       ],
       unscribe: [],
     };
@@ -414,18 +428,22 @@
       if (!d) return "—";
       return ((100 * n) / d).toFixed(0) + "%";
     }
+    function fnMainCounts(counts) {
+      return (counts || []).filter((c) => !c.sideOf);
+    }
     function fnBiggestDrop(counts) {
+      const main = fnMainCounts(counts);
       let worst = null;
-      for (let i = 1; i < counts.length; i++) {
-        const prev = counts[i - 1].people || counts[i - 1].n;
-        const cur = counts[i].people || counts[i].n;
+      for (let i = 1; i < main.length; i++) {
+        const prev = main[i - 1].people || main[i - 1].n;
+        const cur = main[i].people || main[i].n;
         const lost = Math.max(0, prev - cur);
         if (!prev) continue;
         const rate = lost / prev;
         if (!worst || rate > worst.rate) {
           worst = {
-            from: counts[i - 1].short || counts[i - 1].label,
-            to: counts[i].short || counts[i].label,
+            from: main[i - 1].short || main[i - 1].label,
+            to: main[i].short || main[i].label,
             lost,
             rate,
             prev,
@@ -455,14 +473,16 @@
           key: step.key,
           label: step.label,
           mean: step.mean || "",
-          short: step.short || step.label.replace(/^[A-Z0-9]+\s*·\s*/, ""),
+          short: step.short || step.label.replace(/^[A-Z0-9b]+\s*·\s*/, ""),
+          sideOf: step.sideOf || null,
           n: hits.length,
           people: people.size || hits.length,
         };
       });
     }
     function fnFunnelBlock(counts, kind) {
-      const base = counts[0] ? counts[0].people || counts[0].n : 0;
+      const main = fnMainCounts(counts);
+      const base = main[0] ? main[0].people || main[0].n : 0;
       const isProduct = kind === "product";
       const tapped = counts.find((c) => c.key === "checkout_started");
       const paid = counts.find((c) => c.key === "subscription_started");
@@ -489,25 +509,18 @@
       }
       const drop = fnBiggestDrop(counts);
       const funnelParts = [];
-      counts.forEach((c, i) => {
-        const prev = i === 0 ? base : counts[i - 1].people || counts[i - 1].n;
+      const byKey = new Map(counts.map((c) => [c.key, c]));
+
+      function pushRow(c, ofLabel, ofBase, bleedVs) {
         const barPct = base ? Math.max(0, Math.min(100, (100 * c.people) / base)) : 0;
-        const ofOpen = i === 0 ? "" : `<span class="of-open">${fnPct(c.people, base)} of opens</span>`;
-        const isBleed = i > 0 && prev > 0 && c.people / prev < 0.5;
-        if (i > 0) {
-          const lost = Math.max(0, prev - c.people);
-          const contPct = fnPct(c.people, prev);
-          const lostPct = fnPct(lost, prev);
-          const bridgeBleed = prev > 0 && lost / prev >= 0.5;
-          const bridgeTxt =
-            prev === 0
-              ? `Nobody reached ${counts[i - 1].short || counts[i - 1].label}`
-              : lost === 0
-                ? `All ${prev} continued (${contPct})`
-                : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
-          funnelParts.push(`<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`);
-        }
-        funnelParts.push(`<div class="fn-row">
+        const ofOpen =
+          ofLabel && ofBase > 0
+            ? `<span class="of-open">${fnPct(c.people, ofBase)} of ${ofLabel}</span>`
+            : c.key === main[0]?.key
+              ? ""
+              : `<span class="of-open">${fnPct(c.people, base)} of opens</span>`;
+        const isBleed = bleedVs > 0 && c.people / bleedVs < 0.5;
+        funnelParts.push(`<div class="fn-row${c.sideOf ? " fn-side" : ""}">
           <div class="fn-row-head">
             <span class="name">${c.label}</span>
             <span class="count">${c.people}</span>
@@ -516,7 +529,39 @@
           <div class="mean">${c.mean}</div>
           <div class="fn-bar"><i class="${isBleed ? "bleed" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
         </div>`);
+      }
+
+      main.forEach((c, i) => {
+        if (i > 0) {
+          const prev = main[i - 1].people || main[i - 1].n;
+          const lost = Math.max(0, prev - c.people);
+          const contPct = fnPct(c.people, prev);
+          const lostPct = fnPct(lost, prev);
+          const bridgeBleed = prev > 0 && lost / prev >= 0.5;
+          const bridgeTxt =
+            prev === 0
+              ? `Nobody reached ${main[i - 1].short || main[i - 1].label}`
+              : lost === 0
+                ? `All ${prev} continued (${contPct})`
+                : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
+          funnelParts.push(`<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`);
+        }
+        pushRow(c, i === 0 ? "" : "opens", base, i === 0 ? 0 : main[i - 1].people || 0);
+
+        // Branch rows under this main step (cancel/error under Subscribe; trial under Paid).
+        const sides = counts.filter((s) => s.sideOf === c.key);
+        if (sides.length) {
+          const parentN = c.people || 0;
+          const parentShort = c.short || c.label;
+          funnelParts.push(
+            `<p class="fn-bridge fn-side-note">Branches from ${parentShort} (not the next funnel step):</p>`
+          );
+          sides.forEach((s) => {
+            pushRow(s, parentShort, parentN || 1, parentN);
+          });
+        }
       });
+
       let summaryHtml = `<div class="fn-summary muted">No app steps in this window yet.</div>`;
       if (base) {
         if (drop && drop.lost > 0) {
