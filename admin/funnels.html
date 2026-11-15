@@ -76,6 +76,30 @@
       font-size: 12px; font-weight: 700; color: var(--text-dim);
       text-transform: uppercase; letter-spacing: .03em; margin: 0 0 8px;
     }
+    .fn-glance {
+      display: grid; gap: 8px; margin: 0 0 16px;
+    }
+    .fn-glance-head {
+      font-size: 13px; font-weight: 700; margin: 0 0 2px; color: var(--text);
+    }
+    .fn-glance-row {
+      display: grid; grid-template-columns: 72px 1fr auto;
+      gap: 8px 12px; align-items: center;
+      padding: 10px 12px; border-radius: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: 13px; line-height: 1.4;
+      cursor: pointer; text-decoration: none; color: inherit;
+    }
+    .fn-glance-row:hover { border-color: var(--primary); }
+    .fn-glance-row.has-sale {
+      border-color: #B7E0C5; background: #E8F7EE;
+    }
+    .fn-glance-row.quiet { opacity: 0.72; }
+    .fn-glance-app { font-weight: 800; font-size: 15px; }
+    .fn-glance-stats { color: var(--text); }
+    .fn-glance-stats b { font-weight: 800; }
+    .fn-glance-sale { font-weight: 800; color: #1E7A3F; white-space: nowrap; }
+    .fn-glance-sale.zero { color: var(--text-dim); font-weight: 600; }
     .fn-kpi {
       font-size: 14px; font-weight: 700; line-height: 1.45;
       padding: 10px 12px; border-radius: 8px; margin: 0 0 14px;
@@ -83,6 +107,16 @@
     }
     .fn-kpi .not-sale { color: var(--danger); }
     .fn-kpi .is-sale { color: #1E7A3F; }
+    .fn-app details.fn-more {
+      margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px;
+    }
+    .fn-app details.fn-more > summary {
+      cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-dim);
+      list-style: none;
+    }
+    .fn-app details.fn-more > summary::-webkit-details-marker { display: none; }
+    .fn-app details.fn-more > summary::before { content: "▸ "; }
+    .fn-app details.fn-more[open] > summary::before { content: "▾ "; }
     .fn-funnel { display: flex; flex-direction: column; gap: 0; }
     .fn-row { padding: 10px 0; }
     .fn-row-head {
@@ -177,7 +211,7 @@
       <div class="brand">
         <h1>
           App funnels
-          <span class="subtitle">Every HeyCatch-backed step + admin-only extras · PocketBase only</span>
+          <span class="subtitle">Who opened · who paid · per app</span>
         </h1>
       </div>
       <div class="controls">
@@ -189,11 +223,8 @@
     <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
-          Phones dual-write every HeyCatch <code>trackEvent</code> into
-          <code>_site_visits</code> as <code>app:hhh:…</code> / <code>app:cvc:…</code> / <code>app:pbj:…</code>.
-          Sale + product funnels are the drop-off paths; <strong>All events</strong> lists every
-          posted step in the window (HeyCatch-supported names plus admin-only extras like
-          <code>screen_*</code>). No Cloudflare Workers or KV. Site → store stays on Traffic.
+          One line per app first (who opened, who paid). Full funnel under each app.
+          Event dumps are collapsed. Site → store stays on Traffic.
         </p>
         <div class="fn-range" id="fnRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -221,6 +252,7 @@
           <button type="button" class="m-btn accent" onclick="fnRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
         <div class="ref-status" id="fnStatus">Sign in, then Refresh.</div>
+        <div id="fnGlance" class="fn-glance" hidden></div>
         <div id="fnApps"></div>
       </section>
     </main>
@@ -480,31 +512,35 @@
         };
       });
     }
-    function fnFunnelBlock(counts, kind) {
+    function fnFunnelBlock(counts, kind, appLabel) {
       const main = fnMainCounts(counts);
       const base = main[0] ? main[0].people || main[0].n : 0;
       const isProduct = kind === "product";
+      const who = appLabel || "This app";
       const tapped = counts.find((c) => c.key === "checkout_started");
       const paid = counts.find((c) => c.key === "subscription_started");
+      const trial = counts.find((c) => c.key === "trial_started");
       const saved = counts.find((c) => c.key === "identify_saved" || c.key === "import_success");
       const tappedN = tapped ? tapped.people : 0;
       const paidN = paid ? paid.people : 0;
+      const trialN = trial ? trial.people : 0;
       const winN = saved ? saved.people : 0;
       let kpiHtml = "";
       if (base) {
         if (isProduct) {
           const winLabel = saved && saved.key === "import_success" ? "imports succeeded" : "saved a result";
           if (winN > 0) {
-            kpiHtml = `<div class="fn-kpi"><span class="is-sale">Product wins: ${winN}.</span> ${winN} of ${base} who started ${winLabel} (${fnPct(winN, base)}).</div>`;
+            kpiHtml = `<div class="fn-kpi"><span class="is-sale">${who} product wins: ${winN}.</span> ${winN} of ${base} who started ${winLabel} (${fnPct(winN, base)}).</div>`;
           } else {
-            kpiHtml = `<div class="fn-kpi"><span class="not-sale">Product wins: 0.</span> ${base} started this path; nobody finished the win step yet.</div>`;
+            kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} product wins: 0.</span> ${base} started this path; nobody finished the win step yet.</div>`;
           }
         } else if (paidN > 0) {
-          kpiHtml = `<div class="fn-kpi"><span class="is-sale">Sales this window: ${paidN}.</span> ${tappedN} tapped Subscribe; ${paidN} finished paying in the store.</div>`;
+          const trialBit = trialN > 0 ? ` (${trialN} of those on a free trial)` : "";
+          kpiHtml = `<div class="fn-kpi"><span class="is-sale">${who} sales this window: ${paidN}${trialBit}.</span> ${tappedN} tapped Subscribe; ${paidN} finished in the store.</div>`;
         } else if (tappedN > 0) {
-          kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
         } else {
-          kpiHtml = `<div class="fn-kpi"><span class="not-sale">Sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
         }
       }
       const drop = fnBiggestDrop(counts);
@@ -623,7 +659,9 @@
     }
     function fnAllEventsBlock(inventory) {
       if (!inventory.length) {
-        return `<div class="fn-all"><p class="fn-pane-title">All events (HeyCatch + admin)</p><p class="fn-all-empty">No app events in this window yet.</p></div>`;
+        return `<details class="fn-more"><summary>Raw event list (empty)</summary>
+          <div class="fn-all"><p class="fn-all-empty">No app events in this window yet.</p></div>
+        </details>`;
       }
       const tagLabel = { sale: "sale", product: "product", admin: "admin-only", other: "other" };
       const rows = inventory
@@ -635,13 +673,50 @@
         </tr>`
         )
         .join("");
-      return `<div class="fn-all">
-        <p class="fn-pane-title">All events (HeyCatch + admin)</p>
-        <table>
-          <thead><tr><th>Event</th><th style="text-align:right">People</th><th style="text-align:right">Hits</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+      return `<details class="fn-more"><summary>Raw event list (${inventory.length} names) — usually ignore this</summary>
+        <div class="fn-all">
+          <table>
+            <thead><tr><th>Event</th><th style="text-align:right">People</th><th style="text-align:right">Hits</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </details>`;
+    }
+    function fnGlanceLine(app, counts, productCounts) {
+      const n = (key, list) => {
+        const c = (list || []).find((x) => x.key === key);
+        return c ? c.people : 0;
+      };
+      const opens = n("app_opened", counts);
+      const paywall = n("paywall_viewed", counts);
+      const tapped = n("checkout_started", counts);
+      const paid = n("subscription_started", counts);
+      const trial = n("trial_started", counts);
+      const cancel = n("checkout_cancel", counts);
+      const saved = n("identify_saved", productCounts) || n("import_success", productCounts);
+      const drop = fnBiggestDrop(counts);
+      const dropBit =
+        drop && drop.lost > 0
+          ? `Biggest leak: ${drop.lost} left between ${drop.from} → ${drop.to}.`
+          : opens
+            ? "No big step-to-step leak yet."
+            : "No opens in this window.";
+      const saleCls = paid > 0 ? "has-sale" : opens ? "" : "quiet";
+      const saleTxt =
+        paid > 0
+          ? `${paid} paid${trial > 0 ? ` · ${trial} trial` : ""}`
+          : "0 paid";
+      const mid =
+        opens === 0
+          ? "Quiet — nobody opened."
+          : `<b>${opens}</b> opened · <b>${paywall}</b> saw paywall · <b>${tapped}</b> tapped Subscribe${
+              cancel ? ` · <b>${cancel}</b> cancelled` : ""
+            }${saved ? ` · <b>${saved}</b> product win` : ""}. ${dropBit}`;
+      return `<a class="fn-glance-row ${saleCls}" href="#fn-app-${app.id}">
+        <div class="fn-glance-app">${app.label}</div>
+        <div class="fn-glance-stats">${mid}</div>
+        <div class="fn-glance-sale${paid ? "" : " zero"}">${saleTxt}</div>
+      </a>`;
     }
     function fnChangesHtml(win) {
       if (!win.from && !win.to) {
@@ -675,38 +750,72 @@
       const scoped = fnFilterRows(rows, win);
       const scopedPrev = prevWin ? fnFilterRows(rows, prevWin) : [];
 
-      const html = FN_APPS.map((app) => {
+      const perApp = FN_APPS.map((app) => {
         const counts = fnCountsForApp(scoped, app.id, FN_STEPS);
-        const block = fnFunnelBlock(counts);
         const productSteps = FN_PRODUCT_BY_APP[app.id] || [];
         const productCounts = productSteps.length
           ? fnCountsForApp(scoped, app.id, productSteps)
           : [];
-        const productBlock = productCounts.length
-          ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off (where you lose people)</p>${fnFunnelBlock(productCounts, "product").html}`
-          : "";
-        const allBlock = fnAllEventsBlock(fnAllEventsInventory(scoped, app.id));
-        let body = block.html + productBlock + allBlock;
-        let deltaHtml = "";
-        if (prevWin) {
-          const prevCounts = fnCountsForApp(scopedPrev, app.id, FN_STEPS);
-          const prevBlock = fnFunnelBlock(prevCounts);
-          const curRate = fnPaidRate(counts);
-          const oldRate = fnPaidRate(prevCounts);
-          if (curRate && oldRate && (curRate.base || oldRate.base)) {
-            const diff = curRate.pct - oldRate.pct;
-            const cls = diff > 0.5 ? "up" : diff < -0.5 ? "down" : "";
-            const sign = diff > 0 ? "+" : "";
-            deltaHtml = `<div class="fn-delta ${cls}">Paid rate: ${curRate.pct.toFixed(1)}% now vs ${oldRate.pct.toFixed(1)}% before (${sign}${diff.toFixed(1)} pts) · sales ${curRate.paidN} vs ${oldRate.paidN}</div>`;
-          }
-          const prevProduct = productSteps.length
-            ? fnCountsForApp(scopedPrev, app.id, productSteps)
-            : [];
-          const prevProductHtml = prevProduct.length
-            ? `<p class="fn-pane-title" style="margin-top:16px">Product drop-off</p>${fnFunnelBlock(prevProduct, "product").html}`
+        return { app, counts, productCounts, productSteps };
+      });
+
+      const totalPaid = perApp.reduce((sum, a) => {
+        const p = a.counts.find((c) => c.key === "subscription_started");
+        return sum + (p ? p.people : 0);
+      }, 0);
+      const paidNames = perApp
+        .filter((a) => {
+          const p = a.counts.find((c) => c.key === "subscription_started");
+          return p && p.people > 0;
+        })
+        .map((a) => {
+          const p = a.counts.find((c) => c.key === "subscription_started");
+          const t = a.counts.find((c) => c.key === "trial_started");
+          const trialBit = t && t.people ? ` (${t.people} trial)` : "";
+          return `${a.app.label} ${p.people}${trialBit}`;
+        });
+      const glanceHead =
+        totalPaid > 0
+          ? `Who paid (${win.label}): ${paidNames.join(" · ")}`
+          : `Who paid (${win.label}): nobody yet`;
+      const glanceEl = document.getElementById("fnGlance");
+      glanceEl.hidden = false;
+      glanceEl.innerHTML =
+        `<p class="fn-glance-head">${glanceHead}</p>` +
+        perApp.map((a) => fnGlanceLine(a.app, a.counts, a.productCounts)).join("");
+
+      const html = perApp
+        .map(({ app, counts, productCounts, productSteps }) => {
+          const opens = counts[0] ? counts[0].people : 0;
+          const block = fnFunnelBlock(counts, "sale", app.label);
+          const productBlock = productCounts.length
+            ? `<details class="fn-more"><summary>Product drop-off (Identify / import)</summary>
+                <p class="fn-pane-title" style="margin-top:8px">Where you lose people after open</p>
+                ${fnFunnelBlock(productCounts, "product", app.label).html}
+              </details>`
             : "";
-          const prevAll = fnAllEventsBlock(fnAllEventsInventory(scopedPrev, app.id));
-          body = `<div class="fn-compare-grid">
+          const allBlock = fnAllEventsBlock(fnAllEventsInventory(scoped, app.id));
+          let body = block.html + productBlock + allBlock;
+          let deltaHtml = "";
+          if (prevWin) {
+            const prevCounts = fnCountsForApp(scopedPrev, app.id, FN_STEPS);
+            const prevBlock = fnFunnelBlock(prevCounts, "sale", app.label);
+            const curRate = fnPaidRate(counts);
+            const oldRate = fnPaidRate(prevCounts);
+            if (curRate && oldRate && (curRate.base || oldRate.base)) {
+              const diff = curRate.pct - oldRate.pct;
+              const cls = diff > 0.5 ? "up" : diff < -0.5 ? "down" : "";
+              const sign = diff > 0 ? "+" : "";
+              deltaHtml = `<div class="fn-delta ${cls}">${app.label} paid rate: ${curRate.pct.toFixed(1)}% now vs ${oldRate.pct.toFixed(1)}% before (${sign}${diff.toFixed(1)} pts) · sales ${curRate.paidN} vs ${oldRate.paidN}</div>`;
+            }
+            const prevProduct = productSteps.length
+              ? fnCountsForApp(scopedPrev, app.id, productSteps)
+              : [];
+            const prevProductHtml = prevProduct.length
+              ? `<details class="fn-more"><summary>Product drop-off</summary>${fnFunnelBlock(prevProduct, "product", app.label).html}</details>`
+              : "";
+            const prevAll = fnAllEventsBlock(fnAllEventsInventory(scopedPrev, app.id));
+            body = `<div class="fn-compare-grid">
             <div>
               <p class="fn-pane-title">Before · ${prevWin.label}</p>
               ${prevBlock.html}${prevProductHtml}${prevAll}
@@ -716,15 +825,19 @@
               ${block.html}${productBlock}${allBlock}
             </div>
           </div>${deltaHtml}`;
-        }
-        const platNote =
-          fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
-        return `<div class="fn-app">
+          }
+          const platNote =
+            fnPlat === "all" ? "All platforms" : fnPlat === "android" ? "Android only" : "iPhone only";
+          const quietNote = opens
+            ? `${platNote}. Tapped Subscribe ≠ sale — only Actually paid counts.`
+            : `${platNote}. Quiet in this window.`;
+          return `<div class="fn-app" id="fn-app-${app.id}">
           <h3>${app.label}</h3>
-          <p class="sub">${platNote}. Sale + product funnels, then every posted event. Tapped Subscribe ≠ sale — only Actually paid counts as a sale.</p>
+          <p class="sub">${quietNote}</p>
           ${body}
         </div>`;
-      }).join("");
+        })
+        .join("");
 
       document.getElementById("fnApps").innerHTML = html || "<p>No data.</p>";
       document.getElementById("fnStatus").textContent =
