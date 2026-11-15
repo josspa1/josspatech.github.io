@@ -239,8 +239,8 @@
     <main class="page-main" id="fnMain">
       <section>
         <p class="section-explainer">
-          Scoreboard first: are they buying, where they stop, counts and % of opens.
-          Expand an app for the full step ladder. Site → store stays on Traffic.
+          Scoreboard first: paid money vs free trial (phone), where they stop, counts and % of opens.
+          Free trials are not sales — RevenueCat Active Trials is the live check. Expand an app for the full ladder.
         </p>
         <div class="fn-range" id="fnRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -328,15 +328,15 @@
       },
       {
         key: "subscription_started",
-        label: "6 · Actually paid",
-        mean: "Store reported a successful purchase. This is the sale count.",
-        short: "Actually paid",
+        label: "6 · Store said OK",
+        mean: "Phone logged store checkout success. Includes free trials. Not RevenueCat. Not money by itself.",
+        short: "Store said OK",
       },
       {
         key: "trial_started",
-        label: "6b · Trial started",
-        mean: "Checkout succeeded with a free trial period (subset of paid / trial checkouts).",
-        short: "Trial started",
+        label: "6b · Free trial (phone)",
+        mean: "That store success was a free trial — not a paid sale. Confirm live trials in RevenueCat.",
+        short: "Free trial",
         sideOf: "subscription_started",
       },
     ];
@@ -527,8 +527,29 @@
           sideOf: step.sideOf || null,
           n: hits.length,
           people: people.size || hits.length,
+          sessions: people,
         };
       });
+    }
+    /** Money sale = store OK without a free-trial event on the same session. Trials ≠ paid. */
+    function fnMoneyVsTrial(counts) {
+      const paid = counts.find((c) => c.key === "subscription_started");
+      const trial = counts.find((c) => c.key === "trial_started");
+      const paidSessions = paid && paid.sessions ? paid.sessions : new Set();
+      const trialSessions = trial && trial.sessions ? trial.sessions : new Set();
+      let money = 0;
+      paidSessions.forEach((s) => {
+        if (!trialSessions.has(s)) money += 1;
+      });
+      // No session_id: fall back to max(0, storeOk - trials).
+      if (!paidSessions.size && paid) {
+        money = Math.max(0, (paid.people || 0) - (trial ? trial.people || 0 : 0));
+      }
+      return {
+        storeOk: paid ? paid.people || 0 : 0,
+        trials: trial ? trial.people || 0 : 0,
+        money,
+      };
     }
     function fnFunnelBlock(counts, kind, appLabel) {
       const main = fnMainCounts(counts);
@@ -536,12 +557,12 @@
       const isProduct = kind === "product";
       const who = appLabel || "This app";
       const tapped = counts.find((c) => c.key === "checkout_started");
-      const paid = counts.find((c) => c.key === "subscription_started");
-      const trial = counts.find((c) => c.key === "trial_started");
+      const split = fnMoneyVsTrial(counts);
       const saved = counts.find((c) => c.key === "identify_saved" || c.key === "import_success");
       const tappedN = tapped ? tapped.people : 0;
-      const paidN = paid ? paid.people : 0;
-      const trialN = trial ? trial.people : 0;
+      const paidN = split.money;
+      const trialN = split.trials;
+      const storeOkN = split.storeOk;
       const winN = saved ? saved.people : 0;
       let kpiHtml = "";
       if (base) {
@@ -553,12 +574,14 @@
             kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} product wins: 0.</span> ${base} started this path; nobody finished the win step yet.</div>`;
           }
         } else if (paidN > 0) {
-          const trialBit = trialN > 0 ? ` (${trialN} of those on a free trial)` : "";
-          kpiHtml = `<div class="fn-kpi"><span class="is-sale">${who} sales this window: ${paidN}${trialBit}.</span> ${tappedN} tapped Subscribe; ${paidN} finished in the store.</div>`;
+          const trialBit = trialN > 0 ? ` Also ${trialN} free trial${trialN === 1 ? "" : "s"} (phone) — not counted as paid.` : "";
+          kpiHtml = `<div class="fn-kpi"><span class="is-sale">${who} paid (no trial): ${paidN}.</span> ${tappedN} tapped Subscribe.${trialBit} Phone events — confirm in RevenueCat.</div>`;
+        } else if (trialN > 0) {
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} paid: 0.</span> ${trialN} free trial${trialN === 1 ? "" : "s"} on the phone (${storeOkN} store OK). Not a sale — check RevenueCat Active Trials.</div>`;
         } else if (tappedN > 0) {
-          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} sales this window: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe (opened the store sheet) but nobody finished paying — that is not a sale.</div>`;
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} paid: 0.</span> ${tappedN} person${tappedN === 1 ? "" : "s"} tapped Subscribe but nobody finished in the store.</div>`;
         } else {
-          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} sales this window: 0.</span> Nobody tapped Subscribe yet.</div>`;
+          kpiHtml = `<div class="fn-kpi"><span class="not-sale">${who} paid: 0.</span> Nobody tapped Subscribe yet.</div>`;
         }
       }
       const drop = fnBiggestDrop(counts);
@@ -602,7 +625,7 @@
         }
         pushRow(c, i === 0 ? "" : "opens", base, i === 0 ? 0 : main[i - 1].people || 0);
 
-        // Branch rows under this main step (cancel/error under Subscribe; trial under Paid).
+        // Branch rows under this main step (cancel/error under Subscribe; trial under Store OK).
         const sides = counts.filter((s) => s.sideOf === c.key);
         if (sides.length) {
           const parentN = c.people || 0;
@@ -633,10 +656,9 @@
     }
     function fnPaidRate(counts) {
       const base = counts[0].people || 0;
-      const paid = counts.find((c) => c.key === "subscription_started");
-      const paidN = paid ? paid.people : 0;
+      const split = fnMoneyVsTrial(counts);
       if (!base) return null;
-      return { base, paidN, pct: (100 * paidN) / base };
+      return { base, paidN: split.money, trialN: split.trials, pct: (100 * split.money) / base };
     }
     /** Strip app suffix so sale/product keys match inventory event names. */
     function fnBareEvent(event, appId) {
@@ -744,16 +766,19 @@
         const opens = fnStepN(counts, "app_opened");
         const paywall = fnStepN(counts, "paywall_viewed");
         const tapped = fnStepN(counts, "checkout_started");
-        const paid = fnStepN(counts, "subscription_started");
-        const trial = fnStepN(counts, "trial_started");
+        const split = fnMoneyVsTrial(counts);
         const stop = fnStopAt(counts);
-        const rowCls = paid > 0 ? "has-sale" : opens ? "" : "quiet";
-        const paidHtml =
-          paid > 0
-            ? `<span class="paid-yes">${paid}</span>${
-                trial ? `<span class="pct">${trial} trial</span>` : ""
-              }<span class="pct">${fnPct(paid, opens || 1)} of opens</span>`
-            : `<span class="paid-no">0</span><span class="pct">${opens ? "0% of opens" : "—"}</span>`;
+        const rowCls = split.money > 0 ? "has-sale" : opens ? "" : "quiet";
+        let paidHtml;
+        if (split.money > 0) {
+          paidHtml = `<span class="paid-yes">${split.money} paid</span>${
+            split.trials ? `<span class="pct">+ ${split.trials} trial (not paid)</span>` : ""
+          }<span class="pct">${fnPct(split.money, opens || 1)} of opens</span>`;
+        } else if (split.trials > 0) {
+          paidHtml = `<span class="paid-no">0 paid</span><span class="pct">${split.trials} free trial (phone)</span><span class="pct">not a sale</span>`;
+        } else {
+          paidHtml = `<span class="paid-no">0</span><span class="pct">${opens ? "0% of opens" : "—"}</span>`;
+        }
         return `<tr class="${rowCls}">
           <td class="app-name"><a href="#fn-app-${app.id}">${app.label}</a></td>
           <td class="num">${fnCell(opens, opens)}</td>
@@ -764,15 +789,15 @@
         </tr>`;
       });
       const totalOpens = perApp.reduce((s, a) => s + fnStepN(a.counts, "app_opened"), 0);
-      const totalPaid = perApp.reduce((s, a) => s + fnStepN(a.counts, "subscription_started"), 0);
-      const paidBits = perApp
-        .filter((a) => fnStepN(a.counts, "subscription_started") > 0)
-        .map((a) => {
-          const p = fnStepN(a.counts, "subscription_started");
-          const o = fnStepN(a.counts, "app_opened");
-          const t = fnStepN(a.counts, "trial_started");
-          return `${a.app.label} ${p} paid${t ? ` (${t} trial)` : ""}${o ? ` · ${fnPct(p, o)} of ${o} opens` : ""}`;
-        });
+      const splits = perApp.map((a) => ({ app: a.app, ...fnMoneyVsTrial(a.counts), opens: fnStepN(a.counts, "app_opened") }));
+      const totalMoney = splits.reduce((s, x) => s + x.money, 0);
+      const totalTrials = splits.reduce((s, x) => s + x.trials, 0);
+      const moneyBits = splits
+        .filter((x) => x.money > 0)
+        .map((x) => `${x.app.label} ${x.money} paid${x.opens ? ` · ${fnPct(x.money, x.opens)} of ${x.opens} opens` : ""}`);
+      const trialBits = splits
+        .filter((x) => x.trials > 0)
+        .map((x) => `${x.app.label} ${x.trials} trial`);
       const worst = perApp
         .map((a) => {
           const drop = fnBiggestDrop(a.counts);
@@ -782,12 +807,18 @@
         })
         .filter(Boolean)
         .sort((a, b) => b.lost - a.lost)[0];
-      const verdict =
-        totalPaid > 0
-          ? `<span class="yes">Buying: yes.</span> ${paidBits.join(" · ")}.`
-          : totalOpens > 0
-            ? `<span class="no">Buying: no.</span> ${totalOpens} open${totalOpens === 1 ? "" : "s"} across apps, 0 paid.`
-            : `<span class="no">Buying: no.</span> Nobody opened in this window.`;
+      let verdict;
+      if (totalMoney > 0) {
+        verdict = `<span class="yes">Buying: yes.</span> ${moneyBits.join(" · ")}.${
+          totalTrials ? ` Also ${trialBits.join(" · ")} (phone free trials — not paid).` : ""
+        }`;
+      } else if (totalTrials > 0) {
+        verdict = `<span class="no">Buying: no.</span> ${trialBits.join(" · ")} (phone free trials). 0 paid. Confirm in RevenueCat — Active Trials is the live count.`;
+      } else if (totalOpens > 0) {
+        verdict = `<span class="no">Buying: no.</span> ${totalOpens} open${totalOpens === 1 ? "" : "s"} across apps, 0 paid.`;
+      } else {
+        verdict = `<span class="no">Buying: no.</span> Nobody opened in this window.`;
+      }
       const stopLine = worst
         ? `Biggest stop: ${worst.app} — ${worst.lost} of ${worst.prev} left after ${worst.from} (before ${worst.to}).`
         : totalOpens
@@ -795,8 +826,8 @@
           : "";
       return `<div class="fn-board">
         <p class="fn-board-verdict">${verdict}</p>
-        <p class="fn-board-sub">${winLabel} · ${totalOpens} total opens · ${totalPaid} total paid${
-          totalOpens ? ` · ${fnPct(totalPaid, totalOpens)} of opens` : ""
+        <p class="fn-board-sub">${winLabel} · ${totalOpens} opens · ${totalMoney} paid · ${totalTrials} free trial (phone)${
+          totalOpens && totalMoney ? ` · ${fnPct(totalMoney, totalOpens)} paid of opens` : ""
         }${stopLine ? ` · ${stopLine}` : ""}</p>
         <table>
           <thead>
@@ -805,7 +836,7 @@
               <th class="num">Opened</th>
               <th class="num">Saw paywall</th>
               <th class="num">Tapped Subscribe</th>
-              <th class="num">Paid</th>
+              <th class="num">Paid vs trial</th>
               <th>Where they stop</th>
             </tr>
           </thead>
@@ -861,7 +892,7 @@
       const html = perApp
         .map(({ app, counts, productCounts, productSteps }) => {
           const opens = fnStepN(counts, "app_opened");
-          const paid = fnStepN(counts, "subscription_started");
+          const split = fnMoneyVsTrial(counts);
           const stop = fnStopAt(counts);
           const block = fnFunnelBlock(counts, "sale", app.label);
           const productBlock = productCounts.length
@@ -871,13 +902,19 @@
             : "";
           const allBlock = fnAllEventsBlock(fnAllEventsInventory(scoped, app.id));
           const detailInner = block.html + productBlock + allBlock;
-          let body = `<div class="fn-kpi">${
-            paid > 0
-              ? `<span class="is-sale">${app.label}: ${paid} paid of ${opens} opens (${fnPct(paid, opens || 1)}).</span>`
-              : opens > 0
-                ? `<span class="not-sale">${app.label}: 0 paid of ${opens} opens.</span>`
-                : `<span class="not-sale">${app.label}: quiet — 0 opens.</span>`
-          } ${stop.text}</div>
+          let headKpi;
+          if (split.money > 0) {
+            headKpi = `<span class="is-sale">${app.label}: ${split.money} paid of ${opens} opens (${fnPct(split.money, opens || 1)}).</span>${
+              split.trials ? ` ${split.trials} free trial (phone) not counted as paid.` : ""
+            }`;
+          } else if (split.trials > 0) {
+            headKpi = `<span class="not-sale">${app.label}: 0 paid.</span> ${split.trials} free trial (phone) of ${opens} opens — not a sale.`;
+          } else if (opens > 0) {
+            headKpi = `<span class="not-sale">${app.label}: 0 paid of ${opens} opens.</span>`;
+          } else {
+            headKpi = `<span class="not-sale">${app.label}: quiet — 0 opens.</span>`;
+          }
+          let body = `<div class="fn-kpi">${headKpi} ${stop.text}</div>
           <details class="fn-more">
             <summary>Full sale funnel (step by step)</summary>
             ${detailInner}
