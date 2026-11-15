@@ -391,8 +391,8 @@
       [...document.querySelectorAll("#scRange button")].forEach((b) =>
         b.classList.toggle("active", b === btn)
       );
-      if (scCacheRows) scRender(scCacheRows);
-      else scRefresh();
+      // Server filter depends on the window — always re-fetch (do not reuse a narrower cache).
+      scRefresh();
     });
     document.getElementById("scPlat").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-plat]");
