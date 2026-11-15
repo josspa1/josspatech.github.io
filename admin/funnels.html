@@ -554,6 +554,9 @@
         return true;
       });
     }
+    function fnPersonKey(r) {
+      return r.session_id || r.id || "";
+    }
     function fnCountsForApp(appRows, appId, steps) {
       const stepList = steps || FN_STEPS;
       return stepList.map((step) => {
@@ -561,7 +564,7 @@
           const ev = fnAppEvent(r);
           return ev && ev.app === appId && fnEventMatches(ev.event, step.key, appId);
         });
-        const people = new Set(hits.map((r) => r.session_id).filter(Boolean));
+        const people = new Set(hits.map(fnPersonKey).filter(Boolean));
         return {
           key: step.key,
           label: step.label,
@@ -569,22 +572,23 @@
           short: step.short || step.label.replace(/^[A-Z0-9b]+\s*·\s*/, ""),
           sideOf: step.sideOf || null,
           n: hits.length,
-          people: people.size || hits.length,
+          people: people.size,
           sessions: people,
         };
       });
     }
     /**
-     * Joe’s sale truth:
+     * Joe’s sale truth (boxes must match this):
      * - Backed out = opened store sheet, never started a trial, not paying
-     * - Started trial = trial_started
-     * - Quit trial = trial_expired (canceled / ended before becoming a payer)
-     * - Paying = trial_converted OR store OK with no trial on that session
+     * - Started trial = trial_started (unique people)
+     * - Quit trial = trial_expired, and not later converted
+     * - Paying = trial_converted OR store OK with no trial on that person
+     *   (subscription_started alone never counts if they also have trial_started)
      */
     function fnSaleOutcomes(counts) {
       const sess = (key) => {
         const c = counts.find((x) => x.key === key);
-        return c && c.sessions ? c.sessions : new Set();
+        return c && c.sessions ? new Set(c.sessions) : new Set();
       };
       const n = (key) => {
         const c = counts.find((x) => x.key === key);
@@ -597,26 +601,35 @@
       const storeOk = sess("subscription_started");
       const paying = new Set(converted);
       storeOk.forEach((s) => {
-        if (!trials.has(s)) paying.add(s);
+        // Trial checkouts also post subscription_started — never treat those as Paying.
+        if (!trials.has(s) && !quit.has(s)) paying.add(s);
+      });
+      // Converted beats quit if both somehow appear.
+      quit.forEach((s) => {
+        if (paying.has(s)) quit.delete(s);
       });
       const backed = new Set();
       started.forEach((s) => {
-        if (!trials.has(s) && !paying.has(s)) backed.add(s);
+        if (!trials.has(s) && !paying.has(s) && !quit.has(s)) backed.add(s);
       });
-      // Fallback when sessions missing.
-      const tappedN = n("checkout_started");
-      const trialN = n("trial_started");
+      const tappedN = started.size || n("checkout_started");
+      const trialN = trials.size || n("trial_started");
       const quitN = quit.size || n("trial_expired");
-      const payingN = paying.size
-        ? paying.size
-        : n("trial_converted") + Math.max(0, n("subscription_started") - trialN);
-      const backedN = backed.size || Math.max(0, tappedN - trialN - payingN);
+      const payingN = paying.size || n("trial_converted");
+      // Only use subscription−trial arithmetic when we have no session keys at all.
+      const payingFallback =
+        paying.size > 0
+          ? paying.size
+          : n("trial_converted") +
+            Math.max(0, n("subscription_started") - trialN - quitN);
+      const backedN =
+        backed.size || Math.max(0, tappedN - trialN - (paying.size || payingFallback) - quitN);
       return {
         tapped: tappedN,
         backedOut: backedN,
         startedTrial: trialN,
         quitTrial: quitN,
-        paying: payingN,
+        paying: paying.size ? paying.size : payingFallback,
       };
     }
     function fnMoneyVsTrial(counts) {
@@ -1077,7 +1090,7 @@
       fnRefresh();
     }
 
-    /** PocketBase filter: only app dual-writes, optionally narrowed by ET day window (+1d UTC pad). */
+    /** PocketBase filter: only app dual-writes, ET window with UTC pads so morning ET is not dropped. */
     function fnListFilter() {
       const todayKey = fnTodayKey();
       const win = fnActiveWindow(todayKey);
@@ -1087,10 +1100,11 @@
       if (prev && prev.from) from = prev.from;
       // Only app:* rows (not every site pageview) — keeps the list small enough to load.
       if (!from || !to) return 'page ~ "app:"';
+      const start = fnAddDays(from, -1);
       const end = fnAddDays(to, 2);
       return (
         'page ~ "app:" && created >= "' +
-        from +
+        start +
         ' 00:00:00.000Z" && created < "' +
         end +
         ' 00:00:00.000Z"'

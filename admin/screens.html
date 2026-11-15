@@ -98,8 +98,9 @@
           Needs builds that post screen pings. Sale drop-off → <a href="funnels.html">Funnels</a>.
         </p>
         <div class="sc-note" id="scNote">
-          <strong>Opens</strong> = how many times that feature screen was posted.
-          <strong>People</strong> = unique sessions that hit it. Avg opens/person = how sticky that feature is.
+          Phones post each feature <strong>once per person per day</strong> (and Identify/import jobs when they run).
+          <strong>Opens</strong> = those posts in the window (≈ person-days).
+          <strong>People</strong> = unique sessions. <strong>× / person</strong> = how many days they came back to it.
         </div>
         <div class="sc-range" id="scRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -232,14 +233,44 @@
       if (host === "ios" || raw.includes("ios")) return "ios";
       return "unknown";
     }
+    /** Jobs that mean “used this feature” even when screen_* is missing (e.g. Identify). */
+    const SC_JOB_FEATURES = {
+      identify_open: "identify",
+      identify_start: "identify",
+      identify_finished: "identify",
+      identify_saved: "identify",
+      import_start: "import",
+      import_success: "import",
+      museum_add: "collection",
+      hunt_create: "hunt",
+    };
     function scParse(r) {
-      const m = String(r.page || "").match(/^app:([^:]+):screen_(.+)$/);
+      const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
       if (!m) return null;
       const app = m[1].toLowerCase();
       let rest = m[2];
       const suffix = "_" + app;
       if (rest.endsWith(suffix)) rest = rest.slice(0, -suffix.length);
-      return { app, screen: rest };
+      if (rest.startsWith("screen_")) {
+        return { app, screen: rest.slice("screen_".length) };
+      }
+      const job = SC_JOB_FEATURES[rest];
+      if (job) return { app, screen: job };
+      return null;
+    }
+    function scListFilter() {
+      const todayKey = scTodayKey();
+      const win = scActiveWindow(todayKey);
+      if (!win.from || !win.to) return 'page ~ "app:"';
+      const start = scAddDays(win.from, -1);
+      const end = scAddDays(win.to, 2);
+      return (
+        'page ~ "app:" && created >= "' +
+        start +
+        ' 00:00:00.000Z" && created < "' +
+        end +
+        ' 00:00:00.000Z"'
+      );
     }
 
     function scRender(rows) {
@@ -267,7 +298,7 @@
           }
           const bucket = byScreen.get(p.screen);
           bucket.opens += 1;
-          bucket.people.add(sid);
+          if (sid) bucket.people.add(sid);
         }
         const ranked = [...byScreen.entries()]
           .map(([screen, b]) => ({
@@ -340,7 +371,12 @@
       const status = document.getElementById("scStatus");
       status.textContent = "Loading…";
       try {
-        scCacheRows = await listAllRecords("_site_visits");
+        // App rows only — full site traffic hits the list cap and drops feature counts.
+        scCacheRows = await listAllRecords(
+          "_site_visits",
+          scListFilter(),
+          "id,page,created,session_id,referrer_host,referrer_raw,source"
+        );
         scRender(scCacheRows);
       } catch (e) {
         status.textContent = "Error: " + (e.message || e);
