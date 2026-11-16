@@ -16,6 +16,7 @@
  * v=12: hold the navigation ourselves (preventDefault + window.open) so the
  * trackEvent beacon is not cancelled by Play/App Store navigation, and send a
  * one-shot landing_store_funnel_ready ping so ingest can confirm custom events.
+ * v=13: dual-write legacy store_click / product_section (HeyCatch still drops many new names).
  */
 import { analytics } from '/scripts/vendor/heycatch-sdk-0.8.5.js';
 
@@ -107,6 +108,10 @@ function trackStoreClick(href) {
 
   analytics.trackEvent(names.any, props);
   analytics.trackEvent(names[store], props);
+  // Legacy bare names — HeyCatch product still ingests these (Nov 2026 ticket).
+  analytics.trackEvent('store_click', props);
+  if (store === 'google_play') analytics.trackEvent('store_click_google_play', props);
+  if (store === 'app_store') analytics.trackEvent('store_click_app_store', props);
   // Single conversion name for the HeyCatch landing "success event" setting.
   analytics.trackEvent('website_store_outbound', props);
   return true;
@@ -162,12 +167,18 @@ try {
 // One-shot ping: proves custom trackEvent from landing reaches ingest without a click.
 if (!framed) {
   try {
-    var pingKey = 'hc_landing_store_funnel_ready_v12';
+    var pingKey = 'hc_landing_store_funnel_ready_v13';
     if (!sessionStorage.getItem(pingKey)) {
       sessionStorage.setItem(pingKey, '1');
       analytics.trackEvent('landing_store_funnel_ready', {
         page: currentPage(),
-        v: 12,
+        v: 13,
+      });
+      // Legacy ping name in case new custom names are still dropped.
+      analytics.trackEvent('product_section', {
+        page: currentPage(),
+        v: 13,
+        ping: 'landing_ready',
       });
     }
   } catch (err) {}
@@ -191,6 +202,7 @@ function trackProductSection() {
   else return;
   lastProductSection = raw;
   analytics.trackEvent('product_section_' + app, { app: app, page: currentPage() });
+  analytics.trackEvent('product_section', { app: app, page: currentPage() });
 }
 window.addEventListener('hashchange', trackProductSection);
 if (document.readyState === 'loading') {
