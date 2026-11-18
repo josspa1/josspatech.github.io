@@ -162,9 +162,15 @@
           <button type="button" data-plat="desktop">Desktop</button>
         </div>
         <div class="ref-actions">
+          <button type="button" class="m-btn" onclick="trWakeDb()">Wake database</button>
           <button type="button" class="m-btn accent" onclick="trRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
         </div>
-        <div class="ref-status" id="trStatus">Sign in, then Refresh.</div>
+        <p class="section-explainer" style="margin-top:0.35rem">
+          Loads only the selected date window (All time = last 90 days) and skips in-app
+          <code>app:</code> rows. Full-table pulls were knocking PocketHost over — if Refresh
+          404s/hangs, hit <strong>Wake database</strong> first.
+        </p>
+        <div class="ref-status" id="trStatus">Sign in, then Wake / Refresh.</div>
         <div id="trBody"></div>
       </section>
 
@@ -233,7 +239,11 @@
       }
     }
     function trActiveWindow(todayKey) {
-      if (trRange === "all") return { from: null, to: null, label: "All time" };
+      // Label says All time; fetch is capped to 90 days (see trListFilter).
+      if (trRange === "all") {
+        const from = trAddDays(todayKey, -89);
+        return { from, to: todayKey, label: "All time (last 90 days)" };
+      }
       if (trRange === "today") return { from: todayKey, to: todayKey, label: trFmtDay(todayKey) };
       if (trRange === "custom") {
         const from = trFrom || todayKey;
@@ -726,18 +736,86 @@
     }
 
     function trRerender() {
-      if (trCacheRows) trRender(trCacheRows);
-      else trRefresh();
+      // Date window is a server filter — always re-fetch. Platform/compare stay client-side
+      // via trRender after cache exists (plat/compare handlers call trRender when cached).
+      trRefresh();
+    }
+
+    /** Server filter: date window (+ compare pad) and no app:* dual-writes (those are Funnels). */
+    function trListFilter() {
+      const todayKey = trTodayKey();
+      const win = trActiveWindow(todayKey);
+      const prev = trCompare ? trPreviousWindow(win) : null;
+      let from = win.from;
+      let to = win.to;
+      // "All time" used to pull the whole table and crash PocketHost — hard-cap 90 days.
+      if (!from || !to) {
+        from = trAddDays(todayKey, -89);
+        to = todayKey;
+      }
+      if (prev && prev.from) from = prev.from;
+      const start = trAddDays(from, -1);
+      const end = trAddDays(to, 2);
+      return (
+        'page !~ "app:" && created >= "' +
+        start +
+        ' 00:00:00.000Z" && created < "' +
+        end +
+        ' 00:00:00.000Z"'
+      );
+    }
+
+    async function trWakeDb() {
+      const status = document.getElementById("trStatus");
+      status.textContent = "Waking PocketBase… (cold start can take up to ~60s)";
+      document.getElementById("pulse").classList.add("stale");
+      let ok = false;
+      for (let i = 1; i <= 4; i++) {
+        try {
+          const r = await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+          if (r && r.ok) {
+            ok = true;
+            break;
+          }
+          status.textContent = `Wake try ${i}/4 — health not ready yet…`;
+        } catch (_) {
+          status.textContent = `Wake try ${i}/4 — still sleeping, waiting…`;
+        }
+        if (i < 4) await new Promise((res) => setTimeout(res, 4000));
+      }
+      if (ok) {
+        status.textContent = "Database awake. Hit Refresh.";
+        document.getElementById("pulse").classList.remove("stale");
+      } else {
+        status.textContent =
+          "Still asleep after 4 tries. Open pockethost.io/dashboard → josspatech → power On, then Wake again.";
+      }
     }
 
     async function trRefresh() {
       const status = document.getElementById("trStatus");
       status.textContent = "Loading…";
       try {
-        trCacheRows = await listAllRecords("_site_visits");
+        try {
+          await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+        } catch (_) {
+          /* list may still work; use Wake database if this keeps failing */
+        }
+        trCacheRows = await listAllRecords(
+          "_site_visits",
+          trListFilter(),
+          "id,page,created,session_id,referrer_host,referrer_raw,source,user_agent"
+        );
         trRender(trCacheRows);
       } catch (e) {
-        status.textContent = "Error: " + (e.message || e);
+        const msg = String(e && e.message ? e.message : e);
+        const dead =
+          /failed to fetch|networkerror|abort|timeout|404|503/i.test(msg) ||
+          e.name === "AbortError" ||
+          e.name === "TimeoutError";
+        status.textContent = dead
+          ? "PocketBase timed out or 404'd (often asleep / overloaded). Hit Wake database, wait until awake, then Refresh. Still dead → pockethost.io/dashboard → josspatech On."
+          : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
       }
     }
@@ -779,10 +857,6 @@
         document.getElementById("trCustom").classList.add("show");
         trRerender();
       });
-      document.getElementById("trCompare").addEventListener("change", (e) => {
-        trCompare = !!e.target.checked;
-        trRerender();
-      });
       document.getElementById("trPlat").addEventListener("click", (e) => {
         const btn = e.target.closest("button[data-plat]");
         if (!btn) return;
@@ -790,11 +864,18 @@
         [...document.querySelectorAll("#trPlat button")].forEach((b) =>
           b.classList.toggle("active", b === btn)
         );
-        trRerender();
+        if (trCacheRows) trRender(trCacheRows);
+        else trRefresh();
+      });
+      document.getElementById("trCompare").addEventListener("change", (e) => {
+        // compare needs previous window in the fetch pad — re-fetch
+        trCompare = !!e.target.checked;
+        trRefresh();
       });
     })();
 
     window.trRefresh = trRefresh;
+    window.trWakeDb = trWakeDb;
     window.trSaveSocial = trSaveSocial;
   </script>
 </body>

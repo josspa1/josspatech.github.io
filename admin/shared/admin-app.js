@@ -31,9 +31,14 @@
     });
   }
 
-  /** Paginate through an entire collection. Returns array of records. */
+  /**
+   * Paginate through a collection. Prefer a date/app filter — unfiltered
+   * _site_visits pulls have knocked free PocketHost offline (404 mid-page).
+   * Hard stop at 40 pages (8k rows) so a bad call cannot keep paging forever.
+   */
   async function listAllRecords(collection, filter, fields) {
     const pageSize = 200;
+    const maxPages = 40;
     let page = 1;
     const out = [];
     while (true) {
@@ -46,7 +51,7 @@
       out.push(...(data.items || []));
       if (out.length >= (data.totalItems || 0) || (data.items || []).length === 0) break;
       page++;
-      if (page > 100) break; // hard safety
+      if (page > maxPages) break;
     }
     return out;
   }

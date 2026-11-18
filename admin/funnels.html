@@ -1111,7 +1111,12 @@
       let to = win.to;
       if (prev && prev.from) from = prev.from;
       // Only app:* rows (not every site pageview) — keeps the list small enough to load.
-      if (!from || !to) return 'page ~ "app:"';
+      // "All time" used to be unbounded and could knock PocketHost over — cap at 90 days.
+      if (!from || !to) {
+        const todayKey = fnTodayKey();
+        from = fnAddDays(todayKey, -89);
+        to = todayKey;
+      }
       const start = fnAddDays(from, -1);
       const end = fnAddDays(to, 2);
       return (

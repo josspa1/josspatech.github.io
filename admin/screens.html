@@ -212,7 +212,10 @@
       }
     }
     function scActiveWindow(todayKey) {
-      if (scRange === "all") return { from: null, to: null, label: "All time" };
+      if (scRange === "all") {
+        const from = scAddDays(todayKey, -89);
+        return { from, to: todayKey, label: "All time (last 90 days)" };
+      }
       if (scRange === "today") return { from: todayKey, to: todayKey, label: scFmtDay(todayKey) };
       const days = scRange === "7d" ? 7 : 30;
       const from = scAddDays(todayKey, -(days - 1));
@@ -261,9 +264,14 @@
     function scListFilter() {
       const todayKey = scTodayKey();
       const win = scActiveWindow(todayKey);
-      if (!win.from || !win.to) return 'page ~ "app:"';
-      const start = scAddDays(win.from, -1);
-      const end = scAddDays(win.to, 2);
+      let from = win.from;
+      let to = win.to;
+      if (!from || !to) {
+        from = scAddDays(todayKey, -89);
+        to = todayKey;
+      }
+      const start = scAddDays(from, -1);
+      const end = scAddDays(to, 2);
       return (
         'page ~ "app:" && created >= "' +
         start +
