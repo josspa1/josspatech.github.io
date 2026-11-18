@@ -427,6 +427,12 @@
         apps: ["hhh", "cvc"],
         label: "HHH + CVC price drop to $4.99/mo · $49.99/yr (Play live; Apple next day)",
       },
+      {
+        date: "2026-11-16",
+        apps: ["hhh", "cvc", "pbj", "unscribe"],
+        label:
+          "HHH + CVC prices raised back to $9.99/mo · $74.99/yr; 14-day free window shipped on all apps (no paywall during the window, premium locks after day 14)",
+      },
     ];
 
     function fnDayKeyEt(iso) {
@@ -533,6 +539,54 @@
       if (!d) return "—";
       return ((100 * n) / d).toFixed(0) + "%";
     }
+    /**
+     * Continuation among people who did step A, then step B (session/device overlap).
+     * Never above 100%. If either step lacks person keys, not calculable → "—".
+     */
+    function fnContinueStats(prevStep, nextStep) {
+      const prevSet = prevStep && prevStep.sessions instanceof Set ? prevStep.sessions : null;
+      const nextSet = nextStep && nextStep.sessions instanceof Set ? nextStep.sessions : null;
+      if (!prevSet || !nextSet) {
+        return { calculable: false };
+      }
+      const prevN = prevSet.size;
+      if (!prevN) return { calculable: false, prevN: 0 };
+      let continued = 0;
+      prevSet.forEach((s) => {
+        if (nextSet.has(s)) continued += 1;
+      });
+      // Cap display at 100% (intersection cannot exceed prevN, but keep the guard).
+      const contPctNum = Math.min(100, (100 * continued) / prevN);
+      const lost = prevN - continued;
+      return {
+        calculable: true,
+        prevN,
+        continued,
+        lost,
+        contPct: contPctNum.toFixed(0) + "%",
+        lostPct: ((100 * lost) / prevN).toFixed(0) + "%",
+      };
+    }
+    function fnBridgeText(prevStep, nextStep) {
+      const st = fnContinueStats(prevStep, nextStep);
+      const prevLabel = (prevStep && (prevStep.short || prevStep.label)) || "prior step";
+      if (!st.calculable) {
+        return { text: `Continuation not calculable (—) after ${prevLabel}`, bleed: false };
+      }
+      if (st.prevN === 0) {
+        return { text: `Nobody reached ${prevLabel}`, bleed: false };
+      }
+      if (st.lost === 0) {
+        return {
+          text: `All ${st.prevN} continued (${st.contPct})`,
+          bleed: false,
+        };
+      }
+      return {
+        text: `${st.continued} of ${st.prevN} continued (${st.contPct}) · ${st.lost} left (${st.lostPct})`,
+        bleed: st.lost / st.prevN >= 0.5,
+      };
+    }
     function fnMainCounts(counts) {
       return (counts || []).filter((c) => !c.sideOf);
     }
@@ -540,19 +594,17 @@
       const main = fnMainCounts(counts);
       let worst = null;
       for (let i = 1; i < main.length; i++) {
-        const prev = main[i - 1].people || main[i - 1].n;
-        const cur = main[i].people || main[i].n;
-        const lost = Math.max(0, prev - cur);
-        if (!prev) continue;
-        const rate = lost / prev;
+        const st = fnContinueStats(main[i - 1], main[i]);
+        if (!st.calculable || !st.prevN || st.lost === 0) continue;
+        const rate = st.lost / st.prevN;
         if (!worst || rate > worst.rate) {
           worst = {
             from: main[i - 1].short || main[i - 1].label,
             to: main[i].short || main[i].label,
-            lost,
+            lost: st.lost,
             rate,
-            prev,
-            cur,
+            prev: st.prevN,
+            cur: st.continued,
           };
         }
       }
@@ -698,29 +750,23 @@
       }
 
       main.forEach((c, i) => {
-        if (i > 0) {
-          const prev = main[i - 1].people || main[i - 1].n;
-          const lost = Math.max(0, prev - c.people);
-          const contPct = fnPct(c.people, prev);
-          const lostPct = fnPct(lost, prev);
-          const bridgeBleed = prev > 0 && lost / prev >= 0.5;
-          const bridgeTxt =
-            prev === 0
-              ? `Nobody reached ${main[i - 1].short || main[i - 1].label}`
-              : lost === 0
-                ? `All ${prev} continued (${contPct})`
-                : `${c.people} of ${prev} continued (${contPct}) · ${lost} left (${lostPct})`;
-          funnelParts.push(`<p class="fn-bridge${bridgeBleed ? " bleed" : ""}">${bridgeTxt}</p>`);
-        }
         pushRow(c, i === 0 ? "" : "opens", base, i === 0 ? 0 : main[i - 1].people || 0);
 
+        // Continuation bridge sits on the main path only — before branch rows so
+        // cancel/error ratios are never labeled or summed as "continued".
+        if (i < main.length - 1) {
+          const bridge = fnBridgeText(c, main[i + 1]);
+          funnelParts.push(`<p class="fn-bridge${bridge.bleed ? " bleed" : ""}">${bridge.text}</p>`);
+        }
+
         // Branch rows under this main step (cancel/error under Subscribe; trial under Store OK).
+        // "% of parent" may exceed 100% (repeat events) — that is fine; never call it continued.
         const sides = counts.filter((s) => s.sideOf === c.key);
         if (sides.length) {
           const parentN = c.people || 0;
           const parentShort = c.short || c.label;
           funnelParts.push(
-            `<p class="fn-bridge fn-side-note">Branches from ${parentShort} (not the next funnel step):</p>`
+            `<p class="fn-bridge fn-side-note">Branches from ${parentShort} (event ratios vs ${parentShort} — not continuation):</p>`
           );
           sides.forEach((s) => {
             pushRow(s, parentShort, parentN || 1, parentN);
@@ -754,17 +800,15 @@
       const main = fnMainCounts(counts);
       const losses = [];
       for (let i = 1; i < main.length; i++) {
-        const prev = main[i - 1].people || 0;
-        const cur = main[i].people || 0;
-        const lost = Math.max(0, prev - cur);
-        if (!prev || lost === 0) continue;
+        const st = fnContinueStats(main[i - 1], main[i]);
+        if (!st.calculable || !st.prevN || st.lost === 0) continue;
         losses.push({
           from: main[i - 1].short || main[i - 1].label,
           to: main[i].short || main[i].label,
-          prev,
-          cur,
-          lost,
-          lostPct: Math.round((100 * lost) / prev),
+          prev: st.prevN,
+          cur: st.continued,
+          lost: st.lost,
+          lostPct: Math.round((100 * st.lost) / st.prevN),
         });
       }
       losses.sort((a, b) => b.lost - a.lost || b.lostPct - a.lostPct);
@@ -849,7 +893,7 @@
       const c = (counts || []).find((x) => x.key === key);
       return c ? c.people : 0;
     }
-    /** Where most people leave the main sale path (absolute lost). */
+    /** Where most people leave the main sale path (absolute lost among prior-step people). */
     function fnStopAt(counts) {
       const main = fnMainCounts(counts);
       if (!main.length || !(main[0].people || 0)) {
@@ -857,17 +901,16 @@
       }
       let best = null;
       for (let i = 1; i < main.length; i++) {
-        const prev = main[i - 1].people || 0;
-        const cur = main[i].people || 0;
-        const lost = Math.max(0, prev - cur);
-        if (!best || lost > best.lost) {
+        const st = fnContinueStats(main[i - 1], main[i]);
+        if (!st.calculable || !st.prevN || st.lost === 0) continue;
+        if (!best || st.lost > best.lost) {
           best = {
-            lost,
+            lost: st.lost,
             from: main[i - 1].short || main[i - 1].label,
             to: main[i].short || main[i].label,
-            prev,
-            cur,
-            lostPct: prev ? Math.round((100 * lost) / prev) : 0,
+            prev: st.prevN,
+            cur: st.continued,
+            lostPct: Math.round((100 * st.lost) / st.prevN),
           };
         }
       }
