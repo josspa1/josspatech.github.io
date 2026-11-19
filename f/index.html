@@ -10,31 +10,33 @@
 <meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<link rel="canonical" href="/?utm_source=heycatch&utm_campaign=f">
+<link rel="canonical" href="/?utm_source=facebook&utm_medium=social&utm_campaign=f&utm_content=heycatch">
 <script>
 (function () {
+  var dest = '/?utm_source=facebook&utm_medium=social&utm_campaign=f&utm_content=heycatch';
   var ref = document.referrer || '';
   var host = '';
   try { host = ref ? new URL(ref).hostname : ''; } catch (e) {}
   var body = JSON.stringify({
-    page: '/f?utm_source=heycatch&utm_campaign=f',
-    referrer_host: host.slice(0, 120),
-    referrer_raw: ('utm:heycatch|social|f | ' + ref).slice(0, 500),
+    page: '/f' + dest.slice(1),
+    referrer_host: (host || 'www.facebook.com').slice(0, 120),
+    referrer_raw: ('utm:facebook|social|f|heycatch | ' + ref).slice(0, 500),
     user_agent: (navigator.userAgent || '').slice(0, 300),
     session_id: Math.random().toString(36).slice(2, 10),
     source: 'facebook'
   });
   try {
+    // text/plain: application/json beacons are often dropped cross-origin
     navigator.sendBeacon(
       'https://josspatech.pockethost.io/api/collections/_site_visits/records',
-      new Blob([body], { type: 'application/json' })
+      new Blob([body], { type: 'text/plain;charset=UTF-8' })
     );
   } catch (e) {}
-  location.replace('/?utm_source=heycatch&utm_campaign=f');
+  location.replace(dest);
 })();
 </script>
 </head>
 <body>
-<p><a href="/?utm_source=heycatch&utm_campaign=f">Continue</a></p>
+<p><a href="/?utm_source=facebook&utm_medium=social&utm_campaign=f&utm_content=heycatch">Continue</a></p>
 </body>
 </html>

@@ -325,18 +325,31 @@
       const blob = page + " " + ref + " " + host;
       const raw = String(r.source || "").toLowerCase();
       if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
-      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook") return "Facebook link";
+      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook" || raw === "fb" || raw === "meta")
+        return "Facebook link";
+      if (/utm_campaign=y\b|utm:heycatch\|[^|]*\|y\b|\/y\?/.test(blob) || raw === "youtube") return "YouTube link";
+      if (/utm_campaign=i\b|utm:heycatch\|[^|]*\|i\b|\/i\?|utm_source=instagram/i.test(blob) || raw === "instagram" || raw === "ig")
+        return "Instagram link";
+      if (/utm_campaign=g\b|utm:heycatch\|[^|]*\|g\b|\/g\?|utm_source=google/i.test(blob) || raw === "google")
+        return "Google link";
+      if (/utm_campaign=x\b|utm:heycatch\|[^|]*\|x\b|\/x\?|utm_source=x\b/i.test(blob) || raw === "x" || raw === "twitter")
+        return "X link";
+      if (/utm_campaign=w\b|utm:heycatch\|[^|]*\|w\b|\/w\?|utm_source=threads/i.test(blob) || raw === "threads")
+        return "Threads link";
+      if (/utm_campaign=r\b|utm:heycatch\|[^|]*\|r\b|\/r\?|utm_source=reddit/i.test(blob) || raw === "reddit")
+        return "Reddit link";
+      if (/utm_campaign=l\b|utm:heycatch\|[^|]*\|l\b|\/l\?|utm_source=linkedin/i.test(blob) || raw === "linkedin")
+        return "LinkedIn link";
+      if (/utm_campaign=p\b|utm:heycatch\|[^|]*\|p\b|\/p\?|utm_source=pinterest/i.test(blob) || raw === "pinterest")
+        return "Pinterest link";
       if (
         raw === "producthunt" ||
         /producthunt|ref=producthunt|utm:ref:producthunt|utm_source=producthunt/i.test(blob)
       )
         return "Product Hunt";
       if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
-      if (
-        raw === "instagram" ||
-        /utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)
-      )
-        return "Meta";
+      if (/utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)) return "Meta";
+      if (raw === "heycatch") return "HeyCatch link";
       if (raw === "search") return "Search";
       if (raw === "app") return "In the app";
       if (raw === "direct" || raw === "internal") return "Direct";

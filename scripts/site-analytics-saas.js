@@ -39,6 +39,56 @@
     return (location.pathname + location.search + location.hash).slice(0, 400);
   }
 
+  // Short hops (/f /t /y …) replace into /?utm_source=heycatch&utm_campaign=LETTER.
+  // After that, document.referrer is empty or self → GoatCounter Sources shows Direct.
+  var HEYCATCH_CAMPAIGN_SOURCE = {
+    f: 'facebook',
+    t: 'tiktok',
+    y: 'youtube',
+    i: 'instagram',
+    g: 'google',
+    x: 'x',
+    w: 'threads',
+    r: 'reddit',
+    l: 'linkedin',
+    p: 'pinterest',
+  };
+  var SOURCE_REFERRER_URL = {
+    facebook: 'https://www.facebook.com/',
+    fb: 'https://www.facebook.com/',
+    meta: 'https://www.facebook.com/',
+    instagram: 'https://www.instagram.com/',
+    ig: 'https://www.instagram.com/',
+    tiktok: 'https://www.tiktok.com/',
+    youtube: 'https://www.youtube.com/',
+    twitter: 'https://x.com/',
+    x: 'https://x.com/',
+    threads: 'https://www.threads.net/',
+    linkedin: 'https://www.linkedin.com/',
+    reddit: 'https://www.reddit.com/',
+    pinterest: 'https://www.pinterest.com/',
+    producthunt: 'https://www.producthunt.com/',
+    clockworks: 'https://clockworks/',
+    google: 'https://www.google.com/',
+  };
+
+  function channelFromUtm(utmSource, utmCampaign, refParam) {
+    var src = String(utmSource || '').toLowerCase();
+    var camp = String(utmCampaign || '').toLowerCase();
+    var refp = String(refParam || '').toLowerCase();
+    if (src === 'heycatch' && HEYCATCH_CAMPAIGN_SOURCE[camp]) {
+      return HEYCATCH_CAMPAIGN_SOURCE[camp];
+    }
+    if (SOURCE_REFERRER_URL[src]) return src === 'fb' ? 'facebook' : src === 'ig' ? 'instagram' : src;
+    if (/clockworks/i.test(src)) return 'clockworks';
+    if (/producthunt|product.?hunt/i.test(src) || /producthunt|product.?hunt/i.test(refp)) {
+      return 'producthunt';
+    }
+    if (SOURCE_REFERRER_URL[refp]) return refp;
+    if (HEYCATCH_CAMPAIGN_SOURCE[camp]) return HEYCATCH_CAMPAIGN_SOURCE[camp];
+    return '';
+  }
+
   function visitSourceMeta() {
     var params = new URLSearchParams(location.search || '');
     var utmSource = (params.get('utm_source') || '').slice(0, 80);
@@ -51,16 +101,17 @@
     try {
       refHost = ref ? new URL(ref).hostname : '';
     } catch (e) {}
+    var channel = channelFromUtm(utmSource, utmCampaign, refParam);
     var source;
-    if (utmSource) {
-      source = (/clockworks/i.test(utmSource) ? 'clockworks' : utmSource).slice(0, 40);
-    } else if (
-      /producthunt|product.?hunt/i.test(refParam) ||
-      /producthunt\.com/i.test(refHost) ||
-      /producthunt\.com/i.test(ref)
-    ) {
-      source = 'producthunt';
-      if (!refHost) refHost = 'producthunt.com';
+    if (channel) {
+      source = channel.slice(0, 40);
+      if (!refHost || refHost === location.hostname) {
+        try {
+          refHost = new URL(SOURCE_REFERRER_URL[channel] || '').hostname || refHost;
+        } catch (e2) {}
+      }
+    } else if (utmSource) {
+      source = utmSource.slice(0, 40);
     } else if (refParam) {
       source = refParam.slice(0, 40);
     } else if (!refHost) source = 'direct';
@@ -78,7 +129,19 @@
       .filter(Boolean)
       .join('|')
       .slice(0, 200);
-    return { source: source, refHost: refHost, ref: ref, utmTag: utmTag };
+    return { source: source, refHost: refHost, ref: ref, utmTag: utmTag, channel: channel };
+  }
+
+  /** GoatCounter Sources uses referrer; invent one from UTM when the hop wiped it. */
+  function goatReferrer() {
+    var meta = visitSourceMeta();
+    var channel = meta.channel;
+    if (channel && SOURCE_REFERRER_URL[channel]) return SOURCE_REFERRER_URL[channel];
+    var docRef = document.referrer || '';
+    try {
+      if (docRef && new URL(docRef).hostname === location.hostname) return '';
+    } catch (e) {}
+    return docRef;
   }
 
   function isBotUa(ua) {
@@ -237,11 +300,13 @@
   document.addEventListener('pointerdown', onStoreLinkIntent, true);
   document.addEventListener('click', onStoreLinkIntent, true);
 
-  // GoatCounter: include hash so /#hhh and /?utm…#hhh are distinct paths
+  // GoatCounter: include hash so /#hhh and /?utm…#hhh are distinct paths.
+  // referrer callback restores social source after /f|/t|… hops wipe document.referrer.
   try {
     if (cfg.goatcounter && typeof cfg.goatcounter === 'string') {
       window.goatcounter = window.goatcounter || {};
       window.goatcounter.path = fullPath();
+      window.goatcounter.referrer = goatReferrer;
       var g = document.createElement('script');
       g.async = true;
       g.dataset.goatcounter = cfg.goatcounter;
