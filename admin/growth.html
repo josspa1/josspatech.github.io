@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>JosspaTech — Growth</title>
+  <link rel="stylesheet" href="shared/admin.css">
+  <script>window.ADMIN_PAGE = "growth";</script>
+  <style>
+    #dashboard main.page-main {
+      display: block !important;
+      max-width: 780px !important;
+      width: 100% !important;
+      box-sizing: border-box;
+      padding: 16px 20px 48px;
+      margin: 0 auto;
+    }
+    #dashboard main.page-main > section { display: block; width: 100%; max-width: none; }
+    .gr-range, .gr-plat { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0.5rem; }
+    .gr-range button, .gr-plat button {
+      border: 1px solid var(--border); background: var(--surface); color: var(--text);
+      padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600;
+    }
+    .gr-range button.active, .gr-plat button.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+    }
+    .gr-custom {
+      display: none; flex-wrap: wrap; gap: 10px; align-items: end; margin: 0 0 10px;
+    }
+    .gr-custom.show { display: flex; }
+    .gr-custom label {
+      display: flex; flex-direction: column; gap: 4px;
+      font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase;
+    }
+    .gr-custom input[type="date"] {
+      border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px;
+      font-size: 13px; background: var(--surface); color: var(--text);
+    }
+    .gr-window { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
+    .gr-window span { color: var(--text-dim); font-weight: 500; }
+    .gr-tools {
+      display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+      margin: 0 0 10px; font-size: 13px; font-weight: 600;
+    }
+    .gr-tools label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .gr-verdict {
+      font-size: 16px; font-weight: 800; line-height: 1.35; margin: 0 0 6px; color: var(--text);
+      padding: 14px 16px; border-radius: 12px;
+      background: #FDECEA; border: 1px solid #F5C6C0;
+    }
+    .gr-verdict.ok { background: #E8F7EE; border-color: #B7E0C5; }
+    .gr-verdict.muted { background: #EEF3FA; border-color: #C5D4E8; }
+    .gr-sub {
+      font-size: 13px; font-weight: 600; color: var(--text-dim); margin: 0 0 14px; line-height: 1.4;
+    }
+    .gr-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+      padding: 18px 20px; margin: 0 0 1rem;
+    }
+    .gr-card h3 { margin: 0 0 4px; font-size: 16px; }
+    .gr-card .sub { font-size: 12px; color: var(--text-dim); margin: 0 0 12px; }
+    .gr-row { padding: 10px 0; border-top: 1px solid var(--border); }
+    .gr-row:first-child { border-top: none; }
+    .gr-row-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .gr-row .name { font-size: 14px; font-weight: 700; flex: 1; min-width: 0; }
+    .gr-row .count { font-size: 22px; font-weight: 700; color: var(--primary); line-height: 1; }
+    .gr-row .meta { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+    .gr-bar {
+      margin-top: 6px; height: 10px; border-radius: 5px;
+      background: var(--surface-alt, #EEF2F7); overflow: hidden;
+    }
+    .gr-bar > i {
+      display: block; height: 100%; border-radius: 5px; background: var(--primary); max-width: 100%;
+    }
+    .gr-bar > i.bleed { background: var(--danger); }
+    .gr-bridge {
+      font-size: 12px; font-weight: 600; line-height: 1.35;
+      padding: 6px 0 6px 12px; margin: 0; color: var(--text-muted);
+      border-left: 2px solid var(--border);
+    }
+    .gr-bridge.bleed { color: var(--danger); border-left-color: var(--danger); }
+    .gr-trend {
+      display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 1rem;
+    }
+    .gr-trend .chip {
+      flex: 1; min-width: 140px; padding: 10px 12px; border-radius: 8px;
+      background: #EEF3FA; border: 1px solid #C5D4E8; font-size: 13px; font-weight: 700;
+    }
+    .gr-trend .chip.up { color: #1E7A3F; background: #E8F7EE; border-color: #B7E0C5; }
+    .gr-trend .chip.down { color: var(--danger); background: #FDECEA; border-color: #F5C6C0; }
+    .gr-trend .chip span { display: block; font-size: 11px; font-weight: 600; color: var(--text-dim); margin-top: 2px; }
+    .gr-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .gr-table th {
+      text-align: left; font-size: 11px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .03em;
+      padding: 0 8px 8px 0; border-bottom: 1px solid var(--border);
+    }
+    .gr-table th.num, .gr-table td.num { text-align: right; white-space: nowrap; }
+    .gr-table td {
+      padding: 8px 8px 8px 0; border-bottom: 1px solid var(--border); font-weight: 600;
+    }
+    .gr-empty { font-size: 13px; color: var(--text-dim); padding: 4px 0; }
+    .gr-apps { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <div id="login">
+    <div class="login-head">
+      <h1>
+        <span class="pbj-brand">Jossp<span class="amp">a</span>Tech</span><br>
+        <span style="font-weight:400;font-size:14px;color:var(--text-dim)">Where we lose people · site + apps</span>
+      </h1>
+    </div>
+    <p>Log in with your PocketBase superuser account.</p>
+    <input type="email" id="email" placeholder="Admin email">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Sign in</button>
+    <div class="err" id="loginErr"></div>
+  </div>
+  <div id="dashboard" style="display:none">
+    <header>
+      <div class="brand">
+        <h1>
+          Growth
+          <span class="subtitle">Biggest leak this window · site → store → open → trial → use → pay</span>
+        </h1>
+      </div>
+      <div class="controls">
+        <span class="pulse stale" id="pulse"></span>
+        <span id="lastRefresh">Manual refresh</span>
+        <button onclick="doLogout()">Sign out</button>
+      </div>
+    </header>
+    <main class="page-main" id="grMain">
+      <section>
+        <p class="section-explainer">
+          Joins website landings / store taps with in-app steps from the same
+          <code>_site_visits</code> table. Counts are <strong>in-window totals</strong>, not
+          the same people across web and app (sessions differ). Detail:
+          <a href="traffic.html">Website</a> · <a href="funnels.html">Funnels</a>.
+          Paying → confirm in RevenueCat.
+        </p>
+        <div class="gr-range" id="grRange">
+          <button type="button" data-range="today" class="active">Today</button>
+          <button type="button" data-range="7d">7 days</button>
+          <button type="button" data-range="30d">30 days</button>
+          <button type="button" data-range="all">All time</button>
+          <button type="button" data-range="custom">Custom</button>
+        </div>
+        <div class="gr-custom" id="grCustom">
+          <label>From <input type="date" id="grFrom"></label>
+          <label>To <input type="date" id="grTo"></label>
+          <button type="button" class="m-btn" id="grApplyCustom">Apply</button>
+        </div>
+        <p class="gr-window" id="grWindow">Window: —</p>
+        <div class="gr-tools">
+          <label><input type="checkbox" id="grCompare" checked> Compare to previous equal window</label>
+        </div>
+        <div class="gr-plat" id="grPlat">
+          <button type="button" data-plat="all" class="active">All</button>
+          <button type="button" data-plat="android">Android</button>
+          <button type="button" data-plat="ios">iPhone</button>
+        </div>
+        <div class="ref-actions">
+          <button type="button" class="m-btn" onclick="grWakeDb()">Wake database</button>
+          <button type="button" class="m-btn accent" onclick="grRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+        </div>
+        <p class="section-explainer" style="margin-top:0.35rem">
+          Two windowed pulls (site rows + <code>app:</code> rows). All time = last 90 days.
+          Wake first if Refresh 404s.
+        </p>
+        <div class="ref-status" id="grStatus">Sign in, then Wake / Refresh.</div>
+        <div id="grBody"></div>
+      </section>
+    </main>
+  </div>
+  <script src="shared/admin-nav.js"></script>
+  <script src="shared/admin-common.js"></script>
+  <script src="shared/admin-app.js"></script>
+  <script>
+    let grRange = "today";
+    let grPlat = "all";
+    let grCompare = true;
+    let grFrom = "";
+    let grTo = "";
+    let grCache = null;
+
+    const GR_APPS = [
+      { id: "hhh", label: "HHH" },
+      { id: "cvc", label: "CVC" },
+      { id: "pbj", label: "PBJ" },
+      { id: "unscribe", label: "Unscribe" },
+    ];
+
+    function grDayKeyEt(iso) {
+      if (!iso) return "";
+      try {
+        return new Intl.DateTimeFormat("en-CA", {
+          timeZone: "America/New_York",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(new Date(iso));
+      } catch (e) {
+        return String(iso).slice(0, 10);
+      }
+    }
+    function grTodayKey() {
+      return grDayKeyEt(new Date().toISOString());
+    }
+    function grAddDays(dayKey, delta) {
+      const d = new Date(dayKey + "T12:00:00");
+      d.setDate(d.getDate() + delta);
+      return grDayKeyEt(d.toISOString());
+    }
+    function grDaysBetween(a, b) {
+      return Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 864e5);
+    }
+    function grFmtDay(dayKey) {
+      if (!dayKey) return "—";
+      try {
+        return new Date(dayKey + "T12:00:00").toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      } catch (e) {
+        return dayKey;
+      }
+    }
+    function grActiveWindow(todayKey) {
+      if (grRange === "all") {
+        const from = grAddDays(todayKey, -89);
+        return { from, to: todayKey, label: "All time (last 90 days)" };
+      }
+      if (grRange === "today") return { from: todayKey, to: todayKey, label: grFmtDay(todayKey) };
+      if (grRange === "custom") {
+        const from = grFrom || todayKey;
+        const to = grTo || todayKey;
+        const a = from <= to ? from : to;
+        const b = from <= to ? to : from;
+        return { from: a, to: b, label: a === b ? grFmtDay(a) : `${grFmtDay(a)} – ${grFmtDay(b)}` };
+      }
+      const days = grRange === "7d" ? 7 : 30;
+      const from = grAddDays(todayKey, -(days - 1));
+      return { from, to: todayKey, label: `${grFmtDay(from)} – ${grFmtDay(todayKey)} (${days}d, ET)` };
+    }
+    function grPreviousWindow(win) {
+      if (!win.from || !win.to) return null;
+      const len = grDaysBetween(win.from, win.to) + 1;
+      const to = grAddDays(win.from, -1);
+      const from = grAddDays(to, -(len - 1));
+      return {
+        from,
+        to,
+        label: from === to ? grFmtDay(from) : `${grFmtDay(from)} – ${grFmtDay(to)}`,
+      };
+    }
+    function grInWindow(r, win) {
+      if (!r.created) return false;
+      const day = grDayKeyEt(r.created);
+      if (win.from && day < win.from) return false;
+      if (win.to && day > win.to) return false;
+      return true;
+    }
+    function grPct(n, d) {
+      if (!d) return "—";
+      return ((100 * n) / d).toFixed(0) + "%";
+    }
+    function grEsc(s) {
+      return String(s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+    function grIsBot(r) {
+      return /bot|crawl|spider|slurp|scrapy|httpclient|python-requests|curl\/|wget|facebookexternalhit|preview|stackscope|semrush|ahrefs|bingpreview|yandex|duckduckbot|baiduspider|gptbot|claudebot|bytespider/i.test(
+        r.user_agent || ""
+      );
+    }
+    function grIsOutbound(r) {
+      return String(r.page || "").startsWith("outbound:");
+    }
+    function grIsApp(r) {
+      return String(r.page || "").startsWith("app:");
+    }
+    function grIsLinkHop(r) {
+      const p = String(r.page || "");
+      return /^\/[ftyxwirlpg](\?|$)/.test(p);
+    }
+    function grUaPlatform(ua) {
+      const s = ua || "";
+      if (/iPhone|iPad|iPod/i.test(s)) return "ios";
+      if (/Android/i.test(s)) return "android";
+      return "desktop";
+    }
+    function grAppPlatform(r) {
+      const host = String(r.referrer_host || "").toLowerCase();
+      const raw = String(r.referrer_raw || "").toLowerCase();
+      if (host === "android" || raw.includes("android")) return "android";
+      if (host === "ios" || raw.includes("ios")) return "ios";
+      return "unknown";
+    }
+    function grParseApp(r) {
+      const m = String(r.page || "").match(/^app:([^:]+):(.+)$/);
+      if (!m) return null;
+      return { app: m[1].toLowerCase(), event: m[2] };
+    }
+    function grNormSource(r) {
+      const page = r.page || "";
+      const ref = r.referrer_raw || "";
+      const host = String(r.referrer_host || "");
+      const blob = page + " " + ref + " " + host;
+      const raw = String(r.source || "").toLowerCase();
+      if (/utm_campaign=t\b|utm:heycatch\|[^|]*\|t\b|\/t\?/.test(blob) || raw === "tiktok") return "TikTok link";
+      if (/utm_campaign=f\b|utm:heycatch\|[^|]*\|f\b|\/f\?/.test(blob) || raw === "facebook" || raw === "fb" || raw === "meta")
+        return "Facebook link";
+      if (/utm_campaign=y\b|\/y\?/.test(blob) || raw === "youtube") return "YouTube link";
+      if (/utm_campaign=i\b|utm_source=instagram/i.test(blob) || raw === "instagram") return "Instagram link";
+      if (/utm_campaign=g\b|utm_source=google/i.test(blob) || raw === "google") return "Google link";
+      if (/utm_campaign=x\b|utm_source=x\b/i.test(blob) || raw === "x" || raw === "twitter") return "X link";
+      if (/utm_campaign=w\b|utm_source=threads/i.test(blob) || raw === "threads") return "Threads link";
+      if (/utm_campaign=r\b|utm_source=reddit/i.test(blob) || raw === "reddit") return "Reddit link";
+      if (/utm_campaign=l\b|utm_source=linkedin/i.test(blob) || raw === "linkedin") return "LinkedIn link";
+      if (/utm_campaign=p\b|utm_source=pinterest/i.test(blob) || raw === "pinterest") return "Pinterest link";
+      if (raw === "producthunt" || /producthunt|ref=producthunt/i.test(blob)) return "Product Hunt";
+      if (raw === "clockworks" || /utm_source=clockworks/i.test(blob)) return "Clockworks";
+      if (/utm_source=facebook|fbclid|utm_source=instagram/i.test(blob)) return "Meta";
+      if (raw === "heycatch") return "HeyCatch link";
+      if (raw === "search") return "Search";
+      if (raw === "direct" || raw === "internal") return "Direct";
+      if (raw === "social") return "Social";
+      if (raw === "external") return "External";
+      if (!raw || raw === "unknown" || raw === "app") return raw === "app" ? "In the app" : "Unknown";
+      return String(r.source);
+    }
+    function grCampaignKey(r) {
+      const blob = String(r.page || "") + " " + String(r.referrer_raw || "");
+      let camp = "";
+      let content = "";
+      const m1 = blob.match(/utm_campaign=([^&\s|#]+)/i);
+      const m2 = blob.match(/utm:([^|]+)\|([^|]+)\|([^|\s]+)/);
+      const m3 = blob.match(/utm_content=([^&\s|#]+)/i);
+      if (m1) camp = decodeURIComponent(m1[1]);
+      else if (m2) camp = m2[3];
+      if (m3) content = decodeURIComponent(m3[1]);
+      if (!camp && !content) return "(none)";
+      if (camp && content) return camp + " · " + content;
+      return camp || content;
+    }
+    function grUniqueSessions(rows) {
+      const s = new Set(rows.map((r) => r.session_id).filter(Boolean));
+      return s.size || rows.length;
+    }
+    function grEventMatch(event, kind) {
+      const e = String(event || "").toLowerCase();
+      if (kind === "open") return /^app_opened(_|$)/.test(e) || e === "app_opened";
+      if (kind === "trial") return /^trial_started(_|$)/.test(e) || e.indexOf("trial_started_") === 0;
+      if (kind === "value") {
+        return (
+          /^identify_finished(_|$)/.test(e) ||
+          e.indexOf("identify_finished_") === 0 ||
+          /^import_success(_|$)/.test(e) ||
+          e.indexOf("import_success_") === 0
+        );
+      }
+      if (kind === "paying") return /^trial_converted(_|$)/.test(e) || e.indexOf("trial_converted_") === 0;
+      if (kind === "d1") {
+        return (
+          /^return_day_1(_|$)/.test(e) ||
+          e.indexOf("return_day_1_") === 0 ||
+          e.indexOf("session_day_1_return") >= 0
+        );
+      }
+      if (kind === "d7") {
+        return (
+          /^return_day_7(_|$)/.test(e) ||
+          e.indexOf("return_day_7_") === 0 ||
+          e.indexOf("session_day_7_return") >= 0
+        );
+      }
+      if (kind === "d30") {
+        return (
+          /^return_day_30(_|$)/.test(e) ||
+          e.indexOf("return_day_30_") === 0 ||
+          e.indexOf("session_day_30_return") >= 0
+        );
+      }
+      if (kind === "install_ref") return e.indexOf("install_ref_") === 0 || /^install_ref(_|$)/.test(e);
+      return false;
+    }
+    function grHint(fromLabel, toLabel) {
+      const key = fromLabel + ">" + toLabel;
+      if (key.indexOf("Site") === 0 && key.indexOf("Store") >= 0)
+        return "Site leak — people land but don’t tap Play / App Store.";
+      if (key.indexOf("Store") >= 0 && key.indexOf("App open") >= 0)
+        return "Listing/install cliff — store taps aren’t becoming opens (Play/ASC).";
+      if (key.indexOf("App open") >= 0 && key.indexOf("Trial") >= 0)
+        return "Open→trial leak — check phone-trial mint on next builds / terms path.";
+      if (key.indexOf("Trial") >= 0 && key.indexOf("Core") >= 0)
+        return "Usage leak — trials start but Identify/import never finishes.";
+      if (key.indexOf("Core") >= 0 && key.indexOf("Paying") >= 0)
+        return "Monetization leak — they use the product but don’t convert after day 14.";
+      return "Biggest drop between these steps.";
+    }
+
+    function grFilterPlat(siteRows, appRows) {
+      let site = siteRows;
+      let apps = appRows;
+      if (grPlat === "android") {
+        site = site.filter((r) => grUaPlatform(r.user_agent) === "android");
+        apps = apps.filter((r) => grAppPlatform(r) === "android");
+      } else if (grPlat === "ios") {
+        site = site.filter((r) => grUaPlatform(r.user_agent) === "ios");
+        apps = apps.filter((r) => grAppPlatform(r) === "ios");
+      }
+      return { site, apps };
+    }
+
+    function grMetrics(siteRows, appRows) {
+      const pageviews = siteRows.filter(
+        (r) => !grIsOutbound(r) && !grIsApp(r) && !grIsLinkHop(r) && !grIsBot(r)
+      );
+      const outbound = siteRows.filter(grIsOutbound);
+      const land = grUniqueSessions(pageviews);
+      const taps = grUniqueSessions(outbound);
+
+      const byKind = { open: [], trial: [], value: [], paying: [], d1: [], d7: [], d30: [], install_ref: [] };
+      const opensByApp = new Map();
+      for (const r of appRows) {
+        const parsed = grParseApp(r);
+        if (!parsed) continue;
+        for (const kind of Object.keys(byKind)) {
+          if (grEventMatch(parsed.event, kind)) byKind[kind].push(r);
+        }
+        if (grEventMatch(parsed.event, "open")) {
+          opensByApp.set(parsed.app, (opensByApp.get(parsed.app) || 0) + 1);
+        }
+      }
+      const open = grUniqueSessions(byKind.open);
+      const trial = grUniqueSessions(byKind.trial);
+      const value = grUniqueSessions(byKind.value);
+      const paying = grUniqueSessions(byKind.paying);
+      const d1 = grUniqueSessions(byKind.d1);
+      const d7 = grUniqueSessions(byKind.d7);
+      const d30 = grUniqueSessions(byKind.d30);
+
+      const steps = [
+        { key: "land", label: "Site landings", n: land, hint: "Human pageviews (sessions)" },
+        { key: "taps", label: "Store badge taps", n: taps, hint: "Play / App Store clicks" },
+        { key: "open", label: "App opens", n: open, hint: "app_opened_*" },
+        { key: "trial", label: "Trials started", n: trial, hint: "Phone or store trial_started_*" },
+        { key: "value", label: "Core value", n: value, hint: "Identify finished / import success" },
+        { key: "paying", label: "Paying", n: paying, hint: "trial_converted_* — confirm RevenueCat" },
+      ];
+
+      let worst = null;
+      for (let i = 0; i < steps.length - 1; i++) {
+        const a = steps[i];
+        const b = steps[i + 1];
+        if (a.n <= 0) continue;
+        const lost = a.n - b.n;
+        const lostPct = (100 * lost) / a.n;
+        if (lost <= 0) continue;
+        if (!worst || lostPct > worst.lostPct || (lostPct === worst.lostPct && lost > worst.lost)) {
+          worst = {
+            from: a.label,
+            to: b.label,
+            fromN: a.n,
+            toN: b.n,
+            lost,
+            lostPct,
+            hint: grHint(a.label, b.label),
+          };
+        }
+      }
+
+      // Channel: site landings + store taps
+      const chLand = new Map();
+      const chTap = new Map();
+      for (const r of pageviews) {
+        const c = grNormSource(r);
+        chLand.set(c, (chLand.get(c) || 0) + 1);
+      }
+      for (const r of outbound) {
+        const c = grNormSource(r);
+        chTap.set(c, (chTap.get(c) || 0) + 1);
+      }
+      const channels = [...new Set([...chLand.keys(), ...chTap.keys()])]
+        .map((label) => {
+          const L = chLand.get(label) || 0;
+          const T = chTap.get(label) || 0;
+          return { label, land: L, taps: T, rate: L ? T / L : 0 };
+        })
+        .sort((a, b) => b.land - a.land || b.taps - a.taps)
+        .slice(0, 12);
+
+      const campLand = new Map();
+      const campTap = new Map();
+      for (const r of pageviews) {
+        const c = grCampaignKey(r);
+        campLand.set(c, (campLand.get(c) || 0) + 1);
+      }
+      for (const r of outbound) {
+        const c = grCampaignKey(r);
+        campTap.set(c, (campTap.get(c) || 0) + 1);
+      }
+      const campaigns = [...new Set([...campLand.keys(), ...campTap.keys()])]
+        .map((label) => {
+          const L = campLand.get(label) || 0;
+          const T = campTap.get(label) || 0;
+          return { label, land: L, taps: T, rate: L ? T / L : 0 };
+        })
+        .sort((a, b) => b.land - a.land || b.taps - a.taps)
+        .slice(0, 12);
+
+      const installRefs = [];
+      const refMap = new Map();
+      for (const r of byKind.install_ref) {
+        const raw = String(r.referrer_raw || r.page || "").slice(0, 120);
+        const key = raw || "(blank)";
+        refMap.set(key, (refMap.get(key) || 0) + 1);
+      }
+      [...refMap.entries()]
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 8)
+        .forEach(([label, n]) => installRefs.push({ label, n }));
+
+      return {
+        steps,
+        worst,
+        channels,
+        campaigns,
+        retention: { d1, d7, d30 },
+        opensByApp,
+        installRefs,
+        land,
+        open,
+      };
+    }
+
+    function grTrendChip(label, cur, prev) {
+      if (prev == null) {
+        return `<div class="chip muted">${grEsc(label)} ${cur}<span>no prior window</span></div>`;
+      }
+      const diff = cur - prev;
+      const pct = prev ? ((100 * diff) / prev).toFixed(0) : cur ? "∞" : "0";
+      const cls = diff > 0 ? "up" : diff < 0 ? "down" : "";
+      const sign = diff > 0 ? "+" : "";
+      return `<div class="chip ${cls}">${grEsc(label)} ${cur} <span>was ${prev} (${sign}${pct}%)</span></div>`;
+    }
+
+    function grFunnelHtml(m) {
+      const top = Math.max(1, ...m.steps.map((s) => s.n));
+      const parts = [];
+      m.steps.forEach((s, i) => {
+        const barPct = Math.max(2, Math.min(100, (100 * s.n) / top));
+        const prev = i > 0 ? m.steps[i - 1] : null;
+        if (prev && prev.n > 0) {
+          const cont = Math.min(100, (100 * s.n) / prev.n);
+          const lost = Math.max(0, prev.n - s.n);
+          const bleed = cont < 40 && lost > 0;
+          parts.push(
+            `<p class="gr-bridge ${bleed ? "bleed" : ""}">${grPct(s.n, prev.n)} continued · ${lost} lost after ${grEsc(prev.label)}</p>`
+          );
+        }
+        parts.push(`<div class="gr-row">
+          <div class="gr-row-head">
+            <span class="name">${i + 1} · ${grEsc(s.label)}</span>
+            <span class="count">${s.n}</span>
+            <span class="meta">${grEsc(s.hint)}</span>
+          </div>
+          <div class="gr-bar"><i class="${prev && prev.n && s.n / prev.n < 0.4 ? "bleed" : ""}" style="width:${barPct.toFixed(1)}%"></i></div>
+        </div>`);
+      });
+      const appBits = GR_APPS.map((a) => {
+        const n = m.opensByApp.get(a.id) || 0;
+        return `${a.label} ${n}`;
+      }).join(" · ");
+      return `<div>${parts.join("")}<p class="gr-apps">Opens by app (row counts): ${grEsc(appBits)}</p></div>`;
+    }
+
+    function grChannelTable(rows, empty) {
+      if (!rows.length) return `<p class="gr-empty">${grEsc(empty)}</p>`;
+      return `<table class="gr-table">
+        <thead><tr><th>Source</th><th class="num">Landings</th><th class="num">Store taps</th><th class="num">Tap rate</th></tr></thead>
+        <tbody>${rows
+          .map(
+            (r) => `<tr>
+            <td>${grEsc(r.label)}</td>
+            <td class="num">${r.land}</td>
+            <td class="num">${r.taps}</td>
+            <td class="num">${grPct(r.taps, r.land)}</td>
+          </tr>`
+          )
+          .join("")}</tbody></table>`;
+    }
+
+    function grRender(cache) {
+      const todayKey = grTodayKey();
+      const win = grActiveWindow(todayKey);
+      const prevWin = grCompare ? grPreviousWindow(win) : null;
+      document.getElementById("grWindow").innerHTML = `Window: <span>${grEsc(win.label)}${
+        grPlat !== "all" ? " · " + grPlat : ""
+      }</span>`;
+
+      const siteCur = (cache.site || []).filter((r) => grInWindow(r, win));
+      const appCur = (cache.app || []).filter((r) => grInWindow(r, win));
+      const { site, apps } = grFilterPlat(siteCur, appCur);
+      const m = grMetrics(site, apps);
+
+      let prevM = null;
+      if (prevWin) {
+        const sitePrev = (cache.site || []).filter((r) => grInWindow(r, prevWin));
+        const appPrev = (cache.app || []).filter((r) => grInWindow(r, prevWin));
+        const filtered = grFilterPlat(sitePrev, appPrev);
+        prevM = grMetrics(filtered.site, filtered.apps);
+      }
+
+      let verdictCls = "muted";
+      let verdict = "Not enough volume in this window to name a break.";
+      if (m.worst) {
+        verdictCls = m.worst.lostPct >= 50 ? "" : "ok";
+        verdict = `Biggest break: ${m.worst.from} (${m.worst.fromN}) → ${m.worst.to} (${m.worst.toN}). ${m.worst.hint}`;
+      } else if (m.land === 0 && m.open === 0) {
+        verdict = "No site landings and no app opens in this window.";
+      }
+
+      const body = `
+        <div class="gr-verdict ${verdictCls}">${grEsc(verdict)}</div>
+        <p class="gr-sub">${grEsc(win.label)} · in-window counts (web sessions ≠ app device ids). Paying ≠ trial.</p>
+        <div class="gr-trend">
+          ${grTrendChip("Site landings", m.land, prevM ? prevM.land : null)}
+          ${grTrendChip("App opens", m.open, prevM ? prevM.open : null)}
+          ${grTrendChip("Paying", m.steps.find((s) => s.key === "paying").n, prevM ? prevM.steps.find((s) => s.key === "paying").n : null)}
+        </div>
+        <div class="gr-card">
+          <h3>Where we lose people</h3>
+          <p class="sub">Site → store → open → trial → core value → paying.</p>
+          ${grFunnelHtml(m)}
+        </div>
+        <div class="gr-card">
+          <h3>Retention (came back)</h3>
+          <p class="sub">Unique devices that fired return_day / session_day milestones in this window.</p>
+          <table class="gr-table">
+            <thead><tr><th>Milestone</th><th class="num">People</th></tr></thead>
+            <tbody>
+              <tr><td>Day 1 return</td><td class="num">${m.retention.d1}</td></tr>
+              <tr><td>Day 7 return</td><td class="num">${m.retention.d7}</td></tr>
+              <tr><td>Day 30 return</td><td class="num">${m.retention.d30}</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="gr-card">
+          <h3>Channels</h3>
+          <p class="sub">How they got to the site → store tap rate.</p>
+          ${grChannelTable(m.channels, "No channel data.")}
+        </div>
+        <div class="gr-card">
+          <h3>Campaigns</h3>
+          <p class="sub">utm_campaign / utm_content from landings and store taps.</p>
+          ${grChannelTable(m.campaigns, "No campaign params in this window.")}
+        </div>
+        <div class="gr-card">
+          <h3>Play install referrer</h3>
+          <p class="sub">First-open Android install_ref_* (after next app builds). Empty until then.</p>
+          ${
+            m.installRefs.length
+              ? `<table class="gr-table"><thead><tr><th>Referrer</th><th class="num">n</th></tr></thead><tbody>${m.installRefs
+                  .map((r) => `<tr><td>${grEsc(r.label)}</td><td class="num">${r.n}</td></tr>`)
+                  .join("")}</tbody></table>`
+              : `<p class="gr-empty">No install_ref rows yet.</p>`
+          }
+        </div>`;
+
+      document.getElementById("grBody").innerHTML = body;
+      document.getElementById("grStatus").textContent =
+        `${win.label}: ${(cache.site || []).length} site rows · ${(cache.app || []).length} app rows · ${new Date().toLocaleTimeString()}`;
+      document.getElementById("pulse").classList.remove("stale");
+      document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+    }
+
+    function grDatePad() {
+      const todayKey = grTodayKey();
+      const win = grActiveWindow(todayKey);
+      const prev = grCompare ? grPreviousWindow(win) : null;
+      let from = win.from;
+      let to = win.to;
+      if (!from || !to) {
+        from = grAddDays(todayKey, -89);
+        to = todayKey;
+      }
+      if (prev && prev.from) from = prev.from;
+      const start = grAddDays(from, -1);
+      const end = grAddDays(to, 2);
+      return { start, end };
+    }
+
+    async function grWakeDb() {
+      const status = document.getElementById("grStatus");
+      status.textContent = "Waking PocketBase… (cold start can take up to ~60s)";
+      document.getElementById("pulse").classList.add("stale");
+      let ok = false;
+      for (let i = 1; i <= 4; i++) {
+        try {
+          const r = await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+          if (r && r.ok) {
+            ok = true;
+            break;
+          }
+          status.textContent = `Wake try ${i}/4 — health not ready yet…`;
+        } catch (_) {
+          status.textContent = `Wake try ${i}/4 — still sleeping, waiting…`;
+        }
+        if (i < 4) await new Promise((res) => setTimeout(res, 4000));
+      }
+      if (ok) {
+        status.textContent = "Database awake. Hit Refresh.";
+        document.getElementById("pulse").classList.remove("stale");
+      } else {
+        status.textContent =
+          "Still asleep after 4 tries. Open pockethost.io/dashboard → josspatech → power On, then Wake again.";
+      }
+    }
+
+    async function grRefresh() {
+      const status = document.getElementById("grStatus");
+      status.textContent = "Loading…";
+      try {
+        try {
+          await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+        } catch (_) {}
+        const { start, end } = grDatePad();
+        const dateBit =
+          'created >= "' + start + ' 00:00:00.000Z" && created < "' + end + ' 00:00:00.000Z"';
+        const fields = "id,page,created,session_id,referrer_host,referrer_raw,source,user_agent";
+        const [site, app] = await Promise.all([
+          listAllRecords("_site_visits", 'page !~ "app:" && ' + dateBit, fields),
+          listAllRecords("_site_visits", 'page ~ "app:" && ' + dateBit, fields),
+        ]);
+        grCache = { site, app };
+        grRender(grCache);
+      } catch (e) {
+        const msg = String(e && e.message ? e.message : e);
+        const dead =
+          /failed to fetch|networkerror|abort|timeout|404|503/i.test(msg) ||
+          e.name === "AbortError" ||
+          e.name === "TimeoutError";
+        status.textContent = dead
+          ? "PocketBase timed out or 404'd. Hit Wake database, then Refresh."
+          : "Error: " + msg;
+        document.getElementById("pulse").classList.add("stale");
+      }
+    }
+
+    (function grInit() {
+      const today = grTodayKey();
+      document.getElementById("grFrom").value = grAddDays(today, -6);
+      document.getElementById("grTo").value = today;
+      grFrom = document.getElementById("grFrom").value;
+      grTo = document.getElementById("grTo").value;
+
+      document.getElementById("grRange").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-range]");
+        if (!btn) return;
+        grRange = btn.getAttribute("data-range");
+        [...document.querySelectorAll("#grRange button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        document.getElementById("grCustom").classList.toggle("show", grRange === "custom");
+        if (grRange === "custom") {
+          grFrom = document.getElementById("grFrom").value;
+          grTo = document.getElementById("grTo").value;
+        }
+        grRefresh();
+      });
+      document.getElementById("grApplyCustom").addEventListener("click", () => {
+        grFrom = document.getElementById("grFrom").value;
+        grTo = document.getElementById("grTo").value;
+        grRange = "custom";
+        [...document.querySelectorAll("#grRange button")].forEach((b) =>
+          b.classList.toggle("active", b.getAttribute("data-range") === "custom")
+        );
+        document.getElementById("grCustom").classList.add("show");
+        grRefresh();
+      });
+      document.getElementById("grCompare").addEventListener("change", (e) => {
+        grCompare = !!e.target.checked;
+        grRefresh();
+      });
+      document.getElementById("grPlat").addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-plat]");
+        if (!btn) return;
+        grPlat = btn.getAttribute("data-plat");
+        [...document.querySelectorAll("#grPlat button")].forEach((b) =>
+          b.classList.toggle("active", b === btn)
+        );
+        if (grCache) grRender(grCache);
+        else grRefresh();
+      });
+    })();
+
+    window.grRefresh = grRefresh;
+    window.grWakeDb = grWakeDb;
+  </script>
+</body>
+</html>

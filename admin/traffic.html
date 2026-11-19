@@ -136,7 +136,8 @@
         <p class="section-explainer">
           Same <code>_site_visits</code> rows the site already posts (pageviews +
           <code>outbound:…</code> store taps). Facebook hops are <code>/f</code>, TikTok <code>/t</code>.
-          In-app open → paid is on <a href="funnels.html">Funnels</a>.
+          Biggest leak across site + apps: <a href="growth.html">Growth</a>.
+          In-app open → paid: <a href="funnels.html">Funnels</a>.
           No Workers or KV.
         </p>
         <div class="tr-range" id="trRange">
@@ -317,6 +318,20 @@
       if (/play/i.test(ev)) return "Android";
       if (/appstore|testflight/i.test(ev)) return "iOS";
       return "Other";
+    }
+    function trCampaignKey(r) {
+      const blob = String(r.page || "") + " " + String(r.referrer_raw || "");
+      let camp = "";
+      let content = "";
+      const m1 = blob.match(/utm_campaign=([^&\s|#]+)/i);
+      const m2 = blob.match(/utm:([^|]+)\|([^|]+)\|([^|\s]+)/);
+      const m3 = blob.match(/utm_content=([^&\s|#]+)/i);
+      if (m1) camp = decodeURIComponent(m1[1]);
+      else if (m2) camp = m2[3];
+      if (m3) content = decodeURIComponent(m3[1]);
+      if (!camp && !content) return "(none)";
+      if (camp && content) return camp + " · " + content;
+      return camp || content;
     }
     function trNormSource(r) {
       const page = r.page || "";
@@ -514,6 +529,40 @@
         .sort((a, b) => b.n - a.n)
         .slice(0, 10);
 
+      // Campaigns (utm_campaign / utm_content) — promo variants, not just channel
+      const byCamp = new Map();
+      function ensCamp(name) {
+        if (!byCamp.has(name)) {
+          byCamp.set(name, { land: new Set(), click: new Set(), landN: 0, clickN: 0 });
+        }
+        return byCamp.get(name);
+      }
+      for (const r of pageviews) {
+        const s = ensCamp(trCampaignKey(r));
+        s.landN += 1;
+        if (r.session_id) s.land.add(r.session_id);
+      }
+      for (const r of outbound) {
+        const s = ensCamp(trCampaignKey(r));
+        s.clickN += 1;
+        if (r.session_id) s.click.add(r.session_id);
+      }
+      const campaigns = [...byCamp.entries()]
+        .map(([name, s]) => {
+          const land = s.land.size || s.landN;
+          const clk = s.click.size || s.clickN;
+          return {
+            label: name,
+            n: land,
+            meta: `${clk} store · ${trPct(clk, land)}`,
+            land,
+            clk,
+            bleed: land > 0 && clk / land < 0.05,
+          };
+        })
+        .sort((a, b) => b.n - a.n)
+        .slice(0, 12);
+
       // Referrer hosts
       const byHost = new Map();
       for (const r of pageviews) {
@@ -583,6 +632,7 @@
         pages,
         entries,
         sources,
+        campaigns,
         hosts,
         badges,
         fromPages,
@@ -675,6 +725,11 @@
           <h3>How they got here</h3>
           <p class="sub">UTM / channel. Meta line = store taps and click rate from that source.</p>
           ${trRankBars(s.sources)}
+        </div>
+        <div class="tr-card">
+          <h3>Campaigns</h3>
+          <p class="sub">utm_campaign / utm_content (promo variants). “(none)” = no campaign params.</p>
+          ${trRankBars(s.campaigns || [], { empty: "No campaign params in this window." })}
         </div>
         <div class="tr-card">
           <h3>Referrer sites</h3>
