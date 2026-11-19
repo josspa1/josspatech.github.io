@@ -102,6 +102,18 @@
     }
     .gr-empty { font-size: 13px; color: var(--text-dim); padding: 4px 0; }
     .gr-apps { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 8px; }
+    .gr-checkout-warn {
+      border-color: #F5C6C0; background: #FFF8F7;
+    }
+    .gr-reason {
+      font-size: 12px; font-weight: 600; color: var(--text-dim); margin: 2px 0 0; line-height: 1.35;
+    }
+    .gr-pill {
+      display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+      background: #EEF3FA; border: 1px solid #C5D4E8; margin-right: 6px;
+    }
+    .gr-pill.bad { background: #FDECEA; border-color: #F5C6C0; color: var(--danger); }
+    .gr-pill.ok { background: #E8F7EE; border-color: #B7E0C5; color: #1E7A3F; }
   </style>
 </head>
 <body>
@@ -137,7 +149,9 @@
         <p class="section-explainer">
           Joins website landings / store taps with in-app steps from the same
           <code>_site_visits</code> table. Counts are <strong>in-window totals</strong>, not
-          the same people across web and app (sessions differ). Detail:
+          the same people across web and app (sessions differ).
+          <strong>Checkout health</strong> (below) is the always-on view of Subscribe fails —
+          codes, platform, plain English. Detail:
           <a href="traffic.html">Website</a> · <a href="funnels.html">Funnels</a>.
           Paying → confirm in RevenueCat.
         </p>
@@ -388,7 +402,97 @@
         );
       }
       if (kind === "install_ref") return e.indexOf("install_ref_") === 0 || /^install_ref(_|$)/.test(e);
+      if (kind === "checkout_started") {
+        return /^checkout_started(_|$)/.test(e) || e.indexOf("checkout_started_") === 0;
+      }
+      if (kind === "checkout_cancel") {
+        return /^checkout_cancel(_|$)/.test(e) || e.indexOf("checkout_cancel_") === 0;
+      }
+      if (kind === "checkout_error") {
+        return /^checkout_error(_|$)/.test(e) || e.indexOf("checkout_error_") === 0;
+      }
+      if (kind === "subscription_started") {
+        return /^subscription_started(_|$)/.test(e) || e.indexOf("subscription_started_") === 0;
+      }
       return false;
+    }
+    /** Suffix after checkout_error_{app}__REASON (or bare checkout_error). */
+    function grCheckoutErrorReason(event) {
+      const e = String(event || "");
+      const m = e.match(/^checkout_error_[a-z0-9]+__(.+)$/i);
+      if (m) return m[1];
+      if (/^checkout_error(_|$)/i.test(e)) return "(no reason)";
+      return "(no reason)";
+    }
+    function grExplainCheckoutReason(reason) {
+      const r = String(reason || "").toUpperCase();
+      if (!r || r === "(NO REASON)" || r === "(NONE)" || r === "UNKNOWN") {
+        return "Store failed — reason missing (older build). Next PBJ build logs STORE_PROBLEM / PRODUCT_NOT_AVAILABLE.";
+      }
+      if (/BILLING_UNAVAILABLE|PURCHASE_NOT_ALLOWED|STORE_PROBLEM/.test(r)) {
+        return "Apple/Google couldn't bill this account (no payment method, Screen Time, or store restrictions). Free no-card trial can still be fine.";
+      }
+      if (/PRODUCT_NOT_AVAILABLE|THE_PRODUCT_IS_NOT/.test(r)) {
+        return "Plan not buyable for this account — often buying Play's free-trial offer after phone trial. Fixed in next PBJ build (charge base plan instead).";
+      }
+      if (/NO_BASE_PLAN/.test(r)) return "Android base plan missing from the product — check Play Console offers.";
+      if (/IAP_NOT_READY|LIVE_IAP/.test(r)) return "Purchases SDK wasn't ready on the device.";
+      if (/NETWORK/.test(r)) return "Couldn't reach the store (network).";
+      if (/PAYMENT_PENDING/.test(r)) return "Family / parental approval pending — not a hard fail.";
+      if (/ENTITLEMENT_LAG/.test(r)) return "Store charged but Premium didn't flip yet — Restore usually fixes.";
+      if (/CONFIGURATION/.test(r)) return "RevenueCat / store product misconfigured.";
+      return "Store purchase failed (" + reason.replace(/_/g, " ") + ").";
+    }
+    function grCheckoutHealth(appRows) {
+      const byApp = new Map();
+      for (const a of GR_APPS) {
+        byApp.set(a.id, {
+          id: a.id,
+          label: a.label,
+          started: 0,
+          cancel: 0,
+          error: 0,
+          subOk: 0,
+          reasons: new Map(),
+          byPlat: { ios: 0, android: 0, unknown: 0 },
+        });
+      }
+      let started = 0;
+      let cancel = 0;
+      let error = 0;
+      let subOk = 0;
+      const reasonTotals = new Map();
+      for (const r of appRows) {
+        const parsed = grParseApp(r);
+        if (!parsed) continue;
+        const bucket = byApp.get(parsed.app);
+        if (!bucket) continue;
+        const plat = grAppPlatform(r);
+        const e = parsed.event;
+        if (grEventMatch(e, "checkout_started")) {
+          started++;
+          bucket.started++;
+        } else if (grEventMatch(e, "checkout_cancel")) {
+          cancel++;
+          bucket.cancel++;
+        } else if (grEventMatch(e, "checkout_error")) {
+          error++;
+          bucket.error++;
+          if (plat === "ios" || plat === "android") bucket.byPlat[plat]++;
+          else bucket.byPlat.unknown++;
+          const reason = grCheckoutErrorReason(e);
+          reasonTotals.set(reason, (reasonTotals.get(reason) || 0) + 1);
+          bucket.reasons.set(reason, (bucket.reasons.get(reason) || 0) + 1);
+        } else if (grEventMatch(e, "subscription_started")) {
+          subOk++;
+          bucket.subOk++;
+        }
+      }
+      const reasonRows = [...reasonTotals.entries()]
+        .map(([reason, n]) => ({ reason, n, mean: grExplainCheckoutReason(reason) }))
+        .sort((a, b) => b.n - a.n);
+      const apps = [...byApp.values()].filter((a) => a.started || a.cancel || a.error || a.subOk);
+      return { started, cancel, error, subOk, reasonRows, apps };
     }
     function grHint(fromLabel, toLabel) {
       const key = fromLabel + ">" + toLabel;
@@ -597,6 +701,62 @@
           .join("")}</tbody></table>`;
     }
 
+    function grCheckoutHtml(ch) {
+      const hot = ch.error >= 3;
+      const errRate = ch.started ? grPct(ch.error, ch.started) : "—";
+      const cancelRate = ch.started ? grPct(ch.cancel, ch.started) : "—";
+      const okRate = ch.started ? grPct(ch.subOk, ch.started) : "—";
+      let reasonBlock = `<p class="gr-empty">No checkout errors in this window.</p>`;
+      if (ch.reasonRows.length) {
+        reasonBlock = `<table class="gr-table">
+          <thead><tr><th>Error code</th><th class="num">n</th><th>What it means</th></tr></thead>
+          <tbody>${ch.reasonRows
+            .map(
+              (r) => `<tr>
+              <td><code>${grEsc(r.reason)}</code></td>
+              <td class="num">${r.n}</td>
+              <td><span class="gr-reason">${grEsc(r.mean)}</span></td>
+            </tr>`
+            )
+            .join("")}</tbody></table>`;
+      }
+      const appBlock = ch.apps.length
+        ? `<table class="gr-table" style="margin-top:12px">
+            <thead><tr><th>App</th><th class="num">Subscribe taps</th><th class="num">Cancels</th><th class="num">Errors</th><th class="num">Store OK</th><th>Platform (errors)</th></tr></thead>
+            <tbody>${ch.apps
+              .map((a) => {
+                const plat =
+                  a.byPlat.ios || a.byPlat.android
+                    ? `iOS ${a.byPlat.ios} · Android ${a.byPlat.android}`
+                    : "—";
+                return `<tr>
+                  <td>${grEsc(a.label)}</td>
+                  <td class="num">${a.started}</td>
+                  <td class="num">${a.cancel}</td>
+                  <td class="num">${a.error}</td>
+                  <td class="num">${a.subOk}</td>
+                  <td>${grEsc(plat)}</td>
+                </tr>`;
+              })
+              .join("")}</tbody></table>`
+        : "";
+      return `<div class="gr-card ${hot ? "gr-checkout-warn" : ""}">
+        <h3>Checkout health</h3>
+        <p class="sub">
+          Subscribe taps → cancel (closed the sheet) vs error (store failed) vs store OK.
+          Errors are the ones to fix. Trial starts are separate (phone free week can succeed while Subscribe fails).
+        </p>
+        <div style="margin:0 0 10px">
+          <span class="gr-pill">Tapped Subscribe ${ch.started}</span>
+          <span class="gr-pill">Cancelled ${ch.cancel} (${cancelRate})</span>
+          <span class="gr-pill ${ch.error ? "bad" : "ok"}">Errors ${ch.error} (${errRate})</span>
+          <span class="gr-pill ${ch.subOk ? "ok" : ""}">Store OK ${ch.subOk} (${okRate})</span>
+        </div>
+        ${reasonBlock}
+        ${appBlock}
+      </div>`;
+    }
+
     function grRender(cache) {
       const todayKey = grTodayKey();
       const win = grActiveWindow(todayKey);
@@ -609,6 +769,7 @@
       const appCur = (cache.app || []).filter((r) => grInWindow(r, win));
       const { site, apps } = grFilterPlat(siteCur, appCur);
       const m = grMetrics(site, apps);
+      const checkout = grCheckoutHealth(apps);
 
       let prevM = null;
       if (prevWin) {
@@ -620,7 +781,17 @@
 
       let verdictCls = "muted";
       let verdict = "Not enough volume in this window to name a break.";
-      if (m.worst) {
+      const checkoutHot =
+        checkout.error >= 3 &&
+        (checkout.started === 0 || checkout.error / Math.max(1, checkout.started) >= 0.25);
+      if (checkoutHot) {
+        verdictCls = "";
+        const top = checkout.reasonRows[0];
+        verdict =
+          `Checkout failures: ${checkout.error} failed Subscribe` +
+          (checkout.started ? ` of ${checkout.started} taps` : "") +
+          (top ? ` — top code ${top.reason}. ${top.mean}` : ".");
+      } else if (m.worst) {
         verdictCls = m.worst.lostPct >= 50 ? "" : "ok";
         verdict = `Biggest break: ${m.worst.from} (${m.worst.fromN}) → ${m.worst.to} (${m.worst.toN}). ${m.worst.hint}`;
       } else if (m.land === 0 && m.open === 0) {
@@ -635,6 +806,7 @@
           ${grTrendChip("App opens", m.open, prevM ? prevM.open : null)}
           ${grTrendChip("Paying", m.steps.find((s) => s.key === "paying").n, prevM ? prevM.steps.find((s) => s.key === "paying").n : null)}
         </div>
+        ${grCheckoutHtml(checkout)}
         <div class="gr-card">
           <h3>Where we lose people</h3>
           <p class="sub">Site → store → open → trial → core value → paying.</p>

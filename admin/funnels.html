@@ -276,6 +276,9 @@
             <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=mobile&amp;chart=8e2b5530-3923-452b-a140-a69336d576e9" target="_blank" rel="noopener">Mobile · Unscribe Conversion</a>
             <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=mobile&amp;chart=5967c713-bf63-4833-93c0-4b7809da76d0" target="_blank" rel="noopener">Mobile · HHH after paywall</a>
             <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=landing&amp;chart=06f1f811-81e4-4168-afc5-7f592b2c2b54" target="_blank" rel="noopener">Website · HHH site to store</a>
+            <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=landing&amp;chart=b6bbd5d9-8212-4303-83e2-fd83ab55c80d" target="_blank" rel="noopener">Website · PBJ site to store</a>
+            <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=landing&amp;chart=621c71f0-4f3a-4e6f-9ff4-568838119f97" target="_blank" rel="noopener">Website · CVC site to store</a>
+            <a href="https://app.heycatch.ai/projects/8c2420b2-96f3-4176-b582-90d6369c1e4c/analytics?surface=landing&amp;chart=8f023094-f032-4f21-bc4e-2d4979491354" target="_blank" rel="noopener">Website · Unscribe site to store</a>
           </div>
         </div>
         <div class="fn-range" id="fnRange">
@@ -351,21 +354,21 @@
       {
         key: "checkout_cancel",
         label: "5b · Cancelled checkout",
-        mean: "Closed the store sheet without buying. Leak after Subscribe tap.",
+        mean: "They closed the App Store / Play buy sheet without buying. Not a crash — they backed out. Phone trial (if any) still runs.",
         short: "Cancelled checkout",
         sideOf: "checkout_started",
       },
       {
         key: "checkout_error",
         label: "5c · Checkout error",
-        mean: "Store/purchase failed (not user cancel).",
+        mean: "Paid Subscribe failed at Apple/Google (not a cancel). Suffix is the store code: Billing_unavailable / PURCHASE_NOT_ALLOWED / STORE_PROBLEM = account can't be billed (no payment method, restrictions). PRODUCT_NOT_AVAILABLE = that plan isn't buyable for their store account. This does NOT mean the free no-card trial failed — trial_started is separate.",
         short: "Checkout error",
         sideOf: "checkout_started",
       },
       {
         key: "trial_started",
         label: "6 · Started free trial",
-        mean: "Phone says the 14-day free window began (no-card phone trial, or a store trial if one still exists).",
+        mean: "Phone minted the free no-card trial (or a store intro trial). Independent of checkout_error — someone can start a trial and later fail when tapping paid Subscribe.",
         short: "Started free trial",
       },
       {
