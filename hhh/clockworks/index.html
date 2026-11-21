@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=13"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clockworks exclusive — Handy Horology Helper Pro</title>
+<meta name="description" content="Exclusive Clockworks customer gift: 1 month of Handy Horology Helper Pro free for the first 50 who redeem. No credit card.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://josspatech.com/hhh/clockworks/">
+<meta name="author" content="JosspaTech">
+<meta name="theme-color" content="#0C3358">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish26">
+<style>
+  .cw-status {
+    margin: 0 0 1.35rem;
+    padding: 1rem 1.15rem;
+    border-radius: 14px;
+    border: 1px solid rgba(240, 192, 64, 0.28);
+    background: rgba(240, 192, 64, 0.1);
+    text-align: center;
+  }
+  .cw-status[data-state="full"] {
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .cw-status-label {
+    margin: 0;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .cw-status-fine {
+    margin: 0.45rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.45);
+  }
+  .cw-code-box {
+    margin: 1.25rem 0 0.35rem;
+    padding: 1rem 1.1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(0, 0, 0, 0.22);
+    text-align: center;
+  }
+  .cw-code-box .cw-code {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: clamp(1.6rem, 5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+  }
+  .cw-steps {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .cw-steps li {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .cw-steps strong { color: #fff; }
+  .cw-shots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1.75rem 0 0.5rem;
+  }
+  .cw-shots figure {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: #0a1624;
+  }
+  .cw-shots img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 640px) {
+    .cw-shots { grid-template-columns: 1fr; max-width: 16rem; margin-left: auto; margin-right: auto; }
+  }
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Clockworks exclusive — Handy Horology Helper Pro">
+<meta property="og:description" content="1 month of HHH Pro free for the first 50 Clockworks customers. No credit card.">
+<meta property="og:url" content="https://josspatech.com/hhh/clockworks/">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-hhh.jpg">
+</head>
+<body class="wallpaper-hhh">
+  <header>
+    <div class="header-bar">
+      <nav aria-label="Breadcrumb">
+        <a href="/">JosspaTech</a> / <a href="/hhh/">Handy Horology Helper</a> / Clockworks
+      </nav>
+      <nav class="company-links" aria-label="Company">
+        <a href="https://www.clockworks.com/" rel="noopener">Clockworks.com</a>
+        <a href="mailto:support@josspatech.com">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="cw-status rise rise-1" id="cw-status" data-state="quiet" aria-live="polite">
+      <p class="cw-status-label" id="cw-status-label">Clockworks exclusive — first 50 customers</p>
+      <p class="cw-status-fine" id="cw-status-fine">Redemption count may lag by about a minute — not live to the second.</p>
+    </div>
+
+    <div class="kicker rise rise-2">
+      <img src="/assets/hhh/hhh-icon-512.png" width="56" height="56" alt="Handy Horology Helper app icon">
+      <span>Handy Horology Helper™</span>
+    </div>
+    <h1 class="rise rise-3">A thank-you gift for Clockworks customers</h1>
+    <p class="lead rise rise-4">1 month of Handy Horology Helper Pro — free. No credit card. It does not turn into a paid subscription when it ends.</p>
+    <p class="sub rise rise-4">Identify watches and clocks from a photo or the clues you already have. Keep a private collection on your phone. Get clock repair help when a movement stops.</p>
+
+    <div class="cw-code-box rise rise-5" id="cw-code-wrap">
+      <span style="font-size:0.85rem;color:rgba(255,255,255,0.55);">Your promo code</span>
+      <span class="cw-code" id="cw-code">C2WK5R</span>
+    </div>
+
+    <div class="cta-row rise rise-5">
+      <p class="badges" role="group" aria-label="Download Handy Horology Helper">
+        <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/google-play-badge.png" alt="Get it on Google Play" width="155" height="60">
+        </a>
+        <a href="https://apps.apple.com/us/app/id6778570480" target="_blank" rel="noopener">
+          <img src="/assets/brand/store-badges/app-store-badge.svg" alt="Download on the App Store" width="120" height="40">
+        </a>
+      </p>
+    </div>
+
+    <ol class="cw-steps rise rise-5">
+      <li><strong>1. Install</strong> Handy Horology Helper from Google Play or the App Store (links above).</li>
+      <li><strong>2. Open the app</strong> and go to the Pro / paywall screen → <strong>Have a code?</strong></li>
+      <li><strong>3. Enter</strong> <span id="cw-code-inline">C2WK5R</span> — you get 1 month of Pro. No card required.</li>
+    </ol>
+
+    <div class="cw-shots rise rise-6" aria-label="Handy Horology Helper screenshots">
+      <figure>
+        <img src="/assets/screenshots/hhh/intro/04-ai-identify.png" width="220" height="478" alt="Identify a watch or clock from a photo">
+      </figure>
+      <figure>
+        <img src="/assets/screenshots/hhh/intro/05-clockworks-repair.png" width="220" height="478" alt="Clock repair help in Handy Horology Helper">
+      </figure>
+      <figure>
+        <img src="/assets/screenshots/hhh/intro/02-my-museum.png" width="220" height="478" alt="Private collection in My Museum">
+      </figure>
+    </div>
+
+    <h2>What Pro includes</h2>
+    <ul>
+      <li><strong>Identify</strong> — confirm a watch or clock from photos and clues (year, metal, rough worth).</li>
+      <li><strong>My Museum</strong> — private collection on your device: photos, notes, values.</li>
+      <li><strong>Clock Repair Help</strong> — troubleshooting and clock-parts guidance when a movement stops.</li>
+      <li><strong>Hunt / Grail Radar</strong> — listing alerts for pieces you want, at a price you set.</li>
+    </ul>
+
+    <h2>Offer details</h2>
+    <ul>
+      <li>Exclusive to Clockworks customers — first <strong>50</strong> redemptions.</li>
+      <li>1 month of HHH Pro. No credit card. Does not auto-renew into a paid plan.</li>
+      <li>When the offer is fully redeemed, the code stops working. Nothing broken on your order — the gift is simply used up.</li>
+    </ul>
+
+    <p class="note">More about the app: <a href="/hhh/">josspatech.com/hhh</a> · Questions: <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </main>
+  <footer class="foot">
+    <p>Visit our friends at <a href="https://www.clockworks.com/" rel="noopener">Clockworks.com</a> for clock parts and repair supplies.</p>
+    <p>JosspaTech · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+  <script>
+  (function () {
+    var STATUS_URL = 'https://handyhorology-worker.morning-star-b5e0.workers.dev/promo/campaign/clockworks';
+    var CODE = 'C2WK5R';
+    var box = document.getElementById('cw-status');
+    var label = document.getElementById('cw-status-label');
+    var fine = document.getElementById('cw-status-fine');
+    var codeWrap = document.getElementById('cw-code-wrap');
+    var codeEl = document.getElementById('cw-code');
+    var codeInline = document.getElementById('cw-code-inline');
+    if (codeEl) codeEl.textContent = CODE;
+    if (codeInline) codeInline.textContent = CODE;
+
+    function paint(data) {
+      if (!box || !label) return;
+      var state = (data && data.status) || 'quiet';
+      box.setAttribute('data-state', state);
+      if (data && data.fullyRedeemed) {
+        label.textContent = 'Fully redeemed';
+        fine.textContent = 'All 50 Clockworks customer gifts have been claimed. The code no longer works — nothing is broken; the offer is simply over.';
+        if (codeWrap) codeWrap.style.display = 'none';
+        return;
+      }
+      if (codeWrap) codeWrap.style.display = '';
+      if (data && data.showCounter) {
+        var left = typeof data.remaining === 'number' ? data.remaining : '';
+        label.textContent = left + ' of ' + (data.limit || 50) + ' spots left';
+      } else {
+        label.textContent = 'Clockworks exclusive — first 50 customers';
+      }
+      fine.textContent = 'Redemption count may lag by about a minute — not live to the second.';
+    }
+
+    function load() {
+      fetch(STATUS_URL, { credentials: 'omit' })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.ok) paint(data);
+        })
+        .catch(function () { /* keep default quiet copy */ });
+    }
+    load();
+    setInterval(load, 60000);
+  })();
+  </script>
+  <script src="/scripts/site-analytics-saas.js?v=12" defer></script>
+</body>
+</html>
