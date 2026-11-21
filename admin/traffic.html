@@ -362,7 +362,12 @@
         /producthunt|ref=producthunt|utm:ref:producthunt|utm_source=producthunt/i.test(blob)
       )
         return "Product Hunt";
-      if (raw === "clockworks" || /utm_source=clockworks|utm:clockworks/i.test(blob)) return "Clockworks";
+      if (
+        raw === "clockworks" ||
+        /utm_source=clockworks|utm:clockworks|utm_campaign=cw\b|\/cw\?/i.test(blob)
+      )
+        return "Clockworks";
+
       if (/utm_source=facebook|utm:facebook|fbclid|utm_source=instagram|meta/i.test(blob)) return "Meta";
       if (raw === "heycatch") return "HeyCatch link";
       if (raw === "search") return "Search";

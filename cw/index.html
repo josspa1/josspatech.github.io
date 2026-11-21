@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JosspaTech — Private Mobile Software</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="JosspaTech — Private Mobile Software">
+<meta property="og:description" content="Private mobile apps. Your data stays on your device.">
+<meta property="og:url" content="https://josspatech.com/cw">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="canonical" href="/?utm_source=clockworks&utm_medium=site&utm_campaign=cw#hhh">
+<script>
+(function () {
+  var dest = '/?utm_source=clockworks&utm_medium=site&utm_campaign=cw#hhh';
+  var ref = document.referrer || '';
+  var host = '';
+  try { host = ref ? new URL(ref).hostname : ''; } catch (e) {}
+  var body = JSON.stringify({
+    page: '/cw' + dest.slice(1),
+    referrer_host: (host || 'www.clockworks.com').slice(0, 120),
+    referrer_raw: ('utm:clockworks|site|cw|banner | ' + ref).slice(0, 500),
+    user_agent: (navigator.userAgent || '').slice(0, 300),
+    session_id: Math.random().toString(36).slice(2, 10),
+    source: 'clockworks'
+  });
+  try {
+    // text/plain: application/json beacons are often dropped cross-origin
+    navigator.sendBeacon(
+      'https://josspatech.pockethost.io/api/collections/_site_visits/records',
+      new Blob([body], { type: 'text/plain;charset=UTF-8' })
+    );
+  } catch (e) {}
+  location.replace(dest);
+})();
+</script>
+</head>
+<body>
+<p><a href="/?utm_source=clockworks&utm_medium=site&utm_campaign=cw#hhh">Continue</a></p>
+</body>
+</html>

@@ -339,7 +339,11 @@
       if (/utm_campaign=l\b|utm_source=linkedin/i.test(blob) || raw === "linkedin") return "LinkedIn link";
       if (/utm_campaign=p\b|utm_source=pinterest/i.test(blob) || raw === "pinterest") return "Pinterest link";
       if (raw === "producthunt" || /producthunt|ref=producthunt/i.test(blob)) return "Product Hunt";
-      if (raw === "clockworks" || /utm_source=clockworks/i.test(blob)) return "Clockworks";
+      if (
+        raw === "clockworks" ||
+        /utm_source=clockworks|utm_campaign=cw\b|\/cw\?/i.test(blob)
+      )
+        return "Clockworks";
       if (/utm_source=facebook|fbclid|utm_source=instagram/i.test(blob)) return "Meta";
       if (raw === "heycatch") return "HeyCatch link";
       if (raw === "search") return "Search";
