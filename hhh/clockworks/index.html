@@ -119,7 +119,7 @@
   <main>
     <div class="cw-status rise rise-1" id="cw-status" data-state="quiet" aria-live="polite">
       <p class="cw-status-label" id="cw-status-label">Clockworks exclusive — first 50 customers</p>
-      <p class="cw-status-fine" id="cw-status-fine">Redemption count may lag by about a minute — not live to the second.</p>
+      <p class="cw-status-fine" id="cw-status-fine" hidden></p>
     </div>
 
     <div class="kicker rise rise-2">
@@ -204,6 +204,7 @@
       box.setAttribute('data-state', state);
       if (data && data.fullyRedeemed) {
         label.textContent = 'Fully redeemed';
+        fine.hidden = false;
         fine.textContent = 'All 50 Clockworks customer gifts have been claimed. The code no longer works.';
         if (codeWrap) codeWrap.style.display = 'none';
         return;
@@ -212,10 +213,13 @@
       if (data && data.showCounter) {
         var left = typeof data.remaining === 'number' ? data.remaining : '';
         label.textContent = left + ' of ' + (data.limit || 50) + ' spots left';
+        fine.hidden = false;
+        fine.textContent = 'Redemption count may lag by about a minute — not live to the second.';
       } else {
         label.textContent = 'Clockworks exclusive — first 50 customers';
+        fine.hidden = true;
+        fine.textContent = '';
       }
-      fine.textContent = 'Redemption count may lag by about a minute — not live to the second.';
     }
 
     function load() {
