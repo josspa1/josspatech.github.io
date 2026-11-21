@@ -705,6 +705,30 @@ main > p > a:hover {
   margin: 0 0 0.55rem;
 }
 .cta-row .badges { margin: 0; }
+.btn-get {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.78rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid rgba(240, 192, 64, 0.85);
+  background: linear-gradient(180deg, #f0c040, #e0a820);
+  color: #0c3358 !important;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
+  text-decoration: none !important;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  transition: transform 0.18s var(--ease), box-shadow 0.18s var(--ease);
+}
+.btn-get:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.34);
+}
+.btn-get:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
 .btn-watch {
   display: inline-flex;
   align-items: center;
@@ -872,6 +896,7 @@ main > p > a:hover {
   .shot-chip,
   .badges a,
   main > p > a,
+  .btn-get,
   .btn-watch,
   .story-phone.story-nudge .story-device,
   .story-bezel img {
