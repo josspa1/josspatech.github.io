@@ -43,22 +43,6 @@
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.45);
   }
-  .cw-code-box {
-    margin: 1.25rem 0 0.35rem;
-    padding: 1rem 1.1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    background: rgba(0, 0, 0, 0.22);
-    text-align: center;
-  }
-  .cw-code-box .cw-code {
-    display: block;
-    margin-top: 0.35rem;
-    font-size: clamp(1.6rem, 5vw, 2rem);
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: var(--gold);
-  }
   .cw-steps {
     margin: 1.5rem 0 0;
     padding: 0;
@@ -130,11 +114,6 @@
     <p class="lead rise rise-4">1 month of Handy Horology Helper Pro — free. No credit card. It does not turn into a paid subscription when it ends.</p>
     <p class="sub rise rise-4">Identify watches and clocks from a photo or the clues you already have. Keep a private collection on your phone. Get clock repair help when a movement stops.</p>
 
-    <div class="cw-code-box rise rise-5" id="cw-code-wrap">
-      <span style="font-size:0.85rem;color:rgba(255,255,255,0.55);">Your promo code</span>
-      <span class="cw-code" id="cw-code">C2WK5R</span>
-    </div>
-
     <div class="cta-row rise rise-5">
       <p class="badges" role="group" aria-label="Download Handy Horology Helper">
         <a href="https://play.google.com/store/apps/details?id=com.josspatech.handyhorology" target="_blank" rel="noopener">
@@ -149,7 +128,7 @@
     <ol class="cw-steps rise rise-5">
       <li><strong>1. Install</strong> Handy Horology Helper from Google Play or the App Store (links above).</li>
       <li><strong>2. Open the app</strong> and go to the Pro / paywall screen → <strong>Have a code?</strong></li>
-      <li><strong>3. Enter</strong> <span id="cw-code-inline">C2WK5R</span> — you get 1 month of Pro. No card required.</li>
+      <li><strong>3. Enter the code</strong> from your Clockworks order email — you get 1 month of Pro. No card required.</li>
     </ol>
 
     <div class="cw-shots rise rise-6" aria-label="Handy Horology Helper screenshots">
@@ -188,15 +167,9 @@
   <script>
   (function () {
     var STATUS_URL = 'https://handyhorology-worker.morning-star-b5e0.workers.dev/promo/campaign/clockworks';
-    var CODE = 'C2WK5R';
     var box = document.getElementById('cw-status');
     var label = document.getElementById('cw-status-label');
     var fine = document.getElementById('cw-status-fine');
-    var codeWrap = document.getElementById('cw-code-wrap');
-    var codeEl = document.getElementById('cw-code');
-    var codeInline = document.getElementById('cw-code-inline');
-    if (codeEl) codeEl.textContent = CODE;
-    if (codeInline) codeInline.textContent = CODE;
 
     function paint(data) {
       if (!box || !label) return;
@@ -206,10 +179,8 @@
         label.textContent = 'Fully redeemed';
         fine.hidden = false;
         fine.textContent = 'All 50 Clockworks customer gifts have been claimed. The code no longer works.';
-        if (codeWrap) codeWrap.style.display = 'none';
         return;
       }
-      if (codeWrap) codeWrap.style.display = '';
       if (data && data.showCounter) {
         var left = typeof data.remaining === 'number' ? data.remaining : '';
         label.textContent = left + ' of ' + (data.limit || 50) + ' spots left';
