@@ -147,13 +147,12 @@
     <main class="page-main" id="grMain">
       <section>
         <p class="section-explainer">
-          Joins website landings / store taps with in-app steps from the same
-          <code>_site_visits</code> table. Counts are <strong>in-window totals</strong>, not
-          the same people across web and app (sessions differ).
-          <strong>Checkout health</strong> (below) is the always-on view of Subscribe fails —
-          codes, platform, plain English. Detail:
+          <strong>Apps first</strong> — same PocketHost as HHH/PBJ/CVC. No auto-load on sign-in;
+          range changes stay on cache until you click Refresh.
+          Joins site landings / store taps with in-app steps from <code>_site_visits</code>
+          (in-window totals, not the same people). Checkout health below.
           <a href="traffic.html">Website</a> · <a href="funnels.html">Funnels</a>.
-          Paying → confirm in RevenueCat.
+          Paying → RevenueCat.
         </p>
         <div class="gr-range" id="grRange">
           <button type="button" data-range="today" class="active">Today</button>
@@ -169,7 +168,7 @@
         </div>
         <p class="gr-window" id="grWindow">Window: —</p>
         <div class="gr-tools">
-          <label><input type="checkbox" id="grCompare" checked> Compare to previous equal window</label>
+          <label><input type="checkbox" id="grCompare"> Compare to previous equal window</label>
         </div>
         <div class="gr-plat" id="grPlat">
           <button type="button" data-plat="all" class="active">All</button>
@@ -178,13 +177,13 @@
         </div>
         <div class="ref-actions">
           <button type="button" class="m-btn" onclick="grWakeDb()">Wake database</button>
-          <button type="button" class="m-btn accent" onclick="grRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+          <button type="button" class="m-btn accent" onclick="grRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Apps-first · PB</span></button>
         </div>
         <p class="section-explainer" style="margin-top:0.35rem">
-          Two windowed pulls (site rows + <code>app:</code> rows). All time = last 90 days.
+          Two sequential windowed pulls (site then <code>app:</code>). All time = last 90 days. Prefer Today.
           Wake first if Refresh 404s.
         </p>
-        <div class="ref-status" id="grStatus">Sign in, then Wake / Refresh.</div>
+        <div class="ref-status" id="grStatus">Sign in · no auto-load · Wake / Refresh when the DB is quiet (apps share it).</div>
         <div id="grBody"></div>
       </section>
     </main>
@@ -195,7 +194,7 @@
   <script>
     let grRange = "today";
     let grPlat = "all";
-    let grCompare = true;
+    let grCompare = false;
     let grFrom = "";
     let grTo = "";
     let grCache = null;
@@ -900,21 +899,56 @@
       }
     }
 
+    function grRerenderLocal() {
+      const status = document.getElementById("grStatus");
+      if (grCache) {
+        grRender(grCache);
+        if (status) {
+          status.textContent =
+            "Showing cached pull · click Refresh for a new PocketBase load (apps share this DB).";
+        }
+        return;
+      }
+      if (status) {
+        status.textContent =
+          "No cache yet · click Refresh when the DB is quiet (apps share PocketHost).";
+      }
+      document.getElementById("pulse").classList.add("stale");
+    }
+
     async function grRefresh() {
       const status = document.getElementById("grStatus");
-      status.textContent = "Loading…";
+      if (grRange !== "today" || grCompare) {
+        if (
+          !confirm(
+            "Growth Refresh hits PocketBase twice (site + app rows).\n\nApps share this PocketHost — wide windows can starve them.\n\nContinue only if the DB feels healthy?"
+          )
+        ) {
+          status.textContent = "Cancelled — no PocketBase request.";
+          return;
+        }
+      }
+      status.textContent = "Loading (sequential, apps-first)…";
       try {
-        try {
-          await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
-        } catch (_) {}
+        const t0 = performance.now();
+        const health = await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+        const ms = Math.round(performance.now() - t0);
+        if (!health || !health.ok || ms > 2500) {
+          status.textContent =
+            `Refused — health ${ms}ms / not ok. Leave capacity for app users; retry when snappy.`;
+          document.getElementById("pulse").classList.add("stale");
+          return;
+        }
         const { start, end } = grDatePad();
         const dateBit =
           'created >= "' + start + ' 00:00:00.000Z" && created < "' + end + ' 00:00:00.000Z"';
         const fields = "id,page,created,session_id,referrer_host,referrer_raw,source,user_agent";
-        const [site, app] = await Promise.all([
-          listAllRecords("_site_visits", 'page !~ "app:" && ' + dateBit, fields),
-          listAllRecords("_site_visits", 'page ~ "app:" && ' + dateBit, fields),
-        ]);
+        // Sequential — never double-load PocketHost in parallel with itself.
+        status.textContent = "Pulling site rows…";
+        const site = await listAllRecords("_site_visits", 'page !~ "app:" && ' + dateBit, fields);
+        await new Promise((r) => setTimeout(r, 600));
+        status.textContent = "Pulling app rows…";
+        const app = await listAllRecords("_site_visits", 'page ~ "app:" && ' + dateBit, fields);
         grCache = { site, app };
         grRender(grCache);
       } catch (e) {
@@ -924,7 +958,7 @@
           e.name === "AbortError" ||
           e.name === "TimeoutError";
         status.textContent = dead
-          ? "PocketBase timed out or 404'd. Hit Wake database, then Refresh."
+          ? "PocketBase timed out or 404'd. Stop — apps may be hurting. Wake only if needed, retry Today later."
           : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
       }
@@ -949,7 +983,7 @@
           grFrom = document.getElementById("grFrom").value;
           grTo = document.getElementById("grTo").value;
         }
-        grRefresh();
+        grRerenderLocal();
       });
       document.getElementById("grApplyCustom").addEventListener("click", () => {
         grFrom = document.getElementById("grFrom").value;
@@ -959,11 +993,11 @@
           b.classList.toggle("active", b.getAttribute("data-range") === "custom")
         );
         document.getElementById("grCustom").classList.add("show");
-        grRefresh();
+        grRerenderLocal();
       });
       document.getElementById("grCompare").addEventListener("change", (e) => {
         grCompare = !!e.target.checked;
-        grRefresh();
+        grRerenderLocal();
       });
       document.getElementById("grPlat").addEventListener("click", (e) => {
         const btn = e.target.closest("button[data-plat]");
@@ -972,8 +1006,7 @@
         [...document.querySelectorAll("#grPlat button")].forEach((b) =>
           b.classList.toggle("active", b === btn)
         );
-        if (grCache) grRender(grCache);
-        else grRefresh();
+        grRerenderLocal();
       });
     })();
 

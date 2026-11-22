@@ -1185,12 +1185,21 @@
     } else if (page === "hub") {
       const pulse = document.getElementById("pulse");
       if (pulse) pulse.classList.add("stale");
-    } else if (page === "traffic" && typeof window.trRefresh === "function") {
-      window.trRefresh();
-    } else if (page === "funnels" && typeof window.fnRefresh === "function") {
-      window.fnRefresh();
-    } else if (page === "screens" && typeof window.scRefresh === "function") {
-      window.scRefresh();
+    } else if (page === "traffic" || page === "funnels" || page === "screens" || page === "growth") {
+      // Apps share PocketHost — never auto-pull heavy _site_visits on login.
+      // Operator must click Fill / Refresh when ready.
+      const pulse = document.getElementById("pulse");
+      if (pulse) pulse.classList.add("stale");
+      const status =
+        document.getElementById("trStatus") ||
+        document.getElementById("fnStatus") ||
+        document.getElementById("scStatus") ||
+        document.getElementById("grStatus");
+      if (status && !status.dataset.appsFirstNote) {
+        status.dataset.appsFirstNote = "1";
+        status.textContent =
+          "Signed in · no auto-load (apps share this PocketBase). Wake if needed, then Fill / Refresh when the DB is quiet.";
+      }
     }
     mCheckMaintenanceFlag().catch(() => {});
     injectDataFreshnessBar();

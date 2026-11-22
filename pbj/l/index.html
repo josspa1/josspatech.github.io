@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PocketBudJet — JosspaTech</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="PocketBudJet">
+<meta property="og:description" content="Private budgeting from a statement — no bank login.">
+<meta property="og:url" content="https://josspatech.com/pbj/l">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="canonical" href="/pbj/?utm_source=linkedin&utm_medium=social&utm_campaign=l&utm_content=pbj">
+<script>
+(function () {
+  // App + channel short hop (same UTM pattern as /cw). Bio links stay /t /f /i → hub.
+  var hop = '/pbj/l';
+  var dest = '/pbj/?utm_source=linkedin&utm_medium=social&utm_campaign=l&utm_content=pbj';
+  var ref = document.referrer || '';
+  var host = '';
+  try { host = ref ? new URL(ref).hostname : ''; } catch (e) {}
+  var body = JSON.stringify({
+    page: hop,
+    referrer_host: (host || 'www.linkedin.com').slice(0, 120),
+    referrer_raw: ('utm:linkedin|social|l|pbj | ' + ref).slice(0, 500),
+    user_agent: (navigator.userAgent || '').slice(0, 300),
+    session_id: Math.random().toString(36).slice(2, 10),
+    source: 'linkedin'
+  });
+  try {
+    navigator.sendBeacon(
+      'https://josspatech.pockethost.io/api/collections/_site_visits/records',
+      new Blob([body], { type: 'text/plain;charset=UTF-8' })
+    );
+  } catch (e) {}
+  location.replace(dest);
+})();
+</script>
+</head>
+<body>
+<p><a href="/pbj/?utm_source=linkedin&utm_medium=social&utm_campaign=l&utm_content=pbj">Continue to PocketBudJet</a></p>
+</body>
+</html>

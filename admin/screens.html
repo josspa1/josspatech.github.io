@@ -399,8 +399,22 @@
       [...document.querySelectorAll("#scRange button")].forEach((b) =>
         b.classList.toggle("active", b === btn)
       );
-      // Server filter depends on the window — always re-fetch (do not reuse a narrower cache).
-      scRefresh();
+      // Apps share PocketHost — don't auto-pull on range change.
+      if (scCacheRows) {
+        scRender(scCacheRows);
+        const status = document.getElementById("scStatus");
+        if (status) {
+          status.textContent =
+            "Showing cached rows · click Refresh for a new pull (apps share this DB).";
+        }
+      } else {
+        const status = document.getElementById("scStatus");
+        if (status) {
+          status.textContent =
+            "No cache · click Refresh when PocketHost is quiet (apps first).";
+        }
+        document.getElementById("pulse").classList.add("stale");
+      }
     });
     document.getElementById("scPlat").addEventListener("click", (e) => {
       const btn = e.target.closest("button[data-plat]");
@@ -410,7 +424,13 @@
         b.classList.toggle("active", b === btn)
       );
       if (scCacheRows) scRender(scCacheRows);
-      else scRefresh();
+      else {
+        const status = document.getElementById("scStatus");
+        if (status) {
+          status.textContent =
+            "No cache · click Refresh when PocketHost is quiet (apps first).";
+        }
+      }
     });
 
     window.scRefresh = scRefresh;

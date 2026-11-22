@@ -101,6 +101,47 @@
       vertical-align: top;
     }
     .tr-recent th { font-size: 11px; text-transform: uppercase; color: var(--text-dim); }
+    .tr-metrics {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px; margin: 0 0 14px;
+    }
+    .tr-metric {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .tr-metric .v { font-size: 22px; font-weight: 800; line-height: 1.1; color: var(--primary); }
+    .tr-metric .l {
+      font-size: 11px; font-weight: 700; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .03em; margin-top: 4px;
+    }
+    .tr-metric .d {
+      font-size: 11px; font-weight: 700; margin-top: 4px; color: var(--text-muted);
+    }
+    .tr-metric .d.up { color: #1E7A3F; }
+    .tr-metric .d.down { color: var(--danger); }
+    .tr-summary {
+      font-size: 14px; font-weight: 600; line-height: 1.5;
+      padding: 14px 16px; border-radius: 12px; margin: 0 0 14px;
+      background: #EEF3FA; border: 1px solid #C5D4E8; color: var(--text);
+    }
+    .tr-summary strong { font-weight: 800; }
+    .tr-watch { list-style: none; margin: 0; padding: 0; }
+    .tr-watch li {
+      padding: 10px 0; border-top: 1px solid var(--border);
+      font-size: 13px; font-weight: 600; line-height: 1.4;
+    }
+    .tr-watch li:first-child { border-top: none; padding-top: 0; }
+    .tr-watch .tag {
+      display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: .04em; padding: 2px 7px; border-radius: 999px; margin-right: 8px;
+      vertical-align: 1px;
+    }
+    .tr-watch .tag.warn { background: #FDECEA; border: 1px solid #F5C6C0; color: var(--danger); }
+    .tr-watch .tag.info { background: #EEF3FA; border: 1px solid #C5D4E8; color: var(--text-dim); }
+    .tr-watch .tag.ok { background: #E8F7EE; border: 1px solid #B7E0C5; color: #1E7A3F; }
+    .tr-sess td.path { font-weight: 500; color: var(--text-dim); max-width: 280px; }
+    .tr-sess .hit { color: #1E7A3F; font-weight: 800; }
+    .tr-sess .miss { color: var(--text-muted); }
   </style>
 </head>
 <body>
@@ -134,18 +175,20 @@
     <main class="page-main" id="trMain">
       <section>
         <p class="section-explainer">
-          Same <code>_site_visits</code> rows the site already posts (pageviews +
-          <code>outbound:…</code> store taps). Short hops: <code>/f</code> <code>/t</code> <code>/i</code> <code>/cw</code>.
-          Product vs legal pages are split; QA multi-app store sessions can be excluded.
-          Biggest leak across site + apps: <a href="growth.html">Growth</a>.
-          In-app open → paid: <a href="funnels.html">Funnels</a>.
-          No Workers or KV.
+          <strong>Apps first.</strong> PocketHost is the same DB the apps use — if it dies, HHH/PBJ/CVC stop.
+          This page never auto-loads after sign-in. Range switches only use the tab cache;
+          <strong>you</strong> click Fill missing. Chunked + paused pulls; abort if health is slow.
+          Prefer <strong>Today</strong>. History soft-starts 30d; Load older → 90d.
+          Bio hops: <code>/t</code> <code>/f</code> <code>/i</code> → hub.
+          Per-post app hops: <code>/hhh/t</code> <code>/cvc/f</code> <code>/pbj/i</code> <code>/unscribe/t</code> …
+          <code>/cw</code> stays Clockworks → HHH.
+          <a href="growth.html">Growth</a> · <a href="funnels.html">Funnels</a>.
         </p>
         <div class="tr-range" id="trRange">
           <button type="button" data-range="today" class="active">Today</button>
           <button type="button" data-range="7d">7 days</button>
           <button type="button" data-range="30d">30 days</button>
-          <button type="button" data-range="all">All time</button>
+          <button type="button" data-range="all">History</button>
           <button type="button" data-range="custom">Custom</button>
         </div>
         <div class="tr-custom" id="trCustom">
@@ -166,14 +209,16 @@
         </div>
         <div class="ref-actions">
           <button type="button" class="m-btn" onclick="trWakeDb()">Wake database</button>
-          <button type="button" class="m-btn accent" onclick="trRefresh()">Refresh <span class="ref-cost-badge ref-cost-medium">Medium · PB</span></button>
+          <button type="button" class="m-btn accent" onclick="trRefresh(false)">Fill missing <span class="ref-cost-badge ref-cost-low">Apps-first · PB</span></button>
+          <button type="button" class="m-btn" id="trLoadOlder" style="display:none" onclick="trLoadOlder()">Load older (+30d)</button>
+          <button type="button" class="m-btn" onclick="trRefresh(true)" title="Drop cached days in this window and re-fetch">Re-pull window</button>
+          <button type="button" class="m-btn" id="trAbortBtn" style="display:none" onclick="trAbortPull()">Stop pull</button>
         </div>
         <p class="section-explainer" style="margin-top:0.35rem">
-          Loads only the selected date window (All time = last 90 days) and skips in-app
-          <code>app:</code> rows. Full-table pulls were knocking PocketHost over — if Refresh
-          404s/hangs, hit <strong>Wake database</strong> first.
+          Fill only hits days not in this tab’s cache. Health must answer fast or we refuse
+          (busy DB = leave it for app users). Skips <code>app:</code> rows. Never stack clicks.
         </p>
-        <div class="ref-status" id="trStatus">Sign in, then Wake / Refresh.</div>
+        <div class="ref-status" id="trStatus">Sign in · no auto-load · Wake / Fill only when apps are fine.</div>
         <div id="trBody"></div>
       </section>
 
@@ -205,6 +250,26 @@
     let trFrom = "";
     let trTo = "";
     let trCacheRows = null;
+    /** Flattened view of day buckets for the last render span. */
+    let trCacheFrom = null;
+    let trCacheTo = null;
+    let trFetchInFlight = false;
+    /** ET day → Map(id → row). Session-only; survives range switches without re-pull. */
+    const trDayBuckets = new Map();
+    /** Soft History depth (All/History button). Grows via Load older up to TR_MAX_SPAN_DAYS. */
+    let trHistoryDepth = 30;
+    const TR_MAX_SPAN_DAYS = 90;
+    const TR_SESSION_LIST_CAP = 25;
+    const TR_CHUNK_DAYS = 2;
+    const TR_PAGE_SIZE = 50;
+    const TR_MAX_PAGES_PER_CHUNK = 20;
+    const TR_PAGE_PAUSE_MS = 450;
+    const TR_CHUNK_PAUSE_MS = 900;
+    /** Refuse admin pulls if /api/health is slower than this (ms) — apps need headroom. */
+    const TR_HEALTH_MAX_MS = 2500;
+    const TR_FIELDS =
+      "id,page,created,session_id,referrer_host,referrer_raw,source,user_agent";
+    let trAbort = false;
 
     function trDayKeyEt(iso) {
       if (!iso) return "";
@@ -242,19 +307,43 @@
         return dayKey;
       }
     }
+    function trClampSpan(from, to) {
+      // PocketHost dies on huge _site_visits pulls — never ask for >90 ET days.
+      let a = from;
+      let b = to;
+      if (a > b) {
+        const t = a;
+        a = b;
+        b = t;
+      }
+      if (trDaysBetween(a, b) > TR_MAX_SPAN_DAYS - 1) {
+        a = trAddDays(b, -(TR_MAX_SPAN_DAYS - 1));
+      }
+      return { from: a, to: b };
+    }
     function trActiveWindow(todayKey) {
-      // Label says All time; fetch is capped to 90 days (see trListFilter).
+      // History soft-starts at trHistoryDepth; Load older walks toward 90d.
       if (trRange === "all") {
-        const from = trAddDays(todayKey, -89);
-        return { from, to: todayKey, label: "All time (last 90 days)" };
+        const depth = Math.min(TR_MAX_SPAN_DAYS, Math.max(1, trHistoryDepth));
+        const from = trAddDays(todayKey, -(depth - 1));
+        return {
+          from,
+          to: todayKey,
+          label: `History (last ${depth} days)`,
+        };
       }
       if (trRange === "today") return { from: todayKey, to: todayKey, label: trFmtDay(todayKey) };
       if (trRange === "custom") {
-        const from = trFrom || todayKey;
-        const to = trTo || todayKey;
-        const a = from <= to ? from : to;
-        const b = from <= to ? to : from;
-        return { from: a, to: b, label: a === b ? trFmtDay(a) : `${trFmtDay(a)} – ${trFmtDay(b)}` };
+        const rawFrom = trFrom || todayKey;
+        const rawTo = trTo || todayKey;
+        const { from: a, to: b } = trClampSpan(rawFrom, rawTo);
+        const clipped = a !== (rawFrom <= rawTo ? rawFrom : rawTo);
+        const base = a === b ? trFmtDay(a) : `${trFmtDay(a)} – ${trFmtDay(b)}`;
+        return {
+          from: a,
+          to: b,
+          label: clipped ? `${base} (capped ${TR_MAX_SPAN_DAYS}d)` : base,
+        };
       }
       const days = trRange === "7d" ? 7 : 30;
       const from = trAddDays(todayKey, -(days - 1));
@@ -287,8 +376,58 @@
     }
     function trIsLinkHop(r) {
       const p = (String(r.page || "").split("?")[0] || "/").replace(/\/$/, "") || "/";
-      // Short hops: /f /t /i /cw /g …
-      return /^\/[a-z0-9]{1,2}$/i.test(p);
+      // Bio: /f /t /i /cw … · Per-post: /hhh/t /cvc/f /pbj/i /unscribe/y …
+      return (
+        /^\/[a-z0-9]{1,2}$/i.test(p) ||
+        /^\/(hhh|cvc|pbj|unscribe)\/[a-z0-9]{1,2}$/i.test(p)
+      );
+    }
+    function trHopKey(page) {
+      return ((String(page || "").split("?")[0] || "/").replace(/\/$/, "") || "/").toLowerCase();
+    }
+    const TR_HOP_LABELS = {
+      "/f": "Facebook",
+      "/t": "TikTok",
+      "/i": "Instagram",
+      "/y": "YouTube",
+      "/g": "Google",
+      "/x": "X (Twitter)",
+      "/w": "Threads",
+      "/r": "Reddit",
+      "/l": "LinkedIn",
+      "/p": "Pinterest",
+      "/cw": "Clockworks",
+      "/c": "Legacy /c",
+    };
+    const TR_HOP_APP = { hhh: "HHH", cvc: "CVC", pbj: "PBJ", unscribe: "Unscribe" };
+    function trHopLabel(key) {
+      if (TR_HOP_LABELS[key]) return TR_HOP_LABELS[key];
+      const m = String(key || "").match(/^\/(hhh|cvc|pbj|unscribe)\/([a-z0-9]{1,2})$/i);
+      if (m) {
+        const app = TR_HOP_APP[m[1].toLowerCase()] || m[1];
+        const ch = TR_HOP_LABELS["/" + m[2].toLowerCase()] || m[2];
+        return app + " · " + ch;
+      }
+      return key;
+    }
+    function trDeltaPct(cur, prev) {
+      if (prev == null || prev === 0) {
+        if (!cur) return { text: "—", cls: "" };
+        return { text: "new", cls: "up" };
+      }
+      const pct = ((cur - prev) / Math.abs(prev)) * 100;
+      const sign = pct > 0 ? "+" : "";
+      const cls = pct > 2 ? "up" : pct < -2 ? "down" : "";
+      return { text: `${sign}${pct.toFixed(0)}% vs prior`, cls };
+    }
+    function trAgo(iso) {
+      if (!iso) return "";
+      const ms = Date.now() - new Date(iso).getTime();
+      if (!Number.isFinite(ms) || ms < 0) return "";
+      const h = Math.floor(ms / 3600000);
+      if (h < 1) return "just now";
+      if (h < 48) return h + "h ago";
+      return Math.floor(h / 24) + "d ago";
     }
     function trIsLegalPage(page) {
       return /\/docs\//i.test(String(page || ""));
@@ -481,7 +620,9 @@
         .join("");
     }
 
-    function trStats(rows) {
+    /** @param {{ light?: boolean }} [opts] light skips session browser (used for compare “before” pane). */
+    function trStats(rows, opts) {
+      const light = !!(opts && opts.light);
       let outbound = rows.filter(trIsOutbound);
       // Ignore crawler pageviews so admin lines up with GoatCounter human traffic
       const pageviews = rows.filter(
@@ -518,6 +659,31 @@
       const tHits = hops.filter((r) => String(r.page || "").startsWith("/t")).length;
       const cwHits = hops.filter((r) => String(r.page || "").startsWith("/cw")).length;
       const iHits = hops.filter((r) => /^\/i(\?|\/|$)/.test(String(r.page || ""))).length;
+
+      // Short-link board (HeyCatch Short links equivalent — our owned /letter hops)
+      const hopByKey = new Map();
+      for (const r of hops) {
+        const key = trHopKey(r.page);
+        if (!hopByKey.has(key)) hopByKey.set(key, { hits: 0, sessions: new Set() });
+        const h = hopByKey.get(key);
+        h.hits += 1;
+        if (r.session_id) h.sessions.add(r.session_id);
+      }
+      const shortLinks = [...hopByKey.entries()]
+        .map(([key, h]) => {
+          const land = h.sessions.size;
+          const tap = [...h.sessions].filter((id) => clickSessions.has(id)).length;
+          return {
+            key,
+            label: trHopLabel(key),
+            hits: h.hits,
+            land,
+            tap,
+            rate: land ? tap / land : 0,
+            bleed: land > 0 && tap === 0,
+          };
+        })
+        .sort((a, b) => b.hits - a.hits);
 
       // Per-app site → store (sessions that viewed product page, then tapped that app's store)
       const viewedApp = { hhh: new Set(), pbj: new Set(), cvc: new Set(), unscribe: new Set(), home: new Set() };
@@ -558,9 +724,11 @@
         landingFunnel.tap = clicked;
       }
 
-      // Legal → product: session saw /docs/ then a product page
+      // Legal → product + bounce + session paths
       const legalSessions = new Set();
       const productAfterLegal = new Set();
+      const productOnlySessions = new Set();
+      const bounceSessions = new Set();
       const bySessionPages = new Map();
       for (const r of pageviews) {
         if (!r.session_id) continue;
@@ -569,20 +737,59 @@
       }
       for (const [sid, list] of bySessionPages.entries()) {
         list.sort((a, b) => String(a.created).localeCompare(String(b.created)));
+        if (list.length === 1) bounceSessions.add(sid);
         let sawLegal = false;
+        let sawProduct = false;
         for (const r of list) {
           if (trIsLegalPage(r.page)) {
             sawLegal = true;
             legalSessions.add(sid);
-          } else if (sawLegal) {
+          } else {
             const app = trAppFromPage(r.page);
-            if (app && app !== "home") {
-              productAfterLegal.add(sid);
-              break;
+            if (app) {
+              sawProduct = true;
+              if (sawLegal && app !== "home") productAfterLegal.add(sid);
             }
           }
         }
+        if (sawProduct && !sawLegal) productOnlySessions.add(sid);
+        else if (sawProduct) productOnlySessions.add(sid);
       }
+      // Session browser — only fully summarize the newest N (avoid O(all sessions) string work)
+      let sessionList = [];
+      if (!light) {
+        const ranked = [...bySessionPages.entries()]
+          .map(([sid, list]) => {
+            const last = list[list.length - 1];
+            return { sid, list, when: last.created || list[0].created || "" };
+          })
+          .sort((a, b) => String(b.when).localeCompare(String(a.when)))
+          .slice(0, TR_SESSION_LIST_CAP);
+        sessionList = ranked.map(({ sid, list, when }) => {
+          const first = list[0];
+          const path = list
+            .map((r) => trFriendlyPage(r.page))
+            .filter((v, i, a) => a.indexOf(v) === i)
+            .slice(0, 6)
+            .join(" → ");
+          const tapped = clickSessions.has(sid);
+          return {
+            id: String(sid).slice(0, 8),
+            when,
+            source: trNormSource(first),
+            path: path || "—",
+            views: list.length,
+            tapped,
+            bounce: list.length === 1 && !tapped,
+            device: trUaLabel(trUaPlatform(first.user_agent)),
+          };
+        });
+      }
+
+      const lastStoreTap =
+        outbound.length === 0
+          ? ""
+          : outbound.reduce((best, r) => (String(r.created) > String(best) ? r.created : best), outbound[0].created || "");
 
       // Clockworks channel
       const cwLand = new Set();
@@ -759,19 +966,28 @@
           from: trFriendlyPage(trFromPage(r) || ""),
         }));
 
+      const productPv = pageviews.filter((r) => !trIsLegalPage(r.page)).length;
+      const legalPv = pageviews.filter((r) => trIsLegalPage(r.page)).length;
+
       return {
         landed,
         clicked,
         lost,
         clickRate,
         pageviews: pageviews.length,
+        productPv,
+        legalPv,
         sessions: sessions.size,
+        bounce: bounceSessions.size,
+        bounceRate: sessions.size ? bounceSessions.size / sessions.size : 0,
         playClicks,
         iosClicks,
         fHits,
         tHits,
         cwHits,
         iHits,
+        shortLinks,
+        hopHits: hops.length,
         pages,
         productPages,
         legalPages,
@@ -779,11 +995,14 @@
         landingFunnel,
         legalSessions: legalSessions.size,
         legalToProduct: productAfterLegal.size,
+        productSessions: productOnlySessions.size,
         cwLand: cwLand.size,
         cwTap: cwTap.size,
         qaSessions: qaSessions.size,
         qaExcluded,
         lastTapByApp,
+        lastStoreTap,
+        sessionList,
         entries,
         sources,
         campaigns,
@@ -803,9 +1022,9 @@
           meta: `${s.pageviews} pageviews · ${s.sessions} sessions`,
         },
         {
-          label: "2 · Link hops (/f · /t · /i · /cw)",
-          n: s.fHits + s.tHits + (s.iHits || 0) + (s.cwHits || 0),
-          meta: `FB ${s.fHits} · TT ${s.tHits} · IG ${s.iHits || 0} · CW ${s.cwHits || 0}`,
+          label: "2 · Link hops (bio + app/channel)",
+          n: s.hopHits || s.fHits + s.tHits + (s.iHits || 0) + (s.cwHits || 0),
+          meta: `bio TT/FB/IG ${s.tHits}/${s.fHits}/${s.iHits || 0} · CW ${s.cwHits || 0} · all hops ${s.hopHits || 0}`,
         },
         {
           label: "3 · Tapped a store badge",
@@ -884,11 +1103,229 @@
       return `<div class="tr-kpi ok">Healthy store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Next leak is listing → install (Play / ASC).${qaNote}</div>`;
     }
 
-    function trPanel(s, title) {
+    function trMetricsHtml(s, prev) {
+      const cells = [
+        { key: "sessions", label: "Sessions", n: s.sessions },
+        { key: "pageviews", label: "Pageviews", n: s.pageviews },
+        { key: "clicked", label: "Store taps", n: s.clicked },
+        { key: "hopHits", label: "Short hops", n: s.hopHits || 0 },
+        { key: "legalPv", label: "Legal views", n: s.legalPv || 0 },
+        { key: "bounce", label: "1-page visits", n: s.bounce || 0 },
+      ];
+      return `<div class="tr-metrics">${cells
+        .map((c) => {
+          const d = prev ? trDeltaPct(c.n, prev[c.key]) : null;
+          return `<div class="tr-metric">
+            <div class="v">${c.n}</div>
+            <div class="l">${trEsc(c.label)}</div>
+            ${d ? `<div class="d ${d.cls}">${trEsc(d.text)}</div>` : ""}
+          </div>`;
+        })
+        .join("")}</div>`;
+    }
+
+    function trSummaryHtml(s) {
+      if (!s.landed) {
+        return `<div class="tr-summary">No website sessions in this window yet.</div>`;
+      }
+      const bits = [];
+      const legalShare = s.pageviews ? (s.legalPv || 0) / s.pageviews : 0;
+      if (legalShare >= 0.35) {
+        bits.push(
+          `<strong>Legal docs dominate</strong> (${trPct(s.legalPv, s.pageviews)} of pageviews; ${s.legalSessions} sessions). ${s.legalToProduct} later reached a product page.`
+        );
+      } else {
+        bits.push(
+          `<strong>${s.sessions} sessions</strong>, ${s.pageviews} pageviews · ${trPct(s.productPv, s.pageviews)} product / ${trPct(s.legalPv, s.pageviews)} legal.`
+        );
+      }
+      bits.push(
+        `Store badge rate <strong>${trPct(s.clicked, s.landed)}</strong> (${s.clicked} of ${s.landed})${s.lastStoreTap ? ` · last tap ${trEsc(trAgo(s.lastStoreTap))}` : ""}.`
+      );
+      if (s.bounceRate >= 0.45) {
+        bits.push(`Bounce-ish: <strong>${trPct(s.bounce, s.sessions)}</strong> saw only one page.`);
+      }
+      const funnels = (s.siteFunnels || []).filter((f) => f.land > 0).sort((a, b) => a.rate - b.rate);
+      if (funnels.length) {
+        const worst = funnels[0];
+        const best = funnels[funnels.length - 1];
+        bits.push(
+          `Weakest product page→store: <strong>${trEsc(worst.label)}</strong> ${trPct(worst.tap, worst.land)} (${worst.tap}/${worst.land})` +
+            (best.app !== worst.app
+              ? ` · best ${trEsc(best.label)} ${trPct(best.tap, best.land)}`
+              : "") +
+            "."
+        );
+      }
+      const activeHops = (s.shortLinks || []).filter((h) => h.hits > 0);
+      if (activeHops.length) {
+        const top = activeHops[0];
+        bits.push(
+          `Short links: ${activeHops.length} active · top <strong>${trEsc(top.label)}</strong> (${top.hits} hops → ${top.tap} store).`
+        );
+      } else {
+        bits.push(`No short-link hops (<code>/f</code> <code>/t</code> <code>/i</code>…) in this window.`);
+      }
+      if ((s.cwLand || 0) > 0) {
+        bits.push(`Clockworks: ${s.cwLand} land → ${s.cwTap} store.`);
+      }
+      return `<div class="tr-summary">${bits.join(" ")}</div>`;
+    }
+
+    function trWatchoutsHtml(s) {
+      const items = [];
+      if (!s.landed) return "";
+      if (s.clicked === 0) {
+        items.push({
+          tag: "warn",
+          tagLabel: "Leak",
+          text: "Zero store badge taps in this window — site→store is dead until someone hits Play / App Store.",
+        });
+      } else if (s.clickRate < 0.05 && s.landed >= 10) {
+        items.push({
+          tag: "warn",
+          tagLabel: "Leak",
+          text: `Store-click under 5% (${s.clicked}/${s.landed}). Fix CTAs on the pages that get traffic, not more ads.`,
+        });
+      }
+      if (s.legalSessions >= 5 && s.legalToProduct / Math.max(1, s.legalSessions) < 0.15) {
+        items.push({
+          tag: "warn",
+          tagLabel: "Legal",
+          text: `Only ${trPct(s.legalToProduct, s.legalSessions)} of legal visitors hop to a product — “See the apps” on docs needs to work harder.`,
+        });
+      }
+      for (const f of s.siteFunnels || []) {
+        if (f.land >= 5 && f.tap === 0) {
+          items.push({
+            tag: "warn",
+            tagLabel: f.label,
+            text: `${f.land} sessions on ${f.label} product page, zero store taps for that app.`,
+          });
+        } else if (f.land >= 8 && f.rate < 0.05) {
+          items.push({
+            tag: "info",
+            tagLabel: f.label,
+            text: `${f.label} page→store is ${trPct(f.tap, f.land)} (${f.tap}/${f.land}).`,
+          });
+        }
+      }
+      for (const h of s.shortLinks || []) {
+        if (h.hits >= 3 && h.tap === 0) {
+          items.push({
+            tag: "info",
+            tagLabel: h.label,
+            text: `${h.label} short link got ${h.hits} hops but no store taps in-session.`,
+          });
+        }
+      }
+      if (s.bounceRate >= 0.55 && s.sessions >= 10) {
+        items.push({
+          tag: "info",
+          tagLabel: "Bounce",
+          text: `${trPct(s.bounce, s.sessions)} of sessions are single-page — landing may not hand off to a product.`,
+        });
+      }
+      if (s.qaSessions && !s.qaExcluded) {
+        items.push({
+          tag: "info",
+          tagLabel: "QA",
+          text: `${s.qaSessions} session(s) look like multi-app QA smoke tests (toggle Exclude QA).`,
+        });
+      }
+      if (!items.length) {
+        items.push({
+          tag: "ok",
+          tagLabel: "OK",
+          text: "No hard red flags from the rules — check Growth for site→app→pay leaks.",
+        });
+      }
+      return `<div class="tr-card">
+        <h3>Watchouts</h3>
+        <p class="sub">Rule-based (our data), not AI credits — HeyCatch “recommended fixes” role.</p>
+        <ul class="tr-watch">${items
+          .slice(0, 8)
+          .map(
+            (it) =>
+              `<li><span class="tag ${it.tag}">${trEsc(it.tagLabel)}</span>${trEsc(it.text)}</li>`
+          )
+          .join("")}</ul>
+      </div>`;
+    }
+
+    function trShortLinksHtml(s) {
+      const rows = s.shortLinks || [];
+      if (!rows.length) {
+        return `<div class="tr-card">
+          <h3>Short links</h3>
+          <p class="sub">Owned hops on josspatech.com — same job as HeyCatch Short links.</p>
+          <p class="tr-empty">No bio (/t /f /i) or app hops (/cvc/t …) in this window.</p>
+        </div>`;
+      }
+      const top = Math.max(1, ...rows.map((r) => r.hits));
+      return `<div class="tr-card">
+        <h3>Short links</h3>
+        <p class="sub">Bio (/t) and app+channel (/cvc/t) hops → same-session store tap. Channel letter = UTM campaign.</p>
+        ${rows
+          .map((r) => {
+            const barPct = Math.max(2, Math.min(100, (100 * r.hits) / top));
+            return `<div class="tr-row">
+              <div class="tr-row-head">
+                <span class="name">${trEsc(r.label)} <span class="meta">${trEsc(r.key)}</span></span>
+                <span class="count">${r.hits}</span>
+                <span class="meta">${r.tap}/${r.land} store · ${trPct(r.tap, r.land)}</span>
+              </div>
+              <div class="tr-bar"><i class="${r.bleed ? "bleed" : "click"}" style="width:${barPct.toFixed(1)}%"></i></div>
+            </div>`;
+          })
+          .join("")}
+      </div>`;
+    }
+
+    function trSessionsHtml(s) {
+      const rows = s.sessionList || [];
+      if (!rows.length) {
+        return `<div class="tr-card">
+          <h3>Recent sessions</h3>
+          <p class="sub">Path summary per visit (HeyCatch Users list equivalent).</p>
+          <p class="tr-empty">No sessions yet.</p>
+        </div>`;
+      }
+      return `<div class="tr-card">
+        <h3>Recent sessions</h3>
+        <p class="sub">Newest first · path is unique pages in order · store = outbound tap in that session.</p>
+        <table class="tr-recent tr-sess"><thead><tr>
+          <th>When</th><th>Id</th><th>Source</th><th>Path</th><th>Views</th><th>Store</th>
+        </tr></thead><tbody>${rows
+          .map(
+            (r) => `<tr>
+            <td>${trEsc(trAgo(r.when) || r.when)}</td>
+            <td><code>${trEsc(r.id)}</code></td>
+            <td>${trEsc(r.source)}</td>
+            <td class="path">${trEsc(r.path)}</td>
+            <td>${r.views}</td>
+            <td class="${r.tapped ? "hit" : "miss"}">${r.tapped ? "yes" : r.bounce ? "bounce" : "—"}</td>
+          </tr>`
+          )
+          .join("")}</tbody></table>
+      </div>`;
+    }
+
+    function trHead(s, prev, title) {
+      return `
+        ${title ? `<p class="tr-pane-title">${trEsc(title)}</p>` : ""}
+        ${trMetricsHtml(s, prev)}
+        ${trSummaryHtml(s)}
+        ${trKpi(s)}
+        ${trWatchoutsHtml(s)}
+        ${trShortLinksHtml(s)}
+        ${trSessionsHtml(s)}`;
+    }
+
+    function trPanelDetail(s, title) {
       const lf = s.landingFunnel || { land: 0, tap: 0 };
       return `
         ${title ? `<p class="tr-pane-title">${trEsc(title)}</p>` : ""}
-        ${trKpi(s)}
         <div class="tr-card">
           <h3>Site → store</h3>
           <p class="sub">People (sessions) who landed, then tapped Play / App Store. Per-app outbound events only — not raw UI clicks.</p>
@@ -999,6 +1436,10 @@
         </div>`;
     }
 
+    function trPanel(s, title, prev) {
+      return `${trHead(s, prev, title)}${trPanelDetail(s, "")}`;
+    }
+
     function trRender(rows) {
       const todayKey = trTodayKey();
       const win = trActiveWindow(todayKey);
@@ -1010,54 +1451,230 @@
 
       const scoped = trFilterDevice(trFilterWindow(rows, win));
       const stats = trStats(scoped);
-      let body = trPanel(stats);
+      let prevStats = null;
+      let body = trPanel(stats, "", null);
       if (prevWin) {
-        const prevStats = trStats(trFilterDevice(trFilterWindow(rows, prevWin)));
+        // light: skip session-browser string work on the “before” half
+        prevStats = trStats(trFilterDevice(trFilterWindow(rows, prevWin)), { light: true });
         const diff = (stats.clickRate - prevStats.clickRate) * 100;
         const cls = diff > 0.5 ? "up" : diff < -0.5 ? "down" : "";
         const sign = diff > 0 ? "+" : "";
-        body = `<div class="tr-compare-grid">
-          <div>${trPanel(prevStats, "Before · " + prevWin.label)}</div>
-          <div>${trPanel(stats, "This window · " + win.label)}</div>
-        </div>
-        <div class="tr-delta ${cls}">Store-click rate: ${trPct(stats.clicked, stats.landed)} now vs ${trPct(prevStats.clicked, prevStats.landed)} before (${sign}${diff.toFixed(1)} pts) · taps ${stats.clicked} vs ${prevStats.clicked}</div>`;
+        // Head (metrics/summary) once with deltas; detail cards side-by-side
+        body = `${trHead(stats, prevStats, "This window · " + win.label)}
+        <div class="tr-delta ${cls}">Store-click rate: ${trPct(stats.clicked, stats.landed)} now vs ${trPct(prevStats.clicked, prevStats.landed)} before (${sign}${diff.toFixed(1)} pts) · taps ${stats.clicked} vs ${prevStats.clicked} · sessions ${stats.sessions} vs ${prevStats.sessions}</div>
+        <div class="tr-compare-grid">
+          <div>${trPanelDetail(prevStats, "Before · " + prevWin.label)}</div>
+          <div>${trPanelDetail(stats, "This window · " + win.label)}</div>
+        </div>`;
       }
 
       document.getElementById("trBody").innerHTML = body;
+      const rowNote = ` · ${rows.length} rows · ${trDayBuckets.size} days in tab`;
       document.getElementById("trStatus").textContent =
-        `${win.label}${trPlat !== "all" ? " · " + trPlat : ""}: ${stats.landed} landed · ${stats.clicked} store · ${stats.lost} lost · ${new Date().toLocaleTimeString()}`;
+        `${win.label}${trPlat !== "all" ? " · " + trPlat : ""}: ${stats.landed} landed · ${stats.clicked} store · ${stats.lost} lost${rowNote} · ${new Date().toLocaleTimeString()}`;
       document.getElementById("pulse").classList.remove("stale");
       document.getElementById("lastRefresh").textContent = `updated ${new Date().toLocaleTimeString()}`;
+      trSyncOlderBtn();
     }
 
-    function trRerender() {
-      // Date window is a server filter — always re-fetch. Platform/compare stay client-side
-      // via trRender after cache exists (plat/compare handlers call trRender when cached).
-      trRefresh();
+    function trSleep(ms) {
+      return new Promise((res) => setTimeout(res, ms));
     }
 
-    /** Server filter: date window (+ compare pad) and no app:* dual-writes (those are Funnels). */
-    function trListFilter() {
+    function trEachDay(from, to) {
+      const days = [];
+      if (!from || !to) return days;
+      let d = from <= to ? from : to;
+      const end = from <= to ? to : from;
+      while (d <= end) {
+        days.push(d);
+        d = trAddDays(d, 1);
+      }
+      return days;
+    }
+
+    /** Days we need for the current UI (window ± compare), clamped. */
+    function trNeededSpan() {
       const todayKey = trTodayKey();
       const win = trActiveWindow(todayKey);
       const prev = trCompare ? trPreviousWindow(win) : null;
       let from = win.from;
       let to = win.to;
-      // "All time" used to pull the whole table and crash PocketHost — hard-cap 90 days.
       if (!from || !to) {
-        from = trAddDays(todayKey, -89);
+        from = trAddDays(todayKey, -(trHistoryDepth - 1));
         to = todayKey;
       }
       if (prev && prev.from) from = prev.from;
-      const start = trAddDays(from, -1);
-      const end = trAddDays(to, 2);
-      return (
+      return trClampSpan(from, to);
+    }
+
+    /** Wire span includes ± pad for ET/UTC skew. */
+    function trFetchSpan(need) {
+      return {
+        from: trAddDays(need.from, -1),
+        to: need.to,
+      };
+    }
+
+    function trDaysMissing(from, to) {
+      return trEachDay(from, to).filter((d) => !trDayBuckets.has(d));
+    }
+
+    function trCacheCovers(need) {
+      const span = trFetchSpan(need);
+      return trDaysMissing(span.from, span.to).length === 0;
+    }
+
+    function trIngestRows(rows, markDays) {
+      for (const r of rows || []) {
+        const day = trDayKeyEt(r.created);
+        if (!day) continue;
+        if (!trDayBuckets.has(day)) trDayBuckets.set(day, new Map());
+        if (r.id) trDayBuckets.get(day).set(r.id, r);
+      }
+      for (const d of markDays || []) {
+        if (!trDayBuckets.has(d)) trDayBuckets.set(d, new Map());
+      }
+    }
+
+    function trRowsFromBuckets(from, to) {
+      const out = [];
+      for (const d of trEachDay(from, to)) {
+        const bucket = trDayBuckets.get(d);
+        if (!bucket) continue;
+        for (const r of bucket.values()) out.push(r);
+      }
+      return out;
+    }
+
+    function trRebuildCache(need) {
+      const span = trFetchSpan(need);
+      trCacheRows = trRowsFromBuckets(span.from, span.to);
+      trCacheFrom = span.from;
+      trCacheTo = span.to;
+      return trCacheRows;
+    }
+
+    function trSyncOlderBtn() {
+      const btn = document.getElementById("trLoadOlder");
+      if (!btn) return;
+      const show = trRange === "all" && trHistoryDepth < TR_MAX_SPAN_DAYS;
+      btn.style.display = show ? "" : "none";
+      btn.textContent = `Load older (+30d) · ${trHistoryDepth}/${TR_MAX_SPAN_DAYS}d`;
+    }
+
+    function trChunkMissingDays(missingNewestFirst) {
+      const chunks = [];
+      for (let i = 0; i < missingNewestFirst.length; i += TR_CHUNK_DAYS) {
+        const slice = missingNewestFirst.slice(i, i + TR_CHUNK_DAYS);
+        const sorted = slice.slice().sort();
+        chunks.push({ from: sorted[0], to: sorted[sorted.length - 1], days: sorted });
+      }
+      return chunks;
+    }
+
+    /** Gentler than shared listAllRecords: tiny pages + long pause (apps first). */
+    async function trListPaged(filter) {
+      let page = 1;
+      const out = [];
+      while (page <= TR_MAX_PAGES_PER_CHUNK) {
+        if (trAbort) break;
+        const params = new URLSearchParams({
+          perPage: String(TR_PAGE_SIZE),
+          page: String(page),
+          filter,
+          fields: TR_FIELDS,
+        });
+        const res = await pbAuth(
+          `/api/collections/${encodeURIComponent("_site_visits")}/records?${params}`
+        );
+        if (!res.ok) throw new Error(`List _site_visits failed (${res.status})`);
+        const data = await res.json();
+        const items = data.items || [];
+        out.push(...items);
+        if (out.length >= (data.totalItems || 0) || items.length === 0) break;
+        page += 1;
+        if (page <= TR_MAX_PAGES_PER_CHUNK) await trSleep(TR_PAGE_PAUSE_MS);
+      }
+      return out;
+    }
+
+    async function trFetchDayChunk(fromDay, toDay) {
+      const start = trAddDays(fromDay, -1);
+      const end = trAddDays(toDay, 2);
+      const filter =
         'page !~ "app:" && created >= "' +
         start +
         ' 00:00:00.000Z" && created < "' +
         end +
-        ' 00:00:00.000Z"'
-      );
+        ' 00:00:00.000Z"';
+      return trListPaged(filter);
+    }
+
+    function trSetAbortVisible(on) {
+      const btn = document.getElementById("trAbortBtn");
+      if (btn) btn.style.display = on ? "" : "none";
+    }
+
+    function trAbortPull() {
+      trAbort = true;
+      const status = document.getElementById("trStatus");
+      if (status) status.textContent = "Stopping after this page… (leaving headroom for apps)";
+    }
+
+    /** Range / compare / plat: cache only — never surprise-hit PocketBase (apps share it). */
+    function trRerender() {
+      trSyncOlderBtn();
+      const need = trNeededSpan();
+      const span = trFetchSpan(need);
+      trRebuildCache(need);
+      trRender(trCacheRows || []);
+      const missing = trDaysMissing(span.from, span.to);
+      const status = document.getElementById("trStatus");
+      if (!missing.length) {
+        if (status) {
+          status.textContent =
+            `Cache covers window · ${(trCacheRows || []).length} rows · ${trDayBuckets.size} days in tab · ${new Date().toLocaleTimeString()}`;
+        }
+        return;
+      }
+      if (status) {
+        status.textContent =
+          `${missing.length} day(s) not in tab cache — click Fill missing when the DB is quiet (apps share PocketHost). Already showing ${ (trCacheRows || []).length } cached rows.`;
+      }
+      document.getElementById("pulse").classList.add("stale");
+    }
+
+    function trLoadOlder() {
+      if (trRange !== "all") return;
+      const next = Math.min(TR_MAX_SPAN_DAYS, trHistoryDepth + 30);
+      if (
+        !confirm(
+          `Extend History to ${next} days?\n\nThis only widens the window in the UI. PocketBase is NOT contacted until you click Fill missing.\n\nApps share this database — fill when traffic is quiet.`
+        )
+      ) {
+        return;
+      }
+      trHistoryDepth = next;
+      trSyncOlderBtn();
+      trRerender();
+    }
+
+    async function trHealthGate() {
+      const t0 = performance.now();
+      const r = await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
+      const ms = Math.round(performance.now() - t0);
+      if (!r || !r.ok) {
+        return { ok: false, ms, reason: "health not ok" };
+      }
+      if (ms > TR_HEALTH_MAX_MS) {
+        return {
+          ok: false,
+          ms,
+          reason: `health took ${ms}ms (>${TR_HEALTH_MAX_MS}ms) — DB looks busy/cold; leave capacity for app users`,
+        };
+      }
+      return { ok: true, ms };
     }
 
     async function trWakeDb() {
@@ -1076,10 +1693,10 @@
         } catch (_) {
           status.textContent = `Wake try ${i}/4 — still sleeping, waiting…`;
         }
-        if (i < 4) await new Promise((res) => setTimeout(res, 4000));
+        if (i < 4) await trSleep(4000);
       }
       if (ok) {
-        status.textContent = "Database awake. Hit Refresh.";
+        status.textContent = "Database awake. Hit Fill missing.";
         document.getElementById("pulse").classList.remove("stale");
       } else {
         status.textContent =
@@ -1087,21 +1704,115 @@
       }
     }
 
-    async function trRefresh() {
+    /**
+     * @param {boolean} [force] If true, drop buckets in the needed span and re-fetch.
+     * Soft fill only requests missing ET days, newest chunks first. Apps-first: health gate,
+     * confirm on wide windows, abortible, long pauses.
+     */
+    async function trRefresh(force) {
       const status = document.getElementById("trStatus");
-      status.textContent = "Loading…";
-      try {
-        try {
-          await timedFetch(PB_URL + "/api/health", { cache: "no-store" });
-        } catch (_) {
-          /* list may still work; use Wake database if this keeps failing */
-        }
-        trCacheRows = await listAllRecords(
-          "_site_visits",
-          trListFilter(),
-          "id,page,created,session_id,referrer_host,referrer_raw,source,user_agent"
-        );
+      if (trFetchInFlight) {
+        status.textContent = "Already loading — Stop pull or wait (don’t stack clicks — apps share this DB).";
+        return;
+      }
+
+      const need = trNeededSpan();
+      const span = trFetchSpan(need);
+      const previewMissing = force
+        ? trEachDay(span.from, span.to)
+        : trDaysMissing(span.from, span.to);
+      const dayCount = previewMissing.length;
+      if (!force && !dayCount) {
+        trRebuildCache(need);
         trRender(trCacheRows);
+        status.textContent =
+          `Cache hit · ${trCacheRows.length} rows · ${trDayBuckets.size} days in tab · ${new Date().toLocaleTimeString()}`;
+        return;
+      }
+
+      if (dayCount > 7 || force) {
+        const kind = force ? "RE-PULL (drops cache for this window)" : "Fill missing";
+        if (
+          !confirm(
+            `${kind}: ${dayCount} day(s) from PocketBase.\n\nApps (HHH / PBJ / CVC / Unscribe) use this same PocketHost. Wide pulls can starve them.\n\nContinue only if the DB feels healthy?`
+          )
+        ) {
+          status.textContent = "Cancelled — no PocketBase request. Apps untouched.";
+          return;
+        }
+      }
+
+      trFetchInFlight = true;
+      trAbort = false;
+      trSetAbortVisible(true);
+      document.getElementById("pulse").classList.add("stale");
+
+      try {
+        let gate;
+        try {
+          gate = await trHealthGate();
+        } catch (_) {
+          gate = { ok: false, ms: TR_HEALTH_MAX_MS + 1, reason: "health unreachable" };
+        }
+        if (!gate.ok) {
+          status.textContent =
+            `Refused pull — ${gate.reason}. Wait / Wake, then retry when health is snappy (apps first).`;
+          document.getElementById("pulse").classList.add("stale");
+          return;
+        }
+        status.textContent = `Health ok (${gate.ms}ms). Starting apps-first pull…`;
+
+        if (force) {
+          for (const d of trEachDay(span.from, span.to)) trDayBuckets.delete(d);
+        }
+
+        let missing = trDaysMissing(span.from, span.to);
+        if (!missing.length) {
+          trRebuildCache(need);
+          trRender(trCacheRows);
+          status.textContent =
+            `Cache hit · ${trCacheRows.length} rows · ${trDayBuckets.size} days in tab · ${new Date().toLocaleTimeString()}`;
+          return;
+        }
+
+        missing = missing.slice().sort().reverse();
+        const chunks = trChunkMissingDays(missing);
+        let loadedChunks = 0;
+        for (let i = 0; i < chunks.length; i++) {
+          if (trAbort) break;
+          // Re-check health between chunks — bail if DB got slow mid-pull
+          if (i > 0) {
+            let mid;
+            try {
+              mid = await trHealthGate();
+            } catch (_) {
+              mid = { ok: false, reason: "health failed mid-pull" };
+            }
+            if (!mid.ok) {
+              status.textContent =
+                `Paused after ${loadedChunks} chunk(s) — ${mid.reason}. Partial cache kept. Retry later.`;
+              break;
+            }
+          }
+          const ch = chunks[i];
+          status.textContent = `Apps-first pull ${i + 1}/${chunks.length}: ${ch.from} → ${ch.to}… (Stop pull anytime)`;
+          const rows = await trFetchDayChunk(ch.from, ch.to);
+          if (trAbort && !rows.length) break;
+          trIngestRows(rows, ch.days);
+          loadedChunks += 1;
+          trRebuildCache(need);
+          trRender(trCacheRows);
+          if (i < chunks.length - 1 && !trAbort) await trSleep(TR_CHUNK_PAUSE_MS);
+        }
+        if (trAbort) {
+          status.textContent =
+            `Stopped · ${loadedChunks}/${chunks.length} chunks kept · ${(trCacheRows || []).length} rows · apps get the rest of the capacity`;
+        } else if (loadedChunks < chunks.length) {
+          /* mid-pull health pause already set status */
+        } else {
+          status.textContent =
+            `Done · ${loadedChunks} chunk(s) · ${trCacheRows.length} rows · ${trDayBuckets.size} days in tab · ${new Date().toLocaleTimeString()}`;
+        }
       } catch (e) {
         const msg = String(e && e.message ? e.message : e);
         const dead =
@@ -1109,9 +1820,20 @@
           e.name === "AbortError" ||
           e.name === "TimeoutError";
         status.textContent = dead
-          ? "PocketBase timed out or 404'd (often asleep / overloaded). Hit Wake database, wait until awake, then Refresh. Still dead → pockethost.io/dashboard → josspatech On."
+          ? "PocketBase timed out or 404'd. Stop pulling — apps may already be hurting. Wake only if needed, retry small (Today) later."
           : "Error: " + msg;
         document.getElementById("pulse").classList.add("stale");
+        if (trDayBuckets.size) {
+          trRebuildCache(need);
+          try {
+            trRender(trCacheRows);
+          } catch (_) {}
+        }
+      } finally {
+        trFetchInFlight = false;
+        trAbort = false;
+        trSetAbortVisible(false);
+        trSyncOlderBtn();
       }
     }
 
@@ -1159,22 +1881,22 @@
         [...document.querySelectorAll("#trPlat button")].forEach((b) =>
           b.classList.toggle("active", b === btn)
         );
-        if (trCacheRows) trRender(trCacheRows);
-        else trRefresh();
+        trRerender();
       });
       document.getElementById("trCompare").addEventListener("change", (e) => {
-        // compare needs previous window in the fetch pad — re-fetch
         trCompare = !!e.target.checked;
-        trRefresh();
+        trRerender();
       });
       document.getElementById("trExcludeQa").addEventListener("change", (e) => {
         trExcludeQa = !!e.target.checked;
-        if (trCacheRows) trRender(trCacheRows);
-        else trRefresh();
+        trRerender();
       });
+      trSyncOlderBtn();
     })();
 
     window.trRefresh = trRefresh;
+    window.trLoadOlder = trLoadOlder;
+    window.trAbortPull = trAbortPull;
     window.trWakeDb = trWakeDb;
     window.trSaveSocial = trSaveSocial;
   </script>

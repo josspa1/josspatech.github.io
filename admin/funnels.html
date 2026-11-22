@@ -1151,8 +1151,22 @@
     }
 
     function fnRerender() {
-      // Server filter depends on the selected window — always re-fetch.
-      fnRefresh();
+      // Apps share PocketHost — never auto-fetch on range/plat; use cache or prompt Refresh.
+      if (fnCacheRows) {
+        fnRender(fnCacheRows);
+        const status = document.getElementById("fnStatus");
+        if (status) {
+          status.textContent =
+            "Showing cached rows · click Refresh stats for a new pull (apps share this DB).";
+        }
+        return;
+      }
+      const status = document.getElementById("fnStatus");
+      if (status) {
+        status.textContent =
+          "No cache · click Refresh stats when PocketHost is quiet (apps first).";
+      }
+      document.getElementById("pulse").classList.add("stale");
     }
 
     /** PocketBase filter: only app dual-writes, ET window with UTC pads so morning ET is not dropped. */
