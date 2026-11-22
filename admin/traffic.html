@@ -135,7 +135,8 @@
       <section>
         <p class="section-explainer">
           Same <code>_site_visits</code> rows the site already posts (pageviews +
-          <code>outbound:…</code> store taps). Facebook hops are <code>/f</code>, TikTok <code>/t</code>.
+          <code>outbound:…</code> store taps). Short hops: <code>/f</code> <code>/t</code> <code>/i</code> <code>/cw</code>.
+          Product vs legal pages are split; QA multi-app store sessions can be excluded.
           Biggest leak across site + apps: <a href="growth.html">Growth</a>.
           In-app open → paid: <a href="funnels.html">Funnels</a>.
           No Workers or KV.
@@ -155,6 +156,7 @@
         <p class="tr-window" id="trWindow">Window: —</p>
         <div class="tr-tools">
           <label><input type="checkbox" id="trCompare"> Compare to previous equal window</label>
+          <label><input type="checkbox" id="trExcludeQa" checked> Exclude QA (3+ apps’ store taps in one session)</label>
         </div>
         <div class="tr-plat" id="trPlat">
           <button type="button" data-plat="all" class="active">All devices</button>
@@ -199,6 +201,7 @@
     let trRange = "today";
     let trPlat = "all";
     let trCompare = false;
+    let trExcludeQa = true;
     let trFrom = "";
     let trTo = "";
     let trCacheRows = null;
@@ -283,8 +286,32 @@
       return String(r.page || "").startsWith("app:");
     }
     function trIsLinkHop(r) {
-      const p = String(r.page || "");
-      return p.startsWith("/f") || p.startsWith("/t");
+      const p = (String(r.page || "").split("?")[0] || "/").replace(/\/$/, "") || "/";
+      // Short hops: /f /t /i /cw /g …
+      return /^\/[a-z0-9]{1,2}$/i.test(p);
+    }
+    function trIsLegalPage(page) {
+      return /\/docs\//i.test(String(page || ""));
+    }
+    function trAppFromPage(page) {
+      const p = String(page || "").toLowerCase();
+      if (/\/hhh(\/|$)|#hhh\b|handyhorology|clockworks/.test(p)) return "hhh";
+      if (/\/pbj(\/|$)|#pbj\b|pocketbudjet/.test(p)) return "pbj";
+      if (/\/cvc(\/|$)|#cvc\b|curator/.test(p)) return "cvc";
+      if (/\/unscribe(\/|$)|#unscribe\b|\/snip(\/|$)|unscribe/.test(p)) return "unscribe";
+      if (p === "/" || p === "" || p.startsWith("/?") || p.startsWith("/index")) return "home";
+      return "";
+    }
+    function trAppFromOutbound(ev) {
+      const e = String(ev || "").toLowerCase();
+      if (/hhh/.test(e)) return "hhh";
+      if (/pbj/.test(e)) return "pbj";
+      if (/cvc/.test(e)) return "cvc";
+      if (/unscribe|snip/.test(e)) return "unscribe";
+      return "";
+    }
+    function trAppLabel(app) {
+      return { home: "Home /", hhh: "HHH", pbj: "PBJ", cvc: "CVC", unscribe: "Unscribe" }[app] || app;
     }
     function trUaPlatform(ua) {
       const s = ua || "";
@@ -388,11 +415,19 @@
     }
     function trFriendlyPage(page) {
       const p = trPageGroup(page);
-      if (p === "/" || p === "") return "Home /";
-      if (p === "/hhh" || p === "/hhh/") return "HHH product";
+      if (p === "/" || p === "" || p === "/index.html") return "Home /";
+      if (p === "/hhh" || p === "/hhh/" || p === "/hhh/clockworks" || p === "/hhh/clockworks/")
+        return p.indexOf("clockworks") >= 0 ? "HHH · Clockworks gift" : "HHH product";
       if (p === "/cvc" || p === "/cvc/") return "CVC product";
       if (p === "/pbj" || p === "/pbj/" || p.indexOf("pocketbudjet") >= 0) return "PBJ product";
       if (/unscribe/i.test(p)) return "Unscribe";
+      if (trIsLegalPage(p)) {
+        if (/handyhorology/i.test(p)) return "Legal · HHH";
+        if (/pocketbudjet/i.test(p)) return "Legal · PBJ";
+        if (/curatorsvault|curator/i.test(p)) return "Legal · CVC";
+        if (/unscribe|snip/i.test(p)) return "Legal · Unscribe";
+        return "Legal · other";
+      }
       if (p.indexOf("#hhh") >= 0 || /\/#hhh/.test(page)) return "Home · HHH section";
       if (p.indexOf("#cvc") >= 0) return "Home · CVC section";
       if (p.indexOf("#pbj") >= 0) return "Home · PBJ section";
@@ -447,12 +482,30 @@
     }
 
     function trStats(rows) {
-      const outbound = rows.filter(trIsOutbound);
+      let outbound = rows.filter(trIsOutbound);
       // Ignore crawler pageviews so admin lines up with GoatCounter human traffic
       const pageviews = rows.filter(
         (r) => !trIsOutbound(r) && !trIsApp(r) && !trIsLinkHop(r) && !trIsBot(r)
       );
       const hops = rows.filter(trIsLinkHop);
+
+      // QA = one session tapping store badges for 3+ different apps (multi-product smoke test)
+      const appsBySession = new Map();
+      for (const r of outbound) {
+        if (!r.session_id) continue;
+        const app = trAppFromOutbound(trEventName(r));
+        if (!app) continue;
+        if (!appsBySession.has(r.session_id)) appsBySession.set(r.session_id, new Set());
+        appsBySession.get(r.session_id).add(app);
+      }
+      const qaSessions = new Set(
+        [...appsBySession.entries()].filter(([, apps]) => apps.size >= 3).map(([id]) => id)
+      );
+      const qaExcluded = trExcludeQa && qaSessions.size > 0;
+      if (qaExcluded) {
+        outbound = outbound.filter((r) => !r.session_id || !qaSessions.has(r.session_id));
+      }
+
       const sessions = new Set(pageviews.map((r) => r.session_id).filter(Boolean));
       const clickSessions = new Set(outbound.map((r) => r.session_id).filter(Boolean));
       const landed = sessions.size || pageviews.length;
@@ -463,6 +516,83 @@
       const iosClicks = outbound.filter((r) => trStorePlatform(trEventName(r)) === "iOS").length;
       const fHits = hops.filter((r) => String(r.page || "").startsWith("/f")).length;
       const tHits = hops.filter((r) => String(r.page || "").startsWith("/t")).length;
+      const cwHits = hops.filter((r) => String(r.page || "").startsWith("/cw")).length;
+      const iHits = hops.filter((r) => /^\/i(\?|\/|$)/.test(String(r.page || ""))).length;
+
+      // Per-app site → store (sessions that viewed product page, then tapped that app's store)
+      const viewedApp = { hhh: new Set(), pbj: new Set(), cvc: new Set(), unscribe: new Set(), home: new Set() };
+      for (const r of pageviews) {
+        if (!r.session_id) continue;
+        const app = trAppFromPage(r.page);
+        if (app && viewedApp[app]) viewedApp[app].add(r.session_id);
+      }
+      const tappedApp = { hhh: new Set(), pbj: new Set(), cvc: new Set(), unscribe: new Set() };
+      const lastTapByApp = { hhh: "", pbj: "", cvc: "", unscribe: "" };
+      for (const r of outbound) {
+        const app = trAppFromOutbound(trEventName(r));
+        if (!app) continue;
+        if (r.session_id) tappedApp[app].add(r.session_id);
+        if (!lastTapByApp[app] || String(r.created) > String(lastTapByApp[app])) {
+          lastTapByApp[app] = r.created || "";
+        }
+      }
+      const siteFunnels = ["hhh", "pbj", "cvc", "unscribe"].map((app) => {
+        const land = viewedApp[app].size;
+        const tap = [...tappedApp[app]].filter((id) => viewedApp[app].has(id)).length;
+        return {
+          app,
+          label: trAppLabel(app),
+          land,
+          tap,
+          rate: land ? tap / land : 0,
+          lastTap: lastTapByApp[app] || "",
+        };
+      });
+      const landingFunnel = {
+        land: viewedApp.home.size || (pageviews.filter((r) => trAppFromPage(r.page) === "home").length ? sessions.size : 0),
+        tap: [...clickSessions].filter((id) => viewedApp.home.has(id)).length,
+      };
+      // Prefer home sessions; fall back to all sessions for landing rate if home hash isn't recorded
+      if (!landingFunnel.land) {
+        landingFunnel.land = landed;
+        landingFunnel.tap = clicked;
+      }
+
+      // Legal → product: session saw /docs/ then a product page
+      const legalSessions = new Set();
+      const productAfterLegal = new Set();
+      const bySessionPages = new Map();
+      for (const r of pageviews) {
+        if (!r.session_id) continue;
+        if (!bySessionPages.has(r.session_id)) bySessionPages.set(r.session_id, []);
+        bySessionPages.get(r.session_id).push(r);
+      }
+      for (const [sid, list] of bySessionPages.entries()) {
+        list.sort((a, b) => String(a.created).localeCompare(String(b.created)));
+        let sawLegal = false;
+        for (const r of list) {
+          if (trIsLegalPage(r.page)) {
+            sawLegal = true;
+            legalSessions.add(sid);
+          } else if (sawLegal) {
+            const app = trAppFromPage(r.page);
+            if (app && app !== "home") {
+              productAfterLegal.add(sid);
+              break;
+            }
+          }
+        }
+      }
+
+      // Clockworks channel
+      const cwLand = new Set();
+      const cwTap = new Set();
+      for (const r of pageviews) {
+        if (trNormSource(r) === "Clockworks" && r.session_id) cwLand.add(r.session_id);
+      }
+      for (const r of outbound) {
+        if (trNormSource(r) === "Clockworks" && r.session_id) cwTap.add(r.session_id);
+      }
 
       // Pages
       const byPage = new Map();
@@ -473,15 +603,21 @@
         s.n += 1;
         if (r.session_id) s.sessions.add(r.session_id);
       }
-      const pages = [...byPage.entries()]
-        .map(([page, s]) => ({
-          label: trFriendlyPage(page),
-          n: s.sessions.size || s.n,
-          meta: `${s.n} views`,
-          raw: page,
-        }))
-        .sort((a, b) => b.n - a.n)
-        .slice(0, 12);
+      function pageItems(filterFn, limit) {
+        return [...byPage.entries()]
+          .filter(([page]) => filterFn(page))
+          .map(([page, s]) => ({
+            label: trFriendlyPage(page),
+            n: s.sessions.size || s.n,
+            meta: `${s.n} views`,
+            raw: page,
+          }))
+          .sort((a, b) => b.n - a.n)
+          .slice(0, limit);
+      }
+      const pages = pageItems(() => true, 12);
+      const productPages = pageItems((p) => !trIsLegalPage(p), 10);
+      const legalPages = pageItems((p) => trIsLegalPage(p), 10);
 
       // Entry page = earliest pageview per session
       const firstBySession = new Map();
@@ -634,7 +770,20 @@
         iosClicks,
         fHits,
         tHits,
+        cwHits,
+        iHits,
         pages,
+        productPages,
+        legalPages,
+        siteFunnels,
+        landingFunnel,
+        legalSessions: legalSessions.size,
+        legalToProduct: productAfterLegal.size,
+        cwLand: cwLand.size,
+        cwTap: cwTap.size,
+        qaSessions: qaSessions.size,
+        qaExcluded,
+        lastTapByApp,
         entries,
         sources,
         campaigns,
@@ -654,14 +803,16 @@
           meta: `${s.pageviews} pageviews · ${s.sessions} sessions`,
         },
         {
-          label: "2 · Link hops (/f · /t)",
-          n: s.fHits + s.tHits,
-          meta: `Facebook ${s.fHits} · TikTok ${s.tHits}`,
+          label: "2 · Link hops (/f · /t · /i · /cw)",
+          n: s.fHits + s.tHits + (s.iHits || 0) + (s.cwHits || 0),
+          meta: `FB ${s.fHits} · TT ${s.tHits} · IG ${s.iHits || 0} · CW ${s.cwHits || 0}`,
         },
         {
           label: "3 · Tapped a store badge",
           n: s.clicked,
-          meta: `Play ${s.playClicks} · App Store ${s.iosClicks}`,
+          meta: `Play ${s.playClicks} · App Store ${s.iosClicks}${
+            s.qaExcluded ? ` · QA excluded (${s.qaSessions})` : s.qaSessions ? ` · QA ${s.qaSessions}` : ""
+          }`,
           click: true,
         },
       ];
@@ -694,30 +845,101 @@
       return `<div class="tr-funnel">${parts.join("")}</div>`;
     }
 
+    function trAppFunnelsHtml(s) {
+      const rows = s.siteFunnels || [];
+      if (!rows.length) return `<p class="tr-empty">No product pageviews yet.</p>`;
+      const top = Math.max(1, ...rows.map((r) => r.land));
+      return rows
+        .map((r) => {
+          const bleed = r.land > 0 && r.rate < 0.05;
+          const barPct = Math.max(2, Math.min(100, (100 * r.land) / top));
+          const last = r.lastTap ? ` · last tap ${trEsc(r.lastTap)}` : "";
+          return `<div class="tr-row">
+            <div class="tr-row-head">
+              <span class="name">${trEsc(r.label)} page → store</span>
+              <span class="count">${r.tap}/${r.land}</span>
+              <span class="meta">${trPct(r.tap, r.land)}${last}</span>
+            </div>
+            <div class="tr-bar"><i class="${bleed ? "bleed" : "click"}" style="width:${barPct.toFixed(1)}%"></i></div>
+          </div>`;
+        })
+        .join("");
+    }
+
     function trKpi(s) {
       if (!s.landed) {
         return `<div class="tr-kpi bad">No site landings in this window.</div>`;
       }
+      const qaNote = s.qaExcluded
+        ? ` QA sessions excluded (${s.qaSessions}).`
+        : s.qaSessions
+          ? ` ${s.qaSessions} QA-looking session(s) still included.`
+          : "";
       if (s.clickRate < 0.05) {
-        return `<div class="tr-kpi bad">Only ${trPct(s.clicked, s.landed)} of visitors tapped a store badge (${s.clicked} of ${s.landed}). Biggest leak is on the site.</div>`;
+        return `<div class="tr-kpi bad">Only ${trPct(s.clicked, s.landed)} of visitors tapped a store badge (${s.clicked} of ${s.landed}). Biggest leak is on the site.${qaNote}</div>`;
       }
       if (s.clickRate < 0.2) {
-        return `<div class="tr-kpi">Store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Check which source or page drops hardest below.</div>`;
+        return `<div class="tr-kpi">Store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Check which source or page drops hardest below.${qaNote}</div>`;
       }
-      return `<div class="tr-kpi ok">Healthy store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Next leak is listing → install (Play / ASC).</div>`;
+      return `<div class="tr-kpi ok">Healthy store-click rate ${trPct(s.clicked, s.landed)} (${s.clicked} of ${s.landed}). Next leak is listing → install (Play / ASC).${qaNote}</div>`;
     }
 
     function trPanel(s, title) {
+      const lf = s.landingFunnel || { land: 0, tap: 0 };
       return `
         ${title ? `<p class="tr-pane-title">${trEsc(title)}</p>` : ""}
         ${trKpi(s)}
         <div class="tr-card">
           <h3>Site → store</h3>
-          <p class="sub">People (sessions) who landed, then tapped Play / App Store.</p>
+          <p class="sub">People (sessions) who landed, then tapped Play / App Store. Per-app outbound events only — not raw UI clicks.</p>
           ${trFunnelHtml(s)}
         </div>
         <div class="tr-card">
-          <h3>Pages people opened</h3>
+          <h3>Product pages → store</h3>
+          <p class="sub">Sessions that opened each product page, then tapped that app’s store badge (HeyCatch “site to store” equivalent).</p>
+          <div class="tr-row">
+            <div class="tr-row-head">
+              <span class="name">Home / → any store</span>
+              <span class="count">${lf.tap}/${lf.land}</span>
+              <span class="meta">${trPct(lf.tap, lf.land)}</span>
+            </div>
+          </div>
+          ${trAppFunnelsHtml(s)}
+        </div>
+        <div class="tr-card">
+          <h3>Clockworks</h3>
+          <p class="sub">utm_source=clockworks / /cw hops. Keep UTMs on every banner or this stays invisible.</p>
+          <div class="tr-row">
+            <div class="tr-row-head">
+              <span class="name">Clockworks visitors → store</span>
+              <span class="count">${s.cwTap || 0}/${s.cwLand || 0}</span>
+              <span class="meta">${trPct(s.cwTap || 0, s.cwLand || 0)} · hops ${s.cwHits || 0}</span>
+            </div>
+          </div>
+        </div>
+        <div class="tr-card">
+          <h3>Legal → product</h3>
+          <p class="sub">Sessions that opened a /docs/ page, then later a product page (HHH / PBJ / CVC / Unscribe).</p>
+          <div class="tr-row">
+            <div class="tr-row-head">
+              <span class="name">Legal visitors who reached a product</span>
+              <span class="count">${s.legalToProduct || 0}/${s.legalSessions || 0}</span>
+              <span class="meta">${trPct(s.legalToProduct || 0, s.legalSessions || 0)}</span>
+            </div>
+          </div>
+        </div>
+        <div class="tr-card">
+          <h3>Product pages</h3>
+          <p class="sub">Excludes /docs/** legal traffic so Overview isn’t dominated by privacy policies.</p>
+          ${trRankBars(s.productPages || [], { empty: "No product pageviews." })}
+        </div>
+        <div class="tr-card">
+          <h3>Legal pages</h3>
+          <p class="sub">Privacy / terms / EULA. Useful for “see the apps” CTA lift — not product conversion.</p>
+          ${trRankBars(s.legalPages || [], { empty: "No legal pageviews." })}
+        </div>
+        <div class="tr-card">
+          <h3>All pages</h3>
           <p class="sub">Ranked by sessions. Hash sections on the home page count separately when recorded.</p>
           ${trRankBars(s.pages)}
         </div>
@@ -944,6 +1166,11 @@
         // compare needs previous window in the fetch pad — re-fetch
         trCompare = !!e.target.checked;
         trRefresh();
+      });
+      document.getElementById("trExcludeQa").addEventListener("change", (e) => {
+        trExcludeQa = !!e.target.checked;
+        if (trCacheRows) trRender(trCacheRows);
+        else trRefresh();
       });
     })();
 
