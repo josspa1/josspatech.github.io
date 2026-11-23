@@ -284,7 +284,10 @@
   }
 
   function onStoreLinkIntent(e) {
-    if (e.defaultPrevented) return;
+    // Do not bail on defaultPrevented: heycatch-init owns store navigation
+    // (preventDefault + window.open) so its beacon isn't cancelled. That runs
+    // first in capture; if we skip here, admin/traffic never gets outbound:*
+    // rows and store-tap rates go silently to zero while HeyCatch still counts.
     if (e.type === 'click' && e.button != null && e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     var el = e.target;
