@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=13"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Für Steuerberater, Planer und Makler – saubere Daten übergeben | PocketBudJet</title>
+<meta name="description" content="Banken machen Exporte mühsam. Mit PocketBudJet übergibt dir dein Kunde in zwei Taps ein steuerfertiges Paket, eine umschuldungsfertige Cashflow-Datei oder ein planerfertiges OFX.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://josspatech.com/for-professionals/de/">
+<meta property="og:locale" content="de_DE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Für Steuerberater, Planer und Makler – saubere Daten übergeben | PocketBudJet">
+<meta property="og:description" content="Banken machen Exporte mühsam. Mit PocketBudJet übergibt dir dein Kunde in zwei Taps ein steuerfertiges Paket, eine umschuldungsfertige Cashflow-Datei oder ein planerfertiges OFX.">
+<meta property="og:url" content="https://josspatech.com/for-professionals/de/">
+<meta property="og:site_name" content="JosspaTech">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Für Steuerberater, Planer und Makler – saubere Daten übergeben | PocketBudJet">
+<meta name="twitter:description" content="Banken machen Exporte mühsam. Mit PocketBudJet übergibt dir dein Kunde in zwei Taps ein steuerfertiges Paket, eine umschuldungsfertige Cashflow-Datei oder ein planerfertiges OFX.">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Source Sans 3', sans-serif; color: var(--navy); background-color: var(--white); line-height: 1.65; }
+
+        nav { position: sticky; top: 0; z-index: 1000; background-color: var(--navy); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a { color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button { background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem; border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s ease; }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 28px; background: linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0)); pointer-events: none; }
+        .hero .container { max-width: 1000px; margin: 0 auto; position: relative; }
+        .hero .badge { display: inline-block; background: var(--gold); color: var(--navy-dark); padding: 0.4rem 1rem; border-radius: 16px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 900; margin-bottom: 1.2rem; line-height: 1.15; }
+        .hero h1 em { color: var(--gold); font-style: normal; }
+        .hero .subheader { font-size: 1.2rem; font-weight: 300; max-width: 720px; margin: 0 auto 2rem; color: rgba(255,255,255,0.94); }
+        .hero .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        .cta-primary { background: var(--gold); color: var(--navy-dark); padding: 0.95rem 2rem; border-radius: 6px; font-weight: 800; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; }
+        .cta-primary:hover { background: var(--gold-dark); transform: translateY(-2px); }
+        .cta-secondary { background: transparent; color: var(--white); padding: 0.95rem 2rem; border-radius: 6px; font-weight: 600; text-decoration: none; border: 2px solid rgba(255,255,255,0.4); transition: border-color 0.2s ease; }
+        .cta-secondary:hover { border-color: var(--gold); }
+
+        section { padding: 4.5rem 2rem; }
+        section .container { max-width: 1100px; margin: 0 auto; }
+        section h2 { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--navy); margin-bottom: 0.6rem; text-align: center; }
+        section .lead { color: var(--slate); font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; line-height: 1.65; }
+
+        /* The problem section */
+        .problem-section { background: var(--background); }
+        .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 980px; margin: 0 auto; }
+        .problem-col { background: var(--white); border-radius: 12px; padding: 2rem; border-left: 4px solid var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .problem-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 22px; background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none; }
+        .problem-col h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.3rem; margin-bottom: 1rem; }
+        .problem-col ul { list-style: none; padding: 0; }
+        .problem-col li { padding: 0.6rem 0 0.6rem 1.6rem; position: relative; color: var(--slate); font-size: 0.96rem; line-height: 1.55; }
+        .problem-col li::before { content: '✕'; position: absolute; left: 0; top: 0.55rem; color: #c5302d; font-weight: 800; font-size: 0.95rem; }
+        .problem-col.solution li::before { content: '✓'; color: #1a7f5a; }
+        .problem-col.solution { border-left-color: #1a7f5a; }
+
+        /* Workflow section */
+        .workflow-section { background: var(--white); }
+        .workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .workflow-card { background: var(--background); border-radius: 14px; padding: 1.8rem; border: 1px solid rgba(26,79,122,0.08); position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .workflow-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 24px; background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0)); pointer-events: none; }
+        .workflow-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,79,122,0.12); }
+        .workflow-card .icon { width: 44px; height: 44px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--gold); font-size: 1.4rem; font-weight: 800; font-family: 'Playfair Display', serif; }
+        .workflow-card h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem; font-weight: 700; }
+        .workflow-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+
+        /* Format matrix */
+        .formats-section { background: linear-gradient(180deg, var(--background) 0%, var(--white) 100%); }
+        .formats-table { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(26,79,122,0.1); }
+        .formats-table table { width: 100%; border-collapse: collapse; }
+        .formats-table th { background: var(--navy); color: var(--white); padding: 1rem 1.2rem; text-align: left; font-size: 0.95rem; font-weight: 700; }
+        .formats-table th:nth-child(2), .formats-table th:nth-child(3) { text-align: center; }
+        .formats-table td { padding: 0.95rem 1.2rem; border-top: 1px solid rgba(26,79,122,0.08); color: var(--slate); font-size: 0.95rem; }
+        .formats-table td:nth-child(2), .formats-table td:nth-child(3) { text-align: center; font-weight: 600; }
+        .formats-table .who { color: var(--navy); font-weight: 700; }
+        .formats-table .check { color: #1a7f5a; font-weight: 800; }
+        .formats-table .miss { color: #5A7A9A; font-style: italic; font-size: 0.85rem; }
+
+        /* Privacy reassurance */
+        .privacy-section { background: var(--navy-dark); color: var(--white); }
+        .privacy-section h2 { color: var(--white); }
+        .privacy-section .lead { color: rgba(255,255,255,0.8); }
+        .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+        .privacy-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.6rem; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        .privacy-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 22px; background: linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0)); pointer-events: none; }
+        .privacy-card h4 { color: var(--gold); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.4px; }
+        .privacy-card p { color: rgba(255,255,255,0.85); font-size: 0.92rem; line-height: 1.65; }
+
+        /* CTA */
+        .cta-section { background: var(--white); text-align: center; }
+        .cta-section h2 { margin-bottom: 1rem; }
+        .cta-section p { color: var(--slate); font-size: 1.1rem; margin-bottom: 1.6rem; max-width: 620px; margin-left: auto; margin-right: auto; }
+
+        footer { background: var(--navy-dark); color: rgba(255,255,255,0.65); padding: 1.6rem 2rem; text-align: center; font-size: 0.9rem; }
+        footer a { color: var(--gold); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .formats-table { font-size: 0.85rem; }
+            .formats-table th, .formats-table td { padding: 0.7rem 0.6rem; }
+            section { padding: 3rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="/" class="logo">JosspaTech</a>
+        <ul class="nav-links">
+            <li><a href="/#pbj">PocketBudJet</a></li>
+            <li><a href="/videos/pbj/user-guide/de/">Benutzerhandbuch</a></li>
+            <li><a href="/" class="cta-button">Start</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="breadcrumbs">
+    <a href="/">Start</a><span class="sep">/</span>
+    <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+    <a href="/how-to/de/">Anleitungen</a><span class="sep">/</span>
+    <span class="current">For Professionals</span>
+</div>
+
+<section class="hero">
+    <div class="container">
+        <span class="badge">FOR THE FOLKS WHO HANDLE OTHER PEOPLE'S MONEY</span>
+        <h1>Your client's bank<br>can't give you this.</h1>
+    <p class="howto-langs blog-langs" aria-label="Languages">
+        <a href="/for-professionals/de/">English</a>
+        <a href="/for-professionals/es/">Español</a>
+        <a href="/for-professionals/zh/">中文</a>
+        <a href="/for-professionals/de/" aria-current="page">Deutsch</a>
+        <a href="/for-professionals/fr/">Français</a>
+        <a href="/for-professionals/pt/">Português</a>
+        <a href="/for-professionals/it/">Italiano</a>
+        <a href="/for-professionals/hi/">हिन्दी</a>
+      </p>
+    
+        <p class="subheader">
+            Steuersaison. Umschuldung. Ein Upload für den Finanzplaner. Die Export-Menüs der Banken enden bei „CSV der letzten 90 Tage“. Nutzt Ihr Kunde PocketBudJet, übergibt er Ihnen mit zwei Fingertipps ein sauberes, kategorisiertes Paket im Profiformat &mdash; in genau dem Format, das Ihre Software braucht.
+        </p>
+        <div class="cta-row">
+            <a href="#workflow" class="cta-primary">Den Workflow ansehen</a>
+            <a href="/#pbj" class="cta-secondary">Meinen Mandanten davon erzählen</a>
+        </div>
+    </div>
+</section>
+
+<section class="problem-section">
+    <div class="container">
+        <h2>Das Übergabeproblem</h2>
+        <p class="lead">
+            Du fragst deinen Kunden nach "den letzten 12 Monaten der Transaktionen, kategorisiert". Was du normalerweise bekommst: 12 PDF Auszüge (einen pro Monat, keine Kategorien), eine CSV , die 90 Tage zurückliegt, oder schlimmer noch; eine weitergeleitete E-Mail mit Screenshots. PocketBudJet liegt zwischen der Bank und dir.
+        </p>
+        <div class="problem-grid">
+            <div class="problem-col">
+                <h3>Was Banken deinen Kunden dir schicken lassen</h3>
+                <ul>
+                    <li>Ein PDF pro Kontoauszugszeitraum &mdash; Sie stellen das Jahr zusammen</li>
+                    <li>CSV-Exporte auf 90 Tage begrenzt &mdash; oder auf 18 Monate bei denen mit neueren Oberflächen</li>
+                    <li>Kein Kategorie-Tagging &mdash; nur Händlerbezeichnungen und Datumsangaben</li>
+                    <li>Unterschiedliche Formate je nach Bank, Konto und Kreditkarte</li>
+                    <li>Gescannte Scheckbilder statt strukturierter Daten</li>
+                    <li>Was auch immer der CSV-Import deines Buchhaltungstools verlangt &mdash; am dritten Tag der Steuerwoche</li>
+                </ul>
+            </div>
+            <div class="problem-col solution">
+                <h3>Was dein PocketBudJet-Kunde dir sendet</h3>
+                <ul>
+                    <li>Eine Datei. Das ganze Jahr (oder länger). Alles.</li>
+                    <li>Wähle das Format, das deine Software akzeptiert &mdash; OFX, Excel, PDF, HTML, Word oder das Layout "Buchhalter"</li>
+                    <li>Kategorisiert passend zur Benennung Ihres Kontenplans</li>
+                    <li>PDFs der Anlagen A, B, C, D oder E, bereits nach IRS-Zeilennummern aufgebaut</li>
+                    <li>Saubere Aufteilung in Einnahmen und Ausgaben, Abzüge einzeln aufgeführt, Überweisungsseite eliminiert</li>
+                    <li>Auf dem Gerät im Ruhezustand verschlüsselt, bei der Weitergabe während der Übertragung verschlüsselt</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="workflow" class="workflow-section">
+    <div class="container">
+        <h2>So funktioniert die Übergabe</h2>
+        <p class="lead">Drei Schritte für den Mandanten. Null Aufwand für Sie auf der Empfangsseite.</p>
+        <div class="workflow-grid">
+            <div class="workflow-card">
+                <div class="icon">1</div>
+                <h3>Der Kunde öffnet seine Bank-App</h3>
+                <p>Sie tippen bei einem Kontoauszug auf Teilen und wählen PocketBudJet im Share-Sheet aus. PocketBudJet liest die Transaktionen aus, kategorisiert sie per KI und speichert alles auf dem Gerät. Sie müssen der Bank nie einen Drittanbieter-Login geben.</p>
+            </div>
+            <div class="workflow-card">
+                <div class="icon">2</div>
+                <h3>Der Kunde öffnet Berichte → Exportieren</h3>
+                <p><strong>Sie wählen, was du brauchst:</strong> Steuerjahr, Zeitraum, Kategorienset oder einen der an den IRS-Zeilen ausgerichteten Anlagenberichte. Alles ist bereits geordnet – sie müssen nichts neu klassifizieren.</p>
+            </div>
+            <div class="workflow-card">
+                <div class="icon">3</div>
+                <h3>Dein Kunde wählt das Format, das du angefordert hast</h3>
+                <p>OFX für Steuersoftware auf dem Desktop. Excel für Ihre eigenen Pivot-Auswertungen. PDF als Prüfpfad. HTML, wenn sie einen Link per E-Mail senden möchten. Word für die Dokumentenprüfung. Sie schicken Ihnen genau das, was Sie für Ihre Tools brauchen.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="formats-section">
+    <div class="container">
+        <h2>Formatabdeckung nach Anwendungsfall</h2>
+        <p class="lead">PocketBudJet exportiert in jedem Format, das die wichtigsten Desktop- und Cloud-Buchhaltungstools akzeptieren. Wenn ein Tool es braucht, kann dein Kunde es erzeugen.</p>
+        <div class="formats-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sie sind…</th>
+                        <th>Format, das Sie meist brauchen</th>
+                        <th>Der Mandant kann senden</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="who">CPA, der Formular 1040 einreicht</td>
+                        <td>PDFs der Anlagen A / B / C / D / E, zeilengenau ausgerichtet</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Buchhalter oder Steuerberater</td>
+                        <td>OFX oder QFX mit Kategorie-Metadaten</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Finanzplaner</td>
+                        <td>Cashflow im Jahresvergleich, Excel</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Hypothekenmakler / Kreditgeber</td>
+                        <td>Einnahmen / Ausgaben der letzten 12 Monate, als PDF</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Nachlass- oder Treuhandanwalt</td>
+                        <td>Prüfung kategorisierter Ausgaben, als PDF oder Word</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Versicherungssachverständiger</td>
+                        <td>Beleg-Miniaturen + Transaktionsliste</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">Finanzmediator bei Scheidungen</td>
+                        <td>Deduplizierter Transaktionsverlauf beider Partner</td>
+                        <td class="check">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="privacy-section">
+    <div class="container">
+        <h2 style="color: var(--white);">Warum Ihr Kunde PocketBudJet gewählt hat</h2>
+        <p class="lead">PocketBudJet bündelt nicht die Bankzugangsdaten Ihres Mandanten, verkauft nicht dessen Transaktionsdaten und verlangt nicht, dass er ein Konto anlegt. Seine Daten bleiben auf dem Gerät. Die Weitergabe an Sie ist ein bewusster, einmaliger Vorgang &mdash; und weil die Datei direkt aus der Banking-App stammt, hängt die Übergabe nicht von der Datenpipeline eines Drittanbieters ab, die mitten im Mandat ausfallen oder ihren Preis ändern kann.</p>
+        <div class="privacy-grid">
+            <div class="privacy-card">
+                <h4>KEIN BANK-LOGIN, KEIN ZWISCHENHÄNDLER</h4>
+                <p>PocketBudJet fragt nie nach den Bankdaten deines Kunden und steckt nicht hinter einem Drittanbieter-Datenaggregator. Auszüge kommen über das Betriebssystem-Sharesheet, den Dateiauswähler oder den Kamera-Scan. Ihre Beziehung zu ihrer Bank bleibt unverändert – und dein Workflow hängt nicht von einer Pipeline ab, die kaputt gehen oder neu bepreist werden kann.</p>
+            </div>
+            <div class="privacy-card">
+                <h4>SPEICHERUNG ZUERST AUF DEM GERÄT</h4>
+                <p>Transaktionen liegen im privaten App-Speicher von PocketBudJet auf dem Handy. Backups sind optional, müssen aktiv gewählt werden und sind AES-256-verschlüsselt, mit einem Schlüssel, den nur dein Kunde besitzt.</p>
+            </div>
+            <div class="privacy-card">
+                <h4>TEILEN IST EXPLIZIT</h4>
+                <p>Wenn dein Kunde dir ein Paket per E-Mail schickt, wählt er Datei, Format und Zeitraum. PocketBudJet teilt, synchronisiert oder zeigt dir nichts automatisch, was er nicht selbst senden wollte.</p>
+            </div>
+            <div class="privacy-card">
+                <h4>PRÜFUNGSFREUNDLICH</h4>
+                <p>Jeder Export enthält den Parse-Konfidenzwert der Quell-Kontoauszugsdatei, die Import-Batch-ID und die Herkunft der Transaktionen. So kannst du nachprüfen, welche Auszüge in welche Einzelposten eingeflossen sind.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>Die eine Frage, die Sie Ihrem Mandanten in dieser Steuersaison stellen sollten:</h2>
+        <p>„Nutzt du PocketBudJet?“ Wenn ja, wird deine Steuervorbereitung, dein Umschuldungspaket oder der Upload an deinen Planer zu einem 30-Sekunden-Gespräch statt zu sechs Wochen Hin und Her.</p>
+        <div class="cta-row" style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+            <a href="/#pbj" class="cta-primary">PocketBudJet ansehen</a>
+            <a href="/videos/pbj/user-guide/#chapter=54" class="cta-secondary" style="color: var(--navy); border-color: var(--navy);">Import & Teilen an PBJ (Benutzerhandbuch)</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 JosspaTech &mdash; <a href="/">josspatech.com</a></p>
+</footer>
+
+<script src="/scripts/site-analytics-saas.js?v=13" defer></script>
+</body>
+</html>

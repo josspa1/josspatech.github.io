@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=13"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面向注册会计师、规划师和经纪人——交付整洁数据 | PocketBudJet</title>
+<meta name="description" content="银行让导出变得痛苦。PocketBudJet 让你的客户只需点两下，就能交给你报税就绪的资料包、再融资就绪的现金流文件，或规划师就绪的 OFX。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://josspatech.com/for-professionals/zh/">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:type" content="website">
+<meta property="og:title" content="面向注册会计师、规划师和经纪人——交付整洁数据 | PocketBudJet">
+<meta property="og:description" content="银行让导出变得痛苦。PocketBudJet 让你的客户只需点两下，就能交给你报税就绪的资料包、再融资就绪的现金流文件，或规划师就绪的 OFX。">
+<meta property="og:url" content="https://josspatech.com/for-professionals/zh/">
+<meta property="og:site_name" content="JosspaTech">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="面向注册会计师、规划师和经纪人——交付整洁数据 | PocketBudJet">
+<meta name="twitter:description" content="银行让导出变得痛苦。PocketBudJet 让你的客户只需点两下，就能交给你报税就绪的资料包、再融资就绪的现金流文件，或规划师就绪的 OFX。">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #1A4F7A; --navy-dark: #0C3358; --navy-medium: #2E6FA3;
+            --gold: #F0C040; --gold-dark: #E8A820;
+            --slate: #5A7A9A; --slate-light: #8AAABB;
+            --background: #EDF2F7; --white: #FFFFFF;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Source Sans 3', sans-serif; color: var(--navy); background-color: var(--white); line-height: 1.65; }
+
+        nav { position: sticky; top: 0; z-index: 1000; background-color: var(--navy); padding: 1rem 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); text-decoration: none; }
+        nav .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+        nav .nav-links a { color: var(--white); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.3s ease; }
+        nav .nav-links a:hover { color: var(--gold); }
+        nav .cta-button { background-color: var(--gold); color: var(--navy); padding: 0.6rem 1.4rem; border-radius: 4px; font-weight: 600; text-decoration: none; transition: background-color 0.3s ease; }
+        nav .cta-button:hover { background-color: var(--gold-dark); }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 0;
+            font-size: 0.9rem; color: var(--slate);
+        }
+        .breadcrumbs a {
+            color: var(--navy-medium); text-decoration: none; font-weight: 500;
+        }
+        .breadcrumbs a:hover { color: var(--gold-dark); text-decoration: underline; }
+        .breadcrumbs span.sep { margin: 0 0.4rem; color: var(--slate-light); }
+        .breadcrumbs span.current { color: var(--navy); font-weight: 600; }
+
+        .hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-medium) 100%); color: var(--white); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 28px; background: linear-gradient(rgba(255,255,255,0.18), rgba(255,255,255,0)); pointer-events: none; }
+        .hero .container { max-width: 1000px; margin: 0 auto; position: relative; }
+        .hero .badge { display: inline-block; background: var(--gold); color: var(--navy-dark); padding: 0.4rem 1rem; border-radius: 16px; font-weight: 700; font-size: 0.8rem; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 900; margin-bottom: 1.2rem; line-height: 1.15; }
+        .hero h1 em { color: var(--gold); font-style: normal; }
+        .hero .subheader { font-size: 1.2rem; font-weight: 300; max-width: 720px; margin: 0 auto 2rem; color: rgba(255,255,255,0.94); }
+        .hero .cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        .cta-primary { background: var(--gold); color: var(--navy-dark); padding: 0.95rem 2rem; border-radius: 6px; font-weight: 800; text-decoration: none; transition: transform 0.2s ease, background 0.2s ease; }
+        .cta-primary:hover { background: var(--gold-dark); transform: translateY(-2px); }
+        .cta-secondary { background: transparent; color: var(--white); padding: 0.95rem 2rem; border-radius: 6px; font-weight: 600; text-decoration: none; border: 2px solid rgba(255,255,255,0.4); transition: border-color 0.2s ease; }
+        .cta-secondary:hover { border-color: var(--gold); }
+
+        section { padding: 4.5rem 2rem; }
+        section .container { max-width: 1100px; margin: 0 auto; }
+        section h2 { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800; color: var(--navy); margin-bottom: 0.6rem; text-align: center; }
+        section .lead { color: var(--slate); font-size: 1.1rem; text-align: center; max-width: 760px; margin: 0 auto 3rem; line-height: 1.65; }
+
+        /* The problem section */
+        .problem-section { background: var(--background); }
+        .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; max-width: 980px; margin: 0 auto; }
+        .problem-col { background: var(--white); border-radius: 12px; padding: 2rem; border-left: 4px solid var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .problem-col::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 22px; background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0)); pointer-events: none; }
+        .problem-col h3 { font-family: 'Playfair Display', serif; color: var(--navy); font-size: 1.3rem; margin-bottom: 1rem; }
+        .problem-col ul { list-style: none; padding: 0; }
+        .problem-col li { padding: 0.6rem 0 0.6rem 1.6rem; position: relative; color: var(--slate); font-size: 0.96rem; line-height: 1.55; }
+        .problem-col li::before { content: '✕'; position: absolute; left: 0; top: 0.55rem; color: #c5302d; font-weight: 800; font-size: 0.95rem; }
+        .problem-col.solution li::before { content: '✓'; color: #1a7f5a; }
+        .problem-col.solution { border-left-color: #1a7f5a; }
+
+        /* Workflow section */
+        .workflow-section { background: var(--white); }
+        .workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .workflow-card { background: var(--background); border-radius: 14px; padding: 1.8rem; border: 1px solid rgba(26,79,122,0.08); position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .workflow-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 24px; background: linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0)); pointer-events: none; }
+        .workflow-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(26,79,122,0.12); }
+        .workflow-card .icon { width: 44px; height: 44px; background: var(--navy); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--gold); font-size: 1.4rem; font-weight: 800; font-family: 'Playfair Display', serif; }
+        .workflow-card h3 { font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem; font-weight: 700; }
+        .workflow-card p { color: var(--slate); font-size: 0.95rem; line-height: 1.6; }
+
+        /* Format matrix */
+        .formats-section { background: linear-gradient(180deg, var(--background) 0%, var(--white) 100%); }
+        .formats-table { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid rgba(26,79,122,0.1); }
+        .formats-table table { width: 100%; border-collapse: collapse; }
+        .formats-table th { background: var(--navy); color: var(--white); padding: 1rem 1.2rem; text-align: left; font-size: 0.95rem; font-weight: 700; }
+        .formats-table th:nth-child(2), .formats-table th:nth-child(3) { text-align: center; }
+        .formats-table td { padding: 0.95rem 1.2rem; border-top: 1px solid rgba(26,79,122,0.08); color: var(--slate); font-size: 0.95rem; }
+        .formats-table td:nth-child(2), .formats-table td:nth-child(3) { text-align: center; font-weight: 600; }
+        .formats-table .who { color: var(--navy); font-weight: 700; }
+        .formats-table .check { color: #1a7f5a; font-weight: 800; }
+        .formats-table .miss { color: #5A7A9A; font-style: italic; font-size: 0.85rem; }
+
+        /* Privacy reassurance */
+        .privacy-section { background: var(--navy-dark); color: var(--white); }
+        .privacy-section h2 { color: var(--white); }
+        .privacy-section .lead { color: rgba(255,255,255,0.8); }
+        .privacy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
+        .privacy-card { background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.6rem; border: 1px solid rgba(255,255,255,0.1); position: relative; overflow: hidden; }
+        .privacy-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 22px; background: linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0)); pointer-events: none; }
+        .privacy-card h4 { color: var(--gold); font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.4px; }
+        .privacy-card p { color: rgba(255,255,255,0.85); font-size: 0.92rem; line-height: 1.65; }
+
+        /* CTA */
+        .cta-section { background: var(--white); text-align: center; }
+        .cta-section h2 { margin-bottom: 1rem; }
+        .cta-section p { color: var(--slate); font-size: 1.1rem; margin-bottom: 1.6rem; max-width: 620px; margin-left: auto; margin-right: auto; }
+
+        footer { background: var(--navy-dark); color: rgba(255,255,255,0.65); padding: 1.6rem 2rem; text-align: center; font-size: 0.9rem; }
+        footer a { color: var(--gold); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .formats-table { font-size: 0.85rem; }
+            .formats-table th, .formats-table td { padding: 0.7rem 0.6rem; }
+            section { padding: 3rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <a href="/" class="logo">JosspaTech</a>
+        <ul class="nav-links">
+            <li><a href="/#pbj">PocketBudJet</a></li>
+            <li><a href="/videos/pbj/user-guide/zh/">用户手册</a></li>
+            <li><a href="/" class="cta-button">首页</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="breadcrumbs">
+    <a href="/">首页</a><span class="sep">/</span>
+    <a href="/#pbj">PocketBudJet</a><span class="sep">/</span>
+    <a href="/how-to/zh/">使用指南</a><span class="sep">/</span>
+    <span class="current">For Professionals</span>
+</div>
+
+<section class="hero">
+    <div class="container">
+        <span class="badge">FOR THE FOLKS WHO HANDLE OTHER PEOPLE'S MONEY</span>
+        <h1>Your client's bank<br>can't give you this.</h1>
+    <p class="howto-langs blog-langs" aria-label="Languages">
+        <a href="/for-professionals/zh/">English</a>
+        <a href="/for-professionals/es/">Español</a>
+        <a href="/for-professionals/zh/" aria-current="page">中文</a>
+        <a href="/for-professionals/de/">Deutsch</a>
+        <a href="/for-professionals/fr/">Français</a>
+        <a href="/for-professionals/pt/">Português</a>
+        <a href="/for-professionals/it/">Italiano</a>
+        <a href="/for-professionals/hi/">हिन्दी</a>
+      </p>
+    
+        <p class="subheader">
+            报税季。再融资。上传给理财规划师。银行的导出菜单最多只给“最近 90 天的 CSV”。当你的客户使用 PocketBudJet 时，只需点两下，就能把一份整洁、已分类、专业格式的资料包交给你 &mdash; 并且是你的软件真正需要的格式。
+        </p>
+        <div class="cta-row">
+            <a href="#workflow" class="cta-primary">查看工作流</a>
+            <a href="/#pbj" class="cta-secondary">告诉我的客户</a>
+        </div>
+    </div>
+</section>
+
+<section class="problem-section">
+    <div class="container">
+        <h2>交接难题</h2>
+        <p class="lead">
+            你向客户索要“过去12个月的交易，分类”。你通常得到的：12 PDF 对账单（每月一份，没有分类），90天前截止的 CSV ，或者更糟——一封带有截图的转发邮件。 PocketBudJet 就在银行和你之间。
+        </p>
+        <div class="problem-grid">
+            <div class="problem-col">
+                <h3>银行让你的客户发给你的东西</h3>
+                <ul>
+                    <li>每个对账单周期一份 PDF &mdash; 全年由您自行汇总</li>
+                    <li>CSV 导出限制在 90 天 &mdash; 界面较新的则为 18 个月</li>
+                    <li>没有类别标签 &mdash; 只有商户名称字符串和日期</li>
+                    <li>每家银行、每个账户、每张信用卡的格式各不相同</li>
+                    <li>扫描的支票图像，而不是结构化数据</li>
+                    <li>无论你的记账工具的 CSV 导入器要求什么格式 &mdash; 在报税周的第三天</li>
+                </ul>
+            </div>
+            <div class="problem-col solution">
+                <h3>你的 PocketBudJet 客户会发给你什么</h3>
+                <ul>
+                    <li>一个文件。整年（或更长）。一切尽在其中。</li>
+                    <li>选择你的软件所接受的格式 &mdash; OFX、Excel、PDF、HTML、Word 或 "会计" 版式</li>
+                    <li>分类与您的会计科目表命名保持一致</li>
+                    <li>附表 A、B、C、D 或 E 的 PDF，已按 IRS 行号排好</li>
+                    <li>收入与支出划分清晰，扣除项逐条列明，已剔除转账部分</li>
+                    <li>设备上静态加密，共享时传输加密</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="workflow" class="workflow-section">
+    <div class="container">
+        <h2>交接如何运作</h2>
+        <p class="lead">客户只需三步，您这边接收时无需任何额外工作。</p>
+        <div class="workflow-grid">
+            <div class="workflow-card">
+                <div class="icon">1</div>
+                <h3>客户打开自己的银行应用</h3>
+                <p>他们在对账单上点击“分享”，在分享菜单中选择 PocketBudJet。PocketBudJet 会提取交易记录，用 AI 自动分类，并将所有内容存储在设备上。他们永远不必向银行提供第三方登录凭据。</p>
+            </div>
+            <div class="workflow-card">
+                <div class="icon">2</div>
+                <h3>客户打开“报表”→ 导出</h3>
+                <p>他们选择你需要的内容：纳税年度、期间范围、类别集，或与 IRS 表格行对应的明细报告之一。一切都已整理好——无需重新分类。</p>
+            </div>
+            <div class="workflow-card">
+                <div class="icon">3</div>
+                <h3>客户选择你要求的格式</h3>
+                <p>OFX 用于桌面报税软件。Excel 用于你自己的数据透视分析。PDF 作为审计留痕。HTML 适合通过邮件发送链接。Word 用于文档审阅。他们会把你的工具所需的内容原样发给你。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="formats-section">
+    <div class="container">
+        <h2>按使用场景划分的格式支持</h2>
+        <p class="lead">PocketBudJet 可导出主流桌面和云端会计工具所接受的所有格式。只要某个工具需要，你的客户就能生成。</p>
+        <div class="formats-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>你是…</th>
+                        <th>你通常需要的格式</th>
+                        <th>客户可以发送</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="who">提交 1040 的 CPA</td>
+                        <td>附表 A / B / C / D / E 的 PDF，逐行对齐</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">簿记员或会计师</td>
+                        <td>带有类别元数据的 OFX 或 QFX</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">理财规划师</td>
+                        <td>逐年现金流，Excel</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">按揭经纪 / 放贷方</td>
+                        <td>最近 12 个月的收入 / 支出，PDF 格式</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">遗产或信托律师</td>
+                        <td>按类别整理的支出审计，PDF 或 Word 格式</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">保险理算员</td>
+                        <td>收据缩略图 + 交易列表</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td class="who">离婚财务调解员</td>
+                        <td>去重后的夫妻双方交易历史</td>
+                        <td class="check">✓</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="privacy-section">
+    <div class="container">
+        <h2 style="color: var(--white);">您的客户为何选择 PocketBudJet</h2>
+        <p class="lead">PocketBudJet 不会聚合你客户的银行凭据，不会出售其交易数据，也不要求他们创建账号。他们的数据留在设备上。与你分享是一次有意识的一次性行为 &mdash; 而且由于文件直接来自其银行应用，交接不依赖可能在服务期间中断或调价的第三方数据管道。</p>
+        <div class="privacy-grid">
+            <div class="privacy-card">
+                <h4>无需银行登录，没有中间商</h4>
+                <p>PocketBudJet 从不索要客户的银行凭证，也不会坐在第三方数据聚合器后面。账单通过操作系统共享表、文件选择器或摄像头扫描系统传入。他们与银行的关系保持不变——而且你的工作流程不依赖于可能被损坏或重新定价的管道。</p>
+            </div>
+            <div class="privacy-card">
+                <h4>设备优先存储</h4>
+                <p>交易保存在他们手机上 PocketBudJet 的私有应用存储中。备份是可选的、需主动开启，并使用 AES-256 加密，密钥只有你的客户持有。</p>
+            </div>
+            <div class="privacy-card">
+                <h4>分享须明确操作</h4>
+                <p>当客户通过邮件把资料包发给你时，文件、格式和期间都由他们选择。PocketBudJet 不会自动共享、同步或向你展示任何他们没有选择发送的内容。</p>
+            </div>
+            <div class="privacy-card">
+                <h4>便于审计</h4>
+                <p>每次导出都包含源对账单文件的解析置信度评分、导入批次 ID 以及交易来源信息。你可以核实哪些对账单汇入了哪些明细项。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <h2>这个报税季，值得问客户的一个问题：</h2>
+        <p>“你在用 PocketBudJet 吗？”如果是，你的报税准备、再融资资料包或上传给理财规划师的文件，就会变成一次 30 秒的交流，而不是六周的反复沟通。</p>
+        <div class="cta-row" style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+            <a href="/#pbj" class="cta-primary">查看 PocketBudJet</a>
+            <a href="/videos/pbj/user-guide/#chapter=54" class="cta-secondary" style="color: var(--navy); border-color: var(--navy);">导入与分享到 PBJ（用户手册）</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 JosspaTech &mdash; <a href="/">josspatech.com</a></p>
+</footer>
+
+<script src="/scripts/site-analytics-saas.js?v=13" defer></script>
+</body>
+</html>
