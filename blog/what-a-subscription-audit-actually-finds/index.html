@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=13"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What a Subscription Audit Actually Finds — JosspaTech</title>
+<meta name="description" content="C+R Research: people guessed about $86/month in subscriptions, itemized about $219; 42% paid for a service they no longer used. How a statement audit surfaces t">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://josspatech.com/blog/what-a-subscription-audit-actually-finds/">
+<meta name="author" content="JosspaTech">
+<meta name="theme-color" content="#0C3358">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish26">
+<link rel="stylesheet" href="/blog/blog.css">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="What a Subscription Audit Actually Finds">
+<meta property="og:description" content="C+R Research: people guessed about $86/month in subscriptions, itemized about $219; 42% paid for a service they no longer used. How a statement audit surfaces t">
+<meta property="og:url" content="https://josspatech.com/blog/what-a-subscription-audit-actually-finds/">
+<meta property="og:site_name" content="JosspaTech">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+<meta property="article:published_time" content="2026-11-23">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What a Subscription Audit Actually Finds">
+<meta name="twitter:description" content="C+R Research: people guessed about $86/month in subscriptions, itemized about $219; 42% paid for a service they no longer used. How a statement audit surfaces t">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-pbj.jpg">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"What a Subscription Audit Actually Finds","datePublished":"2026-11-23","description":"C+R Research: people guessed about $86/month in subscriptions, itemized about $219; 42% paid for a service they no longer used. How a statement audit surfaces t","author":{"@type":"Organization","name":"JosspaTech"},"publisher":{"@type":"Organization","name":"JosspaTech","logo":{"@type":"ImageObject","url":"https://josspatech.com/assets/brand/josspatech-logo-512.png"}},"mainEntityOfPage":"https://josspatech.com/blog/what-a-subscription-audit-actually-finds/"}
+</script>
+</head>
+<body>
+  <header>
+    <nav><a href="/">JosspaTech</a> · <a href="/blog/">Blog</a></nav>
+  </header>
+  <main>
+    <article class="blog-post">
+      <h1>What a Subscription Audit Actually Finds</h1>
+      <p class="meta">2026-11-23 · PocketBudJet</p>
+<div class="takeaways">
+<h2>Key takeaways</h2>
+<ul>
+<li>In a 2022 <a href="https://www.crresearch.com/blog/subscription-service-statistics-and-costs/">C+R Research</a> survey of 1,000 U.S. consumers, people first guessed about <strong>$86 per month</strong> on subscriptions; when they itemized by category, the average was about <strong>$219</strong>.</li>
+<li>In the same survey, <strong>42%</strong> said they had stopped using a subscription but were still paying for it; 74% said recurring charges were easy to forget.</li>
+<li>A subscription audit is a pass over real statement lines — not a memory of what you think you pay.</li>
+<li>Doing it by hand means downloading statements and marking every recurring merchant across cards and banks.</li>
+<li>PocketBudJet surfaces recurring charges from a statement you share to the phone — no bank login — so the audit starts from the file, not from recall.</li>
+</ul>
+<p>People underestimate subscription spend until they list it. This article uses the published C+R figures, shows what a line-by-line audit actually catches, and marks where scrolling PDFs by hand becomes the bottleneck.</p>
+</div>
+
+<h2>What the documented figures say</h2>
+<p>C+R Research surveyed 1,000 U.S. consumers (April 22–May 2, 2022). Respondents first estimated monthly subscription spend (about ten seconds). Later they broke spending down by category. Average first guess: about <strong>$86</strong> per month. Average after itemizing: about <strong>$219</strong> — more than double the guess. About 30% underestimated by $100–$199; about 24% underestimated by $200 or more.</p>
+<p>The same study reported that <strong>42%</strong> had stopped using a service but forgotten they were still paying, and that 74% found recurring monthly charges easy to forget. Most respondents used autopay for subscriptions. Those numbers are from 2022; treat the dollar levels as that survey’s results, not a claim about your household today. The useful fact is the gap between a quick guess and a category-by-category list.</p>
+
+<h2>What “subscription audit” means in practice</h2>
+<p>An audit is a list of recurring charges found on statements, with merchant name, amount, cadence, and a keep/cancel decision. It is not a feeling that “we only have Netflix.” Streaming, software, cloud storage, memberships, box services, and app-store renewals all count when they hit the card or bank on a schedule.</p>
+<h3>What it usually finds</h3>
+<ul>
+<li>Charges you recognize but forgot the price of.</li>
+<li>Duplicates (same service on two cards, or annual + monthly leftovers).</li>
+<li>Trials that converted.</li>
+<li>Services nobody in the household opens anymore — the 42% pattern from the survey, seen as a concrete line.</li>
+</ul>
+
+<h2>How people do the audit by hand</h2>
+<p>Download recent statements (PDF or CSV) for every card and bank account that can carry a recurring charge. Search for known merchants, then scan for anything monthly or annual you did not already list. Build a table: merchant, amount, cadence, last charge date, decision. Repeat next month because new trials appear.</p>
+<h3>Where the manual pass stalls</h3>
+<p>Households with several cards generate many pages. Merchant names on statements often differ from the consumer brand name. Annual charges hide if you only read one month. Sharing a spreadsheet of every subscription is itself a privacy decision many people do not want to make with a bank-linked app.</p>
+<p>That's why I developed <a href="/pbj/">PocketBudJet</a> — because it imports a statement you already downloaded or shared to the phone (CSV, OFX, QFX, QIF, XLSX, PDF), surfaces recurring charges from those lines, and keeps the budget data on the device without a bank login. App page: <a href="/pbj/">PocketBudJet</a>. Related: <a href="/blog/budget-app-without-bank-login/">budget apps without bank login</a>.</p>
+<h3>Concrete steps the app performs</h3>
+<ul>
+<li>Accepts a statement file you share or import — no Plaid-style bank login required for that path.</li>
+<li>Parses transactions from the formats above.</li>
+<li>Surfaces recurring / subscription-style charges from those transactions for review.</li>
+<li>Lets you plan budgets and bills from the same on-phone data set.</li>
+<li>Exports CSV or JSON when you want a copy outside the app.</li>
+</ul>
+<p>Honest limits: PocketBudJet can only see charges present in the statements you import. A card you never export will not appear. Merchant renaming and annual timing still need your eyes on the list. Premium features (including the fuller subscription tracker toolset) follow the pricing on the <a href="/pbj/">product page</a>.</p>
+
+<h2>When a spreadsheet pass is enough vs. when to import</h2>
+<p>Use a one-month PDF highlight pass if you have a single card and already know most merchants. Import into PocketBudJet when multiple statements are in play and you need recurring charges listed from the file instead of from memory — especially if you refuse a bank login for budgeting.</p>
+
+<h2>FAQ</h2>
+<h3>Do the $86 / $219 figures apply to my household?</h3>
+<p>They are averages from C+R’s 2022 survey, not a prediction for you. Run the audit on your statements; your total may be lower or higher.</p>
+<h3>Is a subscription audit the same as canceling everything?</h3>
+<p>No. The audit produces a list and decisions. Keep what you use; cancel what you do not. The survey’s 42% figure is about paying after use stopped — the audit’s job is to make those lines visible.</p>
+<h3>Why not link the bank so charges appear automatically?</h3>
+<p>Some people prefer that. PocketBudJet is built for the path that keeps statements on the phone without a bank login. If you want live sync, other apps offer it; this product’s design choice is import-first.</p>
+<h3>How often should I repeat the audit?</h3>
+<p>After any month with new trials, and at least a few times a year for annual renewals. Importing the latest statements is the repeatable version of the same job.</p>
+      <div class="cta-app">
+        <p>Built by JosspaTech — private apps that keep your data on your device.</p>
+        <p><a href="/pbj/">See the app</a> <a href="/blog/">More articles</a></p>
+      </div>
+    </article>
+  </main>
+  <footer class="foot">
+    <p><a href="/blog/">Blog</a> · <a href="/">JosspaTech home</a> · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+  <script src="/scripts/site-analytics-saas.js?v=13" defer></script>
+</body>
+</html>
