@@ -233,6 +233,19 @@ function guideEntryChapter(app) {
   return app.primaryChapter;
 }
 
+/** Blog posts that have /blog/<slug>/<locale>/ pages (not wave-1 EN-only). */
+const LOCALIZED_BLOG_SLUGS = [
+  'apps-for-antique-collectors',
+  'budget-app-without-bank-login',
+  'ynab-alternative-private-budgeting',
+  'chrono24-alternative-watch-identification',
+  'card-ladder-alternative-collectibles-vault',
+  'coin-collection-inventory-software-free',
+  'stamp-collection-book-value',
+  'watch-service-log-template',
+  'document-collection-for-insurance',
+];
+
 function retargetGuideLinks(html, app, locale) {
   const base = app.guideBase;
   let out = html;
@@ -248,6 +261,16 @@ function retargetGuideLinks(html, app, locale) {
     new RegExp(`href="${escapeRegExp(base)}/"`, 'g'),
     `href="${base}/#${locale}/${entry}"`
   );
+  // Guides / blog index → same-language URLs (leave EN-only wave-1 posts on English path)
+  out = out.replace(/href="\/blog\/"/g, `href="/blog/${locale}/"`);
+  for (const slug of LOCALIZED_BLOG_SLUGS) {
+    out = out.replace(
+      new RegExp(`href="/blog/${escapeRegExp(slug)}/"`, 'g'),
+      `href="/blog/${slug}/${locale}/"`
+    );
+  }
+  // For-professionals hub → locale twin (PBJ Learn more / footer)
+  out = out.replace(/href="\/for-professionals\/"/g, `href="/for-professionals/${locale}/"`);
   return out;
 }
 

@@ -285,38 +285,77 @@ function rewriteHead(html, page, locale) {
   return out;
 }
 
-function alreadyLocaleHref(href, locale) {
-  return new RegExp(`/${locale}/(?:$|#|\\?)`).test(href);
-}
-
+/**
+ * Retarget only exact EN paths (optional #hash / ?query). Never rewrite
+ * /how-to/faq/ via the shorter /how-to/ prefix — that produced /how-to/es/faq/es/.
+ */
 function retargetInternalLinks(html, locale) {
   let out = html;
   const prefixes = [...LOCALIZED_HREFS].sort((a, b) => b.length - a.length);
   for (const pre of prefixes) {
-    // href="/pbj/" → href="/pbj/es/" ; skip if already /pbj/es/
-    const re = new RegExp(`href="${escapeRegExp(pre)}(?![a-z]{2}/)`, 'g');
-    out = out.replace(re, `href="${pre}${locale}/`);
+    // Exact href="/path/" or href="/path/#hash" / "?query" only — not /path/faq/.
+    const re = new RegExp(`href="${escapeRegExp(pre)}([?#][^"]*)?"`, 'g');
+    out = out.replace(re, (_m, suffix) => `href="${pre}${locale}/${suffix || ''}"`);
   }
-  // Absolute product URLs
   for (const app of ['pbj', 'hhh', 'cvc', 'unscribe']) {
     out = out.replace(
-      new RegExp(`https://josspatech\\.com/${app}/(?![a-z]{2}/)`, 'g'),
+      new RegExp(`https://josspatech\\.com/${app}/(?=["?#])`, 'g'),
       `https://josspatech.com/${app}/${locale}/`
     );
   }
-  // Video guide entry (English root only) → locale folder if present pattern /videos/*/user-guide/
-  // Keep existing /videos/.../zh/ etc. untouched (alreadyLocale).
   out = out.replace(
-    /href="(\/videos\/(?:pbj|hhh|cvc|unscribe|pal)\/user-guide)\/"(?![a-z])/g,
+    /href="(\/videos\/(?:pbj|hhh|cvc|unscribe|pal)\/user-guide)\/"/g,
     (_m, base) => `href="${base}/${locale}/"`
   );
-  // FAQ chapter hashes on product video guides: /#chapter → /#locale/chapter when linking from hubs
   out = out.replace(
     /href="(\/videos\/(?:pbj|hhh|cvc|unscribe)\/user-guide)\/#(?![a-z]{2}\/)([a-z0-9-]+)"/g,
     (_m, base, ch) => `href="${base}/#${locale}/${ch}"`
   );
-  void alreadyLocaleHref;
   return out;
+}
+
+const HREFLANG_MAP = {
+  en: 'en',
+  es: 'es',
+  de: 'de',
+  fr: 'fr',
+  pt: 'pt',
+  zh: 'zh-Hans',
+  it: 'it',
+  hi: 'hi',
+};
+
+function buildHreflangBlock(page) {
+  const lines = LANG_ORDER.map(({ code }) => {
+    const href =
+      code === 'en'
+        ? `https://josspatech.com${page.enUrl}`
+        : `https://josspatech.com${page.locUrl(code)}`;
+    return `<link rel="alternate" hreflang="${HREFLANG_MAP[code]}" href="${href}">`;
+  });
+  lines.push(
+    `<link rel="alternate" hreflang="x-default" href="https://josspatech.com${page.enUrl}">`
+  );
+  return lines.join('\n');
+}
+
+function injectHreflang(html, page) {
+  const block = buildHreflangBlock(page);
+  // Replace any prior alternate hreflang set we inserted
+  let out = html.replace(
+    /(?:<link rel="alternate" hreflang="[^"]*" href="[^"]*">\s*)+/g,
+    ''
+  );
+  if (/<link rel="canonical"/i.test(out)) {
+    return out.replace(/(<link rel="canonical"[^>]*>)/i, `$1\n${block}`);
+  }
+  return out.replace(/<\/head>/i, `${block}\n</head>`);
+}
+
+function forceBlogCssAbsolute(html) {
+  return html
+    .replace(/href="(?:\.\.\/)*blog\.css"/g, 'href="/blog/blog.css"')
+    .replace(/href="\/blog\/[a-z]{2}\/blog\.css"/g, 'href="/blog/blog.css"');
 }
 
 function localizeBlogIndexScript(html, locale) {
@@ -335,9 +374,12 @@ function processPage(page, locale) {
 
   const { html: translated, used } = translateHtml(html, locale);
   html = translated;
-  html = insertLangStrip(html, buildLangStrip(page, locale));
   html = rewriteHead(html, page, locale);
   html = retargetInternalLinks(html, locale);
+  html = forceBlogCssAbsolute(html);
+  html = injectHreflang(html, page);
+  // Lang strip AFTER retarget so strip URLs stay canonical
+  html = insertLangStrip(html, buildLangStrip(page, locale));
   if (page.isBlogIndex) html = localizeBlogIndexScript(html, locale);
   html = formatVisibleMoneyHtml(html, locale);
 
@@ -350,11 +392,15 @@ function processPage(page, locale) {
 
 function buildLocalePostsJson(locale) {
   const en = JSON.parse(fs.readFileSync(path.join(ROOT, 'blog', 'posts.json'), 'utf8'));
-  const out = en.map((p) => ({
-    ...p,
-    title: STRINGS[p.title]?.[locale] || p.title,
-    excerpt: STRINGS[p.excerpt]?.[locale] || p.excerpt,
-  }));
+  // Only posts that have localized HTML (wave-1 EN-only articles stay off locale indexes)
+  const localized = new Set(POSTS);
+  const out = en
+    .filter((p) => localized.has(p.slug))
+    .map((p) => ({
+      ...p,
+      title: STRINGS[p.title]?.[locale] || p.title,
+      excerpt: STRINGS[p.excerpt]?.[locale] || p.excerpt,
+    }));
   fs.writeFileSync(
     path.join(ROOT, 'blog', `posts-${locale}.json`),
     `${JSON.stringify(out, null, 2)}\n`
@@ -364,6 +410,8 @@ function buildLocalePostsJson(locale) {
 function addLangStripToEnglish(page) {
   let html = fs.readFileSync(page.enPath, 'utf8');
   html = html.replace(/<p class="howto-langs blog-langs"[^>]*>[\s\S]*?<\/p>\n?/g, '');
+  html = forceBlogCssAbsolute(html);
+  html = injectHreflang(html, page);
   html = insertLangStrip(html, buildLangStrip(page, 'en'));
   fs.writeFileSync(page.enPath, html, 'utf8');
 }
