@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { LOCALES, LOCALE_META, STRINGS, FEATURE_FROM_APP } from './localized-product-i18n.mjs';
+import { formatVisibleMoneyHtml } from './locale-money-format.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, '..');
@@ -317,6 +318,8 @@ function processPage(appKey, locale) {
     html = rewriteHowtoBlock(html, appKey, locale);
     html = rewriteHead(html, appKey, locale);
     html = retargetGuideLinks(html, app, locale);
+    // Locale number/price orthography (visible text only; JSON-LD untouched)
+    html = formatVisibleMoneyHtml(html, locale);
   } else {
     html = rewriteHowtoBlock(html, appKey, locale);
     html = rewriteHead(html, appKey, locale);
