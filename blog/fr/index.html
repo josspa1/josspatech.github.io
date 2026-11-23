@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script src="/scripts/heycatch-store-queue.js"></script><link rel="modulepreload" href="/scripts/vendor/heycatch-sdk-0.8.5.js"><script type="module" src="/scripts/heycatch-init.js?v=13"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — JosspaTech</title>
+<meta name="description" content="Guides pratiques de JosspaTech sur la collection, le budget et les applications privées qui gardent vos données sur votre appareil.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<link rel="canonical" href="https://josspatech.com/blog/fr/">
+<meta name="author" content="JosspaTech">
+<meta name="theme-color" content="#0C3358">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/product-landing.css?v=polish26">
+<link rel="stylesheet" href="/blog/fr/blog.css">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Blog — JosspaTech">
+<meta property="og:description" content="Guides pratiques sur la collection, le budget et les logiciels privés.">
+<meta property="og:url" content="https://josspatech.com/blog/fr/">
+<meta property="og:site_name" content="JosspaTech">
+<meta property="og:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog — JosspaTech">
+<meta name="twitter:description" content="Guides pratiques sur la collection, le budget et les logiciels privés.">
+<meta name="twitter:image" content="https://josspatech.com/assets/brand/og-josspatech.jpg">
+</head>
+<body>
+  <header>
+    <nav><a href="/">JosspaTech</a> · Blog</nav>
+    <p class="apps">
+      <a href="/hhh/fr/">HHH</a>
+      <a href="/pbj/fr/">PocketBudJet</a>
+      <a href="/cvc/fr/">Curator's Vault</a>
+      <a href="/unscribe/fr/">Unscribe</a>
+      <a href="/blog/fr/" aria-current="page">Blog</a>
+    </p>
+  </header>
+  <main class="blog-index">
+    <p class="kicker"><img src="/assets/brand/josspatech-mark-app.svg?v=jt2star" width="56" height="56" alt="">JosspaTech</p>
+    <h1>Blog</h1>
+    <p class="howto-langs blog-langs" aria-label="Languages">
+        <a href="/blog/fr/">English</a>
+        <a href="/blog/es/">Español</a>
+        <a href="/blog/zh/">中文</a>
+        <a href="/blog/de/">Deutsch</a>
+        <a href="/blog/fr/" aria-current="page">Français</a>
+        <a href="/blog/pt/">Português</a>
+        <a href="/blog/it/">Italiano</a>
+        <a href="/blog/hi/">हिन्दी</a>
+      </p>
+    
+    <p class="lead">Guides pour les collectionneurs et le budget privé — rédigés pour la recherche et pour les questions que les gens se posent réellement.</p>
+    <p class="empty" id="blog-empty">Les nouveaux articles apparaîtront ici dès leur publication. Revenez bientôt.</p>
+    <ul class="post-list" id="blog-list" hidden></ul>
+  </main>
+  <footer class="foot">
+    <p><a href="/">Accueil JosspaTech</a> · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
+  </footer>
+  <script src="/scripts/site-analytics-saas.js?v=13" defer></script>
+  <script>
+    fetch('/blog/posts-fr.json', { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (posts) {
+        if (!Array.isArray(posts) || !posts.length) return;
+        var list = document.getElementById('blog-list');
+        var empty = document.getElementById('blog-empty');
+        empty.hidden = true;
+        list.hidden = false;
+        posts.forEach(function (p) {
+          var li = document.createElement('li');
+          var a = document.createElement('a');
+          a.className = 'title';
+          a.href = (p.path || '').replace(/\/$/, '') + '/fr/';
+          a.textContent = p.title;
+          var meta = document.createElement('p');
+          meta.className = 'meta';
+          meta.textContent = (p.date || '') + (p.app ? ' · ' + p.app : '');
+          var ex = document.createElement('p');
+          ex.className = 'excerpt';
+          ex.textContent = p.excerpt || '';
+          li.appendChild(a);
+          li.appendChild(meta);
+          if (p.excerpt) li.appendChild(ex);
+          list.appendChild(li);
+        });
+      })
+      .catch(function () {});
+  </script>
+</body>
+</html>
