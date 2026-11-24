@@ -60,10 +60,56 @@
         <a href="/blog/it/">Italiano</a>
         <a href="/blog/hi/">हिन्दी</a>
       </p>
-        
+                
     <p class="lead">面向收藏者和私密预算管理的指南——为搜索而写，也为人们真正会问的问题而写。</p>
-    <p class="empty" id="blog-empty">新文章发布后会出现在这里。请稍后再来看看。</p>
-    <ul class="post-list" id="blog-list" hidden></ul>
+    <p class="empty" id="blog-empty" hidden>新文章发布后会出现在这里。请稍后再来看看。</p>
+    <ul class="post-list" id="blog-list">
+      <li>
+        <a class="title" href="/blog/apps-for-antique-collectors/zh/">古董与复古收藏者的最佳应用（2026）</a>
+        <p class="meta">2026-11-14 · HHH · CVC</p>
+        <p class="excerpt">比较腕表、钟、硬币、邮票与卡牌收藏 App — 诚实功能对照：识别、库存、比价与买卖。</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/budget-app-without-bank-login/zh/">无需登录银行的最佳预算应用（2026）</a>
+        <p class="meta">2026-11-14 · PocketBudJet</p>
+        <p class="excerpt">不关联银行也能做预算：账单导入、信封、账单、订阅 — PocketBudJet、YNAB、Actual Budget、Goodbudget 等。</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/ynab-alternative-private-budgeting/zh/">YNAB 替代方案：无需银行登录的私密预算管理</a>
+        <p class="meta">2026-11-10 · PocketBudJet</p>
+        <p class="excerpt">想找一款把对账单留在手机上的 YNAB 替代品吗？PocketBudJet 可导入对账单、规划支出并发现订阅，无需登录银行。</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/chrono24-alternative-watch-identification/zh/">Chrono24 的手表识别替代方案：通过照片识别</a>
+        <p class="meta">2026-11-10 · Handy Horology Helper</p>
+        <p class="excerpt">需要的是用于识别而非购买的 Chrono24 替代品？Handy Horology Helper 可根据照片或线索识别手表和钟表。</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/card-ladder-alternative-collectibles-vault/zh/">Card Ladder 替代方案：私密收藏品保险库</a>
+        <p class="meta">2026-11-10 · Curator's Vault</p>
+        <p class="excerpt">在找把收藏留在手机上的 Card Ladder 替代？Curator's Vault 可盘点硬币、卡牌、邮票等。</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/watch-service-log-template/zh/">手表保养记录模板：电子表格为何会失效</a>
+        <p class="meta">2026-11-05 · Handy Horology Helper</p>
+        <p class="excerpt">要点 手表保养日志是一份带日期的记录：谁处理过这件藏品、做了什么、花了多少钱、下次保养何时到期——而不是一堆收…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/document-collection-for-insurance/zh/">为房主保险记录珍稀收藏</a>
+        <p class="meta">2026-11-05 · Curator's Vault</p>
+        <p class="excerpt">要点 标准的房主险或租客险通常会把未单独投保的贵重物品总额限制在较低水平——一般约 $1,000–$2,500——因此一项认真的收藏需…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/stamp-collection-book-value/zh/">邮票收藏的目录价值：如何自己估价</a>
+        <p class="meta">2026-11-03 · Curator's Vault</p>
+        <p class="excerpt">要点 Scott 或 Stanley Gibbons 的目录价值是零售标价，而经销商给出的可变现价值通常只有目录价的 20-50%。估算一…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/coin-collection-inventory-software-free/zh/">免费硬币收藏库存软件：无需订阅</a>
+        <p class="meta">2026-11-03 · Curator's Vault</p>
+        <p class="excerpt">要点 一张每枚硬币一行、包含九个明确定义列的电子表格，就能免费、离线、无需账户地为大多数收藏编目。按面…</p>
+      </li>
+    </ul>
   </main>
   <footer class="foot">
     <p><a href="/">JosspaTech 首页</a> · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
@@ -75,6 +121,7 @@
       .then(function (posts) {
         if (!Array.isArray(posts) || !posts.length) return;
         var list = document.getElementById('blog-list');
+        if (list.querySelector('li')) return;
         var empty = document.getElementById('blog-empty');
         empty.hidden = true;
         list.hidden = false;

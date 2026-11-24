@@ -60,10 +60,56 @@
         <a href="/blog/it/">Italiano</a>
         <a href="/blog/hi/">हिन्दी</a>
       </p>
-        
+                
     <p class="lead">Guides pour les collectionneurs et le budget privé — rédigés pour la recherche et pour les questions que les gens se posent réellement.</p>
-    <p class="empty" id="blog-empty">Les nouveaux articles apparaîtront ici dès leur publication. Revenez bientôt.</p>
-    <ul class="post-list" id="blog-list" hidden></ul>
+    <p class="empty" id="blog-empty" hidden>Les nouveaux articles apparaîtront ici dès leur publication. Revenez bientôt.</p>
+    <ul class="post-list" id="blog-list">
+      <li>
+        <a class="title" href="/blog/apps-for-antique-collectors/fr/">Les meilleures applis pour les collectionneurs d'antiquités et de vintage (2026)</a>
+        <p class="meta">2026-11-14 · HHH · CVC</p>
+        <p class="excerpt">Comparez les apps collectionneurs pour montres, horloges, pièces, timbres et cartes — grille honnête des fonctions pour identifier, inventaire, comps et achat/vente.</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/budget-app-without-bank-login/fr/">Les meilleures applis de budget sans connexion bancaire (2026)</a>
+        <p class="meta">2026-11-14 · PocketBudJet</p>
+        <p class="excerpt">Budgétez sans lier une banque : import de relevés, enveloppes, factures, abonnements — PocketBudJet, YNAB, Actual Budget, Goodbudget et plus.</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/ynab-alternative-private-budgeting/fr/">Alternative à YNAB : budget privé sans connexion bancaire</a>
+        <p class="meta">2026-11-10 · PocketBudJet</p>
+        <p class="excerpt">Vous cherchez une alternative à YNAB qui garde les relevés sur votre téléphone ? PocketBudJet importe les relevés, planifie les dépenses et repère les abonnements sans connexion bancaire.</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/chrono24-alternative-watch-identification/fr/">Alternative à Chrono24 pour identifier les montres : identifiez à partir d'une photo</a>
+        <p class="meta">2026-11-10 · Handy Horology Helper</p>
+        <p class="excerpt">Besoin d'une alternative à Chrono24 pour identifier — pas pour acheter ? Handy Horology Helper identifie montres et horloges à partir d'une photo ou d'indices.</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/card-ladder-alternative-collectibles-vault/fr/">Alternative à Card Ladder : coffre privé pour objets de collection</a>
+        <p class="meta">2026-11-10 · Curator's Vault</p>
+        <p class="excerpt">Vous cherchez une alternative à Card Ladder qui garde votre collection sur votre téléphone ? Curator's Vault inventorie pièces, cartes, timbres et plus.</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/watch-service-log-template/fr/">Modèle de journal d'entretien de montres : pourquoi les tableurs échouent</a>
+        <p class="meta">2026-11-05 · Handy Horology Helper</p>
+        <p class="excerpt">Points clés Un journal d'entretien de montre est un historique daté de qui a travaillé sur la pièce, ce qui a été fait, son coût et la date du prochain entretien — pas un tas de reç…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/document-collection-for-insurance/fr/">Documenter une collection rare pour l'assurance habitation</a>
+        <p class="meta">2026-11-05 · Curator's Vault</p>
+        <p class="excerpt">Points clés Les polices d'assurance habitation ou locataire standard plafonnent souvent les objets de valeur non déclarés à un faible total — généralement autour de 1 000 $–2 500 $ — si bien qu'une collection sérieuse us…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/stamp-collection-book-value/fr/">Valeur catalogue d'une collection de timbres : comment l'estimer vous-même</a>
+        <p class="meta">2026-11-03 · Curator's Vault</p>
+        <p class="excerpt">Points clés La valeur de catalogue de Scott ou de Stanley Gibbons est un prix de vente au détail, alors que la valeur réalisable auprès d'un marchand représente souvent 20 à 50 % du catalogue. Évaluez une col…</p>
+      </li>
+      <li>
+        <a class="title" href="/blog/coin-collection-inventory-software-free/fr/">Logiciel gratuit d'inventaire de collection de pièces : sans abonnement</a>
+        <p class="meta">2026-11-03 · Curator's Vault</p>
+        <p class="excerpt">Points clés Un tableur avec une ligne par pièce et neuf colonnes définies répertorie la plupart des collections gratuitement, hors ligne et sans compte. Triez les pièces par dénomin…</p>
+      </li>
+    </ul>
   </main>
   <footer class="foot">
     <p><a href="/">Accueil JosspaTech</a> · <a href="mailto:support@josspatech.com">support@josspatech.com</a></p>
@@ -75,6 +121,7 @@
       .then(function (posts) {
         if (!Array.isArray(posts) || !posts.length) return;
         var list = document.getElementById('blog-list');
+        if (list.querySelector('li')) return;
         var empty = document.getElementById('blog-empty');
         empty.hidden = true;
         list.hidden = false;

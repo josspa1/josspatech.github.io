@@ -297,6 +297,42 @@ function rewriteHowtoBlock(html, appKey, locale) {
   return out;
 }
 
+const HREFLANG_MAP = {
+  en: 'en',
+  es: 'es',
+  de: 'de',
+  fr: 'fr',
+  pt: 'pt',
+  zh: 'zh-Hans',
+  it: 'it',
+  hi: 'hi',
+};
+
+function buildProductHreflangBlock(appKey) {
+  const app = APPS[appKey];
+  const lines = LANG_ORDER.map(({ code }) => {
+    const href =
+      code === 'en'
+        ? `https://josspatech.com/${app.dir}/`
+        : `https://josspatech.com/${app.dir}/${code}/`;
+    return `<link rel="alternate" hreflang="${HREFLANG_MAP[code]}" href="${href}">`;
+  });
+  lines.push(`<link rel="alternate" hreflang="x-default" href="https://josspatech.com/${app.dir}/">`);
+  return lines.join('\n');
+}
+
+function injectProductHreflang(html, appKey) {
+  const block = buildProductHreflangBlock(appKey);
+  let out = html.replace(
+    /(?:<link rel="alternate" hreflang="[^"]*" href="[^"]*">\s*)+/g,
+    ''
+  );
+  if (/<link rel="canonical"/i.test(out)) {
+    return out.replace(/(<link rel="canonical"[^>]*>)/i, `$1\n${block}`);
+  }
+  return out.replace(/<\/head>/i, `${block}\n</head>`);
+}
+
 function rewriteHead(html, appKey, locale) {
   const app = APPS[appKey];
   const urlPath = productHref(appKey, locale);
@@ -347,6 +383,7 @@ function processPage(appKey, locale) {
     html = rewriteHowtoBlock(html, appKey, locale);
     html = rewriteHead(html, appKey, locale);
   }
+  html = injectProductHreflang(html, appKey);
 
   const selfHref = productHref(appKey, locale);
   html = html.replace(

@@ -358,13 +358,73 @@ function forceBlogCssAbsolute(html) {
     .replace(/href="\/blog\/[a-z]{2}\/blog\.css"/g, 'href="/blog/blog.css"');
 }
 
+function escapeHtml(s) {
+  return String(s ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function postHref(post, locale) {
+  const base = (post.path || '').replace(/\/$/, '');
+  if (!base) return '/blog/';
+  return locale === 'en' ? `${base}/` : `${base}/${locale}/`;
+}
+
+function buildStaticPostListItems(posts, locale) {
+  return posts
+    .map((p) => {
+      const href = escapeHtml(postHref(p, locale));
+      const title = escapeHtml(p.title);
+      const meta = escapeHtml(`${p.date || ''}${p.app ? ` · ${p.app}` : ''}`);
+      const excerpt = p.excerpt ? `\n        <p class="excerpt">${escapeHtml(p.excerpt)}</p>` : '';
+      return `      <li>
+        <a class="title" href="${href}">${title}</a>
+        <p class="meta">${meta}</p>${excerpt}
+      </li>`;
+    })
+    .join('\n');
+}
+
+function embedStaticBlogIndexList(html, posts, locale) {
+  if (!posts.length) return html;
+  const items = buildStaticPostListItems(posts, locale);
+  html = html.replace(/<p class="empty" id="blog-empty"([^>]*)>/, (_m, attrs) => {
+    const cleaned = attrs.replace(/\s+hidden\b/g, '');
+    return `<p class="empty" id="blog-empty"${cleaned} hidden>`;
+  });
+  html = html.replace(
+    /<ul class="post-list" id="blog-list"[^>]*>[\s\S]*?<\/ul>/,
+    `<ul class="post-list" id="blog-list">\n${items}\n    </ul>`
+  );
+  return html;
+}
+
 function localizeBlogIndexScript(html, locale) {
-  return html
-    .replace("fetch('/blog/posts.json'", `fetch('/blog/posts-${locale}.json'`)
-    .replace(
-      'a.href = p.path;',
+  const postsJson = locale === 'en' ? '/blog/posts.json' : `/blog/posts-${locale}.json`;
+  let out = html.replace(/fetch\('\/blog\/posts[^']*'/, `fetch('${postsJson}'`);
+  if (locale === 'en') {
+    out = out.replace(
+      /a\.href = \(p\.path \|\| ''\)\.replace\([^)]+\) \+ '[^']*';/,
+      'a.href = p.path;'
+    );
+    if (!/a\.href = p\.path;/.test(out)) {
+      out = out.replace('a.href = p.path;', 'a.href = p.path;');
+    }
+  } else {
+    out = out.replace(
+      /a\.href = p\.path;|a\.href = \(p\.path \|\| ''\)\.replace\([^)]+\) \+ '[^']*';/,
       `a.href = (p.path || '').replace(/\\/$/, '') + '/${locale}/';`
     );
+  }
+  if (!/list\.querySelector\('li'\)/.test(out)) {
+    out = out.replace(
+      "var list = document.getElementById('blog-list');",
+      "var list = document.getElementById('blog-list');\n        if (list.querySelector('li')) return;"
+    );
+  }
+  return out;
 }
 
 function processPage(page, locale) {
@@ -380,7 +440,15 @@ function processPage(page, locale) {
   html = injectHreflang(html, page);
   // Lang strip AFTER retarget so strip URLs stay canonical
   html = insertLangStrip(html, buildLangStrip(page, locale));
-  if (page.isBlogIndex) html = localizeBlogIndexScript(html, locale);
+  if (page.isBlogIndex) {
+    const postsFile =
+      locale === 'en'
+        ? path.join(ROOT, 'blog', 'posts.json')
+        : path.join(ROOT, 'blog', `posts-${locale}.json`);
+    const posts = JSON.parse(fs.readFileSync(postsFile, 'utf8'));
+    html = embedStaticBlogIndexList(html, posts, locale);
+    html = localizeBlogIndexScript(html, locale);
+  }
   html = formatVisibleMoneyHtml(html, locale);
 
   const outDir = path.join(ROOT, page.outRel(locale));
@@ -413,6 +481,11 @@ function addLangStripToEnglish(page) {
   html = forceBlogCssAbsolute(html);
   html = injectHreflang(html, page);
   html = insertLangStrip(html, buildLangStrip(page, 'en'));
+  if (page.isBlogIndex) {
+    const posts = JSON.parse(fs.readFileSync(path.join(ROOT, 'blog', 'posts.json'), 'utf8'));
+    html = embedStaticBlogIndexList(html, posts, 'en');
+    html = localizeBlogIndexScript(html, 'en');
+  }
   fs.writeFileSync(page.enPath, html, 'utf8');
 }
 
