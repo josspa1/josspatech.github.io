@@ -408,14 +408,14 @@
       if (kind === "checkout_started") {
         return /^checkout_started(_|$)/.test(e) || e.indexOf("checkout_started_") === 0;
       }
-      if (kind === "checkout_cancel") {
-        return /^checkout_cancel(_|$)/.test(e) || e.indexOf("checkout_cancel_") === 0;
+      if (kind === "purchase_canceled") {
+        return /^purchase_canceled(_|$)/.test(e) || e.indexOf("purchase_canceled_") === 0;
       }
       if (kind === "checkout_error") {
         return /^checkout_error(_|$)/.test(e) || e.indexOf("checkout_error_") === 0;
       }
-      if (kind === "subscription_started") {
-        return /^subscription_started(_|$)/.test(e) || e.indexOf("subscription_started_") === 0;
+      if (kind === "purchase_success") {
+        return /^purchase_success(_|$)/.test(e) || e.indexOf("purchase_success_") === 0;
       }
       return false;
     }
@@ -475,7 +475,7 @@
         if (grEventMatch(e, "checkout_started")) {
           started++;
           bucket.started++;
-        } else if (grEventMatch(e, "checkout_cancel")) {
+        } else if (grEventMatch(e, "purchase_canceled")) {
           cancel++;
           bucket.cancel++;
         } else if (grEventMatch(e, "checkout_error")) {
@@ -486,7 +486,7 @@
           const reason = grCheckoutErrorReason(e);
           reasonTotals.set(reason, (reasonTotals.get(reason) || 0) + 1);
           bucket.reasons.set(reason, (bucket.reasons.get(reason) || 0) + 1);
-        } else if (grEventMatch(e, "subscription_started")) {
+        } else if (grEventMatch(e, "purchase_success")) {
           subOk++;
           bucket.subOk++;
         }

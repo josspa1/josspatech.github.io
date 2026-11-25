@@ -353,7 +353,7 @@
         short: "Tapped Subscribe",
       },
       {
-        key: "checkout_cancel",
+        key: "purchase_canceled",
         label: "5b · Cancelled checkout",
         mean: "They closed the App Store / Play buy sheet without buying. Not a crash — they backed out. Phone trial (if any) still runs.",
         short: "Cancelled checkout",
@@ -373,7 +373,7 @@
         short: "Started free trial",
       },
       {
-        key: "subscription_started",
+        key: "purchase_success",
         label: "6b · Store said OK",
         mean: "Phone logged store success (often with a trial). Not ‘Paying’ by itself.",
         short: "Store said OK",
@@ -658,7 +658,7 @@
      * - Started trial = trial_started (unique people)
      * - Quit trial = trial_expired, and not later converted
      * - Paying = trial_converted OR store OK with no trial on that person
-     *   (subscription_started alone never counts if they also have trial_started)
+     *   (purchase_success alone never counts if they also have trial_started)
      */
     function fnSaleOutcomes(counts) {
       const sess = (key) => {
@@ -673,10 +673,10 @@
       const trials = sess("trial_started");
       const quit = sess("trial_expired");
       const converted = sess("trial_converted");
-      const storeOk = sess("subscription_started");
+      const storeOk = sess("purchase_success");
       const paying = new Set(converted);
       storeOk.forEach((s) => {
-        // Trial checkouts also post subscription_started — never treat those as Paying.
+        // Trial checkouts also post purchase_success — never treat those as Paying.
         if (!trials.has(s) && !quit.has(s)) paying.add(s);
       });
       // Converted beats quit if both somehow appear.
@@ -691,12 +691,12 @@
       const trialN = trials.size || n("trial_started");
       const quitN = quit.size || n("trial_expired");
       const payingN = paying.size || n("trial_converted");
-      // Only use subscription−trial arithmetic when we have no session keys at all.
+      // Only use purchase−trial arithmetic when we have no session keys at all.
       const payingFallback =
         paying.size > 0
           ? paying.size
           : n("trial_converted") +
-            Math.max(0, n("subscription_started") - trialN - quitN);
+            Math.max(0, n("purchase_success") - trialN - quitN);
       const backedN =
         backed.size || Math.max(0, tappedN - trialN - (paying.size || payingFallback) - quitN);
       return {
