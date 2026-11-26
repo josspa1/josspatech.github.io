@@ -707,7 +707,7 @@ export const STRINGS = {
     "it": "Aspettati una frazione del catalogo, spesso un quarto o meno per le serie tematiche comuni, con la cifra esatta che dipende dalla domanda di quella settimana. Annota il valore di catalogo e il tuo valore realistico uno accanto all'altro e conserva il registro sul tuo telefono.",
     "hi": "कैटलॉग मूल्य का एक अंश मिलने की उम्मीद रखें, आम थीम वाले सेट के लिए अक्सर एक चौथाई या उससे कम, और सटीक आँकड़ा उस हफ़्ते की माँग पर निर्भर करता है। कैटलॉग मूल्य और अपना यथार्थवादी मूल्य साथ-साथ दर्ज करें, और रिकॉर्ड अपने ही फ़ोन पर रखें।"
   },
-  "Your data already lives on your phone. Export to CSV anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. If the app store listing ever goes away, you keep what is on the device and in your own backup.": {
+  "Your data already lives on your phone. Export to CSV anytime. Optional backups live in your own cloud storage — never on a JosspaTech server. If the app store listing ever goes away, you keep what is on the device and in your own backup.": {
     "es": "Tus datos ya viven en tu teléfono. Exporta a CSV cuando quieras. Las copias de seguridad opcionales son archivos cifrados que te pertenecen, en tu Google Drive o iCloud. Si la ficha de la tienda de apps desaparece, conservas lo que está en el dispositivo y en tu propia copia.",
     "de": "Ihre Daten liegen bereits auf Ihrem Handy. Exportieren Sie jederzeit als CSV. Optionale Backups sind verschlüsselte Dateien, die Ihnen gehören, in Ihrem Google Drive oder iCloud. Sollte der App-Store-Eintrag je verschwinden, behalten Sie, was auf dem Gerät und in Ihrem eigenen Backup liegt.",
     "fr": "Vos données vivent déjà sur votre téléphone. Exportez en CSV à tout moment. Les sauvegardes facultatives sont des fichiers chiffrés qui vous appartiennent, dans votre Google Drive ou iCloud. Si la fiche de la boutique d'applications disparaît un jour, vous gardez ce qui est sur l'appareil et dans votre propre sauvegarde.",
@@ -1427,14 +1427,14 @@ export const STRINGS = {
     "it": "Trova gli addebiti ricorrenti negli estratti conto importati — cosa paghi e quando si rinnova — così puoi decidere cosa disdire. Non è una rete di disdette con accesso alla banca.",
     "hi": "यह आयात किए गए स्टेटमेंट से आवर्ती शुल्क ढूँढता है — आप क्या चुकाते हैं और कब नवीनीकरण होता है — ताकि आप तय कर सकें कि क्या रद्द करना है। यह बैंक-लॉगिन वाला अनसब्सक्राइब नेटवर्क नहीं है।"
   },
-  "On your device in PocketBudJet's private storage. We never store bank usernames or passwords. Optional backups live in your own Drive or iCloud — never on a JosspaTech server.": {
-    "es": "En tu dispositivo, en el almacenamiento privado de PocketBudJet. Nunca guardamos nombres de usuario ni contraseñas del banco. Las copias de seguridad opcionales viven en tu propio Drive o iCloud — nunca en un servidor de JosspaTech.",
-    "de": "Auf deinem Gerät im privaten Speicher von PocketBudJet. Wir speichern niemals Bank-Benutzernamen oder -Passwörter. Optionale Backups liegen in deinem eigenen Drive oder iCloud — nie auf einem JosspaTech-Server.",
-    "fr": "Sur votre appareil, dans le stockage privé de PocketBudJet. Nous ne stockons jamais d'identifiants ni de mots de passe bancaires. Les sauvegardes facultatives restent dans votre propre Drive ou iCloud — jamais sur un serveur JosspaTech.",
-    "pt": "No teu dispositivo, no armazenamento privado do PocketBudJet. Nunca guardamos nomes de utilizador nem palavras-passe do banco. As cópias de segurança opcionais ficam no teu próprio Drive ou iCloud — nunca num servidor JosspaTech.",
-    "zh": "保存在你设备上 PocketBudJet 的私有存储中。我们从不存储银行用户名或密码。可选备份保存在你自己的 Drive 或 iCloud 中——绝不会放在 JosspaTech 服务器上。",
-    "it": "Sul tuo dispositivo, nell'archivio privato di PocketBudJet. Non memorizziamo mai nomi utente o password della banca. I backup facoltativi restano nel tuo Drive o iCloud — mai su un server JosspaTech.",
-    "hi": "आपके डिवाइस पर, PocketBudJet के निजी स्टोरेज में। हम बैंक यूज़रनेम या पासवर्ड कभी स्टोर नहीं करते। वैकल्पिक बैकअप आपके अपने Drive या iCloud में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।"
+  "On your device in PocketBudJet's private storage. We never store bank usernames or passwords. Optional backups live in your own cloud storage — never on a JosspaTech server.": {
+    "es": "En tu dispositivo, en el almacenamiento privado de PocketBudJet. Nunca guardamos nombres de usuario ni contraseñas del banco. Las copias de seguridad opcionales viven en tu propio almacenamiento en la nube — nunca en un servidor de JosspaTech.",
+    "de": "Auf deinem Gerät im privaten Speicher von PocketBudJet. Wir speichern niemals Bank-Benutzernamen oder -Passwörter. Optionale Backups liegen in deinem eigenen Cloud-Speicher — nie auf einem JosspaTech-Server.",
+    "fr": "Sur votre appareil, dans le stockage privé de PocketBudJet. Nous ne stockons jamais d'identifiants ni de mots de passe bancaires. Les sauvegardes facultatives restent dans votre propre stockage cloud — jamais sur un serveur JosspaTech.",
+    "pt": "No teu dispositivo, no armazenamento privado do PocketBudJet. Nunca guardamos nomes de utilizador nem palavras-passe do banco. As cópias de segurança opcionais ficam no teu próprio armazenamento na nuvem — nunca num servidor JosspaTech.",
+    "zh": "保存在你设备上 PocketBudJet 的私有存储中。我们从不存储银行用户名或密码。可选备份保存在你自己的云存储中——绝不会放在 JosspaTech 服务器上。",
+    "it": "Sul tuo dispositivo, nell'archivio privato di PocketBudJet. Non memorizziamo mai nomi utente o password della banca. I backup facoltativi restano nel tuo spazio di archiviazione cloud — mai su un server JosspaTech.",
+    "hi": "आपके डिवाइस पर, PocketBudJet के निजी स्टोरेज में। हम बैंक यूज़रनेम या पासवर्ड कभी स्टोर नहीं करते। वैकल्पिक बैकअप आपके अपने क्लाउड स्टोरेज में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।"
   },
   "Service happens at a shop counter or kitchen table. If the log lives only on a desktop file you open twice a year, you forget to update it when the piece comes home.": {
     "es": "El servicio ocurre en el mostrador de un taller o en la mesa de la cocina. Si el registro solo vive en un archivo de escritorio que abres dos veces al año, olvidas actualizarlo cuando la pieza vuelve a casa.",
@@ -1562,14 +1562,14 @@ export const STRINGS = {
     "it": "Cercare un'alternativa a Card Ladder di solito significa che ti piace ragionare per portafoglio, ma vuoi un altro ambito, un altro prezzo o un altro modello di privacy. Ecco una suddivisione onesta.",
     "hi": "Card Ladder विकल्प खोजने का आमतौर पर मतलब होता है कि आपको पोर्टफ़ोलियो सोच पसंद है, पर आप अलग दायरा, कीमत या गोपनीयता मॉडल चाहते हैं। यहाँ एक ईमानदार बँटवारा है।"
   },
-  "Transactions live in PocketBudJet's private app storage on their phone. Backups are optional and live in your own Drive or iCloud — never on a JosspaTech server.": {
-    "es": "Las transacciones viven en el almacenamiento privado de la app PocketBudJet en su teléfono. Las copias de seguridad opcionales viven en tu propio Drive o iCloud — nunca en un servidor de JosspaTech.",
-    "de": "Transaktionen liegen im privaten App-Speicher von PocketBudJet auf dem Handy. Optionale Backups liegen in deinem eigenen Drive oder iCloud — nie auf einem JosspaTech-Server.",
-    "fr": "Les transactions résident dans le stockage privé de l'appli PocketBudJet sur leur téléphone. Les sauvegardes facultatives restent dans votre propre Drive ou iCloud — jamais sur un serveur JosspaTech.",
-    "pt": "As transações ficam no armazenamento privado da app PocketBudJet no telemóvel deles. As cópias de segurança opcionais ficam no teu próprio Drive ou iCloud — nunca num servidor JosspaTech.",
-    "zh": "交易保存在他们手机上 PocketBudJet 的私有应用存储中。可选备份保存在你自己的 Drive 或 iCloud 中——绝不会放在 JosspaTech 服务器上。",
-    "it": "Le transazioni risiedono nell'archivio privato dell'app PocketBudJet sul loro telefono. I backup facoltativi restano nel tuo Drive o iCloud — mai su un server JosspaTech.",
-    "hi": "लेन-देन उनके फ़ोन पर PocketBudJet के निजी ऐप स्टोरेज में रहते हैं। वैकल्पिक बैकअप आपके अपने Drive या iCloud में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।"
+  "Transactions live in PocketBudJet's private app storage on their phone. Optional backups live in your own cloud storage — never on a JosspaTech server.": {
+    "es": "Las transacciones viven en el almacenamiento privado de la app PocketBudJet en su teléfono. Las copias de seguridad opcionales viven en tu propio almacenamiento en la nube — nunca en un servidor de JosspaTech.",
+    "de": "Transaktionen liegen im privaten App-Speicher von PocketBudJet auf dem Handy. Optionale Backups liegen in deinem eigenen Cloud-Speicher — nie auf einem JosspaTech-Server.",
+    "fr": "Les transactions résident dans le stockage privé de l'appli PocketBudJet sur leur téléphone. Les sauvegardes facultatives restent dans votre propre stockage cloud — jamais sur un serveur JosspaTech.",
+    "pt": "As transações ficam no armazenamento privado da app PocketBudJet no telemóvel deles. As cópias de segurança opcionais ficam no teu próprio armazenamento na nuvem — nunca num servidor JosspaTech.",
+    "zh": "交易保存在他们手机上 PocketBudJet 的私有应用存储中。可选备份保存在你自己的云存储中——绝不会放在 JosspaTech 服务器上。",
+    "it": "Le transazioni risiedono nell'archivio privato dell'app PocketBudJet sul loro telefono. I backup facoltativi restano nel tuo spazio di archiviazione cloud — mai su un server JosspaTech.",
+    "hi": "लेन-देन उनके फ़ोन पर PocketBudJet के निजी ऐप स्टोरेज में रहते हैं। वैकल्पिक बैकअप आपके अपने क्लाउड स्टोरेज में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।"
   },
   "Condition factors like centering, gum, perforations, and cancels decide which catalog tier a stamp actually sells at, and faults can cut value to a fraction.": {
     "es": "Factores de condición como el centrado, la goma, la dentadura y los matasellos deciden en qué nivel del catálogo se vende realmente un sello, y los defectos pueden reducir el valor a una fracción.",

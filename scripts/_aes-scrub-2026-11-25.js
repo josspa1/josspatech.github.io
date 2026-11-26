@@ -8,18 +8,18 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const CORRECT_EN =
-  'Optional backups live in your own Drive or iCloud — never on a JosspaTech server.';
+  'Optional backups live in your own cloud storage — never on a JosspaTech server.';
 const CORRECT_EN_RS =
-  'Optional backups live in your own Drive or iCloud &mdash; never on a JosspaTech server.';
+  'Optional backups live in your own cloud storage &mdash; never on a JosspaTech server.';
 
 const LOCALE_CORRECT = {
-  es: 'Las copias de seguridad opcionales viven en tu propio Drive o iCloud — nunca en un servidor de JosspaTech.',
-  de: 'Optionale Backups liegen in deinem eigenen Drive oder iCloud — nie auf einem JosspaTech-Server.',
-  fr: 'Les sauvegardes facultatives restent dans votre propre Drive ou iCloud — jamais sur un serveur JosspaTech.',
-  pt: 'As cópias de segurança opcionais ficam no teu próprio Drive ou iCloud — nunca num servidor JosspaTech.',
-  zh: '可选备份保存在你自己的 Drive 或 iCloud 中——绝不会放在 JosspaTech 服务器上。',
-  it: 'I backup facoltativi restano nel tuo Drive o iCloud — mai su un server JosspaTech.',
-  hi: 'वैकल्पिक बैकअप आपके अपने Drive या iCloud में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।',
+  es: 'Las copias de seguridad opcionales viven en tu propio almacenamiento en la nube — nunca en un servidor de JosspaTech.',
+  de: 'Optionale Backups liegen in deinem eigenen Cloud-Speicher — nie auf einem JosspaTech-Server.',
+  fr: 'Les sauvegardes facultatives restent dans votre propre stockage cloud — jamais sur un serveur JosspaTech.',
+  pt: 'As cópias de segurança opcionais ficam no teu próprio armazenamento na nuvem — nunca num servidor JosspaTech.',
+  zh: '可选备份保存在你自己的云存储中——绝不会放在 JosspaTech 服务器上。',
+  it: 'I backup facoltativi restano nel tuo spazio di archiviazione cloud — mai su un server JosspaTech.',
+  hi: 'वैकल्पिक बैकअप आपके अपने क्लाउड स्टोरेज में रहते हैं — कभी भी JosspaTech सर्वर पर नहीं।',
 };
 
 const replacements = [];

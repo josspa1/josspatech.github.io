@@ -268,7 +268,7 @@ SLIDES: list[dict] = [
       "/assets/screenshots/settings/profile-accounts.png", "OK", "Profile and Accounts"),
     S("Settings", "Subscription", "Subscription shows trial days left, Premium features, and bank-sync add-ons.",
       SUB_INTRO, "interim", "Subscription management"),
-    S("Settings", "Privacy & backup", "In Privacy and Backup, turn on cloud backup, set retention, and control app lock. Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
+    S("Settings", "Privacy & backup", "In Privacy and Backup, turn on cloud backup, set retention, and control app lock. Optional backups live in your own cloud storage — never on a JosspaTech server.",
       "/assets/screenshots/settings/privacy-backup.png", "OK", "Privacy and backup", (50, 40, "Backup")),
     S("Settings", "Data management", "Under Data Management, set how much history lives on-device, manage receipt image storage, and archive old years.",
       IMPORT_CENTER, "interim", "Data and storage management", (50, 50, "Storage")),
@@ -325,7 +325,7 @@ SLIDES: list[dict] = [
     # ── Privacy (117–118) ──
     S("Privacy", "App lock", "Set biometric or passcode lock in Privacy settings. Generate your recovery key once — store it safely offline.",
       PRIVACY, "interim", "App lock and recovery key", (50, 35, "App lock")),
-    S("Privacy", "Cloud backup", "Connect Google Drive, OneDrive, Dropbox, or iCloud. Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
+    S("Privacy", "Cloud backup", "Connect Google Drive, OneDrive, Dropbox, or iCloud. Optional backups live in your own cloud storage — never on a JosspaTech server.",
       PRIVACY, "interim", "Your cloud, your control", (50, 60, "Cloud")),
     # ── Help (119) ──
     S("Help", "Help & support", "Need help? Email support@josspatech.com or use in-app feedback. This manual at josspatech.com/videos/user-guide/ covers every feature.",

@@ -23,7 +23,7 @@ const GUIDE_UPDATES = {
   94: 'Household sync lets you share a budget with a partner on the same plan. Follow the invite steps on each phone.',
   107: 'Couples Dashboard shows shared envelopes and who spent what — each phone still keeps its own local copy.',
   111: 'Notification Capture can turn bank alerts into draft transactions — turn it on in Settings if you want it.',
-  114: 'Connect Google Drive, OneDrive, Dropbox, or iCloud. Optional backups live in your own Drive or iCloud — never on a JosspaTech server.',
+  114: 'Connect Google Drive, OneDrive, Dropbox, or iCloud. Optional backups live in your own cloud storage — never on a JosspaTech server.',
 };
 
 const OVERVIEW_NARRATIONS = [
