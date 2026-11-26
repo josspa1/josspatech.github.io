@@ -911,3 +911,18 @@ main > p > a:hover {
   .shots .shot-center { transform: translateY(-10px); }
   .shot-chip { opacity: 1; transform: translateX(-50%); }
 }
+
+/* In-language round-robin micro-descriptions */
+.apps a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  line-height: 1.25;
+}
+.apps .app-name { font-weight: 600; }
+.apps .app-desc {
+  font-size: 0.78em;
+  font-weight: 400;
+  opacity: 0.8;
+  max-width: 18rem;
+}
