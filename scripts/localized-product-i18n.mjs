@@ -2811,7 +2811,7 @@ export const STRINGS = {
     it: "Annuale: App Store o Google Play → Abbonamenti. Lifetime una tantum — nessun rinnovo. Accesso fino a fine periodo annuale.",
     hi: "वार्षिक: App Store या Google Play → Subscriptions। Lifetime एक बार — नवीनीकरण नहीं। वार्षिक अवधि के अंत तक एक्सेस।",
   },
-  "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.": {
+  "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.": {
     es: "Sí. Exporta CSV o JSON cuando quieras. La copia cifrada en la nube opcional usa una clave solo tuya. Tus datos nunca quedan bloqueados.",
     de: "Ja. CSV- oder JSON-Export jederzeit. Optionales verschlüsseltes Cloud-Backup mit nur Ihrem Schlüssel. Daten nie eingesperrt.",
     fr: "Oui. Export CSV ou JSON à tout moment. Sauvegarde cloud chiffrée optionnelle avec clé connue de vous seul. Données jamais bloquées.",

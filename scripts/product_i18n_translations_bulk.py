@@ -1542,14 +1542,14 @@ BULK =
     "it": "Yearly: App Store or Google Play → Subscriptions. Lifetime is one-time — nothing renews. Access continues until a yearly period ends.",
     "hi": "Yearly: App Store or Google Play → Subscriptions. Lifetime is one-time — nothing renews. Access continues until a yearly period ends."
   },
-  "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.": {
-    "es": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "de": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "fr": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "pt": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "zh": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "it": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in.",
-    "hi": "Yes. Export CSV or JSON anytime. Optional encrypted cloud backup uses a key only you know. Your data is never locked in."
+  "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.": {
+    "es": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "de": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "fr": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "pt": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "zh": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "it": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in.",
+    "hi": "Yes. Export CSV or JSON anytime. Optional backups live in your own Drive or iCloud — never on a JosspaTech server. Your data is never locked in."
   },
   "You can see the piece. You often already have a gut read. What you do not have is time to dig through a reference library. HHH is that library in your pocket — answers, not a lecture.": {
     "es": "You can see the piece. You often already have a gut read. What you do not have is time to dig through a reference library. HHH is that library in your pocket — answers, not a lecture.",

@@ -134,7 +134,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -261,7 +261,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -388,7 +388,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -515,7 +515,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -642,7 +642,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -769,7 +769,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -896,7 +896,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
@@ -1023,7 +1023,7 @@ window.PBJ_SHOWCASE_BUNDLE = {
         "64 currencies",
         "11 languages",
         "Privacy-first · data on your phone",
-        "Encrypted cloud backup",
+        "Optional backups live in your own Drive or iCloud — never on a JosspaTech server.",
         "Mindful spending tools",
         "Custom themes · true OLED black"
       ],
