@@ -82,6 +82,14 @@
   };
 
   function browserLang() {
+    try {
+      var q = new URLSearchParams(location.search || '').get('lang');
+      if (q) {
+        var q2 = String(q).toLowerCase().slice(0, 2);
+        if (q2 === 'zh') return 'zh';
+        if (UI[q2] || PLAY_HL[q2]) return q2;
+      }
+    } catch (e) {}
     var raw = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
     var two = raw.slice(0, 2);
     if (two === 'zh') return 'zh';
