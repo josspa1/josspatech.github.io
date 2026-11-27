@@ -27,7 +27,7 @@
 
   /**
    * UI chrome only — identification/story come from the card / translations_json.
-   * en + es shipped for Part 2 verify; other browser langs fall back to en (FLAG in report).
+   * en + es/de/fr/it/pt/zh/hi UI chrome (APPLY_TRANSLATIONS 2026-11-27).
    */
   var UI = {
     en: {
@@ -40,11 +40,59 @@
     },
     es: {
       unavailable: 'Esta tarjeta ya no está disponible.',
-      download: 'Consigue la app para guardar esta pieza en tu colección.',
+      download: 'Descarga la app para guardar esta pieza en tu colección.',
       openApp: 'Abrir en la app',
       expertise: 'Experiencia',
       loading: 'Cargando…',
-      missing: 'No pudimos encontrar esta tarjeta.',
+      missing: 'No hemos encontrado esta tarjeta.',
+    },
+    de: {
+      unavailable: 'Diese Karte ist nicht mehr verfügbar.',
+      download: 'Hol dir die App, um dieses Stück in deiner Sammlung zu behalten.',
+      openApp: 'In der App öffnen',
+      expertise: 'Fachwissen',
+      loading: 'Wird geladen …',
+      missing: 'Diese Karte konnten wir nicht finden.',
+    },
+    fr: {
+      unavailable: 'Cette carte n\'est plus disponible.',
+      download: 'Téléchargez l\'application pour conserver cette pièce dans votre collection.',
+      openApp: 'Ouvrir dans l\'application',
+      expertise: 'Expertise',
+      loading: 'Chargement…',
+      missing: 'Nous n\'avons pas trouvé cette carte.',
+    },
+    it: {
+      unavailable: 'Questa scheda non è più disponibile.',
+      download: 'Scarica l\'app per conservare questo pezzo nella tua collezione.',
+      openApp: 'Apri nell\'app',
+      expertise: 'Esperienza',
+      loading: 'Caricamento…',
+      missing: 'Non abbiamo trovato questa scheda.',
+    },
+    pt: {
+      unavailable: 'Este cartão não está mais disponível.',
+      download: 'Baixe o app para guardar esta peça na sua coleção.',
+      openApp: 'Abrir no app',
+      expertise: 'Perícia',
+      loading: 'Carregando…',
+      missing: 'Não encontramos este cartão.',
+    },
+    zh: {
+      unavailable: '此卡片已不可用。',
+      download: '下载应用，将这件藏品收入您的收藏。',
+      openApp: '在应用中打开',
+      expertise: '专业评分',
+      loading: '加载中…',
+      missing: '未找到这张卡片。',
+    },
+    hi: {
+      unavailable: 'यह कार्ड अब उपलब्ध नहीं है।',
+      download: 'इस चीज़ को अपने कलेक्शन में रखने के लिए ऐप पाएँ।',
+      openApp: 'ऐप में खोलें',
+      expertise: 'विशेषज्ञता',
+      loading: 'लोड हो रहा है…',
+      missing: 'हमें यह कार्ड नहीं मिला।',
     },
   };
 
