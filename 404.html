@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JosspaTech</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/assets/brand/josspatech-mark-app.svg?v=jt2star" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script>
+(function () {
+  var m = location.pathname.match(/^\/(cvc|hhh)\/card\/([^\/]+)\/?$/i);
+  if (m) {
+    document.title = 'Shared card';
+    var s = document.createElement('script');
+    s.src = '/assets/story-card-page.js?v=1';
+    document.head.appendChild(s);
+    return;
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.innerHTML =
+      '<main style="font-family:DM Sans,Segoe UI,sans-serif;max-width:480px;margin:80px auto;padding:24px;text-align:center;color:#0C3358;">' +
+      '<h1 style="font-family:Playfair Display,Georgia,serif;">Page not found</h1>' +
+      '<p><a href="https://josspatech.com/" style="color:#0C3358;">Back to JosspaTech</a></p></main>';
+  });
+})();
+</script>
+</head>
+<body></body>
+</html>
